@@ -17,3 +17,13 @@ export {
   type ReceiptDigestModalProps,
 } from "./components/ReceiptDigestModal";
 export { OfferCard, type OfferCardProps } from "./components/OfferCard";
+export {
+  ThemeToggle,
+  type ThemeToggleProps,
+} from "./components/ThemeToggle";
+export {
+  useTheme,
+  applyTheme,
+  type Theme,
+  type ResolvedTheme,
+} from "./hooks/useTheme";

@@ -1,31 +1,32 @@
 @import "tailwindcss";
 
-@theme inline {
-  /* Базовые поверхности (Surfaces) */
-  --color-ground: oklch(0.185 0.008 65);          /* Тёплый тёмный уголь (основа страницы) */
-  --color-surface: oklch(0.235 0.010 65);         /* Приподнятая поверхность карточки */
-  --color-surface-raised: oklch(0.270 0.012 65);  /* Приподнятые элементы при ховере */
-  --color-surface-inset: oklch(0.150 0.006 65);   /* Углубленные поля (инпуты, код) */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  /* Текст и чернила (Ink) */
-  --color-ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён (основной) */
-  --color-ink-soft: oklch(0.680 0.012 75);        /* Вторичный приглушенный текст */
-  --color-ink-faint: oklch(0.480 0.012 70);       /* Подписи, даты, микро-лейблы */
-  --color-ink-disabled: oklch(0.350 0.008 70);    /* Заблокированные элементы */
+@theme inline {
+  /* Семантические цвета поверхностей */
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-inset: var(--surface-inset);
+
+  /* Семантический текст и чернила */
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-disabled: var(--ink-disabled);
 
   /* Живое пламя (Акценты) */
-  --color-flame-amber: #ffb266;                   /* Живое янтарное пламя фокуса */
-  --color-flame-amber-glow: oklch(0.68 0.155 45); /* Янтарный свет */
-  --color-flame-carmine: #d92027;                 /* Карминовый тлеющий алерт */
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-carmine: var(--carmine);
 
   /* Границы (Hairlines) */
-  --color-hairline: oklch(1 0 0 / 12%);           /* Волосяная граница по умолчанию */
-  --color-hairline-active: oklch(1 0 0 / 24%);    /* Активная граница при ховере */
-  --color-hairline-amber: rgba(255, 178, 102, 0.4);/* Акцентная граница */
+  --color-hairline: var(--hairline);
+  --color-hairline-active: var(--hairline-active);
 
-  /* Радиусы (Micro-radii) */
-  --radius-xs: 2px;                               /* Теги, кнопки, пилюли, инпуты */
-  --radius-sm: 4px;                               /* Карточки, модалы, панели */
+  /* Микро-радиусы */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
 
   /* Шрифтовая триада */
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
@@ -35,25 +36,69 @@
   /* Кинетика */
   --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
   --t-transition: 180ms;
-  --t-breath: 9.1s;                               /* 0.11 Гц дыхательный ритм */
+  --t-breath: 9.1s;
+}
+
+:root {
+  color-scheme: light dark;
+
+  /* Дневная тема: Warm Paper Archive (Тёплая бумага / Архивный лен) */
+  --ground: oklch(0.964 0.008 85);           /* Тёплый бумажный фон #f6f5f0 */
+  --surface: oklch(0.979 0.006 85);          /* Приподнятый чистый лист карточки */
+  --surface-raised: oklch(0.992 0.004 85);   /* Ховер карточки */
+  --surface-inset: oklch(0.940 0.010 85);    /* Углубленные поля, инпуты */
+
+  --ink: oklch(0.265 0.012 60);              /* Глубокие графитовые чернила #181816 */
+  --ink-soft: oklch(0.560 0.014 70);         /* Мягкие вторичные чернила */
+  --ink-faint: oklch(0.720 0.010 70);        /* Подписи, даты, микро-метки */
+  --ink-disabled: oklch(0.820 0.006 70);
+
+  --amber: oklch(0.530 0.135 42);            /* Тёплая терракота / янтарь на светлом */
+  --amber-soft: rgba(186, 92, 32, 0.12);
+  --carmine: oklch(0.577 0.245 27.325);
+
+  --hairline: oklch(0 0 0 / 10%);            /* Волосяная граница на бумаге */
+  --hairline-active: oklch(0 0 0 / 22%);
+}
+
+.dark {
+  /* Ночная тема: Warm Dark Charcoal (Тёплый темный уголь / Ночной очаг) */
+  --ground: oklch(0.185 0.008 65);          /* Тёмный тёплый уголь #181816 */
+  --surface: oklch(0.235 0.010 65);         /* Угольная карточка #22221f */
+  --surface-raised: oklch(0.270 0.012 65);  /* Ховер карточки */
+  --surface-inset: oklch(0.150 0.006 65);   /* Углубленные поля */
+
+  --ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён #ece4d6 */
+  --ink-soft: oklch(0.680 0.012 75);        /* Вторичный приглушенный лён */
+  --ink-faint: oklch(0.480 0.012 70);       /* Подписи, даты */
+  --ink-disabled: oklch(0.350 0.008 70);
+
+  --amber: #ffb266;                         /* Янтарное живое пламя */
+  --amber-soft: rgba(255, 178, 102, 0.15);
+  --carmine: #d92027;
+
+  --hairline: oklch(1 0 0 / 12%);           /* Волосяная граница на угле */
+  --hairline-active: oklch(1 0 0 / 24%);
 }
 
 @layer base {
-  /* Нативные браузерные поверхности (по канону Impeccable Craft Floor) */
+  html {
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
   ::selection {
-    background-color: rgba(255, 178, 102, 0.25);
-    color: oklch(0.96 0.008 85);
+    background-color: var(--amber-soft);
+    color: var(--ink);
   }
 
   :focus-visible {
-    outline: 1.5px solid var(--color-flame-amber);
+    outline: 1.5px solid var(--amber);
     outline-offset: 2px;
   }
 
-  /* Тонкий кастомный скроллбар */
   * {
     scrollbar-width: thin;
-    scrollbar-color: oklch(1 0 0 / 18%) transparent;
+    scrollbar-color: var(--hairline-active) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -66,13 +111,13 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: oklch(1 0 0 / 18%);
+    background-color: var(--hairline-active);
     border-radius: 2px;
   }
 
   body {
-    background-color: var(--color-ground);
-    color: var(--color-ink);
+    background-color: var(--ground);
+    color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }

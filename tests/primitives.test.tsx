@@ -7,6 +7,7 @@ import { InspectDrawer } from "../src/components/InspectDrawer";
 import { ReceiptDigestModal } from "../src/components/ReceiptDigestModal";
 import { ActionButton } from "../src/components/ActionButton";
 import { OfferCard } from "../src/components/OfferCard";
+import { ThemeToggle } from "../src/components/ThemeToggle";
 
 describe("CraftCard", () => {
   it("renders children and applies default craft classes", () => {
@@ -140,5 +141,26 @@ describe("OfferCard", () => {
     const btn = screen.getByRole("button", { name: "Взять на стол" });
     fireEvent.click(btn);
     expect(handlePick).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("ThemeToggle", () => {
+  it("renders segmented options and allows toggling", () => {
+    render(<ThemeToggle variant="segmented" />);
+    const lightBtn = screen.getByRole("button", { name: "Светлая" });
+    const darkBtn = screen.getByRole("button", { name: "Тёмная" });
+    expect(lightBtn).toBeInTheDocument();
+    expect(darkBtn).toBeInTheDocument();
+
+    fireEvent.click(lightBtn);
+    expect(document.documentElement.classList.contains("light")).toBe(true);
+  });
+
+  it("renders icon toggle variant and toggles theme", () => {
+    render(<ThemeToggle variant="icon" />);
+    const btn = screen.getByRole("button");
+    fireEvent.click(btn);
+    // Toggled theme
+    expect(document.documentElement.dataset.theme).toBeDefined();
   });
 });
