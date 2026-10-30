@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Базовые поверхности (Surfaces) */
+  --color-ground: oklch(0.185 0.008 65);          /* Тёплый тёмный уголь (основа страницы) */
+  --color-surface: oklch(0.235 0.010 65);         /* Приподнятая поверхность карточки */
+  --color-surface-raised: oklch(0.270 0.012 65);  /* Приподнятые элементы при ховере */
+  --color-surface-inset: oklch(0.150 0.006 65);   /* Углубленные поля (инпуты, код) */
+
+  /* Текст и чернила (Ink) */
+  --color-ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён (основной) */
+  --color-ink-soft: oklch(0.680 0.012 75);        /* Вторичный приглушенный текст */
+  --color-ink-faint: oklch(0.480 0.012 70);       /* Подписи, даты, микро-лейблы */
+  --color-ink-disabled: oklch(0.350 0.008 70);    /* Заблокированные элементы */
+
+  /* Живое пламя (Акценты) */
+  --color-flame-amber: #ffb266;                   /* Живое янтарное пламя фокуса */
+  --color-flame-amber-glow: oklch(0.68 0.155 45); /* Янтарный свет */
+  --color-flame-carmine: #d92027;                 /* Карминовый тлеющий алерт */
+
+  /* Границы (Hairlines) */
+  --color-hairline: oklch(1 0 0 / 12%);           /* Волосяная граница по умолчанию */
+  --color-hairline-active: oklch(1 0 0 / 24%);    /* Активная граница при ховере */
+  --color-hairline-amber: rgba(255, 178, 102, 0.4);/* Акцентная граница */
+
+  /* Радиусы (Micro-radii) */
+  --radius-xs: 2px;                               /* Теги, кнопки, пилюли, инпуты */
+  --radius-sm: 4px;                               /* Карточки, модалы, панели */
+
+  /* Шрифтовая триада */
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Кинетика */
+  --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-transition: 180ms;
+  --t-breath: 9.1s;                               /* 0.11 Гц дыхательный ритм */
+}
+
+@layer base {
+  /* Нативные браузерные поверхности (по канону Impeccable Craft Floor) */
+  ::selection {
+    background-color: rgba(255, 178, 102, 0.25);
+    color: oklch(0.96 0.008 85);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--color-flame-amber);
+    outline-offset: 2px;
+  }
+
+  /* Тонкий кастомный скроллбар */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(1 0 0 / 18%) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: oklch(1 0 0 / 18%);
+    border-radius: 2px;
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
