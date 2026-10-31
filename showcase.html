@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="ru" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@vanya/ui — Hearth & Wave Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* CSS Custom Properties (OKLCH Dual-Theme) */
+      :root {
+        color-scheme: light dark;
+
+        /* Light Theme: Warm Paper Archive */
+        --ground: oklch(0.964 0.008 85);
+        --surface: oklch(0.979 0.006 85);
+        --surface-raised: oklch(0.992 0.004 85);
+        --surface-inset: oklch(0.940 0.010 85);
+
+        --ink: oklch(0.265 0.012 60);
+        --ink-soft: oklch(0.560 0.014 70);
+        --ink-faint: oklch(0.720 0.010 70);
+        --ink-disabled: oklch(0.820 0.006 70);
+
+        --amber: oklch(0.530 0.135 42);
+        --amber-glow: rgba(186, 92, 32, 0.2);
+        --amber-soft: rgba(186, 92, 32, 0.12);
+        --carmine: oklch(0.577 0.245 27.325);
+
+        --hairline: oklch(0 0 0 / 10%);
+        --hairline-active: oklch(0 0 0 / 22%);
+
+        --font-serif: "Fraunces", ui-serif, Georgia, serif;
+        --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+        --radius-xs: 2px;
+        --radius-sm: 4px;
+      }
+
+      html.dark {
+        /* Dark Theme: Warm Dark Charcoal */
+        --ground: oklch(0.185 0.008 65);
+        --surface: oklch(0.235 0.010 65);
+        --surface-raised: oklch(0.270 0.012 65);
+        --surface-inset: oklch(0.150 0.006 65);
+
+        --ink: oklch(0.930 0.008 75);
+        --ink-soft: oklch(0.680 0.012 75);
+        --ink-faint: oklch(0.480 0.012 70);
+        --ink-disabled: oklch(0.350 0.008 70);
+
+        --amber: #ffb266;
+        --amber-glow: rgba(255, 178, 102, 0.25);
+        --amber-soft: rgba(255, 178, 102, 0.15);
+        --carmine: #d92027;
+
+        --hairline: oklch(1 0 0 / 12%);
+        --hairline-active: oklch(1 0 0 / 24%);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        scrollbar-width: thin;
+        scrollbar-color: var(--hairline-active) transparent;
+      }
+
+      body {
+        background-color: var(--ground);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        line-height: 1.5;
+        transition: background-color 200ms ease, color 200ms ease;
+        -webkit-font-smoothing: antialiased;
+        padding-bottom: 80px;
+      }
+
+      ::selection {
+        background-color: var(--amber-soft);
+        color: var(--ink);
+      }
+
+      :focus-visible {
+        outline: 1.5px solid var(--amber);
+        outline-offset: 2px;
+      }
+
+      /* Base layout utility classes */
+      .wrap {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Top header */
+      header {
+        border-bottom: 1px solid var(--hairline);
+        background: var(--surface);
+        padding: 18px 0;
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: blur(8px);
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand-title {
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+      }
+      .brand-sub {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--ink-faint);
+        text-transform: lowercase;
+        margin-left: 8px;
+      }
+
+      /* Sections */
+      section {
+        margin-top: 48px;
+      }
+      .sec-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--hairline);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .sec-title {
+        font-family: var(--font-serif);
+        font-size: 1.05rem;
+        font-weight: 400;
+      }
+      .sec-tag {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--ink-faint);
+        text-transform: lowercase;
+      }
+
+      /* Components Styling */
+      .craft-card {
+        background: var(--surface);
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-sm);
+        padding: 20px;
+        color: var(--ink);
+        transition: all 150ms ease;
+      }
+      .craft-card.interactive {
+        cursor: pointer;
+      }
+      .craft-card.interactive:hover {
+        background: var(--surface-raised);
+        border-color: var(--hairline-active);
+      }
+
+      /* ActionButton */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--hairline);
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 150ms ease;
+        user-select: none;
+      }
+      .btn:hover {
+        background: var(--surface-raised);
+        border-color: var(--hairline-active);
+      }
+      .btn:active {
+        transform: scale(0.985);
+      }
+      .btn-amber {
+        background: var(--amber-soft);
+        border-color: var(--amber);
+        color: var(--amber);
+      }
+      .btn-amber:hover {
+        background: var(--amber);
+        color: var(--ground);
+      }
+      .btn-subtle {
+        background: transparent;
+        border-color: transparent;
+        color: var(--ink-soft);
+      }
+      .btn-subtle:hover {
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      /* Kbd */
+      kbd.kbd {
+        display: inline-grid;
+        place-items: center;
+        height: 22px;
+        min-width: 22px;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--hairline);
+        background: var(--surface);
+        padding: 0 6px;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        line-height: 1;
+        color: var(--ink-soft);
+        transition: all 150ms ease;
+        user-select: none;
+      }
+      kbd.kbd.lit {
+        border-color: var(--amber);
+        background: var(--amber-soft);
+        color: var(--amber);
+        transform: scale(1.05);
+      }
+
+      /* CategoryBadge */
+      .cat-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 7px;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--hairline);
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        user-select: none;
+      }
+      .cat-creative {
+        color: var(--amber);
+        border-color: var(--amber);
+        background: var(--amber-soft);
+      }
+      .cat-infra {
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.3);
+        background: rgba(56, 189, 248, 0.08);
+      }
+      .cat-life {
+        color: #34d399;
+        border-color: rgba(52, 211, 153, 0.3);
+        background: rgba(52, 211, 153, 0.08);
+      }
+      .cat-product {
+        color: #fb7185;
+        border-color: rgba(251, 113, 133, 0.3);
+        background: rgba(251, 113, 133, 0.08);
+      }
+
+      /* SegmentedControl */
+      .segmented {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        background: var(--surface);
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-xs);
+        padding: 2px;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+      }
+      .seg-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: var(--radius-xs);
+        border: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+        transition: all 150ms ease;
+      }
+      .seg-btn:hover {
+        color: var(--ink);
+        background: var(--surface-raised);
+      }
+      .seg-btn.active {
+        background: var(--surface-raised);
+        color: var(--amber);
+        font-weight: 500;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+      }
+      .seg-count {
+        font-size: 0.6rem;
+        padding: 1px 4px;
+        border-radius: var(--radius-xs);
+        background: var(--surface-inset);
+        color: var(--ink-faint);
+      }
+      .seg-btn.active .seg-count {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      /* RangeSlider */
+      .slider-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      input[type="range"].range-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 1px;
+        background: var(--hairline-active);
+        outline: none;
+        cursor: pointer;
+      }
+      input[type="range"].range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--amber);
+        cursor: pointer;
+        transition: transform 100ms;
+      }
+      input[type="range"].range-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.3);
+      }
+
+      /* MeshStatusBadge */
+      .mesh-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 10px;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--hairline);
+        background: var(--surface);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--ink-soft);
+        cursor: pointer;
+        transition: all 150ms;
+        text-transform: lowercase;
+      }
+      .mesh-badge:hover {
+        background: var(--surface-raised);
+        color: var(--ink);
+        border-color: var(--hairline-active);
+      }
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #34d399;
+      }
+
+      /* HearthPulse */
+      .hearth-pulse {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--amber);
+        text-transform: lowercase;
+      }
+      .pulse-dot {
+        position: relative;
+        display: flex;
+        width: 8px;
+        height: 8px;
+        align-items: center;
+        justify-content: center;
+      }
+      .pulse-dot-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: var(--amber);
+        opacity: 0.4;
+        animation: pulsePing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+      .pulse-dot-core {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--amber);
+      }
+      @keyframes pulsePing {
+        0% { transform: scale(0.8); opacity: 0.8; }
+        70%, 100% { transform: scale(2.2); opacity: 0; }
+      }
+
+      /* Swatches */
+      .swatches-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
+      }
+      .swatch {
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-xs);
+        padding: 12px;
+        background: var(--surface);
+        cursor: pointer;
+        transition: all 150ms;
+      }
+      .swatch:hover {
+        border-color: var(--hairline-active);
+        transform: translateY(-1px);
+      }
+      .swatch-color {
+        height: 36px;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--hairline);
+        margin-bottom: 8px;
+      }
+      .swatch-name {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--ink);
+      }
+      .swatch-code {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        color: var(--ink-faint);
+      }
+
+      /* Overlays: Drawer & Modal */
+      .overlay-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(4px);
+        z-index: 90;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms ease;
+      }
+      .overlay-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Drawer */
+      .drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(440px, 100vw);
+        background: var(--surface);
+        border-left: 1px solid var(--hairline);
+        z-index: 100;
+        padding: 32px 28px;
+        transform: translateX(100%);
+        transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .drawer.open {
+        transform: translateX(0);
+      }
+
+      /* Modal */
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -46%) scale(0.96);
+        width: min(540px, 92vw);
+        background: var(--surface);
+        border: 1px solid var(--hairline);
+        border-radius: var(--radius-sm);
+        padding: 32px;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+      .modal.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="wrap header-inner">
+        <div style="display: flex; align-items: baseline">
+          <span class="brand-title">@vanya/ui</span>
+          <span class="brand-sub">Hearth & Wave · v0.1.0</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <div class="hearth-pulse">
+            <div class="pulse-dot">
+              <div class="pulse-dot-ring"></div>
+              <div class="pulse-dot-core"></div>
+            </div>
+            <span>канон активен</span>
+          </div>
+          <!-- Live Theme Toggle -->
+          <div class="segmented" id="theme-toggle">
+            <button class="seg-btn" data-theme="light">Бумага</button>
+            <button class="seg-btn active" data-theme="dark">Уголь</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <!-- Section 1: Swatches -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Палитра OKLCH (Dual-Theme)</h2>
+          <span class="sec-tag">клик для копирования</span>
+        </div>
+        <div class="swatches-grid">
+          <div class="swatch" onclick="copyToken('--ground')">
+            <div class="swatch-color" style="background: var(--ground)"></div>
+            <div class="swatch-name">Ground</div>
+            <div class="swatch-code">Фон листа</div>
+          </div>
+          <div class="swatch" onclick="copyToken('--surface')">
+            <div class="swatch-color" style="background: var(--surface)"></div>
+            <div class="swatch-name">Surface</div>
+            <div class="swatch-code">Карточка</div>
+          </div>
+          <div class="swatch" onclick="copyToken('--surface-raised')">
+            <div class="swatch-color" style="background: var(--surface-raised)"></div>
+            <div class="swatch-name">Raised</div>
+            <div class="swatch-code">Ховер</div>
+          </div>
+          <div class="swatch" onclick="copyToken('--ink')">
+            <div class="swatch-color" style="background: var(--ink)"></div>
+            <div class="swatch-name">Ink</div>
+            <div class="swatch-code">Текст</div>
+          </div>
+          <div class="swatch" onclick="copyToken('--amber')">
+            <div class="swatch-color" style="background: var(--amber)"></div>
+            <div class="swatch-name">Amber</div>
+            <div class="swatch-code">Пламя фокуса</div>
+          </div>
+          <div class="swatch" onclick="copyToken('--carmine')">
+            <div class="swatch-color" style="background: var(--carmine)"></div>
+            <div class="swatch-name">Carmine</div>
+            <div class="swatch-code">Уголь / алерт</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Typography Trinity -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Шрифтовая Триада</h2>
+          <span class="sec-tag">fraunces · manrope · jetbrains mono</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+          <div class="craft-card">
+            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--amber); margin-bottom: 6px">
+              Fraunces (Optical Serif)
+            </div>
+            <div style="font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.35; margin-bottom: 8px">
+              «Шаг — это уточнение модели»
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ink-soft)">
+              Используется для дат, аутентичных заголовков, цитат и нарратива пути.
+            </div>
+          </div>
+          <div class="craft-card">
+            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--amber); margin-bottom: 6px">
+              Manrope (Humanist Sans)
+            </div>
+            <div style="font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600; margin-bottom: 8px">
+              Интерфейсные элементы, списки и кнопки
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ink-soft)">
+              Рабочий инструмент: читаемость на любых экранах, спокойные пропорции.
+            </div>
+          </div>
+          <div class="craft-card">
+            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--amber); margin-bottom: 6px">
+              JetBrains Mono (Lowercase Data)
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 8px">
+              commit: 7b6c385 · port: 4343 · latency: 38ms
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ink-soft)">
+              Телеметрия, порты, системные логи и шорткаты — строго строчными буквами.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Keyboard & Actions -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Клавиатура и Действия</h2>
+          <span class="sec-tag">нажимайте клавиши на физической клавиатуре</span>
+        </div>
+        <div class="craft-card" style="display: flex; flex-direction: column; gap: 20px">
+          <!-- Kbd row from Life Wave -->
+          <div>
+            <div style="font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 10px; font-family: var(--font-mono)">
+              Компонент Kbd (нажмите стрелки ← →, N, +, -, Esc на клавиатуре):
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+              <div style="display: flex; align-items: center; gap: 6px">
+                <kbd class="kbd" id="key-left">←</kbd>
+                <kbd class="kbd" id="key-right">→</kbd>
+                <span style="font-size: 0.75rem; color: var(--ink-soft)">время</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px">
+                <kbd class="kbd" id="key-n">N</kbd>
+                <span style="font-size: 0.75rem; color: var(--ink-soft)">сейчас</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px">
+                <kbd class="kbd" id="key-plus">+</kbd>
+                <kbd class="kbd" id="key-minus">−</kbd>
+                <span style="font-size: 0.75rem; color: var(--ink-soft)">масштаб</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px">
+                <kbd class="kbd" id="key-esc">Esc</kbd>
+                <span style="font-size: 0.75rem; color: var(--ink-soft)">закрыть</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div style="border-top: 1px solid var(--hairline); padding-top: 16px">
+            <div style="font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 10px; font-family: var(--font-mono)">
+              Компонент ActionButton (микро-радиус 2px):
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px">
+              <button class="btn">По умолчанию</button>
+              <button class="btn btn-amber">Янтарный фокус</button>
+              <button class="btn btn-subtle">Приглушённый</button>
+              <button class="btn" disabled>Отключённый</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Badges & Segmented Controls -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Теги и Сегменты</h2>
+          <span class="sec-tag">контролы из фермы</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+          <!-- CategoryBadge -->
+          <div class="craft-card">
+            <div style="font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+              CategoryBadge (из Фермы):
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px">
+              <span class="cat-badge cat-creative"># Creative</span>
+              <span class="cat-badge cat-infra"># Infra</span>
+              <span class="cat-badge cat-life"># Life</span>
+              <span class="cat-badge cat-product"># Product</span>
+            </div>
+          </div>
+
+          <!-- SegmentedControl (Horizons) -->
+          <div class="craft-card">
+            <div style="font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+              SegmentedControl (горизонты Фермы):
+            </div>
+            <div class="segmented" id="horizon-ctrl">
+              <button class="seg-btn active" onclick="setSeg(this)">1d (сегодня)</button>
+              <button class="seg-btn" onclick="setSeg(this)">7d (неделя)</button>
+              <button class="seg-btn" onclick="setSeg(this)">30d (месяц)</button>
+            </div>
+          </div>
+
+          <!-- Status Tabs with counts -->
+          <div class="craft-card">
+            <div style="font-size: 0.75rem; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+              Табы со счётчиками (из полок Фермы):
+            </div>
+            <div class="segmented" id="status-ctrl">
+              <button class="seg-btn active" onclick="setSeg(this)">
+                <span>На столе</span><span class="seg-count">2</span>
+              </button>
+              <button class="seg-btn" onclick="setSeg(this)">
+                <span>Разработка</span><span class="seg-count">35</span>
+              </button>
+              <button class="seg-btn" onclick="setSeg(this)">
+                <span>Архив</span><span class="seg-count">8</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Slider & Pulse -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Слайдер и Индикатор</h2>
+          <span class="sec-tag">интерактивный скруббер</span>
+        </div>
+        <div class="craft-card" style="display: flex; flex-direction: column; gap: 20px">
+          <div class="slider-wrap">
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-faint); width: 140px; shrink: 0">
+              Дистанция взгляда:
+            </span>
+            <input
+              type="range"
+              class="range-slider"
+              min="1"
+              max="100"
+              value="42"
+              oninput="document.getElementById('slider-val').innerText = this.value + '%'"
+            />
+            <span id="slider-val" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--amber); width: 40px">
+              42%
+            </span>
+          </div>
+
+          <div style="border-top: 1px solid var(--hairline); padding-top: 16px; display: flex; align-items: center; justify-content: space-between">
+            <div style="display: flex; items-center; gap: 12px">
+              <div class="mesh-badge" onclick="openDrawer()">
+                <div class="status-dot"></div>
+                <span>gbrain: serve ok</span>
+                <span style="color: var(--ink-faint); border-left: 1px solid var(--hairline); padding-left: 6px">0 backlog</span>
+              </div>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--ink-faint); font-family: var(--font-mono)">
+              кликните бейдж для открытия инспектора
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Overlays (Drawer and Modal) -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Интерактивные Оверлеи</h2>
+          <span class="sec-tag">проверьте поведение drawer и modal</span>
+        </div>
+        <div style="display: flex; gap: 12px">
+          <button class="btn btn-amber" onclick="openDrawer()">
+            Открыть боковой InspectDrawer
+          </button>
+          <button class="btn" onclick="openModal()">
+            Открыть ReceiptDigestModal
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Drawer Overlay -->
+    <div id="drawer-backdrop" class="overlay-backdrop" onclick="closeAll()"></div>
+    <div id="drawer-panel" class="drawer">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--hairline); padding-bottom: 16px; margin-bottom: 20px">
+          <h3 style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400">
+            Инспектор фоновых служб
+          </h3>
+          <button class="btn btn-subtle" onclick="closeAll()">✕</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem">
+          <div class="craft-card" style="padding: 12px">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: 4px">
+              <span>GBrain Serve</span>
+              <span style="color: #34d399">connected</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ink-soft)">
+              IPC-сокет активен, PGLite/Postgres готов, фоновый sweep без задержек.
+            </div>
+          </div>
+          <div class="craft-card" style="padding: 12px">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: 4px">
+              <span>Pi Durable Provider</span>
+              <span style="color: #34d399">active</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ink-soft)">
+              SQLite WAL база в норме, фоновые агенты завершили работу без зависаний.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--hairline); padding-top: 16px">
+        <button class="btn" style="width: 100%" onclick="closeAll()">Закрыть (Esc)</button>
+      </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-backdrop" class="overlay-backdrop" onclick="closeAll()"></div>
+    <div id="modal-panel" class="modal">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--hairline); padding-bottom: 14px; margin-bottom: 18px">
+        <h3 style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400">
+          Слепок вчерашнего дня
+        </h3>
+        <button class="btn btn-subtle" onclick="closeAll()">✕</button>
+      </div>
+      <div style="font-family: var(--font-serif); font-size: 0.95rem; line-height: 1.6; font-style: italic; color: var(--ink); margin-bottom: 20px">
+        «Вчера Костёр был доведен до релиза v1.0.0 с 278 тестами. Создана дизайн-система @vanya/ui с дуальной темой и реальными контролами из Фермы и Синусоиды.»
+      </div>
+      <div style="border-top: 1px solid var(--hairline); padding-top: 14px">
+        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 8px">
+          Физические подтверждения:
+        </div>
+        <ul style="list-style: none; font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: 6px">
+          <li>✓ salon-presence: git commit v1.0.0</li>
+          <li>✓ vanya-ui: tokens.css + 10 primitives</li>
+          <li>✓ tests: 13/13 vitest passes</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Script: Interactive logic -->
+    <script>
+      // 1. Theme toggle
+      const toggle = document.getElementById("theme-toggle");
+      toggle.querySelectorAll(".seg-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          toggle.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const mode = btn.getAttribute("data-theme");
+          if (mode === "light") {
+            document.documentElement.classList.remove("dark");
+            document.documentElement.classList.add("light");
+          } else {
+            document.documentElement.classList.remove("light");
+            document.documentElement.classList.add("dark");
+          }
+        });
+      });
+
+      // 2. Segmented helper
+      function setSeg(btn) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+
+      // 3. Drawer & Modal controls
+      function openDrawer() {
+        closeAll();
+        document.getElementById("drawer-backdrop").classList.add("open");
+        document.getElementById("drawer-panel").classList.add("open");
+      }
+      function openModal() {
+        closeAll();
+        document.getElementById("modal-backdrop").classList.add("open");
+        document.getElementById("modal-panel").classList.add("open");
+      }
+      function closeAll() {
+        document.querySelectorAll(".overlay-backdrop").forEach((b) => b.classList.remove("open"));
+        document.getElementById("drawer-panel").classList.remove("open");
+        document.getElementById("modal-panel").classList.remove("open");
+      }
+
+      // 4. Physical Keyboard listener for <kbd>
+      const keyMap = {
+        ArrowLeft: "key-left",
+        ArrowRight: "key-right",
+        KeyN: "key-n",
+        Equal: "key-plus",
+        Minus: "key-minus",
+        Escape: "key-esc",
+      };
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeAll();
+        }
+        const targetId = keyMap[e.code] || (e.key === "n" || e.key === "N" ? "key-n" : null);
+        if (targetId) {
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.classList.add("lit");
+            setTimeout(() => el.classList.remove("lit"), 250);
+          }
+        }
+      });
+
+      // 5. Copy token helper
+      function copyToken(name) {
+        navigator.clipboard.writeText(name);
+        alert("Токен скопирован: " + name);
+      }
+    </script>
+  </body>
+</html>

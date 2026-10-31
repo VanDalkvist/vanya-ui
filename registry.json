@@ -1,0 +1,120 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "@vanya/ui",
+  "homepage": "https://github.com/VanDalkvist/vanya-ui",
+  "description": "Contemplative craft design system for Vanya Afanasov",
+  "items": [
+    {
+      "name": "craft-card",
+      "type": "registry:ui",
+      "title": "CraftCard",
+      "description": "Card container with 1px hairline border and warm surface",
+      "files": [
+        {
+          "path": "src/components/CraftCard.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Keyboard key with hairline border and lit active state",
+      "files": [
+        {
+          "path": "src/components/Kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "category-badge",
+      "type": "registry:ui",
+      "title": "CategoryBadge",
+      "description": "Colored category pill tag for Creative, Infra, Life, Product",
+      "files": [
+        {
+          "path": "src/components/CategoryBadge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:ui",
+      "title": "SegmentedControl",
+      "description": "Segmented pill switch with optional item counters",
+      "files": [
+        {
+          "path": "src/components/SegmentedControl.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "range-slider",
+      "type": "registry:ui",
+      "title": "RangeSlider",
+      "description": "Minimal hair-thin range slider for zoom and time scrubbing",
+      "files": [
+        {
+          "path": "src/components/RangeSlider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hearth-pulse",
+      "type": "registry:ui",
+      "title": "HearthPulse",
+      "description": "Living ember pulse dot with soft ping breathing animation",
+      "files": [
+        {
+          "path": "src/components/HearthPulse.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "mesh-status-badge",
+      "type": "registry:ui",
+      "title": "MeshStatusBadge",
+      "description": "Quiet telemetry badge with green/amber/red status beacon",
+      "files": [
+        {
+          "path": "src/components/MeshStatusBadge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "inspect-drawer",
+      "type": "registry:ui",
+      "title": "InspectDrawer",
+      "description": "Right-side sliding drawer with backdrop-blur and Escape handler",
+      "files": [
+        {
+          "path": "src/components/InspectDrawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "theme-toggle",
+      "type": "registry:ui",
+      "title": "ThemeToggle",
+      "description": "Segmented or icon switcher between light paper and dark charcoal",
+      "files": [
+        {
+          "path": "src/components/ThemeToggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/hooks/useTheme.ts",
+          "type": "registry:hook"
+        }
+      ]
+    }
+  ]
+}
