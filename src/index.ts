@@ -16,7 +16,6 @@ export {
   ReceiptDigestModal,
   type ReceiptDigestModalProps,
 } from "./components/ReceiptDigestModal";
-export { OfferCard, type OfferCardProps } from "./components/OfferCard";
 export {
   ThemeToggle,
   type ThemeToggleProps,
@@ -27,3 +26,22 @@ export {
   type Theme,
   type ResolvedTheme,
 } from "./hooks/useTheme";
+export { Kbd, type KbdProps } from "./components/Kbd";
+export {
+  CategoryBadge,
+  type CategoryBadgeProps,
+  type CategoryType,
+} from "./components/CategoryBadge";
+export {
+  SegmentedControl,
+  type SegmentedControlProps,
+  type SegmentItem,
+} from "./components/SegmentedControl";
+export {
+  RangeSlider,
+  type RangeSliderProps,
+} from "./components/RangeSlider";
+export {
+  HearthPulse,
+  type HearthPulseProps,
+} from "./components/HearthPulse";
