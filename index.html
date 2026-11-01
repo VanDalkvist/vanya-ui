@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@vanya/ui — Hearth & Wave Showcase</title>
+    <title>@vanya/ui — Справочник компонентов дизайн-системы</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -53,184 +53,306 @@
       }
 
       * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-      body { background-color: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 1.55; transition: background-color 200ms ease, color 200ms ease; padding-bottom: 100px; -webkit-font-smoothing: antialiased; }
+      body { background-color: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 1.55; transition: background-color 180ms ease, color 180ms ease; padding-bottom: 120px; -webkit-font-smoothing: antialiased; }
       ::selection { background-color: var(--accent-soft); color: var(--ink); }
       :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
-      .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-      /* Top Header: Clean, quiet, without domain section links */
-      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 16px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
-      .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-      .brand-title { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; letter-spacing: -0.01em; }
-      .brand-sub { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-faint); text-transform: lowercase; margin-left: 8px; }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-      /* Controls in header */
-      .header-controls { display: flex; align-items: center; gap: 14px; }
-      .header-divider { display: inline-block; height: 14px; width: 1px; background: var(--border); }
+      /* Строгий утилитарный хедер библиотеки */
+      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 14px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
+      .header-inner { display: flex; align-items: center; justify-content: space-between; }
+      .pkg-name { font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--ink); }
+      .pkg-badge { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); margin-left: 8px; }
 
-      /* ThemeToggle icon button from life-wave */
-      .theme-btn {
-        pointer-events: auto;
-        display: inline-flex;
-        width: 22px;
-        height: 22px;
-        align-items: center;
-        justify-content: center;
-        appearance: none;
-        border: 0;
-        background: transparent;
-        padding: 0;
-        outline: none;
-        color: var(--ink-soft);
-        cursor: pointer;
-        transition: color 200ms ease;
-      }
-      .theme-btn:hover { color: var(--ink); }
+      /* Тема */
+      .theme-btn { appearance: none; border: 1px solid var(--border); background: var(--surface); padding: 4px 10px; border-radius: var(--radius-xs); font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 150ms; }
+      .theme-btn:hover { background: var(--surface-raised); color: var(--ink); }
 
-      /* Avatar link */
-      .avatar-link {
-        display: inline-flex;
-        width: 22px;
-        height: 22px;
-        shrink: 0;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        border-radius: 50%;
+      /* Секция компонента в каталоге */
+      .component-row { margin-top: 44px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+      .comp-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+      .comp-title { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--ink); }
+      .comp-desc { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; }
+
+      .preview-box {
+        background: var(--surface);
         border: 1px solid var(--border);
-        transition: all 200ms ease;
-        text-decoration: none;
-      }
-      .avatar-link:hover {
-        transform: scale(1.08);
-        border-color: var(--accent);
-      }
-      .avatar-link img { width: 100%; height: 100%; object-cover: cover; }
-
-      /* Social link */
-      .social-link {
-        display: inline-flex;
-        width: 22px;
-        height: 22px;
+        border-radius: var(--radius-sm);
+        padding: 28px;
+        display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        color: var(--ink-soft);
-        text-decoration: none;
-        transition: color 200ms ease;
+        gap: 20px;
+        min-height: 80px;
       }
-      .social-link:hover { color: var(--accent); }
+      .code-snippet {
+        margin-top: 12px;
+        background: var(--surface-inset);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xs);
+        padding: 10px 14px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--ink-soft);
+        overflow-x: auto;
+      }
 
-      /* Sections */
-      section { margin-top: 48px; }
-      .sec-header { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
-      .sec-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; }
-      .sec-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-faint); text-transform: lowercase; }
-
-      .craft-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 22px; color: var(--ink); transition: all 200ms ease; }
-      .craft-card.interactive:hover { background: var(--surface-raised); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
-
-      /* Buttons without borders */
-      .btn-text { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
+      /* Примитивы */
+      .btn-text { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; transition: color 150ms ease; }
       .btn-text:hover { color: var(--accent); }
-      .btn-mono { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
+      .btn-mono { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; transition: color 150ms ease; }
       .btn-mono:hover { color: var(--ink); }
       .btn-accent { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
-      .btn-pill { appearance: none; border: 0; background: transparent; padding: 6px 14px; border-radius: var(--radius-full); font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 200ms ease; }
-      .btn-pill:hover { background: var(--surface-raised); color: var(--ink); }
+      .btn-pill { appearance: none; border: 0; background: var(--surface-raised); padding: 5px 12px; border-radius: var(--radius-full); font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 150ms ease; }
+      .btn-pill:hover { color: var(--ink); }
 
-      /* Kbd */
-      kbd.kbd { display: inline-grid; place-items: center; height: 21px; min-width: 21px; border-radius: 3px; border: 1px solid var(--border); background: var(--surface-raised); padding: 0 6px; font-family: var(--font-mono); font-size: 12px; line-height: 1; color: var(--ink-soft); transition: all 200ms ease; user-select: none; }
-      kbd.kbd.lit { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); transform: scale(1.05); }
+      kbd.kbd { display: inline-grid; place-items: center; height: 21px; min-width: 21px; border-radius: 3px; border: 1px solid var(--border); background: var(--surface-raised); padding: 0 6px; font-family: var(--font-mono); font-size: 11px; line-height: 1; color: var(--ink-soft); transition: all 150ms ease; }
+      kbd.kbd.lit { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
 
-      /* Badges */
       .cat-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 11px; border-radius: var(--radius-full); border: 0; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
       .cat-creative { color: var(--accent); background: var(--accent-soft); }
       .cat-infra { color: #38bdf8; background: rgba(56, 189, 248, 0.12); }
       .cat-life { color: #34d399; background: rgba(52, 211, 153, 0.12); }
       .cat-product { color: #fb7185; background: rgba(251, 113, 133, 0.12); }
 
-      /* Segmented */
       .segmented { display: inline-flex; align-items: center; gap: 2px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius-full); padding: 2px; font-family: var(--font-sans); font-size: 12px; }
-      .seg-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--radius-full); border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; font-family: inherit; font-size: inherit; transition: all 200ms ease; }
+      .seg-btn { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: var(--radius-full); border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; transition: all 150ms; }
       .seg-btn:hover { color: var(--ink); }
-      .seg-btn.active { background: var(--surface); color: var(--accent); font-weight: 500; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
-      .seg-count { font-size: 12px; padding: 1px 6px; border-radius: var(--radius-full); background: var(--surface-inset); color: var(--ink-faint); font-family: var(--font-mono); }
-      .seg-btn.active .seg-count { background: var(--accent-soft); color: var(--accent); }
+      .seg-btn.active { background: var(--surface); color: var(--accent); font-weight: 500; }
 
-      /* LinkChip from EventDetail */
-      .link-chip {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 8px;
-        font-family: var(--font-sans);
-        font-size: 13px;
-        color: var(--accent);
-        text-decoration: underline;
-        text-underline-offset: 4px;
-        transition: opacity 150ms ease;
-      }
-      .link-chip:hover { opacity: 0.8; }
-      .link-chip-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); }
+      .link-chip { display: inline-flex; align-items: baseline; gap: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+      .link-chip-label { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
 
-      /* Tag pill from EventDetail */
-      .tag-pill {
-        display: inline-flex;
-        align-items: center;
-        border-radius: var(--radius-xs);
-        border: 1px solid var(--border);
-        background: var(--surface-raised);
-        padding: 3px 9px;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--ink-soft);
-        user-select: none;
-        transition: all 150ms ease;
-      }
-      .tag-pill:hover { border-color: var(--accent); color: var(--ink); }
+      .tag-pill { display: inline-flex; align-items: center; border-radius: var(--radius-xs); border: 1px solid var(--border); background: var(--surface-raised); padding: 3px 9px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); }
 
-      /* RangeSlider */
       input[type="range"].range-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; }
-      input[type="range"].range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); cursor: pointer; transition: transform 150ms; }
-      input[type="range"].range-slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
+      input[type="range"].range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); cursor: pointer; }
 
-      /* HearthPulse */
-      .hearth-pulse { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-transform: lowercase; }
+      .hearth-pulse { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
       .pulse-dot { position: relative; display: flex; width: 8px; height: 8px; align-items: center; justify-content: center; }
       .pulse-dot-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: var(--accent); opacity: 0.4; animation: pulsePing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite; }
       .pulse-dot-core { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
       @keyframes pulsePing { 0% { transform: scale(0.8); opacity: 0.8; } 70%, 100% { transform: scale(2.2); opacity: 0; } }
 
-      /* Swatches */
-      .swatches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
-      .swatch { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; background: var(--surface); cursor: pointer; transition: all 150ms; }
-      .swatch:hover { background: var(--surface-raised); transform: translateY(-1px); }
-      .swatch-color { height: 40px; border-radius: var(--radius-xs); border: 1px solid var(--border); margin-bottom: 8px; }
-      .swatch-name { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); }
-      .swatch-code { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-faint); }
-
-      /* DisclosurePill */
-      details.disclosure-pill summary { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: var(--radius-full); border: 1px solid var(--border); background: var(--surface); font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 150ms; list-style: none; user-select: none; }
-      details.disclosure-pill summary:hover { background: var(--surface-raised); color: var(--ink); }
-      details.disclosure-pill summary::-webkit-details-marker { display: none; }
-
-      /* Overlays */
-      .overlay-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
-      .overlay-backdrop.open { opacity: 1; pointer-events: auto; }
-      .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); background: var(--surface); border-left: 1px solid var(--border); z-index: 100; padding: 32px 28px; transform: translateX(100%); transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1); display: flex; flex-direction: column; justify-content: space-between; }
-      .drawer.open { transform: translateX(0); }
+      .divider-line { display: inline-block; height: 14px; width: 1px; background: var(--border); margin: 0 10px; vertical-align: middle; }
     </style>
   </head>
   <body>
-    <!-- Top Header: Authentic @vanya/ui header with single-icon ThemeToggle & Avatar -->
+    <!-- Строгий утилитарный хедер инструмента -->
     <header>
       <div class="wrap header-inner">
-        <div style="display: flex; align-items: baseline">
-          <span class="brand-title">@vanya/ui</span>
-          <span class="brand-sub">Hearth & Wave · v0.1.0</span>
+        <div>
+          <span class="pkg-name">@vanya/ui</span>
+          <span class="pkg-badge">справочник компонентов · v0.1.0</span>
         </div>
+        <div>
+          <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">
+            Сменить тему (Светлая / Тёмная)
+          </button>
+        </div>
+      </div>
+    </header>
 
-        <div class="header-controls">
+    <main class="wrap">
+      <!-- 1. Токены цветов -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">1. Семантические токены OKLCH</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">tokens.css</span>
+        </div>
+        <div class="comp-desc">
+          Единая палитра для темного угля и светлой архивной бумаги. Контрастность проверена по WCAG AA (≥ 4.5:1). Граница — ровно 10% прозрачности.
+        </div>
+        <div class="preview-box" style="gap: 12px">
+          <div style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 2px; background: var(--ground); font-family: var(--font-mono); font-size: 12px">--ground</div>
+          <div style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface); font-family: var(--font-mono); font-size: 12px">--surface</div>
+          <div style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface-raised); font-family: var(--font-mono); font-size: 12px">--surface-raised</div>
+          <div style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface); color: var(--ink); font-family: var(--font-mono); font-size: 12px">--ink</div>
+          <div style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface); color: var(--accent); font-family: var(--font-mono); font-size: 12px">--accent</div>
+        </div>
+      </div>
+
+      <!-- 2. ActionButton -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">2. &lt;ActionButton /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { ActionButton } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Кнопки без прямоугольных рамок (канон Синусоиды). Управление осуществляется чистой типографикой со сменой цвета на ховере.
+        </div>
+        <div class="preview-box">
+          <button class="btn-text">variant="text" (базовая)</button>
+          <button class="btn-accent">variant="accent" (ссылка с подчеркиванием)</button>
+          <button class="btn-mono">variant="mono" [?]</button>
+          <button class="btn-pill">variant="pill"</button>
+        </div>
+        <div class="code-snippet">&lt;ActionButton variant="text" onClick={handleClick}&gt;Войти в поток&lt;/ActionButton&gt;</div>
+      </div>
+
+      <!-- 3. Kbd -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">3. &lt;Kbd /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { Kbd } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Единственный интерактивный элемент с микро-рамкой. Отображает клавиатурную клавишу, поддерживает активное состояние <code>lit</code>.
+        </div>
+        <div class="preview-box">
+          <div style="display: flex; gap: 8px; align-items: center">
+            <kbd class="kbd">←</kbd>
+            <kbd class="kbd">→</kbd>
+            <span style="font-size: 12.5px; color: var(--ink-soft)">навигация</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center">
+            <kbd class="kbd lit">N</kbd>
+            <span style="font-size: 12.5px; color: var(--accent)">активная клавиша (lit)</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center">
+            <kbd class="kbd">Esc</kbd>
+            <span style="font-size: 12.5px; color: var(--ink-soft)">закрыть</span>
+          </div>
+        </div>
+        <div class="code-snippet">&lt;Kbd lit={isPressed}&gt;N&lt;/Kbd&gt;</div>
+      </div>
+
+      <!-- 4. NavLinks & Divider -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">4. &lt;NavLinks /&gt; & &lt;Divider /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { NavLinks, Divider } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Навигационный ряд из NowQuickLinks (Синусоида): бесшовные кнопки разделов с вертикальными разделителями и быстрым переходом к «Сейчас».
+        </div>
+        <div class="preview-box">
+          <nav style="display: flex; align-items: center">
+            <button class="btn-text" style="color: var(--accent); font-weight: 600">Кем я был</button>
+            <span class="divider-line"></span>
+            <button class="btn-text">Что пробовал делать</button>
+            <span class="divider-line"></span>
+            <button class="btn-text">Кто я сейчас</button>
+            <span class="divider-line"></span>
+            <button class="btn-text" style="color: var(--accent)">Сейчас</button>
+          </nav>
+        </div>
+        <div class="code-snippet">&lt;NavLinks items={sections} nowLabel="Сейчас" onNowClick={handleJump} /&gt;</div>
+      </div>
+
+      <!-- 5. CategoryBadge -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">5. &lt;CategoryBadge /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { CategoryBadge } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Мягкие бесшовные теги категорий из Фермы (без грубых рамок).
+        </div>
+        <div class="preview-box">
+          <span class="cat-badge cat-creative"># Creative</span>
+          <span class="cat-badge cat-infra"># Infra</span>
+          <span class="cat-badge cat-life"># Life</span>
+          <span class="cat-badge cat-product"># Product</span>
+        </div>
+        <div class="code-snippet">&lt;CategoryBadge category="Creative" /&gt;</div>
+      </div>
+
+      <!-- 6. SegmentedControl -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">6. &lt;SegmentedControl /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { SegmentedControl } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Капсульный переключатель без внутренних рамок у кнопок. Используется для горизонтов (1d/7d/30d) и полок со счётчиками.
+        </div>
+        <div class="preview-box" style="flex-direction: column; align-items: flex-start">
+          <div class="segmented">
+            <button class="seg-btn active">1d (сегодня)</button>
+            <button class="seg-btn">7d (неделя)</button>
+            <button class="seg-btn">30d (месяц)</button>
+          </div>
+          <div class="segmented" style="margin-top: 8px">
+            <button class="seg-btn active"><span>На столе</span><span class="seg-count" style="background: var(--accent-soft); color: var(--accent)">2</span></button>
+            <button class="seg-btn"><span>Разработка</span><span class="seg-count" style="background: var(--surface-inset); color: var(--ink-faint)">35</span></button>
+            <button class="seg-btn"><span>Архив</span><span class="seg-count" style="background: var(--surface-inset); color: var(--ink-faint)">8</span></button>
+          </div>
+        </div>
+        <div class="code-snippet">&lt;SegmentedControl items={horizons} value={active} onChange={setActive} /&gt;</div>
+      </div>
+
+      <!-- 7. RangeSlider -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">7. &lt;RangeSlider /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { RangeSlider } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Волосяной минималистичный слайдер зума/дистанции времени с янтарным бегунком.
+        </div>
+        <div class="preview-box">
+          <div style="display: flex; align-items: center; gap: 14px; width: 100%; max-width: 440px">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint)">дистанция:</span>
+            <input type="range" class="range-slider" min="1" max="100" value="42" />
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--accent)">42%</span>
+          </div>
+        </div>
+        <div class="code-snippet">&lt;RangeSlider label="дистанция" value={zoom} min={1} max={100} onChange={handleChange} /&gt;</div>
+      </div>
+
+      <!-- 8. LinkChip & Tag -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">8. &lt;LinkChip /&gt; & &lt;Tag /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { LinkChip, Tag } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Чипы источников со стрелкой ↗ и теги события из карточки события Синусоиды.
+        </div>
+        <div class="preview-box">
+          <a href="#" class="link-chip"><span class="link-chip-label">канал</span><span>t.me/VanyAIShilo</span><span>↗</span></a>
+          <a href="#" class="link-chip"><span class="link-chip-label">репозиторий</span><span>github.com/VanDalkvist</span><span>↗</span></a>
+          <span class="tag-pill">#созерцание</span>
+          <span class="tag-pill">#звук-d-dorian</span>
+        </div>
+        <div class="code-snippet">&lt;LinkChip url="https://t.me/channel" label="канал" /&gt;</div>
+      </div>
+
+      <!-- 9. DisclosurePill -->
+      <div class="component-row">
+        <div class="comp-header">
+          <span class="comp-title">9. &lt;DisclosurePill /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { DisclosurePill } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Инлайн-аппендикс без модальных окон (из EventAppendix). Раскрывает дополнительный текст по клику.
+        </div>
+        <div class="preview-box">
+          <details class="disclosure-pill">
+            <summary>
+              <span>Подробности арки характера</span>
+              <span style="font-size: 11px; color: var(--accent)">▼</span>
+            </summary>
+            <div style="margin-top: 14px; font-size: 13px; color: var(--ink-soft); line-height: 1.6">
+              Инлайн-раскрытие заметок и ссылок без открытия тяжелых модальных окон.
+            </div>
+          </details>
+        </div>
+        <div class="code-snippet">&lt;DisclosurePill title="Заметки"&gt;Содержимое&lt;/DisclosurePill&gt;</div>
+      </div>
+
+      <!-- 10. HearthPulse -->
+      <div class="component-row" style="border-bottom: 0">
+        <div class="comp-header">
+          <span class="comp-title">10. &lt;HearthPulse /&gt;</span>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { HearthPulse } from "@vanya/ui"</span>
+        </div>
+        <div class="comp-desc">
+          Тлеющий янтарный импульс активности очага с мягкой ping-анимацией.
+        </div>
+        <div class="preview-box">
           <div class="hearth-pulse">
             <div class="pulse-dot">
               <div class="pulse-dot-ring"></div>
@@ -238,458 +360,22 @@
             </div>
             <span>очаг активен</span>
           </div>
-
-          <span class="header-divider"></span>
-
-          <!-- Social icon link -->
-          <a
-            href="https://github.com/VanDalkvist"
-            target="_blank"
-            rel="noreferrer"
-            class="social-link"
-            title="GitHub: VanDalkvist"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
-              <path d="M9 18c-4.51 2-5-2-7-2"></path>
-            </svg>
-          </a>
-
-          <!-- Circular profile avatar -->
-          <a
-            href="https://t.me/VanyAIShilo"
-            target="_blank"
-            rel="noreferrer"
-            class="avatar-link"
-            title="Telegram: Ваня"
-          >
-            <img src="https://avatars.githubusercontent.com/u/7421387?v=4" alt="Ваня" />
-          </a>
-
-          <span class="header-divider"></span>
-
-          <!-- Single-icon ThemeToggle as in life-wave-narrative -->
-          <button
-            type="button"
-            id="theme-icon-btn"
-            class="theme-btn"
-            title="Сменить тему оформления (Светлая / Тёмная)"
-            onclick="toggleThemeCycle()"
-          >
-            <svg id="theme-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-            </svg>
-            <svg id="theme-sun" style="display: none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2"></path>
-              <path d="M12 20v2"></path>
-              <path d="m4.93 4.93 1.41 1.41"></path>
-              <path d="m17.66 17.66 1.41 1.41"></path>
-              <path d="M2 12h2"></path>
-              <path d="M20 12h2"></path>
-              <path d="m6.34 17.66-1.41 1.41"></path>
-              <path d="m19.07 4.93-1.41 1.41"></path>
-            </svg>
-          </button>
         </div>
+        <div class="code-snippet">&lt;HearthPulse label="очаг активен" /&gt;</div>
       </div>
-    </header>
-
-    <main class="wrap">
-      <!-- Section 1: Palette -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Палитра OKLCH (Синусоида и Ферма)</h2>
-          <span class="sec-tag">клик для копирования токена</span>
-        </div>
-        <div class="swatches-grid">
-          <div class="swatch" onclick="copyToken('--ground')">
-            <div class="swatch-color" style="background: var(--ground)"></div>
-            <div class="swatch-name">Ground</div>
-            <div class="swatch-code">Бумага / Уголь</div>
-          </div>
-          <div class="swatch" onclick="copyToken('--surface')">
-            <div class="swatch-color" style="background: var(--surface)"></div>
-            <div class="swatch-name">Surface</div>
-            <div class="swatch-code">Карточка</div>
-          </div>
-          <div class="swatch" onclick="copyToken('--surface-raised')">
-            <div class="swatch-color" style="background: var(--surface-raised)"></div>
-            <div class="swatch-name">Raised</div>
-            <div class="swatch-code">Ховер</div>
-          </div>
-          <div class="swatch" onclick="copyToken('--ink')">
-            <div class="swatch-color" style="background: var(--ink)"></div>
-            <div class="swatch-name">Ink</div>
-            <div class="swatch-code">Чернила / Лён</div>
-          </div>
-          <div class="swatch" onclick="copyToken('--accent')">
-            <div class="swatch-color" style="background: var(--accent)"></div>
-            <div class="swatch-name">Accent</div>
-            <div class="swatch-code">Терракота / Янтарь</div>
-          </div>
-          <div class="swatch" onclick="copyToken('--border')">
-            <div class="swatch-color" style="background: var(--border); border-color: var(--ink)"></div>
-            <div class="swatch-name">Border</div>
-            <div class="swatch-code">10% прозрачности</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 2: NavLinks & Header Controls Component -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Компонент Навигации разделов (`NavLinks`)</h2>
-          <span class="sec-tag">компонент из NowQuickLinks</span>
-        </div>
-        <div class="craft-card" style="display: flex; flex-direction: column; gap: 16px">
-          <div style="font-size: 12px; color: var(--ink-faint); font-family: var(--font-mono)">
-            Демонстрация навигационного ряда разделов (как в Синусоиде):
-          </div>
-          <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
-            <button class="btn-text" style="color: var(--accent); font-weight: 600">Основы системы</button>
-            <span class="header-divider" style="margin: 0 8px"></span>
-            <button class="btn-text">Компоненты</button>
-            <span class="header-divider" style="margin: 0 8px"></span>
-            <button class="btn-text">Токены OKLCH</button>
-            <span class="header-divider" style="margin: 0 8px"></span>
-            <button class="btn-text" style="color: var(--accent)">Сейчас</button>
-          </nav>
-        </div>
-      </section>
-
-      <!-- Section 3: EventCard & Timeline Preview (Синусоида) -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Карточка события и Тизеры (`EventCard` & `TimelinePreviewCard`)</h2>
-          <span class="sec-tag">вытягивание из точки и парящий тизер</span>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start">
-          <!-- Full EventCard -->
-          <article class="craft-card" style="padding: 26px">
-            <div style="display: flex; justify-content: space-between; align-items: baseline">
-              <span style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft)">
-                23 ОКТ 2026
-              </span>
-              <button class="btn-mono" style="font-size: 12px; letter-spacing: 0.2em">закрыть</button>
-            </div>
-            <h3 style="text-wrap: balance; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; line-height: 1.15; color: var(--ink); margin-top: 14px">
-              Цифровой созерцательный костёр
-            </h3>
-            <p style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; margin-top: 12px">
-              Экран групповой практики присутствия. Тлеющее ядро, дыхательный ритм 0.11 Гц, процедурный звук D Dorian и тепловая эстафета между репликами.
-            </p>
-            <!-- Link Chips -->
-            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border)">
-              <a href="https://t.me/VanyAIShilo" target="_blank" rel="noreferrer" class="link-chip">
-                <span class="link-chip-label">канал</span>
-                <span>t.me/VanyAIShilo</span>
-                <span>↗</span>
-              </a>
-              <a href="https://github.com/VanDalkvist/salon-presence" target="_blank" rel="noreferrer" class="link-chip">
-                <span class="link-chip-label">репозиторий</span>
-                <span>github.com/VanDalkvist/salon-presence</span>
-                <span>↗</span>
-              </a>
-            </div>
-            <!-- Tags -->
-            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border)">
-              <span class="tag-pill">#созерцание</span>
-              <span class="tag-pill">#звук-d-dorian</span>
-              <span class="tag-pill">#hearth</span>
-            </div>
-          </article>
-
-          <!-- Floating TimelinePreviewCard -->
-          <div style="display: flex; flex-direction: column; gap: 16px">
-            <div class="craft-card interactive" style="padding: 16px; max-width: 280px">
-              <div style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint)">
-                ДЕК 2025
-              </div>
-              <h4 style="text-wrap: balance; font-family: var(--font-serif); font-size: 13.5px; font-weight: 500; line-height: 1.3; color: var(--ink); margin-top: 4px">
-                Первая детская НРИ «Город навыков» с дочкой
-              </h4>
-              <div style="margin-top: 10px; font-size: 12px; font-family: var(--font-mono); color: var(--accent)">
-                парящий тизер над точкой волны
-              </div>
-            </div>
-
-            <!-- Native DisclosurePill -->
-            <div class="craft-card" style="padding: 16px">
-              <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 10px; font-family: var(--font-mono)">
-                Инлайн-аккордеон (DisclosurePill):
-              </div>
-              <details class="disclosure-pill">
-                <summary>
-                  <span>Заметки и лор события</span>
-                  <span style="font-size: 12px; color: var(--accent)">▼</span>
-                </summary>
-                <div style="margin-top: 12px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.6">
-                  Инлайн-раскрытие заметок и ссылок без открытия тяжелых модальных окон.
-                </div>
-              </details>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 4: Minimap Scrubber -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Миникарта Времени (`Minimap`)</h2>
-          <span class="sec-tag">уникальный контрол из синусоиды</span>
-        </div>
-        <div class="craft-card" style="padding: 24px">
-          <div style="position: relative; height: 32px; cursor: pointer; user-select: none" onclick="seekMinimap(event)">
-            <div style="position: absolute; top: 14px; left: 0; right: 0; height: 1px; background: var(--border)"></div>
-            <span style="position: absolute; top: 10px; left: 18%; height: 8px; width: 1px; background: var(--ink); opacity: 0.3"></span>
-            <span style="position: absolute; top: 10px; left: 34%; height: 8px; width: 1px; background: var(--ink); opacity: 0.3"></span>
-            <span style="position: absolute; top: 10px; left: 62%; height: 8px; width: 1px; background: var(--accent)"></span>
-            <span style="position: absolute; top: 10px; left: 85%; height: 8px; width: 1px; background: var(--ink); opacity: 0.2"></span>
-            <div id="minimap-frame" style="position: absolute; top: 4px; left: 45%; width: 22%; height: 24px; border-radius: 2px; border: 1px solid var(--accent); background: var(--accent-soft); transition: all 200ms ease"></div>
-          </div>
-          <div style="position: relative; height: 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em; color: var(--ink-faint); margin-top: 6px">
-            <span style="position: absolute; left: 10%">2018</span>
-            <span style="position: absolute; left: 35%">2022</span>
-            <span style="position: absolute; left: 60%; color: var(--accent)">2026 (СЕЙЧАС)</span>
-            <span style="position: absolute; left: 85%">2030</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 5: Buttons & Hotkeys (Borderless!) -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Кнопки и Шорткаты (Канон Синусоиды)</h2>
-          <span class="sec-tag">кнопки без рамок · рамки только у kbd</span>
-        </div>
-        <div class="craft-card" style="display: flex; flex-direction: column; gap: 24px">
-          <!-- Kbd row -->
-          <div>
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
-              Клавиши Kbd (нажмите стрелки ← →, N, +, -, Esc на физической клавиатуре):
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center">
-              <div style="display: flex; align-items: center; gap: 6px">
-                <kbd class="kbd" id="key-left">←</kbd>
-                <kbd class="kbd" id="key-right">→</kbd>
-                <span style="font-size: 13px; color: var(--ink-soft)">время</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 6px">
-                <kbd class="kbd" id="key-n">N</kbd>
-                <span style="font-size: 13px; color: var(--ink-soft)">сейчас</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 6px">
-                <kbd class="kbd" id="key-plus">+</kbd>
-                <kbd class="kbd" id="key-minus">−</kbd>
-                <span style="font-size: 13px; color: var(--ink-soft)">масштаб</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 6px">
-                <kbd class="kbd" id="key-esc">Esc</kbd>
-                <span style="font-size: 13px; color: var(--ink-soft)">закрыть</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Borderless Buttons -->
-          <div style="border-top: 1px solid var(--border); padding-top: 18px">
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 14px; font-family: var(--font-mono)">
-              Кнопки ActionButton (чистая типографика без коробок и рамок):
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
-              <button class="btn-text">Войти в поток</button>
-              <button class="btn-accent">Перейти к вехе</button>
-              <button class="btn-mono">все клавиши [?]</button>
-              <button class="btn-pill">Парковать проект</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 6: Badges & Segmented Controls -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Теги и Сегменты (Ферма)</h2>
-          <span class="sec-tag">мягкие пилюли без жестких рамок</span>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
-          <!-- CategoryBadge -->
-          <div class="craft-card">
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
-              CategoryBadge (бесшовные теги Фермы):
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px">
-              <span class="cat-badge cat-creative"># Creative</span>
-              <span class="cat-badge cat-infra"># Infra</span>
-              <span class="cat-badge cat-life"># Life</span>
-              <span class="cat-badge cat-product"># Product</span>
-            </div>
-          </div>
-
-          <!-- SegmentedControl (Horizons) -->
-          <div class="craft-card">
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
-              SegmentedControl (горизонты внимания):
-            </div>
-            <div class="segmented" id="horizon-ctrl">
-              <button class="seg-btn active" onclick="setSeg(this)">1d (сегодня)</button>
-              <button class="seg-btn" onclick="setSeg(this)">7d (неделя)</button>
-              <button class="seg-btn" onclick="setSeg(this)">30d (месяц)</button>
-            </div>
-          </div>
-
-          <!-- Status Tabs with counts -->
-          <div class="craft-card">
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
-              Табы со счётчиками (полки Фермы):
-            </div>
-            <div class="segmented" id="status-ctrl">
-              <button class="seg-btn active" onclick="setSeg(this)">
-                <span>На столе</span><span class="seg-count">2</span>
-              </button>
-              <button class="seg-btn" onclick="setSeg(this)">
-                <span>Разработка</span><span class="seg-count">35</span>
-              </button>
-              <button class="seg-btn" onclick="setSeg(this)">
-                <span>Архив</span><span class="seg-count">8</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 7: Slider -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Волосяной Слайдер (RangeSlider)</h2>
-          <span class="sec-tag">скруббер времени из синусоиды</span>
-        </div>
-        <div class="craft-card" style="display: flex; flex-direction: column; gap: 16px">
-          <div style="display: flex; align-items: center; gap: 14px">
-            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); width: 130px; shrink: 0">
-              Дистанция взгляда:
-            </span>
-            <input
-              type="range"
-              class="range-slider"
-              min="1"
-              max="100"
-              value="42"
-              oninput="document.getElementById('slider-val').innerText = this.value + '%'"
-            />
-            <span id="slider-val" style="font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); width: 42px">
-              42%
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 8: Overlays -->
-      <section>
-        <div class="sec-header">
-          <h2 class="sec-title">Боковой Drawer</h2>
-          <span class="sec-tag">выдвижная панель инспектора</span>
-        </div>
-        <div>
-          <button class="btn-text" onclick="openDrawer()" style="font-weight: 600; font-size: 13.5px">
-            → Открыть боковой InspectDrawer
-          </button>
-        </div>
-      </section>
     </main>
 
-    <!-- Drawer Overlay -->
-    <div id="drawer-backdrop" class="overlay-backdrop" onclick="closeAll()"></div>
-    <div id="drawer-panel" class="drawer">
-      <div>
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 20px">
-          <h3 style="text-wrap: balance; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400">
-            Инспектор фоновых служб
-          </h3>
-          <button class="btn-text" onclick="closeAll()" style="font-size: 18px">✕</button>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem">
-          <div class="craft-card" style="padding: 16px">
-            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; margin-bottom: 4px">
-              <span>GBrain Serve</span>
-              <span style="color: #34d399">connected</span>
-            </div>
-            <div style="font-size: 13px; color: var(--ink-soft)">
-              IPC-сокет активен, PGLite/Postgres готов, фоновый sweep без задержек.
-            </div>
-          </div>
-          <div class="craft-card" style="padding: 16px">
-            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; margin-bottom: 4px">
-              <span>Pi Durable Provider</span>
-              <span style="color: #34d399">active</span>
-            </div>
-            <div style="font-size: 13px; color: var(--ink-soft)">
-              SQLite WAL база в норме, фоновые агенты завершили работу без зависаний.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="border-top: 1px solid var(--border); padding-top: 16px; display: flex; justify-content: flex-end">
-        <button class="btn-text" onclick="closeAll()">закрыть (Esc)</button>
-      </div>
-    </div>
-
     <script>
-      // Single-icon ThemeToggle as in life-wave-narrative
-      function toggleThemeCycle() {
+      function toggleTheme() {
         const isDark = document.documentElement.classList.contains("dark");
-        const moon = document.getElementById("theme-moon");
-        const sun = document.getElementById("theme-sun");
-
         if (isDark) {
           document.documentElement.classList.remove("dark");
           document.documentElement.classList.add("light");
-          moon.style.display = "none";
-          sun.style.display = "inline-block";
         } else {
           document.documentElement.classList.remove("light");
           document.documentElement.classList.add("dark");
-          moon.style.display = "inline-block";
-          sun.style.display = "none";
         }
       }
-
-      function setSeg(btn) {
-        const parent = btn.parentElement;
-        parent.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-      }
-
-      function seekMinimap(e) {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-        const frame = document.getElementById("minimap-frame");
-        frame.style.left = Math.max(0, Math.min(78, p * 100 - 11)) + "%";
-      }
-
-      function openDrawer() {
-        document.getElementById("drawer-backdrop").classList.add("open");
-        document.getElementById("drawer-panel").classList.add("open");
-      }
-      function closeAll() {
-        document.querySelectorAll(".overlay-backdrop").forEach((b) => b.classList.remove("open"));
-        document.getElementById("drawer-panel").classList.remove("open");
-      }
-
-      const keyMap = { ArrowLeft: "key-left", ArrowRight: "key-right", KeyN: "key-n", Equal: "key-plus", Minus: "key-minus", Escape: "key-esc" };
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeAll();
-        const targetId = keyMap[e.code] || (e.key === "n" || e.key === "N" ? "key-n" : null);
-        if (targetId) {
-          const el = document.getElementById(targetId);
-          if (el) {
-            el.classList.add("lit");
-            setTimeout(() => el.classList.remove("lit"), 250);
-          }
-        }
-      });
-
-      function copyToken(name) { navigator.clipboard.writeText(name); }
     </script>
   </body>
 </html>
