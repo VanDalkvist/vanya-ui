@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" class="dark">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +10,29 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Инициализация темы: системная по умолчанию -->
+    <script>
+      (function () {
+        try {
+          const stored = localStorage.getItem("vanya_theme") || "system";
+          let isDark = false;
+          if (stored === "system") {
+            isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          } else {
+            isDark = stored === "dark";
+          }
+          if (isDark) {
+            document.documentElement.classList.add("dark");
+            document.documentElement.classList.remove("light");
+          } else {
+            document.documentElement.classList.add("light");
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (e) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
     <style>
       :root {
         color-scheme: light dark;
@@ -59,41 +82,115 @@
 
       .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 14px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
+      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 12px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
       .header-inner { display: flex; align-items: center; justify-content: space-between; }
       .pkg-name { font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--ink); }
       .pkg-badge { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); margin-left: 8px; }
 
-      .component-row { margin-top: 40px; border-bottom: 1px solid var(--border); padding-bottom: 36px; }
-      .comp-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
-      .comp-title { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--ink); text-wrap: balance; }
-      .comp-desc { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; }
-
-      .preview-box {
+      /* Верхний угол: реальный переключатель темы Синусоиды */
+      .corner-toggle-wrap { position: relative; display: inline-flex; align-items: center; }
+      .corner-icon-btn {
+        pointer-events: auto;
+        display: inline-flex;
+        width: 24px;
+        height: 24px;
+        align-items: center;
+        justify-content: center;
+        appearance: none;
+        border: 0;
         background: transparent;
-        border: 1px solid var(--border);
+        padding: 0;
+        outline: none;
+        color: var(--ink-soft);
+        cursor: pointer;
+        transition: color 150ms ease;
+      }
+      .corner-icon-btn:hover { color: var(--ink); }
+      .corner-dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        min-width: 144px;
         border-radius: var(--radius-sm);
-        padding: 24px;
+        border: 1px solid var(--border);
+        background: var(--surface-raised);
+        padding: 4px;
+        display: none;
+        flex-direction: column;
+        gap: 2px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+        backdrop-filter: blur(12px);
+        z-index: 50;
+      }
+      .corner-dropdown-menu.open { display: flex; }
+      .corner-menu-item {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 10px;
+        border-radius: var(--radius-xs);
+        border: 0;
+        background: transparent;
+        font-family: var(--font-sans);
+        font-size: 12px;
+        color: var(--ink-soft);
+        cursor: pointer;
+        transition: all 120ms ease;
+      }
+      .corner-menu-item:hover { background: var(--surface); color: var(--ink); }
+      .corner-menu-item.active { background: var(--surface); color: var(--accent); font-weight: 500; }
+
+      .component-row { margin-top: 44px; border-bottom: 1px solid var(--border); padding-bottom: 36px; }
+      .comp-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+      .comp-title { font-family: var(--font-mono); font-size: 16.5px; font-weight: 600; color: var(--ink); text-wrap: balance; }
+      .comp-desc { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; max-width: 72ch; }
+
+      /* Превью без избыточных рамок вокруг */
+      .preview-box {
+        padding: 12px 0;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         gap: 20px;
-        min-height: 70px;
+        min-height: 50px;
       }
-      .code-snippet {
-        margin-top: 12px;
-        background: var(--surface-inset);
+
+      /* Благородная подача сниппетов кода в стиле Geist / Radix */
+      .code-snippet-wrap {
+        margin-top: 14px;
         border: 1px solid var(--border);
         border-radius: var(--radius-xs);
-        padding: 10px 14px;
+        background: var(--surface-inset);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+      }
+      .code-text {
         font-family: var(--font-mono);
         font-size: 12px;
         color: var(--ink-soft);
+        user-select: all;
         overflow-x: auto;
       }
+      .code-copy-btn {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--ink-faint);
+        cursor: pointer;
+        padding: 2px 6px;
+        border-radius: 2px;
+        transition: all 150ms;
+        flex-shrink: 0;
+      }
+      .code-copy-btn:hover { color: var(--accent); background: var(--surface); }
 
       /* Секция Экспериментальное */
-      .exp-divider { margin-top: 60px; border-top: 2px dashed var(--border); padding-top: 32px; margin-bottom: 24px; }
+      .exp-divider { margin-top: 60px; border-top: 2px dashed var(--border); padding-top: 28px; margin-bottom: 24px; }
       .exp-title { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; color: var(--accent); }
       .exp-sub { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
 
@@ -136,22 +233,63 @@
 
       .divider-line { display: inline-block; height: 14px; width: 1px; background: var(--border); margin: 0 10px; vertical-align: middle; }
 
-      /* ThemeToggle контрол внутри сетки */
-      .theme-pill-group { display: inline-flex; align-items: center; border: 1px solid var(--border); background: var(--surface-raised); border-radius: var(--radius-full); padding: 2px; gap: 2px; }
-      .theme-pill-btn { appearance: none; border: 0; background: transparent; padding: 4px 12px; border-radius: var(--radius-full); font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 150ms; display: inline-flex; align-items: center; gap: 6px; }
-      .theme-pill-btn:hover { color: var(--ink); }
-      .theme-pill-btn.active { background: var(--ground); color: var(--accent); font-weight: 600; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+      /* Демонстрационная капсула ThemeToggle в каталоге */
+      .demo-theme-pill-group { display: inline-flex; align-items: center; border: 1px solid var(--border); background: var(--surface-raised); border-radius: var(--radius-full); padding: 2px; gap: 2px; }
+      .demo-theme-pill-btn { appearance: none; border: 0; background: transparent; padding: 4px 10px; border-radius: var(--radius-full); font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); cursor: pointer; transition: all 150ms; display: inline-flex; align-items: center; gap: 5px; }
+      .demo-theme-pill-btn:hover { color: var(--ink); }
+      .demo-theme-pill-btn.active { background: var(--ground); color: var(--accent); font-weight: 600; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
     </style>
   </head>
   <body>
+    <!-- Хедер справочника: название слева, РЕАЛЬНЫЙ переключатель темы Синусоиды в правом углу -->
     <header>
       <div class="wrap header-inner">
         <div>
           <span class="pkg-name">@vanya/ui</span>
           <span class="pkg-badge">справочник компонентов · v0.1.0</span>
         </div>
-        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">
-          hearth & wave
+
+        <!-- Рабочий контрол темы страницы (как в NowQuickLinks) -->
+        <div class="corner-toggle-wrap" id="corner-theme-control">
+          <button
+            type="button"
+            class="corner-icon-btn"
+            id="corner-theme-trigger"
+            aria-label="Сменить тему оформления"
+            onclick="toggleCornerDropdown(event)"
+          >
+            <!-- Иконка Луны (тёмная) / Солнца (светлая) -->
+            <svg id="corner-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+            <svg id="corner-icon-sun" style="display: none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </button>
+
+          <!-- Выпадающее меню с опциями -->
+          <div class="corner-dropdown-menu" id="corner-dropdown-menu">
+            <button type="button" class="corner-menu-item" onclick="setAppTheme('light')">
+              <span>☀ Светлая</span>
+              <span id="check-light" style="display: none">✓</span>
+            </button>
+            <button type="button" class="corner-menu-item" onclick="setAppTheme('dark')">
+              <span>☾ Тёмная</span>
+              <span id="check-dark" style="display: none">✓</span>
+            </button>
+            <button type="button" class="corner-menu-item active" onclick="setAppTheme('system')">
+              <span>💻 Системная</span>
+              <span id="check-system">✓</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -175,32 +313,49 @@
         </div>
       </section>
 
-      <!-- 2. ThemeToggle -->
+      <!-- 2. ThemeToggle (демо в каталоге компонентов: не трогает страницу!) -->
       <section class="component-row">
         <div class="comp-header">
           <h2 class="comp-title">2. &lt;ThemeToggle /&gt;</h2>
           <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { ThemeToggle } from "@vanya/ui"</span>
         </div>
         <p class="comp-desc">
-          Каноничный контрол смены темы. Поддерживает 3 состояния (Светлая, Тёмная, Системная). По умолчанию синхронизируется с ОС через <code>prefers-color-scheme</code>. Клик по кнопкам ниже переключает тему самой витрины:
+          Контрол темы оформления с поддержкой двух вариантов рендера: <code>variant="dropdown"</code> (микро-иконка из Синусоиды) и <code>variant="segmented"</code> (капсула). Клик по демонстрационным кнопкам ниже переключает только внутреннее состояние демо-компонента (тему самой витрины переключает контрол в правом верхнем углу).
         </p>
-        <div class="preview-box">
-          <div class="theme-pill-group" id="theme-toggle-group">
-            <button class="theme-pill-btn" onclick="setAppTheme('light')">
-              <span>☀</span><span>Светлая</span>
-            </button>
-            <button class="theme-pill-btn" onclick="setAppTheme('dark')">
-              <span>☾</span><span>Тёмная</span>
-            </button>
-            <button class="theme-pill-btn active" onclick="setAppTheme('system')">
-              <span>💻</span><span>Системная (Auto)</span>
-            </button>
+        <div class="preview-box" style="gap: 28px">
+          <!-- Демо Вариант 1: Dropdown из Синусоиды -->
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase">
+              Вариант dropdown (Синусоида)
+            </span>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="font-size: 16px; border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; background: var(--surface)">☀</span>
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft)">иконка с выпадающим меню (3 режима)</span>
+            </div>
           </div>
-          <span id="theme-status-label" style="font-family: var(--font-mono); font-size: 12px; color: var(--accent)">
-            режим: системная (слушает ОС)
-          </span>
+
+          <!-- Демо Вариант 2: Segmented -->
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase">
+              Вариант segmented (капсула)
+            </span>
+            <div class="demo-theme-pill-group" id="demo-segmented-group">
+              <button type="button" class="demo-theme-pill-btn" onclick="setDemoThemeLocal(this)">
+                <span>☀</span><span>Светлая</span>
+              </button>
+              <button type="button" class="demo-theme-pill-btn" onclick="setDemoThemeLocal(this)">
+                <span>☾</span><span>Тёмная</span>
+              </button>
+              <button type="button" class="demo-theme-pill-btn active" onclick="setDemoThemeLocal(this)">
+                <span>💻</span><span>Системная</span>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="code-snippet">&lt;ThemeToggle variant="segmented" defaultTheme="system" /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;ThemeToggle variant="dropdown" defaultTheme="system" /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 3. ActionButton -->
@@ -218,7 +373,10 @@
           <button class="btn-mono">variant="mono" [?]</button>
           <button class="btn-pill">variant="pill"</button>
         </div>
-        <div class="code-snippet">&lt;ActionButton variant="text" onClick={handleClick}&gt;Войти в поток&lt;/ActionButton&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;ActionButton variant="text" onClick={handleClick}&gt;Войти в поток&lt;/ActionButton&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 4. Kbd -->
@@ -245,7 +403,10 @@
             <span style="font-size: 12.5px; color: var(--ink-soft)">закрыть</span>
           </div>
         </div>
-        <div class="code-snippet">&lt;Kbd lit={isPressed}&gt;N&lt;/Kbd&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;Kbd lit={isPressed}&gt;N&lt;/Kbd&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 5. NavLinks & Divider -->
@@ -268,7 +429,10 @@
             <button class="btn-text" style="color: var(--accent)">Сейчас</button>
           </nav>
         </div>
-        <div class="code-snippet">&lt;NavLinks items={sections} nowLabel="Сейчас" onNowClick={handleJump} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;NavLinks items={sections} nowLabel="Сейчас" onNowClick={handleJump} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 6. CategoryBadge -->
@@ -286,7 +450,10 @@
           <span class="cat-badge cat-life"># Life</span>
           <span class="cat-badge cat-product"># Product</span>
         </div>
-        <div class="code-snippet">&lt;CategoryBadge category="Creative" /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;CategoryBadge category="Creative" /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 7. SegmentedControl -->
@@ -305,12 +472,15 @@
             <button class="seg-btn">30d (месяц)</button>
           </div>
           <div class="segmented" style="margin-top: 8px">
-            <button class="seg-btn active"><span>На столе</span><span class="seg-count" style="background: var(--surface-raised); color: var(--accent); padding: 1px 6px; border-radius: 9999px">2</span></button>
-            <button class="seg-btn"><span>Разработка</span><span class="seg-count" style="background: var(--surface-inset); color: var(--ink-faint); padding: 1px 6px; border-radius: 9999px">35</span></button>
-            <button class="seg-btn"><span>Архив</span><span class="seg-count" style="background: var(--surface-inset); color: var(--ink-faint); padding: 1px 6px; border-radius: 9999px">8</span></button>
+            <button class="seg-btn active"><span>На столе</span><span style="background: var(--surface-raised); color: var(--accent); padding: 1px 6px; border-radius: 9999px; font-size: 11px">2</span></button>
+            <button class="seg-btn"><span>Разработка</span><span style="background: var(--surface-inset); color: var(--ink-faint); padding: 1px 6px; border-radius: 9999px; font-size: 11px">35</span></button>
+            <button class="seg-btn"><span>Архив</span><span style="background: var(--surface-inset); color: var(--ink-faint); padding: 1px 6px; border-radius: 9999px; font-size: 11px">8</span></button>
           </div>
         </div>
-        <div class="code-snippet">&lt;SegmentedControl items={horizons} value={active} onChange={setActive} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;SegmentedControl items={horizons} value={active} onChange={setActive} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 8. RangeSlider -->
@@ -329,7 +499,10 @@
             <span style="font-family: var(--font-mono); font-size: 12px; color: var(--accent)">42%</span>
           </div>
         </div>
-        <div class="code-snippet">&lt;RangeSlider label="дистанция" value={zoom} min={1} max={100} onChange={handleChange} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;RangeSlider label="дистанция" value={zoom} min={1} max={100} onChange={handleChange} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 9. LinkChip & Tag -->
@@ -347,7 +520,10 @@
           <span class="tag-pill">#созерцание</span>
           <span class="tag-pill">#звук-d-dorian</span>
         </div>
-        <div class="code-snippet">&lt;LinkChip url="https://t.me/channel" label="канал" /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;LinkChip url="https://t.me/channel" label="канал" /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 10. DisclosurePill -->
@@ -370,7 +546,10 @@
             </div>
           </details>
         </div>
-        <div class="code-snippet">&lt;DisclosurePill title="Заметки"&gt;Содержимое&lt;/DisclosurePill&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;DisclosurePill title="Заметки"&gt;Содержимое&lt;/DisclosurePill&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- 11. HearthPulse -->
@@ -391,7 +570,10 @@
             <span>очаг активен</span>
           </div>
         </div>
-        <div class="code-snippet">&lt;HearthPulse label="очаг активен" /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;HearthPulse label="очаг активен" /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- ================= ЭКСПЕРИМЕНТАЛЬНОЕ ================= -->
@@ -434,7 +616,10 @@
             <span style="color: var(--ink)">93 действия</span>
           </div>
         </div>
-        <div class="code-snippet">&lt;EnergyRadar title="Радар внимания" items={distribution} horizons={horizons} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;EnergyRadar title="Радар внимания" items={distribution} horizons={horizons} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
       <!-- Э2. Многоосевой полигональный радар (SpiderRadar) -->
@@ -464,65 +649,60 @@
             <text x="24" y="114" text-anchor="end" fill="var(--ink-soft)" font-family="var(--font-mono)" font-size="11">PRODUCT (55%)</text>
           </svg>
         </div>
-        <div class="code-snippet">&lt;SpiderRadar axes={axes} size={240} showTargets={true} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;SpiderRadar axes={axes} size={240} showTargets={true} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
-      <!-- Э3. Слоты рабочего стола (DeskSlotCard & EmptyDeskSlot) -->
+      <!-- Э3. Состояния карточки стола: DeskSlotCard (изолированные колонки состояний!) -->
       <section class="component-row">
         <div class="comp-header">
           <h3 class="comp-title">Э3. &lt;DeskSlotCard /&gt;</h3>
           <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { DeskSlotCard } from "@vanya/ui"</span>
         </div>
         <p class="comp-desc">
-          Карточки активного фокуса на столе и свободный слот квоты внимания (из Фермы).
+          Карточка проекта на рабочем столе и квота внимания (из Фермы). Состояния представлены строго изолированно в виде отдельных слотов:
         </p>
-        <div class="preview-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: start">
-              <span style="font-weight: 600; font-size: 13.5px">vanya-ui</span>
-              <span style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); background: var(--surface-raised); padding: 1px 6px; border-radius: 2px">НА СТОЛЕ</span>
-            </div>
-            <p style="font-size: 12.5px; color: var(--ink-soft); margin-top: 6px">Единая дизайн-система Hearth & Wave для всех проектов.</p>
-            <div style="display: flex; justify-content: space-between; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 12px; font-family: var(--font-mono); color: var(--ink-faint)">
-              <span>42 действия</span>
-              <span style="color: var(--accent); cursor: pointer">запарковать</span>
+        <div class="preview-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+          <!-- Состояние 1: Активный проект (В фокусе) -->
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase">
+              Состояние 1: Активный проект на столе
+            </span>
+            <div style="border: 1px solid var(--border); border-radius: 4px; padding: 14px; background: var(--surface)">
+              <div style="display: flex; justify-content: space-between; align-items: start">
+                <span style="font-weight: 600; font-size: 13.5px">vanya-ui</span>
+                <span style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); background: var(--surface-raised); padding: 1px 6px; border-radius: 2px">НА СТОЛЕ</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--ink-soft); margin-top: 6px">Единая дизайн-система Hearth & Wave для всех проектов.</p>
+              <div style="display: flex; justify-content: space-between; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 12px; font-family: var(--font-mono); color: var(--ink-faint)">
+                <span>42 действия</span>
+                <span style="color: var(--accent); cursor: pointer">запарковать</span>
+              </div>
             </div>
           </div>
 
-          <div style="border: 1px dashed var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; min-height: 90px; cursor: pointer">
-            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft)">+ Свободный слот стола (квота 3/3)</span>
+          <!-- Состояние 2: Свободный слот стола (Квота) -->
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase">
+              Состояние 2: Свободный слот стола (Квота)
+            </span>
+            <div style="border: 1px dashed var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; min-height: 104px; cursor: pointer; background: var(--surface-inset)">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft)">+ Свободное место (слот 3 из 3)</span>
+            </div>
           </div>
         </div>
-        <div class="code-snippet">&lt;DeskSlotCard title="vanya-ui" status="На столе" onPark={handlePark} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;DeskSlotCard title="vanya-ui" status="На столе" onPark={handlePark} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
-      <!-- Э4. Бейджи вех судьбы (TurnArcBadge) -->
+      <!-- Э4. Индикатор живого голоса (VoiceWaveIndicator) -->
       <section class="component-row">
         <div class="comp-header">
-          <h3 class="comp-title">Э4. &lt;TurnArcBadge /&gt;</h3>
-          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { TurnArcBadge } from "@vanya/ui"</span>
-        </div>
-        <p class="comp-desc">
-          Бейджи сюжетных поворотов жизни с моноширинным трекингом (из Синусоиды).
-        </p>
-        <div class="preview-box">
-          <span style="display: inline-flex; padding: 2px 10px; border-radius: 9999px; border: 1px solid var(--accent); background: var(--surface-raised); color: var(--accent); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase">
-            ПЕРЕЕЗД В ПЕТЕРБУРГ
-          </span>
-          <span style="display: inline-flex; padding: 2px 10px; border-radius: 9999px; border: 1px solid #34d399; background: rgba(52, 211, 153, 0.12); color: #34d399; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase">
-            РОЖДЕНИЕ ДОЧЕРИ
-          </span>
-          <span style="display: inline-flex; padding: 2px 10px; border-radius: 9999px; border: 1px solid var(--border); background: var(--surface-raised); color: var(--ink-soft); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase">
-            ПЕРЕХОД В АРХИТЕКТУРУ АГЕНТОВ
-          </span>
-        </div>
-        <div class="code-snippet">&lt;TurnArcBadge label="ПЕРЕЕЗД В ПЕТЕРБУРГ" tone="accent" /&gt;</div>
-      </section>
-
-      <!-- Э5. Индикатор живого голоса (VoiceWaveIndicator) -->
-      <section class="component-row">
-        <div class="comp-header">
-          <h3 class="comp-title">Э5. &lt;VoiceWaveIndicator /&gt;</h3>
+          <h3 class="comp-title">Э4. &lt;VoiceWaveIndicator /&gt;</h3>
           <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { VoiceWaveIndicator } from "@vanya/ui"</span>
         </div>
         <p class="comp-desc">
@@ -549,20 +729,23 @@
             <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">тишина круга</span>
           </div>
         </div>
-        <div class="code-snippet">&lt;VoiceWaveIndicator isSpeaking={true} level={0.8} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;VoiceWaveIndicator isSpeaking={true} level={0.8} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
 
-      <!-- Э6. EventCard и TimelinePreviewCard -->
-      <section class="component-row" style="border-bottom: 0">
+      <!-- Э5. Карточка события: EventCard (ОТДЕЛЬНЫЙ РЯД!) -->
+      <section class="component-row">
         <div class="comp-header">
-          <h3 class="comp-title">Э6. &lt;EventCard /&gt; & &lt;TimelinePreviewCard /&gt;</h3>
-          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { EventCard, TimelinePreviewCard } from "@vanya/ui"</span>
+          <h3 class="comp-title">Э5. &lt;EventCard /&gt;</h3>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { EventCard } from "@vanya/ui"</span>
         </div>
         <p class="comp-desc">
-          Карточка события из панели Синусоиды и парящий тизер над точкой таймлайна.
+          Полная карточка события из панели Синусоиды. Содержит дату, заголовок на Fraunces, описание, ссылки-источники и теги.
         </p>
-        <div class="preview-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start">
-          <div>
+        <div class="preview-box">
+          <div style="border: 1px solid var(--border); border-radius: 4px; padding: 22px; max-width: 520px; background: var(--surface)">
             <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); margin-bottom: 8px">
               <span>23 ОКТ 2026</span>
               <span style="color: var(--accent); cursor: pointer">ЗАКРЫТЬ</span>
@@ -577,41 +760,54 @@
               <a href="#" class="link-chip"><span class="link-chip-label">канал</span><span>t.me/VanyAIShilo</span><span>↗</span></a>
             </div>
           </div>
+        </div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;EventCard title="Цифровой костёр" date="23 ОКТ 2026" links={links} /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
+      </section>
 
-          <div style="max-width: 260px">
+      <!-- Э6. Парящий тизер: TimelinePreviewCard (ОТДЕЛЬНЫЙ РЯД!) -->
+      <section class="component-row" style="border-bottom: 0">
+        <div class="comp-header">
+          <h3 class="comp-title">Э6. &lt;TimelinePreviewCard /&gt;</h3>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint)">import { TimelinePreviewCard } from "@vanya/ui"</span>
+        </div>
+        <p class="comp-desc">
+          Парящий тизер над точкой таймлайна при наведении курсора. Компактный заголовок с датой события.
+        </p>
+        <div class="preview-box">
+          <div style="border: 1px solid var(--border); border-radius: 4px; padding: 14px; max-width: 280px; background: var(--surface)">
             <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint)">ДЕК 2025</span>
-            <h5 style="font-family: var(--font-serif); font-size: 13px; font-weight: 500; margin-top: 4px; text-wrap: balance">Первая детская НРИ «Город навыков»</h5>
-            <span style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-top: 8px">тизер над точкой</span>
+            <h4 style="font-family: var(--font-serif); font-size: 13.5px; font-weight: 500; margin-top: 4px; text-wrap: balance">
+              Первая детская НРИ «Город навыков»
+            </h4>
+            <span style="display: block; font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-top: 8px">
+              парящий тизер над точкой
+            </span>
           </div>
         </div>
-        <div class="code-snippet">&lt;EventCard title="Событие" date="23 ОКТ 2026" links={links} /&gt;</div>
+        <div class="code-snippet-wrap">
+          <code class="code-text">&lt;TimelinePreviewCard title="Событие" date="ДЕК 2025" /&gt;</code>
+          <button type="button" class="code-copy-btn" onclick="copySnippet(this)">копировать</button>
+        </div>
       </section>
     </main>
 
     <script>
-      let currentThemeMode = "system";
+      let currentAppTheme = localStorage.getItem("vanya_theme") || "system";
 
-      function applyThemeMode(mode) {
-        currentThemeMode = mode;
-        const group = document.getElementById("theme-toggle-group");
-        const statusLabel = document.getElementById("theme-status-label");
-        const buttons = group.querySelectorAll(".theme-pill-btn");
-
-        buttons.forEach((b) => b.classList.remove("active"));
+      function applyResolvedTheme(mode) {
+        currentAppTheme = mode;
+        try {
+          localStorage.setItem("vanya_theme", mode);
+        } catch (e) {}
 
         let isDark = false;
         if (mode === "system") {
-          buttons[2].classList.add("active");
           isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          statusLabel.innerText = "режим: системная (" + (isDark ? "тёмная" : "светлая") + ")";
-        } else if (mode === "dark") {
-          buttons[1].classList.add("active");
-          isDark = true;
-          statusLabel.innerText = "режим: принудительно тёмная";
         } else {
-          buttons[0].classList.add("active");
-          isDark = false;
-          statusLabel.innerText = "режим: принудительно светлая";
+          isDark = mode === "dark";
         }
 
         if (isDark) {
@@ -621,15 +817,83 @@
           document.documentElement.classList.add("light");
           document.documentElement.classList.remove("dark");
         }
+
+        // Обновляем иконку триггера в правом углу
+        const moonIcon = document.getElementById("corner-icon-moon");
+        const sunIcon = document.getElementById("corner-icon-sun");
+        if (moonIcon && sunIcon) {
+          moonIcon.style.display = isDark ? "inline-block" : "none";
+          sunIcon.style.display = isDark ? "none" : "inline-block";
+        }
+
+        // Обновляем чеки в выпадающем меню
+        const checkLight = document.getElementById("check-light");
+        const checkDark = document.getElementById("check-dark");
+        const checkSystem = document.getElementById("check-system");
+        if (checkLight) checkLight.style.display = mode === "light" ? "inline" : "none";
+        if (checkDark) checkDark.style.display = mode === "dark" ? "inline" : "none";
+        if (checkSystem) checkSystem.style.display = mode === "system" ? "inline" : "none";
+
+        // Обновляем активный класс в меню
+        const items = document.querySelectorAll(".corner-menu-item");
+        items.forEach((it) => it.classList.remove("active"));
+        if (mode === "light" && items[0]) items[0].classList.add("active");
+        if (mode === "dark" && items[1]) items[1].classList.add("active");
+        if (mode === "system" && items[2]) items[2].classList.add("active");
       }
 
       function setAppTheme(mode) {
-        applyThemeMode(mode);
+        applyResolvedTheme(mode);
+        closeCornerDropdown();
       }
 
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-        if (currentThemeMode === "system") {
-          applyThemeMode("system");
+      function toggleCornerDropdown(e) {
+        e.stopPropagation();
+        const menu = document.getElementById("corner-dropdown-menu");
+        if (menu) menu.classList.toggle("open");
+      }
+
+      function closeCornerDropdown() {
+        const menu = document.getElementById("corner-dropdown-menu");
+        if (menu) menu.classList.remove("open");
+      }
+
+      document.addEventListener("click", (e) => {
+        const wrap = document.getElementById("corner-theme-control");
+        if (wrap && !wrap.contains(e.target)) {
+          closeCornerDropdown();
+        }
+      });
+
+      // Локальный демо-свитчер в каталоге: НЕ трогает тему страницы
+      function setDemoThemeLocal(btn) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll(".demo-theme-pill-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+
+      // Копирование сниппета в буфер с обратной связью
+      function copySnippet(btn) {
+        const text = btn.previousElementSibling ? btn.previousElementSibling.innerText : "";
+        navigator.clipboard.writeText(text);
+        const original = btn.innerText;
+        btn.innerText = "скопировано ✓";
+        btn.style.color = "var(--accent)";
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.style.color = "";
+        }, 1500);
+      }
+
+      // Инициализация при старте
+      document.addEventListener("DOMContentLoaded", () => {
+        applyResolvedTheme(currentAppTheme);
+      });
+
+      // Слушатель системной смены темы
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+        if (currentAppTheme === "system") {
+          applyResolvedTheme("system");
         }
       });
     </script>

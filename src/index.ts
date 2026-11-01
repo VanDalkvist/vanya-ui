@@ -83,10 +83,6 @@ export {
   type DeskSlotCardProps,
 } from "./components/DeskSlotCard";
 export {
-  TurnArcBadge,
-  type TurnArcBadgeProps,
-} from "./components/TurnArcBadge";
-export {
   VoiceWaveIndicator,
   type VoiceWaveIndicatorProps,
 } from "./components/VoiceWaveIndicator";

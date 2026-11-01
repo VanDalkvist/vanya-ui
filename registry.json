@@ -293,18 +293,6 @@
       ]
     },
     {
-      "name": "turn-arc-badge",
-      "type": "registry:ui",
-      "title": "TurnArcBadge",
-      "description": "Hearth & Wave primitive component TurnArcBadge",
-      "files": [
-        {
-          "path": "src/components/TurnArcBadge.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "voice-wave-indicator",
       "type": "registry:ui",
       "title": "VoiceWaveIndicator",

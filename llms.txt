@@ -24,7 +24,7 @@
 - **Light Ink:** oklch(0.265 0.012 60) (#181816)
 - **Light Amber:** oklch(0.530 0.135 42) (terracotta)
 
-## Exported Components (26)
+## Exported Components (25)
 - **ActionButton**: 'import { ActionButton } from "@vanya/ui";'
 - **AvatarLink**: 'import { AvatarLink } from "@vanya/ui";'
 - **CategoryBadge**: 'import { CategoryBadge } from "@vanya/ui";'
@@ -49,7 +49,6 @@
 - **Tag**: 'import { Tag } from "@vanya/ui";'
 - **ThemeToggle**: 'import { ThemeToggle } from "@vanya/ui";'
 - **TimelinePreviewCard**: 'import { TimelinePreviewCard } from "@vanya/ui";'
-- **TurnArcBadge**: 'import { TurnArcBadge } from "@vanya/ui";'
 - **VoiceWaveIndicator**: 'import { VoiceWaveIndicator } from "@vanya/ui";'
 
 ## Usage Pattern
