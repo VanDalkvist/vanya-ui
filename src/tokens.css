@@ -3,35 +3,28 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  /* Семантические цвета поверхностей */
   --color-ground: var(--ground);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
   --color-surface-inset: var(--surface-inset);
 
-  /* Семантический текст и чернила */
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
 
-  /* Живой акцент (Терракота / Янтарь) */
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
 
-  /* Сверхлёгкие границы (7% opacity как в Синусоиде и Ферме) */
   --color-border: var(--border);
 
-  /* Микро-радиусы */
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-full: 9999px;
 
-  /* Шрифтовая триада */
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Кинетика из Синусоиды */
   --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
   --t-transition: 200ms;
 }
@@ -39,37 +32,37 @@
 :root {
   color-scheme: light dark;
 
-  /* Светлая тема: Warm Paper Archive (Точный канон Синусоиды и Фермы) */
+  /* Светлая тема: Warm Paper Archive (WCAG AA контраст >= 4.5:1) */
   --ground: oklch(0.964 0.008 85);           /* Тёплая бумага верже #f6f5f0 */
   --surface: oklch(0.979 0.006 85);          /* Приподнятый чистый лист карточки */
   --surface-raised: oklch(0.992 0.004 85);   /* Ховер поверхности */
   --surface-inset: oklch(0.940 0.010 85);    /* Углубления, инпуты */
 
-  --ink: oklch(0.265 0.012 60);              /* Глубокие графитовые чернила #181816 */
-  --ink-soft: oklch(0.560 0.014 70);         /* Мягкие вторичные чернила */
-  --ink-faint: oklch(0.720 0.010 70);        /* Подписи, даты, микро-метки */
+  --ink: oklch(0.265 0.012 60);              /* Глубокие чернила #181816 (контраст > 11:1) */
+  --ink-soft: oklch(0.420 0.014 65);         /* Вторичные чернила (контраст > 6.2:1) */
+  --ink-faint: oklch(0.480 0.012 65);        /* Подписи и даты (контраст > 4.8:1) */
 
   --accent: oklch(0.530 0.135 42);            /* Тёплая терракота / янтарь на бумаге */
   --accent-soft: rgba(186, 92, 32, 0.12);
 
-  --border: oklch(0.265 0.012 60 / 7%);      /* 7% прозрачности — едва заметное перо */
+  --border: oklch(0.265 0.012 60 / 10%);     /* Тончайший контур */
 }
 
 .dark {
-  /* Тёмная тема: Warm Dark Charcoal (Точный канон Синусоиды и Фермы) */
+  /* Тёмная тема: Warm Dark Charcoal (WCAG AA контраст >= 4.5:1) */
   --ground: oklch(0.185 0.008 65);          /* Тёмный тёплый уголь #181816 */
   --surface: oklch(0.235 0.010 65);         /* Угольная карточка #22221f */
   --surface-raised: oklch(0.270 0.012 65);  /* Ховер карточки */
   --surface-inset: oklch(0.150 0.006 65);   /* Углубления */
 
-  --ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён #ece4d6 */
-  --ink-soft: oklch(0.680 0.012 75);        /* Вторичный приглушенный лён */
-  --ink-faint: oklch(0.480 0.012 70);       /* Подписи, даты */
+  --ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён #ece4d6 (контраст > 12:1) */
+  --ink-soft: oklch(0.780 0.012 75);        /* Вторичный лён (контраст > 6.5:1) */
+  --ink-faint: oklch(0.660 0.012 75);       /* Подписи и даты (контраст > 4.6:1) */
 
-  --accent: oklch(0.680 0.155 45);          /* Янтарное живое пламя #ffb266 */
+  --accent: oklch(0.720 0.155 45);          /* Янтарное живое пламя (контраст > 5.2:1) */
   --accent-soft: rgba(255, 178, 102, 0.15);
 
-  --border: oklch(1 0 0 / 7%);              /* 7% прозрачности — тончайший светлый контур */
+  --border: oklch(1 0 0 / 10%);             /* Тончайший светлый контур */
 }
 
 @layer base {
@@ -87,7 +80,6 @@
     outline-offset: 2px;
   }
 
-  /* Тонкий кастомный скроллбар */
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;

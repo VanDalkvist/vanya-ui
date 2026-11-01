@@ -17,15 +17,20 @@
         --surface: oklch(0.979 0.006 85);
         --surface-raised: oklch(0.992 0.004 85);
         --surface-inset: oklch(0.940 0.010 85);
+
         --ink: oklch(0.265 0.012 60);
-        --ink-soft: oklch(0.560 0.014 70);
-        --ink-faint: oklch(0.720 0.010 70);
+        --ink-soft: oklch(0.420 0.014 65);
+        --ink-faint: oklch(0.480 0.012 65);
+
         --accent: oklch(0.530 0.135 42);
         --accent-soft: rgba(186, 92, 32, 0.12);
-        --border: oklch(0.265 0.012 60 / 7%);
+
+        --border: oklch(0.265 0.012 60 / 10%);
+
         --font-serif: "Fraunces", ui-serif, Georgia, serif;
         --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
         --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
         --radius-xs: 2px;
         --radius-sm: 4px;
         --radius-full: 9999px;
@@ -36,86 +41,89 @@
         --surface: oklch(0.235 0.010 65);
         --surface-raised: oklch(0.270 0.012 65);
         --surface-inset: oklch(0.150 0.006 65);
+
         --ink: oklch(0.930 0.008 75);
-        --ink-soft: oklch(0.680 0.012 75);
-        --ink-faint: oklch(0.480 0.012 70);
-        --accent: oklch(0.680 0.155 45);
+        --ink-soft: oklch(0.780 0.012 75);
+        --ink-faint: oklch(0.660 0.012 75);
+
+        --accent: oklch(0.720 0.155 45);
         --accent-soft: rgba(255, 178, 102, 0.15);
-        --border: oklch(1 0 0 / 7%);
+
+        --border: oklch(1 0 0 / 10%);
       }
 
       * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-      body { background-color: var(--ground); color: var(--ink); font-family: var(--font-sans); line-height: 1.5; transition: background-color 200ms ease, color 200ms ease; padding-bottom: 90px; }
+      body { background-color: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 1.55; transition: background-color 200ms ease, color 200ms ease; padding-bottom: 90px; }
       ::selection { background-color: var(--accent-soft); color: var(--ink); }
       :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
       .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 16px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
+      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 18px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
       .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
       .brand-title { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; letter-spacing: -0.01em; }
-      .brand-sub { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-faint); text-transform: lowercase; margin-left: 8px; }
+      .brand-sub { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-faint); text-transform: lowercase; margin-left: 8px; }
 
       section { margin-top: 48px; }
       .sec-header { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
-      .sec-title { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; }
-      .sec-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-faint); text-transform: lowercase; }
+      .sec-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; }
+      .sec-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-faint); text-transform: lowercase; }
 
-      .craft-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; color: var(--ink); transition: all 200ms ease; }
+      .craft-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 22px; color: var(--ink); transition: all 200ms ease; }
       .craft-card.interactive:hover { background: var(--surface-raised); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
 
       /* Buttons without borders */
-      .btn-text { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 12.5px; font-weight: 500; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
+      .btn-text { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
       .btn-text:hover { color: var(--accent); }
-      .btn-mono { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
+      .btn-mono { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
       .btn-mono:hover { color: var(--ink); }
-      .btn-accent { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 12.5px; font-weight: 500; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
-      .btn-pill { appearance: none; border: 0; background: transparent; padding: 6px 14px; border-radius: var(--radius-full); font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); cursor: pointer; transition: all 200ms ease; }
+      .btn-accent { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+      .btn-pill { appearance: none; border: 0; background: transparent; padding: 6px 14px; border-radius: var(--radius-full); font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 200ms ease; }
       .btn-pill:hover { background: var(--surface-raised); color: var(--ink); }
 
       /* Kbd */
-      kbd.kbd { display: inline-grid; place-items: center; height: 19px; min-width: 19px; border-radius: 3px; border: 1px solid var(--border); background: var(--surface-raised); padding: 0 5px; font-family: var(--font-mono); font-size: 10px; line-height: 1; color: var(--ink-soft); transition: all 200ms ease; user-select: none; }
+      kbd.kbd { display: inline-grid; place-items: center; height: 21px; min-width: 21px; border-radius: 3px; border: 1px solid var(--border); background: var(--surface-raised); padding: 0 6px; font-family: var(--font-mono); font-size: 11px; line-height: 1; color: var(--ink-soft); transition: all 200ms ease; user-select: none; }
       kbd.kbd.lit { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); transform: scale(1.05); }
 
       /* Badges */
-      .cat-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: var(--radius-full); border: 0; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+      .cat-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 11px; border-radius: var(--radius-full); border: 0; font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; }
       .cat-creative { color: var(--accent); background: var(--accent-soft); }
-      .cat-infra { color: #38bdf8; background: rgba(56, 189, 248, 0.1); }
-      .cat-life { color: #34d399; background: rgba(52, 211, 153, 0.1); }
-      .cat-product { color: #fb7185; background: rgba(251, 113, 133, 0.1); }
+      .cat-infra { color: #38bdf8; background: rgba(56, 189, 248, 0.12); }
+      .cat-life { color: #34d399; background: rgba(52, 211, 153, 0.12); }
+      .cat-product { color: #fb7185; background: rgba(251, 113, 133, 0.12); }
 
       /* Segmented */
-      .segmented { display: inline-flex; align-items: center; gap: 2px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius-full); padding: 2px; font-family: var(--font-sans); font-size: 11px; }
-      .seg-btn { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--radius-full); border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; font-family: inherit; font-size: inherit; transition: all 200ms ease; }
+      .segmented { display: inline-flex; align-items: center; gap: 2px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius-full); padding: 2px; font-family: var(--font-sans); font-size: 12px; }
+      .seg-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--radius-full); border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; font-family: inherit; font-size: inherit; transition: all 200ms ease; }
       .seg-btn:hover { color: var(--ink); }
       .seg-btn.active { background: var(--surface); color: var(--accent); font-weight: 500; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
-      .seg-count { font-size: 9px; padding: 1px 5px; border-radius: var(--radius-full); background: var(--surface-inset); color: var(--ink-faint); font-family: var(--font-mono); }
+      .seg-count { font-size: 11px; padding: 1px 6px; border-radius: var(--radius-full); background: var(--surface-inset); color: var(--ink-faint); font-family: var(--font-mono); }
       .seg-btn.active .seg-count { background: var(--accent-soft); color: var(--accent); }
 
       /* NavLinks & Divider */
-      .nav-divider { display: inline-block; height: 12px; width: 1px; background: var(--border); margin: 0 10px; vertical-align: middle; }
+      .nav-divider { display: inline-block; height: 14px; width: 1px; background: var(--border); margin: 0 12px; vertical-align: middle; }
 
       /* RangeSlider */
-      input[type="range"].range-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 1px; background: var(--border); outline: none; cursor: pointer; }
-      input[type="range"].range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); cursor: pointer; transition: transform 150ms; }
-      input[type="range"].range-slider::-webkit-slider-thumb:hover { transform: scale(1.4); }
+      input[type="range"].range-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; }
+      input[type="range"].range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); cursor: pointer; transition: transform 150ms; }
+      input[type="range"].range-slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
 
       /* HearthPulse */
-      .hearth-pulse { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--accent); text-transform: lowercase; }
+      .hearth-pulse { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-transform: lowercase; }
       .pulse-dot { position: relative; display: flex; width: 8px; height: 8px; align-items: center; justify-content: center; }
       .pulse-dot-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: var(--accent); opacity: 0.4; animation: pulsePing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite; }
       .pulse-dot-core { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
       @keyframes pulsePing { 0% { transform: scale(0.8); opacity: 0.8; } 70%, 100% { transform: scale(2.2); opacity: 0; } }
 
       /* Swatches */
-      .swatches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
-      .swatch { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; background: var(--surface); cursor: pointer; transition: all 150ms; }
+      .swatches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+      .swatch { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; background: var(--surface); cursor: pointer; transition: all 150ms; }
       .swatch:hover { background: var(--surface-raised); transform: translateY(-1px); }
-      .swatch-color { height: 36px; border-radius: var(--radius-xs); border: 1px solid var(--border); margin-bottom: 8px; }
-      .swatch-name { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink); }
-      .swatch-code { font-family: var(--font-mono); font-size: 0.65rem; color: var(--ink-faint); }
+      .swatch-color { height: 40px; border-radius: var(--radius-xs); border: 1px solid var(--border); margin-bottom: 8px; }
+      .swatch-name { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); }
+      .swatch-code { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-faint); }
 
       /* DisclosurePill */
-      details.disclosure-pill summary { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: var(--radius-full); border: 1px solid var(--border); background: var(--surface); font-family: var(--font-sans); font-size: 11px; color: var(--ink-soft); cursor: pointer; transition: all 150ms; list-style: none; user-select: none; }
+      details.disclosure-pill summary { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: var(--radius-full); border: 1px solid var(--border); background: var(--surface); font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 150ms; list-style: none; user-select: none; }
       details.disclosure-pill summary:hover { background: var(--surface-raised); color: var(--ink); }
       details.disclosure-pill summary::-webkit-details-marker { display: none; }
 
@@ -191,7 +199,7 @@
           <div class="swatch" onclick="copyToken('--border')">
             <div class="swatch-color" style="background: var(--border); border-color: var(--ink)"></div>
             <div class="swatch-name">Border</div>
-            <div class="swatch-code">7% прозрачности</div>
+            <div class="swatch-code">10% прозрачности</div>
           </div>
         </div>
       </section>
@@ -205,15 +213,13 @@
         <div class="craft-card" style="padding: 24px">
           <div style="position: relative; height: 32px; cursor: pointer; user-select: none" onclick="seekMinimap(event)">
             <div style="position: absolute; top: 14px; left: 0; right: 0; height: 1px; background: var(--border)"></div>
-            <!-- Event tick marks -->
             <span style="position: absolute; top: 10px; left: 18%; height: 8px; width: 1px; background: var(--ink); opacity: 0.3"></span>
             <span style="position: absolute; top: 10px; left: 34%; height: 8px; width: 1px; background: var(--ink); opacity: 0.3"></span>
             <span style="position: absolute; top: 10px; left: 62%; height: 8px; width: 1px; background: var(--accent)"></span>
             <span style="position: absolute; top: 10px; left: 85%; height: 8px; width: 1px; background: var(--ink); opacity: 0.2"></span>
-            <!-- Active viewport frame -->
             <div id="minimap-frame" style="position: absolute; top: 4px; left: 45%; width: 22%; height: 24px; border-radius: 2px; border: 1px solid var(--accent); background: var(--accent-soft); transition: all 200ms ease"></div>
           </div>
-          <div style="position: relative; height: 14px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; color: var(--ink-faint); margin-top: 4px">
+          <div style="position: relative; height: 16px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; color: var(--ink-faint); margin-top: 6px">
             <span style="position: absolute; left: 10%">2018</span>
             <span style="position: absolute; left: 35%">2022</span>
             <span style="position: absolute; left: 60%; color: var(--accent)">2026 (СЕЙЧАС)</span>
@@ -231,34 +237,34 @@
         <div class="craft-card" style="display: flex; flex-direction: column; gap: 24px">
           <!-- Kbd row -->
           <div>
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
               Клавиши Kbd (нажмите стрелки ← →, N, +, -, Esc на физической клавиатуре):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center">
               <div style="display: flex; align-items: center; gap: 6px">
                 <kbd class="kbd" id="key-left">←</kbd>
                 <kbd class="kbd" id="key-right">→</kbd>
-                <span style="font-size: 12px; color: var(--ink-soft)">время</span>
+                <span style="font-size: 13px; color: var(--ink-soft)">время</span>
               </div>
               <div style="display: flex; align-items: center; gap: 6px">
                 <kbd class="kbd" id="key-n">N</kbd>
-                <span style="font-size: 12px; color: var(--ink-soft)">сейчас</span>
+                <span style="font-size: 13px; color: var(--ink-soft)">сейчас</span>
               </div>
               <div style="display: flex; align-items: center; gap: 6px">
                 <kbd class="kbd" id="key-plus">+</kbd>
                 <kbd class="kbd" id="key-minus">−</kbd>
-                <span style="font-size: 12px; color: var(--ink-soft)">масштаб</span>
+                <span style="font-size: 13px; color: var(--ink-soft)">масштаб</span>
               </div>
               <div style="display: flex; align-items: center; gap: 6px">
                 <kbd class="kbd" id="key-esc">Esc</kbd>
-                <span style="font-size: 12px; color: var(--ink-soft)">закрыть</span>
+                <span style="font-size: 13px; color: var(--ink-soft)">закрыть</span>
               </div>
             </div>
           </div>
 
           <!-- Borderless Buttons -->
-          <div style="border-top: 1px solid var(--border); padding-top: 16px">
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 14px; font-family: var(--font-mono)">
+          <div style="border-top: 1px solid var(--border); padding-top: 18px">
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 14px; font-family: var(--font-mono)">
               Кнопки ActionButton (чистая типографика без коробок и рамок):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
@@ -280,7 +286,7 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
           <!-- CategoryBadge -->
           <div class="craft-card">
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
               CategoryBadge (бесшовные теги Фермы):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px">
@@ -293,7 +299,7 @@
 
           <!-- SegmentedControl (Horizons) -->
           <div class="craft-card">
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
               SegmentedControl (горизонты внимания):
             </div>
             <div class="segmented" id="horizon-ctrl">
@@ -305,7 +311,7 @@
 
           <!-- Status Tabs with counts -->
           <div class="craft-card">
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
               Табы со счётчиками (полки Фермы):
             </div>
             <div class="segmented" id="status-ctrl">
@@ -323,38 +329,46 @@
         </div>
       </section>
 
-      <!-- Section 5: Slider, Disclosure & PerfHUD -->
+      <!-- Section 5: Slider, Disclosure -->
       <section>
         <div class="sec-header">
-          <h2 class="sec-title">Служебные контролы (PerfHUD и DisclosurePill)</h2>
-          <span class="sec-tag">инлайн-аккордеон и телеметрия</span>
+          <h2 class="sec-title">Служебные контролы (DisclosurePill и Слайдер)</h2>
+          <span class="sec-tag">инлайн-аккордеон и скруббер</span>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
           <!-- DisclosurePill -->
           <div class="craft-card">
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
               DisclosurePill (из EventAppendix):
             </div>
             <details class="disclosure-pill">
               <summary>
                 <span>Подробности арки характера</span>
-                <span style="font-size: 10px; color: var(--accent)">▼</span>
+                <span style="font-size: 11px; color: var(--accent)">▼</span>
               </summary>
-              <div style="margin-top: 12px; font-size: 12px; color: var(--ink-soft); line-height: 1.6">
+              <div style="margin-top: 14px; font-size: 13px; color: var(--ink-soft); line-height: 1.6">
                 Раскрывающийся аппендикс без тяжелых модальных окон. Используется для подробностей события, цитат и заметок.
               </div>
             </details>
           </div>
 
-          <!-- PerfHUD -->
+          <!-- RangeSlider -->
           <div class="craft-card">
-            <div style="font-size: 11px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
-              PerfHUD (из Синусоиды):
+            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 14px; font-family: var(--font-mono)">
+              RangeSlider (волосяной скруббер):
             </div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-soft); line-height: 1.6">
-              <div style="display: flex; justify-content: space-between"><span>PERF</span><span style="color: #34d399">60 fps</span></div>
-              <div style="display: flex; justify-content: space-between"><span>FRAME</span><span>16.6 ms</span></div>
-              <div style="display: flex; justify-content: space-between"><span>NODES</span><span>142</span></div>
+            <div class="slider-wrap">
+              <input
+                type="range"
+                class="range-slider"
+                min="1"
+                max="100"
+                value="42"
+                oninput="document.getElementById('slider-val').innerText = this.value + '%'"
+              />
+              <span id="slider-val" style="font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); width: 42px">
+                42%
+              </span>
             </div>
           </div>
         </div>
@@ -367,7 +381,7 @@
           <span class="sec-tag">выдвижная панель инспектора</span>
         </div>
         <div>
-          <button class="btn-text" onclick="openDrawer()" style="font-weight: 600; font-size: 13px">
+          <button class="btn-text" onclick="openDrawer()" style="font-weight: 600; font-size: 13.5px">
             → Открыть боковой InspectDrawer
           </button>
         </div>
@@ -379,27 +393,27 @@
     <div id="drawer-panel" class="drawer">
       <div>
         <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 20px">
-          <h3 style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400">
+          <h3 style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400">
             Инспектор фоновых служб
           </h3>
-          <button class="btn-text" onclick="closeAll()" style="font-size: 16px">✕</button>
+          <button class="btn-text" onclick="closeAll()" style="font-size: 18px">✕</button>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem">
-          <div class="craft-card" style="padding: 14px">
-            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px">
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem">
+          <div class="craft-card" style="padding: 16px">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; margin-bottom: 4px">
               <span>GBrain Serve</span>
               <span style="color: #34d399">connected</span>
             </div>
-            <div style="font-size: 12px; color: var(--ink-soft)">
+            <div style="font-size: 13px; color: var(--ink-soft)">
               IPC-сокет активен, PGLite/Postgres готов, фоновый sweep без задержек.
             </div>
           </div>
-          <div class="craft-card" style="padding: 14px">
-            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px">
+          <div class="craft-card" style="padding: 16px">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; margin-bottom: 4px">
               <span>Pi Durable Provider</span>
               <span style="color: #34d399">active</span>
             </div>
-            <div style="font-size: 12px; color: var(--ink-soft)">
+            <div style="font-size: 13px; color: var(--ink-soft)">
               SQLite WAL база в норме, фоновые агенты завершили работу без зависаний.
             </div>
           </div>
@@ -411,7 +425,6 @@
     </div>
 
     <script>
-      // Theme toggle
       const toggle = document.getElementById("theme-toggle");
       toggle.querySelectorAll(".seg-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
