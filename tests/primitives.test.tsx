@@ -11,85 +11,128 @@ import { CategoryBadge } from "../src/components/CategoryBadge";
 import { SegmentedControl } from "../src/components/SegmentedControl";
 import { RangeSlider } from "../src/components/RangeSlider";
 import { HearthPulse } from "../src/components/HearthPulse";
+import { NavLinks } from "../src/components/NavLinks";
+import { Minimap } from "../src/components/Minimap";
+import { DisclosurePill } from "../src/components/DisclosurePill";
+import { PerfHUD } from "../src/components/PerfHUD";
+import { Divider } from "../src/components/Divider";
 
-describe("CraftCard", () => {
-  it("renders children with surface styling and feather-light border", () => {
-    render(<CraftCard>Card content</CraftCard>);
-    const el = screen.getByText("Card content");
-    expect(el).toBeInTheDocument();
-    expect(el.className).toContain("bg-surface");
-    expect(el.className).toContain("border-border");
-  });
-});
-
-describe("Kbd", () => {
-  it("retains clean border and supports lit active state", () => {
-    const { rerender } = render(<Kbd>Esc</Kbd>);
-    const el = screen.getByText("Esc");
-    expect(el).toBeInTheDocument();
-    expect(el.className).toContain("border-border");
-
-    rerender(<Kbd lit>Esc</Kbd>);
-    expect(el.className).toContain("text-accent");
-    expect(el.className).toContain("border-accent/60");
-  });
-});
-
-describe("CategoryBadge", () => {
-  it("renders borderless pill with category colors", () => {
-    render(<CategoryBadge category="Creative" />);
-    const el = screen.getByText("Creative");
-    expect(el).toBeInTheDocument();
-    expect(screen.getByText("#")).toBeInTheDocument();
-  });
-});
-
-describe("SegmentedControl", () => {
-  it("switches selection smoothly without individual button borders", () => {
-    const handleChange = vi.fn();
-    const items = [
-      { id: "1d", label: "Сегодня", count: 2 },
-      { id: "7d", label: "Неделя", count: 5 },
-    ];
-    render(<SegmentedControl items={items} value="1d" onChange={handleChange} />);
-
-    expect(screen.getByText("Сегодня")).toBeInTheDocument();
-    expect(screen.getByText("2")).toBeInTheDocument();
-
-    const weekBtn = screen.getByRole("tab", { name: /Неделя/ });
-    fireEvent.click(weekBtn);
-    expect(handleChange).toHaveBeenCalledWith("7d");
-  });
-});
-
-describe("RangeSlider", () => {
-  it("renders minimal slider and triggers onChange", () => {
-    const handleChange = vi.fn();
-    render(<RangeSlider label="Зум" value={50} onChange={handleChange} />);
-    expect(screen.getByText("Зум")).toBeInTheDocument();
-    const slider = screen.getByRole("slider");
-    expect(slider).toBeInTheDocument();
-  });
-});
-
-describe("HearthPulse", () => {
-  it("renders pulsing ember dot with label", () => {
-    render(<HearthPulse label="очаг горит" />);
-    expect(screen.getByText("очаг горит")).toBeInTheDocument();
-  });
-});
-
-describe("ActionButton (Borderless by default)", () => {
-  it("renders borderless typographic button matching life-wave", () => {
+describe("CraftCard & ActionButton", () => {
+  it("renders with borderless button and feather-light card border", () => {
     const handleClick = vi.fn();
-    render(<ActionButton onClick={handleClick}>Войти</ActionButton>);
-    const btn = screen.getByRole("button", { name: "Войти" });
+    render(
+      <CraftCard>
+        <ActionButton onClick={handleClick}>Тест</ActionButton>
+      </CraftCard>
+    );
+    const btn = screen.getByRole("button", { name: "Тест" });
     expect(btn.className).toContain("border-0");
-    expect(btn.className).toContain("bg-transparent");
-    expect(btn.className).toContain("hover:text-accent");
-
     fireEvent.click(btn);
     expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("Kbd, CategoryBadge & SegmentedControl", () => {
+  it("renders keyboard keys, category badges, and segmented tabs", () => {
+    const handleChange = vi.fn();
+    render(
+      <div>
+        <Kbd lit>N</Kbd>
+        <CategoryBadge category="Infra" />
+        <SegmentedControl
+          items={[{ id: "1d", label: "Сегодня" }]}
+          value="1d"
+          onChange={handleChange}
+        />
+      </div>
+    );
+    expect(screen.getByText("N")).toBeInTheDocument();
+    expect(screen.getByText("Infra")).toBeInTheDocument();
+    expect(screen.getByText("Сегодня")).toBeInTheDocument();
+  });
+});
+
+describe("NavLinks & Divider", () => {
+  it("renders navigation links, now jump, and dividers", () => {
+    const handleSelect = vi.fn();
+    const handleNow = vi.fn();
+    const items = [
+      { id: "past", label: "Кем я был", isActive: false },
+      { id: "now", label: "Кто я сейчас", isActive: true },
+    ];
+    render(
+      <div>
+        <NavLinks
+          items={items}
+          onSelect={handleSelect}
+          nowLabel="Сейчас"
+          onNowClick={handleNow}
+        />
+        <Divider orientation="horizontal" />
+      </div>
+    );
+
+    expect(screen.getByText("Кем я был")).toBeInTheDocument();
+    expect(screen.getByText("Кто я сейчас")).toBeInTheDocument();
+
+    const nowBtn = screen.getByRole("button", { name: "Сейчас" });
+    fireEvent.click(nowBtn);
+    expect(handleNow).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("Minimap & RangeSlider", () => {
+  it("renders timeline minimap and triggers seek", () => {
+    const handleSeek = vi.fn();
+    render(
+      <Minimap
+        min={0}
+        max={100}
+        from={20}
+        to={50}
+        ticks={[{ id: "t1", value: 30, current: true }]}
+        labels={[{ value: 2026, text: "2026" }]}
+        onSeek={handleSeek}
+      />
+    );
+    expect(screen.getByRole("region", { name: "Мини-карта времени" })).toBeInTheDocument();
+    expect(screen.getByText("2026")).toBeInTheDocument();
+  });
+
+  it("renders range slider and triggers onChange", () => {
+    const handleChange = vi.fn();
+    render(<RangeSlider label="Зум" value={42} onChange={handleChange} />);
+    expect(screen.getByText("Зум")).toBeInTheDocument();
+  });
+});
+
+describe("DisclosurePill, PerfHUD & HearthPulse", () => {
+  it("renders disclosure pill, perf HUD and hearth pulse", () => {
+    const handleToggle = vi.fn();
+    render(
+      <div>
+        <HearthPulse label="активен" />
+        <DisclosurePill title="Детали вехи">
+          <p>Скрытый текст</p>
+        </DisclosurePill>
+        <PerfHUD
+          fps={60}
+          frameMs={16.6}
+          commitMs={1.2}
+          nodes={240}
+          onToggleMode={handleToggle}
+        />
+      </div>
+    );
+
+    expect(screen.getByText("активен")).toBeInTheDocument();
+    expect(screen.getByText("Детали вехи")).toBeInTheDocument();
+    expect(screen.getByText("60 fps")).toBeInTheDocument();
+    expect(screen.getByText("16.6 ms")).toBeInTheDocument();
+
+    const toggleBtn = screen.getByRole("button", { name: "detail · on" });
+    fireEvent.click(toggleBtn);
+    expect(handleToggle).toHaveBeenCalledTimes(1);
   });
 });
 

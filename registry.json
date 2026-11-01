@@ -41,6 +41,30 @@
       ]
     },
     {
+      "name": "disclosure-pill",
+      "type": "registry:ui",
+      "title": "DisclosurePill",
+      "description": "Hearth & Wave primitive component DisclosurePill",
+      "files": [
+        {
+          "path": "src/components/DisclosurePill.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "divider",
+      "type": "registry:ui",
+      "title": "Divider",
+      "description": "Hearth & Wave primitive component Divider",
+      "files": [
+        {
+          "path": "src/components/Divider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hearth-pulse",
       "type": "registry:ui",
       "title": "HearthPulse",
@@ -89,6 +113,30 @@
       ]
     },
     {
+      "name": "minimap",
+      "type": "registry:ui",
+      "title": "Minimap",
+      "description": "Hearth & Wave primitive component Minimap",
+      "files": [
+        {
+          "path": "src/components/Minimap.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "nav-links",
+      "type": "registry:ui",
+      "title": "NavLinks",
+      "description": "Hearth & Wave primitive component NavLinks",
+      "files": [
+        {
+          "path": "src/components/NavLinks.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "offer-card",
       "type": "registry:ui",
       "title": "OfferCard",
@@ -96,6 +144,18 @@
       "files": [
         {
           "path": "src/components/OfferCard.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "perf-hud",
+      "type": "registry:ui",
+      "title": "PerfHUD",
+      "description": "Hearth & Wave primitive component PerfHUD",
+      "files": [
+        {
+          "path": "src/components/PerfHUD.tsx",
           "type": "registry:ui"
         }
       ]
