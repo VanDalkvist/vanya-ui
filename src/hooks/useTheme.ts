@@ -29,7 +29,7 @@ export function applyTheme(theme: Theme): ResolvedTheme {
 
 export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "dark";
+    if (typeof window === "undefined") return "system";
     try {
       const stored = localStorage.getItem(STORAGE_KEY) as Theme;
       if (stored === "light" || stored === "dark" || stored === "system") {
@@ -38,7 +38,7 @@ export function useTheme() {
     } catch {
       // fallback
     }
-    return "dark";
+    return "system"; // по умолчанию системная
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
@@ -56,9 +56,21 @@ export function useTheme() {
     setResolvedTheme(resolved);
   }, []);
 
+  // Слушатель системной смены темы при theme === 'system'
   useEffect(() => {
     const resolved = applyTheme(theme);
     setResolvedTheme(resolved);
+
+    if (theme !== "system" || typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => {
+      const updated = applyTheme("system");
+      setResolvedTheme(updated);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
   return { theme, resolvedTheme, setTheme };

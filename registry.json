@@ -53,6 +53,18 @@
       ]
     },
     {
+      "name": "desk-slot-card",
+      "type": "registry:ui",
+      "title": "DeskSlotCard",
+      "description": "Hearth & Wave primitive component DeskSlotCard",
+      "files": [
+        {
+          "path": "src/components/DeskSlotCard.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "disclosure-pill",
       "type": "registry:ui",
       "title": "DisclosurePill",
@@ -72,6 +84,18 @@
       "files": [
         {
           "path": "src/components/Divider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "energy-radar",
+      "type": "registry:ui",
+      "title": "EnergyRadar",
+      "description": "Hearth & Wave primitive component EnergyRadar",
+      "files": [
+        {
+          "path": "src/components/EnergyRadar.tsx",
           "type": "registry:ui"
         }
       ]
@@ -221,6 +245,18 @@
       ]
     },
     {
+      "name": "spider-radar",
+      "type": "registry:ui",
+      "title": "SpiderRadar",
+      "description": "Hearth & Wave primitive component SpiderRadar",
+      "files": [
+        {
+          "path": "src/components/SpiderRadar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tag",
       "type": "registry:ui",
       "title": "Tag",
@@ -252,6 +288,30 @@
       "files": [
         {
           "path": "src/components/TimelinePreviewCard.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "turn-arc-badge",
+      "type": "registry:ui",
+      "title": "TurnArcBadge",
+      "description": "Hearth & Wave primitive component TurnArcBadge",
+      "files": [
+        {
+          "path": "src/components/TurnArcBadge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "voice-wave-indicator",
+      "type": "registry:ui",
+      "title": "VoiceWaveIndicator",
+      "description": "Hearth & Wave primitive component VoiceWaveIndicator",
+      "files": [
+        {
+          "path": "src/components/VoiceWaveIndicator.tsx",
           "type": "registry:ui"
         }
       ]
