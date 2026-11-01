@@ -18,9 +18,9 @@ export function CraftCard({
     <div
       className={twMerge(
         clsx(
-          "rounded-sm border border-hairline bg-surface p-4 text-ink transition-colors duration-150",
+          "rounded-sm border border-border bg-surface p-5 text-ink transition-all duration-200",
           isInteractive &&
-            "cursor-pointer hover:border-hairline-active hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber",
+            "cursor-pointer hover:bg-surface-raised hover:shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
           className
         )
       )}

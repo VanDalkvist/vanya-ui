@@ -32,8 +32,8 @@ export function MeshStatusBadge({
       onClick={onClick}
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-2 rounded-xs border border-hairline bg-surface px-2.5 py-1 text-xs font-mono text-ink-soft transition-colors duration-150 lowercase",
-          onClick && "cursor-pointer hover:border-hairline-active hover:bg-surface-raised hover:text-ink focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber",
+          "inline-flex items-center gap-2 rounded-full border-0 bg-surface-raised/60 px-3 py-1 text-xs font-mono text-ink-soft transition-colors duration-200 lowercase cursor-pointer",
+          "hover:bg-surface-raised hover:text-ink focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
           className
         )
       )}
@@ -45,7 +45,7 @@ export function MeshStatusBadge({
       />
       <span>{label}</span>
       {metricNote && (
-        <span className="text-ink-faint border-l border-hairline pl-1.5 ml-0.5">
+        <span className="text-ink-faint border-l border-border pl-2 ml-0.5">
           {metricNote}
         </span>
       )}

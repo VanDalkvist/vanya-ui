@@ -1,113 +1,45 @@
 # @vanya/ui (Hearth & Wave Design System)
 
-> Contemplative craft design system for Vanya Afanasov's autonomous workspace, tools, and creative apps.
-> Stack: Tailwind CSS v4 (@theme inline), OKLCH dual-theme (Warm Paper Archive light vs Warm Dark Charcoal dark), Fraunces + Manrope + JetBrains Mono lowercase, micro-radii (2-4px), hairline borders.
+> Single Source of Truth for Vanya Afanasov's autonomous workspace, tools, and creative apps.
+> Generated automatically from src/tokens.css and component TypeScript signatures.
+> DO NOT hand-edit this file; run 'bun run sync' to regenerate.
 
-## Philosophy & Core Rules
-- **Color on Data (Rule of 5%):** Max 3-5% colored pixels. Chrome and surfaces are monochrome warm charcoal/paper. Accent color is reserved for living focus (amber #ffb266) or alerts (carmine #d92027).
-- **Single Elevation:** Either a 1px hairline border (`oklch(1 0 0 / 12%)` dark, `oklch(0 0 0 / 10%)` light) OR a surface background step. Never combine with soft drop shadows.
-- **No AI Slop:** No icons in filled round circles. No gradient text. No kickers/eyebrows above headings. No radii > 4px.
+## Core Rules & Invariants
+- **Operate Mode:** High scanability, zero unearned motion, 150-250ms transitions.
+- **Rule of 5% Color:** Max 3-5% colored pixels. Chrome is monochrome warm charcoal/paper. Accent color belongs only on data and living focus (amber #ffb266).
+- **Single Elevation:** 1px hairline border OR surface step; never combine with soft drop shadows.
 - **Typography Trinity:**
-  - `Fraunces`: narrative dates, identity, quotes. Never for buttons or labels.
-  - `Manrope`: UI labels, card headers, buttons, prose body text.
-  - `JetBrains Mono`: code, ports, timestamps, metrics, strictly in `lowercase`.
+  - Fraunces: narrative dates, identity, quotes. Never for buttons or UI labels.
+  - Manrope: UI labels, card headers, buttons, prose body text.
+  - JetBrains Mono: code, ports, timestamps, metrics, strictly in lowercase.
+- **Micro-radii:** 2px for buttons/tags/kbd/inputs; 4px for cards/drawers/modals.
 
-## Tokens (CSS Variables)
+## Dual-Theme Color Ramp (OKLCH)
+- **Dark Ground:** oklch(0.185 0.008 65) (#181816)
+- **Dark Surface:** oklch(0.235 0.010 65) (#22221f)
+- **Dark Ink:** oklch(0.930 0.008 75) (#ece4d6)
+- **Dark Amber:** #ffb266 / oklch(0.68 0.155 45)
+- **Light Ground:** oklch(0.964 0.008 85) (#f6f5f0)
+- **Light Surface:** oklch(0.979 0.006 85)
+- **Light Ink:** oklch(0.265 0.012 60) (#181816)
+- **Light Amber:** oklch(0.530 0.135 42) (terracotta)
 
-| Token | Dark (Warm Charcoal) | Light (Warm Paper) | Role |
-| :--- | :--- | :--- | :--- |
-| `--ground` | `oklch(0.185 0.008 65)` (#181816) | `oklch(0.964 0.008 85)` (#f6f5f0) | Page background |
-| `--surface` | `oklch(0.235 0.010 65)` (#22221f) | `oklch(0.979 0.006 85)` | Card / drawer surface |
-| `--surface-raised` | `oklch(0.270 0.012 65)` | `oklch(0.992 0.004 85)` | Hover state |
-| `--ink` | `oklch(0.930 0.008 75)` (#ece4d6) | `oklch(0.265 0.012 60)` (#181816) | Primary text |
-| `--ink-soft` | `oklch(0.680 0.012 75)` | `oklch(0.560 0.014 70)` | Secondary text |
-| `--amber` | `#ffb266` | `oklch(0.530 0.135 42)` | Focus / activity flame |
-| `--hairline` | `oklch(1 0 0 / 12%)` | `oklch(0 0 0 / 10%)` | 1px border |
+## Exported Components (12)
+- **ActionButton**: 'import { ActionButton } from "@vanya/ui";'
+- **CategoryBadge**: 'import { CategoryBadge } from "@vanya/ui";'
+- **CraftCard**: 'import { CraftCard } from "@vanya/ui";'
+- **HearthPulse**: 'import { HearthPulse } from "@vanya/ui";'
+- **InspectDrawer**: 'import { InspectDrawer } from "@vanya/ui";'
+- **Kbd**: 'import { Kbd } from "@vanya/ui";'
+- **MeshStatusBadge**: 'import { MeshStatusBadge } from "@vanya/ui";'
+- **OfferCard**: 'import { OfferCard } from "@vanya/ui";'
+- **RangeSlider**: 'import { RangeSlider } from "@vanya/ui";'
+- **ReceiptDigestModal**: 'import { ReceiptDigestModal } from "@vanya/ui";'
+- **SegmentedControl**: 'import { SegmentedControl } from "@vanya/ui";'
+- **ThemeToggle**: 'import { ThemeToggle } from "@vanya/ui";'
 
-## Components API
-
-### 1. CraftCard
-- **Import:** `import { CraftCard } from "@vanya/ui";`
-- **Props:** `children: ReactNode`, `className?: string`, `isInteractive?: boolean`, standard `HTMLAttributes<HTMLDivElement>`.
-- **Usage:**
-  ```tsx
-  <CraftCard isInteractive onClick={handleClick}>
-    <h3 className="text-sm font-semibold text-ink">Project Title</h3>
-    <p className="text-xs text-ink-soft">Description</p>
-  </CraftCard>
-  ```
-
-### 2. Kbd
-- **Import:** `import { Kbd } from "@vanya/ui";`
-- **Props:** `children: ReactNode`, `lit?: boolean` (active amber state), `className?: string`.
-- **Usage:**
-  ```tsx
-  <Kbd lit={isPressed}>Esc</Kbd>
-  ```
-
-### 3. CategoryBadge
-- **Import:** `import { CategoryBadge } from "@vanya/ui";`
-- **Props:** `category: "Creative" | "Infra" | "Life" | "Product" | string`, `className?: string`.
-- **Colors:**
-  - `Creative`: amber #ffb266
-  - `Infra`: sky #38bdf8
-  - `Life`: emerald #34d399
-  - `Product`: rose #fb7185
-- **Usage:**
-  ```tsx
-  <CategoryBadge category="Creative" />
-  ```
-
-### 4. SegmentedControl
-- **Import:** `import { SegmentedControl } from "@vanya/ui";`
-- **Props:** `items: { id: string; label: string; count?: number; icon?: ReactNode }[]`, `value: string`, `onChange: (id: string) => void`, `size?: "sm" | "xs"`.
-- **Usage:**
-  ```tsx
-  <SegmentedControl
-    items={[{ id: "1d", label: "Сегодня", count: 2 }, { id: "7d", label: "Неделя" }]}
-    value={horizon}
-    onChange={setHorizon}
-  />
-  ```
-
-### 5. RangeSlider
-- **Import:** `import { RangeSlider } from "@vanya/ui";`
-- **Props:** `label?: string`, `min?: number`, `max?: number`, `step?: number`, `value: number`, `onChange: ChangeEventHandler`.
-- **Usage:**
-  ```tsx
-  <RangeSlider label="Зум" value={zoom} min={1} max={100} onChange={e => setZoom(+e.target.value)} />
-  ```
-
-### 6. HearthPulse
-- **Import:** `import { HearthPulse } from "@vanya/ui";`
-- **Props:** `label?: string`, `className?: string`.
-- **Usage:**
-  ```tsx
-  <HearthPulse label="очаг активен" />
-  ```
-
-### 7. MeshStatusBadge
-- **Import:** `import { MeshStatusBadge } from "@vanya/ui";`
-- **Props:** `status: "online" | "standby" | "warning" | "offline"`, `label: string`, `metricNote?: string`, `onClick?: () => void`.
-- **Usage:**
-  ```tsx
-  <MeshStatusBadge status="online" label="gbrain serve" metricNote="38ms" onClick={openDrawer} />
-  ```
-
-### 8. InspectDrawer
-- **Import:** `import { InspectDrawer } from "@vanya/ui";`
-- **Props:** `isOpen: boolean`, `title: string`, `onClose: () => void`, `children: ReactNode`.
-- **Behavior:** Slides from right, has backdrop-blur, handles Escape key and outside click.
-
-### 9. ActionButton
-- **Import:** `import { ActionButton } from "@vanya/ui";`
-- **Props:** `variant?: "default" | "subtle" | "amber"`, `disabled?: boolean`, standard `ButtonHTMLAttributes`.
-- **Usage:**
-  ```tsx
-  <ActionButton variant="amber" onClick={doSave}>Сохранить</ActionButton>
-  ```
-
-### 10. ThemeToggle & useTheme
-- **Import:** `import { ThemeToggle, useTheme } from "@vanya/ui";`
-- **Hooks:** `const { theme, resolvedTheme, setTheme } = useTheme();`
-- **Component:** `<ThemeToggle variant="segmented" />` or `<ThemeToggle variant="icon" />`.
+## Usage Pattern
+```tsx
+import { CraftCard, Kbd, CategoryBadge, SegmentedControl, ThemeToggle, useTheme } from "@vanya/ui";
+import "@vanya/ui/tokens.css";
+```

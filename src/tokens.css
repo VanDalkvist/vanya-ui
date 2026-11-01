@@ -13,72 +13,63 @@
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
-  --color-ink-disabled: var(--ink-disabled);
 
-  /* Живое пламя (Акценты) */
-  --color-amber: var(--amber);
-  --color-amber-soft: var(--amber-soft);
-  --color-carmine: var(--carmine);
+  /* Живой акцент (Терракота / Янтарь) */
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
 
-  /* Границы (Hairlines) */
-  --color-hairline: var(--hairline);
-  --color-hairline-active: var(--hairline-active);
+  /* Сверхлёгкие границы (7% opacity как в Синусоиде и Ферме) */
+  --color-border: var(--border);
 
   /* Микро-радиусы */
   --radius-xs: 2px;
   --radius-sm: 4px;
+  --radius-full: 9999px;
 
   /* Шрифтовая триада */
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Кинетика */
+  /* Кинетика из Синусоиды */
   --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --t-transition: 180ms;
-  --t-breath: 9.1s;
+  --t-transition: 200ms;
 }
 
 :root {
   color-scheme: light dark;
 
-  /* Дневная тема: Warm Paper Archive (Тёплая бумага / Архивный лен) */
-  --ground: oklch(0.964 0.008 85);           /* Тёплый бумажный фон #f6f5f0 */
+  /* Светлая тема: Warm Paper Archive (Точный канон Синусоиды и Фермы) */
+  --ground: oklch(0.964 0.008 85);           /* Тёплая бумага верже #f6f5f0 */
   --surface: oklch(0.979 0.006 85);          /* Приподнятый чистый лист карточки */
-  --surface-raised: oklch(0.992 0.004 85);   /* Ховер карточки */
-  --surface-inset: oklch(0.940 0.010 85);    /* Углубленные поля, инпуты */
+  --surface-raised: oklch(0.992 0.004 85);   /* Ховер поверхности */
+  --surface-inset: oklch(0.940 0.010 85);    /* Углубления, инпуты */
 
   --ink: oklch(0.265 0.012 60);              /* Глубокие графитовые чернила #181816 */
   --ink-soft: oklch(0.560 0.014 70);         /* Мягкие вторичные чернила */
   --ink-faint: oklch(0.720 0.010 70);        /* Подписи, даты, микро-метки */
-  --ink-disabled: oklch(0.820 0.006 70);
 
-  --amber: oklch(0.530 0.135 42);            /* Тёплая терракота / янтарь на светлом */
-  --amber-soft: rgba(186, 92, 32, 0.12);
-  --carmine: oklch(0.577 0.245 27.325);
+  --accent: oklch(0.530 0.135 42);            /* Тёплая терракота / янтарь на бумаге */
+  --accent-soft: rgba(186, 92, 32, 0.12);
 
-  --hairline: oklch(0 0 0 / 10%);            /* Волосяная граница на бумаге */
-  --hairline-active: oklch(0 0 0 / 22%);
+  --border: oklch(0.265 0.012 60 / 7%);      /* 7% прозрачности — едва заметное перо */
 }
 
 .dark {
-  /* Ночная тема: Warm Dark Charcoal (Тёплый темный уголь / Ночной очаг) */
+  /* Тёмная тема: Warm Dark Charcoal (Точный канон Синусоиды и Фермы) */
   --ground: oklch(0.185 0.008 65);          /* Тёмный тёплый уголь #181816 */
   --surface: oklch(0.235 0.010 65);         /* Угольная карточка #22221f */
   --surface-raised: oklch(0.270 0.012 65);  /* Ховер карточки */
-  --surface-inset: oklch(0.150 0.006 65);   /* Углубленные поля */
+  --surface-inset: oklch(0.150 0.006 65);   /* Углубления */
 
   --ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён #ece4d6 */
   --ink-soft: oklch(0.680 0.012 75);        /* Вторичный приглушенный лён */
   --ink-faint: oklch(0.480 0.012 70);       /* Подписи, даты */
-  --ink-disabled: oklch(0.350 0.008 70);
 
-  --amber: #ffb266;                         /* Янтарное живое пламя */
-  --amber-soft: rgba(255, 178, 102, 0.15);
-  --carmine: #d92027;
+  --accent: oklch(0.680 0.155 45);          /* Янтарное живое пламя #ffb266 */
+  --accent-soft: rgba(255, 178, 102, 0.15);
 
-  --hairline: oklch(1 0 0 / 12%);           /* Волосяная граница на угле */
-  --hairline-active: oklch(1 0 0 / 24%);
+  --border: oklch(1 0 0 / 7%);              /* 7% прозрачности — тончайший светлый контур */
 }
 
 @layer base {
@@ -87,18 +78,19 @@
   }
 
   ::selection {
-    background-color: var(--amber-soft);
+    background-color: var(--accent-soft);
     color: var(--ink);
   }
 
   :focus-visible {
-    outline: 1.5px solid var(--amber);
+    outline: 1.5px solid var(--accent);
     outline-offset: 2px;
   }
 
+  /* Тонкий кастомный скроллбар */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--hairline-active) transparent;
+    scrollbar-color: var(--border) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -111,7 +103,7 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: var(--hairline-active);
+    background-color: var(--border);
     border-radius: 2px;
   }
 

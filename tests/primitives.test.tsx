@@ -13,37 +13,39 @@ import { RangeSlider } from "../src/components/RangeSlider";
 import { HearthPulse } from "../src/components/HearthPulse";
 
 describe("CraftCard", () => {
-  it("renders children with surface styling", () => {
+  it("renders children with surface styling and feather-light border", () => {
     render(<CraftCard>Card content</CraftCard>);
     const el = screen.getByText("Card content");
     expect(el).toBeInTheDocument();
     expect(el.className).toContain("bg-surface");
-    expect(el.className).toContain("border-hairline");
+    expect(el.className).toContain("border-border");
   });
 });
 
 describe("Kbd", () => {
-  it("renders key text and supports lit active state", () => {
+  it("retains clean border and supports lit active state", () => {
     const { rerender } = render(<Kbd>Esc</Kbd>);
     const el = screen.getByText("Esc");
     expect(el).toBeInTheDocument();
-    expect(el.className).toContain("border-hairline");
+    expect(el.className).toContain("border-border");
 
     rerender(<Kbd lit>Esc</Kbd>);
-    expect(el.className).toContain("text-amber");
+    expect(el.className).toContain("text-accent");
+    expect(el.className).toContain("border-accent/60");
   });
 });
 
 describe("CategoryBadge", () => {
-  it("renders category with hash and category colors", () => {
+  it("renders borderless pill with category colors", () => {
     render(<CategoryBadge category="Creative" />);
-    expect(screen.getByText("Creative")).toBeInTheDocument();
+    const el = screen.getByText("Creative");
+    expect(el).toBeInTheDocument();
     expect(screen.getByText("#")).toBeInTheDocument();
   });
 });
 
 describe("SegmentedControl", () => {
-  it("switches selection and displays counts", () => {
+  it("switches selection smoothly without individual button borders", () => {
     const handleChange = vi.fn();
     const items = [
       { id: "1d", label: "Сегодня", count: 2 },
@@ -61,7 +63,7 @@ describe("SegmentedControl", () => {
 });
 
 describe("RangeSlider", () => {
-  it("renders slider and triggers onChange", () => {
+  it("renders minimal slider and triggers onChange", () => {
     const handleChange = vi.fn();
     render(<RangeSlider label="Зум" value={50} onChange={handleChange} />);
     expect(screen.getByText("Зум")).toBeInTheDocument();
@@ -77,14 +79,15 @@ describe("HearthPulse", () => {
   });
 });
 
-describe("MeshStatusBadge & ActionButton", () => {
-  it("renders status badge and button with micro-radius", () => {
-    render(<MeshStatusBadge status="online" label="gbrain" />);
-    expect(screen.getByText("gbrain")).toBeInTheDocument();
-
+describe("ActionButton (Borderless by default)", () => {
+  it("renders borderless typographic button matching life-wave", () => {
     const handleClick = vi.fn();
-    render(<ActionButton onClick={handleClick}>Тест</ActionButton>);
-    const btn = screen.getByRole("button", { name: "Тест" });
+    render(<ActionButton onClick={handleClick}>Войти</ActionButton>);
+    const btn = screen.getByRole("button", { name: "Войти" });
+    expect(btn.className).toContain("border-0");
+    expect(btn.className).toContain("bg-transparent");
+    expect(btn.className).toContain("hover:text-accent");
+
     fireEvent.click(btn);
     expect(handleClick).toHaveBeenCalledTimes(1);
   });

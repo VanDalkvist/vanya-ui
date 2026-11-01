@@ -4,24 +4,26 @@ import { twMerge } from "tailwind-merge";
 
 export interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: "default" | "subtle" | "amber";
+  variant?: "text" | "mono" | "accent" | "pill";
   className?: string;
 }
 
 export function ActionButton({
   children,
-  variant = "default",
+  variant = "text",
   className,
   disabled,
   ...props
 }: ActionButtonProps) {
   const variantStyles = {
-    default:
-      "bg-surface border-hairline text-ink hover:border-hairline-active hover:bg-surface-raised",
-    subtle:
-      "bg-transparent border-transparent text-ink-soft hover:bg-surface hover:text-ink",
-    amber:
-      "bg-amber-soft border-hairline-amber text-amber hover:bg-amber/20 hover:border-amber",
+    // Чистая типографическая кнопка из Синусоиды (без рамок)
+    text: "font-sans text-[12.5px] font-medium tracking-normal text-ink-soft/80 hover:text-accent",
+    // Моноширинное верхнее действие из Синусоиды
+    mono: "font-mono text-[10px] tracking-[0.16em] uppercase text-ink-soft/70 hover:text-ink",
+    // Янтарный акцентный линк
+    accent: "font-sans text-[12.5px] font-medium text-accent hover:underline underline-offset-4",
+    // Мягкая скругленная пилюля без рамок
+    pill: "rounded-full px-3 py-1.5 font-sans text-[11px] text-ink-soft hover:bg-surface-raised hover:text-ink",
   }[variant];
 
   return (
@@ -30,10 +32,9 @@ export function ActionButton({
       disabled={disabled}
       className={twMerge(
         clsx(
-          "inline-flex items-center justify-center gap-1.5 rounded-xs border px-3 py-1.5 text-xs font-sans font-medium transition-all duration-150 cursor-pointer select-none",
-          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber",
-          "active:scale-[0.99]",
-          disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+          "inline-flex items-center gap-1.5 appearance-none border-0 bg-transparent p-0 outline-none transition-colors duration-200 cursor-pointer select-none",
+          "focus-visible:text-accent focus-visible:outline-none",
+          disabled && "opacity-35 cursor-not-allowed pointer-events-none",
           variantStyles,
           className
         )

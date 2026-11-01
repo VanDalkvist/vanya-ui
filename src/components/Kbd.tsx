@@ -13,10 +13,10 @@ export function Kbd({ children, lit = false, className, ...props }: KbdProps) {
     <kbd
       className={twMerge(
         clsx(
-          "inline-grid h-[19px] min-w-[19px] place-items-center rounded-xs border px-[5px] font-mono text-[10px] leading-none transition-all duration-150 select-none",
+          "inline-grid h-[19px] min-w-[19px] place-items-center rounded-[3px] border px-[5px] font-mono text-[10px] leading-none transition-all duration-200 select-none",
           lit
-            ? "border-amber/60 bg-amber/15 text-amber scale-105"
-            : "border-hairline bg-surface text-ink-soft",
+            ? "scale-105 border-accent/60 bg-accent/12 text-accent"
+            : "border-border bg-surface-raised/70 text-ink-soft",
           className
         )
       )}

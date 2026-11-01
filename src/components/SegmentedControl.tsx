@@ -29,7 +29,7 @@ export function SegmentedControl<T extends string = string>({
       role="tablist"
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-0.5 rounded-xs border border-hairline bg-surface p-0.5 font-mono text-xs select-none",
+          "inline-flex items-center gap-0.5 rounded-full border border-border bg-surface-raised/60 p-0.5 font-sans select-none backdrop-blur-xs",
           className
         )
       )}
@@ -44,11 +44,12 @@ export function SegmentedControl<T extends string = string>({
             aria-selected={isSelected}
             onClick={() => onChange(item.id)}
             className={clsx(
-              "inline-flex items-center gap-1.5 rounded-xs transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber",
-              size === "xs" ? "px-2 py-0.5 text-[11px]" : "px-3 py-1 text-xs",
+              "inline-flex items-center gap-1.5 rounded-full border-0 bg-transparent transition-all duration-200 cursor-pointer",
+              "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+              size === "xs" ? "px-2.5 py-1 text-[11px]" : "px-3.5 py-1.5 text-xs",
               isSelected
-                ? "bg-surface-raised text-amber font-medium shadow-xs"
-                : "text-ink-soft hover:bg-surface-raised/50 hover:text-ink"
+                ? "bg-surface text-accent font-medium shadow-xs"
+                : "text-ink-soft/75 hover:text-ink hover:bg-surface/40"
             )}
           >
             {item.icon}
@@ -56,8 +57,8 @@ export function SegmentedControl<T extends string = string>({
             {item.count !== undefined && (
               <span
                 className={clsx(
-                  "rounded-xs px-1 py-0.2 text-[9px] font-mono",
-                  isSelected ? "bg-amber/15 text-amber" : "bg-ground text-ink-faint"
+                  "rounded-full px-1.5 py-0.2 text-[9px] font-mono",
+                  isSelected ? "bg-accent/15 text-accent" : "bg-ground/60 text-ink-faint"
                 )}
               >
                 {item.count}

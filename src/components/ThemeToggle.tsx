@@ -1,4 +1,3 @@
-import React from "react";
 import { Sun, Moon, Laptop } from "lucide-react";
 import { useTheme, type Theme } from "../hooks/useTheme";
 import { clsx } from "clsx";
@@ -28,15 +27,15 @@ export function ThemeToggle({
       <button
         type="button"
         onClick={() => setTheme(nextTheme)}
-        aria-label={`Тема: ${resolvedTheme === "dark" ? "тёмная" : "светлая"}. Нажмите для смены.`}
+        aria-label={`Тема оформления: ${resolvedTheme === "dark" ? "тёмная" : "светлая"}. Нажмите для смены.`}
         className={twMerge(
           clsx(
-            "inline-flex size-7 items-center justify-center rounded-xs border border-hairline bg-surface text-ink-soft hover:bg-surface-raised hover:text-ink transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber",
+            "pointer-events-auto inline-flex size-5 items-center justify-center appearance-none border-0 bg-transparent p-0 outline-none text-ink-soft/50 transition-colors duration-200 hover:text-ink cursor-pointer focus-visible:text-accent",
             className
           )
         )}
       >
-        <ActiveIcon className="size-3.5" />
+        <ActiveIcon className="size-3.5 transition-transform duration-200" />
       </button>
     );
   }
@@ -47,7 +46,7 @@ export function ThemeToggle({
       aria-label="Переключение темы оформления"
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-0.5 rounded-xs border border-hairline bg-surface p-0.5 text-xs font-mono",
+          "pointer-events-auto inline-flex items-center rounded-full border border-border bg-surface-raised/60 p-0.5 backdrop-blur-xs transition-colors",
           className
         )
       )}
@@ -64,10 +63,10 @@ export function ThemeToggle({
             aria-pressed={isSelected}
             title={opt.label}
             className={clsx(
-              "flex size-6 items-center justify-center rounded-xs transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber",
+              "grid size-6 place-items-center rounded-full border-0 bg-transparent transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
               isSelected
-                ? "bg-surface-raised text-amber font-medium shadow-xs"
-                : "text-ink-soft hover:text-ink hover:bg-surface-raised/50"
+                ? "bg-surface text-accent shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
+                : "text-ink-soft/70 hover:text-ink"
             )}
           >
             <Icon className="size-3.5" />
