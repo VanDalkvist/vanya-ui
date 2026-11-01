@@ -14,7 +14,6 @@ import { HearthPulse } from "../src/components/HearthPulse";
 import { NavLinks } from "../src/components/NavLinks";
 import { Minimap } from "../src/components/Minimap";
 import { DisclosurePill } from "../src/components/DisclosurePill";
-import { PerfHUD } from "../src/components/PerfHUD";
 import { Divider } from "../src/components/Divider";
 
 describe("CraftCard & ActionButton", () => {
@@ -106,33 +105,19 @@ describe("Minimap & RangeSlider", () => {
   });
 });
 
-describe("DisclosurePill, PerfHUD & HearthPulse", () => {
-  it("renders disclosure pill, perf HUD and hearth pulse", () => {
-    const handleToggle = vi.fn();
+describe("DisclosurePill & HearthPulse", () => {
+  it("renders disclosure pill and hearth pulse", () => {
     render(
       <div>
         <HearthPulse label="активен" />
         <DisclosurePill title="Детали вехи">
           <p>Скрытый текст</p>
         </DisclosurePill>
-        <PerfHUD
-          fps={60}
-          frameMs={16.6}
-          commitMs={1.2}
-          nodes={240}
-          onToggleMode={handleToggle}
-        />
       </div>
     );
 
     expect(screen.getByText("активен")).toBeInTheDocument();
     expect(screen.getByText("Детали вехи")).toBeInTheDocument();
-    expect(screen.getByText("60 fps")).toBeInTheDocument();
-    expect(screen.getByText("16.6 ms")).toBeInTheDocument();
-
-    const toggleBtn = screen.getByRole("button", { name: "detail · on" });
-    fireEvent.click(toggleBtn);
-    expect(handleToggle).toHaveBeenCalledTimes(1);
   });
 });
 

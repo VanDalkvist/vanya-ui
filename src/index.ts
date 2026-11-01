@@ -55,5 +55,4 @@ export {
   DisclosurePill,
   type DisclosurePillProps,
 } from "./components/DisclosurePill";
-export { PerfHUD, type PerfHUDProps } from "./components/PerfHUD";
 export { Divider, type DividerProps } from "./components/Divider";

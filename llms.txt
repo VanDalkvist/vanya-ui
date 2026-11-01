@@ -24,7 +24,7 @@
 - **Light Ink:** oklch(0.265 0.012 60) (#181816)
 - **Light Amber:** oklch(0.530 0.135 42) (terracotta)
 
-## Exported Components (17)
+## Exported Components (16)
 - **ActionButton**: 'import { ActionButton } from "@vanya/ui";'
 - **CategoryBadge**: 'import { CategoryBadge } from "@vanya/ui";'
 - **CraftCard**: 'import { CraftCard } from "@vanya/ui";'
@@ -37,7 +37,6 @@
 - **Minimap**: 'import { Minimap } from "@vanya/ui";'
 - **NavLinks**: 'import { NavLinks } from "@vanya/ui";'
 - **OfferCard**: 'import { OfferCard } from "@vanya/ui";'
-- **PerfHUD**: 'import { PerfHUD } from "@vanya/ui";'
 - **RangeSlider**: 'import { RangeSlider } from "@vanya/ui";'
 - **ReceiptDigestModal**: 'import { ReceiptDigestModal } from "@vanya/ui";'
 - **SegmentedControl**: 'import { SegmentedControl } from "@vanya/ui";'
