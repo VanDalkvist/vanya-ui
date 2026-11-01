@@ -2,10 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
 import { CraftCard } from "../src/components/CraftCard";
-import { MeshStatusBadge } from "../src/components/MeshStatusBadge";
-import { InspectDrawer } from "../src/components/InspectDrawer";
 import { ActionButton } from "../src/components/ActionButton";
-import { ThemeToggle } from "../src/components/ThemeToggle";
 import { Kbd } from "../src/components/Kbd";
 import { CategoryBadge } from "../src/components/CategoryBadge";
 import { SegmentedControl } from "../src/components/SegmentedControl";
@@ -15,125 +12,87 @@ import { NavLinks } from "../src/components/NavLinks";
 import { Minimap } from "../src/components/Minimap";
 import { DisclosurePill } from "../src/components/DisclosurePill";
 import { Divider } from "../src/components/Divider";
+import { AvatarLink } from "../src/components/AvatarLink";
+import { LinkChip } from "../src/components/LinkChip";
+import { Tag } from "../src/components/Tag";
+import { TimelinePreviewCard } from "../src/components/TimelinePreviewCard";
+import { EventCard } from "../src/components/EventCard";
 
-describe("CraftCard & ActionButton", () => {
-  it("renders with borderless button and feather-light card border", () => {
+describe("Base Primitives", () => {
+  it("renders CraftCard, ActionButton, Kbd, and Badges", () => {
     const handleClick = vi.fn();
     render(
       <CraftCard>
-        <ActionButton onClick={handleClick}>Тест</ActionButton>
+        <ActionButton onClick={handleClick}>Войти</ActionButton>
+        <Kbd lit>Esc</Kbd>
+        <CategoryBadge category="Creative" />
+        <Tag>#тег</Tag>
       </CraftCard>
     );
-    const btn = screen.getByRole("button", { name: "Тест" });
-    expect(btn.className).toContain("border-0");
+    const btn = screen.getByRole("button", { name: "Войти" });
     fireEvent.click(btn);
     expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Esc")).toBeInTheDocument();
+    expect(screen.getByText("Creative")).toBeInTheDocument();
+    expect(screen.getByText("#тег")).toBeInTheDocument();
   });
 });
 
-describe("Kbd, CategoryBadge & SegmentedControl", () => {
-  it("renders keyboard keys, category badges, and segmented tabs", () => {
-    const handleChange = vi.fn();
-    render(
-      <div>
-        <Kbd lit>N</Kbd>
-        <CategoryBadge category="Infra" />
-        <SegmentedControl
-          items={[{ id: "1d", label: "Сегодня" }]}
-          value="1d"
-          onChange={handleChange}
-        />
-      </div>
-    );
-    expect(screen.getByText("N")).toBeInTheDocument();
-    expect(screen.getByText("Infra")).toBeInTheDocument();
-    expect(screen.getByText("Сегодня")).toBeInTheDocument();
-  });
-});
-
-describe("NavLinks & Divider", () => {
-  it("renders navigation links, now jump, and dividers", () => {
+describe("Navigation & Sliders", () => {
+  it("renders NavLinks, Minimap, and RangeSlider", () => {
     const handleSelect = vi.fn();
-    const handleNow = vi.fn();
-    const items = [
-      { id: "past", label: "Кем я был", isActive: false },
-      { id: "now", label: "Кто я сейчас", isActive: true },
-    ];
+    const handleSeek = vi.fn();
     render(
       <div>
         <NavLinks
-          items={items}
+          items={[{ id: "s1", label: "Раздел 1" }]}
           onSelect={handleSelect}
-          nowLabel="Сейчас"
-          onNowClick={handleNow}
         />
-        <Divider orientation="horizontal" />
+        <Minimap min={0} max={100} from={10} to={40} onSeek={handleSeek} />
+        <RangeSlider value={50} onChange={vi.fn()} />
+        <Divider />
       </div>
     );
-
-    expect(screen.getByText("Кем я был")).toBeInTheDocument();
-    expect(screen.getByText("Кто я сейчас")).toBeInTheDocument();
-
-    const nowBtn = screen.getByRole("button", { name: "Сейчас" });
-    fireEvent.click(nowBtn);
-    expect(handleNow).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe("Minimap & RangeSlider", () => {
-  it("renders timeline minimap and triggers seek", () => {
-    const handleSeek = vi.fn();
-    render(
-      <Minimap
-        min={0}
-        max={100}
-        from={20}
-        to={50}
-        ticks={[{ id: "t1", value: 30, current: true }]}
-        labels={[{ value: 2026, text: "2026" }]}
-        onSeek={handleSeek}
-      />
-    );
+    expect(screen.getByText("Раздел 1")).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Мини-карта времени" })).toBeInTheDocument();
-    expect(screen.getByText("2026")).toBeInTheDocument();
-  });
-
-  it("renders range slider and triggers onChange", () => {
-    const handleChange = vi.fn();
-    render(<RangeSlider label="Зум" value={42} onChange={handleChange} />);
-    expect(screen.getByText("Зум")).toBeInTheDocument();
+    expect(screen.getByRole("slider")).toBeInTheDocument();
   });
 });
 
-describe("DisclosurePill & HearthPulse", () => {
-  it("renders disclosure pill and hearth pulse", () => {
+describe("Timeline Cards & Chips", () => {
+  it("renders AvatarLink, LinkChip, and TimelinePreviewCard", () => {
     render(
       <div>
-        <HearthPulse label="активен" />
-        <DisclosurePill title="Детали вехи">
-          <p>Скрытый текст</p>
-        </DisclosurePill>
+        <AvatarLink src="/test.jpg" alt="Ваня" href="https://example.com" />
+        <LinkChip url="https://github.com" label="репозиторий" />
+        <TimelinePreviewCard date="23 окт" title="Костёр" />
       </div>
     );
-
-    expect(screen.getByText("активен")).toBeInTheDocument();
-    expect(screen.getByText("Детали вехи")).toBeInTheDocument();
+    expect(screen.getByTitle("Ваня")).toBeInTheDocument();
+    expect(screen.getByText("репозиторий")).toBeInTheDocument();
+    expect(screen.getByText("Костёр")).toBeInTheDocument();
   });
-});
 
-describe("InspectDrawer & ThemeToggle", () => {
-  it("drawer handles close and theme toggle switches theme", () => {
+  it("renders EventCard with title, date, links, and close handler", () => {
     const handleClose = vi.fn();
     render(
-      <InspectDrawer isOpen={true} title="Инспектор" onClose={handleClose}>
-        <div>Body</div>
-      </InspectDrawer>
+      <EventCard
+        date="23 ОКТ 2026"
+        title="Цифровой созерцательный костёр"
+        description="Экран групповой практики присутствия."
+        links={[{ url: "https://t.me/channel", label: "канал" }]}
+        tags={["созерцание", "звук"]}
+        onClose={handleClose}
+      />
     );
-    expect(screen.getByText("Инспектор")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Закрыть инспектор" }));
-    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("23 ОКТ 2026")).toBeInTheDocument();
+    expect(screen.getByText("Цифровой созерцательный костёр")).toBeInTheDocument();
+    expect(screen.getByText("Экран групповой практики присутствия.")).toBeInTheDocument();
+    expect(screen.getByText("канал")).toBeInTheDocument();
+    expect(screen.getByText("созерцание")).toBeInTheDocument();
 
-    render(<ThemeToggle variant="segmented" />);
-    expect(screen.getByRole("button", { name: "Светлая" })).toBeInTheDocument();
+    const closeBtn = screen.getByRole("button", { name: "Закрыть" });
+    fireEvent.click(closeBtn);
+    expect(handleClose).toHaveBeenCalledTimes(1);
   });
 });

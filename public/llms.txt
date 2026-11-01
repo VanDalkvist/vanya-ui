@@ -24,15 +24,18 @@
 - **Light Ink:** oklch(0.265 0.012 60) (#181816)
 - **Light Amber:** oklch(0.530 0.135 42) (terracotta)
 
-## Exported Components (16)
+## Exported Components (21)
 - **ActionButton**: 'import { ActionButton } from "@vanya/ui";'
+- **AvatarLink**: 'import { AvatarLink } from "@vanya/ui";'
 - **CategoryBadge**: 'import { CategoryBadge } from "@vanya/ui";'
 - **CraftCard**: 'import { CraftCard } from "@vanya/ui";'
 - **DisclosurePill**: 'import { DisclosurePill } from "@vanya/ui";'
 - **Divider**: 'import { Divider } from "@vanya/ui";'
+- **EventCard**: 'import { EventCard } from "@vanya/ui";'
 - **HearthPulse**: 'import { HearthPulse } from "@vanya/ui";'
 - **InspectDrawer**: 'import { InspectDrawer } from "@vanya/ui";'
 - **Kbd**: 'import { Kbd } from "@vanya/ui";'
+- **LinkChip**: 'import { LinkChip } from "@vanya/ui";'
 - **MeshStatusBadge**: 'import { MeshStatusBadge } from "@vanya/ui";'
 - **Minimap**: 'import { Minimap } from "@vanya/ui";'
 - **NavLinks**: 'import { NavLinks } from "@vanya/ui";'
@@ -40,7 +43,9 @@
 - **RangeSlider**: 'import { RangeSlider } from "@vanya/ui";'
 - **ReceiptDigestModal**: 'import { ReceiptDigestModal } from "@vanya/ui";'
 - **SegmentedControl**: 'import { SegmentedControl } from "@vanya/ui";'
+- **Tag**: 'import { Tag } from "@vanya/ui";'
 - **ThemeToggle**: 'import { ThemeToggle } from "@vanya/ui";'
+- **TimelinePreviewCard**: 'import { TimelinePreviewCard } from "@vanya/ui";'
 
 ## Usage Pattern
 ```tsx

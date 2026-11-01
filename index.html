@@ -53,16 +53,75 @@
       }
 
       * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-      body { background-color: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 1.55; transition: background-color 200ms ease, color 200ms ease; padding-bottom: 90px; }
+      body { background-color: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 14px; line-height: 1.55; transition: background-color 200ms ease, color 200ms ease; padding-bottom: 100px; -webkit-font-smoothing: antialiased; }
       ::selection { background-color: var(--accent-soft); color: var(--ink); }
       :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
       .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 18px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
+      /* Top Header: Clean, quiet, without domain section links */
+      header { border-bottom: 1px solid var(--border); background: var(--surface); padding: 16px 0; position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); }
       .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
       .brand-title { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; letter-spacing: -0.01em; }
       .brand-sub { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-faint); text-transform: lowercase; margin-left: 8px; }
 
+      /* Controls in header */
+      .header-controls { display: flex; align-items: center; gap: 14px; }
+      .header-divider { display: inline-block; height: 14px; width: 1px; background: var(--border); }
+
+      /* ThemeToggle icon button from life-wave */
+      .theme-btn {
+        pointer-events: auto;
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        align-items: center;
+        justify-content: center;
+        appearance: none;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        outline: none;
+        color: var(--ink-soft);
+        cursor: pointer;
+        transition: color 200ms ease;
+      }
+      .theme-btn:hover { color: var(--ink); }
+
+      /* Avatar link */
+      .avatar-link {
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        shrink: 0;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        transition: all 200ms ease;
+        text-decoration: none;
+      }
+      .avatar-link:hover {
+        transform: scale(1.08);
+        border-color: var(--accent);
+      }
+      .avatar-link img { width: 100%; height: 100%; object-cover: cover; }
+
+      /* Social link */
+      .social-link {
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: var(--ink-soft);
+        text-decoration: none;
+        transition: color 200ms ease;
+      }
+      .social-link:hover { color: var(--accent); }
+
+      /* Sections */
       section { margin-top: 48px; }
       .sec-header { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
       .sec-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; }
@@ -74,18 +133,18 @@
       /* Buttons without borders */
       .btn-text { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
       .btn-text:hover { color: var(--accent); }
-      .btn-mono { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
+      .btn-mono { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; transition: color 200ms ease; }
       .btn-mono:hover { color: var(--ink); }
       .btn-accent { appearance: none; border: 0; background: transparent; padding: 0; outline: none; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
       .btn-pill { appearance: none; border: 0; background: transparent; padding: 6px 14px; border-radius: var(--radius-full); font-family: var(--font-sans); font-size: 12px; color: var(--ink-soft); cursor: pointer; transition: all 200ms ease; }
       .btn-pill:hover { background: var(--surface-raised); color: var(--ink); }
 
       /* Kbd */
-      kbd.kbd { display: inline-grid; place-items: center; height: 21px; min-width: 21px; border-radius: 3px; border: 1px solid var(--border); background: var(--surface-raised); padding: 0 6px; font-family: var(--font-mono); font-size: 11px; line-height: 1; color: var(--ink-soft); transition: all 200ms ease; user-select: none; }
+      kbd.kbd { display: inline-grid; place-items: center; height: 21px; min-width: 21px; border-radius: 3px; border: 1px solid var(--border); background: var(--surface-raised); padding: 0 6px; font-family: var(--font-mono); font-size: 12px; line-height: 1; color: var(--ink-soft); transition: all 200ms ease; user-select: none; }
       kbd.kbd.lit { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); transform: scale(1.05); }
 
       /* Badges */
-      .cat-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 11px; border-radius: var(--radius-full); border: 0; font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+      .cat-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 11px; border-radius: var(--radius-full); border: 0; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
       .cat-creative { color: var(--accent); background: var(--accent-soft); }
       .cat-infra { color: #38bdf8; background: rgba(56, 189, 248, 0.12); }
       .cat-life { color: #34d399; background: rgba(52, 211, 153, 0.12); }
@@ -96,11 +155,39 @@
       .seg-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--radius-full); border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; font-family: inherit; font-size: inherit; transition: all 200ms ease; }
       .seg-btn:hover { color: var(--ink); }
       .seg-btn.active { background: var(--surface); color: var(--accent); font-weight: 500; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
-      .seg-count { font-size: 11px; padding: 1px 6px; border-radius: var(--radius-full); background: var(--surface-inset); color: var(--ink-faint); font-family: var(--font-mono); }
+      .seg-count { font-size: 12px; padding: 1px 6px; border-radius: var(--radius-full); background: var(--surface-inset); color: var(--ink-faint); font-family: var(--font-mono); }
       .seg-btn.active .seg-count { background: var(--accent-soft); color: var(--accent); }
 
-      /* NavLinks & Divider */
-      .nav-divider { display: inline-block; height: 14px; width: 1px; background: var(--border); margin: 0 12px; vertical-align: middle; }
+      /* LinkChip from EventDetail */
+      .link-chip {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 8px;
+        font-family: var(--font-sans);
+        font-size: 13px;
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        transition: opacity 150ms ease;
+      }
+      .link-chip:hover { opacity: 0.8; }
+      .link-chip-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); }
+
+      /* Tag pill from EventDetail */
+      .tag-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--radius-xs);
+        border: 1px solid var(--border);
+        background: var(--surface-raised);
+        padding: 3px 9px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--ink-soft);
+        user-select: none;
+        transition: all 150ms ease;
+      }
+      .tag-pill:hover { border-color: var(--accent); color: var(--ink); }
 
       /* RangeSlider */
       input[type="range"].range-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--border); outline: none; cursor: pointer; }
@@ -135,7 +222,7 @@
     </style>
   </head>
   <body>
-    <!-- Header with NavLinks & ThemeToggle -->
+    <!-- Top Header: Authentic @vanya/ui header with single-icon ThemeToggle & Avatar -->
     <header>
       <div class="wrap header-inner">
         <div style="display: flex; align-items: baseline">
@@ -143,23 +230,68 @@
           <span class="brand-sub">Hearth & Wave · v0.1.0</span>
         </div>
 
-        <!-- NavLinks (from life-wave) -->
-        <nav style="display: flex; align-items: center">
-          <button class="btn-text" style="color: var(--accent); font-weight: 600">Кем я был</button>
-          <span class="nav-divider"></span>
-          <button class="btn-text">Что пробовал</button>
-          <span class="nav-divider"></span>
-          <button class="btn-text">Кто я сейчас</button>
-          <span class="nav-divider"></span>
-          <button class="btn-text" style="color: var(--accent)">Сейчас</button>
-          <span class="nav-divider"></span>
-
-          <!-- Theme Toggle -->
-          <div class="segmented" id="theme-toggle">
-            <button class="seg-btn" data-theme="light">Бумага</button>
-            <button class="seg-btn active" data-theme="dark">Уголь</button>
+        <div class="header-controls">
+          <div class="hearth-pulse">
+            <div class="pulse-dot">
+              <div class="pulse-dot-ring"></div>
+              <div class="pulse-dot-core"></div>
+            </div>
+            <span>очаг активен</span>
           </div>
-        </nav>
+
+          <span class="header-divider"></span>
+
+          <!-- Social icon link -->
+          <a
+            href="https://github.com/VanDalkvist"
+            target="_blank"
+            rel="noreferrer"
+            class="social-link"
+            title="GitHub: VanDalkvist"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+              <path d="M9 18c-4.51 2-5-2-7-2"></path>
+            </svg>
+          </a>
+
+          <!-- Circular profile avatar -->
+          <a
+            href="https://t.me/VanyAIShilo"
+            target="_blank"
+            rel="noreferrer"
+            class="avatar-link"
+            title="Telegram: Ваня"
+          >
+            <img src="https://avatars.githubusercontent.com/u/7421387?v=4" alt="Ваня" />
+          </a>
+
+          <span class="header-divider"></span>
+
+          <!-- Single-icon ThemeToggle as in life-wave-narrative -->
+          <button
+            type="button"
+            id="theme-icon-btn"
+            class="theme-btn"
+            title="Сменить тему оформления (Светлая / Тёмная)"
+            onclick="toggleThemeCycle()"
+          >
+            <svg id="theme-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+            <svg id="theme-sun" style="display: none" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -204,10 +336,107 @@
         </div>
       </section>
 
-      <!-- Section 2: Minimap Scrubber -->
+      <!-- Section 2: NavLinks & Header Controls Component -->
       <section>
         <div class="sec-header">
-          <h2 class="sec-title">Миникарта Времени (Minimap Scrubber)</h2>
+          <h2 class="sec-title">Компонент Навигации разделов (`NavLinks`)</h2>
+          <span class="sec-tag">компонент из NowQuickLinks</span>
+        </div>
+        <div class="craft-card" style="display: flex; flex-direction: column; gap: 16px">
+          <div style="font-size: 12px; color: var(--ink-faint); font-family: var(--font-mono)">
+            Демонстрация навигационного ряда разделов (как в Синусоиде):
+          </div>
+          <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+            <button class="btn-text" style="color: var(--accent); font-weight: 600">Основы системы</button>
+            <span class="header-divider" style="margin: 0 8px"></span>
+            <button class="btn-text">Компоненты</button>
+            <span class="header-divider" style="margin: 0 8px"></span>
+            <button class="btn-text">Токены OKLCH</button>
+            <span class="header-divider" style="margin: 0 8px"></span>
+            <button class="btn-text" style="color: var(--accent)">Сейчас</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- Section 3: EventCard & Timeline Preview (Синусоида) -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Карточка события и Тизеры (`EventCard` & `TimelinePreviewCard`)</h2>
+          <span class="sec-tag">вытягивание из точки и парящий тизер</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start">
+          <!-- Full EventCard -->
+          <article class="craft-card" style="padding: 26px">
+            <div style="display: flex; justify-content: space-between; align-items: baseline">
+              <span style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft)">
+                23 ОКТ 2026
+              </span>
+              <button class="btn-mono" style="font-size: 12px; letter-spacing: 0.2em">закрыть</button>
+            </div>
+            <h3 style="text-wrap: balance; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; line-height: 1.15; color: var(--ink); margin-top: 14px">
+              Цифровой созерцательный костёр
+            </h3>
+            <p style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; margin-top: 12px">
+              Экран групповой практики присутствия. Тлеющее ядро, дыхательный ритм 0.11 Гц, процедурный звук D Dorian и тепловая эстафета между репликами.
+            </p>
+            <!-- Link Chips -->
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border)">
+              <a href="https://t.me/VanyAIShilo" target="_blank" rel="noreferrer" class="link-chip">
+                <span class="link-chip-label">канал</span>
+                <span>t.me/VanyAIShilo</span>
+                <span>↗</span>
+              </a>
+              <a href="https://github.com/VanDalkvist/salon-presence" target="_blank" rel="noreferrer" class="link-chip">
+                <span class="link-chip-label">репозиторий</span>
+                <span>github.com/VanDalkvist/salon-presence</span>
+                <span>↗</span>
+              </a>
+            </div>
+            <!-- Tags -->
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border)">
+              <span class="tag-pill">#созерцание</span>
+              <span class="tag-pill">#звук-d-dorian</span>
+              <span class="tag-pill">#hearth</span>
+            </div>
+          </article>
+
+          <!-- Floating TimelinePreviewCard -->
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <div class="craft-card interactive" style="padding: 16px; max-width: 280px">
+              <div style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint)">
+                ДЕК 2025
+              </div>
+              <h4 style="text-wrap: balance; font-family: var(--font-serif); font-size: 13.5px; font-weight: 500; line-height: 1.3; color: var(--ink); margin-top: 4px">
+                Первая детская НРИ «Город навыков» с дочкой
+              </h4>
+              <div style="margin-top: 10px; font-size: 12px; font-family: var(--font-mono); color: var(--accent)">
+                парящий тизер над точкой волны
+              </div>
+            </div>
+
+            <!-- Native DisclosurePill -->
+            <div class="craft-card" style="padding: 16px">
+              <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 10px; font-family: var(--font-mono)">
+                Инлайн-аккордеон (DisclosurePill):
+              </div>
+              <details class="disclosure-pill">
+                <summary>
+                  <span>Заметки и лор события</span>
+                  <span style="font-size: 12px; color: var(--accent)">▼</span>
+                </summary>
+                <div style="margin-top: 12px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.6">
+                  Инлайн-раскрытие заметок и ссылок без открытия тяжелых модальных окон.
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Minimap Scrubber -->
+      <section>
+        <div class="sec-header">
+          <h2 class="sec-title">Миникарта Времени (`Minimap`)</h2>
           <span class="sec-tag">уникальный контрол из синусоиды</span>
         </div>
         <div class="craft-card" style="padding: 24px">
@@ -219,7 +448,7 @@
             <span style="position: absolute; top: 10px; left: 85%; height: 8px; width: 1px; background: var(--ink); opacity: 0.2"></span>
             <div id="minimap-frame" style="position: absolute; top: 4px; left: 45%; width: 22%; height: 24px; border-radius: 2px; border: 1px solid var(--accent); background: var(--accent-soft); transition: all 200ms ease"></div>
           </div>
-          <div style="position: relative; height: 16px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; color: var(--ink-faint); margin-top: 6px">
+          <div style="position: relative; height: 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em; color: var(--ink-faint); margin-top: 6px">
             <span style="position: absolute; left: 10%">2018</span>
             <span style="position: absolute; left: 35%">2022</span>
             <span style="position: absolute; left: 60%; color: var(--accent)">2026 (СЕЙЧАС)</span>
@@ -228,7 +457,7 @@
         </div>
       </section>
 
-      <!-- Section 3: Buttons & Hotkeys (Borderless!) -->
+      <!-- Section 5: Buttons & Hotkeys (Borderless!) -->
       <section>
         <div class="sec-header">
           <h2 class="sec-title">Кнопки и Шорткаты (Канон Синусоиды)</h2>
@@ -277,7 +506,7 @@
         </div>
       </section>
 
-      <!-- Section 4: Badges & Segmented Controls -->
+      <!-- Section 6: Badges & Segmented Controls -->
       <section>
         <div class="sec-header">
           <h2 class="sec-title">Теги и Сегменты (Ферма)</h2>
@@ -329,52 +558,33 @@
         </div>
       </section>
 
-      <!-- Section 5: Slider, Disclosure -->
+      <!-- Section 7: Slider -->
       <section>
         <div class="sec-header">
-          <h2 class="sec-title">Служебные контролы (DisclosurePill и Слайдер)</h2>
-          <span class="sec-tag">инлайн-аккордеон и скруббер</span>
+          <h2 class="sec-title">Волосяной Слайдер (RangeSlider)</h2>
+          <span class="sec-tag">скруббер времени из синусоиды</span>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
-          <!-- DisclosurePill -->
-          <div class="craft-card">
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; font-family: var(--font-mono)">
-              DisclosurePill (из EventAppendix):
-            </div>
-            <details class="disclosure-pill">
-              <summary>
-                <span>Подробности арки характера</span>
-                <span style="font-size: 11px; color: var(--accent)">▼</span>
-              </summary>
-              <div style="margin-top: 14px; font-size: 13px; color: var(--ink-soft); line-height: 1.6">
-                Раскрывающийся аппендикс без тяжелых модальных окон. Используется для подробностей события, цитат и заметок.
-              </div>
-            </details>
-          </div>
-
-          <!-- RangeSlider -->
-          <div class="craft-card">
-            <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 14px; font-family: var(--font-mono)">
-              RangeSlider (волосяной скруббер):
-            </div>
-            <div class="slider-wrap">
-              <input
-                type="range"
-                class="range-slider"
-                min="1"
-                max="100"
-                value="42"
-                oninput="document.getElementById('slider-val').innerText = this.value + '%'"
-              />
-              <span id="slider-val" style="font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); width: 42px">
-                42%
-              </span>
-            </div>
+        <div class="craft-card" style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); width: 130px; shrink: 0">
+              Дистанция взгляда:
+            </span>
+            <input
+              type="range"
+              class="range-slider"
+              min="1"
+              max="100"
+              value="42"
+              oninput="document.getElementById('slider-val').innerText = this.value + '%'"
+            />
+            <span id="slider-val" style="font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); width: 42px">
+              42%
+            </span>
           </div>
         </div>
       </section>
 
-      <!-- Section 6: Overlays -->
+      <!-- Section 8: Overlays -->
       <section>
         <div class="sec-header">
           <h2 class="sec-title">Боковой Drawer</h2>
@@ -393,7 +603,7 @@
     <div id="drawer-panel" class="drawer">
       <div>
         <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 20px">
-          <h3 style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400">
+          <h3 style="text-wrap: balance; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400">
             Инспектор фоновых служб
           </h3>
           <button class="btn-text" onclick="closeAll()" style="font-size: 18px">✕</button>
@@ -425,21 +635,24 @@
     </div>
 
     <script>
-      const toggle = document.getElementById("theme-toggle");
-      toggle.querySelectorAll(".seg-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          toggle.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          const mode = btn.getAttribute("data-theme");
-          if (mode === "light") {
-            document.documentElement.classList.remove("dark");
-            document.documentElement.classList.add("light");
-          } else {
-            document.documentElement.classList.remove("light");
-            document.documentElement.classList.add("dark");
-          }
-        });
-      });
+      // Single-icon ThemeToggle as in life-wave-narrative
+      function toggleThemeCycle() {
+        const isDark = document.documentElement.classList.contains("dark");
+        const moon = document.getElementById("theme-moon");
+        const sun = document.getElementById("theme-sun");
+
+        if (isDark) {
+          document.documentElement.classList.remove("dark");
+          document.documentElement.classList.add("light");
+          moon.style.display = "none";
+          sun.style.display = "inline-block";
+        } else {
+          document.documentElement.classList.remove("light");
+          document.documentElement.classList.add("dark");
+          moon.style.display = "inline-block";
+          sun.style.display = "none";
+        }
+      }
 
       function setSeg(btn) {
         const parent = btn.parentElement;

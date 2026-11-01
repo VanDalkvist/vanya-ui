@@ -17,6 +17,18 @@
       ]
     },
     {
+      "name": "avatar-link",
+      "type": "registry:ui",
+      "title": "AvatarLink",
+      "description": "Hearth & Wave primitive component AvatarLink",
+      "files": [
+        {
+          "path": "src/components/AvatarLink.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "category-badge",
       "type": "registry:ui",
       "title": "CategoryBadge",
@@ -65,6 +77,18 @@
       ]
     },
     {
+      "name": "event-card",
+      "type": "registry:ui",
+      "title": "EventCard",
+      "description": "Hearth & Wave primitive component EventCard",
+      "files": [
+        {
+          "path": "src/components/EventCard.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hearth-pulse",
       "type": "registry:ui",
       "title": "HearthPulse",
@@ -96,6 +120,18 @@
       "files": [
         {
           "path": "src/components/Kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "link-chip",
+      "type": "registry:ui",
+      "title": "LinkChip",
+      "description": "Hearth & Wave primitive component LinkChip",
+      "files": [
+        {
+          "path": "src/components/LinkChip.tsx",
           "type": "registry:ui"
         }
       ]
@@ -185,6 +221,18 @@
       ]
     },
     {
+      "name": "tag",
+      "type": "registry:ui",
+      "title": "Tag",
+      "description": "Hearth & Wave primitive component Tag",
+      "files": [
+        {
+          "path": "src/components/Tag.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "theme-toggle",
       "type": "registry:ui",
       "title": "ThemeToggle",
@@ -192,6 +240,18 @@
       "files": [
         {
           "path": "src/components/ThemeToggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "timeline-preview-card",
+      "type": "registry:ui",
+      "title": "TimelinePreviewCard",
+      "description": "Hearth & Wave primitive component TimelinePreviewCard",
+      "files": [
+        {
+          "path": "src/components/TimelinePreviewCard.tsx",
           "type": "registry:ui"
         }
       ]
