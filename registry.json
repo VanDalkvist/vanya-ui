@@ -245,6 +245,18 @@
       ]
     },
     {
+      "name": "sine-wave",
+      "type": "registry:ui",
+      "title": "SineWave",
+      "description": "Hearth & Wave primitive component SineWave",
+      "files": [
+        {
+          "path": "src/components/SineWave.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "spider-radar",
       "type": "registry:ui",
       "title": "SpiderRadar",

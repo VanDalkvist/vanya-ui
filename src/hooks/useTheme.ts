@@ -4,6 +4,7 @@ export type Theme = "light" | "dark" | "system";
 export type ResolvedTheme = "light" | "dark";
 
 const STORAGE_KEY = "vanya_theme";
+const CHANGE_EVENT = "vanya-theme-change";
 
 export function getSystemTheme(): ResolvedTheme {
   if (typeof window === "undefined") return "dark";
@@ -54,6 +55,24 @@ export function useTheme() {
     }
     const resolved = applyTheme(newTheme);
     setResolvedTheme(resolved);
+    window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: newTheme }));
+  }, []);
+
+  // Header and catalogue controls share the same page theme, not separate owners.
+  useEffect(() => {
+    const receive = (value: unknown) => {
+      if (value === "light" || value === "dark" || value === "system") setThemeState(value);
+    };
+    const local = (event: Event) => receive((event as CustomEvent).detail);
+    const storage = (event: StorageEvent) => {
+      if (event.key === STORAGE_KEY || event.key === null) receive(event.newValue ?? "system");
+    };
+    window.addEventListener(CHANGE_EVENT, local);
+    window.addEventListener("storage", storage);
+    return () => {
+      window.removeEventListener(CHANGE_EVENT, local);
+      window.removeEventListener("storage", storage);
+    };
   }, []);
 
   // Слушатель системной смены темы при theme === 'system'

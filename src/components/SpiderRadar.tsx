@@ -1,4 +1,5 @@
 import React from "react";
+import { getHarnessType } from "../harness";
 
 export interface SpiderAxis {
   label: string;
@@ -140,17 +141,22 @@ export const SpiderRadar: React.FC<SpiderRadarProps> = ({
           const textR = radius + 22;
           const tx = center + textR * Math.cos(angle);
           const ty = center + textR * Math.sin(angle);
+          const harness = getHarnessType(axis.label);
+          const Icon = harness?.icon;
           return (
+            <g key={i}>
+            {Icon && <Icon x={tx - 6} y={ty - 23} width={12} height={12} style={{ color: harness.textColor }} aria-hidden="true" />}
             <text
-              key={i}
               x={tx}
               y={ty}
               textAnchor="middle"
               dominantBaseline="central"
               className="fill-ink-soft text-meta font-mono tracking-wider uppercase"
+              style={{ fill: harness?.textColor }}
             >
               {axis.label} ({axis.value}%)
             </text>
+            </g>
           );
         })}
       </svg>

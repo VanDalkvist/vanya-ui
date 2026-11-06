@@ -1,4 +1,6 @@
 export { CraftCard, type CraftCardProps } from "./components/CraftCard";
+export { SineWave, type SineWaveProps } from "./components/SineWave";
+export { HARNESS_TYPES, getHarnessType } from "./harness";
 export { OfferCard, type OfferCardProps } from "./components/OfferCard";
 export {
   MeshStatusBadge,

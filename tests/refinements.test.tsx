@@ -1,7 +1,7 @@
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { CategoryBadge, EnergyRadar, SegmentedControl } from "../src";
+import { CategoryBadge, EnergyRadar, SegmentedControl, useTheme } from "../src";
 import { ComponentCatalog } from "../src/showcase/ComponentCatalog";
 
 afterEach(cleanup);
@@ -36,12 +36,26 @@ describe("approved showcase refinements", () => {
     expect(screen.getByRole("tab", { name: "Месяц" })).toHaveAttribute("aria-selected", "true");
   });
 
+  it("synchronizes separate theme controls on the same page", () => {
+    localStorage.clear();
+    function Controls() {
+      const first = useTheme();
+      const second = useTheme();
+      return <><button onClick={() => first.setTheme("dark")}>Change theme</button><output>{second.theme}</output></>;
+    }
+    render(<Controls />);
+    fireEvent.click(screen.getByRole("button", { name: "Change theme" }));
+    expect(screen.getByText("dark")).toBeVisible();
+    expect(document.documentElement).toHaveClass("dark");
+    expect(localStorage.getItem("vanya_theme")).toBe("dark");
+  });
+
   it("gives every component its own catalogue row and keeps badge states together", () => {
     render(<ComponentCatalog />);
     for (const name of ["ActionButton", "Kbd", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "CategoryBadge", "MeshStatusBadge", "Tag", "DisclosurePill", "LinkChip", "CraftCard", "DeskSlotCard", "OfferCard", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
-      expect(screen.getByRole("region", { name, exact: true })).toBeInTheDocument();
+      expect(screen.getByRole("region", { name })).toBeInTheDocument();
     }
-    const badges = screen.getByRole("region", { name: "CategoryBadge", exact: true });
+    const badges = screen.getByRole("region", { name: "CategoryBadge" });
     for (const label of ["Creative", "Life", "Product", "Infra"]) expect(within(badges).getByText(label)).toBeVisible();
   });
 });

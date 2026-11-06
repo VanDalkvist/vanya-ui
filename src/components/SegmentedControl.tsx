@@ -29,7 +29,7 @@ export function SegmentedControl<T extends string = string>({
       role="tablist"
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-0.5 rounded-full border border-border bg-surface-raised/60 p-0.5 font-sans select-none backdrop-blur-xs",
+          "inline-flex w-fit max-w-full self-start shrink-0 items-center gap-0.5 rounded-full border border-border bg-surface-raised/60 p-0.5 font-sans select-none backdrop-blur-xs",
           className
         )
       )}

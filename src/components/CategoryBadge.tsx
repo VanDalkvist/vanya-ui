@@ -1,6 +1,7 @@
 import React from "react";
-import { clsx } from "clsx";
+import { Hash } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import { getHarnessType } from "../harness";
 
 export type CategoryType = "Creative" | "Infra" | "Life" | "Product";
 
@@ -9,33 +10,17 @@ export interface CategoryBadgeProps extends React.HTMLAttributes<HTMLSpanElement
   className?: string;
 }
 
-export function CategoryBadge({
-  category,
-  className,
-  ...props
-}: CategoryBadgeProps) {
-  const normalized = category.toLowerCase();
-
-  const colorStyles = {
-    creative: "text-ink bg-accent/10",
-    infra: "text-sky-800 dark:text-sky-300 bg-sky-400/10",
-    life: "text-emerald-800 dark:text-emerald-300 bg-emerald-400/10",
-    product: "text-rose-800 dark:text-rose-300 bg-rose-400/10",
-  }[normalized] || "text-ink-soft bg-surface-raised";
-
+export function CategoryBadge({ category, className, style, ...props }: CategoryBadgeProps) {
+  const harness = getHarnessType(category);
+  const Icon = harness?.icon ?? Hash;
   return (
     <span
-      className={twMerge(
-        clsx(
-          "inline-flex items-center gap-1 rounded-full border-0 px-2.5 py-1 font-mono text-meta tracking-wider uppercase select-none",
-          colorStyles,
-          className
-        )
-      )}
+      className={twMerge("inline-flex items-center gap-1.5 rounded-full border-0 bg-surface-raised px-2.5 py-1 font-mono text-meta tracking-wider text-ink-soft select-none", className)}
+      style={{ color: harness?.textColor, backgroundColor: harness?.backgroundColor, ...style }}
       {...props}
     >
-      <span className="opacity-50">#</span>
-      <span>{category}</span>
+      <Icon className="size-3 shrink-0" aria-hidden="true" />
+      <span>{harness?.label ?? category}</span>
     </span>
   );
 }

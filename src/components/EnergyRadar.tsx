@@ -1,11 +1,15 @@
 import React from "react";
+import type { LucideIcon } from "lucide-react";
+import { getHarnessType } from "../harness";
 
 export interface EnergyDistributionItem {
   id: string;
   label: string;
   count: number;
   percentage: number;
-  color?: string; // hex or oklch or tailwind class
+  color?: string; // CSS color; overrides the harness default
+  textColor?: string;
+  icon?: LucideIcon;
 }
 
 export interface EnergyRadarProps {
@@ -33,6 +37,10 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
   totalLabel = "всего",
   className = "",
 }) => {
+  const resolvedItems = items.map((item) => {
+    const harness = getHarnessType(item.id) ?? getHarnessType(item.label);
+    return { ...item, color: item.color ?? harness?.color ?? "var(--accent)", textColor: item.textColor ?? harness?.textColor, icon: item.icon ?? harness?.icon };
+  });
   return (
     <div
       className={[
@@ -77,7 +85,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
 
       {/* Многосегментный прогресс-бар */}
       <div className="h-2 w-full rounded-full bg-surface-inset overflow-hidden flex border border-border">
-        {items.map((it) => {
+        {resolvedItems.map((it) => {
           if (it.percentage <= 0) return null;
           return (
             <div
@@ -96,13 +104,10 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
       {/* Легенда */}
       <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-[11px]">
         <div className="flex items-center gap-3.5 flex-wrap">
-          {items.map((it) => (
+          {resolvedItems.map((it) => (
             <div key={it.id} className="flex items-center gap-1.5 font-sans">
-              <span
-                className="size-2 rounded-full inline-block shrink-0"
-                style={{ backgroundColor: it.color || "var(--accent)" }}
-              />
-              <span className="text-ink-soft">{it.label}:</span>
+              {it.icon ? <it.icon className="size-3 shrink-0" style={{ color: it.textColor }} aria-hidden="true" /> : <span className="size-2 rounded-full inline-block shrink-0" style={{ backgroundColor: it.color }} />}
+              <span className="text-ink-soft" style={{ color: it.textColor }}>{it.label}:</span>
               <span className="font-mono font-medium text-ink">
                 {it.percentage}%
               </span>

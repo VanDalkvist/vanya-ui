@@ -22,6 +22,18 @@ The live showcase imports the same components and tokens as applications. It doe
 --color-accent: var(--accent);
 --color-accent-soft: var(--accent-soft);
 --color-border: var(--border);
+--color-harness-creative: var(--harness-creative);
+--color-harness-creative-fg: var(--harness-creative-fg);
+--color-harness-creative-bg: var(--harness-creative-bg);
+--color-harness-life: var(--harness-life);
+--color-harness-life-fg: var(--harness-life-fg);
+--color-harness-life-bg: var(--harness-life-bg);
+--color-harness-product: var(--harness-product);
+--color-harness-product-fg: var(--harness-product-fg);
+--color-harness-product-bg: var(--harness-product-bg);
+--color-harness-infra: var(--harness-infra);
+--color-harness-infra-fg: var(--harness-infra-fg);
+--color-harness-infra-bg: var(--harness-infra-bg);
 --color-paper: var(--ground);
 --color-paper-raised: var(--surface);
 --color-amber: var(--accent);
@@ -46,6 +58,18 @@ The live showcase imports the same components and tokens as applications. It doe
 ### Light
 
 ```css
+--harness-creative: oklch(0.68 0.08 310);
+--harness-creative-fg: oklch(0.42 0.09 310);
+--harness-creative-bg: oklch(0.94 0.025 310);
+--harness-life: oklch(0.66 0.08 145);
+--harness-life-fg: oklch(0.38 0.08 145);
+--harness-life-bg: oklch(0.94 0.025 145);
+--harness-product: oklch(0.70 0.085 70);
+--harness-product-fg: oklch(0.42 0.09 65);
+--harness-product-bg: oklch(0.94 0.03 70);
+--harness-infra: oklch(0.66 0.075 245);
+--harness-infra-fg: oklch(0.38 0.08 245);
+--harness-infra-bg: oklch(0.94 0.025 245);
 --border-strong: oklch(0.265 0.012 60 / 22%);
 --sheet-shadow: -24px 0 80px -40px color-mix(in oklab, var(--ink) 32%, transparent);
 --ground: oklch(0.964 0.008 85);
@@ -63,6 +87,18 @@ The live showcase imports the same components and tokens as applications. It doe
 ### Dark
 
 ```css
+--harness-creative: oklch(0.62 0.08 310);
+--harness-creative-fg: oklch(0.82 0.07 310);
+--harness-creative-bg: oklch(0.28 0.035 310);
+--harness-life: oklch(0.58 0.08 145);
+--harness-life-fg: oklch(0.82 0.07 145);
+--harness-life-bg: oklch(0.27 0.03 145);
+--harness-product: oklch(0.64 0.085 70);
+--harness-product-fg: oklch(0.84 0.075 75);
+--harness-product-bg: oklch(0.28 0.035 70);
+--harness-infra: oklch(0.60 0.075 245);
+--harness-infra-fg: oklch(0.82 0.07 245);
+--harness-infra-bg: oklch(0.27 0.03 245);
 --border-strong: oklch(1 0 0 / 24%);
 --sheet-shadow: -24px 0 80px -32px rgb(0 0 0 / 55%);
 --ground: oklch(0.185 0.008 65);
@@ -77,7 +113,7 @@ The live showcase imports the same components and tokens as applications. It doe
 --border: oklch(1 0 0 / 10%);
 ```
 
-## Exported components (25)
+## Exported components (26)
 - ActionButton: import from "@vanya/ui"
 - AvatarLink: import from "@vanya/ui"
 - CategoryBadge: import from "@vanya/ui"
@@ -98,6 +134,7 @@ The live showcase imports the same components and tokens as applications. It doe
 - RangeSlider: import from "@vanya/ui"
 - ReceiptDigestModal: import from "@vanya/ui"
 - SegmentedControl: import from "@vanya/ui"
+- SineWave: import from "@vanya/ui"
 - SpiderRadar: import from "@vanya/ui"
 - Tag: import from "@vanya/ui"
 - ThemeToggle: import from "@vanya/ui"

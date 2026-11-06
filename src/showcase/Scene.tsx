@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
-import { ActionButton, DisclosurePill, InspectDrawer, RangeSlider, TimelinePreviewCard } from "../index";
+import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, TimelinePreviewCard } from "../index";
 
 const moments = [
   { title: "Тихая навигация", date: "На краю внимания", description: "Действия не обязаны жить в большой панели. Они могут оставаться рядом с содержимым — заметными, когда нужны, и спокойными всё остальное время.", detail: "Кнопки, ссылки и переключатель темы используют общую типографику. Между группами достаточно места, чтобы различать их без дополнительных рамок." },
@@ -13,6 +12,7 @@ export function Scene() {
   const moment = selected === null ? null : moments[selected];
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
+      <SineWave className="scene-background" />
       <div className="scene-intro">
         <h1 id="scene-title">Открытое пространство</h1>
         <p>Тёплая бумага, спокойные действия.<br />Содержимое выходит на первый план.</p>
@@ -27,7 +27,6 @@ export function Scene() {
       <footer className="scene-footer">
         <span>Нажми на любой момент</span>
         <div className="scene-distance"><RangeSlider label="Пространство" aria-label="Пространство между моментами" min={32} max={120} value={distance} onChange={(event) => setDistance(Number(event.target.value))} /></div>
-        <ActionButton onClick={() => document.getElementById("catalog")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>К компонентам <ArrowUpRight size={14} aria-hidden="true" /></ActionButton>
       </footer>
       <InspectDrawer isOpen={moment !== null} title={moment?.title ?? "Деталь"} onClose={() => setSelected(null)}>
         {moment && <>
