@@ -41,7 +41,7 @@ export function EventCard({
     >
       {/* Header: Date + Close */}
       <div className="flex items-start justify-between gap-4">
-        <div className="font-mono text-[10px] tracking-[0.32em] text-ink-soft uppercase">
+        <div className="font-mono text-meta tracking-[0.16em] text-ink-soft uppercase">
           {date}
         </div>
         {onClose && (

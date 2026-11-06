@@ -82,7 +82,7 @@ export function Minimap({
           {labels.map((l, idx) => (
             <span
               key={idx}
-              className="absolute -translate-x-1/2 font-mono text-[9px] tracking-[0.18em] text-ink-faint"
+              className="absolute -translate-x-1/2 font-mono text-meta tracking-[0.1em] text-ink-faint"
               style={{ left: `${pct(l.value)}%` }}
             >
               {l.text}

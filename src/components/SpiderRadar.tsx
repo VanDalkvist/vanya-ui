@@ -147,7 +147,7 @@ export const SpiderRadar: React.FC<SpiderRadarProps> = ({
               y={ty}
               textAnchor="middle"
               dominantBaseline="central"
-              className="fill-ink-soft text-[10px] font-mono tracking-wider uppercase"
+              className="fill-ink-soft text-meta font-mono tracking-wider uppercase"
             >
               {axis.label} ({axis.value}%)
             </text>

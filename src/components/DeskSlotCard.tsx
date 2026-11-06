@@ -67,7 +67,7 @@ export const DeskSlotCard: React.FC<DeskSlotCardProps> = ({
           </h4>
         </div>
         {status && (
-          <span className="font-mono text-[10px] uppercase tracking-wider text-accent bg-accent-soft px-1.5 py-0.5 rounded-[2px]">
+          <span className="font-mono text-meta uppercase tracking-wider text-accent bg-accent-soft px-1.5 py-0.5 rounded-[2px]">
             {status}
           </span>
         )}

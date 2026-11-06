@@ -30,21 +30,21 @@ export function TimelinePreviewCard({
         )
       )}
     >
-      <div className="font-mono text-[9px] tracking-[0.24em] text-ink-faint uppercase">
+      <span className="block font-mono text-meta tracking-[0.16em] text-ink-faint uppercase">
         {date}
-      </div>
-      <h4 className="mt-2 font-sans text-sm font-medium leading-snug text-ink line-clamp-2">
+      </span>
+      <span className="mt-2 block font-sans text-sm font-medium leading-snug text-ink line-clamp-2">
         {title}
-      </h4>
+      </span>
       {imageSrc && (
-        <div className="relative mt-2 overflow-hidden rounded-[3px] border border-border bg-ground aspect-[16/9] w-full">
+        <span className="relative mt-2 block overflow-hidden rounded-[3px] border border-border bg-ground aspect-[16/9] w-full">
           <img
             src={imageSrc}
             alt={title}
             className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
             loading="eager"
           />
-        </div>
+        </span>
       )}
     </Element>
   );

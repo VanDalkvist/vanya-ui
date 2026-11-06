@@ -49,7 +49,7 @@ export function SegmentedControl<T extends string = string>({
               size === "xs" ? "px-2.5 py-1 text-[11px]" : "px-3.5 py-1.5 text-xs",
               isSelected
                 ? "bg-surface text-accent font-medium shadow-xs"
-                : "text-ink-soft/75 hover:text-ink hover:bg-surface/40"
+                : "text-ink-soft hover:text-ink hover:bg-surface/40"
             )}
           >
             {item.icon}
@@ -57,7 +57,7 @@ export function SegmentedControl<T extends string = string>({
             {item.count !== undefined && (
               <span
                 className={clsx(
-                  "rounded-full px-1.5 py-0.2 text-[9px] font-mono",
+                  "rounded-full px-1.5 py-0.2 text-meta font-mono",
                   isSelected ? "bg-accent/15 text-accent" : "bg-ground/60 text-ink-faint"
                 )}
               >

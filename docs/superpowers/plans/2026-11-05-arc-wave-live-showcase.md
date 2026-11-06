@@ -27,27 +27,27 @@
 ## Task 1 — walking vertical slice and accessible detail
 **Files:** tests/showcase.test.tsx, src/showcase/{Showcase,Scene}.tsx, src/components/{EventCard,TimelinePreviewCard,InspectDrawer}.tsx; index.html, showcase.html, vite.config.ts.
 **Interfaces:** Showcase mounts through main.tsx; Scene owns selected demo item; existing InspectDrawer accepts isOpen/title/onClose/children unchanged.
-- [ ] Write tests using real exports: preview opens a named dialog; content is selected; Escape closes and restores focus; closed dialog is absent.
-- [ ] Observe RED before implementation.
-- [ ] Implement a native button preview and modal dialog-backed InspectDrawer with focus containment/return; render Manrope event/preview titles and explicit focus states.
-- [ ] Mount both HTML entrypoints on one real React tree; run tests GREEN.
+- [x] Write tests using real exports: preview opens a named dialog; content is selected; Escape closes and restores focus; closed dialog is absent.
+- [x] Observe RED before implementation.
+- [x] Implement a native button preview and modal dialog-backed InspectDrawer with focus containment/return; render Manrope event/preview titles and explicit focus states.
+- [x] Mount both HTML entrypoints on one real React tree; run tests GREEN.
 
 ## Task 2 — complete catalog, composition and token authority
 **Files:** src/showcase/{ComponentCatalog,CatalogSection,showcase.css,main}.tsx/css; src/tokens.css; scripts/{sync,token-reference}.ts; tests/token-reference.test.ts; DESIGN.md, README.md.
 **Interfaces:** Catalog imports exclusively src/index exports; renderTokenReference(css:string):string derives root/theme/font/spacing values and fails on missing required blocks.
-- [ ] Write RED behavioral tests for generated documentation changing with input CSS, and invalid CSS failing explicitly.
-- [ ] Implement token-derived reference generation; remove redundant hard-coded color specification and obsolete taste rules.
-- [ ] Demonstrate all existing exports with local demo controls; preserve separate EventCard/TimelinePreviewCard examples and explicit DeskSlotCard states.
-- [ ] Add shared scene spacing, display typography, overlay shadow and reduced-motion tokens/styles without duplicating the palette.
-- [ ] Fix baseline OfferCard variants and undefined legacy utility-token wiring needed by rendered exports.
-- [ ] Verify GREEN, sync twice with no drift, typecheck and production multi-page build.
+- [x] Write RED behavioral tests for generated documentation changing with input CSS, and invalid CSS failing explicitly.
+- [x] Implement token-derived reference generation; remove redundant hard-coded color specification and obsolete taste rules.
+- [x] Demonstrate all existing exports with local demo controls; preserve separate EventCard/TimelinePreviewCard examples and explicit DeskSlotCard states.
+- [x] Add shared scene spacing, display typography, overlay shadow and reduced-motion tokens/styles without duplicating the palette.
+- [x] Fix baseline OfferCard variants and undefined legacy utility-token wiring needed by rendered exports.
+- [x] Verify GREEN, sync twice with no drift, typecheck and production multi-page build.
 
 ## Task 3 — visual verification and persistence
-- [ ] Inspect desktop light, detail open, dark and narrow viewport; test theme, selection, disclosure, controls and browser errors.
-- [ ] Run full Vitest, tsc and build with bounded timeouts; save reports under BB thread storage.
-- [ ] Run Impeccable detector once after visual work; record genuine limitations, not silent rule suppression.
-- [ ] Self-review AP boundaries / entrypoint wiring / runtime completeness / assertion integrity; update architecture ledger with evidence and residual risks.
-- [ ] Commit and push scoped changes; verify remote SHA and clean scoped worktree.
+- [x] Inspect desktop light, detail open, dark and narrow viewport; test theme, selection, disclosure, controls and browser errors.
+- [x] Run full Vitest, tsc and build with bounded timeouts; save reports under BB thread storage.
+- [x] Run Impeccable detector once after visual work; record genuine limitations, not silent rule suppression.
+- [x] Self-review AP boundaries / entrypoint wiring / runtime completeness / assertion integrity; update architecture ledger with evidence and residual risks.
+- [x] Commit and push scoped changes; verify remote SHA and clean scoped worktree.
 
 ## Plan review / rulings
 Coverage: all three remaining findings have implementation and verification paths. No new public composition API is needed: demonstrate recipes first. Existing catalog exports are preserved rather than replaced by a single static mock. User explicitly asked to continue fixes; proceed inline rather than requesting another approval. Tests and browser receipts do not constitute independent review.

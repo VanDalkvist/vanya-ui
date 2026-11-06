@@ -55,7 +55,7 @@ export function OfferCard({
 
       <div className="space-y-3 pt-2 border-t border-hairline/60">
         {/* SDT Motivation tags */}
-        <div className="flex flex-wrap gap-1.5 font-mono text-[11px] text-ink-faint">
+        <div className="flex flex-wrap gap-1.5 font-mono text-xs text-ink-faint">
           <span className="rounded-xs bg-surface-inset px-2 py-0.5">
             Автономия: <span className="text-ink-soft">{autonomy}</span>
           </span>

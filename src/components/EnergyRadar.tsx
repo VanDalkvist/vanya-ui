@@ -63,7 +63,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
                   className={[
                     "px-2 py-0.5 rounded-[2px] transition-all cursor-pointer border-0",
                     isSelected
-                      ? "bg-accent-soft text-accent font-medium"
+                      ? "bg-accent-soft text-ink font-medium"
                       : "bg-transparent text-ink-soft hover:text-ink",
                   ].join(" ")}
                 >
@@ -106,7 +106,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
               <span className="font-mono font-medium text-ink">
                 {it.percentage}%
               </span>
-              <span className="font-mono text-[10px] text-ink-faint">
+              <span className="font-mono text-meta text-ink-faint">
                 ({it.count})
               </span>
             </div>

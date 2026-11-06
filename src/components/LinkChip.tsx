@@ -27,7 +27,7 @@ export function LinkChip({
       )}
       {...props}
     >
-      <span className="font-mono text-[10px] tracking-[0.24em] text-ink-soft uppercase shrink-0">
+      <span className="font-mono text-meta tracking-[0.24em] text-ink-soft uppercase shrink-0">
         {label}
       </span>
       <span className="truncate max-w-[280px] text-xs font-mono text-ink-soft hover:text-ink">

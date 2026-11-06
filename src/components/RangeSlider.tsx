@@ -20,7 +20,7 @@ export function RangeSlider({
   return (
     <div className={twMerge(clsx("flex items-center gap-3", className))}>
       {label && (
-        <span className="font-mono text-[9px] uppercase tracking-widest text-ink-faint shrink-0">
+        <span className="font-mono text-meta uppercase tracking-wider text-ink-faint shrink-0">
           {label}
         </span>
       )}

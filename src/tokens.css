@@ -34,6 +34,8 @@
 
   --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
   --t-transition: 200ms;
+  --text-meta: 0.6875rem;
+  --text-meta--line-height: 1.5;
   --spacing-scene: clamp(24px, 4vw, 64px);
   --spacing-focus: clamp(32px, 6vw, 96px);
   --shadow-sheet: var(--sheet-shadow);
