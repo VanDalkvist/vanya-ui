@@ -72,7 +72,7 @@ export function OfferCard({
         {onAction && (
           <div className="flex justify-end">
             <ActionButton
-              variant={isActive ? "amber" : "default"}
+              variant={isActive ? "accent" : "text"}
               onClick={onAction}
             >
               {isActive ? "Уже в работе" : actionLabel}

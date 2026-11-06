@@ -17,13 +17,15 @@ export function TimelinePreviewCard({
   onClick,
   className,
 }: TimelinePreviewCardProps) {
+  const Element = onClick ? "button" : "div";
   return (
-    <div
+    <Element
+      type={onClick ? "button" : undefined}
       onClick={onClick}
       className={twMerge(
         clsx(
-          "w-[240px] rounded-xs border border-border bg-surface p-3 text-ink transition-all duration-200 select-none",
-          onClick && "cursor-pointer hover:bg-surface-raised hover:border-accent/40 hover:shadow-xs",
+          "w-[240px] max-w-full rounded-sm border border-border bg-surface p-4 text-left text-ink transition-[background-color,box-shadow] duration-200 select-none",
+          onClick && "cursor-pointer hover:bg-surface-raised hover:shadow-xs",
           className
         )
       )}
@@ -31,7 +33,7 @@ export function TimelinePreviewCard({
       <div className="font-mono text-[9px] tracking-[0.24em] text-ink-faint uppercase">
         {date}
       </div>
-      <h4 className="mt-1 font-serif text-[13px] font-medium leading-snug text-ink line-clamp-2">
+      <h4 className="mt-2 font-sans text-sm font-medium leading-snug text-ink line-clamp-2">
         {title}
       </h4>
       {imageSrc && (
@@ -44,6 +46,6 @@ export function TimelinePreviewCard({
           />
         </div>
       )}
-    </div>
+    </Element>
   );
 }

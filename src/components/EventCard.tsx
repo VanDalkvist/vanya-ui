@@ -34,7 +34,7 @@ export function EventCard({
     <article
       className={twMerge(
         clsx(
-          "relative flex w-full max-w-xl flex-col rounded-sm border border-border bg-surface p-6 sm:p-8 text-ink shadow-sm transition-all",
+          "relative flex w-full max-w-xl flex-col rounded-sm border border-border bg-surface p-6 sm:p-8 text-ink transition-colors",
           className
         )
       )}
@@ -48,7 +48,7 @@ export function EventCard({
           <button
             type="button"
             onClick={onClose}
-            className="-mt-1 appearance-none border-0 bg-transparent p-0 font-mono text-[10px] tracking-[0.24em] text-ink-soft uppercase transition-colors hover:text-accent cursor-pointer"
+            className="-mt-1 min-h-9 appearance-none border-0 bg-transparent px-1 font-sans text-[11px] tracking-[0.24em] text-ink-soft uppercase transition-colors hover:text-accent cursor-pointer"
           >
             Закрыть
           </button>
@@ -56,7 +56,7 @@ export function EventCard({
       </div>
 
       {/* Main Title */}
-      <h3 className="mt-4 font-serif text-2xl sm:text-3xl font-normal leading-tight text-ink tracking-tight">
+      <h3 className="mt-4 font-sans text-2xl sm:text-3xl font-medium leading-tight text-ink tracking-tight">
         {title}
       </h3>
 

@@ -1,4 +1,5 @@
 export { CraftCard, type CraftCardProps } from "./components/CraftCard";
+export { OfferCard, type OfferCardProps } from "./components/OfferCard";
 export {
   MeshStatusBadge,
   type MeshStatusBadgeProps,

@@ -1,55 +1,38 @@
----
-name: Hearth & Wave
-description: Contemplative craft design system for Vanya's autonomous workspace, services, and creative tools. Supports dual-theme: Warm Paper Archive (light) and Warm Dark Charcoal (dark), with glowing amber accents, micro-radii (2-4px), and hairline borders.
+# Hearth & Wave
 
-colors:
-  # Dark Mode (Warm Dark Charcoal)
-  dark:
-    ground: "oklch(0.185 0.008 65)"               # warm dark charcoal paper base #181816
-    surface: "oklch(0.235 0.010 65)"              # cards, panels, drawers #22221f
-    surface-raised: "oklch(0.270 0.012 65)"       # hover and elevated states
-    surface-inset: "oklch(0.150 0.006 65)"        # inputs, terminal blocks, code
-    ink: "oklch(0.930 0.008 75)"                  # primary warm linen text #ece4d6
-    ink-soft: "oklch(0.680 0.012 75)"             # secondary descriptions, badges
-    ink-faint: "oklch(0.480 0.012 70)"            # meta, timestamps, quiet labels
-    amber: "#ffb266"                              # primary living amber focus
-    amber-soft: "rgba(255, 178, 102, 0.15)"       # amber diffuse glow base
-    hairline: "oklch(1 0 0 / 12%)"                # 1px border default
-    hairline-active: "oklch(1 0 0 / 24%)"         # 1px border hover/active
+## Visual authority
 
-  # Light Mode (Warm Paper Archive)
-  light:
-    ground: "oklch(0.964 0.008 85)"               # warm creamy linen paper #f6f5f0
-    surface: "oklch(0.979 0.006 85)"              # clean paper card
-    surface-raised: "oklch(0.992 0.004 85)"       # hover card
-    surface-inset: "oklch(0.940 0.010 85)"        # inputs, wells
-    ink: "oklch(0.265 0.012 60)"                  # deep charcoal ink #181816
-    ink-soft: "oklch(0.560 0.014 70)"             # soft secondary ink
-    ink-faint: "oklch(0.720 0.010 70)"            # quiet labels, timestamps
-    amber: "oklch(0.530 0.135 42)"                # warm terracotta / amber on paper
-    amber-soft: "rgba(186, 92, 32, 0.12)"         # terracotta wash
-    hairline: "oklch(0 0 0 / 10%)"                # 1px dark hairline on paper
-    hairline-active: "oklch(0 0 0 / 22%)"         # 1px active hairline
+The light theme of Vanya's Arc Wave / Синусоида is the reference. The transferable character is open space, quiet peripheral controls, clear type hierarchy and details revealed on request — not a mandatory wave graphic or a checklist of decorative prohibitions.
 
-radii:
-  xs: "2px"                                     # buttons, pills, tags, inputs
-  sm: "4px"                                     # cards, modals, drawers
+## Source of truth
 
-typography:
-  serif: "Fraunces, ui-serif, Georgia, serif"   # narrative dates, identity
-  sans: "Manrope, ui-sans-serif, sans-serif"    # UI labels, cards, buttons
-  mono: "JetBrains Mono, monospace"             # telemetry, ports, metrics (lowercase)
+- `src/tokens.css`: executable colors, typography families, spacing and overlay elevation for both themes.
+- `src/components`: actual reusable primitives, exported through `src/index.ts`.
+- `src/showcase`: working composition and live examples; both `/` and `/showcase.html` mount the same React entrypoint.
+- `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
-rules:
-  - "Color belongs on data and living focus, never on decorative chrome (<= 3-5% colored pixels)."
-  - "Dual-theme is mandatory: every component must render cleanly in both Paper Light and Charcoal Dark."
-  - "Declare elevation once: hairline border OR surface shift, never heavy drop shadows."
-  - "No kickers or eyebrows above headings. Let the heading speak."
-  - "No icons in filled round circles. No gradient text."
-  - "Monospace is lowercase and used strictly for data, metrics, code, and ports."
----
+## Typography and hierarchy
 
-# Hearth & Wave Design System
+Manrope is the normal interface and display face, including EventCard, TimelinePreviewCard and InspectDrawer headings. Use size, weight, measure and spacing to separate content from controls. Fraunces remains available for intentionally editorial content, such as ReceiptDigestModal narrative prose. JetBrains Mono is for code, measurements and short metadata, not every heading.
 
-This repository holds the tokens, primitives, and anti-slop rules for all personal tools built by Vanya Afanasov.
-Supports dual-mode theme switching via Tailwind v4 `@custom-variant dark`.
+## Composition recipes
+
+- Open field: content first, navigation near the edge, no permanent secondary panel.
+- Preview: short title and context, with a real button when interactive.
+- Detail: a right-hand sheet retaining the page as a subdued backdrop. A directional shadow communicates separation; the edge may also have a hairline.
+- Reference: readable grouped examples with descriptions, not a second set of HTML lookalikes.
+- Dense working views can use rows and compact spacing; spaciousness does not require hiding primary actions or making text faint.
+
+`--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
+
+## Interaction
+
+Controls must work in the demonstrated composition. Detail sheets use the native modal dialog for focus containment, Escape dismissal and focus return. The page theme control owns persistent theme selection; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.
+
+## Modes
+
+The opening scene is Experience: the composition is the example. The component reference is Read. Tools consuming the package are Operate: keep task interactions quick, with no decorative page-load sequence. A reference site's longer spatial transitions are not a default for all tools.
+
+## Verification limits
+
+A passing build, detector or unit test does not establish aesthetic acceptance. Inspect the assembled light/dark and narrow-screen views. User approval of the visual result remains separate from technical checks.

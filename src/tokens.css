@@ -16,21 +16,33 @@
   --color-accent-soft: var(--accent-soft);
 
   --color-border: var(--border);
+  /* Compatibility names used by existing exported primitives. */
+  --color-paper: var(--ground);
+  --color-paper-raised: var(--surface);
+  --color-amber: var(--accent);
+  --color-hairline: var(--border);
+  --color-hairline-active: var(--border-strong);
 
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-full: 9999px;
 
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
   --t-transition: 200ms;
+  --spacing-scene: clamp(24px, 4vw, 64px);
+  --spacing-focus: clamp(32px, 6vw, 96px);
+  --shadow-sheet: var(--sheet-shadow);
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+  --border-strong: oklch(0.265 0.012 60 / 22%);
+  --sheet-shadow: -24px 0 80px -40px color-mix(in oklab, var(--ink) 32%, transparent);
 
   /* Светлая тема: Warm Paper Archive (WCAG AA контраст >= 4.5:1) */
   --ground: oklch(0.964 0.008 85);           /* Тёплая бумага верже #f6f5f0 */
@@ -49,6 +61,9 @@
 }
 
 .dark {
+  color-scheme: dark;
+  --border-strong: oklch(1 0 0 / 24%);
+  --sheet-shadow: -24px 0 80px -32px rgb(0 0 0 / 55%);
   /* Тёмная тема: Warm Dark Charcoal (WCAG AA контраст >= 4.5:1) */
   --ground: oklch(0.185 0.008 65);          /* Тёмный тёплый уголь #181816 */
   --surface: oklch(0.235 0.010 65);         /* Угольная карточка #22221f */
@@ -73,6 +88,15 @@
   ::selection {
     background-color: var(--accent-soft);
     color: var(--ink);
+  }
+
+  .inspect-sheet {
+    box-shadow: var(--sheet-shadow);
+  }
+
+  .inspect-sheet::backdrop {
+    background: color-mix(in oklab, var(--ground) 55%, transparent);
+    backdrop-filter: blur(2px);
   }
 
   :focus-visible {
@@ -106,3 +130,13 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
