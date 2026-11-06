@@ -1,6 +1,9 @@
 export type { ComponentSize } from "./sizes";
 export { CraftCard, type CraftCardProps } from "./components/CraftCard";
-export { SineWave, type SineWaveProps } from "./components/SineWave";
+export { SineWave, type SineWaveProps, type SineWaveEvent } from "./components/SineWave";
+export { EventPoint, type EventPointProps } from "./components/EventPoint";
+export { TimelineEvent, type TimelineEventProps } from "./components/TimelineEvent";
+export type { EventWeight, PointAppearance } from "./wave-geometry";
 export { HARNESS_TYPES, getHarnessType } from "./harness";
 export { OfferCard, type OfferCardProps } from "./components/OfferCard";
 export {

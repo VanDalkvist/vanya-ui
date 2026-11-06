@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
-  Divider, EnergyRadar, EventCard, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
+  Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
   MeshStatusBadge, Minimap, NavLinks, OfferCard, RangeSlider, ReceiptDigestModal,
-  SegmentedControl, SineWave, SpiderRadar, Tag, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
+  SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
 
 function Sizes({ children }: { children: (size: "sm" | "md") => React.ReactNode }) {
-  return <div className="demo-column">{(["md", "sm"] as const).map((size) => <div key={size} className="size-examples"><span className="demo-label">{size}</span>{children(size)}</div>)}</div>;
+  return <div className="demo-column">{(["md", "sm"] as const).map((size) => <div key={size} className="size-examples"><span className="demo-label size-label">{size}</span>{children(size)}</div>)}</div>;
 }
 
 const horizons = [{ id: "day", label: "День" }, { id: "week", label: "Неделя" }, { id: "month", label: "Месяц" }];
@@ -43,8 +43,12 @@ export function ComponentCatalog() {
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
     </CatalogSection>
-    <CatalogSection id="sine-wave" title="SineWave" description="Фоновая SVG-линия. Не анимируется и не перехватывает клики.">
-      <SineWave className="h-32" />
+    <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
+      <SineWave className="h-60" origin={590} events={[
+        { id: "wave-one", position: .1, weight: 1 }, { id: "wave-two", position: .3, weight: 2 },
+        { id: "wave-three", position: .5, weight: 3 }, { id: "wave-now", position: .72, weight: 4, current: true },
+        { id: "wave-future", position: .9, weight: 2, future: true },
+      ]} />
     </CatalogSection>
     <CatalogSection id="theme" title="ThemeToggle" description="Меню и сегментированный переключатель. Оба меняют общую тему страницы.">
       <ThemeToggle /><ThemeToggle variant="segmented" />
@@ -86,6 +90,12 @@ export function ComponentCatalog() {
       {sampleVisible ? <EventCard date="5 ноября 2026" title="Пример проекта" description="Описание проекта со ссылкой и тегом." links={[{ url: "https://vanya-arc.dev", label: "референс" }]} tags={["демо"]} onClose={() => setSampleVisible(false)} /> : <ActionButton onClick={() => setSampleVisible(true)}>Показать EventCard снова</ActionButton>}
     </CatalogSection>
     <CatalogSection id="preview" title="TimelinePreviewCard" description="Короткая карточка. С действием по нажатию и без него."><TimelinePreviewCard date="ноябрь 2026" title="Открыть описание" onClick={() => setOverlay("sheet")} /><TimelinePreviewCard date="ноябрь 2026" title="Карточка без действия" /></CatalogSection>
+    <CatalogSection id="event-point" title="EventPoint" description="Четыре веса события. С действием — кнопка с hover и фокусом; без действия — метка.">
+      <div className="demo-column"><div className="size-examples">{([1, 2, 3, 4] as const).map(weight => <EventPoint key={weight} weight={weight} label={`Вес ${weight}`} />)}</div><div className="size-examples"><EventPoint label="Открыть событие" weight={3} onClick={() => setOverlay("sheet")} /><EventPoint label="Сейчас" current /><EventPoint label="Будущее событие" future /><EventPoint label="Группа событий" count={6} weight={3} /><EventPoint label="Недоступное событие" disabled onClick={() => setOverlay("sheet")} /></div></div>
+    </CatalogSection>
+    <CatalogSection id="timeline-event" title="TimelineEvent" description="Точка и карточка с общим hover, фокусом и одним действием.">
+      <TimelineEvent date="Пример" title="Открыть описание события" weight={3} onClick={() => setOverlay("sheet")} /><TimelineEvent date="Пример" title="Событие без действия" weight={2} future />
+    </CatalogSection>
     <CatalogSection id="craft-card" title="CraftCard" description="Контейнер для связанных элементов."><CraftCard><p>Содержимое карточки.</p></CraftCard></CatalogSection>
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>

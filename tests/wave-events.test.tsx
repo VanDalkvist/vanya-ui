@@ -1,7 +1,7 @@
 import React from "react";
 import { afterEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { EventPoint, TimelineEvent } from "../src";
+import { EventPoint, SineWave, TimelineEvent } from "../src";
 import { createWaveGeometry, pointRadius } from "../src/wave-geometry";
 import reference from "./fixtures/arc-wave-reference.json";
 
@@ -22,6 +22,17 @@ it("matches actual source wave and ghost coordinates at different viewport sizes
     }
     expect(geometry.branchAt(.35, 0, -1, .43)).toEqual(geometry.pointAt(.35));
   }
+});
+
+it("renders changed geometry from real inputs and ignores invalid/offscreen controls", () => {
+  const { container, rerender } = render(<SineWave events={[{ id: "one", position: .3, weight: 2 }]} />);
+  const before = container.querySelector(".wave-past")!.getAttribute("d");
+  expect(container.querySelectorAll("[data-ghost=one] circle").length).toBeGreaterThan(2);
+  rerender(<SineWave origin={137} events={[{ id: "invalid", position: NaN, current: true }, { id: "offscreen", position: -2, label: "Hidden", onClick: () => {} }]} />);
+  const after = container.querySelector(".wave-past")!.getAttribute("d");
+  expect(after).not.toBe(before);
+  expect(after).not.toContain("NaN");
+  expect(screen.queryByRole("button")).not.toBeInTheDocument();
 });
 
 it("preserves all four source event weights and focus-dependent radii", () => {

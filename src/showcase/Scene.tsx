@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, TimelinePreviewCard } from "../index";
+import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
 
 const moments = [
   { title: "Навигация", date: "NavLinks", description: "Кнопки в шапке переключают между первым экраном и каталогом компонентов.", detail: "Переключатель рядом меняет тему всей страницы." },
@@ -12,17 +12,16 @@ export function Scene() {
   const moment = selected === null ? null : moments[selected];
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
-      <SineWave className="scene-background" />
+      <SineWave className="scene-background" origin={590} events={[
+        { id: "early", position: 0.1, weight: 1 },
+        ...moments.map((item, index): SineWaveEvent => ({ id: item.date, position: 0.5 + (index === 0 ? -1 : 1) * distance / 320, weight: index === 0 ? 2 : 4, preview: { date: item.date, title: item.title }, onClick: () => setSelected(index) })),
+        { id: "middle", position: 0.5, weight: 3 },
+        { id: "current", position: 0.86, weight: 3, current: true },
+        { id: "later", position: 0.95, weight: 1, future: true },
+      ]} />
       <div className="scene-intro">
         <h1 id="scene-title">Библиотека компонентов</h1>
         <p>Кнопки, карточки и другие элементы.<br />Можно менять тему и пробовать состояния.</p>
-      </div>
-      <div className="scene-moments" style={{ gap: `${distance}px` }}>
-        {moments.map((item, index) => (
-          <div key={item.title} className={`scene-moment scene-moment-${index}`}>
-            <TimelinePreviewCard date={item.date} title={item.title} onClick={() => setSelected(index)} className="w-full max-w-[280px]" />
-          </div>
-        ))}
       </div>
       <footer className="scene-footer">
         <span>Нажми на карточку</span>
@@ -33,7 +32,7 @@ export function Scene() {
           <p className="text-base leading-relaxed text-ink">{moment.description}</p>
           <p>{moment.detail}</p>
           <DisclosurePill title="Компоненты этого примера">
-            <p>TimelinePreviewCard, InspectDrawer, RangeSlider и DisclosurePill доступны в пакете @vanya/ui.</p>
+            <p>SineWave, TimelineEvent, EventPoint, InspectDrawer, RangeSlider и DisclosurePill доступны в пакете @vanya/ui.</p>
           </DisclosurePill>
         </>}
       </InspectDrawer>

@@ -156,6 +156,26 @@
     --ui-icon: var(--size-md-icon);
   }
   .ui-size > svg, .ui-segments > button > svg { width:var(--ui-icon); height:var(--ui-icon); flex-shrink:0; }
+  .event-point { --point-hit:var(--size-md-height); position:relative; display:inline-grid; place-items:center; width:var(--point-hit); height:var(--point-hit); padding:0; border:0; background:transparent; vertical-align:middle; }
+  .event-point[data-size="sm"] { --point-hit:var(--size-sm-height); }
+  .event-point > svg { display:block; width:var(--size-md-height); height:var(--size-md-height); overflow:visible; }
+  .event-point-glyph { filter:blur(var(--event-blur, 0px)); transform-origin:0 0; transition:color var(--t-transition), opacity var(--t-transition), scale var(--t-transition), filter var(--t-transition); }
+  .event-point-ring { transition:opacity var(--t-transition); }
+  .event-point[data-interactive="true"], .timeline-event[data-interactive="true"] { cursor:pointer; }
+  .event-point:disabled, .timeline-event:disabled { opacity:0.35; cursor:default; }
+  .event-point[data-interactive="true"]:not(:disabled):is(:hover,:focus-visible) .event-point-glyph,
+  .timeline-event[data-interactive="true"]:not(:disabled):is(:hover,:focus-visible) .event-point-glyph { color:var(--accent); opacity:1; filter:none; scale:1.25; }
+  .event-point[data-interactive="true"]:not(:disabled):is(:hover,:focus-visible) .event-point-ring,
+  .timeline-event[data-interactive="true"]:not(:disabled):is(:hover,:focus-visible) .event-point-ring { opacity:0.4; }
+  .timeline-event { display:inline-flex; width:240px; flex-direction:column; align-items:center; gap:16px; padding:0; border:0; background:transparent; text-align:left; }
+  .timeline-event-card { transform:translateX(var(--event-card-shift, 0px)); }
+  .timeline-event[data-interactive="true"]:not(:disabled):is(:hover,:focus-visible) .timeline-event-card { background:var(--surface-raised); box-shadow:var(--shadow-xs); }
+  .timeline-event:focus-visible { outline:none; }
+  .timeline-event:focus-visible .timeline-event-card { outline:1.5px solid var(--accent); outline-offset:2px; }
+  .sine-wave { overflow:hidden; }
+  .wave-point, .wave-event { position:absolute; left:0; top:0; pointer-events:auto; }
+  .wave-point { transform:translate(-50%, -50%); }
+  .wave-event { transform:translate(-50%, calc(-100% + var(--size-md-height) / 2)); }
   .ui-avatar { width:var(--ui-height); padding:0; }
   .ui-segments { padding:2px; gap:2px; }
   .ui-segments > button { height:calc(var(--ui-height) - 6px); padding:0 var(--ui-padding); gap:var(--ui-gap); font-size:inherit; line-height:inherit; }

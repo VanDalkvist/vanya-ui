@@ -125,7 +125,7 @@ The live showcase imports the same components and tokens as applications. It doe
 --border: oklch(1 0 0 / 10%);
 ```
 
-## Exported components (26)
+## Exported components (28)
 - ActionButton: import from "@vanya/ui"
 - AvatarLink: import from "@vanya/ui"
 - CategoryBadge: import from "@vanya/ui"
@@ -135,6 +135,7 @@ The live showcase imports the same components and tokens as applications. It doe
 - Divider: import from "@vanya/ui"
 - EnergyRadar: import from "@vanya/ui"
 - EventCard: import from "@vanya/ui"
+- EventPoint: import from "@vanya/ui"
 - HearthPulse: import from "@vanya/ui"
 - InspectDrawer: import from "@vanya/ui"
 - Kbd: import from "@vanya/ui"
@@ -150,6 +151,7 @@ The live showcase imports the same components and tokens as applications. It doe
 - SpiderRadar: import from "@vanya/ui"
 - Tag: import from "@vanya/ui"
 - ThemeToggle: import from "@vanya/ui"
+- TimelineEvent: import from "@vanya/ui"
 - TimelinePreviewCard: import from "@vanya/ui"
 - VoiceWaveIndicator: import from "@vanya/ui"
 
