@@ -8,10 +8,10 @@ React-компоненты и CSS-токены для интерфейсов [va
 
 ## Подключение
 
-Пакет устанавливается напрямую из GitHub. Текущая версия находится в ветке `fix/arc-wave-live-showcase`:
+Пакет устанавливается напрямую из основной ветки GitHub:
 
 ```sh
-bun add github:VanDalkvist/vanya-ui#fix/arc-wave-live-showcase
+bun add github:VanDalkvist/vanya-ui
 ```
 
 Требуются React 18 или 19, Tailwind CSS 4 и сборщик, который обрабатывает TypeScript/TSX из зависимостей. Публичный `exports` указывает на исходники; отдельного npm-релиза и предварительно собранного JS-пакета нет.
