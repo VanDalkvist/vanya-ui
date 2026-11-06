@@ -108,3 +108,25 @@
 - Not applicable: databases, auth, external API adapters and data migrations (no such boundaries touched).
 - Residual risk: new details have author/browser verification, not independent review or a fresh user visual approval; Farm parity is a recorded snapshot and future upstream palette changes must be intentionally synchronized. No third-party skill changes.
 - Scoped technical verdict: PASS; not an independent dual-circuit acceptance claim.
+
+## Cycle 4 — Passive labels, copy, common sizes and review follow-ups (2026-11-06)
+
+### User scope and changes
+- Checked primary Carbon/GOV.UK tag guidance: read-only labels do not have clickable hover/focus states; actionable variants must be distinguishable. Informational chart titles are not a click action. Source URLs and the working plan are in docs/superpowers/plans/2026-11-06-passive-labels-and-copy.md; raw source evidence is tag-hover-primary-sources.md in BB thread thr_iqfqpdagcr.
+- Tag and MeshStatusBadge render static spans without an action and native buttons when onClick is supplied. Disabled controls do not show enabled hover feedback. Toggle tags expose aria-pressed only when isActive is actually supplied. Static preview images and card containers no longer suggest a click; nested park remains actionable. Clickable project titles use native buttons without nesting the park button.
+- Applied redaktura and ux-copy to scene, descriptions, sample content, overlays and indicator defaults. Removed atmospheric assertions and the stale default three-project quota label. The user explicitly corrected a removal proposal: the intro was never removed and is retained, with a literal heading and a smaller 24–28px hierarchy. Palette, spacing composition and wave remain.
+- Radar now takes the full catalogue width; legend items do not break internally and the total has its own clearance. Setup is always visible in a separate section after all components, rather than expanding above them.
+- Added CategoryBadge sm/md and one shared inline size foundation: 24/32px outer heights, common font/line/icon/padding/gap tokens. Eight families use it: CategoryBadge, Tag, MeshStatusBadge, ActionButton, Kbd, LinkChip, AvatarLink and SegmentedControl. Both sizes are shown together within each component row. Legacy xs is retained as compact sm; visual migration is documented in DESIGN.md.
+- Added the real vanya-arc.dev external link between section navigation and theme, with separators and a safe new-tab target.
+
+### Verification evidence
+- Full Vitest suite: 18 passed. Focused passive-label and size-contract regressions were first observed failing. TypeScript, production build, sync idempotence and git diff --check pass.
+- Chrome/dev browser: 34 passed, no runtime errors. Actual computed hover compared in both themes for passive labels/cards and chart bars. Native Enter/Space, disabled actions, dialog Escape/focus return, image scale feedback and separate title/park actions checked.
+- Measured both actual sizes across all eight families, including font/line/icon metrics: common 24/32px outer heights. Checked full-width radar, wrapping legend and detached setup; both entry URLs render without mobile overflow. Header including original-site link remains within 88px at 390px viewport.
+- Reports: passive-labels-tests.json, passive-labels-browser-checks.json. Screenshots: passive-labels-{scene,radar,mobile}.jpg and component-sizes.jpg in BB thread thr_iqfqpdagcr. Retook light screenshots after theme transitions settled.
+
+### Architecture verification — scoped author self-review
+- Passed: AP-046 (additive props and retained xs alias, documented visual migration), AP-054/AP-069 (static versus actionable semantics, native keyboard controls, disabled/focus behavior), AP-068 (one executable size foundation, unchanged palette), AP-070 (motion preference preserved).
+- Dependency traceability: exported ComponentSize is used by all eight inline families; their ui-size/data-size contract resolves CSS variables in the actual token file. Runtime catalogue renders the same exports, not lookalikes. Shared size code is two lines plus CSS, with no dependency or new infrastructure.
+- Residual risk: canonical sizes intentionally change earlier incidental padding/height values; consumers relying on old exact dimensions or node selectors need visual review. This is not full WCAG certification, independent review, or user aesthetic acceptance. Dev-server browser checks plus a production build are not claimed as a production deployment.
+- Scoped technical verdict: PASS. No merge into main or unrelated workspace changes.
