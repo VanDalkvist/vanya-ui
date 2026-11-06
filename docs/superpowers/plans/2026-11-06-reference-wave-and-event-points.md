@@ -19,6 +19,9 @@ Public page inspected in Chrome; screenshot arc-wave-reference-look.json in BB t
 - Use one pure package-owned geometry module and one shared point glyph; no import/runtime dependency on the source app. Source-generated numeric fixtures verify fidelity without coupling tests to a sibling checkout.
 - Fix the Divider call site: horizontal line explicitly selects horizontal; show the vertical variant separately.
 
+## Verified outcome
+UI slice verified with 24 tests, types, build and 31 compiled-browser checks. Publication audit found no credential findings or private records, but an author contact in Git metadata is not confirmed as intentionally public. Repository visibility is unchanged pending operator approval; no rewriting or force push.
+
 ## Alternatives considered
 A hand-drawn approximation was already rejected. Importing the full source timeline would couple a UI primitive to personal data/router/camera state. Separate point/card buttons duplicate a single event action and make hover/focus drift; one composite control avoids this.
 
@@ -31,8 +34,8 @@ A hand-drawn approximation was already rejected. Importing the full source timel
 - After visual completion: audit repository and Git history for private data/secrets; only make the repository public if the audit is clear. User explicitly authorized this conditional visibility change.
 
 ## Slices and verification
-- [ ] Save source-derived numeric geometry/radius fixtures; observe focused red tests for branch anchoring, actual input-dependent wave shape, native standalone action, one compound action and shared focus semantics.
-- [ ] Implement source-derived math, EventPoint, TimelineEvent and responsive SineWave; preserve existing SVG props and package conventions.
-- [ ] Wire real components to scene and separate catalogue rows, including all weights/states and a working detail action. Keep intro and existing size refinements intact.
-- [ ] Run focused/full tests, types, generation and production build with bounded commands. Chrome-check resized geometry, ghost starts, variable point radii, actual point/card hover and keyboard, mobile, both themes and 1px divider.
-- [ ] Inspect compiled page/screenshots against the reference; update ledger with scoped author verification and limits. Commit/push immediately, no merge or independent-review claim.
+- [x] Save source-derived numeric geometry/radius fixtures; observe focused red tests for branch anchoring, actual input-dependent wave shape, native standalone action, one compound action and shared focus semantics.
+- [x] Implement source-derived math, EventPoint, TimelineEvent and responsive SineWave; preserve existing SVG props and package conventions.
+- [x] Wire real components to scene and separate catalogue rows, including all weights/states and a working detail action. Keep intro and existing size refinements intact.
+- [x] Run focused/full tests, types, generation and production build with bounded commands. Chrome-check resized geometry, ghost starts, variable point radii, actual point/card hover and keyboard, mobile, both themes and 1px divider.
+- [x] Inspect compiled page/screenshots against the reference; update ledger with scoped author verification and limits. Commit/push immediately, no merge or independent-review claim.
