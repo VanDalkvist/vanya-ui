@@ -1,9 +1,9 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [tailwindcss()],
-  build: { rollupOptions: { input: { main: "index.html", showcase: "showcase.html" } } },
+  build: { rolldownOptions: { input: { main: "index.html", showcase: "showcase.html" } } },
   test: {
     globals: true,
     environment: "jsdom",
