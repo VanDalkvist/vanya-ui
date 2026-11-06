@@ -193,6 +193,7 @@
   .wave-event { display:block; }
   .wave-event > .event-point { position:absolute; inset:0; z-index:10; }
   .wave-event .timeline-event-card { position:absolute; left:50%; bottom:calc(100% + 16px); width:var(--event-card-width, 240px); max-width:none; z-index:30; transform:translate(calc(-50% + var(--event-card-shift, 0px)), var(--event-card-lift, 0px)); }
+  .wave-event:is(:hover,:focus-visible) .timeline-event-card { z-index:40; }
   .wave-event::before { content:""; position:absolute; left:50%; bottom:100%; width:128px; height:24px; transform:translateX(-50%); }
   .ui-avatar { width:var(--ui-height); padding:0; }
   .ui-segments { padding:2px; gap:2px; }
