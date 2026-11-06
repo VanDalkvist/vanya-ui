@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/vitest";
 
 // Browser APIs absent from jsdom; component behavior stays real.
 if (!window.matchMedia) {
