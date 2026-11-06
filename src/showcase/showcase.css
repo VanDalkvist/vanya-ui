@@ -9,8 +9,8 @@
 .showcase-header button { min-height:32px; }
 .skip-link { position:absolute; left:24px; top:-100px; z-index:10; padding:12px; background:var(--surface); }
 .skip-link:focus { top:8px; }
-.scene { position:relative; min-height:min(760px, calc(100svh - 96px)); padding:var(--spacing-focus) var(--spacing-scene) 28px; display:flex; flex-direction:column; }
-.scene-wave { position:relative; flex:1; min-height:340px; margin-top:24px; }
+.scene { position:relative; min-height:calc(100svh - var(--showcase-header-height)); padding:var(--spacing-focus) var(--spacing-scene) 28px; display:flex; flex-direction:column; }
+.scene-wave { position:relative; flex:1; min-height:340px; margin-top:24px; margin-inline:calc(-1 * var(--spacing-scene)); width:calc(100% + 2 * var(--spacing-scene)); }
 .scene-background { position:absolute; inset:0; height:100%; z-index:0; }
 .scene-intro, .scene-footer { position:relative; z-index:1; }
 .scene-intro { margin-left:8%; }
