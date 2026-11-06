@@ -62,7 +62,7 @@ export function ComponentCatalog() {
     <CatalogSection id="navigation" title="NavLinks" description="Переключение между разделами.">
       <div className="demo-column"><NavLinks items={[{ id: "one", label: "Первый раздел", isActive: section === "one" }, { id: "two", label: "Второй раздел", isActive: section === "two" }]} onSelect={setSection} /><p aria-live="polite">Открыт {section === "one" ? "первый" : "второй"} раздел</p></div>
     </CatalogSection>
-    <CatalogSection id="divider" title="Divider" description="Линия между группами элементов."><Divider className="w-full" /></CatalogSection>
+    <CatalogSection id="divider" title="Divider" description="Горизонтальный и вертикальный разделители."><div className="demo-column"><Divider orientation="horizontal" /><div className="size-examples"><span className="demo-label">Слева</span><Divider /><span className="demo-label">Справа</span></div></div></CatalogSection>
     <CatalogSection id="avatar" title="AvatarLink" description="Ссылка с изображением профиля. Два размера."><Sizes>{(size) => <AvatarLink size={size} src="/avatar.svg" alt="Пример профиля" href="https://vanya-arc.dev" />}</Sizes></CatalogSection>
     <CatalogSection id="segments" title="SegmentedControl" description="Выбор одного варианта из группы. Два размера.">
       <Sizes>{(size) => <SegmentedControl size={size} items={horizons} value={horizon} onChange={changeHorizon} />}</Sizes>
