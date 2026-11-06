@@ -18,6 +18,7 @@ export function TimelineEvent({ date, title, imageSrc, onClick, disabled, classN
     onClick={onClick}
     aria-label={onClick ? `${date} ${title}` : undefined}
     data-interactive={!!onClick}
+    data-highlighted={!!highlighted}
     className={twMerge("timeline-event", className)}
     style={style}
   >

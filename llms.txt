@@ -58,6 +58,10 @@ The live showcase imports the same components and tokens as applications. It doe
 ### Light
 
 ```css
+--event-card-radius: 8px;
+--event-card-shadow: 0 4px 16px -2px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
+--event-card-hover-shadow: 0 16px 36px -6px rgba(0,0,0,.12), 0 4px 12px -2px rgba(0,0,0,.06);
+--event-card-highlight-shadow: 0 8px 24px -4px color-mix(in oklab, var(--accent) 22%, transparent), 0 2px 8px rgba(0,0,0,.05);
 --size-sm-height: 24px;
 --size-md-height: 32px;
 --size-sm-font: 11px;

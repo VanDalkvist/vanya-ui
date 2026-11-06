@@ -22,18 +22,19 @@ export function TimelinePreviewCard({
     <Element
       type={onClick ? "button" : undefined}
       onClick={onClick}
+      data-interactive={!!onClick}
       className={twMerge(
         clsx(
-          "w-[240px] max-w-full rounded-sm border border-border bg-surface p-4 text-left text-ink transition-[background-color,box-shadow] duration-200 select-none",
-          onClick && "cursor-pointer hover:bg-surface-raised hover:shadow-xs",
+          "timeline-preview rounded-sm border border-border p-4 text-left text-ink transition-[background-color,box-shadow,transform] duration-200 select-none",
+          onClick && "cursor-pointer",
           className
         )
       )}
     >
-      <span className="block font-mono text-meta tracking-[0.16em] text-ink-faint uppercase">
+      <span className="timeline-preview-date block font-mono text-meta tracking-[0.16em] uppercase">
         {date}
       </span>
-      <span className="mt-2 block font-sans text-sm font-medium leading-snug text-ink line-clamp-2">
+      <span className="timeline-preview-title mt-2 block font-sans text-sm leading-snug line-clamp-2">
         {title}
       </span>
       {imageSrc && (

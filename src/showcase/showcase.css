@@ -1,5 +1,6 @@
 .showcase-header, .showcase-footer { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px var(--spacing-scene); }
-.showcase-origin { color:var(--ink-soft); font-size:12px; font-weight:500; white-space:nowrap; text-decoration:none; }
+.showcase-origin { display:inline-flex; align-items:center; gap:4px; color:var(--ink-soft); font-size:12px; font-weight:500; white-space:nowrap; text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px; }
+.showcase-nav { column-gap:12px; }
 .showcase-origin:hover { color:var(--accent); }
 .showcase-name { font-size:20px; line-height:1.2; font-weight:500; letter-spacing:-.03em; text-decoration:none; color:var(--ink); white-space:nowrap; }
 :root { --showcase-header-height:60px; }
@@ -9,12 +10,13 @@
 .skip-link { position:absolute; left:24px; top:-100px; z-index:10; padding:12px; background:var(--surface); }
 .skip-link:focus { top:8px; }
 .scene { position:relative; min-height:min(760px, calc(100svh - 96px)); padding:var(--spacing-focus) var(--spacing-scene) 28px; display:flex; flex-direction:column; }
-.scene-background { position:absolute; inset:0; height:100%; z-index:0; transform:translateY(calc(-1 * var(--spacing-focus))); }
+.scene-wave { position:relative; flex:1; min-height:340px; margin-top:24px; }
+.scene-background { position:absolute; inset:0; height:100%; z-index:0; }
 .scene-intro, .scene-footer { position:relative; z-index:1; }
 .scene-intro { margin-left:8%; }
 .scene-intro h1 { font-size:clamp(24px, 2.2vw, 28px); font-weight:500; line-height:1.2; letter-spacing:-.03em; text-wrap:balance; }
 .scene-intro p { margin-top:12px; max-width:40ch; color:var(--ink-soft); font-size:14px; line-height:1.7; }
-.scene-footer { margin-top:auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; color:var(--ink-soft); font-size:12px; }
+.scene-footer { margin-top:24px; display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:24px; color:var(--ink-soft); font-size:12px; }
 .scene-distance { width:240px; }
 .scene-distance input { height:24px; background:transparent; }
 .scene-distance input::-webkit-slider-runnable-track { height:1px; background:var(--border-strong); }

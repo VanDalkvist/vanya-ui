@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
-  MeshStatusBadge, Minimap, NavLinks, OfferCard, RangeSlider, ReceiptDigestModal,
+  MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -44,7 +44,7 @@ export function ComponentCatalog() {
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
     </CatalogSection>
     <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
-      <SineWave className="h-60" origin={590} events={[
+      <SineWave className="h-60" fit origin={590} events={[
         { id: "wave-one", position: .1, weight: 1 }, { id: "wave-two", position: .3, weight: 2 },
         { id: "wave-three", position: .5, weight: 3 }, { id: "wave-now", position: .72, weight: 4, current: true },
         { id: "wave-future", position: .9, weight: 2, future: true },
@@ -100,7 +100,6 @@ export function ComponentCatalog() {
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
     </CatalogSection>
-    <CatalogSection id="offer" title="OfferCard" description="Карточка предложения с кнопкой."><OfferCard title="Пример предложения" description="Проект, который можно добавить на рабочий стол." autonomy="свой выбор" competence="понятный предмет" actionLabel="Посмотреть" onAction={() => setOverlay("sheet")} /></CatalogSection>
     <CatalogSection id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
       <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />
     </CatalogSection>

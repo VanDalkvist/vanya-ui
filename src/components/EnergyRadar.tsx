@@ -1,6 +1,7 @@
 import React from "react";
 import type { LucideIcon } from "lucide-react";
 import { getHarnessType } from "../harness";
+import { SegmentedControl } from "./SegmentedControl";
 
 export interface EnergyDistributionItem {
   id: string;
@@ -53,34 +54,14 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
           {title}
         </span>
 
-        {horizons && horizons.length > 0 && (
-          <div
-            role="radiogroup"
-            aria-label="Временной горизонт"
-            className="flex items-center gap-0.5 p-0.5 rounded-[2px] bg-paper border border-border text-[11px] font-mono"
-          >
-            {horizons.map((h) => {
-              const isSelected = activeHorizon === h.id;
-              return (
-                <button
-                  key={h.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  onClick={() => onHorizonChange?.(h.id)}
-                  className={[
-                    "px-2 py-0.5 rounded-[2px] transition-all cursor-pointer border-0",
-                    isSelected
-                      ? "bg-accent-soft text-ink font-medium"
-                      : "bg-transparent text-ink-soft hover:text-ink",
-                  ].join(" ")}
-                >
-                  {h.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        {horizons && horizons.length > 0 && <SegmentedControl
+          items={horizons}
+          value={activeHorizon ?? ""}
+          onChange={id => onHorizonChange?.(id)}
+          disabled={!onHorizonChange}
+          size="sm"
+          aria-label="Период"
+        />}
       </div>
 
       {/* Многосегментный прогресс-бар */}

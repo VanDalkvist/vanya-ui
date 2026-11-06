@@ -1,7 +1,7 @@
 import React from "react";
 import { afterEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { EventPoint, SineWave, TimelineEvent } from "../src";
+import { EnergyRadar, EventPoint, SineWave, TimelineEvent } from "../src";
 import { createWaveGeometry, pointRadius } from "../src/wave-geometry";
 import reference from "./fixtures/arc-wave-reference.json";
 
@@ -33,6 +33,17 @@ it("renders changed geometry from real inputs and ignores invalid/offscreen cont
   expect(after).not.toBe(before);
   expect(after).not.toContain("NaN");
   expect(screen.queryByRole("button")).not.toBeInTheDocument();
+});
+
+it("uses the shared segmented control for radar periods and disables a passive selector", () => {
+  const periods = [{ id: "day", label: "День" }, { id: "week", label: "Неделя" }];
+  const change = vi.fn();
+  const { rerender } = render(<EnergyRadar items={[]} horizons={periods} activeHorizon="day" onHorizonChange={change} />);
+  expect(screen.getByRole("tablist", { name: "Период" })).toHaveAttribute("data-size", "sm");
+  fireEvent.click(screen.getByRole("tab", { name: "Неделя" }));
+  expect(change).toHaveBeenCalledWith("week");
+  rerender(<EnergyRadar items={[]} horizons={periods} activeHorizon="week" />);
+  expect(screen.getByRole("tab", { name: "Неделя" })).toBeDisabled();
 });
 
 it("preserves all four source event weights and focus-dependent radii", () => {

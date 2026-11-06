@@ -22,6 +22,14 @@ Public page inspected in Chrome; screenshot arc-wave-reference-look.json in BB t
 ## Alternatives considered
 A hand-drawn approximation was already rejected. Importing the full source timeline would couple a UI primitive to personal data/router/camera state. Separate point/card buttons duplicate a single event action and make hover/focus drift; one composite control avoids this.
 
+## Review follow-ups (same slice)
+- Preserve intro, but put the actual wave in its own area below it; remove the obsolete click hint and name the slider for event spacing.
+- Source-matched resting/hover card shadows, accent point/date/title, 4px card lift and a hover bridge. Keep CSS state ownership in one layer rather than override it with utility colors/widths.
+- Fit the demo curve and echoes within its canvas without scaling point radii. Use one HTML overlay/stacking context, with every card above every point.
+- All visible scene points are real native actions with corresponding details, including points without preview cards.
+- External-link icon and underline in header. Hide OfferCard from catalogue for now, keeping its public export compatible. EnergyRadar must use the actual shared SegmentedControl, including sm size and disabled semantics.
+- After visual completion: audit repository and Git history for private data/secrets; only make the repository public if the audit is clear. User explicitly authorized this conditional visibility change.
+
 ## Slices and verification
 - [ ] Save source-derived numeric geometry/radius fixtures; observe focused red tests for branch anchoring, actual input-dependent wave shape, native standalone action, one compound action and shared focus semantics.
 - [ ] Implement source-derived math, EventPoint, TimelineEvent and responsive SineWave; preserve existing SVG props and package conventions.

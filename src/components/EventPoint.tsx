@@ -9,7 +9,7 @@ export function EventPointMark({ x = 0, y = 0, focus = 1, count = 1, current, fu
   const opacity = highlighted ? 1 : future ? 0.42 : 0.55 + focus * 0.45;
   const blur = highlighted ? 0 : (1 - focus) * (future ? 1.6 : 1.1);
   return <g transform={`translate(${x} ${y})`} aria-hidden="true">
-    <g className={`event-point-glyph ${highlighted || current ? "text-accent" : future ? "text-ink/40" : "text-ink"}`} opacity={opacity} style={{ "--event-blur": `${blur}px` } as React.CSSProperties}>
+    <g className="event-point-glyph" data-tone={highlighted || current ? "accent" : future ? "future" : "ink"} opacity={opacity} style={{ "--event-blur": `${blur}px` } as React.CSSProperties}>
       {count > 1 && <circle r={radius * 1.7} fill="none" stroke="currentColor" strokeWidth="1" opacity="0.25" />}
       <circle className="event-point-ring" r={radius + 2} fill="none" stroke="currentColor" strokeWidth="2" opacity={highlighted ? 0.6 : 0} />
       <circle className="event-point-core" r={radius} fill="currentColor" />

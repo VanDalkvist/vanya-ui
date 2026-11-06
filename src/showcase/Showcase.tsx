@@ -1,4 +1,5 @@
 import React from "react";
+import { ExternalLink } from "lucide-react";
 import { Divider, NavLinks, ThemeToggle } from "../index";
 import { Scene } from "./Scene";
 import { ComponentCatalog } from "./ComponentCatalog";
@@ -8,8 +9,8 @@ export function Showcase() {
     <a href="#catalog" className="skip-link">К компонентам</a>
     <header className="showcase-header">
       <a className="showcase-name" href="#composition">vanya-arc/ui</a>
-      <NavLinks items={[{ id: "composition", label: "Композиция" }, { id: "catalog", label: "Компоненты" }]} onSelect={(id) => document.getElementById(id)?.scrollIntoView()}>
-        <a className="showcase-origin" href="https://vanya-arc.dev" target="_blank" rel="noopener noreferrer" title="Оригинальный сайт Синусоиды, новая вкладка">vanya-arc.dev</a>
+      <NavLinks items={[{ id: "composition", label: "Композиция" }, { id: "catalog", label: "Компоненты" }]} onSelect={(id) => document.getElementById(id)?.scrollIntoView()} className="showcase-nav">
+        <a className="showcase-origin" href="https://vanya-arc.dev" target="_blank" rel="noopener noreferrer" title="Оригинальный сайт Синусоиды, новая вкладка">vanya-arc.dev<ExternalLink size={12} aria-hidden="true" /></a>
         <Divider className="mx-2" />
         <ThemeToggle />
       </NavLinks>

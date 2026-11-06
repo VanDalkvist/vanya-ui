@@ -17,6 +17,8 @@ export interface SegmentedControlProps<T extends string = string> {
   className?: string;
   /** xs remains a legacy alias for sm. */
   size?: ComponentSize | "xs";
+  disabled?: boolean;
+  "aria-label"?: string;
 }
 
 export function SegmentedControl<T extends string = string>({
@@ -25,10 +27,14 @@ export function SegmentedControl<T extends string = string>({
   onChange,
   className,
   size = "md",
+  disabled = false,
+  "aria-label": ariaLabel,
 }: SegmentedControlProps<T>) {
   return (
     <div
       role="tablist"
+      aria-label={ariaLabel}
+      aria-disabled={disabled || undefined}
       data-size={size === "xs" ? "sm" : size}
       className={twMerge(
         clsx(
@@ -44,14 +50,16 @@ export function SegmentedControl<T extends string = string>({
             key={item.id}
             type="button"
             role="tab"
+            disabled={disabled}
             aria-selected={isSelected}
             onClick={() => onChange(item.id)}
             className={clsx(
-              "inline-flex items-center rounded-full border-0 bg-transparent transition-all duration-200 cursor-pointer",
+              "inline-flex items-center rounded-full border-0 bg-transparent transition-all duration-200",
+              disabled ? "cursor-default opacity-35" : "cursor-pointer",
               "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
               isSelected
                 ? "bg-surface text-accent font-medium shadow-xs"
-                : "text-ink-soft hover:text-ink hover:bg-surface/40"
+                : disabled ? "text-ink-soft" : "text-ink-soft hover:text-ink hover:bg-surface/40"
             )}
           >
             {item.icon}

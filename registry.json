@@ -113,6 +113,18 @@
       ]
     },
     {
+      "name": "event-point",
+      "type": "registry:ui",
+      "title": "EventPoint",
+      "description": "Hearth & Wave primitive component EventPoint",
+      "files": [
+        {
+          "path": "src/components/EventPoint.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hearth-pulse",
       "type": "registry:ui",
       "title": "HearthPulse",
@@ -288,6 +300,18 @@
       "files": [
         {
           "path": "src/components/ThemeToggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "timeline-event",
+      "type": "registry:ui",
+      "title": "TimelineEvent",
+      "description": "Hearth & Wave primitive component TimelineEvent",
+      "files": [
+        {
+          "path": "src/components/TimelineEvent.tsx",
           "type": "registry:ui"
         }
       ]
