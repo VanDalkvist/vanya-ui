@@ -142,7 +142,7 @@
 
 ### Verification evidence
 - Full suite: 24 passed; TypeScript, production Vite build, generated-reference sync and whitespace check pass. Initial source-geometry/native-action regressions were observed red before implementation.
-- Compiled Chrome checks: 31 passed with no runtime errors, covering both entrypoints, responsive coordinates, ghost/point anchoring, unique gradient IDs, source hover colors/shadows, native Enter/Space, disabled behavior, shared focus, dialog/Escape/focus return, spacing extremes, light/dark, mobile/reduced-motion and the corrected one-pixel divider.
+- Compiled Chrome checks: 33 passed with no runtime errors, covering both entrypoints, responsive coordinates, ghost/point anchoring, unique gradient IDs, source hover colors/shadows, native Enter/Space, disabled behavior, shared focus, dialog/Escape/focus return, spacing extremes, light/dark, mobile/reduced-motion and the corrected one-pixel divider.
 - Follow-up probes verify intro/canvas separation, curve/echo containment, real shared radar selection and distribution updates, external-link affordance, and an adversarial later point placed beneath a card to verify native paint/hit-test ordering.
 - Reports and inspected screenshots: BB thread thr_iqfqpdagcr / wave-events-{tests,browser-checks}.json and wave-events-{scene,components,dark,mobile}.jpg. Public reference was inspected independently; no full pixel-equivalence claim.
 
@@ -152,4 +152,12 @@
 - Runtime completeness and entrypoint wiring: both HTML entries mount the same showcase; scene and catalogue use these new exports. The hand-drawn path and bespoke radar selector were removed. Tests do not retain an alternative implementation.
 - Implementation completeness: real data-dependent geometry, gradients, DOM actions and callback-driven details; no fake success receipts or disabled production assertions. Source component modules remain bounded; declarative token CSS is kept together intentionally.
 - Residual risk: modern inline SVG/foreignObject required for wave controls; arbitrary dense/image-rich preview placement is not a full timeline collision/camera engine. This is author/Chrome verification, not independent review or full accessibility certification. User approval of the evolving style is not claimed as final acceptance.
-- Scoped UI verdict: PASS. Repository publication remains BLOCKED on author-contact disclosure approval; no history rewrite or visibility change was performed.
+- Scoped UI verdict: PASS. The user subsequently approved existing author contact metadata. The audited repository is PUBLIC with anonymous source read-back verified; history was not rewritten.
+
+## Cycle 6 — Public showcase, Vite 8 and MIT (2026-11-06)
+
+- Upgraded Vite to 8.3.6 and compatible Vitest to 5.1.0 at the operator’s request. Migrated the build input setting to rolldownOptions and DOM matcher setup to the runner-specific entry. Component runtime/palette/geometry were not redesigned.
+- Rewrote README against actual exports, source-based GitHub installation, Tailwind source scanning, sizes, theme/fonts and real build commands. Added standard MIT with Copyright (c) 2026 Vanya Afanasov and matching package metadata. MIT preserves the copyright/license notice; no extra mandatory UI-link clause was added.
+- Public current tree contains no Cloudflare tooling/configuration. Deployment is owned by the separate private repository, following the operator’s explicit separation policy. An early non-secret WIP config remains in historical commits; no credential or account ID was in that file and shared history was not rewritten.
+- Production showcase is live at https://ui.vanya-arc.dev. HTTPS root, source JS/CSS SHA-256 equality, all 33 compiled live-browser checks and inspected desktop/mobile captures verified. Main-site navigation was verified in production at desktop/390/360px after Workers Builds success; a focused five-test suite also checks native Enter/new-tab navigation and existing social links.
+- Verification scope: 24 unit tests, TypeScript, production build and generated-reference sync; author/browser verification, not an independent review or accessibility certification. Source branch/main publication is tracked separately from the live static deployment.

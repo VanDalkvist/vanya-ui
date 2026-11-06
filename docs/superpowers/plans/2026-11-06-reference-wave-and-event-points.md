@@ -20,7 +20,7 @@ Public page inspected in Chrome; screenshot arc-wave-reference-look.json in BB t
 - Fix the Divider call site: horizontal line explicitly selects horizontal; show the vertical variant separately.
 
 ## Verified outcome
-UI slice verified with 24 tests, types, build and 31 compiled-browser checks. Publication audit found no credential findings or private records, but an author contact in Git metadata is not confirmed as intentionally public. Repository visibility is unchanged pending operator approval; no rewriting or force push.
+UI slice verified with 24 tests, types, build and 33 compiled-browser checks, including the follow-up full-bleed desktop/mobile wave. The user explicitly approved existing Git author metadata; the secret/private-record audit was clear and the repository was made public, with anonymous source read-back verified. Subsequent Vite 8 production deployment at https://ui.vanya-arc.dev passed the same 33 live-browser checks and JS/CSS SHA-256 equality. No history rewriting or force push was performed.
 
 ## Alternatives considered
 A hand-drawn approximation was already rejected. Importing the full source timeline would couple a UI primitive to personal data/router/camera state. Separate point/card buttons duplicate a single event action and make hover/focus drift; one composite control avoids this.
