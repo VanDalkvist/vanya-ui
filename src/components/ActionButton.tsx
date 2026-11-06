@@ -19,7 +19,7 @@ export function ActionButton({
     // Чистая типографическая кнопка из Синусоиды (без рамок)
     text: "font-sans text-[12.5px] font-medium tracking-normal text-ink-soft/80 hover:text-accent",
     // Моноширинное верхнее действие из Синусоиды
-    mono: "font-mono text-[10px] tracking-[0.16em] uppercase text-ink-soft/70 hover:text-ink",
+    mono: "font-mono text-meta tracking-[0.16em] uppercase text-ink-soft hover:text-ink",
     // Янтарный акцентный линк
     accent: "font-sans text-[12.5px] font-medium text-accent hover:underline underline-offset-4",
     // Мягкая скругленная пилюля без рамок

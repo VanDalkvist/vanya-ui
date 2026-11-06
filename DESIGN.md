@@ -17,17 +17,18 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 
 ## Composition recipes
 
-- Open field: content first, navigation near the edge, no permanent secondary panel.
+- Open field: content first, navigation near the edge, no permanent secondary panel. The approved scene keeps its existing layout and now uses the exported static SineWave as a quiet background.
 - Preview: short title and context, with a real button when interactive.
 - Detail: a right-hand sheet retaining the page as a subdued backdrop. A directional shadow communicates separation; the edge may also have a hairline.
-- Reference: readable grouped examples with descriptions, not a second set of HTML lookalikes.
+- Reference: one named row per public component, with that component's states and variants together; never a second set of HTML lookalikes.
+- Harness identity: CategoryBadge and both radar examples use Farm's Sparkles / HeartHandshake / Briefcase / Cpu and its exact light/dark harness palette. The package owns a small shared definition, with no runtime dependency on the Farm application.
 - Dense working views can use rows and compact spacing; spaciousness does not require hiding primary actions or making text faint.
 
 `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
 
 ## Interaction
 
-Controls must work in the demonstrated composition. Detail sheets use the native modal dialog for focus containment, Escape dismissal and focus return. The page theme control owns persistent theme selection; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.
+Controls must work in the demonstrated composition. Detail sheets use the native modal dialog for focus containment, Escape dismissal and focus return. The page theme controls share persistent theme selection, synchronized between the sticky header and their own catalogue row; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.
 
 ## Modes
 

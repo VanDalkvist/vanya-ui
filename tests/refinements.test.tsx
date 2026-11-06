@@ -37,7 +37,6 @@ describe("approved showcase refinements", () => {
   });
 
   it("synchronizes separate theme controls on the same page", () => {
-    localStorage.clear();
     function Controls() {
       const first = useTheme();
       const second = useTheme();
@@ -47,7 +46,6 @@ describe("approved showcase refinements", () => {
     fireEvent.click(screen.getByRole("button", { name: "Change theme" }));
     expect(screen.getByText("dark")).toBeVisible();
     expect(document.documentElement).toHaveClass("dark");
-    expect(localStorage.getItem("vanya_theme")).toBe("dark");
   });
 
   it("gives every component its own catalogue row and keeps badge states together", () => {

@@ -74,3 +74,37 @@
 - Not applicable: auth, database, network adapters, tenant isolation, data migrations; this is a local UI-library/showcase change.
 - Residual risk: aesthetic approval remains with Vanya; this is not a full audit of every legacy primitive or screen-reader/browser combination. Native dialog requires a modern browser. No independent reviewer was claimed: Gemini was blocked by its provider, and the user explicitly authorized inline implementation with simple verification.
 - Scoped technical verdict: PASS. This does not claim independent dual-circuit acceptance or user visual approval.
+
+## Cycle 3 — Approved-style refinements (2026-11-06)
+
+### User scope
+- Preserve the explicitly approved first-screen style and composition.
+- Remove the lower arrow CTA; keep navigation sticky and compact (60px desktop, up to 88px mobile).
+- Brand the header and both browser document titles/descriptions as vanya-arc/ui.
+- Add an exported static SineWave background; keep all 26 exported components in individual catalogue rows, with each component's states together.
+- Match Farm's harness icons and light/dark palette in badges and both radar examples.
+- Keep SegmentedControl sized to content; populate Minimap with past/current/future event ticks and a working focus window.
+
+### Implementation and provenance
+- Farm visual source: ferma cfafd320a77d00e4b29cbb78cca590bcf3ef56b2, src/lib/harness-colors.ts and src/styles.css. All 24 palette declarations (4 types × 3 roles × 2 themes) checked for exact parity.
+- Shared package-owned identity map: src/harness.ts. No runtime import/dependency on the Farm application; arbitrary custom badges/radar items remain supported.
+- Reference wave/minimap inspected read-only in life-wave-narrative f11918ec32e0a6a40bc4be6132dbbe87d43b6a46. SineWave is a small independent SVG primitive, not a copy of the timeline engine.
+- Theme controls now notify peer hooks on the same page; header and catalogue variants stay synchronized. Existing storage persistence remains the source for reloads.
+- Header styling remains paper/Manrope; only density/position changed. Anchor clearance tracks its compact desktop/mobile height.
+
+### Verification evidence
+- Full suite: 13 tests passed, including five focused refinements regressions; tsc noEmit and production build passed.
+- Theme-sync regression observed failing with notification disabled, then green restored. No new test framework or coverage campaign.
+- Compiled-browser smoke: 17 checks passed, no runtime errors. Both HTML URLs verified, along with exact header/title, CTA removal, sticky header/anchor clearance, all 26 named rows, intrinsic segment widths, four harness identities/distributions, 17 minimap ticks and seek, synchronized theme controls and mobile overflow.
+- Segment geometry: trailing inset 3px at both shown sizes, instead of a stretched empty tail.
+- Screenshots: BB thread thr_iqfqpdagcr / refined-{scene,controls,radar,mobile}.jpg. Browser reports: refinements-browser-checks.json; tests: refinements-tests.json.
+- Sync idempotent; whitespace clean. Detector retains only the pinned cream-palette warning and an em-dash advisory; no clean-detector claim.
+
+### Architecture verification — scoped author review
+- Passed: AP-015, AP-019, AP-020, AP-025, AP-028, AP-046, AP-051–054 (changed flow), AP-068–070, AP-076.
+- Dependency traceability: CategoryBadge.tsx consumes getHarnessType; EnergyRadar.tsx:40 resolves defaults used by its bar/legend; SpiderRadar resolves axis icons/colors from the same map. No unused injected port or cross-app runtime dependency.
+- Runtime completeness/entrypoint wiring: src/index.ts:2 exports SineWave, Scene.tsx:15 renders it; ComponentCatalog imports real exports and each public component has its own named region. Both built entrypoints show the updated browser brand.
+- Assertion integrity: real render/click/state tests plus browser geometry and runtime CSS checks, not static source-text tests or placeholder receipts. All modified UI source files remain below 250 lines.
+- Not applicable: databases, auth, external API adapters and data migrations (no such boundaries touched).
+- Residual risk: new details have author/browser verification, not independent review or a fresh user visual approval; Farm parity is a recorded snapshot and future upstream palette changes must be intentionally synchronized. No third-party skill changes.
+- Scoped technical verdict: PASS; not an independent dual-circuit acceptance claim.

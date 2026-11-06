@@ -7,7 +7,7 @@ export function Showcase() {
   return <>
     <a href="#catalog" className="skip-link">К компонентам</a>
     <header className="showcase-header">
-      <a className="showcase-name" href="#composition">Hearth & Wave</a>
+      <a className="showcase-name" href="#composition">vanya-arc/ui</a>
       <NavLinks items={[{ id: "composition", label: "Композиция" }, { id: "catalog", label: "Компоненты" }]} onSelect={(id) => document.getElementById(id)?.scrollIntoView()}>
         <ThemeToggle />
       </NavLinks>
