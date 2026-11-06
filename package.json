@@ -2,7 +2,12 @@
   "name": "@vanya/ui",
   "version": "0.1.0",
   "type": "module",
-  "description": "Личная дизайн-система Hearth & Wave для автономных сервисов Вани",
+  "description": "React-компоненты, CSS-токены и интерактивная витрина vanya-arc/ui",
+  "license": "MIT",
+  "author": {
+    "name": "Vanya Afanasov",
+    "url": "https://vanya-arc.dev"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

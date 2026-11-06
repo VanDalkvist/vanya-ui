@@ -1,4 +1,4 @@
-# @vanya/ui — Hearth & Wave
+# @vanya/ui — vanya-arc/ui
 
 > Generated from src/tokens.css and src/index.ts by bun run sync.
 > This is a token/export reference, not an automatically inferred design specification.

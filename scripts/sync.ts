@@ -10,7 +10,7 @@ const components = fs.readdirSync(path.join(root, "src/components"))
   .filter((file) => file.endsWith(".tsx") && exports.includes(`./components/${file.slice(0, -4)}"`))
   .sort();
 
-const reference = `# @vanya/ui — Hearth & Wave
+const reference = `# @vanya/ui — vanya-arc/ui
 
 > Generated from src/tokens.css and src/index.ts by bun run sync.
 > This is a token/export reference, not an automatically inferred design specification.
@@ -37,15 +37,15 @@ for (const name of ["llms.txt", "public/llms.txt"]) fs.writeFileSync(path.join(r
 const registry = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "@vanya/ui",
-  homepage: "https://github.com/VanDalkvist/vanya-ui",
-  description: "Contemplative craft design system for Vanya Afanasov",
+  homepage: "https://ui.vanya-arc.dev",
+  description: "React components and CSS tokens by Vanya Afanasov",
   items: components.map((file) => {
     const name = file.slice(0, -4);
     return {
       name: name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase(),
       type: "registry:ui",
       title: name,
-      description: `Hearth & Wave primitive component ${name}`,
+      description: `React UI component ${name} from @vanya/ui`,
       files: [{ path: `src/components/${file}`, type: "registry:ui" }],
     };
   }),

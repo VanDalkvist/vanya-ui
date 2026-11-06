@@ -1,14 +1,14 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "@vanya/ui",
-  "homepage": "https://github.com/VanDalkvist/vanya-ui",
-  "description": "Contemplative craft design system for Vanya Afanasov",
+  "homepage": "https://ui.vanya-arc.dev",
+  "description": "React components and CSS tokens by Vanya Afanasov",
   "items": [
     {
       "name": "action-button",
       "type": "registry:ui",
       "title": "ActionButton",
-      "description": "Hearth & Wave primitive component ActionButton",
+      "description": "React UI component ActionButton from @vanya/ui",
       "files": [
         {
           "path": "src/components/ActionButton.tsx",
@@ -20,7 +20,7 @@
       "name": "avatar-link",
       "type": "registry:ui",
       "title": "AvatarLink",
-      "description": "Hearth & Wave primitive component AvatarLink",
+      "description": "React UI component AvatarLink from @vanya/ui",
       "files": [
         {
           "path": "src/components/AvatarLink.tsx",
@@ -32,7 +32,7 @@
       "name": "category-badge",
       "type": "registry:ui",
       "title": "CategoryBadge",
-      "description": "Hearth & Wave primitive component CategoryBadge",
+      "description": "React UI component CategoryBadge from @vanya/ui",
       "files": [
         {
           "path": "src/components/CategoryBadge.tsx",
@@ -44,7 +44,7 @@
       "name": "craft-card",
       "type": "registry:ui",
       "title": "CraftCard",
-      "description": "Hearth & Wave primitive component CraftCard",
+      "description": "React UI component CraftCard from @vanya/ui",
       "files": [
         {
           "path": "src/components/CraftCard.tsx",
@@ -56,7 +56,7 @@
       "name": "desk-slot-card",
       "type": "registry:ui",
       "title": "DeskSlotCard",
-      "description": "Hearth & Wave primitive component DeskSlotCard",
+      "description": "React UI component DeskSlotCard from @vanya/ui",
       "files": [
         {
           "path": "src/components/DeskSlotCard.tsx",
@@ -68,7 +68,7 @@
       "name": "disclosure-pill",
       "type": "registry:ui",
       "title": "DisclosurePill",
-      "description": "Hearth & Wave primitive component DisclosurePill",
+      "description": "React UI component DisclosurePill from @vanya/ui",
       "files": [
         {
           "path": "src/components/DisclosurePill.tsx",
@@ -80,7 +80,7 @@
       "name": "divider",
       "type": "registry:ui",
       "title": "Divider",
-      "description": "Hearth & Wave primitive component Divider",
+      "description": "React UI component Divider from @vanya/ui",
       "files": [
         {
           "path": "src/components/Divider.tsx",
@@ -92,7 +92,7 @@
       "name": "energy-radar",
       "type": "registry:ui",
       "title": "EnergyRadar",
-      "description": "Hearth & Wave primitive component EnergyRadar",
+      "description": "React UI component EnergyRadar from @vanya/ui",
       "files": [
         {
           "path": "src/components/EnergyRadar.tsx",
@@ -104,7 +104,7 @@
       "name": "event-card",
       "type": "registry:ui",
       "title": "EventCard",
-      "description": "Hearth & Wave primitive component EventCard",
+      "description": "React UI component EventCard from @vanya/ui",
       "files": [
         {
           "path": "src/components/EventCard.tsx",
@@ -116,7 +116,7 @@
       "name": "event-point",
       "type": "registry:ui",
       "title": "EventPoint",
-      "description": "Hearth & Wave primitive component EventPoint",
+      "description": "React UI component EventPoint from @vanya/ui",
       "files": [
         {
           "path": "src/components/EventPoint.tsx",
@@ -128,7 +128,7 @@
       "name": "hearth-pulse",
       "type": "registry:ui",
       "title": "HearthPulse",
-      "description": "Hearth & Wave primitive component HearthPulse",
+      "description": "React UI component HearthPulse from @vanya/ui",
       "files": [
         {
           "path": "src/components/HearthPulse.tsx",
@@ -140,7 +140,7 @@
       "name": "inspect-drawer",
       "type": "registry:ui",
       "title": "InspectDrawer",
-      "description": "Hearth & Wave primitive component InspectDrawer",
+      "description": "React UI component InspectDrawer from @vanya/ui",
       "files": [
         {
           "path": "src/components/InspectDrawer.tsx",
@@ -152,7 +152,7 @@
       "name": "kbd",
       "type": "registry:ui",
       "title": "Kbd",
-      "description": "Hearth & Wave primitive component Kbd",
+      "description": "React UI component Kbd from @vanya/ui",
       "files": [
         {
           "path": "src/components/Kbd.tsx",
@@ -164,7 +164,7 @@
       "name": "link-chip",
       "type": "registry:ui",
       "title": "LinkChip",
-      "description": "Hearth & Wave primitive component LinkChip",
+      "description": "React UI component LinkChip from @vanya/ui",
       "files": [
         {
           "path": "src/components/LinkChip.tsx",
@@ -176,7 +176,7 @@
       "name": "mesh-status-badge",
       "type": "registry:ui",
       "title": "MeshStatusBadge",
-      "description": "Hearth & Wave primitive component MeshStatusBadge",
+      "description": "React UI component MeshStatusBadge from @vanya/ui",
       "files": [
         {
           "path": "src/components/MeshStatusBadge.tsx",
@@ -188,7 +188,7 @@
       "name": "minimap",
       "type": "registry:ui",
       "title": "Minimap",
-      "description": "Hearth & Wave primitive component Minimap",
+      "description": "React UI component Minimap from @vanya/ui",
       "files": [
         {
           "path": "src/components/Minimap.tsx",
@@ -200,7 +200,7 @@
       "name": "nav-links",
       "type": "registry:ui",
       "title": "NavLinks",
-      "description": "Hearth & Wave primitive component NavLinks",
+      "description": "React UI component NavLinks from @vanya/ui",
       "files": [
         {
           "path": "src/components/NavLinks.tsx",
@@ -212,7 +212,7 @@
       "name": "offer-card",
       "type": "registry:ui",
       "title": "OfferCard",
-      "description": "Hearth & Wave primitive component OfferCard",
+      "description": "React UI component OfferCard from @vanya/ui",
       "files": [
         {
           "path": "src/components/OfferCard.tsx",
@@ -224,7 +224,7 @@
       "name": "range-slider",
       "type": "registry:ui",
       "title": "RangeSlider",
-      "description": "Hearth & Wave primitive component RangeSlider",
+      "description": "React UI component RangeSlider from @vanya/ui",
       "files": [
         {
           "path": "src/components/RangeSlider.tsx",
@@ -236,7 +236,7 @@
       "name": "receipt-digest-modal",
       "type": "registry:ui",
       "title": "ReceiptDigestModal",
-      "description": "Hearth & Wave primitive component ReceiptDigestModal",
+      "description": "React UI component ReceiptDigestModal from @vanya/ui",
       "files": [
         {
           "path": "src/components/ReceiptDigestModal.tsx",
@@ -248,7 +248,7 @@
       "name": "segmented-control",
       "type": "registry:ui",
       "title": "SegmentedControl",
-      "description": "Hearth & Wave primitive component SegmentedControl",
+      "description": "React UI component SegmentedControl from @vanya/ui",
       "files": [
         {
           "path": "src/components/SegmentedControl.tsx",
@@ -260,7 +260,7 @@
       "name": "sine-wave",
       "type": "registry:ui",
       "title": "SineWave",
-      "description": "Hearth & Wave primitive component SineWave",
+      "description": "React UI component SineWave from @vanya/ui",
       "files": [
         {
           "path": "src/components/SineWave.tsx",
@@ -272,7 +272,7 @@
       "name": "spider-radar",
       "type": "registry:ui",
       "title": "SpiderRadar",
-      "description": "Hearth & Wave primitive component SpiderRadar",
+      "description": "React UI component SpiderRadar from @vanya/ui",
       "files": [
         {
           "path": "src/components/SpiderRadar.tsx",
@@ -284,7 +284,7 @@
       "name": "tag",
       "type": "registry:ui",
       "title": "Tag",
-      "description": "Hearth & Wave primitive component Tag",
+      "description": "React UI component Tag from @vanya/ui",
       "files": [
         {
           "path": "src/components/Tag.tsx",
@@ -296,7 +296,7 @@
       "name": "theme-toggle",
       "type": "registry:ui",
       "title": "ThemeToggle",
-      "description": "Hearth & Wave primitive component ThemeToggle",
+      "description": "React UI component ThemeToggle from @vanya/ui",
       "files": [
         {
           "path": "src/components/ThemeToggle.tsx",
@@ -308,7 +308,7 @@
       "name": "timeline-event",
       "type": "registry:ui",
       "title": "TimelineEvent",
-      "description": "Hearth & Wave primitive component TimelineEvent",
+      "description": "React UI component TimelineEvent from @vanya/ui",
       "files": [
         {
           "path": "src/components/TimelineEvent.tsx",
@@ -320,7 +320,7 @@
       "name": "timeline-preview-card",
       "type": "registry:ui",
       "title": "TimelinePreviewCard",
-      "description": "Hearth & Wave primitive component TimelinePreviewCard",
+      "description": "React UI component TimelinePreviewCard from @vanya/ui",
       "files": [
         {
           "path": "src/components/TimelinePreviewCard.tsx",
@@ -332,7 +332,7 @@
       "name": "voice-wave-indicator",
       "type": "registry:ui",
       "title": "VoiceWaveIndicator",
-      "description": "Hearth & Wave primitive component VoiceWaveIndicator",
+      "description": "React UI component VoiceWaveIndicator from @vanya/ui",
       "files": [
         {
           "path": "src/components/VoiceWaveIndicator.tsx",

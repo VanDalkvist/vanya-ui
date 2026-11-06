@@ -3,3 +3,9 @@ dist
 .DS_Store
 *.local
 .taste-skill/
+.cloudflare/
+.wrangler/
+/cloudflare.config.*
+/wrangler*
+.dev.vars*
+.env*
