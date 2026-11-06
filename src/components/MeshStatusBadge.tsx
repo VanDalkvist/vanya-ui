@@ -17,6 +17,7 @@ export function MeshStatusBadge({
   metricNote,
   className,
   onClick,
+  disabled = false,
   ...props
 }: MeshStatusBadgeProps) {
   const dotColor = {
@@ -26,14 +27,17 @@ export function MeshStatusBadge({
     offline: "bg-rose-500",
   }[status];
 
+  const Element = onClick ? "button" : "span";
   return (
-    <button
-      type="button"
+    <Element
+      type={onClick ? "button" : undefined}
+      disabled={onClick ? disabled : undefined}
       onClick={onClick}
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-2 rounded-full border-0 bg-surface-raised/60 px-3 py-1 text-xs font-mono text-ink-soft transition-colors duration-200 lowercase cursor-pointer",
-          "hover:bg-surface-raised hover:text-ink focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+          "inline-flex items-center gap-2 rounded-full border-0 bg-surface-raised/60 px-3 py-1 text-xs font-mono text-ink-soft transition-colors duration-200 lowercase",
+          onClick && !disabled ? "cursor-pointer hover:bg-surface-raised hover:text-ink focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent" : "cursor-default",
+          onClick && disabled && "opacity-35",
           className
         )
       )}
@@ -49,6 +53,6 @@ export function MeshStatusBadge({
           {metricNote}
         </span>
       )}
-    </button>
+    </Element>
   );
 }

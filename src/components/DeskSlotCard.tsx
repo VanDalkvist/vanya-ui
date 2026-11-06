@@ -14,10 +14,7 @@ export interface DeskSlotCardProps {
   className?: string;
 }
 
-/**
- * Карточка фокуса внимания на рабочем столе и свободный слот квоты (из Фермы).
- * Ограничивает когнитивную нагрузку строгим лимитом активных сущностей.
- */
+/** Карточка проекта на рабочем столе. Поддерживает пустое состояние. */
 export const DeskSlotCard: React.FC<DeskSlotCardProps> = ({
   title,
   oneLiner,
@@ -26,23 +23,25 @@ export const DeskSlotCard: React.FC<DeskSlotCardProps> = ({
   status = "На столе",
   actionsCount,
   isEmpty = false,
-  emptyLabel = "+ Свободный слот стола (макс. 3)",
+  emptyLabel = "Выбрать проект",
   onClick,
   onPark,
   className = "",
 }) => {
   if (isEmpty) {
+    const Element = onClick ? "button" : "div";
     return (
-      <button
-        type="button"
+      <Element
+        type={onClick ? "button" : undefined}
         onClick={onClick}
         className={[
-          "flex flex-col items-center justify-center min-h-[100px] w-full p-4 rounded-[4px] border border-dashed border-border bg-surface/40 hover:bg-surface-raised/60 hover:border-accent text-ink-soft hover:text-ink transition-all cursor-pointer",
+          "flex flex-col items-center justify-center min-h-[100px] w-full p-4 rounded-[4px] border border-dashed border-border bg-surface/40 text-ink-soft transition-all",
+          onClick ? "cursor-pointer hover:bg-surface-raised/60 hover:text-ink hover:shadow-xs" : "cursor-default",
           className,
         ].join(" ")}
       >
         <span className="font-mono text-xs">{emptyLabel}</span>
-      </button>
+      </Element>
     );
   }
 
@@ -50,7 +49,8 @@ export const DeskSlotCard: React.FC<DeskSlotCardProps> = ({
     <div
       onClick={onClick}
       className={[
-        "flex flex-col justify-between p-3.5 rounded-[4px] border border-border bg-surface hover:bg-surface-raised transition-all cursor-pointer text-ink group",
+        "flex flex-col justify-between p-3.5 rounded-[4px] border border-border bg-surface transition-all text-ink group",
+        onClick ? "cursor-pointer hover:bg-surface-raised" : "cursor-default",
         className,
       ].join(" ")}
     >
@@ -62,8 +62,8 @@ export const DeskSlotCard: React.FC<DeskSlotCardProps> = ({
               style={{ backgroundColor: categoryColor || "var(--accent)" }}
             />
           )}
-          <h4 className="font-sans font-semibold text-[13.5px] leading-snug group-hover:text-accent transition-colors">
-            {title}
+          <h4 className={["font-sans font-semibold text-[13.5px] leading-snug transition-colors", onClick && "group-hover:text-accent"].filter(Boolean).join(" ")}>
+            {onClick ? <button type="button" onClick={(event) => { event.stopPropagation(); onClick(); }} className="border-0 bg-transparent p-0 text-left cursor-pointer">{title}</button> : title}
           </h4>
         </div>
         {status && (

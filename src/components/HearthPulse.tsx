@@ -8,7 +8,7 @@ export interface HearthPulseProps extends React.HTMLAttributes<HTMLSpanElement> 
 }
 
 export function HearthPulse({
-  label = "очаг активен",
+  label = "активен",
   className,
   ...props
 }: HearthPulseProps) {

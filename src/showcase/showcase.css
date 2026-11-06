@@ -38,7 +38,9 @@
 a { text-underline-offset:4px; }
 p { text-wrap:pretty; }
 .catalog details { width:100%; }
-.catalog details pre { overflow-x:auto; margin-top:16px; padding:16px; background:var(--surface-inset); font-family:var(--font-mono); font-size:12px; }
+.setup { padding-top:0; }
+#energy .catalog-examples { grid-column:1 / -1; }
+.catalog pre { overflow-x:auto; margin-top:16px; padding:16px; background:var(--surface-inset); font-family:var(--font-mono); font-size:12px; }
 @media (max-width:700px) {
   :root { --showcase-header-height:88px; }
   .showcase-header { align-items:center; flex-wrap:wrap; gap:8px 24px; padding-block:12px; }

@@ -7,14 +7,11 @@ export interface VoiceWaveIndicatorProps {
   className?: string;
 }
 
-/**
- * Индикатор живого дыхания / речевого потока (0.11 Гц) из Салона Присутствия.
- * Мягко разгорается при наличии голоса и мерцает теплым тлением в паузах тишины.
- */
+/** Индикатор речи. Высота полос зависит от переданного уровня сигнала. */
 export const VoiceWaveIndicator: React.FC<VoiceWaveIndicatorProps> = ({
   isSpeaking = false,
   level = 0.4,
-  label = isSpeaking ? "голос звучит" : "тишина круга",
+  label = isSpeaking ? "речь" : "пауза",
   className = "",
 }) => {
   const bars = [0.3, 0.6, 0.9, 0.7, 0.4, 0.8, 1.0, 0.5, 0.3];

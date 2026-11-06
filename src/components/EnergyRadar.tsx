@@ -44,7 +44,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
   return (
     <div
       className={[
-        "flex flex-col gap-2.5 p-3 rounded-[4px] bg-paper-raised border border-border text-xs text-ink",
+        "flex w-full min-w-0 flex-col gap-3 p-4 rounded-[4px] bg-paper-raised border border-border text-xs text-ink",
         className,
       ].join(" ")}
     >
@@ -95,17 +95,17 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
                 backgroundColor: it.color || "var(--accent)",
               }}
               title={`${it.label}: ${it.percentage}% (${it.count})`}
-              className="h-full transition-all hover:opacity-80 cursor-pointer"
+              className="h-full cursor-help"
             />
           );
         })}
       </div>
 
       {/* Легенда */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-[11px]">
-        <div className="flex items-center gap-3.5 flex-wrap">
+      <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 pt-1 text-[11px]">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2">
           {resolvedItems.map((it) => (
-            <div key={it.id} className="flex items-center gap-1.5 font-sans">
+            <div key={it.id} className="flex items-center gap-1.5 whitespace-nowrap font-sans">
               {it.icon ? <it.icon className="size-3 shrink-0" style={{ color: it.textColor }} aria-hidden="true" /> : <span className="size-2 rounded-full inline-block shrink-0" style={{ backgroundColor: it.color }} />}
               <span className="text-ink-soft" style={{ color: it.textColor }}>{it.label}:</span>
               <span className="font-mono font-medium text-ink">
@@ -119,7 +119,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
         </div>
 
         {totalCount !== undefined && (
-          <div className="font-mono text-[11px] text-ink-soft">
+          <div className="ml-auto shrink-0 whitespace-nowrap font-mono text-[11px] text-ink-soft">
             <span className="text-ink font-semibold">{totalCount}</span>{" "}
             <span className="text-ink-faint">{totalLabel}</span>
           </div>

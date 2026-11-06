@@ -41,7 +41,7 @@ export function TimelinePreviewCard({
           <img
             src={imageSrc}
             alt={title}
-            className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            className={clsx("h-full w-full object-cover", onClick && "transition-transform duration-300 hover:scale-105")}
             loading="eager"
           />
         </span>

@@ -12,7 +12,15 @@ export function Showcase() {
         <ThemeToggle />
       </NavLinks>
     </header>
-    <main><Scene /><ComponentCatalog /></main>
-    <footer className="showcase-footer"><span>@vanya/ui · живая библиотека</span><a href="https://vanya-arc.dev" target="_blank" rel="noreferrer">Вдохновлено Синусоидой</a></footer>
+    <main>
+      <Scene />
+      <ComponentCatalog />
+      <section id="setup" className="catalog setup" aria-labelledby="setup-title">
+        <h2 id="setup-title" className="catalog-title">Подключение библиотеки</h2>
+        <p className="catalog-intro">Подключи стили один раз в точке входа приложения.</p>
+        <pre><code>{'import { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";'}</code></pre>
+      </section>
+    </main>
+    <footer className="showcase-footer"><span>@vanya/ui · React-компоненты</span><a href="https://vanya-arc.dev" target="_blank" rel="noreferrer">На основе Синусоиды</a></footer>
   </>;
 }

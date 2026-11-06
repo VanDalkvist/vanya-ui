@@ -58,7 +58,7 @@ export function ReceiptDigestModal({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Закрыть выжимку"
+            aria-label="Закрыть окно"
             className="rounded-xs p-1 text-ink-soft hover:bg-surface-raised hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber"
           >
             <X className="size-4" />
@@ -73,7 +73,7 @@ export function ReceiptDigestModal({
         {/* Physical receipts list */}
         <div className="space-y-2 border-t border-hairline pt-4">
           <div className="font-mono text-xs text-ink-faint uppercase tracking-wider mb-2">
-            Физические подтверждения (Receipts):
+            Изменения:
           </div>
           <ul className="space-y-1.5 font-mono text-xs text-ink-soft">
             {receipts.map((item, idx) => (
