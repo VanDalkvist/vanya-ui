@@ -1,3 +1,4 @@
+export type { ComponentSize } from "./sizes";
 export { CraftCard, type CraftCardProps } from "./components/CraftCard";
 export { SineWave, type SineWaveProps } from "./components/SineWave";
 export { HARNESS_TYPES, getHarnessType } from "./harness";

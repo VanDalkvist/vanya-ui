@@ -26,6 +26,12 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 
 `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
 
+## Inline size grid
+
+`ComponentSize` is `sm | md`. CategoryBadge, Tag, MeshStatusBadge, ActionButton, Kbd, LinkChip, AvatarLink and SegmentedControl share the `.ui-size` foundation in `src/tokens.css`. Its `--size-{sm,md}-*` tokens control outer height, font, line height, inline padding, gap and icon size; avatars use the outer height as their width. Segmented controls fit their buttons inside the same outer height rather than adding a second size scale. Text-only actions keep their unboxed horizontal spacing.
+
+Canonical heights are 24px and 32px. SegmentedControl still accepts `xs` as a legacy alias for canonical `sm`; callers wanting its larger appearance should use `md`. Size names, not old incidental padding values, are the stable convention. Explicit consumer classes/styles may override the foundation.
+
 ## Interaction
 
 Controls must work in the demonstrated composition. Detail sheets use the native modal dialog for focus containment, Escape dismissal and focus return. The page theme controls share persistent theme selection, synchronized between the sticky header and their own catalogue row; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.

@@ -1,6 +1,7 @@
 import React from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { ComponentSize } from "../sizes";
 
 export interface SegmentItem<T extends string = string> {
   id: T;
@@ -14,7 +15,8 @@ export interface SegmentedControlProps<T extends string = string> {
   value: T;
   onChange: (value: T) => void;
   className?: string;
-  size?: "sm" | "xs";
+  /** xs remains a legacy alias for sm. */
+  size?: ComponentSize | "xs";
 }
 
 export function SegmentedControl<T extends string = string>({
@@ -22,14 +24,15 @@ export function SegmentedControl<T extends string = string>({
   value,
   onChange,
   className,
-  size = "xs",
+  size = "md",
 }: SegmentedControlProps<T>) {
   return (
     <div
       role="tablist"
+      data-size={size === "xs" ? "sm" : size}
       className={twMerge(
         clsx(
-          "inline-flex w-fit max-w-full self-start shrink-0 items-center gap-0.5 rounded-full border border-border bg-surface-raised/60 p-0.5 font-sans select-none backdrop-blur-xs",
+          "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center rounded-full border border-border bg-surface-raised/60 font-sans select-none backdrop-blur-xs",
           className
         )
       )}
@@ -44,9 +47,8 @@ export function SegmentedControl<T extends string = string>({
             aria-selected={isSelected}
             onClick={() => onChange(item.id)}
             className={clsx(
-              "inline-flex items-center gap-1.5 rounded-full border-0 bg-transparent transition-all duration-200 cursor-pointer",
+              "inline-flex items-center rounded-full border-0 bg-transparent transition-all duration-200 cursor-pointer",
               "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
-              size === "xs" ? "px-2.5 py-1 text-[11px]" : "px-3.5 py-1.5 text-xs",
               isSelected
                 ? "bg-surface text-accent font-medium shadow-xs"
                 : "text-ink-soft hover:text-ink hover:bg-surface/40"
@@ -57,7 +59,7 @@ export function SegmentedControl<T extends string = string>({
             {item.count !== undefined && (
               <span
                 className={clsx(
-                  "rounded-full px-1.5 py-0.2 text-meta font-mono",
+                  "rounded-full px-1.5 font-mono",
                   isSelected ? "bg-accent/15 text-accent" : "bg-ground/60 text-ink-faint"
                 )}
               >

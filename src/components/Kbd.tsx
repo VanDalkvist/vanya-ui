@@ -1,21 +1,24 @@
 import React from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { ComponentSize } from "../sizes";
 
 export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
+  size?: ComponentSize;
   lit?: boolean;
   className?: string;
 }
 
-export function Kbd({ children, lit = false, className, ...props }: KbdProps) {
+export function Kbd({ children, lit = false, size = "sm", className, ...props }: KbdProps) {
   return (
     <kbd
+      data-size={size}
       className={twMerge(
         clsx(
-          "inline-grid h-[19px] min-w-[19px] place-items-center rounded-[3px] border px-[5px] font-mono text-meta leading-none transition-all duration-200 select-none",
+          "ui-size inline-grid place-items-center rounded-[3px] border font-mono transition-all duration-200 select-none",
           lit
-            ? "scale-105 border-accent/60 bg-accent/12 text-ink"
+            ? "border-accent/60 bg-accent/12 text-ink"
             : "border-border bg-surface-raised/70 text-ink-soft",
           className
         )

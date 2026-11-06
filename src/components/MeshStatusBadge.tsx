@@ -1,11 +1,13 @@
 import React from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { ComponentSize } from "../sizes";
 
 export type MeshStatus = "online" | "standby" | "warning" | "offline";
 
 export interface MeshStatusBadgeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   status: MeshStatus;
+  size?: ComponentSize;
   label: string;
   metricNote?: string;
   className?: string;
@@ -13,6 +15,7 @@ export interface MeshStatusBadgeProps extends React.ButtonHTMLAttributes<HTMLBut
 
 export function MeshStatusBadge({
   status,
+  size = "sm",
   label,
   metricNote,
   className,
@@ -30,12 +33,13 @@ export function MeshStatusBadge({
   const Element = onClick ? "button" : "span";
   return (
     <Element
+      data-size={size}
       type={onClick ? "button" : undefined}
       disabled={onClick ? disabled : undefined}
       onClick={onClick}
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-2 rounded-full border-0 bg-surface-raised/60 px-3 py-1 text-xs font-mono text-ink-soft transition-colors duration-200 lowercase",
+          "ui-size inline-flex items-center rounded-full border-0 bg-surface-raised/60 font-mono text-ink-soft transition-colors duration-200 lowercase",
           onClick && !disabled ? "cursor-pointer hover:bg-surface-raised hover:text-ink focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent" : "cursor-default",
           onClick && disabled && "opacity-35",
           className

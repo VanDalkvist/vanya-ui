@@ -7,6 +7,10 @@ import {
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
 
+function Sizes({ children }: { children: (size: "sm" | "md") => React.ReactNode }) {
+  return <div className="demo-column">{(["md", "sm"] as const).map((size) => <div key={size} className="size-examples"><span className="demo-label">{size}</span>{children(size)}</div>)}</div>;
+}
+
 const horizons = [{ id: "day", label: "День" }, { id: "week", label: "Неделя" }, { id: "month", label: "Месяц" }];
 const counts = { day: [4, 2, 1, 3], week: [10, 3, 4, 3], month: [14, 8, 10, 8] };
 const eventTicks = [
@@ -46,20 +50,22 @@ export function ComponentCatalog() {
       <ThemeToggle /><ThemeToggle variant="segmented" />
     </CatalogSection>
     <CatalogSection id="actions" title="ActionButton" description="Варианты кнопки и недоступное состояние.">
-      <ActionButton onClick={() => setOverlay("sheet")}>Открыть панель</ActionButton>
-      <ActionButton variant="mono" onClick={() => setOverlay("sheet")}>Подробнее</ActionButton>
-      <ActionButton variant="accent" onClick={() => setOverlay("digest")}>Открыть итоги</ActionButton>
-      <ActionButton variant="pill" onClick={() => setOverlay("sheet")}>Посмотреть</ActionButton>
-      <ActionButton disabled>Недоступно</ActionButton>
+      <Sizes>{(size) => <>
+        <ActionButton size={size} onClick={() => setOverlay("sheet")}>Открыть панель</ActionButton>
+        <ActionButton size={size} variant="mono" onClick={() => setOverlay("sheet")}>Подробнее</ActionButton>
+        <ActionButton size={size} variant="accent" onClick={() => setOverlay("digest")}>Открыть итоги</ActionButton>
+        <ActionButton size={size} variant="pill" onClick={() => setOverlay("sheet")}>Посмотреть</ActionButton>
+        <ActionButton size={size} disabled>Недоступно</ActionButton>
+      </>}</Sizes>
     </CatalogSection>
-    <CatalogSection id="kbd" title="Kbd" description="Подсказка для клавиш. Обычное и выделенное состояния."><Kbd>Esc</Kbd><Kbd lit>Enter</Kbd></CatalogSection>
+    <CatalogSection id="kbd" title="Kbd" description="Подсказка для клавиш. Обычное и выделенное состояния."><Sizes>{(size) => <><Kbd size={size}>Esc</Kbd><Kbd size={size} lit>Enter</Kbd></>}</Sizes></CatalogSection>
     <CatalogSection id="navigation" title="NavLinks" description="Переключение между разделами.">
       <div className="demo-column"><NavLinks items={[{ id: "one", label: "Первый раздел", isActive: section === "one" }, { id: "two", label: "Второй раздел", isActive: section === "two" }]} onSelect={setSection} /><p aria-live="polite">Открыт {section === "one" ? "первый" : "второй"} раздел</p></div>
     </CatalogSection>
     <CatalogSection id="divider" title="Divider" description="Линия между группами элементов."><Divider className="w-full" /></CatalogSection>
-    <CatalogSection id="avatar" title="AvatarLink" description="Ссылка с изображением профиля. Два размера."><AvatarLink src="/avatar.svg" alt="Демонстрационный профиль" href="https://vanya-arc.dev" /><AvatarLink src="/avatar.svg" alt="Демонстрационный профиль, крупный" href="https://vanya-arc.dev" size="md" /></CatalogSection>
+    <CatalogSection id="avatar" title="AvatarLink" description="Ссылка с изображением профиля. Два размера."><Sizes>{(size) => <AvatarLink size={size} src="/avatar.svg" alt="Пример профиля" href="https://vanya-arc.dev" />}</Sizes></CatalogSection>
     <CatalogSection id="segments" title="SegmentedControl" description="Выбор одного варианта из группы. Два размера.">
-      <div className="demo-column"><SegmentedControl items={horizons} value={horizon} onChange={changeHorizon} /><SegmentedControl items={horizons} value={horizon} onChange={changeHorizon} size="sm" /></div>
+      <Sizes>{(size) => <SegmentedControl size={size} items={horizons} value={horizon} onChange={changeHorizon} />}</Sizes>
     </CatalogSection>
     <CatalogSection id="range" title="RangeSlider" description="Ползунок для выбора значения.">
       <div className="demo-column"><RangeSlider label="Дистанция" aria-label="Дистанция в примере" value={range} min={0} max={80} onChange={(event) => setRange(Number(event.target.value))} /><output className="demo-label">{range}</output></div>
@@ -68,14 +74,14 @@ export function ComponentCatalog() {
       <div className="demo-column"><Minimap min={2016} max={2028} from={mapFocus} to={mapFocus + 2} ticks={eventTicks} onSeek={(value) => setMapFocus(Math.min(2026, Math.max(2016, value - 1)))} labels={[{ value: 2016, text: "2016" }, { value: 2020, text: "2020" }, { value: 2024, text: "2024" }, { value: 2028, text: "2028" }]} /><span className="demo-label">Примеры событий: прошлые, текущие и будущие.</span></div>
     </CatalogSection>
     <CatalogSection id="categories" title="CategoryBadge" description="Иконки и палитра типов харнессов из Фермы.">
-      {HARNESS_TYPES.map((harness) => <CategoryBadge key={harness.id} category={harness.id} />)}
+      <Sizes>{(size) => HARNESS_TYPES.map((harness) => <CategoryBadge key={harness.id} size={size} category={harness.id} />)}</Sizes>
     </CatalogSection>
     <CatalogSection id="status" title="MeshStatusBadge" description="Статусы сервисов без действий по нажатию.">
-      <MeshStatusBadge status="online" label="доступен" /><MeshStatusBadge status="standby" label="ожидание" /><MeshStatusBadge status="warning" label="внимание" /><MeshStatusBadge status="offline" label="недоступен" />
+      <Sizes>{(size) => <><MeshStatusBadge size={size} status="online" label="доступен" /><MeshStatusBadge size={size} status="standby" label="ожидание" /><MeshStatusBadge size={size} status="warning" label="внимание" /><MeshStatusBadge size={size} status="offline" label="недоступен" /></>}</Sizes>
     </CatalogSection>
-    <CatalogSection id="tag" title="Tag" description="Текстовая метка без действий по нажатию."><Tag>наблюдение</Tag><Tag>демо</Tag></CatalogSection>
+    <CatalogSection id="tag" title="Tag" description="Текстовая метка без действий по нажатию."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
     <CatalogSection id="disclosure" title="DisclosurePill" description="Дополнительный текст, который можно раскрыть."><DisclosurePill title="Показать пояснение"><p>Здесь можно разместить пояснение, которое не нужно показывать сразу.</p></DisclosurePill></CatalogSection>
-    <CatalogSection id="link" title="LinkChip" description="Подписанная ссылка с адресом."><LinkChip url="https://vanya-arc.dev" label="Синусоида" /></CatalogSection>
+    <CatalogSection id="link" title="LinkChip" description="Подписанная ссылка с адресом."><Sizes>{(size) => <LinkChip size={size} url="https://vanya-arc.dev" label="Синусоида" />}</Sizes></CatalogSection>
     <CatalogSection id="event" title="EventCard" description="Карточка с датой, описанием и ссылками.">
       {sampleVisible ? <EventCard date="5 ноября 2026" title="Пример проекта" description="Описание проекта со ссылкой и тегом." links={[{ url: "https://vanya-arc.dev", label: "референс" }]} tags={["демо"]} onClose={() => setSampleVisible(false)} /> : <ActionButton onClick={() => setSampleVisible(true)}>Показать EventCard снова</ActionButton>}
     </CatalogSection>

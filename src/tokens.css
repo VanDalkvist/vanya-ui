@@ -54,6 +54,18 @@
 }
 
 :root {
+  --size-sm-height: 24px;
+  --size-md-height: 32px;
+  --size-sm-font: 11px;
+  --size-md-font: 12px;
+  --size-sm-line: 16px;
+  --size-md-line: 20px;
+  --size-sm-padding: 8px;
+  --size-md-padding: 12px;
+  --size-sm-gap: 4px;
+  --size-md-gap: 6px;
+  --size-sm-icon: 12px;
+  --size-md-icon: 16px;
   color-scheme: light;
   /* Harness visual identities from ferma/src/styles.css. */
   --harness-creative: oklch(0.68 0.08 310);
@@ -117,6 +129,36 @@
   --accent-soft: rgba(255, 178, 102, 0.15);
 
   --border: oklch(1 0 0 / 10%);             /* Тончайший светлый контур */
+}
+
+@layer components {
+  .ui-size {
+    --ui-height: var(--size-sm-height);
+    --ui-font: var(--size-sm-font);
+    --ui-line: var(--size-sm-line);
+    --ui-padding: var(--size-sm-padding);
+    --ui-gap: var(--size-sm-gap);
+    --ui-icon: var(--size-sm-icon);
+    box-sizing: border-box;
+    height: var(--ui-height);
+    min-width: var(--ui-height);
+    padding: 0 var(--ui-padding);
+    gap: var(--ui-gap);
+    font-size: var(--ui-font);
+    line-height: var(--ui-line);
+  }
+  .ui-size[data-size="md"] {
+    --ui-height: var(--size-md-height);
+    --ui-font: var(--size-md-font);
+    --ui-line: var(--size-md-line);
+    --ui-padding: var(--size-md-padding);
+    --ui-gap: var(--size-md-gap);
+    --ui-icon: var(--size-md-icon);
+  }
+  .ui-size > svg, .ui-segments > button > svg { width:var(--ui-icon); height:var(--ui-icon); flex-shrink:0; }
+  .ui-avatar { width:var(--ui-height); padding:0; }
+  .ui-segments { padding:2px; gap:2px; }
+  .ui-segments > button { height:calc(var(--ui-height) - 6px); padding:0 var(--ui-padding); gap:var(--ui-gap); font-size:inherit; line-height:inherit; }
 }
 
 @layer base {

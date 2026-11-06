@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLinks, ThemeToggle } from "../index";
+import { Divider, NavLinks, ThemeToggle } from "../index";
 import { Scene } from "./Scene";
 import { ComponentCatalog } from "./ComponentCatalog";
 
@@ -9,6 +9,8 @@ export function Showcase() {
     <header className="showcase-header">
       <a className="showcase-name" href="#composition">vanya-arc/ui</a>
       <NavLinks items={[{ id: "composition", label: "Композиция" }, { id: "catalog", label: "Компоненты" }]} onSelect={(id) => document.getElementById(id)?.scrollIntoView()}>
+        <a className="showcase-origin" href="https://vanya-arc.dev" target="_blank" rel="noopener noreferrer" title="Оригинальный сайт Синусоиды, новая вкладка">vanya-arc.dev</a>
+        <Divider className="mx-2" />
         <ThemeToggle />
       </NavLinks>
     </header>

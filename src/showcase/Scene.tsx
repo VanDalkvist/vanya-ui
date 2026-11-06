@@ -14,8 +14,8 @@ export function Scene() {
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <SineWave className="scene-background" />
       <div className="scene-intro">
-        <h1 id="scene-title">Открытое пространство</h1>
-        <p>Компоненты для своих проектов.<br />Кнопки и карточки можно попробовать.</p>
+        <h1 id="scene-title">Библиотека компонентов</h1>
+        <p>Кнопки, карточки и другие элементы.<br />Можно менять тему и пробовать состояния.</p>
       </div>
       <div className="scene-moments" style={{ gap: `${distance}px` }}>
         {moments.map((item, index) => (

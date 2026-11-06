@@ -58,6 +58,18 @@ The live showcase imports the same components and tokens as applications. It doe
 ### Light
 
 ```css
+--size-sm-height: 24px;
+--size-md-height: 32px;
+--size-sm-font: 11px;
+--size-md-font: 12px;
+--size-sm-line: 16px;
+--size-md-line: 20px;
+--size-sm-padding: 8px;
+--size-md-padding: 12px;
+--size-sm-gap: 4px;
+--size-md-gap: 6px;
+--size-sm-icon: 12px;
+--size-md-icon: 16px;
 --harness-creative: oklch(0.68 0.08 310);
 --harness-creative-fg: oklch(0.42 0.09 310);
 --harness-creative-bg: oklch(0.94 0.025 310);

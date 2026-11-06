@@ -54,6 +54,6 @@ describe("approved showcase refinements", () => {
       expect(screen.getByRole("region", { name })).toBeInTheDocument();
     }
     const badges = screen.getByRole("region", { name: "CategoryBadge" });
-    for (const label of ["Creative", "Life", "Product", "Infra"]) expect(within(badges).getByText(label)).toBeVisible();
+    for (const label of ["Creative", "Life", "Product", "Infra"]) expect(within(badges).getAllByText(label)).toHaveLength(2);
   });
 });
