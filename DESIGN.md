@@ -1,4 +1,4 @@
-# Hearth & Wave
+# Vanya-Arc/UI
 
 ## Visual authority
 

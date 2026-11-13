@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-01  
 **Target:** `~/Projects/vanya-ui`  
-**Standard:** AP-010 ... AP-071, Hearth & Wave Design System
+**Standard:** AP-010 ... AP-071, Vanya-Arc/UI Design System
 
 ## 1. Goal
 Refine the `@vanya/ui` showcase and component architecture:

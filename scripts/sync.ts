@@ -10,7 +10,7 @@ const components = fs.readdirSync(path.join(root, "src/components"))
   .filter((file) => file.endsWith(".tsx") && exports.includes(`./components/${file.slice(0, -4)}"`))
   .sort();
 
-const reference = `# @vanya/ui — vanya-arc/ui
+const reference = `# @vanya/ui — Vanya-Arc/UI
 
 > Generated from src/tokens.css and src/index.ts by bun run sync.
 > This is a token/export reference, not an automatically inferred design specification.

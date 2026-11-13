@@ -16,7 +16,7 @@ export interface SpiderRadarProps {
 }
 
 /**
- * Многоосевой полигональный SVG-радар (паутинка) в эстетике Hearth & Wave.
+ * Многоосевой полигональный SVG-радар (паутинка) в эстетике Vanya-Arc/UI.
  * Отображает баланс категорий с тончайшими концентрическими осями.
  */
 export const SpiderRadar: React.FC<SpiderRadarProps> = ({

@@ -4,7 +4,7 @@
 
 ### Context & Goals
 - Target: `~/Projects/vanya-ui`
-- Standards: AP-010 ... AP-071, Hearth & Wave Design System.
+- Standards: AP-010 ... AP-071, Vanya-Arc/UI Design System.
 - Scope:
   1. Fact-check & removal of non-existent `TurnArcBadge`.
   2. Parity with `life-wave-narrative` ThemeToggle (`dropdown` and `segmented` variants; corner switcher controls page with system default; catalog demos are local only).

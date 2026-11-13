@@ -1,4 +1,4 @@
-# vanya-arc/ui
+# Vanya-Arc/UI
 
 React-компоненты и CSS-токены для интерфейсов [vanya-arc.dev](https://vanya-arc.dev/). Имя пакета — `@vanya/ui`.
 
