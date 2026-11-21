@@ -71,7 +71,7 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 bun install
 bun run dev       # интерактивная витрина
 bun run test      # Vitest
-bunx tsc --noEmit  # проверка типов
+bunx tsc --noEmit -p tsconfig.build.json # типизация библиотеки; тесты исполняет Vitest
 bun run sync      # справочник токенов и реестр экспортов
 bun run build     # production-сборка витрины в dist/
 ```
