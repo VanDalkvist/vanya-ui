@@ -19,8 +19,8 @@ export function Scene() {
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <div className="scene-intro">
-        <h1 id="scene-title">Библиотека компонентов</h1>
-        <p>Кнопки, карточки и другие элементы.<br />Можно менять тему и пробовать состояния.</p>
+        <h1 id="scene-title">Vanya-Arc/UI</h1>
+        <p>Одна система для интерфейсов: композиция, принципы, рабочие пространства и компоненты.<br />Листай, исследуй и делись прямыми ссылками на разделы.</p>
       </div>
       <div className="scene-wave"><SineWave className="scene-background" fit origin={590} events={[
         { id: "early", position: 0.1, weight: 1, label: pointMoments[0].title, onClick: () => setSelected(pointMoments[0]) },

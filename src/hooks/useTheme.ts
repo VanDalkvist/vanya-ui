@@ -29,22 +29,16 @@ export function applyTheme(theme: Theme): ResolvedTheme {
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "system";
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY) as Theme;
-      if (stored === "light" || stored === "dark" || stored === "system") {
-        return stored;
-      }
-    } catch {
-      // fallback
-    }
-    return "system"; // по умолчанию системная
-  });
-
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    applyTheme(theme)
-  );
+  // Deterministic first render for static HTML + React hydration.
+  const [theme,setThemeState]=useState<Theme>("system");
+  const [resolvedTheme,setResolvedTheme]=useState<ResolvedTheme>("dark");
+  useEffect(()=>{
+    try{
+      const saved=localStorage.getItem(STORAGE_KEY) as Theme | null;
+      if(saved==="light"||saved==="dark"||saved==="system"){setThemeState(saved);return;}
+    }catch{/* no storage */}
+    setResolvedTheme(applyTheme("system"));
+  },[]);
 
   const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
