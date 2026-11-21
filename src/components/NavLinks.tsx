@@ -38,22 +38,36 @@ export function NavLinks({
     >
       {/* Нарративные разделы */}
       <div className="flex items-center gap-x-3.5 sm:gap-x-4">
-        {items.map((item) => (
-          <button
+        {items.map((item) => {
+          const classes = clsx(
+            "appearance-none border-0 bg-transparent p-0 font-sans text-[12px] sm:text-[12.5px] tracking-normal transition-colors duration-200 cursor-pointer focus-visible:text-accent focus-visible:outline-none",
+            item.isActive
+              ? "text-accent font-semibold"
+              : "text-ink-soft/80 font-medium hover:text-accent"
+          );
+          if (item.href) {
+            return <a
+              key={item.id}
+              href={item.href}
+              aria-current={item.isActive ? "page" : undefined}
+              className={classes}
+              onClick={(event) => {
+                if (!onSelect || event.defaultPrevented || event.button !== 0 ||
+                  event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+                  event.currentTarget.target === "_blank") return;
+                event.preventDefault();
+                onSelect(item.id);
+              }}
+            >{item.label}</a>;
+          }
+          return <button
             key={item.id}
             type="button"
             onClick={() => onSelect?.(item.id)}
             aria-pressed={item.isActive}
-            className={clsx(
-              "appearance-none border-0 bg-transparent p-0 font-sans text-[12px] sm:text-[12.5px] tracking-normal transition-colors duration-200 cursor-pointer focus-visible:text-accent focus-visible:outline-none",
-              item.isActive
-                ? "text-accent font-semibold"
-                : "text-ink-soft/80 font-medium hover:text-accent"
-            )}
-          >
-            {item.label}
-          </button>
-        ))}
+            className={classes}
+          >{item.label}</button>;
+        })}
       </div>
 
       {/* Разделитель и кнопка «Сейчас» */}
