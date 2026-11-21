@@ -44,8 +44,9 @@ describe("license compliance and published notices",()=>{
   expect(vite).toContain('license: { fileName: "licenses.txt" }');
   expect(sync).toContain('"public/LICENSE.txt"');
   expect(sync).toContain('["THIRD_PARTY_NOTICES.md","third-party.md"]');
-  expect(read("src/showcase/Showcase.tsx")).toContain('href="/reference/licensing.md"');
-  expect(read("src/showcase/Showcase.tsx")).toContain('https://github.com/VanDalkvist/vanya-arc-brand');
+  expect(read("src/showcase/ShowcaseFooter.tsx")).toContain('href="/reference/licensing.md"');
+  expect(read("src/showcase/ShowcaseFooter.tsx")).toContain('https://github.com/VanDalkvist/vanya-arc-brand');
+  expect(read("src/showcase/Showcase.tsx")).toContain("<ShowcaseFooter />");
   expect(read("llms.txt")).toContain("/reference/third-party.md");
   expect(read("llms.txt")).toContain("/licenses.txt");
  });
