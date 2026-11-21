@@ -69,3 +69,14 @@ These are guidance and design QA checks, not a universal pixel-perfect template.
 - Test opening a film/item in a new tab, copying its URL to another browser, using Back/Forward, and following a source link without first navigating a drawer.
 
 This pattern is shared across all React apps built with Vanya UI.
+
+## 7. Separate utility/admin navigation from daily tasks
+
+- Primary navigation names stable, frequently used destinations. In a compact app, keep three meaningful destinations rather than creating a tab for every technical operation.
+- Put owner-only integrations, API keys, permissions, import sources and account configuration under a **labeled, persistent Management link** in the top-right utility area. It must be accessible from every working view, not buried behind a rarely used upload form.
+- Put actual import/upload actions next to the collection they affect. API credential lifecycle belongs in Management, not inside the import wizard.
+- Use real `NavLinks` anchors and `ActionLink` from Vanya UI, so keyboard navigation, Cmd/Ctrl-click, copy-link, and back/forward remain browser-native.
+- When one action can affect multiple members, name the recipient explicitly and default it to the signed-in owner. Use `SelectField` with `allowEmpty={false}` to avoid an ambiguous "All" recipient.
+- Preserve mobile header composition: place daily destinations together and owner utilities separately; do not rely on unlabeled gear icons.
+
+References: [NN/g utility navigation](https://www.nngroup.com/articles/utility-navigation/), [NN/g information architecture](https://www.nngroup.com/articles/ia-study-guide/), [Material primary navigation](https://m1.material.io/components/bottom-navigation.html).
