@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSING.md",
   "author": {
     "name": "Vanya Afanasov",
     "url": "https://vanya-arc.dev"
@@ -27,7 +27,7 @@
     "prerender": "bun run scripts/prerender.tsx"
   },
   "dependencies": {
-    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#4d697b5195fec35812ebe5b700e509058d2d2539",
+    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#2f2066d077ae26b9f8f1820dbc64121c49ea27e3",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "tailwind-merge": "^3.0.2"

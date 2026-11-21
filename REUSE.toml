@@ -6,7 +6,9 @@ version = 1
 path = [
   "docs/research/typography-audit-2026-11-22.md",
   "docs/research/copy-audit-2026-11-22.md",
-  "docs/research/hero-shortcuts-and-copy-2026-11-21.md"
+  "docs/research/hero-shortcuts-and-copy-2026-11-21.md",
+  "docs/research/ilyakhov-copy-audit-2026-11-22.md",
+  "docs/research/sources-and-licenses-audit-2026-11-22.md"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Vanya Afanasov"

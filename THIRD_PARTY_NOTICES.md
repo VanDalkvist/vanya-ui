@@ -2,7 +2,7 @@
 
 **Scope:** Public Vanya Arc / UI repository (`@vanya/ui`) and its showcase at https://ui.vanya-arc.dev.
 
-The repository's original reusable **software** is licensed under [MIT](https://github.com/VanDalkvist/vanya-ui/blob/main/LICENSE), Copyright © 2026 Vanya Afanasov. This does **not** change ownership or license obligations for third-party libraries, icons, fonts, or editorial sources.
+The original reusable **software** (not the entire mixed package) is licensed under [MIT](https://github.com/VanDalkvist/vanya-ui/blob/main/LICENSE), Copyright © 2026 Vanya Afanasov. This does **not** change ownership or license obligations for third-party libraries, icons, fonts, or editorial sources.
 
 When the site is built, Vite also emits **[licenses.txt](https://ui.vanya-arc.dev/licenses.txt)**: complete notices for dependencies bundled into the deployed client code. That generated list is version-specific and supplements the curated index below. License obligations apply to consumers' own bundles too.
 
@@ -33,12 +33,18 @@ The website loads fonts **from Google Fonts** via stylesheet URLs; font binaries
 
 Commercial applications and rendered logos may use these families subject to their license terms. Do not package Apple San Francisco fonts under these licenses.
 
+## Editorial books and research sources (reference only)
+
+The online edition [`Пиши, сокращай — 2025`](https://bureau.ru/books/pishi/), by **Максим Ильяхов and Людмила Сарычева**, is cited as a primary book source; we did **not** find a CC BY grant for the book and do not redistribute its chapters. The book's printed title contains `2025`, while the online bibliographic information lists the publisher as **Бюро Горбунова, 2023**. Original product-specific checklists are explicitly presented as Vanya UI interpretations, not quoted as authors' wording. See [quotation and source policy](docs/patterns/sources-and-attribution.md).
+
+Apple HIG, GOV.UK, W3C, Carbon, NN/g, Mozilla, Kubernetes and other websites linked in research are **reference-only unless explicitly licensed**. We do not relicense their text, logos, images or diagrams under our own MIT/CC BY scopes.
+
 ## Editor skills (external reference; not vendored)
 
 - Original source: https://github.com/N1arko/redaktura-skills
 - Authors: **Людмила Сарычева** (https://gladlax.ru) and **Никита Архипов** (https://niar42.com).
 - License: **CC BY 4.0**, https://creativecommons.org/licenses/by/4.0/.
-- Our project-specific `.agents/redpolitika.md`, editorial guide and copy audit **apply and paraphrase the methods** for Vanya UI. They do not reproduce the upstream `SKILL.md` source files or imply endorsement by the authors.
+- Our project-specific `.agents/redpolitika.md`, editorial guide and copy audit **apply general techniques and write our own project-specific commentary** for Vanya UI. They do not reproduce the upstream `SKILL.md` source files or imply endorsement by the authors.
 - If upstream licensed text is incorporated or adapted later, retain creator credit, license link, source link, and an indication of changes. Do **not** silently treat upstream CC BY content as original MIT-authored code.
 
 ## Build-only tooling

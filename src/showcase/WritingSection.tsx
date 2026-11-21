@@ -31,6 +31,6 @@ export function WritingSection() {
       <code>{item.name}</code><span>{item.purpose}</span><a href={item.link} target="_blank" rel="noopener noreferrer">Первоисточник</a>
     </div>)}</div>
     <p className="writing-attribution"><strong>Авторы методики и скиллов:</strong> <a href="https://gladlax.ru" target="_blank" rel="noopener noreferrer">Людмила Сарычева</a> и <a href="https://niar42.com" target="_blank" rel="noopener noreferrer">Никита Архипов</a>. <a href="https://github.com/N1arko/redaktura-skills" target="_blank" rel="noopener noreferrer">Оригинальный репозиторий</a>, лицензия <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Vanya UI использует принципы с указанием авторов, не выдаёт их за собственный метод.</p>
-    <p className="catalog-intro">Полные правила, редполитика и разбор правок: <a href="/reference/writing.md">пособие для людей и агентов</a>.</p>
+    <p className="catalog-intro">Для заимствований и цитат сначала проверь <a href="/reference/sources.md">источник, условия и атрибуцию</a>. Полные правила, редполитика и разбор правок: <a href="/reference/writing.md">пособие для людей и агентов</a>.</p>
   </section>;
 }

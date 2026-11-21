@@ -34,6 +34,10 @@ The site is intentionally **public**. These files must never include secrets, pr
 - Existing MIT copies are not retroactively restricted; no trademark registration is claimed.
 - llms.txt, llms-full.txt and the identity section point to the correct license scope.
 
+## Source rights and citation verification
+
+Agents must inspect the [public source rules](../docs/patterns/sources-and-attribution.md) before publishing quotes, adapted CC BY material or images. Require direct original URL and actual rights status; do not assume all cited materials inherit the repository license. Live reference /reference/sources.md is published with the human docs.
+
 ## License discoverability
 
 - Root `LICENSE` governs authored MIT code; `/LICENSE.txt` is a published copy.

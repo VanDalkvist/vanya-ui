@@ -17,6 +17,7 @@
 - [Composition](https://ui.vanya-arc.dev/reference/composition.md): Reusable interface patterns.
 - [Workspace scrolling](https://ui.vanya-arc.dev/reference/workspaces.md): Scroll owners and sticky context.
 - [Installation](https://ui.vanya-arc.dev/reference/installation.md): How to use @vanya/ui.
+- [Sources, quotations and required attribution](https://ui.vanya-arc.dev/reference/sources.md): How to record primary sources, distinguish short quotes from CC-licensed adaptations, and avoid relicensing third-party content.
 - [Third-party licenses and attribution](https://ui.vanya-arc.dev/reference/third-party.md): React, Lucide/Feather, fonts and credited Agent Skills.
 - [Built JavaScript dependency licenses](https://ui.vanya-arc.dev/licenses.txt): Auto-generated full notices for deployed Vite bundle.
 - [Licensing scopes](https://ui.vanya-arc.dev/reference/licensing.md): MIT software, selected CC BY research, protected Vanya Arc art and historical grants.
@@ -27,7 +28,7 @@
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 
 ## Source
-- [Public GitHub repository](https://github.com/VanDalkvist/vanya-ui): Source, tests, MIT license.
+- [Public GitHub repository](https://github.com/VanDalkvist/vanya-ui): Source, tests and mixed-license scope (original source code MIT; selected research CC BY 4.0).
 - [Extended machine-readable reference](https://ui.vanya-arc.dev/llms-full.txt): Generated tokens and export index.
 
 This is a navigation aid for agents, not an indexing or ranking guarantee.

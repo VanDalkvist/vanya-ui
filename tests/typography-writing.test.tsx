@@ -49,6 +49,10 @@ describe("typography and editor guidance",()=>{
   expect(read("docs/research/ilyakhov-copy-audit-2026-11-22.md")).toContain("bureau.ru/books/pishi/190");
   expect(read("llms.txt")).toContain("/reference/typography.md");
   expect(read("llms.txt")).toContain("/reference/writing.md");
+  expect(read("llms.txt")).toContain("/reference/sources.md");
+  expect(read("scripts/sync.ts")).toContain('["docs/patterns/sources-and-attribution.md","sources.md"]');
+  expect(read("docs/patterns/sources-and-attribution.md")).toContain("CC BY 4.0");
+  expect(read("docs/research/ilyakhov-copy-audit-2026-11-22.md")).toContain("source");
   expect(read("scripts/sync.ts")).toContain('["docs/patterns/typography.md","typography.md"]');
  });
 });

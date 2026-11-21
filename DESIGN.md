@@ -41,6 +41,10 @@ MIT covers original program code and ordinary guides; three original research do
 
 The project's root `LICENSE` is MIT (Copyright 2026 Vanya Afanasov). Third-party work retains **its own** license: bundled packages and icons, fonts loaded from Google Fonts, and referenced external Agent Skills. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [license audit](docs/legal/license-audit-2026-11-22.md). Generate complete bundled dependency licenses at `/licenses.txt` via Vite `build.license`. The Lucide source includes ISC and the Feather-derived subset includes MIT; do not lose either notice. Third-party original skill files are linked, not vendored. Do not relicense `@vanya/brand` artwork as UI MIT; neither repository claims that historical MIT permissions have been revoked.
 
+## Sources and citations — mandatory
+
+A hyperlink is not a copyright license. Citations must identify the author/organization, the work, a direct verified source, what it supports, and the applicable rights for any copied material. A few quotes can still be infringing when they are not justified by a lawful quotation exception or permission. CC BY adaptations need original creator, title, URL, CC BY 4.0 link, and change notice. Project-rephrased guidelines are **not** author quotes. [Source policy](docs/patterns/sources-and-attribution.md), [audit](docs/research/sources-and-licenses-audit-2026-11-22.md), [public reference](https://ui.vanya-arc.dev/reference/sources.md).
+
 ## Public repository and website — mandatory safety boundary
 
 This repository and `https://ui.vanya-arc.dev` are **public**. All committed files, generated static assets, documentation, previews, source maps, images, test fixtures and website text must be safe to disclose to anyone. Do not copy data from private conversations, connected accounts, private repositories, internal research or production infrastructure into this project by default.

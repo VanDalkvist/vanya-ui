@@ -1,42 +1,40 @@
 # Licensing — Vanya Arc / UI
 
-**Effective date for this version: 22 November 2026.** This repository is a **mixed-license** project. The root [LICENSE](LICENSE) and `package.json` `license: MIT` cover the project's original, reusable **software**, except the specifically identified brand artwork and third-party material below.
+This is a **mixed-license repository and source package**. `package.json` says `"license": "SEE LICENSE IN LICENSING.md"`, following [npm's documented license syntax](https://docs.npmjs.com/cli/configuring-npm/package-json/#license). It does not assert that every file here is MIT.
 
-| Source or asset | License / rights | What it means |
+| Paths or material | License / permissions | Boundaries |
 | --- | --- | --- |
-| Original documentation and guides unless separately identified | **MIT** | The existing license for authored documentation remains in force |
-| `docs/research/typography-audit-2026-11-22.md`, `docs/research/copy-audit-2026-11-22.md`, `docs/research/hero-shortcuts-and-copy-2026-11-21.md` | **CC BY 4.0** for independently owned original contributions in **this and later versions** | Reuse and adapt with attribution, license URL, source and modification indication |
-| `@vanya/brand` as a GitHub dependency | Its own MIT code plus separate brand artwork rights | [Canonical brand LICENSING.md](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md); UI does not relicense its logo |
-| `THIRD_PARTY_NOTICES.md`, third-party icons, fonts and external skills | Upstream licenses and rights **only** | Their authors and original notices govern; never relicense them as ours |
-| Public demo assets and other images | Evaluate individually | No automatic assignment of CC BY or reserved-rights status merely because they appear in a folder |
+| Original reusable software: `src/**`, `scripts/**`, `tests/**`, `src/tokens.css`, components and helper code | **MIT**, [root LICENSE](LICENSE) | Copyright notice and full MIT permission notice must be retained on redistribution |
+| Original authored guides and project documents not separately marked | **MIT** for their original expression | Does not include copyrighted words or images owned by external authors |
+| `docs/research/typography-audit-2026-11-22.md`, `copy-audit-2026-11-22.md`, `hero-shortcuts-and-copy-2026-11-21.md`, `ilyakhov-copy-audit-2026-11-22.md`, `sources-and-licenses-audit-2026-11-22.md` | **CC BY 4.0**, limited to Vanya UI's independently owned original portions | Each is annotated in `REUSE.toml` and file header; third-party quotations are excluded |
+| `@vanya/brand`, pinned GitHub dependency | Own mixed license; [brand rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md) | Its React/CSS software is MIT; approved mark geometry and SVG files have separate limited-use terms |
+| Lucide/Feather, React, clsx, tailwind-merge, font projects, redaktura-skills | **Upstream license for each**, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) | No sublicensing under Vanya UI MIT; follow each license when distributing a copy |
+| External books, standards, research, images, quotations and third-party trade names | **Reference-only unless verified otherwise** | Links are not permission to copy or adapt. Apply applicable quotation exception or get permission |
+| `public/avatar.svg` and other own simple demo graphics | Original project asset where rights are held | No independent proof of authorship of all historical contributions; provenance should be checked |
 
-**Important historical boundary:** previous public versions of `vanya-ui` distributed the same artwork inside MIT-licensed files. Nothing in this new licensing statement revokes existing permissions for those copies. Future artwork changes can be separately licensed to the extent the rightsholder owns their rights; trademark rules and copyright rights are independent.
+**Previously distributed versions:** earlier MIT grants, including copies of logo artwork that was embedded in MIT files, are not revoked. Brand rules govern current material only within rights actually held; copyright in a simple or AI-assisted symbol and trademark registration remain unverified.
 
-## CC BY attribution
+## Attribution and quotation
 
-For a covered original research document, a valid attribution example:
+The [source and quotation policy](docs/patterns/sources-and-attribution.md) distinguishes an ordinary research reference, a protected direct quote, licensed CC BY adaptation, reused MIT source, and protected brand/visual media. For CC BY material reproduce the original creator's attribution, title, source URL, link to license and indication of changes, where required. For source-only references cite the creator, work and direct URL without copying protected expression.
 
-> “Typography audit — Vanya Arc / UI”, Vanya Afanasov, [original](https://github.com/VanDalkvist/vanya-ui/blob/main/docs/research/typography-audit-2026-11-22.md), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), adapted with changes to wording and examples.
+Example for a Vanya UI-authored CC BY research document: “Typography audit — Vanya Arc / UI”, Vanya Afanasov, [original](https://github.com/VanDalkvist/vanya-ui/blob/main/docs/research/typography-audit-2026-11-22.md), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), adapted with modifications identified.
 
-The CC license grants **only rights the grantor owns**. Quoted text, external diagrams, third-party photographs, original skills and other external material retain separate conditions. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Source references from Apple HIG, W3C, the book by Ilyakhov and Sarycheva, or external articles are **not** reissued under CC BY just because they appear as citations. Never imply those organizations endorse Vanya UI.
 
-## Machine-readable scope
+## Machine-readable scope and deployment
 
-Only the selected CC BY research documents are annotated in this UI repository. The distinctive SVG, path and logo components belong to the separate `@vanya/brand` package and are not independently maintained or relicensed here. The `LICENSES/LicenseRef-VanyaArc-Brand.txt` copy has been removed in favor of [canonical brand terms](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSES/LicenseRef-VanyaArc-Brand.txt).
+`REUSE.toml` identifies the five selected CC BY documents; project-authored code and ordinary guides remain MIT by stated scope. **Do not assert full REUSE compliance** until all applicable files pass a complete lint. The package dependency has its own metadata and terms.
 
-
-
-## What consumers can do
-
-When copying the code into another product, retain MIT notices for software and applicable third-party notices. Replace or remove official Vanya Arc branding when producing a separate product. Original research can be quoted or adapted with CC BY attribution. The `VanyaArcMark` re-export is intended for displaying the **official** identity; its export does not license third-party use as a replacement company logo.
+The live site publishes `/LICENSE.txt` (the original project's MIT grant), `/reference/licensing.md` (this full mixed-license map), `/reference/sources.md` (citation rules), `/reference/third-party.md` and `/licenses.txt` (generated bundled dependency notices). A copy of `LICENSE.txt` alone does **not** describe the entire website's rights.
 
 ## Primary legal sources
 
-- [OSI MIT license](https://opensource.org/license/mit)
-- [Creative Commons CC BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode)
-- [CC FAQ for software, logos and trademarks](https://creativecommons.org/faq/)
+- [MIT — OSI](https://opensource.org/license/mit)
+- [CC BY 4.0 — legalcode](https://creativecommons.org/licenses/by/4.0/legalcode)
+- [CC guidance on attribution, quotations and third-party materials](https://creativecommons.org/reusing-cc-licensed-content/)
 - [REUSE Specification 3.3](https://reuse.software/spec-3.3/)
-- [GitHub open-source applications and logo distinction](https://docs.github.com/en/site-policy/github-terms/github-open-source-applications-terms-and-conditions)
-- [WIPO trademark rights](https://www.wipo.int/en/web/trademarks/protection)
+- [EU quotation exception — Directive 2001/29/EC Article 5(3)(d)](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32001L0029)
+- [npm license-field guidance](https://docs.npmjs.com/cli/configuring-npm/package-json/#license)
 
-This is a documented licensing policy and source audit, **not legal advice**, trademark clearance, proof of artwork originality or registration.
+This is a documented rights map, not a jurisdiction-specific legal opinion, proof of original ownership or trademark clearance.

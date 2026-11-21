@@ -39,6 +39,10 @@ Every meaningful page or shareable view must have a stable URL; open, reload, Ba
 ## Mixed licensing and protected brand (mandatory)
 Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Official artwork and renderer are supplied by the separately licensed @vanya/brand dependency; UI merely re-exports them. Older MIT copies keep their original grants. Read LICENSING.md, BRAND.md and docs/legal/licensing-implementation-2026-11-22.md. The REUSE annotations cover selected paths, not a claimed full REUSE audit. Public /reference/licensing.md and /reference/brand.md.
 
+## Sources and citation (mandatory)
+
+Every external claim needs its true primary author/organization, title, direct URL, the specific supported assertion and a rights status (`reference-only`, explicit license, permitted quotation or written permission). Distinguish citations, protected quotations, licensed adaptations and independently created commentary. A link is NOT a copyright license. Ilyakhov and Sarycheva's book is linked for commentary; redaktura-skills is CC BY 4.0 with its own named authors. For CC BY adaptations include author/title/source/license/changes; for MIT code preserve notices; for images/diagrams obtain permission or verify terms before reproduction. Refer to docs/patterns/sources-and-attribution.md and /reference/sources.md. Do not assert legal clearance merely because a source is public.
+
 ## Licenses and third-party attribution (mandatory)
 This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md; older MIT grants persist.
 
@@ -74,6 +78,7 @@ const docs=[
  ["docs/identity/brand.md","identity.md"],
  ["docs/patterns/typography.md","typography.md"],
  ["docs/patterns/writing-and-editorial.md","writing.md"],
+ ["docs/patterns/sources-and-attribution.md","sources.md"],
  ["docs/patterns/browser-navigation.md","navigation.md"],
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
