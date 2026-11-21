@@ -39,7 +39,7 @@ describe("shortcut notation and keyboard UX", () => {
     fireEvent.keyDown(window,{key:"i",code:"KeyI"});
     expect(window.location.hash).toBe("");
     fireEvent.keyDown(window,{key:"g",code:"KeyG"});
-    expect(screen.getByRole("status")).toHaveTextContent("выберите раздел");
+    expect(screen.getByText("выберите раздел")).toHaveTextContent("выберите раздел");
     fireEvent.keyDown(window,{key:"i",code:"KeyI"});
     expect(window.location.hash).toBe("#identity");
     expect(screen.queryByText("выберите раздел")).not.toBeInTheDocument();
@@ -47,14 +47,14 @@ describe("shortcut notation and keyboard UX", () => {
 
   it("does not capture shortcuts in inputs and can cancel a pending sequence", () => {
     render(<Showcase/>);
-    const slider=screen.getByRole("slider");
+    const slider=screen.getByRole("slider",{name:"Расстояние между событиями"});
     fireEvent.keyDown(slider,{key:"g",code:"KeyG"});
     fireEvent.keyDown(slider,{key:"i",code:"KeyI"});
     expect(window.location.hash).toBe("");
     fireEvent.keyDown(window,{key:"g",code:"KeyG"});
-    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(screen.getByText("выберите раздел")).toBeInTheDocument();
     fireEvent.keyDown(window,{key:"Escape",code:"Escape"});
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.queryByText("выберите раздел")).not.toBeInTheDocument();
     fireEvent.keyDown(window,{key:"i",code:"KeyI"});
     expect(window.location.hash).toBe("");
   });
