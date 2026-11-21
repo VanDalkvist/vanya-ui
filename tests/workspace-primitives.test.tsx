@@ -4,6 +4,17 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader } from "../src/index";
 
 describe("Workspace primitives", () => {
+  it("does not duplicate the in-document heading until that heading scrolls away", () => {
+    const nav=[{id:"stage",label:"Читать"}];
+    const view=render(<WorkspaceContextHeader title="Только один заголовок" breadcrumbs={nav} showTitle={false}
+      actions={<button>Извлечь</button>}/>);
+    expect(screen.queryByText("Только один заголовок")).not.toBeInTheDocument();
+    expect(screen.getByRole("navigation",{name:"Хлебные крошки"})).toBeInTheDocument();
+    expect(screen.getByRole("button",{name:"Извлечь"})).toBeInTheDocument();
+    view.rerender(<WorkspaceContextHeader title="Только один заголовок" breadcrumbs={nav} showTitle
+      actions={<button>Извлечь</button>}/>);
+    expect(screen.getByText("Только один заголовок")).toBeInTheDocument();
+  });
   it("places accessible navigable breadcrumbs, title and action in one header slot", () => {
     const go=vi.fn(),execute=vi.fn();
     render(<WorkspaceContextHeader title="Агенты и долгие операции" breadcrumbs={[

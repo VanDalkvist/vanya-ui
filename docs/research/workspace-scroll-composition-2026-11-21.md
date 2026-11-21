@@ -70,3 +70,7 @@ Unlike `StickyContextBar`, the contextual shell slot never inserts a second fixe
 Breadcrumbs are navigation, not a copy of app steps: only render ancestors with real destinations; do not duplicate all stage tabs. Use `onSelect` callbacks for actionable crumbs; passive labels are not fake links.
 
 References: [Atlassian Page Header](https://atlassian.design/components/page-header/usage), [Carbon Breadcrumbs](https://www.carbondesignsystem.com/building-blocks/core/components/breadcrumb/guidelines), [Material top app bars](https://developer.android.com/develop/ui/compose/components/app-bars), and [NN/g breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/). `StickyContextBar` remains available for standalone documents **without** persistent shell context; do not stack both by default.
+
+### Preventing duplicate titles
+
+The `WorkspaceContextHeader.showTitle` flag is driven by the **visibility of the document's own h1 in its scroll owner**. While that heading is in view the shell shows only the real ancestor crumbs, count and actions. Once the in-document heading is no longer visible, the shell shows the title. The same title is never visible twice. Observe the document heading using `IntersectionObserver` rooted in the correct reader/viewport, not `window.scrollY`; reset when the selected document changes. A fixed global shell is not an excuse to repeat section-sized onboarding text above every article.

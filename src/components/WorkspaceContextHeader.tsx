@@ -13,11 +13,12 @@ export type WorkspaceContextCrumb = {
 export interface WorkspaceContextHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   breadcrumbs: WorkspaceContextCrumb[];
   title: string;
+  showTitle?: boolean;
   status?: React.ReactNode;
   actions?: React.ReactNode;
   label?: string;
 }
-export function WorkspaceContextHeader({breadcrumbs,title,status,actions,label="Текущий документ",className,...props}:WorkspaceContextHeaderProps){
+export function WorkspaceContextHeader({breadcrumbs,title,showTitle=true,status,actions,label="Текущий документ",className,...props}:WorkspaceContextHeaderProps){
   return <div {...props} className={clsx("ui-workspace-context",className)} role="group" aria-label={label}>
     <div className="ui-workspace-context-identity">
       {breadcrumbs.length>0&&<nav className="ui-workspace-context-crumbs" aria-label="Хлебные крошки">
@@ -27,9 +28,9 @@ export function WorkspaceContextHeader({breadcrumbs,title,status,actions,label="
             <span>{item.label}</span>}
         </li>)}</ol>
       </nav>}
-      <div className="ui-workspace-context-heading" title={title} aria-label={title}>
+      {showTitle&&<div className="ui-workspace-context-heading" title={title} aria-label={title}>
         <strong>{title}</strong>
-      </div>
+      </div>}
     </div>
     {(status||actions)&&<div className="ui-workspace-context-tools">
       {status&&<span className="ui-workspace-context-status">{status}</span>}

@@ -31,6 +31,7 @@ export function ComponentCatalog() {
   const [overlay, setOverlay] = useState<"sheet" | "digest" | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [sampleVisible, setSampleVisible] = useState(true);
+  const [contextHeadingGone,setContextHeadingGone]=useState(false);
   const [slotActive, setSlotActive] = useState(true);
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
@@ -152,10 +153,15 @@ export function ComponentCatalog() {
       description="Контекстная навигация, полный заголовок и действие внутри существующей верхней панели — без второго sticky header. Хлебные крошки ведут к реальным родительским разделам.">
       <div style={{display:"flex",gap:16,alignItems:"center",width:"min(100%, 900px)",minHeight:78,padding:"10px 14px",background:"var(--surface)",border:"1px solid var(--border)"}}>
         <strong style={{flex:"0 0 auto",fontSize:15}}>app.</strong>
-        <WorkspaceContextHeader title="Как восстановить долгую операцию после сбоя" breadcrumbs={[
+        <WorkspaceContextHeader title="Как восстановить долгую операцию после сбоя" showTitle={contextHeadingGone} breadcrumbs={[
           {id:"library",label:"Библиотека",onSelect:()=>setOverlay("sheet")},
           {id:"category",label:"Workflows",onSelect:()=>setOverlay("digest")}
         ]} status="3 / 18" actions={<ActionButton variant="accent" size="sm" onClick={()=>setOverlay("sheet")}>Исследовать</ActionButton>}/>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginTop:8}}>
+        <ActionButton variant="text" size="sm" onClick={()=>setContextHeadingGone(x=>!x)}>
+          {contextHeadingGone?"Заголовок снова виден в документе":"Заголовок документа ушёл при скролле"}
+        </ActionButton>
+      </div>
       </div>
     </CatalogSection>
     <CatalogSection id="sticky-context" title="StickyContextBar"
