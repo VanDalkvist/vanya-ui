@@ -21,7 +21,7 @@ describe("license compliance and published notices",()=>{
    expect(read("REUSE.toml")).not.toContain("src/brand/VanyaArcArtwork.ts");
    expect(read("src/index.ts")).toContain('from "@vanya/brand"');
    expect(read("src/tokens.css")).toContain('@import "@vanya/brand/tokens.css"');
-   expect(read("scripts/sync.ts")).toContain('node_modules/@vanya/brand/assets/favicon.svg');
+   expect(read("scripts/sync.ts")).toContain('"assets/favicon.svg"');
    expect(read("LICENSES/CC-BY-4.0.txt")).toContain("Creative Commons Attribution 4.0 International");
    for(const file of ["typography-audit-2026-11-22.md","copy-audit-2026-11-22.md","hero-shortcuts-and-copy-2026-11-21.md","ilyakhov-copy-audit-2026-11-22.md"]){
     expect(read("docs/research/"+file)).toContain("SPDX-License-Identifier: CC-BY-4.0");
