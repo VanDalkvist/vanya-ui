@@ -21,9 +21,10 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "vite build",
+    "build": "bun run sync && vite build && bun run scripts/prerender.tsx",
     "dev": "vite",
-    "sync": "bun run scripts/sync.ts"
+    "sync": "bun run scripts/sync.ts",
+    "prerender": "bun run scripts/prerender.tsx"
   },
   "dependencies": {
     "clsx": "^2.1.1",

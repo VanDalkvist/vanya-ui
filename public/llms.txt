@@ -1,172 +1,22 @@
 # @vanya/ui — Vanya-Arc/UI
 
-> Generated from src/tokens.css and src/index.ts by bun run sync.
-> This is a token/export reference, not an automatically inferred design specification.
+> Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
-## Composition
-Open space, quiet contextual actions and details on request. See DESIGN.md for the authored composition guidance.
-Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
-The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
+## Overview
+- [Single longread](https://ui.vanya-arc.dev/): Human reference, semantic HTML and interactive demos.
+- [Longread Markdown](https://ui.vanya-arc.dev/index.md): Text without JavaScript.
+- [Navigation rule](https://ui.vanya-arc.dev/reference/navigation.md): URLs, browser history and links.
 
-## Browser navigation (normative)
-Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /guidelines/navigation/.
+## Reference
+- [Components](https://ui.vanya-arc.dev/reference/components.md): Real exported React components and source links.
+- [Tokens](https://ui.vanya-arc.dev/reference/tokens.md): Generated theme tokens.
+- [Composition](https://ui.vanya-arc.dev/reference/composition.md): Reusable interface patterns.
+- [Workspace scrolling](https://ui.vanya-arc.dev/reference/workspaces.md): Scroll owners and sticky context.
+- [Installation](https://ui.vanya-arc.dev/reference/installation.md): How to use @vanya/ui.
+- [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 
-## Public publication safety (mandatory)
-The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
+## Source
+- [Public GitHub repository](https://github.com/VanDalkvist/vanya-ui): Source, tests, MIT license.
+- [Extended machine-readable reference](https://ui.vanya-arc.dev/llms-full.txt): Generated tokens and export index.
 
-## Actual CSS tokens
-### Shared roles
-
-```css
---color-ground: var(--ground);
---color-surface: var(--surface);
---color-surface-raised: var(--surface-raised);
---color-surface-inset: var(--surface-inset);
---color-ink: var(--ink);
---color-ink-soft: var(--ink-soft);
---color-ink-faint: var(--ink-faint);
---color-accent: var(--accent);
---color-accent-soft: var(--accent-soft);
---color-border: var(--border);
---color-harness-creative: var(--harness-creative);
---color-harness-creative-fg: var(--harness-creative-fg);
---color-harness-creative-bg: var(--harness-creative-bg);
---color-harness-life: var(--harness-life);
---color-harness-life-fg: var(--harness-life-fg);
---color-harness-life-bg: var(--harness-life-bg);
---color-harness-product: var(--harness-product);
---color-harness-product-fg: var(--harness-product-fg);
---color-harness-product-bg: var(--harness-product-bg);
---color-harness-infra: var(--harness-infra);
---color-harness-infra-fg: var(--harness-infra-fg);
---color-harness-infra-bg: var(--harness-infra-bg);
---color-paper: var(--ground);
---color-paper-raised: var(--surface);
---color-amber: var(--accent);
---color-hairline: var(--border);
---color-hairline-active: var(--border-strong);
---radius-xs: 2px;
---radius-sm: 4px;
---radius-full: 9999px;
---font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
---font-serif: "Fraunces", ui-serif, Georgia, serif;
---font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
---font-mono: "JetBrains Mono", ui-monospace, monospace;
---e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
---t-transition: 200ms;
---text-meta: 0.6875rem;
---text-meta--line-height: 1.5;
---spacing-scene: clamp(24px, 4vw, 64px);
---spacing-focus: clamp(32px, 6vw, 96px);
---shadow-sheet: var(--sheet-shadow);
-```
-
-### Light
-
-```css
---event-card-radius: 8px;
---event-card-shadow: 0 4px 16px -2px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
---event-card-hover-shadow: 0 16px 36px -6px rgba(0,0,0,.12), 0 4px 12px -2px rgba(0,0,0,.06);
---event-card-highlight-shadow: 0 8px 24px -4px color-mix(in oklab, var(--accent) 22%, transparent), 0 2px 8px rgba(0,0,0,.05);
---size-sm-height: 24px;
---size-md-height: 32px;
---size-sm-font: 11px;
---size-md-font: 12px;
---size-sm-line: 16px;
---size-md-line: 20px;
---size-sm-padding: 8px;
---size-md-padding: 12px;
---size-sm-gap: 4px;
---size-md-gap: 6px;
---size-sm-icon: 12px;
---size-md-icon: 16px;
---harness-creative: oklch(0.68 0.08 310);
---harness-creative-fg: oklch(0.42 0.09 310);
---harness-creative-bg: oklch(0.94 0.025 310);
---harness-life: oklch(0.66 0.08 145);
---harness-life-fg: oklch(0.38 0.08 145);
---harness-life-bg: oklch(0.94 0.025 145);
---harness-product: oklch(0.70 0.085 70);
---harness-product-fg: oklch(0.42 0.09 65);
---harness-product-bg: oklch(0.94 0.03 70);
---harness-infra: oklch(0.66 0.075 245);
---harness-infra-fg: oklch(0.38 0.08 245);
---harness-infra-bg: oklch(0.94 0.025 245);
---border-strong: oklch(0.265 0.012 60 / 22%);
---sheet-shadow: -24px 0 80px -40px color-mix(in oklab, var(--ink) 32%, transparent);
---ground: oklch(0.964 0.008 85);
---surface: oklch(0.979 0.006 85);
---surface-raised: oklch(0.992 0.004 85);
---surface-inset: oklch(0.940 0.010 85);
---ink: oklch(0.265 0.012 60);
---ink-soft: oklch(0.420 0.014 65);
---ink-faint: oklch(0.480 0.012 65);
---accent: oklch(0.530 0.135 42);
---accent-soft: rgba(186, 92, 32, 0.12);
---border: oklch(0.265 0.012 60 / 10%);
-```
-
-### Dark
-
-```css
---harness-creative: oklch(0.62 0.08 310);
---harness-creative-fg: oklch(0.82 0.07 310);
---harness-creative-bg: oklch(0.28 0.035 310);
---harness-life: oklch(0.58 0.08 145);
---harness-life-fg: oklch(0.82 0.07 145);
---harness-life-bg: oklch(0.27 0.03 145);
---harness-product: oklch(0.64 0.085 70);
---harness-product-fg: oklch(0.84 0.075 75);
---harness-product-bg: oklch(0.28 0.035 70);
---harness-infra: oklch(0.60 0.075 245);
---harness-infra-fg: oklch(0.82 0.07 245);
---harness-infra-bg: oklch(0.27 0.03 245);
---border-strong: oklch(1 0 0 / 24%);
---sheet-shadow: -24px 0 80px -32px rgb(0 0 0 / 55%);
---ground: oklch(0.185 0.008 65);
---surface: oklch(0.235 0.010 65);
---surface-raised: oklch(0.270 0.012 65);
---surface-inset: oklch(0.150 0.006 65);
---ink: oklch(0.930 0.008 75);
---ink-soft: oklch(0.780 0.012 75);
---ink-faint: oklch(0.660 0.012 75);
---accent: oklch(0.720 0.155 45);
---accent-soft: rgba(255, 178, 102, 0.15);
---border: oklch(1 0 0 / 10%);
-```
-
-## Exported components (28)
-- ActionButton: import from "@vanya/ui"
-- AvatarLink: import from "@vanya/ui"
-- CategoryBadge: import from "@vanya/ui"
-- CraftCard: import from "@vanya/ui"
-- DeskSlotCard: import from "@vanya/ui"
-- DisclosurePill: import from "@vanya/ui"
-- Divider: import from "@vanya/ui"
-- EnergyRadar: import from "@vanya/ui"
-- EventCard: import from "@vanya/ui"
-- EventPoint: import from "@vanya/ui"
-- HearthPulse: import from "@vanya/ui"
-- InspectDrawer: import from "@vanya/ui"
-- Kbd: import from "@vanya/ui"
-- LinkChip: import from "@vanya/ui"
-- MeshStatusBadge: import from "@vanya/ui"
-- Minimap: import from "@vanya/ui"
-- NavLinks: import from "@vanya/ui"
-- OfferCard: import from "@vanya/ui"
-- RangeSlider: import from "@vanya/ui"
-- ReceiptDigestModal: import from "@vanya/ui"
-- SegmentedControl: import from "@vanya/ui"
-- SineWave: import from "@vanya/ui"
-- SpiderRadar: import from "@vanya/ui"
-- Tag: import from "@vanya/ui"
-- ThemeToggle: import from "@vanya/ui"
-- TimelineEvent: import from "@vanya/ui"
-- TimelinePreviewCard: import from "@vanya/ui"
-- VoiceWaveIndicator: import from "@vanya/ui"
-
-## Usage
-```tsx
-import { EventCard, InspectDrawer, ThemeToggle } from "@vanya/ui";
-import "@vanya/ui/tokens.css";
-```
+This is a navigation aid for agents, not an indexing or ranking guarantee.

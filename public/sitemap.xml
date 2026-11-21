@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ui.vanya-arc.dev/</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/index.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/components.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/tokens.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/navigation.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/composition.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/workspaces.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/installation.md</loc></url>
+</urlset>

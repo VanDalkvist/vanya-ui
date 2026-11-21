@@ -245,6 +245,30 @@
       ]
     },
     {
+      "name": "scroll-region",
+      "type": "registry:ui",
+      "title": "ScrollRegion",
+      "description": "React UI component ScrollRegion from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/ScrollRegion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "section-toolbar",
+      "type": "registry:ui",
+      "title": "SectionToolbar",
+      "description": "React UI component SectionToolbar from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/SectionToolbar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "segmented-control",
       "type": "registry:ui",
       "title": "SegmentedControl",
@@ -276,6 +300,18 @@
       "files": [
         {
           "path": "src/components/SpiderRadar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sticky-context-bar",
+      "type": "registry:ui",
+      "title": "StickyContextBar",
+      "description": "React UI component StickyContextBar from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/StickyContextBar.tsx",
           "type": "registry:ui"
         }
       ]
@@ -336,6 +372,54 @@
       "files": [
         {
           "path": "src/components/VoiceWaveIndicator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "workspace-action-bar",
+      "type": "registry:ui",
+      "title": "WorkspaceActionBar",
+      "description": "React UI component WorkspaceActionBar from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/WorkspaceActionBar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "workspace-context-header",
+      "type": "registry:ui",
+      "title": "WorkspaceContextHeader",
+      "description": "React UI component WorkspaceContextHeader from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/WorkspaceContextHeader.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "workspace-empty-state",
+      "type": "registry:ui",
+      "title": "WorkspaceEmptyState",
+      "description": "React UI component WorkspaceEmptyState from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/WorkspaceEmptyState.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "workspace-split",
+      "type": "registry:ui",
+      "title": "WorkspaceSplit",
+      "description": "React UI component WorkspaceSplit from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/WorkspaceSplit.tsx",
           "type": "registry:ui"
         }
       ]
