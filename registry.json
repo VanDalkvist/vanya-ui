@@ -17,6 +17,18 @@
       ]
     },
     {
+      "name": "action-link",
+      "type": "registry:ui",
+      "title": "ActionLink",
+      "description": "React UI component ActionLink from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/ActionLink.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "avatar-link",
       "type": "registry:ui",
       "title": "AvatarLink",
@@ -276,6 +288,18 @@
       "files": [
         {
           "path": "src/components/SegmentedControl.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select-field",
+      "type": "registry:ui",
+      "title": "SelectField",
+      "description": "React UI component SelectField from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/SelectField.tsx",
           "type": "registry:ui"
         }
       ]
