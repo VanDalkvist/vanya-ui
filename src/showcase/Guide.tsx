@@ -12,7 +12,7 @@ const rules = [
 
 export function Guide() {
   return <section id="principles" className="catalog guide" aria-labelledby="principles-title">
-    <p className="guide-eyebrow">Принципы / 03</p>
+    <p className="guide-eyebrow">Принципы / 05</p>
     <h2 id="principles-title" className="catalog-title">Как устроен интерфейс</h2>
     <p className="catalog-intro">Правила, которые действуют в каждом продукте на Vanya UI.</p>
     <div className="guide-articles">{rules.map(rule => <article id={rule.id} className="guide-article" key={rule.id}>

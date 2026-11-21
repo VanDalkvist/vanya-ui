@@ -20,10 +20,10 @@ export function Scene() {
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <div className="scene-intro">
-        <h1 id="scene-title">Компоненты, которые не заслоняют главное.</h1>
-        <p>Выбери событие на волне — откроется панель деталей. Передвинь ползунок — изменится расстояние между событиями. Переключи тему в шапке.</p>
+        <h1 id="scene-title">Готовые компоненты для рабочих интерфейсов.</h1>
+        <p>Нажми на точку на волне — откроется панель с подробностями. Подвинь ползунок — изменится расстояние между событиями. Тему можно сменить в шапке.</p>
         <div className="scene-discovery">
-          <a href="/#catalog" className="scene-catalog-link">Смотреть компоненты <ArrowDownRight size={14} aria-hidden="true"/></a>
+          <a href="/#catalog" className="scene-catalog-link">Перейти к компонентам <ArrowDownRight size={14} aria-hidden="true"/></a>
           <span className="scene-keys-hint">Быстрые переходы <ShortcutKeys keys={["?"]}/></span>
         </div>
       </div>

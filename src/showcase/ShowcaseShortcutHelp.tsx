@@ -12,7 +12,7 @@ export interface ShowcaseShortcutHelpProps {
 /** Actual runnable shortcuts; not a decorative cheatsheet. */
 export function ShowcaseShortcutHelp({ open, onClose, enabled, onEnabledChange }: ShowcaseShortcutHelpProps) {
   return <InspectDrawer isOpen={open} onClose={onClose} title="Горячие клавиши">
-    <p>Можно перейти к разделу без мыши. Сначала нажмите <Kbd>G</Kbd>, затем букву. Системные сочетания браузера продолжают работать.</p>
+    <p>Можно перейти к разделу без мыши. Сначала нажми <Kbd>G</Kbd>, затем букву. Системные сочетания браузера продолжают работать.</p>
     <div className="shortcut-help-list" aria-label="Переходы по разделам">
       {SHOWCASE_SHORTCUTS.map(item => <div className="shortcut-help-row" key={item.id}>
         <a href={`/#${item.id}`} onClick={onClose}>{item.label}</a>
@@ -23,7 +23,7 @@ export function ShowcaseShortcutHelp({ open, onClose, enabled, onEnabledChange }
     </div>
     <label className="shortcut-preference">
       <input type="checkbox" checked={enabled} onChange={event => onEnabledChange(event.target.checked)}/>
-      <span><strong>Быстрые переходы включены</strong><small>Отключите, если буквы мешают чтению или работе с клавиатурой. Настройка сохранится в этом браузере.</small></span>
+      <span><strong>Быстрые переходы включены</strong><small>Отключи, если буквы мешают. Выбор сохранится в браузере.</small></span>
     </label>
     <p>Сокращения не срабатывают в полях ввода, во время набора текста или внутри открытых окон. Все разделы доступны и через обычные ссылки в шапке.</p>
     <a href="/#keyboard-shortcuts" onClick={onClose}>Правила горячих клавиш в дизайн-системе</a>

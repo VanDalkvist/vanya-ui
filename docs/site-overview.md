@@ -6,6 +6,8 @@
 
 - [Композиция](https://ui.vanya-arc.dev/#composition): открытый интерфейс и интерактивная синусоида.
 - [Айдентика](https://ui.vanya-arc.dev/#identity): родительский бренд, продукт / UI, утверждённый знак, типографика и цвета.
+- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
+- [Тексты](https://ui.vanya-arc.dev/#writing): правила UX-текстов, оригинальные скиллы, авторы и лицензия.
 - [Принципы](https://ui.vanya-arc.dev/#principles): устойчивые интерфейсные правила.
 - [Горячие клавиши](https://ui.vanya-arc.dev/#keyboard-shortcuts): настоящие G → буква, справка ?, выключатель и дизайн подсказок.
 - [Навигация и URL](https://ui.vanya-arc.dev/#browser-navigation): адрес каждого самостоятельного ресурса, Back/Forward и реальная ссылка вместо кнопки.
@@ -16,6 +18,14 @@
 ## Айдентика
 
 Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [публичная спецификация](https://ui.vanya-arc.dev/reference/identity.md).
+
+## Типографика
+
+Используй общие CSS-роли `ui-type-display/heading/subheading/body/compact/caption/code` из `tokens.css`; чтение — 16px/1.65 и ширина 66ch. [Полные правила](https://ui.vanya-arc.dev/reference/typography.md).
+
+## Тексты
+
+Первый экран теперь называет продукт: «Готовые компоненты для рабочих интерфейсов». Дальше — точные действия с волной, панелью деталей и ползунком. [Правила](https://ui.vanya-arc.dev/reference/writing.md) применяют сторонние скиллы `promo`, `ux-copy`, `redaktura` и `redpolitika` (авторы [Людмила Сарычева](https://gladlax.ru), [Никита Архипов](https://niar42.com), [оригинал](https://github.com/N1arko/redaktura-skills), CC BY 4.0).
 
 ## Горячие клавиши
 

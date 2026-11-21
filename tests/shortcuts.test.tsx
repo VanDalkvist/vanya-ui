@@ -60,6 +60,17 @@ describe("shortcut notation and keyboard UX", () => {
     expect(window.location.hash).toBe("");
   });
 
+  it("navigates to typography and writing by native URL anchors", () => {
+    render(<Showcase/>);
+    fireEvent.keyDown(window,{key:"g",code:"KeyG"});
+    fireEvent.keyDown(window,{key:"t",code:"KeyT"});
+    expect(window.location.hash).toBe("#typography");
+    expect(document.activeElement).toHaveAttribute("id","typography");
+    fireEvent.keyDown(window,{key:"g",code:"KeyG"});
+    fireEvent.keyDown(window,{key:"x",code:"KeyX"});
+    expect(window.location.hash).toBe("#writing");
+  });
+
   it("persists the optional character-shortcut opt-out", () => {
     render(<Showcase/>);
     fireEvent.click(screen.getByRole("button",{name:"Горячие клавиши"}));

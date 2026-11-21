@@ -2,6 +2,8 @@ import React from "react";
 import { Scene } from "./Scene";
 import { Guide } from "./Guide";
 import { IdentitySection } from "./IdentitySection";
+import { TypographySection } from "./TypographySection";
+import { WritingSection } from "./WritingSection";
 import { ComponentCatalog } from "./ComponentCatalog";
 import { ShowcaseHeader } from "./ShowcaseHeader";
 import { ShowcaseShortcutHelp } from "./ShowcaseShortcutHelp";
@@ -14,10 +16,12 @@ export function Showcase(){
   <main id="main-content">
    <Scene />
    <IdentitySection/>
+   <TypographySection/>
+   <WritingSection/>
    <Guide/>
    <ComponentCatalog/>
    <section id="setup" className="catalog setup" aria-labelledby="setup-title">
-    <p className="guide-eyebrow">Подключение / 06</p>
+    <p className="guide-eyebrow">Подключение / 08</p>
     <h2 id="setup-title" className="catalog-title">Подключить библиотеку</h2>
     <p className="catalog-intro">Установи пакет из GitHub. Подключи общие стили и импортируй нужные компоненты.</p>
     <pre><code>{'bun add github:VanDalkvist/vanya-ui\n\nimport { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";'}</code></pre>

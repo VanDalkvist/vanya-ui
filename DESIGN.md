@@ -12,6 +12,14 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 - `src/showcase`: working composition and live examples; both `/` and legacy `/showcase.html` mount the same React entrypoint; the canonical longread is `/`.
 - `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
+## Typography — required
+
+Use `src/tokens.css` semantic classes `ui-type-display`, `ui-type-heading`, `ui-type-subheading`, `ui-type-body`, `ui-type-compact`, `ui-type-caption`, `ui-type-code`. Manrope for UI text, JetBrains Mono for code/shortcuts, Fraunces optionally in editorial work. Body: 1rem/1.65, measure 66ch; review mobile, zoom and text spacing. Logo tracking is not body typography. [Typography guide](docs/patterns/typography.md), [audit](docs/research/typography-audit-2026-11-22.md), [live examples](https://ui.vanya-arc.dev/#typography).
+
+## Text and editorial — required
+
+Write from the reader's next action and verified component behavior; avoid generic claims and fabricated metrics. Use original Agent Skills `redpolitika`, `promo`, `ux-copy`, `redaktura` by **Ludmila Sarycheva and Nikita Arkhipov** ([original repository](https://github.com/N1arko/redaktura-skills), CC BY 4.0). Local policy: [`.agents/redpolitika.md`](.agents/redpolitika.md); [text guide](docs/patterns/writing-and-editorial.md); [copy audit](docs/research/copy-audit-2026-11-22.md); [live chapter](https://ui.vanya-arc.dev/#writing). Always attribute the authors; the skills are not Vanya UI's work.
+
 ## Keyboard shortcuts — required
 
 Shortcuts are an **optional accelerator**, never the sole way to complete a task. Preserve browser and OS keyboard behavior; do not intercept common system combos. Show keycaps with shared `Kbd` and `ShortcutKeys` (mono label, semantic colors, flat 2px radius, no fake clickable key). Provide a visible help panel and a way to disable unmodified letter/symbol shortcuts (WCAG 2.1.4). Never trigger in inputs, contenteditable areas, IME composition or an unrelated dialog. Screen reader naming, focus, two-key sequences and test acceptance are specified in [docs/patterns/keyboard-shortcuts.md](docs/patterns/keyboard-shortcuts.md). The live interactive example is [/#keyboard-shortcuts](https://ui.vanya-arc.dev/#keyboard-shortcuts).

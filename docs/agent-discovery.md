@@ -13,6 +13,13 @@ The site is intentionally **public**. These files must never include secrets, pr
 7. **Encoding:** `public/_headers` ensures text/markdown and text/plain responses declare UTF-8, including Cyrillic. Test the rendered characters, not only the file's presence.
 8. **Releases:** Cloudflare Workers Builds deploys main only after tests, typecheck and Vite + HTML prerender succeed.
 
+## Typography and writing references
+
+- Anchors `/#typography` and `/#writing` are pre-rendered with the longread.
+- Normative public Markdown `/reference/typography.md` and `/reference/writing.md` are copied from approved `docs/patterns`.
+- Curated `llms.txt` and generated `llms-full.txt` link to these rules; project-specific policy is `.agents/redpolitika.md`.
+- The original Sarycheva/Arkhipov skills are explicitly credited; this repo has no ownership of the original skill content.
+
 ## Keyboard shortcut indexing
 
 - The live anchor `/#keyboard-shortcuts` is server-rendered with the longread.

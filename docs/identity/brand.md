@@ -63,6 +63,10 @@ Hotkeys are **interaction notation**, not another logo. Use the same `--font-mon
 
 The full keyboard contract (bindings, accessibility, opt-out, key conflicts and sequence styles) is [docs/patterns/keyboard-shortcuts.md](../patterns/keyboard-shortcuts.md).
 
+## Separate typography and editorial copy
+
+Logo-only optical letter spacing is not applied to body text. Use shared [typography roles](../patterns/typography.md). UI labels follow the [editorial policy](../patterns/writing-and-editorial.md) with author attribution to the original Sarycheva/Arkhipov skills.
+
 ## Website and quality checks
 
 - Main header uses the real `VanyaArcLockup product="UI"`, linked via native `href`.

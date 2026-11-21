@@ -11,9 +11,9 @@ describe("single longread navigation",()=>{
   expect(html).toContain("url=/#browser-navigation");
   expect(html).toContain('name="robots" content="noindex,follow"');
  });
- it("exposes native anchor navigation for all six sections",()=>{
+ it("exposes native anchor navigation for all eight sections",()=>{
   render(<Showcase/>);
-  for(const [id,label] of [["composition","Композиция"],["identity","Айдентика"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"]]){
+  for(const [id,label] of [["composition","Композиция"],["identity","Айдентика"],["typography","Шрифты"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"]]){
    expect(document.getElementById(id)).not.toBeNull();
    expect(screen.getAllByRole("link",{name:new RegExp(label)}).some(a=>a.getAttribute("href")?.endsWith("#"+id))).toBe(true);
   }

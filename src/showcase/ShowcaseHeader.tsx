@@ -5,6 +5,8 @@ import { Divider, Kbd, NavLinks, ThemeToggle, VanyaArcLockup } from "../index";
 export const longreadSections = [
   ["composition", "Композиция"],
   ["identity", "Айдентика"],
+  ["typography", "Шрифты"],
+  ["writing", "Тексты"],
   ["principles", "Принципы"],
   ["catalog", "Компоненты"],
   ["workspace", "Рабочие поверхности"],

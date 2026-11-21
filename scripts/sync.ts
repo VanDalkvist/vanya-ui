@@ -20,6 +20,12 @@ Open space, quiet contextual actions and details on request. See DESIGN.md for t
 Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
+## Typography (normative)
+Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-compact, ui-type-caption and ui-type-code from src/tokens.css. Manrope is for UI, JetBrains Mono for code; Fraunces is an optional editorial face. Body 1rem/1.65, measure 66ch; test mobile, browser zoom and text spacing. Source docs/patterns/typography.md and /#typography.
+
+## Writing (normative)
+The original Agent Skills redpolitika, promo, ux-copy, redaktura are by Ludmila Sarycheva and Nikita Arkhipov, CC BY 4.0, https://github.com/N1arko/redaktura-skills. Source docs/patterns/writing-and-editorial.md; local voice .agents/redpolitika.md; live /#writing. Attribute authors and do not invent product facts.
+
 ## Identity (normative)
 Vanya Arc is the parent brand; UI is the design-system product. The owner's approved double-crest V → A mark is implemented by VanyaArcMark and VanyaArcLockup. Only UI is highlighted. Normative source: docs/identity/brand.md; live identity chapter: /#identity.
 
@@ -53,6 +59,8 @@ const refDir=path.join(root,"public/reference");
 fs.mkdirSync(refDir,{recursive:true});
 const docs=[
  ["docs/identity/brand.md","identity.md"],
+ ["docs/patterns/typography.md","typography.md"],
+ ["docs/patterns/writing-and-editorial.md","writing.md"],
  ["docs/patterns/browser-navigation.md","navigation.md"],
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
