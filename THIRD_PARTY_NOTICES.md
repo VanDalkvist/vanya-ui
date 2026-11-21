@@ -19,7 +19,7 @@ See the complete ISC + Feather MIT notice below. The icon packages' own files mu
 
 ## Vanya Arc brand as a separate dependency
 
-`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). Brand source and React/CSS code have their own MIT notices; the official artwork/mark has a [separate brand-artwork license](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). UI does not vendor or sublicense the mark.
+`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). UI does not vendor or sublicense the mark.
 
 ## Fonts
 
