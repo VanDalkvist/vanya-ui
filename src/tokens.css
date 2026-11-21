@@ -224,23 +224,20 @@
     outline-offset: 2px;
   }
 
-  * {
+  /* Scope scrollbar styling to intentional scroll owners, never all inputs. */
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body) {
     scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+    scrollbar-color: var(--border-strong) transparent;
   }
 
-  *::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body)::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
-
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--border);
-    border-radius: 2px;
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body)::-webkit-scrollbar-track { background: transparent; }
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body)::-webkit-scrollbar-thumb {
+    background-color: var(--border-strong);
+    border-radius: 3px;
   }
 
   body {
@@ -260,3 +257,203 @@
   }
 }
 
+
+
+/* Reusable workspace primitives; parent grid/flex MUST have min-height: 0. */
+@layer components {
+  .ui-scroll-region {
+    min-width: 0; min-height: 0; overflow-x: hidden; overflow-y: auto;
+    overscroll-behavior: contain; scrollbar-gutter: stable;
+    scroll-padding-block: 16px; background: transparent;
+  }
+  .ui-scroll-region[data-axis="horizontal"] {
+    overflow-x: auto; overflow-y: hidden; scrollbar-gutter: auto;
+    overscroll-behavior-inline: contain; overscroll-behavior-block: auto;
+    scroll-padding-inline: 16px;
+  }
+  .ui-scroll-region[data-gutter="auto"] { scrollbar-gutter: auto; }
+  .ui-scroll-region:focus-visible { outline: 1.5px solid var(--accent); outline-offset: -2px; }
+  .ui-section-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; min-width:0; padding:0 0 12px; color:var(--ink); }
+  .ui-section-toolbar-heading { display:flex; align-items:baseline; flex-wrap:wrap; gap:6px 10px; min-width:0; }
+  .ui-section-toolbar-title { font:600 13px/1.5 var(--font-sans); margin:0; }
+  .ui-section-toolbar-count { font:500 10px/1.5 var(--font-mono); color:var(--ink-soft); background:var(--surface-inset); border-radius:2px; padding:2px 6px; white-space:nowrap; }
+  .ui-section-toolbar-description { width:100%; font:11px/1.65 var(--font-sans); color:var(--ink-soft); margin:0; }
+  .ui-section-toolbar-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px; min-width:0; }
+  .ui-workspace-action-bar {
+    position:relative; flex:0 0 auto; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:12px 20px; min-width:0;
+    padding:12px 0 max(12px, env(safe-area-inset-bottom, 0px));
+    border-top:1px solid var(--border); background:var(--ground); color:var(--ink-soft);
+  }
+  .ui-workspace-action-bar[data-placement="sticky"] { position:sticky; bottom:0; z-index:3; }
+  .ui-workspace-action-status,.ui-workspace-action-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px 14px; min-width:0; font:11px/1.6 var(--font-sans); }
+  .ui-workspace-action-actions { justify-content:flex-end; }
+  .ui-workspace-empty { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:8px; min-height:140px; min-width:0; padding:24px; color:var(--ink-soft); }
+  .ui-workspace-empty-icon { color:var(--ink-faint); margin-bottom:6px; }
+  .ui-workspace-empty-title { font:600 13px/1.4 var(--font-sans); color:var(--ink); margin:0; }
+  .ui-workspace-empty-description { font:12px/1.7 var(--font-sans); max-width:54ch; margin:0; }
+  .ui-workspace-empty-action { margin-top:12px; }
+  @media(max-height:600px), (max-width:560px) {
+    .ui-workspace-action-bar[data-placement="sticky"] { position:static; }
+    .ui-workspace-action-actions { justify-content:flex-start; }
+    .ui-workspace-empty { min-height:104px; padding:16px; }
+  }
+}
+
+/* Compositional workspace primitive: supports independent sibling panes
+   without imposing a second inner scrollbar on compact layouts. */
+@layer components {
+  .ui-workspace-split {
+    display: grid;
+    grid-template-columns: minmax(220px, min(30%, 310px)) minmax(0, 1fr);
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .ui-workspace-split-navigation,
+  .ui-workspace-split-content {
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .ui-workspace-split-navigation { border-right: 1px solid var(--border); }
+  .inspect-sheet { display: flex; flex-direction: column; overflow: hidden; }
+  .inspect-sheet__body { overflow-x: hidden; overflow-y: auto; }
+  .inspect-sheet__body {
+    scroll-padding-block: 18px 36px;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+  }
+  .inspect-sheet__body :is(button, input, textarea, select, a):focus-visible {
+    scroll-margin-block: 18px;
+  }
+  @media (max-width: 850px) {
+    .ui-workspace-split[data-compact="stack"] {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      overflow: visible;
+    }
+    .ui-workspace-split[data-compact="stack"] > .ui-workspace-split-navigation,
+    .ui-workspace-split[data-compact="stack"] > .ui-workspace-split-content {
+      overflow: visible;
+    }
+    .ui-workspace-split[data-compact="stack"] > .ui-workspace-split-navigation {
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+  @media (max-height: 600px) {
+    .inspect-sheet { display: block; overflow-y: auto; overscroll-behavior: contain; }
+    .inspect-sheet__body { overflow: visible; min-height: unset; }
+  }
+}
+
+/* Compact per-document context on scroll. The anchor has no layout height:
+   the full-size document heading remains in the reading flow. */
+@layer components {
+  .ui-sticky-context-anchor {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    height: 0;
+    min-height: 0;
+    width: 100%;
+    overflow: visible;
+  }
+  .ui-sticky-context-bar {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 52px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+    color: var(--ink);
+  }
+  .ui-sticky-context-identity {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+  }
+  .ui-sticky-context-eyebrow {
+    font: 10px/1.3 var(--font-mono);
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ui-sticky-context-title {
+    display: block;
+    font: 600 12px/1.35 var(--font-sans);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ui-sticky-context-status {
+    font: 10px/1.4 var(--font-mono);
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .ui-sticky-context-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .ui-sticky-context-actions :is(button, a):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  @media (max-width: 650px) {
+    .ui-sticky-context-bar { min-height: 48px; padding: 6px 8px; gap: 8px; }
+    .ui-sticky-context-status { display: none; }
+    .ui-sticky-context-title { font-size: 11px; }
+    .ui-sticky-context-eyebrow { font-size: 9px; }
+    .ui-sticky-context-actions { gap: 4px; }
+  }
+  @media (max-height: 520px) {
+    .ui-sticky-context-bar { min-height: 40px; padding-block: 4px; }
+    .ui-sticky-context-eyebrow { display: none; }
+  }
+}
+
+/* A contextual navigation and title slot inside ONE persistent app top bar.
+   The large document heading is allowed to scroll; the shell itself never changes height.
+   This component deliberately does not use position:sticky/fixed. */
+@layer components {
+  .ui-workspace-context { display:flex; flex:1 1 0; align-items:center; justify-content:space-between; min-width:0; gap:clamp(8px,1.2vw,22px); color:var(--ink); }
+  .ui-workspace-context-identity { display:flex; min-width:0; flex:1 1 0; flex-direction:column; justify-content:center; gap:4px; }
+  .ui-workspace-context-crumbs { display:block; min-width:0; overflow:hidden; }
+  .ui-workspace-context-crumbs ol { display:flex; align-items:center; min-width:0; gap:7px; margin:0; padding:0; list-style:none; }
+  .ui-workspace-context-crumbs li { display:flex; align-items:center; flex:0 1 auto; min-width:0; gap:7px; font:500 10px/1.4 var(--font-sans); color:var(--ink-soft); white-space:nowrap; }
+  .ui-workspace-context-crumbs li:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+  .ui-workspace-context-crumbs button { display:block; min-width:0; max-width:100%; padding:0; border:0; border-radius:0; background:none; color:var(--ink-soft); font:inherit; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ui-workspace-context-crumbs button:hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
+  .ui-workspace-context-crumbs button:focus-visible, .ui-workspace-context-actions :is(button,a):focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .ui-workspace-context-separator { color:var(--ink-faint); opacity:.85; }
+  .ui-workspace-context-heading { display:block; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .ui-workspace-context-heading strong { font:600 clamp(13px,1.1vw,16px)/1.35 var(--font-sans); letter-spacing:-.012em; }
+  .ui-workspace-context-tools { display:flex; flex:0 0 auto; align-items:center; gap:clamp(8px,1vw,15px); min-width:0; }
+  .ui-workspace-context-status { font:10px/1.4 var(--font-mono); color:var(--ink-soft); white-space:nowrap; }
+  .ui-workspace-context-actions { display:flex; flex:0 0 auto; align-items:center; gap:7px; white-space:nowrap; }
+  @media(max-width:1000px) { .ui-workspace-context-status { display:none; } }
+  @media(max-width:650px) {
+    .ui-workspace-context { gap:7px; }
+    .ui-workspace-context-identity { gap:3px; }
+    .ui-workspace-context-heading strong { font-size:12px; }
+    .ui-workspace-context-crumbs li { font-size:10px; }
+    .ui-workspace-context-crumbs li:not(:first-child) { display:none; }
+  }
+}

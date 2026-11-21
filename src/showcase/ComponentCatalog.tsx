@@ -3,6 +3,7 @@ import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
   MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
+  ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -29,6 +30,7 @@ export function ComponentCatalog() {
   const [overlay, setOverlay] = useState<"sheet" | "digest" | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [sampleVisible, setSampleVisible] = useState(true);
+  const [contextHeadingGone,setContextHeadingGone]=useState(false);
   const [slotActive, setSlotActive] = useState(true);
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
@@ -101,6 +103,92 @@ export function ComponentCatalog() {
     <CatalogSection id="craft-card" title="CraftCard" description="Контейнер для связанных элементов."><CraftCard><p>Содержимое карточки.</p></CraftCard></CatalogSection>
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
+    </CatalogSection>
+    <CatalogSection id="workspace" title="Рабочие поверхности: композиция"
+      description="Нейтральная композиция: заголовок списка, счётчик, пустое состояние, один скролл на область и футер действий.">
+      <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
+        <SectionToolbar title="Полка исследований" count={7} total={22}
+          actions={<ActionButton size="sm" onClick={() => setOverlay("sheet")}>Открыть детали</ActionButton>} />
+        <div style={{ height: 195, minHeight: 0 }}>
+          <WorkspaceSplit compact="keep-columns"
+            navigation={<ScrollRegion label="Список исследований" style={{ height: "100%", paddingRight: 10 }}>
+              {Array.from({length: 14}, (_, index) => (
+                <p key={index} style={{ margin: "0 0 10px", fontSize: 11 }}>Материал {index + 1} · состояние, графы и пайплайны</p>
+              ))}
+            </ScrollRegion>}
+            detail={<ScrollRegion label="Читательская область" style={{ height: "100%", fontSize: 12, lineHeight: 1.7, paddingLeft: 10 }}>
+              <strong>Восстанавливаемый workflow</strong>
+              {Array.from({length: 13}, (_, index) => (
+                <p key={index}>Один предмет для чтения. Фрагмент {index + 1}. Список слева не меняет позицию, пока читаем эту статью.</p>
+              ))}
+            </ScrollRegion>}
+          />
+        </div>
+        <WorkspaceActionBar placement="footer" status="Изменений нет"
+          actions={<ActionButton variant="accent" onClick={() => setOverlay("sheet")}>Следующий этап</ActionButton>} />
+      </div>
+      <WorkspaceEmptyState title="Рабочий стол свободен" description="Когда материалов нет, показываем контекст, а не нулевую карточку."
+        action={<ActionButton onClick={() => setOverlay("sheet")}>Добавить материал</ActionButton>} />
+    </CatalogSection>
+    <CatalogSection id="workspace-split" title="WorkspaceSplit"
+      description="Два соседних слота для списка и содержимого. В компактной компоновке складываются в один поток; не создаёт лишнего scroll owner.">
+      <div style={{width:"min(100%, 590px)",height:180}}>
+        <WorkspaceSplit compact="keep-columns"
+          navigation={<div style={{padding:12,fontSize:12}}><strong>Навигация</strong><p>Одна предметная очередь</p><p>Выбранный объект</p></div>}
+          detail={<div style={{padding:12,fontSize:12}}><strong>Содержимое</strong><p>Центральная область меняется, а маршрут сохраняется.</p></div>} />
+      </div>
+    </CatalogSection>
+    <CatalogSection id="scroll-region" title="ScrollRegion"
+      description="Явно именованная область прокрутки; фокусируемая клавишей Tab. Два соседних скролла допустимы, вложенные вертикальные — нет.">
+      <ScrollRegion label="Пример длинного списка" style={{height:150,width:"min(100%, 360px)",border:"1px solid var(--border)",padding:12}}>
+        {Array.from({length:12},(_,i)=><p key={i} style={{fontSize:12,marginBottom:10}}>Пункт {i+1}: отдельная запись</p>)}
+      </ScrollRegion>
+    </CatalogSection>
+    <CatalogSection id="section-toolbar" title="SectionToolbar"
+      description="Небольшой заголовок списка, счётчик и инструменты. Сам заголовок не нужно закреплять над длинной статьёй.">
+      <div style={{width:"min(100%, 520px)"}}>
+        <SectionToolbar title="Материалы" count={5} total={20}
+          actions={<ActionButton size="sm" onClick={()=>setOverlay("sheet")}>Действия</ActionButton>}/>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="workspace-context-header" title="WorkspaceContextHeader"
+      description="Контекстная навигация, полный заголовок и действие внутри существующей верхней панели — без второго sticky header. Хлебные крошки ведут к реальным родительским разделам.">
+      <div style={{display:"flex",gap:16,alignItems:"center",width:"min(100%, 900px)",minHeight:78,padding:"10px 14px",background:"var(--surface)",border:"1px solid var(--border)"}}>
+        <strong style={{flex:"0 0 auto",fontSize:15}}>app.</strong>
+        <WorkspaceContextHeader title="Как восстановить долгую операцию после сбоя" showTitle={contextHeadingGone} breadcrumbs={[
+          {id:"library",label:"Библиотека",onSelect:()=>setOverlay("sheet")},
+          {id:"category",label:"Workflows",onSelect:()=>setOverlay("digest")}
+        ]} status="3 / 18" actions={<ActionButton variant="accent" size="sm" onClick={()=>setOverlay("sheet")}>Исследовать</ActionButton>}/>
+      <div style={{display:"flex",alignItems:"center",gap:12,marginTop:8}}>
+        <ActionButton variant="text" size="sm" onClick={()=>setContextHeadingGone(x=>!x)}>
+          {contextHeadingGone?"Заголовок снова виден в документе":"Заголовок документа ушёл при скролле"}
+        </ActionButton>
+      </div>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="sticky-context" title="StickyContextBar"
+      description="При прокрутке длинного материала сохраняет его название, контекст и главное действие. Витрина показывает оба состояния без прокрутки глобального header.">
+      <div className="demo-column" style={{width:"min(100%, 610px)",gap:18}}>
+        <StickyContextBar visible={false} title="Длинный материал" eyebrow="Сборник"/>
+        <div style={{height:52,fontSize:12,color:"var(--ink-soft)"}}>До прокрутки: компактная панель скрыта, заголовок документа остаётся на месте.</div>
+        <div style={{position:"relative",height:82,paddingTop:10}}>
+          <StickyContextBar visible title="Как устроен восстановимый пайплайн" eyebrow="Исследование · Workflow"
+            status="3 / 12" actions={<ActionButton size="sm" variant="accent" onClick={()=>setOverlay("sheet")}>Разобрать</ActionButton>}/>
+          <div style={{fontSize:12,paddingTop:60,color:"var(--ink-soft)"}}>После прокрутки: компактный контекст, без дополнительного глобального меню.</div>
+        </div>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="workspace-action-bar" title="WorkspaceActionBar"
+      description="Статус слева и действия справа. В редакторе это footer вне скролла текста, а не перекрытие поля.">
+      <div style={{width:"min(100%, 520px)"}}>
+        <WorkspaceActionBar placement="footer" status="Изменений нет"
+          actions={<ActionButton size="md" variant="accent" onClick={()=>setOverlay("sheet")}>Продолжить</ActionButton>} />
+      </div>
+    </CatalogSection>
+    <CatalogSection id="workspace-empty-state" title="WorkspaceEmptyState"
+      description="Честное пустое состояние без выдуманных карточек и неподконтрольной генерации данных.">
+      <WorkspaceEmptyState title="Записей пока нет" description="Добавьте первую запись или поменяйте фильтр."
+        action={<ActionButton onClick={()=>setOverlay("sheet")}>Новая запись</ActionButton>} />
     </CatalogSection>
     <CatalogSection id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
       <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />

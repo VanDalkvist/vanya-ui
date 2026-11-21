@@ -98,3 +98,14 @@ export {
 export { SelectField, type SelectFieldProps, type SelectFieldOption } from "./components/SelectField";
 
 export { ActionLink, type ActionLinkProps } from "./components/ActionLink";
+
+export { ScrollRegion, type ScrollRegionProps } from "./components/ScrollRegion";
+export { SectionToolbar, type SectionToolbarProps } from "./components/SectionToolbar";
+export { WorkspaceActionBar, type WorkspaceActionBarProps } from "./components/WorkspaceActionBar";
+export { WorkspaceEmptyState, type WorkspaceEmptyStateProps } from "./components/WorkspaceEmptyState";
+
+export { WorkspaceSplit, type WorkspaceSplitProps } from "./components/WorkspaceSplit";
+
+export { StickyContextBar, type StickyContextBarProps } from "./components/StickyContextBar";
+
+export { WorkspaceContextHeader, type WorkspaceContextHeaderProps, type WorkspaceContextCrumb } from "./components/WorkspaceContextHeader";
