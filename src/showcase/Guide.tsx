@@ -8,7 +8,7 @@ const rules=[
 ];
 export function Guide(){
  return <section id="principles" className="catalog guide" aria-labelledby="principles-title">
-  <p className="guide-eyebrow">Принципы / 01</p>
+  <p className="guide-eyebrow">Принципы / 03</p>
   <h2 id="principles-title" className="catalog-title">Как устроен интерфейс</h2>
   <p className="catalog-intro">Небольшой набор решений, которые переходят между продуктами и остаются проверяемыми.</p>
   <div className="guide-articles">{rules.map(item=><article id={item.id} className="guide-article" key={item.id}>

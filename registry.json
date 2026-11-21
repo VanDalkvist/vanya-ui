@@ -389,6 +389,30 @@
       ]
     },
     {
+      "name": "vanya-arc-lockup",
+      "type": "registry:ui",
+      "title": "VanyaArcLockup",
+      "description": "React UI component VanyaArcLockup from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/VanyaArcLockup.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "vanya-arc-mark",
+      "type": "registry:ui",
+      "title": "VanyaArcMark",
+      "description": "React UI component VanyaArcMark from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/VanyaArcMark.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "voice-wave-indicator",
       "type": "registry:ui",
       "title": "VoiceWaveIndicator",

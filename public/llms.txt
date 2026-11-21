@@ -1,10 +1,11 @@
-# @vanya/ui — Vanya-Arc/UI
+# @vanya/ui — Vanya Arc / UI
 
 > Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
 ## Overview
 - [Single longread](https://ui.vanya-arc.dev/): Human reference, semantic HTML and interactive demos.
 - [Longread Markdown](https://ui.vanya-arc.dev/index.md): Text without JavaScript.
+- [Identity](https://ui.vanya-arc.dev/reference/identity.md): Vanya Arc parent brand, / UI product, original VA mark and reusable React components.
 - [Navigation rule](https://ui.vanya-arc.dev/reference/navigation.md): URLs, browser history and links.
 
 ## Reference

@@ -22,6 +22,8 @@ describe("public search and agent discovery",()=>{
  it("offers real crawler entry points and generated Markdown sources",()=>{
   expect(read("public/robots.txt")).toContain("Sitemap: https://ui.vanya-arc.dev/sitemap.xml");
   expect(read("public/sitemap.xml")).toContain("/reference/components.md");
+  expect(read("public/sitemap.xml")).toContain("/reference/identity.md");
+  expect(read("llms.txt")).toContain("/reference/identity.md");
   expect(read("llms.txt")).toContain("/index.md");
   expect(read("scripts/sync.ts")).toContain("docs/site-overview.md");
   expect(read("scripts/prerender.tsx")).toContain("renderToString(<Showcase/>");
