@@ -41,7 +41,9 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 
 ## Workspace-компоненты
 
-Из паттернов Фермы и Factory вынесены `SectionToolbar`, `ScrollRegion`, `WorkspaceActionBar`, `WorkspaceEmptyState` — см. [исследование рабочего интерфейса](docs/research/farm-factory-workspace-audit-2026-11-21.md). Они добавлены без изменения API старых компонентов.
+Из паттернов плотных рабочих интерфейсов вынесены `WorkspaceSplit`, `SectionToolbar`, `ScrollRegion`, `WorkspaceActionBar`, `WorkspaceEmptyState` — см. [исследование рабочего интерфейса](docs/research/farm-factory-workspace-audit-2026-11-21.md) и [контракт композиции, скроллов и закреплений](docs/research/workspace-scroll-composition-2026-11-21.md). Они добавлены без изменения API старых компонентов.
+
+`WorkspaceSplit` — геометрия двух соседних панелей со слотами `navigation` / `detail`, без собственных внутренних скроллов. На широком экране можно дать каждой панели по одному `ScrollRegion`. На компактном экране рекомендуем один вертикальный владелец прокрутки и короткую горизонтальную очередь. `InspectDrawer` держит закрытие доступным при чтении длинного содержимого.
 
 ## Что входит
 

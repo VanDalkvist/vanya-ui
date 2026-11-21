@@ -26,6 +26,16 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 
 `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
 
+## Workspace scrolling and pinning
+
+- **Keep the product shell compact**: identity and primary commands stay visible; large editorial headings and introductions leave the viewport with the article.
+- **Explicit ownership**: `WorkspaceSplit` composes `navigation` and `detail` siblings; only a deliberately bounded `ScrollRegion` owns a vertical gesture. Never nest two vertical scroll owners.
+- **Progressive disclosure**: list filters and search stay with the list, not pinned over the reader. Put secondary metadata in an inspector or disclosure, not a permanent column on narrow screens.
+- **Task actions**: `WorkspaceActionBar placement="footer"` sits outside editable text scroll; sticky actions must not cover focused controls. Turn off sticky at small viewport heights.
+- **Inspector**: `InspectDrawer` keeps title/close reachable and scrolls long detail. At low height, a single sheet scroll is preferable to cramped nested panes.
+- **Do not style global scrollbars**: target component-owned scroll regions only. Accessibility and zoom matter more than visual consistency across browser-native inputs.
+- Sources and QA matrix: [workspace-scroll-composition](docs/research/workspace-scroll-composition-2026-11-21.md). Only synthetic examples are acceptable in the public showcase.
+
 ## Inline size grid
 
 `ComponentSize` is `sm | md`. CategoryBadge, Tag, MeshStatusBadge, ActionButton, Kbd, LinkChip, AvatarLink and SegmentedControl share the `.ui-size` foundation in `src/tokens.css`. Its `--size-{sm,md}-*` tokens control outer height, font, line height, inline padding, gap and icon size; avatars use the outer height as their width. Segmented controls fit their buttons inside the same outer height rather than adding a second size scale. Text-only actions keep their unboxed horizontal spacing.
