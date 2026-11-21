@@ -1,3 +1,8 @@
+<!-- SPDX-FileCopyrightText: 2026 Vanya Afanasov
+SPDX-License-Identifier: CC-BY-4.0
+Only original contributions are licensed. Third-party works retain their own rights.
+This and later revisions are CC BY 4.0; historical MIT grants remain. -->
+
 # Тексты Vanya Arc / UI — ресёрч, разбор и правки
 
 Дата: 22 ноября 2026. Исходники: `src/showcase/Scene.tsx`, `Guide.tsx`, `IdentitySection.tsx`, `Showcase.tsx`. Методика: оригинальные Agent Skills [promo](https://github.com/N1arko/redaktura-skills/blob/main/promo/SKILL.md), [ux-copy](https://github.com/N1arko/redaktura-skills/blob/main/ux-copy/SKILL.md), [redaktura](https://github.com/N1arko/redaktura-skills/blob/main/redaktura/SKILL.md), [redpolitika](https://github.com/N1arko/redaktura-skills/blob/main/redpolitika/SKILL.md). Авторы: [Людмила Сарычева](https://gladlax.ru) и [Никита Архипов](https://niar42.com). [Первоисточник](https://github.com/N1arko/redaktura-skills), CC BY 4.0.

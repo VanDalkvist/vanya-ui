@@ -1,12 +1,15 @@
 import React, { useId } from "react";
 import { clsx } from "clsx";
+import { VANYA_ARC_MARK_PATH } from "../brand/VanyaArcArtwork";
 
 /**
+ * MIT-licensed React renderer for the official Vanya Arc artwork.
+ * The artwork geometry is separately identified in src/brand/VanyaArcArtwork.ts.
  * Authoritative V → A mark, traced from the owner's approved original reference.
  * Do not replace this double-crest contour with a generic sinusoid or arc.
  * Theme colors come from Vanya UI tokens, never product-specific hardcodes.
  */
-export const VANYA_ARC_MARK_PATH = "M 97 293 C 125 259, 140 248, 160 252 C 206 252, 223 319, 275 319 C 342 319, 373 149, 477 149 C 530 149, 564 182, 595 227";
+export { VANYA_ARC_MARK_PATH } from "../brand/VanyaArcArtwork";
 export interface VanyaArcMarkProps extends React.SVGProps<SVGSVGElement> {
   monochrome?: boolean;
   label?: string;

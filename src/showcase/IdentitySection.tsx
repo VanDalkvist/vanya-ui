@@ -30,6 +30,6 @@ export function IdentitySection() {
     <div><span className="identity-swatch" style={{background:"var(--ink)"}}/><strong>Чернила</strong><code>--ink</code></div>
     <div><span className="identity-swatch" style={{background:"var(--accent)"}}/><strong>Терракота</strong><code>--accent</code></div>
   </div>
-  <p className="catalog-intro">Для реализации используй <code>VanyaArcMark</code> и <code>VanyaArcLockup</code>, не копируй их SVG вручную. <a href="/reference/identity.md">Правила и примеры для агентов (Markdown)</a>.</p>
+  <p className="catalog-intro">Для реализации используй <code>VanyaArcMark</code> и <code>VanyaArcLockup</code>, не копируй их SVG вручную. <a href="/reference/identity.md">Правила и примеры для агентов (Markdown)</a>. <a href="/reference/brand.md">Использование логотипа</a>.</p>
  </section>;
 }

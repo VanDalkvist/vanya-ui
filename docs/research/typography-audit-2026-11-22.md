@@ -1,3 +1,8 @@
+<!-- SPDX-FileCopyrightText: 2026 Vanya Afanasov
+SPDX-License-Identifier: CC-BY-4.0
+Only original contributions are licensed. Third-party works retain their own rights.
+This and later revisions are CC BY 4.0; historical MIT grants remain. -->
+
 # Типографика Vanya Arc / UI — ресёрч и аудит
 
 Дата: 22 ноября 2026. Метод: аудит исходников Vanya UI + сравнение с публичными дизайн-системами. Не подменять обзор кода заявлением о полном визуальном или WCAG-аудите.

@@ -1,0 +1,19 @@
+# SPDX / REUSE 3.3: targeted annotations for selected non-MIT paths.
+# This does NOT claim that all repository files pass a full REUSE lint.
+version = 1
+
+[[annotations]]
+path = [
+  "docs/research/typography-audit-2026-11-22.md",
+  "docs/research/copy-audit-2026-11-22.md",
+  "docs/research/hero-shortcuts-and-copy-2026-11-21.md"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Vanya Afanasov"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["src/brand/VanyaArcArtwork.ts", "public/vanya-arc-mark.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Vanya Afanasov"
+SPDX-License-Identifier = "LicenseRef-VanyaArc-Brand"

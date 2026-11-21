@@ -1,6 +1,6 @@
 # Vanya Arc / UI — открытая дизайн-система
 
-> React-компоненты, токены, композиция и нативная браузерная навигация. Основной сайт — один лонгрид. Примеры только синтетические, без приватных данных. Лицензия MIT.
+> React-компоненты, токены, композиция и нативная браузерная навигация. Основной сайт — один лонгрид. Примеры только синтетические, без приватных данных. Код — MIT; выбранные авторские исследования — CC BY 4.0; официальные знаки — отдельно.
 
 ## Путеводитель
 
@@ -55,6 +55,6 @@ import "@vanya/ui/tokens.css";
 
 ## Лицензии и авторство
 
-Исходный код проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS](https://ui.vanya-arc.dev/licenses.txt). Вопрос об отдельном режиме использования SVG-логотипа пока открыт.
+Исходный код проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS](https://ui.vanya-arc.dev/licenses.txt). Для текущих версий действуют [правила бренда](https://ui.vanya-arc.dev/reference/brand.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
 
 Дополнительные источники: [компоненты](https://ui.vanya-arc.dev/reference/components.md), [навигация](https://ui.vanya-arc.dev/reference/navigation.md), [токены](https://ui.vanya-arc.dev/reference/tokens.md), [репозиторий](https://github.com/VanDalkvist/vanya-ui).

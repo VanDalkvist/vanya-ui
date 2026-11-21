@@ -21,14 +21,9 @@ Date: 22 November 2026. Repository: public `VanDalkvist/vanya-ui`, `main`. This 
 - `README.md`, `DESIGN.md`, `llms.txt` and public footer link to licensing material.
 - Added tests to make notices and build output configuration visible during future CI.
 
-## Open rights decision: the brand
+## Follow-up, 22 November 2026
 
-The existing root MIT license covers the repository's software and associated documentation; the SVG mark `public/vanya-arc-mark.svg` and `src/components/VanyaArcMark.tsx` are already distributed without an explicit brand-artwork carve-out. **Do not retroactively assert they are excluded** by an explanatory README entry. The project owner should decide whether future versions should:
-
-1. Keep the mark available as part of MIT-distributed UI code, but disallow misleading statements of brand endorsement; or
-2. Create a separately specified brand-asset license/policy with clear distribution boundaries and transition plan.
-
-Software copyright licenses and **trademark registration / use** are separate questions. Any future change requires a decision from the owner and may not revoke already granted rights to existing copies. This commit does **not** change the MIT LICENSE or add new copyright restrictions.
+A subsequent primary-source review implemented a prospective mixed-license policy in [LICENSING.md](../../LICENSING.md), a [BRAND.md](../../BRAND.md) policy, protected artwork data in `src/brand`, and a narrow CC BY grant for three selected original research documents. **Previously issued MIT grants remain applicable to historical copies.** Protection of the simple/AI-assisted mark is not guaranteed without originality and trademark clearance. See [validated implementation](licensing-implementation-2026-11-22.md).
 
 ## Limits and remaining checks
 

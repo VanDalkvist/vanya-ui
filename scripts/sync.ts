@@ -35,6 +35,9 @@ Shortcuts are optional accelerators, not replacements for commands. Avoid browse
 ## Browser navigation (normative)
 Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /#browser-navigation.
 
+## Mixed licensing and protected brand (mandatory)
+Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Official artwork in src/brand/VanyaArcArtwork.ts and the SVG uses a reserved-rights brand policy; the React renderer is MIT. Older MIT copies keep their original grants. Read LICENSING.md, BRAND.md and docs/legal/licensing-implementation-2026-11-22.md. The REUSE annotations cover selected paths, not a claimed full REUSE audit. Public /reference/licensing.md and /reference/brand.md.
+
 ## Licenses and third-party attribution (mandatory)
 The package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). The trademark/logo copyright scope needs an explicit owner decision before any claim that brand assets are excluded from the existing MIT distribution.
 
@@ -63,6 +66,8 @@ const refDir=path.join(root,"public/reference");
 fs.mkdirSync(refDir,{recursive:true});
 const docs=[
  ["THIRD_PARTY_NOTICES.md","third-party.md"],
+ ["LICENSING.md","licensing.md"],
+ ["BRAND.md","brand.md"],
  ["docs/identity/brand.md","identity.md"],
  ["docs/patterns/typography.md","typography.md"],
  ["docs/patterns/writing-and-editorial.md","writing.md"],

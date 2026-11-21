@@ -1,0 +1,36 @@
+Vanya Arc Brand Artwork — Reserved Rights and Limited Permitted Uses
+Version: 2026-11-22
+
+Copyright © 2026 Vanya Afanasov, to the extent of copyright and related
+rights owned or controlled by that person under applicable law.
+
+Covered materials (as identified in LICENSING.md):
+- official Vanya Arc symbol and its distinctive path geometry;
+- official Vanya Arc wordmark/artwork and exported branded artwork files.
+
+All rights not explicitly granted below are reserved, subject to applicable
+copyright and trademark law and legally permitted uses.
+
+Limited authorization for the current official artwork:
+1. You may display the unmodified mark when accurately identifying, linking
+   to, reviewing, discussing or documenting Vanya Arc and its official products,
+   provided there is no misleading implication of sponsorship or endorsement.
+2. You may preserve the unmodified mark when redistributing an unmodified
+   official Vanya Arc application or documentation on terms otherwise lawfully
+   applicable to that official release, without rebranding derivatives.
+3. You may use the mark as required by applicable legal exceptions, such as
+   truthful descriptive or nominative references, without additional consent.
+4. No authorization is granted to adopt the official mark as your own
+   product/organization branding, to create a confusingly similar commercial
+   identity, or to imply official partnership or endorsement.
+
+For any further branding, merchandising or derivative-artwork use, request
+separate permission from the rightsholder via the official project website.
+
+This statement does not purport to revoke or limit rights already obtained
+under an earlier version distributed under MIT or any other applicable
+license. It does not create a registered trademark, guarantee originality,
+or override third-party rights. Trademark protection depends on actual
+distinctiveness, use, registration and applicable jurisdiction.
+
+Source: https://github.com/VanDalkvist/vanya-ui/blob/main/BRAND.md

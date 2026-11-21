@@ -26,6 +26,10 @@ The canonical document is `/` with anchors `/#identity`, `/#typography`, `/#writ
 
 `bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. `public/_headers` sets UTF-8 for Markdown and plain-text agent resources and scoped security headers. Build failures prevent production deployment.
 
+## Mixed-license publication
+
+The build also publishes /reference/licensing.md and /reference/brand.md. The SVG and geometry module are separately marked protected artwork; the renderer remains MIT. Keep past MIT permissions intact. Verify these live docs in the same build.
+
 ## Dependency license preservation
 
 `vite.config.ts` uses `build.license: { fileName: "licenses.txt" }` to publish full bundled-dependency notices with the site at `/licenses.txt`. `scripts/sync.ts` publishes the project's own MIT license at `/LICENSE.txt` and manual source attribution at `/reference/third-party.md`. Never omit these artifacts from a release or mistake their presence for a legal review of every upstream package.

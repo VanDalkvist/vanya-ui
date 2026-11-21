@@ -14,11 +14,7 @@ Future products may keep this parent lockup and replace the product suffix witho
 
 The owner's original screenshot shows a short **dark** crest and small valley on the left, then a much higher **warm** crest on the right, with one unbroken stroke fading naturally from ink to terracotta. This asymmetry is the identity; do **not** replace it with a standard sinusoid, a single arc, intersecting initials, a symmetrical monogram, or two disconnected shapes.
 
-Authoritative SVG geometry: `src/components/VanyaArcMark.tsx`, constant `VANYA_ARC_MARK_PATH`:
-
-```svg
-M 97 293 C 125 259, 140 248, 160 252 C 206 252, 223 319, 275 319 C 342 319, 373 149, 477 149 C 530 149, 564 182, 595 227
-```
+Authoritative protected brand artwork: `src/brand/VanyaArcArtwork.ts`, constant `VANYA_ARC_MARK_PATH`, reused by the MIT-licensed renderer `src/components/VanyaArcMark.tsx`. The mark is included for use as an official project identifier; see [BRAND.md](../../BRAND.md).
 
 SVG viewBox: `75 115 540 235`; stroke width 29; rounded ends and joins. The color transition occurs *after the first valley*, around 38–60% of the width; it is not a sharp 50/50 split.
 
@@ -66,6 +62,10 @@ The full keyboard contract (bindings, accessibility, opt-out, key conflicts and 
 ## Separate typography and editorial copy
 
 Logo-only optical letter spacing is not applied to body text. Use shared [typography roles](../patterns/typography.md). UI labels follow the [editorial policy](../patterns/writing-and-editorial.md) with author attribution to the original Sarycheva/Arkhipov skills.
+
+## Licensing and use
+
+The source code of the React logo renderer is MIT, but the mark and wordmark are brand identifiers and have separately stated rules in [BRAND.md](../../BRAND.md). Using a public component does not grant the right to represent an unrelated application as an official Vanya Arc product. For accurate references, reviews and copies of the unmodified official project, consult BRAND.md. Past MIT releases remain governed by their original terms. Do not label the symbol a registered trademark unless registration has been confirmed.
 
 ## Website and quality checks
 

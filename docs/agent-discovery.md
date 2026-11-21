@@ -27,6 +27,13 @@ The site is intentionally **public**. These files must never include secrets, pr
 - Both curated `llms.txt` and generated `llms-full.txt` link to the canonical policy, including WCAG 2.1.4 opt-out rules, keys, conflicts and visual styling.
 - The exported `ShortcutKeys` is visible in the component registry and `/reference/components.md`; actual shortcut handling is app-specific and must pass the same policy.
 
+## Brand and licensing discoverability
+
+- /reference/licensing.md and /reference/brand.md define narrow paths and permitted uses.
+- The official symbol's original geometry is held in src/brand/VanyaArcArtwork.ts, outside the MIT code renderer.
+- Existing MIT copies are not retroactively restricted; no trademark registration is claimed.
+- llms.txt, llms-full.txt and the identity section point to the correct license scope.
+
 ## License discoverability
 
 - Root `LICENSE` governs authored MIT code; `/LICENSE.txt` is a published copy.

@@ -1,3 +1,8 @@
+<!-- SPDX-FileCopyrightText: 2026 Vanya Afanasov
+SPDX-License-Identifier: CC-BY-4.0
+Only original contributions are licensed. Third-party works retain their own rights.
+This and later revisions are CC BY 4.0; historical MIT grants remain. -->
+
 # Витрина Vanya UI: первый экран, клавиши и текст
 
 Дата: 21.11.2026. Внешние ссылки публичные. Исходные примеры внутри проекта используют только вымышленные данные.
