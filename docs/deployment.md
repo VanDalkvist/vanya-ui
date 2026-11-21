@@ -22,9 +22,9 @@ Repository root: `/`. Wrangler config: `wrangler.jsonc`. It names the existing W
 
 ## One longread, Markdown and crawler verification
 
-The canonical document is `/` with anchors `/#principles`, `/#workspace` and `/#browser-navigation`. Legacy `/guidelines/navigation/` contains a redirect to `/#browser-navigation`. `/showcase.html` is a non-indexable alias. Never configure an SPA fallback that serves home for arbitrary URLs.
+The canonical document is `/` with anchors `/#principles`, `/#workspace` and `/#browser-navigation`. Legacy `/guidelines/navigation/` and `/showcase.html` use HTTP 301 redirects in `public/_redirects` (the old HTML fallback also has a link). Never configure an SPA fallback that serves home for arbitrary URLs.
 
-`bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. Build failures prevent production deployment.
+`bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. `public/_headers` sets UTF-8 for Markdown and plain-text agent resources and scoped security headers. Build failures prevent production deployment.
 
 ## Public release requirements
 

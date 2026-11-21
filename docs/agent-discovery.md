@@ -5,11 +5,12 @@ The site is intentionally **public**. These files must never include secrets, pr
 ## Authority and guarantees
 
 1. **Real HTML matters most.** The home page is statically rendered during build; substantive content and native links appear in the raw response without JavaScript. Interactive components hydrate afterward.
-2. **Canonical page and anchors:** one longread at https://ui.vanya-arc.dev/, with meaningful fragment IDs. Old /guidelines/navigation/ is an explicit redirect; /showcase.html is marked noindex.
+2. **Canonical page and anchors:** one longread at https://ui.vanya-arc.dev/, with meaningful fragment IDs. Old /guidelines/navigation/ and /showcase.html use HTTP 301 redirects to canonical sections via `public/_redirects`.
 3. **Crawl basics:** /robots.txt allows public crawling; /sitemap.xml lists the canonical longread and Markdown references; <a href> links are usable in plain HTML; document metadata includes description, canonical, Open Graph and SoftwareSourceCode JSON-LD.
 4. **Markdown alternatives:** /index.md, /reference/components.md, /reference/tokens.md, /reference/navigation.md, /reference/composition.md, /reference/workspaces.md, /reference/installation.md. Generator copies approved public docs and derives component/token indexes from source.
 5. **llms.txt:** a compact curated index; /llms-full.txt is a generated extended reference. HTML uses alternate (text/markdown) and describedby relations, following the 2026 llms.txt proposal. The proposal is not an official ranking signal, and crawlers may ignore it.
-6. **Releases:** Cloudflare Workers Builds deploys main only after tests, typecheck and Vite + HTML prerender succeed.
+6. **Encoding:** `public/_headers` ensures text/markdown and text/plain responses declare UTF-8, including Cyrillic. Test the rendered characters, not only the file's presence.
+7. **Releases:** Cloudflare Workers Builds deploys main only after tests, typecheck and Vite + HTML prerender succeed.
 
 ## Post-deploy validation
 

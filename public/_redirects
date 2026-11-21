@@ -1,0 +1,3 @@
+# Preserve legacy links with real HTTP redirects to one canonical longread.
+/guidelines/navigation/ /#browser-navigation 301
+/showcase.html / 301

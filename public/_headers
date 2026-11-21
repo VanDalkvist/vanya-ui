@@ -1,0 +1,13 @@
+# Static assets must be decoded correctly by browsers and LLM readers.
+/*.txt
+  Content-Type: text/plain; charset=utf-8
+
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+
+/*.xml
+  Content-Type: application/xml; charset=utf-8
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

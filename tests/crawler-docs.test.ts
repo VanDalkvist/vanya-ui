@@ -14,6 +14,11 @@ describe("public search and agent discovery",()=>{
   expect(read("guidelines/navigation/index.html")).toContain("url=/#browser-navigation");
   expect(read("showcase.html")).toContain('noindex,follow');
  });
+ it("declares UTF-8 for Markdown and plain-text agent resources",()=>{
+  expect(read("public/_headers")).toContain("Content-Type: text/plain; charset=utf-8");
+  expect(read("public/_headers")).toContain("Content-Type: text/markdown; charset=utf-8");
+  expect(read("public/_redirects")).toContain("/guidelines/navigation/ /#browser-navigation 301");
+ });
  it("offers real crawler entry points and generated Markdown sources",()=>{
   expect(read("public/robots.txt")).toContain("Sitemap: https://ui.vanya-arc.dev/sitemap.xml");
   expect(read("public/sitemap.xml")).toContain("/reference/components.md");
