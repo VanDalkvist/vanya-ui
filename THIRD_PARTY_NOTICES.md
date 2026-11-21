@@ -2,7 +2,7 @@
 
 **Scope:** Public Vanya Arc / UI repository (`@vanya/ui`) and its showcase at https://ui.vanya-arc.dev.
 
-The repository's **original** source code is licensed under [MIT](LICENSE), Copyright © 2026 Vanya Afanasov. This does **not** change ownership or license obligations for third-party libraries, icons, fonts, or editorial sources.
+The repository's **original** source code is licensed under [MIT](https://github.com/VanDalkvist/vanya-ui/blob/main/LICENSE), Copyright © 2026 Vanya Afanasov. This does **not** change ownership or license obligations for third-party libraries, icons, fonts, or editorial sources.
 
 When the site is built, Vite also emits **[licenses.txt](https://ui.vanya-arc.dev/licenses.txt)**: complete notices for dependencies bundled into the deployed client code. That generated list is version-specific and supplements the curated index below. License obligations apply to consumers' own bundles too.
 
@@ -104,4 +104,4 @@ SOFTWARE.
 
 A repo-level MIT notice is **not a substitute** for the upstream license texts. The published `VanyaArcMark` SVG and lockup currently have no separate explicit logo/visual-asset license or exclusion from the root MIT. Do not claim otherwise without the rights holder's decision. Rights to imply sponsorship, use another party's trademark, or claim affiliation do not automatically follow from permissive source-code licensing.
 
-For the current audit, see [docs/legal/license-audit-2026-11-22.md](docs/legal/license-audit-2026-11-22.md).
+For the current audit, see [license audit](https://github.com/VanDalkvist/vanya-ui/blob/main/docs/legal/license-audit-2026-11-22.md).
