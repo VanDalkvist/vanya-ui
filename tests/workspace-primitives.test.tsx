@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer } from "../src/index";
 
 describe("Workspace primitives", () => {
   it("gives each independent scroll region a name and keyboard entry point", () => {
@@ -43,6 +43,18 @@ describe("Workspace primitives", () => {
     expect(layout).toHaveClass("ui-workspace-split");
     expect(layout).toHaveAttribute("data-compact","stack");
     expect(screen.getByRole("region",{name:"Document"})).toBeInTheDocument();
+  });
+
+  it("holds inspector title and dismiss control outside its scrollable body", () => {
+    const close = vi.fn();
+    render(<InspectDrawer isOpen title="Детали" onClose={close}><p>Длинная запись</p></InspectDrawer>);
+    const dialog = screen.getByRole("dialog");
+    const body = screen.getByRole("region", {name:"Детали — содержимое"});
+    expect(dialog.querySelector("header")?.parentElement).toBe(dialog);
+    expect(body.parentElement).toBe(dialog);
+    expect(body).toHaveAttribute("tabindex","0");
+    fireEvent.click(screen.getByRole("button",{name:"Закрыть инспектор"}));
+    expect(close).toHaveBeenCalledOnce();
   });
 
   it("distinguishes a calm empty state from clickable decoration", () => {

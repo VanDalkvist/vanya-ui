@@ -319,6 +319,8 @@
     overflow: hidden;
   }
   .ui-workspace-split-navigation { border-right: 1px solid var(--border); }
+  .inspect-sheet { display: flex; flex-direction: column; overflow: hidden; }
+  .inspect-sheet__body { overflow-x: hidden; overflow-y: auto; }
   .inspect-sheet__body {
     scroll-padding-block: 18px 36px;
     scrollbar-gutter: stable;

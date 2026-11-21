@@ -51,7 +51,7 @@ export function InspectDrawer({ isOpen, title, onClose, children, className }: I
         const rect = event.currentTarget.getBoundingClientRect();
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) onClose();
       }}
-      className={twMerge("inspect-sheet fixed inset-y-0 right-0 left-auto m-0 ml-auto flex h-dvh max-h-none w-full max-w-[560px] flex-col overflow-hidden border-0 border-l border-border bg-surface p-0 text-ink", className)}
+      className={twMerge("inspect-sheet fixed inset-y-0 right-0 left-auto m-0 ml-auto h-dvh max-h-none w-full max-w-[560px] border-0 border-l border-border bg-surface p-0 text-ink", className)}
     >
       <header className="inspect-sheet__header flex shrink-0 items-start justify-between gap-6 border-b border-border px-7 pb-5 pt-8 sm:px-12 sm:pt-10">
         <h2 id={titleId} className="min-w-0 font-sans text-2xl font-medium leading-tight tracking-tight sm:text-3xl">{title}</h2>
@@ -60,7 +60,7 @@ export function InspectDrawer({ isOpen, title, onClose, children, className }: I
         </button>
       </header>
       <div role="region" aria-label={title + " — содержимое"} tabIndex={0}
-        className="inspect-sheet__body min-h-0 flex-1 overflow-y-auto overscroll-contain px-7 pb-9 pt-6 font-sans text-sm leading-relaxed text-ink-soft sm:px-12">
+        className="inspect-sheet__body min-h-0 flex-1 overscroll-contain px-7 pb-9 pt-6 font-sans text-sm leading-relaxed text-ink-soft sm:px-12">
         <div className="space-y-5">{children}</div>
       </div>
     </dialog>
