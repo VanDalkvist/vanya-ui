@@ -10,7 +10,7 @@ describe("design system naming", () => {
     expect(read("DESIGN.md").split("\n")[0]).toBe(`# ${brand}`);
     expect(read("README.md").split("\n")[0]).toBe(`# ${brand}`);
     expect(JSON.parse(read("package.json")).description).toContain(brand);
-    expect(read("src/showcase/Showcase.tsx")).toContain(`>${brand}</a>`);
+    expect(read("src/showcase/ShowcaseHeader.tsx")).toContain(`>${brand}</a>`);
     for (const file of ["index.html", "showcase.html"]) {
       expect(read(file)).toContain(`<title>${brand} — компоненты</title>`);
       expect(read(file)).toContain(`content="${brand}:`);

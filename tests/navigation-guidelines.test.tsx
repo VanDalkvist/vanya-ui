@@ -1,12 +1,13 @@
 import React from "react";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { NavigationGuideline } from "../src/showcase/NavigationGuideline";
 
 describe("Browser navigation guideline", () => {
   it("is a distinct directly loadable HTML entrypoint", () => {
-    const html = readFileSync(new URL("../guidelines/navigation/index.html", import.meta.url), "utf8");
+    const html = readFileSync(resolve(import.meta.dirname, "..", "guidelines/navigation/index.html"), "utf8");
     expect(html).toContain('src="/src/showcase/navigation-main.tsx"');
     expect(html).toContain("<title>Навигация и URL");
   });
