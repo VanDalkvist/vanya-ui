@@ -439,9 +439,9 @@
   .ui-workspace-context-crumbs ol { display:flex; align-items:center; min-width:0; gap:7px; margin:0; padding:0; list-style:none; }
   .ui-workspace-context-crumbs li { display:flex; align-items:center; flex:0 1 auto; min-width:0; gap:7px; font:500 10px/1.4 var(--font-sans); color:var(--ink-soft); white-space:nowrap; }
   .ui-workspace-context-crumbs li:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; }
-  .ui-workspace-context-crumbs button { display:block; min-width:0; max-width:100%; padding:0; border:0; border-radius:0; background:none; color:var(--ink-soft); font:inherit; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .ui-workspace-context-crumbs button:hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
-  .ui-workspace-context-crumbs button:focus-visible, .ui-workspace-context-actions :is(button,a):focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .ui-workspace-context-crumbs :is(button, a) { display:block; min-width:0; max-width:100%; padding:0; border:0; border-radius:0; background:none; color:var(--ink-soft); font:inherit; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ui-workspace-context-crumbs :is(button, a):hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
+  .ui-workspace-context-crumbs :is(button, a):focus-visible, .ui-workspace-context-actions :is(button,a):focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
   .ui-workspace-context-separator { color:var(--ink-faint); opacity:.85; }
   .ui-workspace-context-heading { display:block; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
   .ui-workspace-context-heading strong { font:600 clamp(13px,1.1vw,16px)/1.35 var(--font-sans); letter-spacing:-.012em; }

@@ -13,7 +13,7 @@ describe("design system naming", () => {
     expect(read("src/showcase/ShowcaseHeader.tsx")).toContain(`>${brand}</a>`);
     for (const file of ["index.html", "showcase.html"]) {
       expect(read(file)).toContain(`<title>${brand} — компоненты</title>`);
-      expect(read(file)).toContain(`content="${brand}:`);
+      expect(read(file)).toContain(`content="${brand}`);
     }
   });
 

@@ -8,6 +8,7 @@ import {clsx} from "clsx";
 export type WorkspaceContextCrumb = {
   id: string;
   label: string;
+  href?: string;
   onSelect?: () => void;
 };
 export interface WorkspaceContextHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,8 +25,7 @@ export function WorkspaceContextHeader({breadcrumbs,title,showTitle=true,status,
       {breadcrumbs.length>0&&<nav className="ui-workspace-context-crumbs" aria-label="Хлебные крошки">
         <ol>{breadcrumbs.map((item,i)=><li key={item.id}>
           {i>0&&<span className="ui-workspace-context-separator" aria-hidden="true">/</span>}
-          {item.onSelect?<button type="button" onClick={item.onSelect}>{item.label}</button>:
-            <span>{item.label}</span>}
+          {item.href?<a href={item.href}>{item.label}</a>:item.onSelect?<button type="button" onClick={item.onSelect}>{item.label}</button>:<span>{item.label}</span>}
         </li>)}</ol>
       </nav>}
       {showTitle&&<div className="ui-workspace-context-heading" title={title} aria-label={title}>

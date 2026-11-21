@@ -156,8 +156,8 @@ export function ComponentCatalog() {
       <div style={{display:"flex",gap:16,alignItems:"center",width:"min(100%, 900px)",minHeight:78,padding:"10px 14px",background:"var(--surface)",border:"1px solid var(--border)"}}>
         <strong style={{flex:"0 0 auto",fontSize:15}}>app.</strong>
         <WorkspaceContextHeader title="Как восстановить долгую операцию после сбоя" showTitle={contextHeadingGone} breadcrumbs={[
-          {id:"library",label:"Библиотека",onSelect:()=>setOverlay("sheet")},
-          {id:"category",label:"Workflows",onSelect:()=>setOverlay("digest")}
+          {id:"library",label:"Библиотека",href:"/#catalog"},
+          {id:"category",label:"Рабочие поверхности",href:"/#workspace"}
         ]} status="3 / 18" actions={<ActionButton variant="accent" size="sm" onClick={()=>setOverlay("sheet")}>Исследовать</ActionButton>}/>
       <div style={{display:"flex",alignItems:"center",gap:12,marginTop:8}}>
         <ActionButton variant="text" size="sm" onClick={()=>setContextHeadingGone(x=>!x)}>
