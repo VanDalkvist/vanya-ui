@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
+import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, VanyaArcLockup, type SineWaveEvent } from "../index";
 
 const moments = [
   { title: "Навигация", date: "NavLinks", description: "Ссылки в шапке ведут к первому экрану, каталогу и принципам. У каждого раздела есть адрес, поэтому работают история и открытие в новой вкладке.", detail: "Переключатель рядом меняет тему всей страницы." },
@@ -19,7 +19,7 @@ export function Scene() {
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <div className="scene-intro">
-        <h1 id="scene-title">Vanya-Arc/UI</h1>
+        <h1 id="scene-title"><VanyaArcLockup product="UI" size="md" showMark={false}/></h1>
         <p>Одна система для интерфейсов: композиция, принципы, рабочие пространства и компоненты.<br />Листай, исследуй и делись прямыми ссылками на разделы.</p>
       </div>
       <div className="scene-wave"><SineWave className="scene-background" fit origin={590} events={[

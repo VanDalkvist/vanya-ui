@@ -457,3 +457,18 @@
     .ui-workspace-context-crumbs li:not(:first-child) { display:none; }
   }
 }
+
+/* Vanya Arc identity. Brand family uses existing semantic UI colors and Manrope. */
+@layer components {
+  .vanya-arc-lockup { display:inline-flex; align-items:center; gap:.57em; max-width:100%; width:max-content; color:var(--ink); font-family:var(--font-sans); font-weight:600; line-height:1.15; letter-spacing:-.047em; white-space:nowrap; }
+  .vanya-arc-lockup[data-size="sm"] { font-size:14px; }
+  .vanya-arc-lockup[data-size="md"] { font-size:20px; }
+  .vanya-arc-lockup[data-size="lg"] { font-size:clamp(25px, 3.4vw, 43px); }
+  .vanya-arc-mark { display:block; width:2.3em; height:1em; flex:none; overflow:visible; color:var(--ink); }
+  .vanya-arc-wordmark { letter-spacing:-.048em; }
+  .vanya-arc-suffix { display:inline-flex; align-items:baseline; gap:.20em; margin-left:-.28em; }
+  .vanya-arc-separator { color:var(--ink-soft); font-weight:450; }
+  .vanya-arc-product { color:var(--accent); font-weight:700; letter-spacing:-.035em; }
+  .vanya-arc-lockup[data-monochrome="true"] { color:var(--ink); }
+  .vanya-arc-lockup[data-monochrome="true"] .vanya-arc-product, .vanya-arc-lockup[data-monochrome="true"] .vanya-arc-separator { color:currentColor; }
+}
