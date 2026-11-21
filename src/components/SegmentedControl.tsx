@@ -18,6 +18,8 @@ export interface SegmentedControlProps<T extends string = string> {
   /** xs remains a legacy alias for sm. */
   size?: ComponentSize | "xs";
   disabled?: boolean;
+  /** Use filters for in-place data filtering; tabs for actual tab panels (default). */
+  semantics?: "tabs" | "filters";
   "aria-label"?: string;
 }
 
@@ -28,11 +30,12 @@ export function SegmentedControl<T extends string = string>({
   className,
   size = "md",
   disabled = false,
+  semantics = "tabs",
   "aria-label": ariaLabel,
 }: SegmentedControlProps<T>) {
   return (
     <div
-      role="tablist"
+      role={semantics === "tabs" ? "tablist" : "group"}
       aria-label={ariaLabel}
       aria-disabled={disabled || undefined}
       data-size={size === "xs" ? "sm" : size}
@@ -49,9 +52,10 @@ export function SegmentedControl<T extends string = string>({
           <button
             key={item.id}
             type="button"
-            role="tab"
+            role={semantics === "tabs" ? "tab" : undefined}
             disabled={disabled}
-            aria-selected={isSelected}
+            aria-selected={semantics === "tabs" ? isSelected : undefined}
+            aria-pressed={semantics === "filters" ? isSelected : undefined}
             onClick={() => onChange(item.id)}
             className={clsx(
               "inline-flex items-center rounded-full border-0 bg-transparent transition-all duration-200",
