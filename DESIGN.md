@@ -1,4 +1,4 @@
-# Vanya-Arc/UI
+# Vanya Arc / UI
 
 ## Visual authority
 
@@ -8,6 +8,7 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 
 - `src/tokens.css`: executable colors, typography families, spacing and overlay elevation for both themes.
 - `src/components`: actual reusable primitives, exported through `src/index.ts`.
+- `src/components/VanyaArcMark.tsx` and `VanyaArcLockup.tsx`: canonical brand sign and parent/product lockup, governed by [docs/identity/brand.md](docs/identity/brand.md).
 - `src/showcase`: working composition and live examples; both `/` and legacy `/showcase.html` mount the same React entrypoint; the canonical longread is `/`.
 - `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
@@ -24,9 +25,17 @@ This repository and `https://ui.vanya-arc.dev` are **public**. All committed fil
 
 This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
 
+## Identity — required
+
+- **Parent brand:** `Vanya Arc`. Keep the owner's precise asymmetric double-crest V → A sign: dark small left crest seamlessly transitions to warm large right crest.
+- **Design-system product:** `Vanya Arc / UI`. Only `UI` is accented; the slash is subordinate and the parent wordmark stays ink-colored.
+- Use `VanyaArcMark` / `VanyaArcLockup`, not locally redrawn logo paths or arbitrary product-specific palettes.
+- Manrope-based wordmark lettering may have tailored tracking/weight; do not change functional UI typography or include proprietary font files.
+- Follow [the brand identity guide](docs/identity/brand.md). Published section: [/#identity](https://ui.vanya-arc.dev/#identity).
+
 ## One longread and agent-readable HTML
 
-The public UI reference is one document (`/`) with an accessible table of contents and stable fragment URLs: `/#composition`, `/#principles`, `/#browser-navigation`, `/#catalog`, `/#workspace`, `/#setup`. The former /guidelines/navigation/ is an explicit redirect. The app-level rule for separate page URLs remains mandatory; sections of one document naturally share a base URL.
+The public UI reference is one document (`/`) with an accessible table of contents and stable fragment URLs: `/#composition`, `/#identity`, `/#principles`, `/#browser-navigation`, `/#catalog`, `/#workspace`, `/#setup`. The former /guidelines/navigation/ is an explicit redirect. The app-level rule for separate page URLs remains mandatory; sections of one document naturally share a base URL.
 
 Public HTML is pre-rendered at build time and hydrated by React. The curated `llms.txt` links to public Markdown source documents, while `llms-full.txt` and registry are generated from actual component files. Never generate or publish private connected-source content.
 

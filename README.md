@@ -1,10 +1,16 @@
-# Vanya-Arc/UI
+# Vanya Arc / UI
 
 React-компоненты и CSS-токены для интерфейсов [vanya-arc.dev](https://vanya-arc.dev/). Имя пакета — `@vanya/ui`.
 
 **[Живая витрина → ui.vanya-arc.dev](https://ui.vanya-arc.dev/)**
 
-Витрина — один лонгрид с навигацией: сцена с волной, принципы, каталог, рабочие поверхности, светлая и тёмная темы, размеры и состояния. Примеры открывают детали и реагируют на клавиатуру — это не отдельные HTML-копии компонентов.
+Витрина — один лонгрид с навигацией: сцена с волной, айдентика, принципы, каталог, рабочие поверхности, светлая и тёмная темы, размеры и состояния. Примеры открывают детали и реагируют на клавиатуру — это не отдельные HTML-копии компонентов.
+
+## Айдентика Vanya Arc
+
+**Vanya Arc** — родительский бренд, а **Vanya Arc / UI** — дизайн-система. Визуальная подпись состоит из исходного асимметричного знака (маленький тёмный гребень перетекает в большой терракотовый) и вордмарка на основе Manrope. Слова `Vanya Arc` цельные, продуктовый суффикс `UI` акцентный. Это разные уровни бренда, а не два независимых логотипа.
+
+[Живой раздел «Айдентика»](https://ui.vanya-arc.dev/#identity) · [Нормативные правила, цвета и применение](docs/identity/brand.md). Из `@vanya/ui` доступны `VanyaArcMark` и `VanyaArcLockup`.
 
 ## Принципы интерфейса
 
@@ -63,6 +69,7 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 - **Карточки и детали:** `CraftCard`, `DeskSlotCard`, `EventCard`, `TimelinePreviewCard`, `InspectDrawer`, `ReceiptDigestModal`.
 - **Волна и события:** `SineWave`, `EventPoint`, `TimelineEvent`, `Minimap`.
 - **Графики и индикаторы:** `EnergyRadar`, `SpiderRadar`, `VoiceWaveIndicator`, `HearthPulse`.
+- **Айдентика:** `VanyaArcMark`, `VanyaArcLockup`.
 - **Навигация и ссылки:** `NavLinks`, `AvatarLink`, `LinkChip`, `DisclosurePill`, `Divider`.
 - **Тема:** `useTheme`, `applyTheme`; режимы `light`, `dark`, `system`.
 
@@ -87,7 +94,7 @@ bun run sync      # справочник токенов и реестр эксп
 bun run build     # production-сборка витрины в dist/
 ```
 
-Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Сайт — **единый лонгрид** с разделами `/#composition`, `/#principles`, `/#catalog`, `/#workspace`, `/#setup`. Прежний адрес `/guidelines/navigation/` перенаправляет на `/#browser-navigation`. При сборке HTML предварительно рендерится для агентов без JavaScript, а React гидратирует интерактивные примеры. Публичная конфигурация деплоя находится в [`wrangler.jsonc`](wrangler.jsonc), а секреты и токены — только в Cloudflare (никогда не в Git). Сборка и деплой выполняются Cloudflare Workers Builds при push/merge в `main`; см. [`docs/deployment.md`](docs/deployment.md).
+Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Сайт — **единый лонгрид** с разделами `/#composition`, `/#identity`, `/#principles`, `/#catalog`, `/#workspace`, `/#setup`. Прежний адрес `/guidelines/navigation/` перенаправляет на `/#browser-navigation`. При сборке HTML предварительно рендерится для агентов без JavaScript, а React гидратирует интерактивные примеры. Публичная конфигурация деплоя находится в [`wrangler.jsonc`](wrangler.jsonc), а секреты и токены — только в Cloudflare (никогда не в Git). Сборка и деплой выполняются Cloudflare Workers Builds при push/merge в `main`; см. [`docs/deployment.md`](docs/deployment.md).
 
 Для агентов сайт отдаёт [`llms.txt`](https://ui.vanya-arc.dev/llms.txt) (читаемое оглавление), [`llms-full.txt`](https://ui.vanya-arc.dev/llms-full.txt) (генерируемая справка), [Markdown лонгрида](https://ui.vanya-arc.dev/index.md), [Markdown компонентов](https://ui.vanya-arc.dev/reference/components.md), `robots.txt`, `sitemap.xml`, canonical, JSON-LD и заранее отрендеренный HTML. Исходники документации — `docs/` и `scripts/sync.ts`. `llms.txt` — соглашение для агентов, не гарантия поисковой индексации; [спецификация](docs/agent-discovery.md). `registry.json` собирается из реальных экспортов.
 

@@ -22,7 +22,7 @@ Repository root: `/`. Wrangler config: `wrangler.jsonc`. It names the existing W
 
 ## One longread, Markdown and crawler verification
 
-The canonical document is `/` with anchors `/#principles`, `/#workspace` and `/#browser-navigation`. Legacy `/guidelines/navigation/` and `/showcase.html` use HTTP 301 redirects in `public/_redirects` (the old HTML fallback also has a link). Never configure an SPA fallback that serves home for arbitrary URLs.
+The canonical document is `/` with anchors `/#identity`, `/#principles`, `/#workspace` and `/#browser-navigation`. Legacy `/guidelines/navigation/` and `/showcase.html` use HTTP 301 redirects in `public/_redirects` (the old HTML fallback also has a link). Never configure an SPA fallback that serves home for arbitrary URLs.
 
 `bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. `public/_headers` sets UTF-8 for Markdown and plain-text agent resources and scoped security headers. Build failures prevent production deployment.
 
@@ -33,7 +33,7 @@ This repository, site, and all bundled assets are public. No secrets, private da
 Before announcing a production release:
 1. Confirm a successful Cloudflare Workers Build for the current commit on `main`.
 2. Check the active Worker deployment/version.
-3. Check `/`, `/#browser-navigation`, `/#workspace`, `/guidelines/navigation/` (redirect), `/llms.txt`, `/index.md`, `/sitemap.xml` and `/reference/components.md` without authentication or JavaScript.
+3. Check `/`, `/#browser-navigation`, `/#workspace`, `/guidelines/navigation/` (redirect), `/llms.txt`, `/index.md`, `/reference/identity.md`, `/sitemap.xml` and `/reference/components.md` without authentication or JavaScript.
 4. Inspect built HTML and JS as public artifacts for accidental secrets or private data; no `.env`, production credentials, private URLs or real user records.
 5. If build/deploy fails, inspect Workers Builds logs; do not claim that a Git commit alone is a website release.
 

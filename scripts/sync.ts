@@ -10,7 +10,7 @@ const components = fs.readdirSync(path.join(root, "src/components"))
   .filter((file) => file.endsWith(".tsx") && exports.includes(`./components/${file.slice(0, -4)}"`))
   .sort();
 
-const reference = `# @vanya/ui — Vanya-Arc/UI
+const reference = `# @vanya/ui — Vanya Arc / UI
 
 > Generated from src/tokens.css and src/index.ts by bun run sync.
 > This is a token/export reference, not an automatically inferred design specification.
@@ -19,6 +19,9 @@ const reference = `# @vanya/ui — Vanya-Arc/UI
 Open space, quiet contextual actions and details on request. See DESIGN.md for the authored composition guidance.
 Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
+
+## Identity (normative)
+Vanya Arc is the parent brand; UI is the design-system product. The owner's approved double-crest V → A mark is implemented by VanyaArcMark and VanyaArcLockup. Only UI is highlighted. Normative source: docs/identity/brand.md; live identity chapter: /#identity.
 
 ## Browser navigation (normative)
 Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /#browser-navigation.
@@ -46,6 +49,7 @@ fs.copyFileSync(path.join(root,"docs/site-overview.md"),path.join(root,"public/i
 const refDir=path.join(root,"public/reference");
 fs.mkdirSync(refDir,{recursive:true});
 const docs=[
+ ["docs/identity/brand.md","identity.md"],
  ["docs/patterns/browser-navigation.md","navigation.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
@@ -53,11 +57,11 @@ const docs=[
  ["docs/deployment.md","deployment.md"],
 ];
 for(const [from,to] of docs)fs.copyFileSync(path.join(root,from),path.join(refDir,to));
-const list="# Vanya-Arc/UI — components\n\nPublic @vanya/ui exports. Source: https://github.com/VanDalkvist/vanya-ui\n\n"+
+const list="# Vanya Arc / UI — components\n\nPublic @vanya/ui exports. Source: https://github.com/VanDalkvist/vanya-ui\n\n"+
   components.map(file=>"- **"+file.slice(0,-4)+"**: https://github.com/VanDalkvist/vanya-ui/blob/main/src/components/"+file+"\n").join("")+
   "\nExact prop types are in https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts\n";
 fs.writeFileSync(path.join(refDir,"components.md"),list);
-fs.writeFileSync(path.join(refDir,"tokens.md"),"# Vanya-Arc/UI — CSS tokens\n\nGenerated from src/tokens.css.\n\n"+renderTokenReference(css));
+fs.writeFileSync(path.join(refDir,"tokens.md"),"# Vanya Arc / UI — CSS tokens\n\nGenerated from src/tokens.css.\n\n"+renderTokenReference(css));
 fs.writeFileSync(path.join(refDir,"installation.md"),
  "# Install @vanya/ui\n\nInstall from public GitHub:\n\n~~~sh\nbun add github:VanDalkvist/vanya-ui\n~~~\n\nImport tokens and register Tailwind sources:\n\n~~~css\n@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\n~~~\n\nReact 18/19, Tailwind 4 and TSX-capable bundler required. See https://github.com/VanDalkvist/vanya-ui/blob/main/README.md\n");
 
