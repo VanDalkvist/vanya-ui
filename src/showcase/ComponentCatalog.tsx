@@ -3,7 +3,7 @@ import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
   MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
-  ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
+  ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -146,6 +146,18 @@ export function ComponentCatalog() {
       <div style={{width:"min(100%, 520px)"}}>
         <SectionToolbar title="Материалы" count={5} total={20}
           actions={<ActionButton size="sm" onClick={()=>setOverlay("sheet")}>Действия</ActionButton>}/>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="sticky-context" title="StickyContextBar"
+      description="При прокрутке длинного материала сохраняет его название, контекст и главное действие. Витрина показывает оба состояния без прокрутки глобального header.">
+      <div className="demo-column" style={{width:"min(100%, 610px)",gap:18}}>
+        <StickyContextBar visible={false} title="Длинный материал" eyebrow="Сборник"/>
+        <div style={{height:52,fontSize:12,color:"var(--ink-soft)"}}>До прокрутки: компактная панель скрыта, заголовок документа остаётся на месте.</div>
+        <div style={{position:"relative",height:82,paddingTop:10}}>
+          <StickyContextBar visible title="Как устроен восстановимый пайплайн" eyebrow="Исследование · Workflow"
+            status="3 / 12" actions={<ActionButton size="sm" variant="accent" onClick={()=>setOverlay("sheet")}>Разобрать</ActionButton>}/>
+          <div style={{fontSize:12,paddingTop:60,color:"var(--ink-soft)"}}>После прокрутки: компактный контекст, без дополнительного глобального меню.</div>
+        </div>
       </div>
     </CatalogSection>
     <CatalogSection id="workspace-action-bar" title="WorkspaceActionBar"

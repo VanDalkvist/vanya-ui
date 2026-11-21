@@ -1,9 +1,22 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar } from "../src/index";
 
 describe("Workspace primitives", () => {
+  it("keeps the compact context out of tab order until its reader requests it", () => {
+    const action=vi.fn();
+    const view=render(<StickyContextBar visible={false} title="Статья" actions={<button onClick={action}>Извлечь</button>}/>);
+    expect(screen.queryByRole("button",{name:"Извлечь"})).not.toBeInTheDocument();
+    expect(view.container.querySelector(".ui-sticky-context-anchor")).toHaveAttribute("data-visible","false");
+    view.rerender(<StickyContextBar visible title="Статья" eyebrow="Исследование" status="2 / 5" actions={<button onClick={action}>Извлечь</button>}/>);
+    expect(screen.getByRole("region",{name:"Контекст материала"})).toBeInTheDocument();
+    expect(screen.getByText("Статья")).toBeInTheDocument();
+    expect(screen.getByText("2 / 5")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button",{name:"Извлечь"}));
+    expect(action).toHaveBeenCalledOnce();
+  });
+
   it("gives each independent scroll region a name and keyboard entry point", () => {
     render(<ScrollRegion label="Исследования">Длинная статья</ScrollRegion>);
     const region = screen.getByRole("region", {name:"Исследования"});

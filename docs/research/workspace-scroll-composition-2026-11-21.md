@@ -47,3 +47,16 @@ On compact viewports, prefer **one vertical scroll owner** for the page. A colle
 - MDN, sticky containing scroller: https://developer.mozilla.org/en-US/docs/Web/CSS/position
 - W3C, unfixing headers at 200% zoom: https://www.w3.org/WAI/WCAG22/Techniques/css/C34
 - W3C, focus not obscured: https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum
+
+## Контекст статьи после прокрутки (21 ноября, второй проход)
+
+Появился общий `StickyContextBar`: компактный заголовок текущего документа, маленький provenance/раздел, статус прогресса и переданные приложением действия.
+
+- Компонент сам **не наблюдает** `window.scrollY`, не навязывает CSS приложению и не создаёт собственный scroll owner. Приложение определяет `visible` по **реальному** ближайшему scroll owner.
+- Пока `visible=false`, интерактивные элементы отсутствуют в DOM; скрытых кнопок в tab order нет.
+- `position:sticky` находится на нулевой по высоте обёртке, которая не сдвигает длинный текст при появлении компактной строки.
+- Типографика, цвета и состояния из Vanya UI. Продукт передаёт `ActionButton`, свою метку и название; в публичном коде нет данных Factory.
+- В полноразмерном заголовке можно оставить контекст и объяснение, а при скролле показывать **только** название текущего объекта, положение в выборке и первичное действие. Глобальная верхняя строка не должна разворачиваться/сжиматься в ответ на прокрутку статьи.
+- Для вложенных или мобильных поверхностей приложение обязано следить за правильным scroller и перепривязывать слушатель при смене breakpoint, иначе состояние будет неверным. На ширине 320px длинный title обрезается, а не вытесняет CTA.
+
+Демо: `src/showcase/ComponentCatalog.tsx#sticky-context`; тесты: `tests/workspace-primitives.test.tsx`.
