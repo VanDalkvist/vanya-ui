@@ -60,3 +60,13 @@ On compact viewports, prefer **one vertical scroll owner** for the page. A colle
 - Для вложенных или мобильных поверхностей приложение обязано следить за правильным scroller и перепривязывать слушатель при смене breakpoint, иначе состояние будет неверным. На ширине 320px длинный title обрезается, а не вытесняет CTA.
 
 Демо: `src/showcase/ComponentCatalog.tsx#sticky-context`; тесты: `tests/workspace-primitives.test.tsx`.
+
+## Context in the global app shell — preferred over double sticky bars
+
+For complex readers that already have a persistent product header, use `WorkspaceContextHeader` as a slot inside that existing topbar. The component provides named, clickable ancestor crumbs, full document title (with overflow-safe tooltip and accessible label), optional position, and one context action.
+
+Unlike `StickyContextBar`, the contextual shell slot never inserts a second fixed surface, has no scroll listener, and does not hide the selected item title until the user scrolls. On narrow viewports prefer the closest useful ancestor and keep the main action; hide status, not the current item's accessible title. The reading page can still contain its semantic `h1` in normal flow, but it must not repeat a page-wide onboarding hero before every item.
+
+Breadcrumbs are navigation, not a copy of app steps: only render ancestors with real destinations; do not duplicate all stage tabs. Use `onSelect` callbacks for actionable crumbs; passive labels are not fake links.
+
+References: [Atlassian Page Header](https://atlassian.design/components/page-header/usage), [Carbon Breadcrumbs](https://www.carbondesignsystem.com/building-blocks/core/components/breadcrumb/guidelines), [Material top app bars](https://developer.android.com/develop/ui/compose/components/app-bars), and [NN/g breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/). `StickyContextBar` remains available for standalone documents **without** persistent shell context; do not stack both by default.

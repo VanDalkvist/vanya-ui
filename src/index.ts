@@ -103,3 +103,5 @@ export { WorkspaceEmptyState, type WorkspaceEmptyStateProps } from "./components
 export { WorkspaceSplit, type WorkspaceSplitProps } from "./components/WorkspaceSplit";
 
 export { StickyContextBar, type StickyContextBarProps } from "./components/StickyContextBar";
+
+export { WorkspaceContextHeader, type WorkspaceContextHeaderProps, type WorkspaceContextCrumb } from "./components/WorkspaceContextHeader";

@@ -1,9 +1,23 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader } from "../src/index";
 
 describe("Workspace primitives", () => {
+  it("places accessible navigable breadcrumbs, title and action in one header slot", () => {
+    const go=vi.fn(),execute=vi.fn();
+    render(<WorkspaceContextHeader title="Агенты и долгие операции" breadcrumbs={[
+      {id:"stage",label:"Читать",onSelect:go},
+      {id:"topic",label:"Workflows"}
+    ]} status="2 / 16" actions={<button onClick={execute}>Извлечь</button>}/>);
+    expect(screen.getByRole("navigation",{name:"Хлебные крошки"})).toBeInTheDocument();
+    expect(screen.getByRole("group",{name:"Текущий документ"})).toBeInTheDocument();
+    expect(screen.getByTitle("Агенты и долгие операции")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button",{name:"Читать"}));expect(go).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button",{name:"Извлечь"}));expect(execute).toHaveBeenCalledOnce();
+    expect(screen.getByText("2 / 16")).toBeInTheDocument();
+  });
+
   it("keeps the compact context out of tab order until its reader requests it", () => {
     const action=vi.fn();
     const view=render(<StickyContextBar visible={false} title="Статья" actions={<button onClick={action}>Извлечь</button>}/>);

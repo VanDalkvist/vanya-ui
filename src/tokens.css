@@ -428,3 +428,32 @@
     .ui-sticky-context-eyebrow { display: none; }
   }
 }
+
+/* A contextual navigation and title slot inside ONE persistent app top bar.
+   The large document heading is allowed to scroll; the shell itself never changes height.
+   This component deliberately does not use position:sticky/fixed. */
+@layer components {
+  .ui-workspace-context { display:flex; flex:1 1 0; align-items:center; justify-content:space-between; min-width:0; gap:clamp(8px,1.2vw,22px); color:var(--ink); }
+  .ui-workspace-context-identity { display:flex; min-width:0; flex:1 1 0; flex-direction:column; justify-content:center; gap:4px; }
+  .ui-workspace-context-crumbs { display:block; min-width:0; overflow:hidden; }
+  .ui-workspace-context-crumbs ol { display:flex; align-items:center; min-width:0; gap:7px; margin:0; padding:0; list-style:none; }
+  .ui-workspace-context-crumbs li { display:flex; align-items:center; flex:0 1 auto; min-width:0; gap:7px; font:500 10px/1.4 var(--font-sans); color:var(--ink-soft); white-space:nowrap; }
+  .ui-workspace-context-crumbs li:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+  .ui-workspace-context-crumbs button { display:block; min-width:0; max-width:100%; padding:0; border:0; border-radius:0; background:none; color:var(--ink-soft); font:inherit; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ui-workspace-context-crumbs button:hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
+  .ui-workspace-context-crumbs button:focus-visible, .ui-workspace-context-actions :is(button,a):focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .ui-workspace-context-separator { color:var(--ink-faint); opacity:.85; }
+  .ui-workspace-context-heading { display:block; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .ui-workspace-context-heading strong { font:600 clamp(13px,1.1vw,16px)/1.35 var(--font-sans); letter-spacing:-.012em; }
+  .ui-workspace-context-tools { display:flex; flex:0 0 auto; align-items:center; gap:clamp(8px,1vw,15px); min-width:0; }
+  .ui-workspace-context-status { font:10px/1.4 var(--font-mono); color:var(--ink-soft); white-space:nowrap; }
+  .ui-workspace-context-actions { display:flex; flex:0 0 auto; align-items:center; gap:7px; white-space:nowrap; }
+  @media(max-width:1000px) { .ui-workspace-context-status { display:none; } }
+  @media(max-width:650px) {
+    .ui-workspace-context { gap:7px; }
+    .ui-workspace-context-identity { gap:3px; }
+    .ui-workspace-context-heading strong { font-size:12px; }
+    .ui-workspace-context-crumbs li { font-size:10px; }
+    .ui-workspace-context-crumbs li:not(:first-child) { display:none; }
+  }
+}

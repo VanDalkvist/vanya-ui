@@ -3,7 +3,7 @@ import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
   MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
-  ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
+  ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -146,6 +146,16 @@ export function ComponentCatalog() {
       <div style={{width:"min(100%, 520px)"}}>
         <SectionToolbar title="Материалы" count={5} total={20}
           actions={<ActionButton size="sm" onClick={()=>setOverlay("sheet")}>Действия</ActionButton>}/>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="workspace-context-header" title="WorkspaceContextHeader"
+      description="Контекстная навигация, полный заголовок и действие внутри существующей верхней панели — без второго sticky header. Хлебные крошки ведут к реальным родительским разделам.">
+      <div style={{display:"flex",gap:16,alignItems:"center",width:"min(100%, 900px)",minHeight:78,padding:"10px 14px",background:"var(--surface)",border:"1px solid var(--border)"}}>
+        <strong style={{flex:"0 0 auto",fontSize:15}}>app.</strong>
+        <WorkspaceContextHeader title="Как восстановить долгую операцию после сбоя" breadcrumbs={[
+          {id:"library",label:"Библиотека",onSelect:()=>setOverlay("sheet")},
+          {id:"category",label:"Workflows",onSelect:()=>setOverlay("digest")}
+        ]} status="3 / 18" actions={<ActionButton variant="accent" size="sm" onClick={()=>setOverlay("sheet")}>Исследовать</ActionButton>}/>
       </div>
     </CatalogSection>
     <CatalogSection id="sticky-context" title="StickyContextBar"
