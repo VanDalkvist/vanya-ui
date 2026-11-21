@@ -21,6 +21,7 @@ export function Scene() {
       <div className="scene-intro">
         <h1 id="scene-title">Библиотека компонентов</h1>
         <p>Кнопки, карточки и другие элементы.<br />Можно менять тему и пробовать состояния.</p>
+        <a className="scene-workspace-link" href="#workspace">Рабочие поверхности: прокрутка, панели и закрепления →</a>
       </div>
       <div className="scene-wave"><SineWave className="scene-background" fit origin={590} events={[
         { id: "early", position: 0.1, weight: 1, label: pointMoments[0].title, onClick: () => setSelected(pointMoments[0]) },

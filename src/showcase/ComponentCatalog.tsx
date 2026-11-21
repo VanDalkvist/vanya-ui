@@ -101,7 +101,7 @@ export function ComponentCatalog() {
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
     </CatalogSection>
-    <CatalogSection id="workspace" title="Workspace / scroll и закрепления"
+    <CatalogSection id="workspace" title="Рабочие поверхности: композиция"
       description="Из Фермы: спокойный заголовок полки, счётчик и пустое состояние. Для редакторов: один именованный скролл и отдельный футер действий.">
       <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
         <SectionToolbar title="Полка исследований" count={7} total={22}
@@ -126,6 +126,39 @@ export function ComponentCatalog() {
       </div>
       <WorkspaceEmptyState title="Рабочий стол свободен" description="Когда материалов нет, показываем контекст, а не нулевую карточку."
         action={<ActionButton onClick={() => setOverlay("sheet")}>Добавить материал</ActionButton>} />
+    </CatalogSection>
+    <CatalogSection id="workspace-split" title="WorkspaceSplit"
+      description="Два соседних слота для списка и содержимого. В компактной компоновке складываются в один поток; не создаёт лишнего scroll owner.">
+      <div style={{width:"min(100%, 590px)",height:180}}>
+        <WorkspaceSplit compact="keep-columns"
+          navigation={<div style={{padding:12,fontSize:12}}><strong>Навигация</strong><p>Одна предметная очередь</p><p>Выбранный объект</p></div>}
+          detail={<div style={{padding:12,fontSize:12}}><strong>Содержимое</strong><p>Центральная область меняется, а маршрут сохраняется.</p></div>} />
+      </div>
+    </CatalogSection>
+    <CatalogSection id="scroll-region" title="ScrollRegion"
+      description="Явно именованная область прокрутки; фокусируемая клавишей Tab. Два соседних скролла допустимы, вложенные вертикальные — нет.">
+      <ScrollRegion label="Пример длинного списка" style={{height:150,width:"min(100%, 360px)",border:"1px solid var(--border)",padding:12}}>
+        {Array.from({length:12},(_,i)=><p key={i} style={{fontSize:12,marginBottom:10}}>Пункт {i+1}: отдельная запись</p>)}
+      </ScrollRegion>
+    </CatalogSection>
+    <CatalogSection id="section-toolbar" title="SectionToolbar"
+      description="Небольшой заголовок списка, счётчик и инструменты. Сам заголовок не нужно закреплять над длинной статьёй.">
+      <div style={{width:"min(100%, 520px)"}}>
+        <SectionToolbar title="Материалы" count={5} total={20}
+          actions={<ActionButton size="sm" onClick={()=>setOverlay("sheet")}>Действия</ActionButton>}/>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="workspace-action-bar" title="WorkspaceActionBar"
+      description="Статус слева и действия справа. В редакторе это footer вне скролла текста, а не перекрытие поля.">
+      <div style={{width:"min(100%, 520px)"}}>
+        <WorkspaceActionBar placement="footer" status="Изменений нет"
+          actions={<ActionButton size="md" variant="accent" onClick={()=>setOverlay("sheet")}>Продолжить</ActionButton>} />
+      </div>
+    </CatalogSection>
+    <CatalogSection id="workspace-empty-state" title="WorkspaceEmptyState"
+      description="Честное пустое состояние без выдуманных карточек и неподконтрольной генерации данных.">
+      <WorkspaceEmptyState title="Записей пока нет" description="Добавьте первую запись или поменяйте фильтр."
+        action={<ActionButton onClick={()=>setOverlay("sheet")}>Новая запись</ActionButton>} />
     </CatalogSection>
     <CatalogSection id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
       <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />
