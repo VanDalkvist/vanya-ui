@@ -3,6 +3,7 @@ import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
   MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
+  ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -99,6 +100,30 @@ export function ComponentCatalog() {
     <CatalogSection id="craft-card" title="CraftCard" description="Контейнер для связанных элементов."><CraftCard><p>Содержимое карточки.</p></CraftCard></CatalogSection>
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
+    </CatalogSection>
+    <CatalogSection id="workspace" title="Workspace / scroll и закрепления"
+      description="Из Фермы: спокойный заголовок полки, счётчик и пустое состояние. Для редакторов: один именованный скролл и отдельный футер действий.">
+      <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
+        <SectionToolbar title="Полка исследований" count={7} total={22}
+          actions={<ActionButton size="sm" onClick={() => setOverlay("sheet")}>Открыть детали</ActionButton>} />
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(155px, 0.7fr) minmax(0, 1.3fr)", height: 195, minHeight: 0, gap: 10 }}>
+          <ScrollRegion label="Список исследований" className="min-h-0" style={{ borderRight: "1px solid var(--border)", paddingRight: 10 }}>
+            {Array.from({length: 14}, (_, index) => (
+              <p key={index} style={{ margin: "0 0 10px", fontSize: 11 }}>Материал {index + 1} · состояние, графы и пайплайны</p>
+            ))}
+          </ScrollRegion>
+          <ScrollRegion label="Читательская область" style={{ fontSize: 12, lineHeight: 1.7 }}>
+            <strong>Восстанавливаемый workflow</strong>
+            {Array.from({length: 13}, (_, index) => (
+              <p key={index}>Один предмет для чтения. Фрагмент {index + 1}. Список слева не меняет позицию, пока читаем эту статью.</p>
+            ))}
+          </ScrollRegion>
+        </div>
+        <WorkspaceActionBar placement="footer" status="Изменений нет"
+          actions={<ActionButton variant="accent" onClick={() => setOverlay("sheet")}>Следующий этап</ActionButton>} />
+      </div>
+      <WorkspaceEmptyState title="Рабочий стол свободен" description="Когда материалов нет, показываем контекст, а не нулевую карточку."
+        action={<ActionButton onClick={() => setOverlay("sheet")}>Добавить материал</ActionButton>} />
     </CatalogSection>
     <CatalogSection id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
       <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />

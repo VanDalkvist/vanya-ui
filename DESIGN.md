@@ -51,3 +51,7 @@ The opening scene is Experience: the composition is the example. The component r
 ## Verification limits
 
 A passing build, detector or unit test does not establish aesthetic acceptance. Inspect the assembled light/dark and narrow-screen views. User approval of the visual result remains separate from technical checks.
+
+## Workspace primitives
+
+For dense workspaces (Farm shelves, Factory reader/editor) use explicit, labelled scroll owners, stable list tools and a restrained action footer. `ScrollRegion`, `SectionToolbar`, `WorkspaceActionBar` and `WorkspaceEmptyState` are available as reusable primitives. They are not required in the Sinusoid scene. See [the workspace audit](docs/research/farm-factory-workspace-audit-2026-11-21.md).

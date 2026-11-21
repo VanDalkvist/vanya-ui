@@ -39,6 +39,10 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 }
 ```
 
+## Workspace-компоненты
+
+Из паттернов Фермы и Factory вынесены `SectionToolbar`, `ScrollRegion`, `WorkspaceActionBar`, `WorkspaceEmptyState` — см. [исследование рабочего интерфейса](docs/research/farm-factory-workspace-audit-2026-11-21.md). Они добавлены без изменения API старых компонентов.
+
 ## Что входит
 
 - **Действия:** `ActionButton`, `SegmentedControl`, `RangeSlider`, `ThemeToggle`.
