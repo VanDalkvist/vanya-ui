@@ -4,11 +4,11 @@ React-компоненты и CSS-токены для интерфейсов [va
 
 **[Живая витрина → ui.vanya-arc.dev](https://ui.vanya-arc.dev/)**
 
-Витрина показывает настоящие компоненты: собранную сцену с волной и событиями, каталог, светлую и тёмную темы, разные размеры и состояния. Примеры открывают детали и реагируют на клавиатуру — это не отдельные HTML-копии компонентов.
+Витрина — один лонгрид с навигацией: сцена с волной, принципы, каталог, рабочие поверхности, светлая и тёмная темы, размеры и состояния. Примеры открывают детали и реагируют на клавиатуру — это не отдельные HTML-копии компонентов.
 
 ## Принципы интерфейса
 
-**[Навигация и URL →](https://ui.vanya-arc.dev/guidelines/navigation/)** — правило для всех приложений на Vanya UI: у каждой страницы и разделяемого представления есть собственный прямой адрес, а Back/Forward, обновление, копирование и открытие ссылки в новой вкладке работают по умолчанию. **Ссылка ведёт на страницу, кнопка выполняет действие.**
+**[Навигация и URL →](https://ui.vanya-arc.dev/#browser-navigation)** — правило для всех приложений на Vanya UI: у каждой страницы и разделяемого представления есть собственный прямой адрес, а Back/Forward, обновление, копирование и открытие ссылки в новой вкладке работают по умолчанию. **Ссылка ведёт на страницу, кнопка выполняет действие.**
 
 Полная спецификация и чек-лист для разработчика или агента: [docs/patterns/browser-navigation.md](docs/patterns/browser-navigation.md). Правило обязательно для приложений, но библиотека не навязывает роутер.
 
@@ -51,10 +51,15 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 }
 ```
 
+## Рабочие поверхности и состав PR #1
+
+Из PR #1 в `main` перенесены `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceActionBar`, `WorkspaceEmptyState`, `StickyContextBar` и `WorkspaceContextHeader` вместе с тестами и исследованиями. Их примеры находятся прямо в разделе [«Рабочие поверхности»](https://ui.vanya-arc.dev/#workspace). Библиотека не навязывает приложению второй sticky header или глобальный скролл.
+
 ## Что входит
 
 - **Действия:** `ActionButton`, `SegmentedControl`, `RangeSlider`, `ThemeToggle`.
 - **Метки:** `CategoryBadge`, `Tag`, `MeshStatusBadge`, `Kbd`.
+- **Рабочие поверхности:** `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceContextHeader`, `StickyContextBar`, `WorkspaceActionBar`, `WorkspaceEmptyState`.
 - **Карточки и детали:** `CraftCard`, `DeskSlotCard`, `EventCard`, `TimelinePreviewCard`, `InspectDrawer`, `ReceiptDigestModal`.
 - **Волна и события:** `SineWave`, `EventPoint`, `TimelineEvent`, `Minimap`.
 - **Графики и индикаторы:** `EnergyRadar`, `SpiderRadar`, `VoiceWaveIndicator`, `HearthPulse`.
@@ -77,14 +82,14 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 bun install
 bun run dev       # интерактивная витрина
 bun run test      # Vitest
-bunx tsc --noEmit  # проверка типов
+bunx tsc --noEmit -p tsconfig.build.json  # проверка исходников библиотеки
 bun run sync      # справочник токенов и реестр экспортов
 bun run build     # production-сборка витрины в dist/
 ```
 
-Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Отдельная страница руководства доступна по `/guidelines/navigation/` и является самостоятельной HTML-точкой входа. `bun run build` собирает все три HTML-страницы, а не дистрибутив библиотеки. Публичная конфигурация деплоя находится в [`wrangler.jsonc`](wrangler.jsonc), а секреты и токены — только в Cloudflare (никогда не в Git). Сборка и деплой выполняются Cloudflare Workers Builds при push/merge в `main`; см. [`docs/deployment.md`](docs/deployment.md).
+Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Сайт — **единый лонгрид** с разделами `/#composition`, `/#principles`, `/#catalog`, `/#workspace`, `/#setup`. Прежний адрес `/guidelines/navigation/` перенаправляет на `/#browser-navigation`. При сборке HTML предварительно рендерится для агентов без JavaScript, а React гидратирует интерактивные примеры. Публичная конфигурация деплоя находится в [`wrangler.jsonc`](wrangler.jsonc), а секреты и токены — только в Cloudflare (никогда не в Git). Сборка и деплой выполняются Cloudflare Workers Builds при push/merge в `main`; см. [`docs/deployment.md`](docs/deployment.md).
 
-Для работы с агентами есть [`llms.txt`](llms.txt) и [`registry.json`](registry.json); они генерируются из реальных токенов и экспортов.
+Для агентов сайт отдаёт [`llms.txt`](https://ui.vanya-arc.dev/llms.txt) (читаемое оглавление), [`llms-full.txt`](https://ui.vanya-arc.dev/llms-full.txt) (генерируемая справка), [Markdown лонгрида](https://ui.vanya-arc.dev/index.md), [Markdown компонентов](https://ui.vanya-arc.dev/reference/components.md), `robots.txt`, `sitemap.xml`, canonical, JSON-LD и заранее отрендеренный HTML. Исходники документации — `docs/` и `scripts/sync.ts`. `llms.txt` — соглашение для агентов, не гарантия поисковой индексации; [спецификация](docs/agent-discovery.md). `registry.json` собирается из реальных экспортов.
 
 ## Публикация витрины
 

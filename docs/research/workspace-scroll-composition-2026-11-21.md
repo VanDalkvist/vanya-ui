@@ -55,7 +55,7 @@ On compact viewports, prefer **one vertical scroll owner** for the page. A colle
 - Компонент сам **не наблюдает** `window.scrollY`, не навязывает CSS приложению и не создаёт собственный scroll owner. Приложение определяет `visible` по **реальному** ближайшему scroll owner.
 - Пока `visible=false`, интерактивные элементы отсутствуют в DOM; скрытых кнопок в tab order нет.
 - `position:sticky` находится на нулевой по высоте обёртке, которая не сдвигает длинный текст при появлении компактной строки.
-- Типографика, цвета и состояния из Vanya UI. Продукт передаёт `ActionButton`, свою метку и название; в публичном коде нет данных Factory.
+- Типографика, цвета и состояния из Vanya UI. Продукт передаёт `ActionButton`, свою метку и название; в публичном коде только синтетические данные.
 - В полноразмерном заголовке можно оставить контекст и объяснение, а при скролле показывать **только** название текущего объекта, положение в выборке и первичное действие. Глобальная верхняя строка не должна разворачиваться/сжиматься в ответ на прокрутку статьи.
 - Для вложенных или мобильных поверхностей приложение обязано следить за правильным scroller и перепривязывать слушатель при смене breakpoint, иначе состояние будет неверным. На ширине 320px длинный title обрезается, а не вытесняет CTA.
 
@@ -67,7 +67,7 @@ For complex readers that already have a persistent product header, use `Workspac
 
 Unlike `StickyContextBar`, the contextual shell slot never inserts a second fixed surface, has no scroll listener, and does not hide the selected item title until the user scrolls. On narrow viewports prefer the closest useful ancestor and keep the main action; hide status, not the current item's accessible title. The reading page can still contain its semantic `h1` in normal flow, but it must not repeat a page-wide onboarding hero before every item.
 
-Breadcrumbs are navigation, not a copy of app steps: only render ancestors with real destinations; do not duplicate all stage tabs. Use `onSelect` callbacks for actionable crumbs; passive labels are not fake links.
+Breadcrumbs are navigation, not a copy of app steps: only render ancestors with real destinations; do not duplicate all stage tabs. Use `href` for breadcrumbs that navigate to another page; use `onSelect` for truly local actions. Passive labels are not fake links.
 
 References: [Atlassian Page Header](https://atlassian.design/components/page-header/usage), [Carbon Breadcrumbs](https://www.carbondesignsystem.com/building-blocks/core/components/breadcrumb/guidelines), [Material top app bars](https://developer.android.com/develop/ui/compose/components/app-bars), and [NN/g breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/). `StickyContextBar` remains available for standalone documents **without** persistent shell context; do not stack both by default.
 

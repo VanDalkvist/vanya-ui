@@ -8,13 +8,13 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 
 - `src/tokens.css`: executable colors, typography families, spacing and overlay elevation for both themes.
 - `src/components`: actual reusable primitives, exported through `src/index.ts`.
-- `src/showcase`: working composition and live examples; both `/` and `/showcase.html` mount the same React entrypoint.
+- `src/showcase`: working composition and live examples; both `/` and legacy `/showcase.html` mount the same React entrypoint; the canonical longread is `/`.
 - `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
 ## Browser navigation — required
 Every meaningful page and shareable view has a stable, directly openable URL. Browser Back/Forward, reload, copy/open-in-new-tab and restored route state are baseline behavior, not optional SPA enhancements. Navigation uses real links (native `<a href>` or framework links rendering anchors); local actions use buttons. URL path names the resource/page, query parameters capture shareable filters/tabs, fragments target sections. Transient UI does not need a new address. A router belongs to the consuming app, not this component package.
 
-**Normative pattern, anti-patterns and acceptance checklist:** [docs/patterns/browser-navigation.md](docs/patterns/browser-navigation.md). **Live example:** [ui.vanya-arc.dev/guidelines/navigation/](https://ui.vanya-arc.dev/guidelines/navigation/). `NavLinks` with `href` preserves default browser link behavior; `onSelect` is for local button-like state only.
+**Normative pattern, anti-patterns and acceptance checklist:** [docs/patterns/browser-navigation.md](docs/patterns/browser-navigation.md). **Live example:** [ui.vanya-arc.dev/#browser-navigation](https://ui.vanya-arc.dev/#browser-navigation). `NavLinks` with `href` preserves default browser link behavior; `onSelect` is for local button-like state only.
 
 ## Public repository and website — mandatory safety boundary
 
@@ -23,6 +23,16 @@ This repository and `https://ui.vanya-arc.dev` are **public**. All committed fil
 **Before committing or deploying:** review the *complete diff* and built `dist/` for credentials, tokens, cookies, private keys, `.env` files, internal endpoints, non-public URLs, real user records, analytics exports, logs, screenshots and private project details. Only publish intentionally public, independently approved examples; use fabricated examples for code or demos. Never rely on GitHub repository visibility or Cloudflare Access as a substitute for this review. Cloudflare secrets stay in environment bindings, never in Vite frontend code or `VITE_*` variables. If in doubt, exclude the data, do not sanitize-and-guess.
 
 This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
+
+## One longread and agent-readable HTML
+
+The public UI reference is one document (`/`) with an accessible table of contents and stable fragment URLs: `/#composition`, `/#principles`, `/#browser-navigation`, `/#catalog`, `/#workspace`, `/#setup`. The former /guidelines/navigation/ is an explicit redirect. The app-level rule for separate page URLs remains mandatory; sections of one document naturally share a base URL.
+
+Public HTML is pre-rendered at build time and hydrated by React. The curated `llms.txt` links to public Markdown source documents, while `llms-full.txt` and registry are generated from actual component files. Never generate or publish private connected-source content.
+
+## Workspace composition
+
+The merged workspace primitives are `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceActionBar`, `WorkspaceEmptyState`, `StickyContextBar`, and `WorkspaceContextHeader`. Use one compact global header, not a second sticky header for each reader. Scope scrollbar styles to owned regions. Use real hrefs for navigable breadcrumbs. Research: [workspace scroll composition](docs/research/workspace-scroll-composition-2026-11-21.md).
 
 ## Typography and hierarchy
 

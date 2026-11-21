@@ -20,9 +20,11 @@ npx wrangler@4 deploy
 
 Repository root: `/`. Wrangler config: `wrangler.jsonc`. It names the existing Worker `vanya-ui` and publishes assets from `dist/`. The already-attached custom domain belongs to the Worker; do not recreate it.
 
-## Multi-page navigation
+## One longread, Markdown and crawler verification
 
-Vite creates a separate output at `dist/guidelines/navigation/index.html`. Cloudflare Workers Static Assets serves it at `/guidelines/navigation/`. **Never** use SPA fallback to the home page for unrecognized routes: it would violate the addressable-page rule in [browser navigation](patterns/browser-navigation.md).
+The canonical document is `/` with anchors `/#principles`, `/#workspace` and `/#browser-navigation`. Legacy `/guidelines/navigation/` contains a redirect to `/#browser-navigation`. `/showcase.html` is a non-indexable alias. Never configure an SPA fallback that serves home for arbitrary URLs.
+
+`bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. Build failures prevent production deployment.
 
 ## Public release requirements
 
@@ -31,8 +33,8 @@ This repository, site, and all bundled assets are public. No secrets, private da
 Before announcing a production release:
 1. Confirm a successful Cloudflare Workers Build for the current commit on `main`.
 2. Check the active Worker deployment/version.
-3. Visit the public homepage and `/guidelines/navigation/` unauthenticated. Verify the page title and heading differ and that links and Back/Forward work.
-4. Inspect a built artifact for accidental secrets or private data; no `.env`, production credentials, private URLs or real user records.
+3. Check `/`, `/#browser-navigation`, `/#workspace`, `/guidelines/navigation/` (redirect), `/llms.txt`, `/index.md`, `/sitemap.xml` and `/reference/components.md` without authentication or JavaScript.
+4. Inspect built HTML and JS as public artifacts for accidental secrets or private data; no `.env`, production credentials, private URLs or real user records.
 5. If build/deploy fails, inspect Workers Builds logs; do not claim that a Git commit alone is a website release.
 
 ## Recovery

@@ -1,6 +1,6 @@
 # Browser navigation and addressable views
 
-**Status:** required Vanya UI product pattern, 2026-11-21. **Live reference:** https://ui.vanya-arc.dev/guidelines/navigation/
+**Status:** required Vanya UI product pattern, 2026-11-21. **Live reference:** https://ui.vanya-arc.dev/#browser-navigation
 
 ## Rule
 
@@ -72,3 +72,5 @@ For application routing choose a framework router/server strategy that handles d
 - [MDN — Working with the History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API): `pushState`, `replaceState` and `popstate` are necessary for SPA history behavior.
 
 **Vanya UI decision:** no custom router is added to the component library; URL/history compliance is an explicit product pattern, documented, demonstrated by the showcase, and must be checked in consuming applications.
+
+**Distinction:** this public reference is one longread, so sections use `/#...` anchors. Actual separate pages in consuming applications must still use their own routes.
