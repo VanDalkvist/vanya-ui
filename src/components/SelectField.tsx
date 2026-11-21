@@ -16,8 +16,8 @@ export function SelectField({label,options,emptyLabel="Все",allowEmpty=true,c
  const controlId=id||internalId;
  return (
   <label htmlFor={controlId} className={twMerge(clsx("flex min-w-0 flex-col gap-1.5",className))}>
-   <span className="font-mono text-meta uppercase tracking-wider text-ink-faint">{label}</span>
-   <select id={controlId} {...props} className={clsx("h-9 min-w-0 rounded-xs border border-border bg-surface-inset px-2.5 font-sans text-xs text-ink outline-none focus-visible:border-accent focus-visible:ring-1 focus-visible:ring-accent",props.disabled&&"opacity-45")}>
+   <span className="ui-type-caption font-sans text-ink-soft">{label}</span>
+   <select id={controlId} {...props} className={clsx("h-10 min-w-0 rounded-sm border border-border bg-surface px-3 font-sans text-[13px] text-ink outline-none focus-visible:border-accent focus-visible:ring-1 focus-visible:ring-accent",props.disabled&&"opacity-45")}>
     {allowEmpty&&<option value="">{emptyLabel}</option>}
     {options.map(option=><option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
    </select>
