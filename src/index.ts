@@ -94,3 +94,5 @@ export {
   type VoiceWaveIndicatorProps,
 } from "./components/VoiceWaveIndicator";
 
+
+export { SelectField, type SelectFieldProps, type SelectFieldOption } from "./components/SelectField";
