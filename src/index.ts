@@ -99,3 +99,5 @@ export { ScrollRegion, type ScrollRegionProps } from "./components/ScrollRegion"
 export { SectionToolbar, type SectionToolbarProps } from "./components/SectionToolbar";
 export { WorkspaceActionBar, type WorkspaceActionBarProps } from "./components/WorkspaceActionBar";
 export { WorkspaceEmptyState, type WorkspaceEmptyStateProps } from "./components/WorkspaceEmptyState";
+
+export { WorkspaceSplit, type WorkspaceSplitProps } from "./components/WorkspaceSplit";

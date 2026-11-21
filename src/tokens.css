@@ -224,23 +224,20 @@
     outline-offset: 2px;
   }
 
-  * {
+  /* Scope scrollbar styling to intentional scroll owners, never all inputs. */
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body) {
     scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+    scrollbar-color: var(--border-strong) transparent;
   }
 
-  *::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body)::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
-
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--border);
-    border-radius: 2px;
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body)::-webkit-scrollbar-track { background: transparent; }
+  :where(.ui-scroll-region, .inspect-sheet, .inspect-sheet__body)::-webkit-scrollbar-thumb {
+    background-color: var(--border-strong);
+    border-radius: 3px;
   }
 
   body {
@@ -300,5 +297,54 @@
     .ui-workspace-action-bar[data-placement="sticky"] { position:static; }
     .ui-workspace-action-actions { justify-content:flex-start; }
     .ui-workspace-empty { min-height:104px; padding:16px; }
+  }
+}
+
+/* Compositional workspace primitive: supports independent sibling panes
+   without imposing a second inner scrollbar on compact layouts. */
+@layer components {
+  .ui-workspace-split {
+    display: grid;
+    grid-template-columns: minmax(220px, min(30%, 310px)) minmax(0, 1fr);
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .ui-workspace-split-navigation,
+  .ui-workspace-split-content {
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .ui-workspace-split-navigation { border-right: 1px solid var(--border); }
+  .inspect-sheet__body {
+    scroll-padding-block: 18px 36px;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+  }
+  .inspect-sheet__body :is(button, input, textarea, select, a):focus-visible {
+    scroll-margin-block: 18px;
+  }
+  @media (max-width: 850px) {
+    .ui-workspace-split[data-compact="stack"] {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      overflow: visible;
+    }
+    .ui-workspace-split[data-compact="stack"] > .ui-workspace-split-navigation,
+    .ui-workspace-split[data-compact="stack"] > .ui-workspace-split-content {
+      overflow: visible;
+    }
+    .ui-workspace-split[data-compact="stack"] > .ui-workspace-split-navigation {
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+  @media (max-height: 600px) {
+    .inspect-sheet { display: block; overflow-y: auto; overscroll-behavior: contain; }
+    .inspect-sheet__body { overflow: visible; min-height: unset; }
   }
 }

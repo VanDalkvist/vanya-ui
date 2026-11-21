@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit } from "../src/index";
 
 describe("Workspace primitives", () => {
   it("gives each independent scroll region a name and keyboard entry point", () => {
@@ -35,6 +35,14 @@ describe("Workspace primitives", () => {
     expect(footer).toHaveAttribute("data-placement","footer");
     fireEvent.click(screen.getByRole("button",{name:"Сохранить"}));
     expect(click).toHaveBeenCalledOnce();
+  });
+
+  it("composes sibling panes without nesting two vertical scroll regions", () => {
+    render(<WorkspaceSplit compact="stack" navigation={<ScrollRegion label="Items">List</ScrollRegion>} content={<ScrollRegion label="Document">Detail</ScrollRegion>}/>);
+    const layout = screen.getByRole("region", {name:"Items"}).parentElement?.parentElement;
+    expect(layout).toHaveClass("ui-workspace-split");
+    expect(layout).toHaveAttribute("data-compact","stack");
+    expect(screen.getByRole("region",{name:"Document"})).toBeInTheDocument();
   });
 
   it("distinguishes a calm empty state from clickable decoration", () => {
