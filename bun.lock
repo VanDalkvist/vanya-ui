@@ -5,7 +5,7 @@
     "": {
       "name": "@vanya/ui",
       "dependencies": {
-        "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#2f2066d077ae26b9f8f1820dbc64121c49ea27e3",
+        "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#6c6a3d2d1b25e212817c354b2ee76163c4a64fab",
         "clsx": "^2.1.1",
         "lucide-react": "^1.16.0",
         "tailwind-merge": "^3.0.2",
@@ -31,7 +31,7 @@
     },
   },
   "packages": {
-    "@vanya/brand": ["@vanya/brand@github:VanDalkvist/vanya-arc-brand#2f2066d077ae26b9f8f1820dbc64121c49ea27e3", { "peerDependencies": { "react": "^18.0.0 || ^19.0.0" } }, "VanDalkvist-vanya-arc-brand-2f2066d"],
+    "@vanya/brand": ["@vanya/brand@github:VanDalkvist/vanya-arc-brand#6c6a3d2d1b25e212817c354b2ee76163c4a64fab", { "peerDependencies": { "react": "^18.0.0 || ^19.0.0" } }, "VanDalkvist-vanya-arc-brand-6c6a3d2"],
 
     "@adobe/css-tools": ["@adobe/css-tools@4.5.0", "", {}, "sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q=="],
 

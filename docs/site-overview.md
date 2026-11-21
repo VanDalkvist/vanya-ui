@@ -7,7 +7,7 @@
 - [Композиция](https://ui.vanya-arc.dev/#composition): открытый интерфейс и интерактивная синусоида.
 - [Айдентика](https://ui.vanya-arc.dev/#identity): родительский бренд, продукт / UI, утверждённый знак, типографика и цвета.
 - [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
-- [Тексты](https://ui.vanya-arc.dev/#writing): правила UX-текстов, оригинальные скиллы, авторы и лицензия.
+- [Тексты](https://ui.vanya-arc.dev/#writing): примеры текста и ссылки на оригинальные скиллы.
 - [Принципы](https://ui.vanya-arc.dev/#principles): устойчивые интерфейсные правила.
 - [Горячие клавиши](https://ui.vanya-arc.dev/#keyboard-shortcuts): настоящие G → буква, справка ?, выключатель и дизайн подсказок.
 - [Навигация и URL](https://ui.vanya-arc.dev/#browser-navigation): адрес каждого самостоятельного ресурса, Back/Forward и реальная ссылка вместо кнопки.
@@ -25,7 +25,7 @@
 
 ## Тексты
 
-Первый экран теперь называет продукт: «Готовые компоненты для рабочих интерфейсов». Работающий пример не требует абзаца-инструкции: читатель может исследовать волну и найти компоненты в каталоге. [Правила](https://ui.vanya-arc.dev/reference/writing.md) применяют сторонние скиллы `promo`, `ux-copy`, `redaktura` и `redpolitika` (авторы [Людмила Сарычева](https://gladlax.ru), [Никита Архипов](https://niar42.com), [оригинал](https://github.com/N1arko/redaktura-skills), CC BY 4.0).
+На первом экране — «Готовые компоненты для рабочих интерфейсов», живая волна и ссылка в каталог. [Правила](https://ui.vanya-arc.dev/reference/writing.md) применяют сторонние скиллы `promo`, `ux-copy`, `redaktura` и `redpolitika` (авторы [Людмила Сарычева](https://gladlax.ru), [Никита Архипов](https://niar42.com), [оригинал](https://github.com/N1arko/redaktura-skills), CC BY 4.0).
 
 ## Горячие клавиши
 

@@ -21,6 +21,7 @@
 | Разобраться с уровнями редактирования | [Раздел оригинальной книги](https://bureau.ru/books/pishi/16) |
 | Подготовить первый экран или промотекст | [redaktura-skills / promo / SKILL.md](https://github.com/N1arko/redaktura-skills/blob/main/promo/SKILL.md) |
 | Уточнить кнопку, форму, ошибку или состояние | [redaktura-skills / ux-copy / SKILL.md](https://github.com/N1arko/redaktura-skills/blob/main/ux-copy/SKILL.md) |
+| Проверить машинный черновик на шаблонные фразы | [redaktura: оригинальный раздел о нейротексте](https://github.com/N1arko/redaktura-skills/blob/main/redaktura/references/neirotekst.md) |
 | Сделать финальную редактуру | [redaktura-skills / redaktura / SKILL.md](https://github.com/N1arko/redaktura-skills/blob/main/redaktura/SKILL.md) |
 | Пересмотреть словарь и голос | [redaktura-skills / redpolitika / SKILL.md](https://github.com/N1arko/redaktura-skills/blob/main/redpolitika/SKILL.md) |
 
