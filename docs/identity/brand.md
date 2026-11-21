@@ -57,6 +57,12 @@ import { VanyaArcMark, VanyaArcLockup } from "@vanya/ui";
 
 The standalone mark is decorative by default within a lockup. The full lockup exposes one accessible label, avoiding duplicate SVG announcements. Keep the SVG aspect ratio, stroke weight, and a clear perimeter around the mark. If the full mark cannot fit or read at a small size, use the standalone mark instead. Check minimum sizes visually rather than shrinking text below legibility.
 
+## Shortcut-key typography within the identity
+
+Hotkeys are **interaction notation**, not another logo. Use the same `--font-mono` (JetBrains Mono) as code labels, while their explanatory text remains in Manrope. The flat `Kbd` and `ShortcutKeys` primitives inherit the brand's paper, ink and terracotta tokens. Use neutral keycaps, no brand-like gradients or embossed shadows. A small `?` control may open a discoverable help sheet without competing with the Vanya Arc / UI lockup.
+
+The full keyboard contract (bindings, accessibility, opt-out, key conflicts and sequence styles) is [docs/patterns/keyboard-shortcuts.md](../patterns/keyboard-shortcuts.md).
+
 ## Website and quality checks
 
 - Main header uses the real `VanyaArcLockup product="UI"`, linked via native `href`.

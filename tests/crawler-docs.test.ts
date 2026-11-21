@@ -23,7 +23,10 @@ describe("public search and agent discovery",()=>{
   expect(read("public/robots.txt")).toContain("Sitemap: https://ui.vanya-arc.dev/sitemap.xml");
   expect(read("public/sitemap.xml")).toContain("/reference/components.md");
   expect(read("public/sitemap.xml")).toContain("/reference/identity.md");
+  expect(read("public/sitemap.xml")).toContain("/reference/keyboard-shortcuts.md");
   expect(read("llms.txt")).toContain("/reference/identity.md");
+  expect(read("llms.txt")).toContain("/reference/keyboard-shortcuts.md");
+  expect(read("scripts/sync.ts")).toContain("docs/patterns/keyboard-shortcuts.md");
   expect(read("llms.txt")).toContain("/index.md");
   expect(read("scripts/sync.ts")).toContain("docs/site-overview.md");
   expect(read("scripts/prerender.tsx")).toContain("renderToString(<Showcase/>");

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, VanyaArcLockup, type SineWaveEvent } from "../index";
+import { DisclosurePill, InspectDrawer, RangeSlider, ShortcutKeys, SineWave, type SineWaveEvent } from "../index";
+import { ArrowDownRight } from "lucide-react";
 
 const moments = [
-  { title: "Навигация", date: "NavLinks", description: "Ссылки в шапке ведут к первому экрану, каталогу и принципам. У каждого раздела есть адрес, поэтому работают история и открытие в новой вкладке.", detail: "Переключатель рядом меняет тему всей страницы." },
-  { title: "Детали по запросу", date: "InspectDrawer", description: "Описание открывается в боковой панели поверх страницы.", detail: "Панель закрывается кнопкой, клавишей Esc или нажатием вне её. После закрытия фокус возвращается к карточке." },
+  { title: "Ссылки и навигация", date: "NavLinks", description: "У разделов есть прямые адреса. Ссылки можно открыть в новой вкладке, а кнопка «Назад» возвращает к предыдущему разделу.", detail: "В шапке можно сменить тему или открыть список горячих клавиш." },
+  { title: "Детали по нажатию", date: "InspectDrawer", description: "Карточка открывает боковую панель. Основная страница остаётся на месте.", detail: "Закрой панель кнопкой или Esc. Фокус вернётся туда, откуда ты её открыл." },
 ];
 
 const pointMoments = [
-  { title: "Отдельная точка", date: "EventPoint", description: "Размер точки показывает вес события.", detail: "Наведение и фокус выделяют точку акцентным цветом. Нажатие открывает подробности." },
-  { title: "Точка и карточка", date: "TimelineEvent", description: "Точка и карточка ведут к одним подробностям.", detail: "У них общий hover и один шаг при навигации клавишей Tab." },
-  { title: "Текущий момент", date: "EventPoint", description: "Акцентная точка обозначает текущий момент.", detail: "Сплошная линия сменяется точками там, где начинается будущее." },
-  { title: "Будущее событие", date: "EventPoint", description: "Будущие события показаны светлее.", detail: "Их тоже можно открыть, нажав на точку." },
+  { title: "Точка", date: "EventPoint", description: "Размер показывает вес события. Нажми, чтобы узнать больше.", detail: "Точка реагирует на наведение, нажатие и фокус с клавиатуры." },
+  { title: "Точка и карточка", date: "TimelineEvent", description: "Точка и карточка открывают одни и те же подробности.", detail: "Для клавиатуры это одно действие, а не два лишних нажатия Tab." },
+  { title: "Сейчас", date: "EventPoint", description: "Акцентная точка отмечает текущий момент.", detail: "Дальше сплошная линия превращается в пунктир." },
+  { title: "Дальше", date: "EventPoint", description: "Будущие события светлее, но по ним тоже можно нажать.", detail: "Тот же компонент работает в другом состоянии." },
 ];
 
 export function Scene() {
@@ -19,8 +20,12 @@ export function Scene() {
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <div className="scene-intro">
-        <h1 id="scene-title"><VanyaArcLockup product="UI" size="md" showMark={false}/></h1>
-        <p>Одна система для интерфейсов: композиция, принципы, рабочие пространства и компоненты.<br />Листай, исследуй и делись прямыми ссылками на разделы.</p>
+        <h1 id="scene-title">Компоненты, которые не заслоняют главное.</h1>
+        <p>Выбери событие на волне — откроется панель деталей. Передвинь ползунок — изменится расстояние между событиями. Переключи тему в шапке.</p>
+        <div className="scene-discovery">
+          <a href="/#catalog" className="scene-catalog-link">Смотреть компоненты <ArrowDownRight size={14} aria-hidden="true"/></a>
+          <span className="scene-keys-hint">Быстрые переходы <ShortcutKeys keys={["?"]}/></span>
+        </div>
       </div>
       <div className="scene-wave"><SineWave className="scene-background" fit origin={590} events={[
         { id: "early", position: 0.1, weight: 1, label: pointMoments[0].title, onClick: () => setSelected(pointMoments[0]) },
@@ -30,7 +35,7 @@ export function Scene() {
         { id: "later", position: 0.95, weight: 1, future: true, label: pointMoments[3].title, onClick: () => setSelected(pointMoments[3]) },
       ]} /></div>
       <footer className="scene-footer">
-        <div className="scene-distance"><RangeSlider label="Между событиями" aria-label="Расстояние между событиями" min={32} max={120} value={distance} onChange={(event) => setDistance(Number(event.target.value))} /></div>
+        <div className="scene-distance"><RangeSlider label="Расстояние между событиями" aria-label="Расстояние между событиями" min={32} max={120} value={distance} onChange={(event) => setDistance(Number(event.target.value))} /></div>
       </footer>
       <InspectDrawer isOpen={moment !== null} title={moment?.title ?? "Описание"} onClose={() => setSelected(null)}>
         {moment && <>

@@ -50,7 +50,7 @@ describe("approved showcase refinements", () => {
 
   it("gives every component its own catalogue row and keeps badge states together", () => {
     render(<ComponentCatalog />);
-    for (const name of ["WorkspaceSplit", "ScrollRegion", "SectionToolbar", "WorkspaceActionBar", "WorkspaceEmptyState", "ActionButton", "Kbd", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "CategoryBadge", "MeshStatusBadge", "Tag", "DisclosurePill", "LinkChip", "CraftCard", "DeskSlotCard", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
+    for (const name of ["WorkspaceSplit", "ScrollRegion", "SectionToolbar", "WorkspaceActionBar", "WorkspaceEmptyState", "ActionButton", "Kbd", "ShortcutKeys", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "CategoryBadge", "MeshStatusBadge", "Tag", "DisclosurePill", "LinkChip", "CraftCard", "DeskSlotCard", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
       expect(screen.getByRole("region", { name })).toBeInTheDocument();
     }
     const badges = screen.getByRole("region", { name: "CategoryBadge" });

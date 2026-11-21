@@ -305,6 +305,18 @@
       ]
     },
     {
+      "name": "shortcut-keys",
+      "type": "registry:ui",
+      "title": "ShortcutKeys",
+      "description": "Accessible shortcut key labels for simultaneous and sequential commands",
+      "files": [
+        {
+          "path": "src/components/ShortcutKeys.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "sine-wave",
       "type": "registry:ui",
       "title": "SineWave",

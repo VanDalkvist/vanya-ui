@@ -13,10 +13,17 @@ The site is intentionally **public**. These files must never include secrets, pr
 7. **Encoding:** `public/_headers` ensures text/markdown and text/plain responses declare UTF-8, including Cyrillic. Test the rendered characters, not only the file's presence.
 8. **Releases:** Cloudflare Workers Builds deploys main only after tests, typecheck and Vite + HTML prerender succeed.
 
+## Keyboard shortcut indexing
+
+- The live anchor `/#keyboard-shortcuts` is server-rendered with the longread.
+- The normative Markdown `/reference/keyboard-shortcuts.md` is copied from `docs/patterns/keyboard-shortcuts.md`.
+- Both curated `llms.txt` and generated `llms-full.txt` link to the canonical policy, including WCAG 2.1.4 opt-out rules, keys, conflicts and visual styling.
+- The exported `ShortcutKeys` is visible in the component registry and `/reference/components.md`; actual shortcut handling is app-specific and must pass the same policy.
+
 ## Post-deploy validation
 
 - Compare raw HTML without JS and rendered page: both should contain the headings for "Принципы" and "Рабочие поверхности" and real anchors.
-- Confirm 200 on /, /index.md, /llms.txt, /llms-full.txt, /reference/components.md, /reference/identity.md, /robots.txt and /sitemap.xml; verify MIME and links.
+- Confirm 200 on /, /index.md, /llms.txt, /llms-full.txt, /reference/components.md, /reference/identity.md, /reference/keyboard-shortcuts.md, /robots.txt and /sitemap.xml; verify MIME and links.
 - Confirm /guidelines/navigation/ has explicit redirect to /#browser-navigation; /showcase.html does not claim a second canonical URL.
 - Confirm unknown URL responds 404 instead of silently rendering /.
 - Verify with Google Search Console or Bing Webmaster Tools separately if actual indexing is important. Technical readiness does not guarantee search ranking or indexing.

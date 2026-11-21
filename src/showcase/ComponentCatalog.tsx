@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
-  Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, LinkChip,
+  Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
@@ -40,7 +40,7 @@ export function ComponentCatalog() {
 
   return <section id="catalog" className="catalog" aria-labelledby="catalog-title">
     <h2 id="catalog-title" className="catalog-title">Компоненты</h2>
-    <p className="catalog-intro">Рабочие примеры компонентов @vanya/ui. Данные приведены для примера.</p>
+    <p className="catalog-intro">Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные.</p>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
     </CatalogSection>
@@ -64,9 +64,16 @@ export function ComponentCatalog() {
       </>}</Sizes>
     </CatalogSection>
     <CatalogSection id="kbd" title="Kbd" description="Подсказка для клавиш. Обычное и выделенное состояния."><Sizes>{(size) => <><Kbd size={size}>Esc</Kbd><Kbd size={size} lit>Enter</Kbd></>}</Sizes></CatalogSection>
+    <CatalogSection id="shortcut-keys" title="ShortcutKeys" description="Последовательность клавиш и одновременное нажатие. Подсказка не должна выглядеть как отдельная кнопка.">
+      <div className="demo-column">
+        <div className="size-examples"><ShortcutKeys keys={["G","I"]}/><ShortcutKeys keys={["⌘","K"]} mode="combo"/><ShortcutKeys keys={["Esc"]}/></div>
+        <p className="demo-label">Это обозначения, не перехват сочетаний. На этой странице работают G → I и ?; остальные — только образцы оформления.</p>
+        <a href="/#keyboard-shortcuts" className="guide-link">Как назначать горячие клавиши</a>
+      </div>
+    </CatalogSection>
     <CatalogSection id="navigation" title="NavLinks" description="Навигация по адресам через настоящие ссылки, а не локальный React state.">
       <div className="demo-column">
-        <NavLinks items={[{ id: "divider", label: "К разделителю", href: "#divider" }, { id: "principles", label: "Правила URL", href: "/guidelines/navigation/" }]} />
+        <NavLinks items={[{ id: "divider", label: "К разделителю", href: "#divider" }, { id: "principles", label: "Правила URL", href: "/#browser-navigation" }]} />
         <p className="demo-label">Обе ссылки можно скопировать, открыть в новой вкладке или пройти назад/вперёд.</p>
       </div>
     </CatalogSection>

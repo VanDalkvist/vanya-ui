@@ -472,3 +472,11 @@
   .vanya-arc-lockup[data-monochrome="true"] { color:var(--ink); }
   .vanya-arc-lockup[data-monochrome="true"] .vanya-arc-product, .vanya-arc-lockup[data-monochrome="true"] .vanya-arc-separator { color:currentColor; }
 }
+
+/* Accessible hints for commands: use the same token palette and Manrope/JetBrains Mono. */
+@layer components {
+  .ui-shortcut-keys { display:inline-flex; vertical-align:middle; align-items:center; max-width:100%; }
+  .ui-shortcut-keys-visual { display:inline-flex; align-items:center; gap:4px; white-space:nowrap; }
+  .ui-shortcut-join { font:500 11px var(--font-mono); color:var(--ink-faint); }
+  .ui-shortcut-keys kbd { min-width:20px; padding-inline:5px; border-radius:var(--radius-xs); border-color:var(--border-strong); background:var(--surface-inset); color:var(--ink-soft); box-shadow:none; font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
+}

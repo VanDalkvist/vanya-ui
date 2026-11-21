@@ -12,6 +12,10 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 - `src/showcase`: working composition and live examples; both `/` and legacy `/showcase.html` mount the same React entrypoint; the canonical longread is `/`.
 - `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
+## Keyboard shortcuts — required
+
+Shortcuts are an **optional accelerator**, never the sole way to complete a task. Preserve browser and OS keyboard behavior; do not intercept common system combos. Show keycaps with shared `Kbd` and `ShortcutKeys` (mono label, semantic colors, flat 2px radius, no fake clickable key). Provide a visible help panel and a way to disable unmodified letter/symbol shortcuts (WCAG 2.1.4). Never trigger in inputs, contenteditable areas, IME composition or an unrelated dialog. Screen reader naming, focus, two-key sequences and test acceptance are specified in [docs/patterns/keyboard-shortcuts.md](docs/patterns/keyboard-shortcuts.md). The live interactive example is [/#keyboard-shortcuts](https://ui.vanya-arc.dev/#keyboard-shortcuts).
+
 ## Browser navigation — required
 Every meaningful page and shareable view has a stable, directly openable URL. Browser Back/Forward, reload, copy/open-in-new-tab and restored route state are baseline behavior, not optional SPA enhancements. Navigation uses real links (native `<a href>` or framework links rendering anchors); local actions use buttons. URL path names the resource/page, query parameters capture shareable filters/tabs, fragments target sections. Transient UI does not need a new address. A router belongs to the consuming app, not this component package.
 
@@ -32,6 +36,10 @@ This requirement applies to humans and agents, including automated updates and d
 - Use `VanyaArcMark` / `VanyaArcLockup`, not locally redrawn logo paths or arbitrary product-specific palettes.
 - Manrope-based wordmark lettering may have tailored tracking/weight; do not change functional UI typography or include proprietary font files.
 - Follow [the brand identity guide](docs/identity/brand.md). Published section: [/#identity](https://ui.vanya-arc.dev/#identity).
+
+## Editorial voice and first screen
+
+Prefer direct explanations of what the person can **do**, not abstract product praise. Following the information-style approach of Ilyakhov and Sarycheva: lead with the task, use concrete verbs, remove duplication and unsupported promises, and keep details discoverable on demand. The hero is one interactive SineWave (clickable points, inspector, RangeSlider, theme) plus a quiet link to the catalog. Do not recreate a duplicate chapter navigation after the hero or fill its whitespace with feature cards. See [the public research](docs/research/hero-shortcuts-and-copy-2026-11-21.md).
 
 ## One longread and agent-readable HTML
 

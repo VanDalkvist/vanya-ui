@@ -111,3 +111,4 @@ export { StickyContextBar, type StickyContextBarProps } from "./components/Stick
 export { WorkspaceContextHeader, type WorkspaceContextHeaderProps, type WorkspaceContextCrumb } from "./components/WorkspaceContextHeader";
 export { VanyaArcMark, VANYA_ARC_MARK_PATH, type VanyaArcMarkProps } from "./components/VanyaArcMark";
 export { VanyaArcLockup, type VanyaArcLockupProps } from "./components/VanyaArcLockup";
+export { ShortcutKeys, type ShortcutKeysProps } from "./components/ShortcutKeys";

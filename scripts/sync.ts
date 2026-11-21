@@ -23,6 +23,9 @@ The live showcase imports the same components and tokens as applications. It doe
 ## Identity (normative)
 Vanya Arc is the parent brand; UI is the design-system product. The owner's approved double-crest V → A mark is implemented by VanyaArcMark and VanyaArcLockup. Only UI is highlighted. Normative source: docs/identity/brand.md; live identity chapter: /#identity.
 
+## Keyboard shortcuts (normative)
+Shortcuts are optional accelerators, not replacements for commands. Avoid browser/OS collisions; do not run inside text inputs, IME or unrelated dialogs. Character-only shortcuts must be switchable off (WCAG 2.1.4). Use Kbd and ShortcutKeys for semantic accessible hints, follow the token palette, and keep a single source of truth for actual bindings. Full guidance: docs/patterns/keyboard-shortcuts.md, live section /#keyboard-shortcuts.
+
 ## Browser navigation (normative)
 Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /#browser-navigation.
 
@@ -51,6 +54,7 @@ fs.mkdirSync(refDir,{recursive:true});
 const docs=[
  ["docs/identity/brand.md","identity.md"],
  ["docs/patterns/browser-navigation.md","navigation.md"],
+ ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
  ["docs/research/workspace-scroll-composition-2026-11-21.md","workspaces.md"],
