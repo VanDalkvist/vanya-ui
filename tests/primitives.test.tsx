@@ -96,3 +96,22 @@ describe("Timeline Cards & Chips", () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("Browser-native navigation", () => {
+  it("renders real links for destinations, without canceling the default browser behavior", () => {
+    const onSelect = vi.fn();
+    render(<NavLinks items={[
+      { id: "destination", label: "Раздел", href: "#destination", isActive: true },
+      { id: "local", label: "Локальное действие" },
+    ]} onSelect={onSelect} />);
+    const link = screen.getByRole("link", { name: "Раздел" });
+    expect(link).toHaveAttribute("href", "#destination");
+    expect(link).toHaveAttribute("aria-current", "location");
+    const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+    link.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+    expect(onSelect).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Локальное действие" }));
+    expect(onSelect).toHaveBeenCalledWith("local");
+  });
+});

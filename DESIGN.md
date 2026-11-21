@@ -11,6 +11,11 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 - `src/showcase`: working composition and live examples; both `/` and `/showcase.html` mount the same React entrypoint.
 - `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
+## Browser navigation — required
+Every meaningful page and shareable view has a stable, directly openable URL. Browser Back/Forward, reload, copy/open-in-new-tab and restored route state are baseline behavior, not optional SPA enhancements. Navigation uses real links (native `<a href>` or framework links rendering anchors); local actions use buttons. URL path names the resource/page, query parameters capture shareable filters/tabs, fragments target sections. Transient UI does not need a new address. A router belongs to the consuming app, not this component package.
+
+**Normative pattern, anti-patterns and acceptance checklist:** [docs/patterns/browser-navigation.md](docs/patterns/browser-navigation.md). **Live example:** [ui.vanya-arc.dev/guidelines/navigation/](https://ui.vanya-arc.dev/guidelines/navigation/). `NavLinks` with `href` preserves default browser link behavior; `onSelect` is for local button-like state only.
+
 ## Typography and hierarchy
 
 Manrope is the normal interface and display face, including EventCard, TimelinePreviewCard and InspectDrawer headings. Use size, weight, measure and spacing to separate content from controls. Fraunces remains available for intentionally editorial content, such as ReceiptDigestModal narrative prose. JetBrains Mono is for code, measurements and short metadata, not every heading.

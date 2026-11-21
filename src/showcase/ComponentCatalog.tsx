@@ -26,7 +26,6 @@ export function ComponentCatalog() {
   const [horizon, setHorizon] = useState<keyof typeof counts>("day");
   const [range, setRange] = useState(40);
   const [mapFocus, setMapFocus] = useState(2023.5);
-  const [section, setSection] = useState("one");
   const [overlay, setOverlay] = useState<"sheet" | "digest" | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [sampleVisible, setSampleVisible] = useState(true);
@@ -63,8 +62,11 @@ export function ComponentCatalog() {
       </>}</Sizes>
     </CatalogSection>
     <CatalogSection id="kbd" title="Kbd" description="Подсказка для клавиш. Обычное и выделенное состояния."><Sizes>{(size) => <><Kbd size={size}>Esc</Kbd><Kbd size={size} lit>Enter</Kbd></>}</Sizes></CatalogSection>
-    <CatalogSection id="navigation" title="NavLinks" description="Переключение между разделами.">
-      <div className="demo-column"><NavLinks items={[{ id: "one", label: "Первый раздел", isActive: section === "one" }, { id: "two", label: "Второй раздел", isActive: section === "two" }]} onSelect={setSection} /><p aria-live="polite">Открыт {section === "one" ? "первый" : "второй"} раздел</p></div>
+    <CatalogSection id="navigation" title="NavLinks" description="Навигация по адресам через настоящие ссылки, а не локальный React state.">
+      <div className="demo-column">
+        <NavLinks items={[{ id: "divider", label: "К разделителю", href: "#divider" }, { id: "principles", label: "Правила URL", href: "/guidelines/navigation/" }]} />
+        <p className="demo-label">Обе ссылки можно скопировать, открыть в новой вкладке или пройти назад/вперёд.</p>
+      </div>
     </CatalogSection>
     <CatalogSection id="divider" title="Divider" description="Горизонтальный и вертикальный разделители."><div className="demo-column"><Divider orientation="horizontal" /><div className="size-examples"><span className="demo-label">Слева</span><Divider /><span className="demo-label">Справа</span></div></div></CatalogSection>
     <CatalogSection id="avatar" title="AvatarLink" description="Ссылка с изображением профиля. Два размера."><Sizes>{(size) => <AvatarLink size={size} src="/avatar.svg" alt="Пример профиля" href="https://vanya-arc.dev" />}</Sizes></CatalogSection>

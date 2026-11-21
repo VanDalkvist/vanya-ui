@@ -45,19 +45,13 @@ export function NavLinks({
               ? "text-accent font-semibold"
               : "text-ink-soft/80 font-medium hover:text-accent"
           );
+          // URL navigation is native. onSelect handles only non-URL, local UI buttons.
           if (item.href) {
             return <a
               key={item.id}
               href={item.href}
-              aria-current={item.isActive ? "page" : undefined}
+              aria-current={item.isActive ? (item.href.startsWith("#") ? "location" : "page") : undefined}
               className={classes}
-              onClick={(event) => {
-                if (!onSelect || event.defaultPrevented || event.button !== 0 ||
-                  event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
-                  event.currentTarget.target === "_blank") return;
-                event.preventDefault();
-                onSelect(item.id);
-              }}
             >{item.label}</a>;
           }
           return <button

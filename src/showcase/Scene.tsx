@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
 
 const moments = [
-  { title: "Навигация", date: "NavLinks", description: "Кнопки в шапке переключают между первым экраном и каталогом компонентов.", detail: "Переключатель рядом меняет тему всей страницы." },
+  { title: "Навигация", date: "NavLinks", description: "Ссылки в шапке ведут к первому экрану, каталогу и принципам. У каждого раздела есть адрес, поэтому работают история и открытие в новой вкладке.", detail: "Переключатель рядом меняет тему всей страницы." },
   { title: "Детали по запросу", date: "InspectDrawer", description: "Описание открывается в боковой панели поверх страницы.", detail: "Панель закрывается кнопкой, клавишей Esc или нажатием вне её. После закрытия фокус возвращается к карточке." },
 ];
 

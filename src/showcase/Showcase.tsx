@@ -1,20 +1,12 @@
 import React from "react";
-import { ExternalLink } from "lucide-react";
-import { Divider, NavLinks, ThemeToggle } from "../index";
 import { Scene } from "./Scene";
 import { ComponentCatalog } from "./ComponentCatalog";
+import { ShowcaseHeader } from "./ShowcaseHeader";
 
 export function Showcase() {
   return <>
     <a href="#catalog" className="skip-link">К компонентам</a>
-    <header className="showcase-header">
-      <a className="showcase-name" href="#composition">Vanya-Arc/UI</a>
-      <NavLinks items={[{ id: "composition", label: "Композиция" }, { id: "catalog", label: "Компоненты" }]} onSelect={(id) => document.getElementById(id)?.scrollIntoView()} className="showcase-nav">
-        <a className="showcase-origin" href="https://vanya-arc.dev" target="_blank" rel="noopener noreferrer" title="Оригинальный сайт Синусоиды, новая вкладка">vanya-arc.dev<ExternalLink size={12} aria-hidden="true" /></a>
-        <Divider className="mx-2" />
-        <ThemeToggle />
-      </NavLinks>
-    </header>
+    <ShowcaseHeader />
     <main>
       <Scene />
       <ComponentCatalog />
@@ -24,6 +16,6 @@ export function Showcase() {
         <pre><code>{'import { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";'}</code></pre>
       </section>
     </main>
-    <footer className="showcase-footer"><span>@vanya/ui · React-компоненты</span><a href="https://vanya-arc.dev" target="_blank" rel="noreferrer">На основе Синусоиды</a></footer>
+    <footer className="showcase-footer"><span>@vanya/ui · React-компоненты</span><a href="/guidelines/navigation/">Правила навигации и URL</a><a href="https://vanya-arc.dev" target="_blank" rel="noreferrer">На основе Синусоиды</a></footer>
   </>;
 }
