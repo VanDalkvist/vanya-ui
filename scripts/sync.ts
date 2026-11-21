@@ -23,6 +23,9 @@ The live showcase imports the same components and tokens as applications. It doe
 ## Browser navigation (normative)
 Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /guidelines/navigation/.
 
+## Public publication safety (mandatory)
+The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
+
 ## Actual CSS tokens
 ${renderTokenReference(css)}
 

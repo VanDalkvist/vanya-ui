@@ -16,6 +16,14 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 **Normative pattern, anti-patterns and acceptance checklist:** [docs/patterns/browser-navigation.md](docs/patterns/browser-navigation.md). **Live example:** [ui.vanya-arc.dev/guidelines/navigation/](https://ui.vanya-arc.dev/guidelines/navigation/). `NavLinks` with `href` preserves default browser link behavior; `onSelect` is for local button-like state only.
 
+## Public repository and website — mandatory safety boundary
+
+This repository and `https://ui.vanya-arc.dev` are **public**. All committed files, generated static assets, documentation, previews, source maps, images, test fixtures and website text must be safe to disclose to anyone. Do not copy data from private conversations, connected accounts, private repositories, internal research or production infrastructure into this project by default.
+
+**Before committing or deploying:** review the *complete diff* and built `dist/` for credentials, tokens, cookies, private keys, `.env` files, internal endpoints, non-public URLs, real user records, analytics exports, logs, screenshots and private project details. Only publish intentionally public, independently approved examples; use fabricated examples for code or demos. Never rely on GitHub repository visibility or Cloudflare Access as a substitute for this review. Cloudflare secrets stay in environment bindings, never in Vite frontend code or `VITE_*` variables. If in doubt, exclude the data, do not sanitize-and-guess.
+
+This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
+
 ## Typography and hierarchy
 
 Manrope is the normal interface and display face, including EventCard, TimelinePreviewCard and InspectDrawer headings. Use size, weight, measure and spacing to separate content from controls. Fraunces remains available for intentionally editorial content, such as ReceiptDigestModal narrative prose. JetBrains Mono is for code, measurements and short metadata, not every heading.
