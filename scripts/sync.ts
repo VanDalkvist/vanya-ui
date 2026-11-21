@@ -28,7 +28,7 @@ Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-
 The original Agent Skills redpolitika, promo, ux-copy, redaktura are by Ludmila Sarycheva and Nikita Arkhipov, CC BY 4.0, https://github.com/N1arko/redaktura-skills. Source docs/patterns/writing-and-editorial.md; local voice .agents/redpolitika.md; live /#writing. Attribute authors and do not invent product facts.
 
 ## Identity (normative)
-Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: docs/identity/brand.md; live identity chapter: /#identity.
+Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/main/docs/brand-guidelines.md; UI integration docs/identity/brand.md; live /#identity.
 
 ## Keyboard shortcuts (normative)
 Shortcuts are optional accelerators, not replacements for commands. Avoid browser/OS collisions; do not run inside text inputs, IME or unrelated dialogs. Character-only shortcuts must be switchable off (WCAG 2.1.4). Use Kbd and ShortcutKeys for semantic accessible hints, follow the token palette, and keep a single source of truth for actual bindings. Full guidance: docs/patterns/keyboard-shortcuts.md, live section /#keyboard-shortcuts.
@@ -37,10 +37,10 @@ Shortcuts are optional accelerators, not replacements for commands. Avoid browse
 Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /#browser-navigation.
 
 ## Mixed licensing and protected brand (mandatory)
-Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Official artwork in src/brand/VanyaArcArtwork.ts and the SVG uses a reserved-rights brand policy; the React renderer is MIT. Older MIT copies keep their original grants. Read LICENSING.md, BRAND.md and docs/legal/licensing-implementation-2026-11-22.md. The REUSE annotations cover selected paths, not a claimed full REUSE audit. Public /reference/licensing.md and /reference/brand.md.
+Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Official artwork and renderer are supplied by the separately licensed @vanya/brand dependency; UI merely re-exports them. Older MIT copies keep their original grants. Read LICENSING.md, BRAND.md and docs/legal/licensing-implementation-2026-11-22.md. The REUSE annotations cover selected paths, not a claimed full REUSE audit. Public /reference/licensing.md and /reference/brand.md.
 
 ## Licenses and third-party attribution (mandatory)
-This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). The trademark/logo copyright scope needs an explicit owner decision before any claim that brand assets are excluded from the existing MIT distribution.
+This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md; older MIT grants persist.
 
 ## Public publication safety (mandatory)
 The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
@@ -63,6 +63,8 @@ fs.writeFileSync(path.join(root,"public/llms-full.txt"),reference);
 fs.copyFileSync(path.join(root,"llms.txt"),path.join(root,"public/llms.txt"));
 fs.copyFileSync(path.join(root,"docs/site-overview.md"),path.join(root,"public/index.md"));
 fs.copyFileSync(path.join(root,"LICENSE"),path.join(root,"public/LICENSE.txt"));
+// Exact asset copied from the pinned canonical brand package at build time.
+fs.copyFileSync(path.join(root,"node_modules/@vanya/brand/assets/favicon.svg"),path.join(root,"public/vanya-arc-mark.svg"));
 const refDir=path.join(root,"public/reference");
 fs.mkdirSync(refDir,{recursive:true});
 const docs=[
