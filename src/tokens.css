@@ -486,3 +486,55 @@
   .ui-type-caption { font-family: var(--font-sans); font-size: var(--type-caption-size); line-height: var(--type-caption-leading); }
   .ui-type-code { font-family: var(--font-mono); font-size: var(--type-code-size); line-height: 1.65; font-variant-ligatures: none; }
 }
+
+/* Reusable editorial media surfaces: the media object belongs to the app.
+   No film-specific metadata, colors, sources or behaviors are embedded here. */
+@layer components {
+  .ui-media-card { display:flex; flex-direction:column; min-width:0; color:var(--ink); }
+  .ui-media-card-artwork-wrap { position:relative; width:100%; min-width:0; }
+  .ui-media-card-artwork {
+    display:flex; overflow:hidden; position:relative; width:100%; aspect-ratio:2/3;
+    align-items:center; justify-content:center; border-radius:var(--radius-sm);
+    background:var(--surface-inset); color:var(--ink-soft); text-decoration:none;
+    outline-offset:3px; transition:box-shadow 180ms ease, transform 180ms ease;
+  }
+  .ui-media-card-artwork:hover { box-shadow:0 8px 26px -14px color-mix(in oklab,var(--ink) 44%,transparent); }
+  .ui-media-card-artwork:focus-visible,.ui-media-card-title a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .ui-media-card-artwork img { display:block; width:100%;height:100%;object-fit:cover;object-position:center; }
+  .ui-media-card-overlay { position:absolute;top:10px;left:10px;z-index:1;pointer-events:none; }
+  .ui-media-card-content { display:flex;min-width:0;flex:1;flex-direction:column;padding-top:12px;gap:4px; }
+  .ui-media-card-eyebrow { font:500 11px/1.45 var(--font-mono);color:var(--accent); }
+  .ui-media-card-title { margin:0;font:650 15px/1.45 var(--font-sans);letter-spacing:-.012em;overflow-wrap:anywhere; }
+  .ui-media-card-title a { color:var(--ink);text-decoration:none;outline-offset:3px; }
+  .ui-media-card-title a:hover { color:var(--accent); }
+  .ui-media-card-subtitle { font:400 13px/1.5 var(--font-sans);color:var(--ink-soft);overflow-wrap:anywhere; }
+  .ui-media-card-meta { font:450 13px/1.5 var(--font-sans);color:var(--ink-soft); }
+  .ui-media-card-footer { margin-top:auto;min-width:0;padding-top:12px; }
+  .ui-media-card[data-layout="row"] { flex-direction:row;gap:14px;align-items:stretch; }
+  .ui-media-card[data-layout="row"] .ui-media-card-artwork-wrap { width:78px;flex:0 0 78px; }
+  .ui-media-card[data-layout="row"] .ui-media-card-artwork { height:110px;aspect-ratio:auto; }
+  .ui-media-card[data-layout="row"] .ui-media-card-content { padding-top:1px;gap:5px;justify-content:center; }
+  .ui-media-card[data-layout="row"] .ui-media-card-title { font-size:14px;line-height:1.4; }
+  .ui-media-card[data-layout="row"] .ui-media-card-subtitle { font-size:12px; }
+  .ui-media-card[data-layout="row"] .ui-media-card-footer { margin-top:0;padding-top:4px; }
+  .ui-search-field { position:relative;display:flex;align-items:center;min-width:0;width:100%; }
+  .ui-search-field-icon { position:absolute;left:14px;z-index:1;pointer-events:none;color:var(--ink-soft); }
+  .ui-search-field-input {
+    width:100%;min-width:0;height:44px;padding:0 43px;border-radius:var(--radius-sm);
+    border:1px solid var(--border);background:var(--surface);color:var(--ink);
+    font:500 14px/1.4 var(--font-sans);outline:none;transition:border-color 160ms ease,background 160ms ease;
+  }
+  .ui-search-field-input::placeholder { color:var(--ink-soft);opacity:.8; }
+  .ui-search-field-input:focus-visible { border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in oklab,var(--accent) 18%,transparent); }
+  .ui-search-field-input::-webkit-search-cancel-button { display:none; }
+  .ui-search-field-clear {
+    position:absolute;right:5px;top:50%;transform:translateY(-50%);
+    display:grid;place-items:center;width:34px;height:34px;color:var(--ink-soft);
+    background:transparent;border:0;border-radius:var(--radius-sm);cursor:pointer;
+  }
+  .ui-search-field-clear:hover {color:var(--accent);background:var(--surface-inset);}
+  .ui-search-field-clear:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-media-card-artwork,.ui-search-field-input { transition:none; }
+}
