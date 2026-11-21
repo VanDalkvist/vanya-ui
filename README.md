@@ -82,9 +82,13 @@ bun run sync      # справочник токенов и реестр эксп
 bun run build     # production-сборка витрины в dist/
 ```
 
-Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Отдельная страница руководства доступна по `/guidelines/navigation/` и является самостоятельной HTML-точкой входа. `bun run build` собирает все три HTML-страницы, а не дистрибутив библиотеки. Cloudflare-конфигурация хранится отдельно, в приватном репозитории деплоя.
+Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Отдельная страница руководства доступна по `/guidelines/navigation/` и является самостоятельной HTML-точкой входа. `bun run build` собирает все три HTML-страницы, а не дистрибутив библиотеки. Публичная конфигурация деплоя находится в [`wrangler.jsonc`](wrangler.jsonc), а секреты и токены — только в Cloudflare (никогда не в Git). Сборка и деплой выполняются Cloudflare Workers Builds при push/merge в `main`; см. [`docs/deployment.md`](docs/deployment.md).
 
 Для работы с агентами есть [`llms.txt`](llms.txt) и [`registry.json`](registry.json); они генерируются из реальных токенов и экспортов.
+
+## Публикация витрины
+
+Ветка `main` — источник production для Cloudflare Worker `vanya-ui`, обслуживающего `https://ui.vanya-arc.dev`. Cloudflare Workers Builds собирает проект, запускает тесты, проверяет типы и публикует `dist/` только после успешной сборки. Для конфигурации Worker используется публичный [`wrangler.jsonc`](wrangler.jsonc), а ключи деплоя хранятся в Cloudflare, не в репозитории. Детали и проверка: [`docs/deployment.md`](docs/deployment.md).
 
 ## Лицензия и авторство
 

@@ -1,0 +1,10 @@
+{
+  // Public infrastructure-as-code: never put secrets or private URLs here.
+  "name": "vanya-ui",
+  "compatibility_date": "2026-11-21",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  }
+}

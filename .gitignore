@@ -7,5 +7,6 @@ dist
 .wrangler/
 /cloudflare.config.*
 /wrangler*
+!/wrangler.jsonc
 .dev.vars*
 .env*
