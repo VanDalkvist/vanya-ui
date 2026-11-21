@@ -5,6 +5,7 @@ import { renderTokenReference } from "./token-reference";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const css = fs.readFileSync(path.join(root, "src/tokens.css"), "utf8");
+const brandCss = fs.readFileSync(path.join(root,"node_modules/@vanya/brand/src/tokens.css"),"utf8");
 const exports = fs.readFileSync(path.join(root, "src/index.ts"), "utf8");
 const components = fs.readdirSync(path.join(root, "src/components"))
   .filter((file) => file.endsWith(".tsx") && exports.includes(`./components/${file.slice(0, -4)}"`))
@@ -12,7 +13,7 @@ const components = fs.readdirSync(path.join(root, "src/components"))
 
 const reference = `# @vanya/ui — Vanya Arc / UI
 
-> Generated from src/tokens.css and src/index.ts by bun run sync.
+> Generated from @vanya/brand/src/tokens.css + src/tokens.css + src/index.ts by bun run sync.
 > This is a token/export reference, not an automatically inferred design specification.
 
 ## Composition
@@ -27,7 +28,7 @@ Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-
 The original Agent Skills redpolitika, promo, ux-copy, redaktura are by Ludmila Sarycheva and Nikita Arkhipov, CC BY 4.0, https://github.com/N1arko/redaktura-skills. Source docs/patterns/writing-and-editorial.md; local voice .agents/redpolitika.md; live /#writing. Attribute authors and do not invent product facts.
 
 ## Identity (normative)
-Vanya Arc is the parent brand; UI is the design-system product. The owner's approved double-crest V → A mark is implemented by VanyaArcMark and VanyaArcLockup. Only UI is highlighted. Normative source: docs/identity/brand.md; live identity chapter: /#identity.
+Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: docs/identity/brand.md; live identity chapter: /#identity.
 
 ## Keyboard shortcuts (normative)
 Shortcuts are optional accelerators, not replacements for commands. Avoid browser/OS collisions; do not run inside text inputs, IME or unrelated dialogs. Character-only shortcuts must be switchable off (WCAG 2.1.4). Use Kbd and ShortcutKeys for semantic accessible hints, follow the token palette, and keep a single source of truth for actual bindings. Full guidance: docs/patterns/keyboard-shortcuts.md, live section /#keyboard-shortcuts.
@@ -39,13 +40,13 @@ Every meaningful page or shareable view must have a stable URL; open, reload, Ba
 Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Official artwork in src/brand/VanyaArcArtwork.ts and the SVG uses a reserved-rights brand policy; the React renderer is MIT. Older MIT copies keep their original grants. Read LICENSING.md, BRAND.md and docs/legal/licensing-implementation-2026-11-22.md. The REUSE annotations cover selected paths, not a claimed full REUSE audit. Public /reference/licensing.md and /reference/brand.md.
 
 ## Licenses and third-party attribution (mandatory)
-The package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). The trademark/logo copyright scope needs an explicit owner decision before any claim that brand assets are excluded from the existing MIT distribution.
+This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). The trademark/logo copyright scope needs an explicit owner decision before any claim that brand assets are excluded from the existing MIT distribution.
 
 ## Public publication safety (mandatory)
 The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
 
 ## Actual CSS tokens
-${renderTokenReference(css)}
+${renderTokenReference(brandCss + "\n" + css)}
 
 ## Exported components (${components.length})
 ${components.map((file) => `- ${file.slice(0, -4)}: import from "@vanya/ui"`).join("\n")}

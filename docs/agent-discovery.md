@@ -30,7 +30,7 @@ The site is intentionally **public**. These files must never include secrets, pr
 ## Brand and licensing discoverability
 
 - /reference/licensing.md and /reference/brand.md define narrow paths and permitted uses.
-- The official symbol's original geometry is held in src/brand/VanyaArcArtwork.ts, outside the MIT code renderer.
+- The official symbol's geometry and the MIT logo renderer are supplied by the independent https://github.com/VanDalkvist/vanya-arc-brand repository; no local editable copy remains.
 - Existing MIT copies are not retroactively restricted; no trademark registration is claimed.
 - llms.txt, llms-full.txt and the identity section point to the correct license scope.
 

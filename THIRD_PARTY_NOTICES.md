@@ -17,6 +17,10 @@ When the site is built, Vite also emits **[licenses.txt](https://ui.vanya-arc.de
 
 See the complete ISC + Feather MIT notice below. The icon packages' own files must retain copyright and permission notices on redistribution.
 
+## Vanya Arc brand as a separate dependency
+
+`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). Brand source and React/CSS code have their own MIT notices; the official artwork/mark has a [separate brand-artwork license](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). UI does not vendor or sublicense the mark.
+
 ## Fonts
 
 The website loads fonts **from Google Fonts** via stylesheet URLs; font binaries are **not checked into or distributed in this repository**. If an application self-hosts/copies font files, it must retain the supplied OFL notices.
@@ -102,6 +106,6 @@ SOFTWARE.
 
 ## Scope and brand caution
 
-A repo-level MIT notice is **not a substitute** for the upstream license texts. Current versions explicitly distinguish the MIT React renderer from separately marked brand artwork in `src/brand/VanyaArcArtwork.ts` and `public/vanya-arc-mark.svg`; see [BRAND.md](https://github.com/VanDalkvist/vanya-ui/blob/main/BRAND.md). Previous MIT grants for earlier copies remain in effect. Rights to imply sponsorship, use another party's trademark, or claim affiliation do not automatically follow from permissive source-code licensing.
+A repo-level MIT notice is **not a substitute** for the upstream license texts. Current official artwork is held by [vanya-arc-brand](https://github.com/VanDalkvist/vanya-arc-brand); the UI site copies its favicon from that pinned dependency on build. Previously issued MIT rights on historical copies remain applicable. Rights to imply sponsorship, use another party's trademark, or claim affiliation do not automatically follow from permissive source-code licensing.
 
 For the current audit, see [license audit](https://github.com/VanDalkvist/vanya-ui/blob/main/docs/legal/license-audit-2026-11-22.md).

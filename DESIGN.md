@@ -6,15 +6,19 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 
 ## Source of truth
 
-- `src/tokens.css`: executable colors, typography families, spacing and overlay elevation for both themes.
+- `src/tokens.css`: UI tokens and composition, importing `@vanya/brand/tokens.css` as the authoritative palette and font-family source.
 - `src/components`: actual reusable primitives, exported through `src/index.ts`.
-- `src/components/VanyaArcMark.tsx` and `VanyaArcLockup.tsx`: canonical brand sign and parent/product lockup, governed by [docs/identity/brand.md](docs/identity/brand.md).
+- `@vanya/brand`: the [separate canonical brand repository](https://github.com/VanDalkvist/vanya-arc-brand) supplies the mark, React logo components, brand colors and assets; UI re-exports them via `src/index.ts`.
 - `src/showcase`: working composition and live examples; both `/` and legacy `/showcase.html` mount the same React entrypoint; the canonical longread is `/`.
 - `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
 
 ## Typography — required
 
 Use `src/tokens.css` semantic classes `ui-type-display`, `ui-type-heading`, `ui-type-subheading`, `ui-type-body`, `ui-type-compact`, `ui-type-caption`, `ui-type-code`. Manrope for UI text, JetBrains Mono for code/shortcuts, Fraunces optionally in editorial work. Body: 1rem/1.65, measure 66ch; review mobile, zoom and text spacing. Logo tracking is not body typography. [Typography guide](docs/patterns/typography.md), [audit](docs/research/typography-audit-2026-11-22.md), [live examples](https://ui.vanya-arc.dev/#typography).
+
+## First-screen meaning — required
+
+On a visual showcase, describe the product and link to the relevant next step, **not** the mechanics of obvious demo controls. Explain unfamiliar or consequential actions near the control or in its inspector. Avoid multi-sentence hero walkthroughs. Rules and sources: [Ilyakhov/Sarycheva audit](docs/research/ilyakhov-copy-audit-2026-11-22.md).
 
 ## Text and editorial — required
 
@@ -31,11 +35,11 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 ## Mixed-license scopes — required
 
-MIT covers original program code and ordinary guides; three original research documents are licensed under CC BY 4.0 as marked. Brand geometry in `src/brand/VanyaArcArtwork.ts` and the public SVG is subject to [BRAND.md](BRAND.md), while `VanyaArcMark.tsx` React rendering code remains MIT. Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
+MIT covers original program code and ordinary guides; three original research documents are licensed under CC BY 4.0 as marked. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
 
 ## Licensing and third-party rights — required
 
-The project's root `LICENSE` is MIT (Copyright 2026 Vanya Afanasov). Third-party work retains **its own** license: bundled packages and icons, fonts loaded from Google Fonts, and referenced external Agent Skills. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [license audit](docs/legal/license-audit-2026-11-22.md). Generate complete bundled dependency licenses at `/licenses.txt` via Vite `build.license`. The Lucide source includes ISC and the Feather-derived subset includes MIT; do not lose either notice. Third-party original skill files are linked, not vendored. Do not claim the logo is specially excluded from root MIT without an explicit license decision, and do not suggest that MIT automatically grants trademark endorsement rights.
+The project's root `LICENSE` is MIT (Copyright 2026 Vanya Afanasov). Third-party work retains **its own** license: bundled packages and icons, fonts loaded from Google Fonts, and referenced external Agent Skills. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [license audit](docs/legal/license-audit-2026-11-22.md). Generate complete bundled dependency licenses at `/licenses.txt` via Vite `build.license`. The Lucide source includes ISC and the Feather-derived subset includes MIT; do not lose either notice. Third-party original skill files are linked, not vendored. Do not relicense `@vanya/brand` artwork as UI MIT; neither repository claims that historical MIT permissions have been revoked.
 
 ## Public repository and website — mandatory safety boundary
 

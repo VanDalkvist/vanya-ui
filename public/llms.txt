@@ -20,7 +20,8 @@
 - [Third-party licenses and attribution](https://ui.vanya-arc.dev/reference/third-party.md): React, Lucide/Feather, fonts and credited Agent Skills.
 - [Built JavaScript dependency licenses](https://ui.vanya-arc.dev/licenses.txt): Auto-generated full notices for deployed Vite bundle.
 - [Licensing scopes](https://ui.vanya-arc.dev/reference/licensing.md): MIT software, selected CC BY research, protected Vanya Arc art and historical grants.
-- [Brand and trademark use](https://ui.vanya-arc.dev/reference/brand.md): How to cite and display the official sign without misrepresenting affiliation.
+- [Canonical brand source](https://github.com/VanDalkvist/vanya-arc-brand): V→A artwork, SVG and React lockups, colors, typography and research.
+- [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
 - [Vanya UI MIT license](https://ui.vanya-arc.dev/LICENSE.txt): Copyright 2026 Vanya Afanasov.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 

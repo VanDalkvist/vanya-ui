@@ -13,6 +13,14 @@ describe("CSS-derived agent reference", () => {
     expect(changed).toContain("--ground: #f0f0f0");
     expect(changed).not.toContain("#fafafa");
   });
+  it("merges shared brand colors with application role tokens without inventing values",()=>{
+    const brand = ":root { --ground: #f6f5f0; --ink: #2a241f; } .dark { --ground: #181816; }";
+    const app = "@theme inline { --font-sans: var(--vanya-brand-font-sans); } :root { --surface: white; } .dark { --surface: black; }";
+    const output = renderTokenReference(brand + "\n" + app);
+    expect(output).toContain("--ink: #2a241f");
+    expect(output).toContain("--surface: white");
+    expect(output).toContain("--surface: black");
+  });
   it("rejects absent theme declarations instead of inventing defaults", () => {
     expect(() => renderTokenReference(":root { --ground: white; }")).toThrow(/theme/i);
   });

@@ -11,9 +11,3 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Vanya Afanasov"
 SPDX-License-Identifier = "CC-BY-4.0"
-
-[[annotations]]
-path = ["src/brand/VanyaArcArtwork.ts", "public/vanya-arc-mark.svg"]
-precedence = "override"
-SPDX-FileCopyrightText = "2026 Vanya Afanasov"
-SPDX-License-Identifier = "LicenseRef-VanyaArc-Brand"

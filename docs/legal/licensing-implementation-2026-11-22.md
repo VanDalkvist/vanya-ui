@@ -46,3 +46,7 @@
 ## Предостережение
 
 MIT — permissive, CC BY — тоже допускает коммерческое использование. Сохранение за собой прав на бренд **не превращает** open source в запрет на коммерческие форки кода. `BRAND.md` не является зарегистрированным товарным знаком, не доказывает единоличное авторство и не даёт абсолютной монополии на геометрическую волну.
+
+## Brand repository split — 22 November 2026
+
+The mark geometry, SVGs and React lockup source were moved to the separate [vanya-arc-brand](https://github.com/VanDalkvist/vanya-arc-brand) repository, which is now the canonical source for the logo, brand policy and license terms. The UI depends on a pinned public GitHub commit of `@vanya/brand`. Its React logo renderers are MIT, while official artwork has its own reserved-rights policy. The UI does not maintain an editable copy of the artwork; the public favicon is copied from the dependency by the build script. Historic MIT copies retain prior copyright permissions. Updated public references in UI are compatibility pointers, not independent brand licenses.

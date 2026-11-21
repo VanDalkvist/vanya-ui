@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DisclosurePill, InspectDrawer, RangeSlider, ShortcutKeys, SineWave, type SineWaveEvent } from "../index";
+import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
 import { ArrowDownRight } from "lucide-react";
 
 const moments = [
@@ -21,10 +21,8 @@ export function Scene() {
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <div className="scene-intro">
         <h1 id="scene-title">Готовые компоненты для рабочих интерфейсов.</h1>
-        <p>Нажми на точку на волне — откроется панель с подробностями. Подвинь ползунок — изменится расстояние между событиями. Тему можно сменить в шапке.</p>
         <div className="scene-discovery">
           <a href="/#catalog" className="scene-catalog-link">Перейти к компонентам <ArrowDownRight size={14} aria-hidden="true"/></a>
-          <span className="scene-keys-hint">Быстрые переходы <ShortcutKeys keys={["?"]}/></span>
         </div>
       </div>
       <div className="scene-wave"><SineWave className="scene-background" fit origin={590} events={[

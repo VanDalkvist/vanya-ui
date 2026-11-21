@@ -36,13 +36,17 @@ describe("typography and editor guidance",()=>{
  it("revises first screen for accurate product category and action",()=>{
   render(<Scene/>);
   expect(screen.getByRole("heading",{name:"Готовые компоненты для рабочих интерфейсов."})).toBeInTheDocument();
-  expect(screen.getByText(/Нажми на точку на волне/)).toBeInTheDocument();
+  expect(screen.queryByText(/Нажми на точку на волне/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Подвинь ползунок/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Быстрые переходы/)).not.toBeInTheDocument();
   expect(screen.getByRole("link",{name:/Перейти к компонентам/})).toHaveAttribute("href","/#catalog");
  });
  it("publishes norms and original credit in agent resources",()=>{
   expect(read("docs/patterns/typography.md")).toContain("WCAG");
   expect(read("docs/patterns/writing-and-editorial.md")).toContain("Никита Архипов");
   expect(read(".agents/redpolitika.md")).toContain("N1arko/redaktura-skills");
+  expect(read("docs/patterns/writing-and-editorial.md")).toContain("Ильяхов");
+  expect(read("docs/research/ilyakhov-copy-audit-2026-11-22.md")).toContain("bureau.ru/books/pishi/190");
   expect(read("llms.txt")).toContain("/reference/typography.md");
   expect(read("llms.txt")).toContain("/reference/writing.md");
   expect(read("scripts/sync.ts")).toContain('["docs/patterns/typography.md","typography.md"]');

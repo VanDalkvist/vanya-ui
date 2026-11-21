@@ -28,7 +28,7 @@ The canonical document is `/` with anchors `/#identity`, `/#typography`, `/#writ
 
 ## Mixed-license publication
 
-The build also publishes /reference/licensing.md and /reference/brand.md. The SVG and geometry module are separately marked protected artwork; the renderer remains MIT. Keep past MIT permissions intact. Verify these live docs in the same build.
+The build also publishes /reference/licensing.md and /reference/brand.md. The favicon is copied from the pinned `@vanya/brand` dependency during `bun run sync`. Do not edit an asset independently in UI. Keep past MIT permissions intact. Verify these live docs in the same build.
 
 ## Dependency license preservation
 

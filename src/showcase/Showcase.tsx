@@ -30,6 +30,6 @@ export function Showcase(){
   </main>
   {shortcuts.awaitingDestination && <div className="shortcut-pending" role="status" aria-live="polite">G → <span>выберите раздел</span></div>}
   <ShowcaseShortcutHelp open={shortcuts.helpOpen} onClose={() => shortcuts.setHelpOpen(false)} enabled={shortcuts.enabled} onEnabledChange={shortcuts.setEnabled}/>
-  <footer className="showcase-footer"><span>@vanya/ui · Компоненты и принципы</span><a href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://vanya-arc.dev" target="_blank" rel="noreferrer">На основе Синусоиды</a><a href="/reference/licensing.md">Лицензии</a><a href="/reference/brand.md">Бренд</a></footer>
+  <footer className="showcase-footer"><span>@vanya/ui · Компоненты и принципы</span><a href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://vanya-arc.dev" target="_blank" rel="noreferrer">На основе Синусоиды</a><a href="/reference/licensing.md">Лицензии</a><a href="https://github.com/VanDalkvist/vanya-arc-brand" target="_blank" rel="noopener noreferrer">Бренд</a></footer>
  </>;
 }

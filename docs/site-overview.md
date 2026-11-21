@@ -17,7 +17,7 @@
 
 ## Айдентика
 
-Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [публичная спецификация](https://ui.vanya-arc.dev/reference/identity.md).
+Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/docs/brand-guidelines.md) и [интеграция в UI](https://ui.vanya-arc.dev/reference/identity.md).
 
 ## Типографика
 
@@ -25,7 +25,7 @@
 
 ## Тексты
 
-Первый экран теперь называет продукт: «Готовые компоненты для рабочих интерфейсов». Дальше — точные действия с волной, панелью деталей и ползунком. [Правила](https://ui.vanya-arc.dev/reference/writing.md) применяют сторонние скиллы `promo`, `ux-copy`, `redaktura` и `redpolitika` (авторы [Людмила Сарычева](https://gladlax.ru), [Никита Архипов](https://niar42.com), [оригинал](https://github.com/N1arko/redaktura-skills), CC BY 4.0).
+Первый экран теперь называет продукт: «Готовые компоненты для рабочих интерфейсов». Работающий пример не требует абзаца-инструкции: читатель может исследовать волну и найти компоненты в каталоге. [Правила](https://ui.vanya-arc.dev/reference/writing.md) применяют сторонние скиллы `promo`, `ux-copy`, `redaktura` и `redpolitika` (авторы [Людмила Сарычева](https://gladlax.ru), [Никита Архипов](https://niar42.com), [оригинал](https://github.com/N1arko/redaktura-skills), CC BY 4.0).
 
 ## Горячие клавиши
 
@@ -55,6 +55,6 @@ import "@vanya/ui/tokens.css";
 
 ## Лицензии и авторство
 
-Исходный код проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS](https://ui.vanya-arc.dev/licenses.txt). Для текущих версий действуют [правила бренда](https://ui.vanya-arc.dev/reference/brand.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
+Исходный код проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS](https://ui.vanya-arc.dev/licenses.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
 
 Дополнительные источники: [компоненты](https://ui.vanya-arc.dev/reference/components.md), [навигация](https://ui.vanya-arc.dev/reference/navigation.md), [токены](https://ui.vanya-arc.dev/reference/tokens.md), [репозиторий](https://github.com/VanDalkvist/vanya-ui).

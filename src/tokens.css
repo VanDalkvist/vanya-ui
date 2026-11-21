@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@vanya/brand/tokens.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -39,10 +40,10 @@
   --radius-sm: 4px;
   --radius-full: 9999px;
 
-  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: var(--vanya-brand-font-sans);
+  --font-serif: var(--vanya-brand-font-serif);
+  --font-sans: var(--vanya-brand-font-sans);
+  --font-mono: var(--vanya-brand-font-mono);
 
   --e-travel: cubic-bezier(0.22, 0.61, 0.36, 1);
   --t-transition: 200ms;
@@ -88,17 +89,11 @@
   --sheet-shadow: -24px 0 80px -40px color-mix(in oklab, var(--ink) 32%, transparent);
 
   /* Светлая тема: Warm Paper Archive (WCAG AA контраст >= 4.5:1) */
-  --ground: oklch(0.964 0.008 85);           /* Тёплая бумага верже #f6f5f0 */
   --surface: oklch(0.979 0.006 85);          /* Приподнятый чистый лист карточки */
   --surface-raised: oklch(0.992 0.004 85);   /* Ховер поверхности */
   --surface-inset: oklch(0.940 0.010 85);    /* Углубления, инпуты */
 
-  --ink: oklch(0.265 0.012 60);              /* Глубокие чернила #181816 (контраст > 11:1) */
-  --ink-soft: oklch(0.420 0.014 65);         /* Вторичные чернила (контраст > 6.2:1) */
-  --ink-faint: oklch(0.480 0.012 65);        /* Подписи и даты (контраст > 4.8:1) */
 
-  --accent: oklch(0.530 0.135 42);            /* Тёплая терракота / янтарь на бумаге */
-  --accent-soft: rgba(186, 92, 32, 0.12);
 
   --border: oklch(0.265 0.012 60 / 10%);     /* Тончайший контур */
 }
@@ -120,17 +115,11 @@
   --border-strong: oklch(1 0 0 / 24%);
   --sheet-shadow: -24px 0 80px -32px rgb(0 0 0 / 55%);
   /* Тёмная тема: Warm Dark Charcoal (WCAG AA контраст >= 4.5:1) */
-  --ground: oklch(0.185 0.008 65);          /* Тёмный тёплый уголь #181816 */
   --surface: oklch(0.235 0.010 65);         /* Угольная карточка #22221f */
   --surface-raised: oklch(0.270 0.012 65);  /* Ховер карточки */
   --surface-inset: oklch(0.150 0.006 65);   /* Углубления */
 
-  --ink: oklch(0.930 0.008 75);             /* Тёплый необработанный лён #ece4d6 (контраст > 12:1) */
-  --ink-soft: oklch(0.780 0.012 75);        /* Вторичный лён (контраст > 6.5:1) */
-  --ink-faint: oklch(0.660 0.012 75);       /* Подписи и даты (контраст > 4.6:1) */
 
-  --accent: oklch(0.720 0.155 45);          /* Янтарное живое пламя (контраст > 5.2:1) */
-  --accent-soft: rgba(255, 178, 102, 0.15);
 
   --border: oklch(1 0 0 / 10%);             /* Тончайший светлый контур */
 }
@@ -460,17 +449,6 @@
 
 /* Vanya Arc identity. Brand family uses existing semantic UI colors and Manrope. */
 @layer components {
-  .vanya-arc-lockup { display:inline-flex; align-items:center; gap:.57em; max-width:100%; width:max-content; color:var(--ink); font-family:var(--font-sans); font-weight:600; line-height:1.15; letter-spacing:-.047em; white-space:nowrap; }
-  .vanya-arc-lockup[data-size="sm"] { font-size:14px; }
-  .vanya-arc-lockup[data-size="md"] { font-size:20px; }
-  .vanya-arc-lockup[data-size="lg"] { font-size:clamp(25px, 3.4vw, 43px); }
-  .vanya-arc-mark { display:block; width:2.3em; height:1em; flex:none; overflow:visible; color:var(--ink); }
-  .vanya-arc-wordmark { letter-spacing:-.048em; }
-  .vanya-arc-suffix { display:inline-flex; align-items:baseline; gap:.20em; margin-left:-.28em; }
-  .vanya-arc-separator { color:var(--ink-soft); font-weight:450; }
-  .vanya-arc-product { color:var(--accent); font-weight:700; letter-spacing:-.035em; }
-  .vanya-arc-lockup[data-monochrome="true"] { color:var(--ink); }
-  .vanya-arc-lockup[data-monochrome="true"] .vanya-arc-product, .vanya-arc-lockup[data-monochrome="true"] .vanya-arc-separator { color:currentColor; }
 }
 
 /* Accessible hints for commands: use the same token palette and Manrope/JetBrains Mono. */

@@ -7,7 +7,8 @@ export function renderTokenReference(css: string): string {
     ["Dark", /\.dark\s*\{([^}]+)\}/],
   ] as const;
   return blocks.map(([name, expression]) => {
-    const body = clean.match(expression)?.[1];
+    const bodies = [...clean.matchAll(new RegExp(expression.source,"g"))].map(match=>match[1]);
+    const body = bodies.join("\n");
     if (!body) throw new Error(`Missing theme declarations: ${name}`);
     const declarations = [...body.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)]
       .map(([, token, value]) => `${token}: ${value.trim()};`);
