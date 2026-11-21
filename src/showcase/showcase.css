@@ -16,8 +16,6 @@
 .scene-intro { margin-left:8%; }
 .scene-intro h1 { font-size:clamp(24px, 2.2vw, 28px); font-weight:500; line-height:1.2; letter-spacing:-.03em; text-wrap:balance; }
 .scene-intro p { margin-top:12px; max-width:40ch; color:var(--ink-soft); font-size:14px; line-height:1.7; }
-.scene-workspace-link { display:inline-flex; margin-top:18px; max-width:36ch; color:var(--accent); font-size:13px; font-weight:600; line-height:1.6; text-decoration:underline; text-underline-offset:4px; }
-.scene-workspace-link:hover { color:var(--ink); }
 .scene-footer { margin-top:24px; display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:24px; color:var(--ink-soft); font-size:12px; }
 .scene-distance { width:240px; }
 .scene-distance input { height:24px; background:transparent; }
