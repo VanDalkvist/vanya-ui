@@ -17,6 +17,9 @@
 - [Composition](https://ui.vanya-arc.dev/reference/composition.md): Reusable interface patterns.
 - [Workspace scrolling](https://ui.vanya-arc.dev/reference/workspaces.md): Scroll owners and sticky context.
 - [Installation](https://ui.vanya-arc.dev/reference/installation.md): How to use @vanya/ui.
+- [Third-party licenses and attribution](https://ui.vanya-arc.dev/reference/third-party.md): React, Lucide/Feather, fonts and credited Agent Skills.
+- [Built JavaScript dependency licenses](https://ui.vanya-arc.dev/licenses.txt): Auto-generated full notices for deployed Vite bundle.
+- [Vanya UI MIT license](https://ui.vanya-arc.dev/LICENSE.txt): Copyright 2026 Vanya Afanasov.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 
 ## Source

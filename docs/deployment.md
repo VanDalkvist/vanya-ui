@@ -26,6 +26,10 @@ The canonical document is `/` with anchors `/#identity`, `/#typography`, `/#writ
 
 `bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. `public/_headers` sets UTF-8 for Markdown and plain-text agent resources and scoped security headers. Build failures prevent production deployment.
 
+## Dependency license preservation
+
+`vite.config.ts` uses `build.license: { fileName: "licenses.txt" }` to publish full bundled-dependency notices with the site at `/licenses.txt`. `scripts/sync.ts` publishes the project's own MIT license at `/LICENSE.txt` and manual source attribution at `/reference/third-party.md`. Never omit these artifacts from a release or mistake their presence for a legal review of every upstream package.
+
 ## Public release requirements
 
 This repository, site, and all bundled assets are public. No secrets, private data or internal infrastructure. See [publication safety](patterns/publication-safety.md).
@@ -33,7 +37,7 @@ This repository, site, and all bundled assets are public. No secrets, private da
 Before announcing a production release:
 1. Confirm a successful Cloudflare Workers Build for the current commit on `main`.
 2. Check the active Worker deployment/version.
-3. Check `/`, `/#browser-navigation`, `/#workspace`, `/guidelines/navigation/` (redirect), `/llms.txt`, `/index.md`, `/reference/identity.md`, `/reference/typography.md`, `/reference/writing.md`, `/sitemap.xml` and `/reference/components.md` without authentication or JavaScript.
+3. Check `/`, `/#browser-navigation`, `/#workspace`, `/guidelines/navigation/` (redirect), `/llms.txt`, `/index.md`, `/reference/identity.md`, `/reference/typography.md`, `/reference/writing.md`, `/sitemap.xml` and `/reference/components.md`, `/reference/third-party.md`, `/LICENSE.txt`, `/licenses.txt` without authentication or JavaScript.
 4. Inspect built HTML and JS as public artifacts for accidental secrets or private data; no `.env`, production credentials, private URLs or real user records.
 5. If build/deploy fails, inspect Workers Builds logs; do not claim that a Git commit alone is a website release.
 

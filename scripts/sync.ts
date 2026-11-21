@@ -35,6 +35,9 @@ Shortcuts are optional accelerators, not replacements for commands. Avoid browse
 ## Browser navigation (normative)
 Every meaningful page or shareable view must have a stable URL; open, reload, Back/Forward and browser link actions must work. Use native anchors or router links that render anchors for navigation, and buttons for local actions. Route/state boundaries and the acceptance checklist live in docs/patterns/browser-navigation.md. The live reference is /#browser-navigation.
 
+## Licenses and third-party attribution (mandatory)
+The package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). The trademark/logo copyright scope needs an explicit owner decision before any claim that brand assets are excluded from the existing MIT distribution.
+
 ## Public publication safety (mandatory)
 The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
 
@@ -55,9 +58,11 @@ fs.writeFileSync(path.join(root,"llms-full.txt"),reference);
 fs.writeFileSync(path.join(root,"public/llms-full.txt"),reference);
 fs.copyFileSync(path.join(root,"llms.txt"),path.join(root,"public/llms.txt"));
 fs.copyFileSync(path.join(root,"docs/site-overview.md"),path.join(root,"public/index.md"));
+fs.copyFileSync(path.join(root,"LICENSE"),path.join(root,"public/LICENSE.txt"));
 const refDir=path.join(root,"public/reference");
 fs.mkdirSync(refDir,{recursive:true});
 const docs=[
+ ["THIRD_PARTY_NOTICES.md","third-party.md"],
  ["docs/identity/brand.md","identity.md"],
  ["docs/patterns/typography.md","typography.md"],
  ["docs/patterns/writing-and-editorial.md","writing.md"],

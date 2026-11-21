@@ -53,4 +53,8 @@ import { ActionButton, NavLinks, WorkspaceSplit } from "@vanya/ui";
 import "@vanya/ui/tokens.css";
 ~~~
 
+## Лицензии и авторство
+
+Исходный код проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS](https://ui.vanya-arc.dev/licenses.txt). Вопрос об отдельном режиме использования SVG-логотипа пока открыт.
+
 Дополнительные источники: [компоненты](https://ui.vanya-arc.dev/reference/components.md), [навигация](https://ui.vanya-arc.dev/reference/navigation.md), [токены](https://ui.vanya-arc.dev/reference/tokens.md), [репозиторий](https://github.com/VanDalkvist/vanya-ui).

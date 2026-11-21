@@ -29,6 +29,10 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 **Normative pattern, anti-patterns and acceptance checklist:** [docs/patterns/browser-navigation.md](docs/patterns/browser-navigation.md). **Live example:** [ui.vanya-arc.dev/#browser-navigation](https://ui.vanya-arc.dev/#browser-navigation). `NavLinks` with `href` preserves default browser link behavior; `onSelect` is for local button-like state only.
 
+## Licensing and third-party rights — required
+
+The project's root `LICENSE` is MIT (Copyright 2026 Vanya Afanasov). Third-party work retains **its own** license: bundled packages and icons, fonts loaded from Google Fonts, and referenced external Agent Skills. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [license audit](docs/legal/license-audit-2026-11-22.md). Generate complete bundled dependency licenses at `/licenses.txt` via Vite `build.license`. The Lucide source includes ISC and the Feather-derived subset includes MIT; do not lose either notice. Third-party original skill files are linked, not vendored. Do not claim the logo is specially excluded from root MIT without an explicit license decision, and do not suggest that MIT automatically grants trademark endorsement rights.
+
 ## Public repository and website — mandatory safety boundary
 
 This repository and `https://ui.vanya-arc.dev` are **public**. All committed files, generated static assets, documentation, previews, source maps, images, test fixtures and website text must be safe to disclose to anyone. Do not copy data from private conversations, connected accounts, private repositories, internal research or production infrastructure into this project by default.

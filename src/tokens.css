@@ -71,7 +71,7 @@
   --size-sm-icon: 12px;
   --size-md-icon: 16px;
   color-scheme: light;
-  /* Harness visual identities from ferma/src/styles.css. */
+  /* Category palette for reusable UI badges and visualizations. */
   --harness-creative: oklch(0.68 0.08 310);
   --harness-creative-fg: oklch(0.42 0.09 310);
   --harness-creative-bg: oklch(0.94 0.025 310);

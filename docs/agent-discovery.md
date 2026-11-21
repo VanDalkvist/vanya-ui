@@ -27,6 +27,13 @@ The site is intentionally **public**. These files must never include secrets, pr
 - Both curated `llms.txt` and generated `llms-full.txt` link to the canonical policy, including WCAG 2.1.4 opt-out rules, keys, conflicts and visual styling.
 - The exported `ShortcutKeys` is visible in the component registry and `/reference/components.md`; actual shortcut handling is app-specific and must pass the same policy.
 
+## License discoverability
+
+- Root `LICENSE` governs authored MIT code; `/LICENSE.txt` is a published copy.
+- `THIRD_PARTY_NOTICES.md` is copied to `/reference/third-party.md`, including full Lucide ISC and Feather MIT notices.
+- Vite generates `/licenses.txt` from licenses of all packages included in the built client bundle, not from every development tool or every consumer app.
+- Both human documentation and `llms.txt` link to all three. Creative Commons sources are credited by their actual authors.
+
 ## Post-deploy validation
 
 - Compare raw HTML without JS and rendered page: both should contain the headings for "Принципы" and "Рабочие поверхности" and real anchors.
