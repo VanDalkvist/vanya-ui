@@ -113,7 +113,7 @@ export function ComponentCatalog() {
                 <p key={index} style={{ margin: "0 0 10px", fontSize: 11 }}>Материал {index + 1} · состояние, графы и пайплайны</p>
               ))}
             </ScrollRegion>}
-            content={<ScrollRegion label="Читательская область" style={{ height: "100%", fontSize: 12, lineHeight: 1.7, paddingLeft: 10 }}>
+            detail={<ScrollRegion label="Читательская область" style={{ height: "100%", fontSize: 12, lineHeight: 1.7, paddingLeft: 10 }}>
               <strong>Восстанавливаемый workflow</strong>
               {Array.from({length: 13}, (_, index) => (
                 <p key={index}>Один предмет для чтения. Фрагмент {index + 1}. Список слева не меняет позицию, пока читаем эту статью.</p>

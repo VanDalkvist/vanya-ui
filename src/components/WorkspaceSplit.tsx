@@ -9,14 +9,14 @@ import { clsx } from "clsx";
  */
 export interface WorkspaceSplitProps extends React.HTMLAttributes<HTMLDivElement> {
   navigation: React.ReactNode;
-  content: React.ReactNode;
+  detail: React.ReactNode;
   compact?: "stack" | "keep-columns";
 }
 export function WorkspaceSplit({
-  navigation, content, compact="stack", className, ...props
+  navigation, detail, compact="stack", className, ...props
 }:WorkspaceSplitProps){
   return <div {...props} data-compact={compact} className={clsx("ui-workspace-split",className)}>
     <div className="ui-workspace-split-navigation">{navigation}</div>
-    <div className="ui-workspace-split-content">{content}</div>
+    <div className="ui-workspace-split-content">{detail}</div>
   </div>;
 }

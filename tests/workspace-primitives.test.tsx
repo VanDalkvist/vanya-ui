@@ -38,7 +38,7 @@ describe("Workspace primitives", () => {
   });
 
   it("composes sibling panes without nesting two vertical scroll regions", () => {
-    render(<WorkspaceSplit compact="stack" navigation={<ScrollRegion label="Items">List</ScrollRegion>} content={<ScrollRegion label="Document">Detail</ScrollRegion>}/>);
+    render(<WorkspaceSplit compact="stack" navigation={<ScrollRegion label="Items">List</ScrollRegion>} detail={<ScrollRegion label="Document">Detail</ScrollRegion>}/>);
     const layout = screen.getByRole("region", {name:"Items"}).parentElement?.parentElement;
     expect(layout).toHaveClass("ui-workspace-split");
     expect(layout).toHaveAttribute("data-compact","stack");
