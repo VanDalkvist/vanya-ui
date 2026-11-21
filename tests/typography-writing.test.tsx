@@ -46,9 +46,12 @@ describe("typography and editor guidance",()=>{
   expect(read("docs/patterns/writing-and-editorial.md")).toContain("Никита Архипов");
   expect(read(".agents/redpolitika.md")).toContain("N1arko/redaktura-skills");
   expect(read("docs/patterns/writing-and-editorial.md")).toContain("Ильяхов");
+  expect(read("docs/patterns/writing-and-editorial.md")).toContain("Если источник не открылся");
   expect(read("docs/research/ilyakhov-copy-audit-2026-11-22.md")).toContain("bureau.ru/books/pishi/190");
   expect(read("llms.txt")).toContain("/reference/typography.md");
   expect(read("llms.txt")).toContain("/reference/writing.md");
+  expect(read(".agents/redpolitika.md")).toContain("не выдавай пересказ");
+  expect(read("scripts/sync.ts")).toContain("fetch originals only when the task requires them");
   expect(read("llms.txt")).toContain("/reference/sources.md");
   expect(read("scripts/sync.ts")).toContain('["docs/patterns/sources-and-attribution.md","sources.md"]');
   expect(read("docs/patterns/sources-and-attribution.md")).toContain("CC BY 4.0");
