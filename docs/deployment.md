@@ -10,7 +10,7 @@ Cloudflare Dashboard: Workers & Pages → **vanya-ui** → Settings → Builds.
 
 Build command:
 ```sh
-bun install --frozen-lockfile && bun run test && bunx tsc --noEmit && bun run build
+bun install --frozen-lockfile && bun run test && bunx tsc --noEmit -p tsconfig.build.json && bun run build
 ```
 
 Deploy command:
