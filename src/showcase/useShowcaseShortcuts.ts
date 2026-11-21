@@ -40,7 +40,7 @@ export function useShowcaseShortcuts() {
           event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target;
       if (target instanceof HTMLElement && target.closest(
-        'input, textarea, select, [contenteditable=""], [contenteditable="true"], [role="textbox"]'
+        'input, textarea, select, [contenteditable], [role="textbox"], [role="combobox"], [role="searchbox"]'
       )) return;
       // In an open native dialog, only its own keyboard behavior applies.
       if (document.querySelector("dialog[open]")) return;
@@ -65,6 +65,12 @@ export function useShowcaseShortcuts() {
           event.preventDefault();
           // A native fragment update creates a history entry and keeps Back/Forward working.
           window.location.hash = destination.id;
+          const section = document.getElementById(destination.id);
+          if (section) {
+            // A shortcut moves keyboard focus to the destination as well as scrolling.
+            section.tabIndex = -1;
+            section.focus({ preventScroll: true });
+          }
         }
         return;
       }

@@ -42,6 +42,7 @@ describe("shortcut notation and keyboard UX", () => {
     expect(screen.getByText("выберите раздел")).toHaveTextContent("выберите раздел");
     fireEvent.keyDown(window,{key:"i",code:"KeyI"});
     expect(window.location.hash).toBe("#identity");
+    expect(document.activeElement).toHaveAttribute("id","identity");
     expect(screen.queryByText("выберите раздел")).not.toBeInTheDocument();
   });
 
