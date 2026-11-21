@@ -156,7 +156,8 @@ export function ComponentCatalog() {
         <WorkspaceContextHeader title="Как восстановить долгую операцию после сбоя" showTitle={contextHeadingGone} breadcrumbs={[
           {id:"library",label:"Библиотека",onSelect:()=>setOverlay("sheet")},
           {id:"category",label:"Workflows",onSelect:()=>setOverlay("digest")}
-        ]} status="3 / 18" actions={<ActionButton variant="accent" size="sm" onClick={()=>setOverlay("sheet")}>Исследовать</ActionButton>}/>
+        ]} breadcrumbAccessory={<ActionButton size="sm" variant="accent" onClick={()=>setOverlay("sheet")}>Оригинал</ActionButton>}
+        status="3 / 18" actions={<ActionButton variant="accent" size="sm" onClick={()=>setOverlay("sheet")}>Исследовать</ActionButton>}/>
       <div style={{display:"flex",alignItems:"center",gap:12,marginTop:8}}>
         <ActionButton variant="text" size="sm" onClick={()=>setContextHeadingGone(x=>!x)}>
           {contextHeadingGone?"Заголовок снова виден в документе":"Заголовок документа ушёл при скролле"}

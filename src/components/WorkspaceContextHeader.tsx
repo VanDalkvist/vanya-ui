@@ -12,13 +12,14 @@ export type WorkspaceContextCrumb = {
 };
 export interface WorkspaceContextHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   breadcrumbs: WorkspaceContextCrumb[];
+  breadcrumbAccessory?: React.ReactNode;
   title: string;
   showTitle?: boolean;
   status?: React.ReactNode;
   actions?: React.ReactNode;
   label?: string;
 }
-export function WorkspaceContextHeader({breadcrumbs,title,showTitle=true,status,actions,label="Текущий документ",className,...props}:WorkspaceContextHeaderProps){
+export function WorkspaceContextHeader({breadcrumbs,breadcrumbAccessory,title,showTitle=true,status,actions,label="Текущий документ",className,...props}:WorkspaceContextHeaderProps){
   return <div {...props} className={clsx("ui-workspace-context",className)} role="group" aria-label={label}>
     <div className="ui-workspace-context-identity">
       {breadcrumbs.length>0&&<nav className="ui-workspace-context-crumbs" aria-label="Хлебные крошки">
@@ -27,6 +28,7 @@ export function WorkspaceContextHeader({breadcrumbs,title,showTitle=true,status,
           {item.onSelect?<button type="button" onClick={item.onSelect}>{item.label}</button>:
             <span>{item.label}</span>}
         </li>)}</ol>
+        {breadcrumbAccessory&&<span className="ui-workspace-context-breadcrumb-accessory">{breadcrumbAccessory}</span>}
       </nav>}
       {showTitle&&<div className="ui-workspace-context-heading" title={title} aria-label={title}>
         <strong>{title}</strong>

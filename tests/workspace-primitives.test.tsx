@@ -15,6 +15,24 @@ describe("Workspace primitives", () => {
       actions={<button>Извлечь</button>}/>);
     expect(screen.getByText("Только один заголовок")).toBeInTheDocument();
   });
+  it("adds contextual source access beside but not inside the ancestry list", () => {
+    const onOpen = vi.fn();
+    render(<WorkspaceContextHeader breadcrumbs={[{id:"root",label:"Читать"}]}
+      breadcrumbAccessory={<button onClick={onOpen} aria-haspopup="dialog">Оригинал</button>}
+      title="Текст" showTitle={false}/>);
+    const crumbNav=screen.getByRole("navigation",{name:"Хлебные крошки"});
+    expect(crumbNav.querySelectorAll("ol li")).toHaveLength(1);
+    expect(crumbNav.querySelector(".ui-workspace-context-breadcrumb-accessory")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button",{name:"Оригинал"}));
+    expect(onOpen).toHaveBeenCalledOnce();
+  });
+  it("uses a wider inspector for reading externally embedded documents", () => {
+    render(<InspectDrawer isOpen title="Оригинал" size="wide" onClose={()=>{}}>
+      <iframe title="Внешний сайт" src="https://example.org/" />
+    </InspectDrawer>);
+    expect(screen.getByRole("dialog")).toHaveClass("inspect-sheet--wide");
+    expect(screen.getByTitle("Внешний сайт")).toBeInTheDocument();
+  });
   it("places accessible navigable breadcrumbs, title and action in one header slot", () => {
     const go=vi.fn(),execute=vi.fn();
     render(<WorkspaceContextHeader title="Агенты и долгие операции" breadcrumbs={[

@@ -74,3 +74,11 @@ References: [Atlassian Page Header](https://atlassian.design/components/page-hea
 ### Preventing duplicate titles
 
 The `WorkspaceContextHeader.showTitle` flag is driven by the **visibility of the document's own h1 in its scroll owner**. While that heading is in view the shell shows only the real ancestor crumbs, count and actions. Once the in-document heading is no longer visible, the shell shows the title. The same title is never visible twice. Observe the document heading using `IntersectionObserver` rooted in the correct reader/viewport, not `window.scrollY`; reset when the selected document changes. A fixed global shell is not an excuse to repeat section-sized onboarding text above every article.
+
+### Original-page access in contextual navigation
+
+Use `WorkspaceContextHeader.breadcrumbAccessory` for a **contextual source action next to the breadcrumb trail**. It is intentionally not an `ol > li` ancestor: opening an original document is not a parent route. A regular button with `aria-haspopup="dialog"` opens the caller's `InspectDrawer`; the ancestor breadcrumbs remain real navigation. Do not give the action a fake URL or automatically open a new tab.
+
+`InspectDrawer size="wide"` is available for external full-page previews, retaining the existing Escape, backdrop, focus return and accessible title/body region. Third-party pages may block iframe embedding using `X-Frame-Options` or `Content-Security-Policy frame-ancestors`. Keep a visible original URL + explicit new-tab fallback, and do not claim the page has loaded based solely on iframe load events. The library does not proxy copyrighted sites or remove their embedding policy.
+
+This enhancement is generic; no Factory URLs or private project data are included.

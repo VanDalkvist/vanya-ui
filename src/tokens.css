@@ -457,3 +457,52 @@
     .ui-workspace-context-crumbs li:not(:first-child) { display:none; }
   }
 }
+
+/* Optional context action next to breadcrumbs: e.g. open source in an
+   inspector. It is visually adjacent, but not a false ancestral crumb. */
+@layer components {
+  .ui-workspace-context-crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .ui-workspace-context-crumbs ol { flex: 0 1 auto; }
+  .ui-workspace-context-breadcrumb-accessory {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    min-width: 0;
+    gap: 6px;
+    padding-left: 10px;
+    border-left: 1px solid var(--border);
+    font: 500 10px/1.4 var(--font-sans);
+    white-space: nowrap;
+  }
+  .ui-workspace-context-breadcrumb-accessory :is(button,a) {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--accent);
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ui-workspace-context-breadcrumb-accessory :is(button,a):hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .ui-workspace-context-breadcrumb-accessory :is(button,a):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .inspect-sheet--wide { max-width: min(1080px,96vw); }
+  @media (max-width: 650px) {
+    .ui-workspace-context-crumbs { gap: 5px; }
+    .ui-workspace-context-breadcrumb-accessory { padding-left: 7px; font-size: 10px; }
+    .inspect-sheet--wide { max-width: 100vw; }
+  }
+}
