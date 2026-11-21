@@ -57,3 +57,15 @@ Use Vanya UI's own `tokens.css` and real exported React components. Local app CS
 - Is there one document scroll and no stuck content beneath the header?
 
 These are guidance and design QA checks, not a universal pixel-perfect template.
+
+
+## 6. Navigation is a URL, not a button pretending to be one
+
+- `NavLinks` with `href` renders real `<a>` elements. Same-origin SPA navigation may intercept ordinary clicks, but must not interfere with Ctrl/Cmd-click, browser context menu, middle-click, keyboard navigation or copying the address.
+- Use `ActionLink` for link-looking actions and `ActionButton` only for **mutating actions**. A link to another resource must have a valid `href`.
+- Expose stable, directly-openable URLs for primary views, important detail entities and help/documentation. Browser back/forward should restore the selected view.
+- Externally opening links use a clear outbound cue, `target="_blank"` when appropriate, and `rel="noopener noreferrer"`. Avoid `javascript:` or other non-web URL schemes from imported data.
+- A secret one-use invitation URL is different from a normal help link. Warn that visiting it will consume the invitation; offer a copy action. Never add its token to analytics or navigation destinations.
+- Test opening a film/item in a new tab, copying its URL to another browser, using Back/Forward, and following a source link without first navigating a drawer.
+
+This pattern is shared across all React apps built with Vanya UI.
