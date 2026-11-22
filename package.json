@@ -24,7 +24,8 @@
     "build": "bun run sync && vite build && bun run scripts/prerender.tsx",
     "dev": "vite",
     "sync": "bun run scripts/sync.ts",
-    "prerender": "bun run scripts/prerender.tsx"
+    "prerender": "bun run scripts/prerender.tsx",
+    "test:agent": "node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs .github/actions/ui-contract/check.test.mjs"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#6c6a3d2d1b25e212817c354b2ee76163c4a64fab",

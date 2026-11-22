@@ -11,4 +11,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node --test .github/actions/ui-contract/check.test.mjs scripts/install-ui-contract.test.mjs
+      - run: node --test .github/actions/ui-contract/check.test.mjs scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs
