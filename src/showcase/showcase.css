@@ -1,7 +1,15 @@
 .showcase-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px var(--spacing-scene); }
-.showcase-origin { display:inline-flex; align-items:center; gap:4px; color:var(--ink-soft); font-size:12px; font-weight:500; white-space:nowrap; text-decoration:underline; text-decoration-color:var(--border-strong); text-underline-offset:3px; }
 .showcase-nav { column-gap:12px; }
-.showcase-origin:hover { color:var(--accent); }
+/* Author is a semantic external utility link, not another primary page/route.
+   Appearance comes from shared ActionLink; only placement and responsive labels live here. */
+.showcase-author-link { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; flex:none; min-width:0; font-size:13px; text-decoration:none; }
+.showcase-author-link:hover :is(.showcase-author-full,.showcase-author-compact) { text-decoration:underline; text-underline-offset:3px; }
+.showcase-author-compact { display:none; }
+@media(max-width:1150px) {
+ .showcase-author-full { display:none; }
+ .showcase-author-compact { display:inline; }
+}
+
 .showcase-name { font-size:20px; line-height:1.2; font-weight:500; letter-spacing:-.03em; text-decoration:none; color:var(--ink); white-space:nowrap; }
 :root { --showcase-header-height:60px; }
 .showcase-header { position:sticky; top:0; z-index:30; padding-block:14px; background:color-mix(in oklab, var(--ground) 94%, transparent); backdrop-filter:blur(10px); }
@@ -174,8 +182,8 @@ p { text-wrap:pretty; }
 .scene-keys-hint { display:inline-flex; align-items:center; gap:8px; color:var(--ink-faint); }
 .scene-keys-hint .ui-shortcut-keys { font-size:11px; }
 /* The only shortcut entry is a low-priority dock, never a second app header. */
-.showcase-github { display:inline-grid; place-items:center; flex:none; width:36px; height:36px; color:var(--ink-soft); border-radius:var(--radius-xs); text-decoration:none; }
-.showcase-github:hover { color:var(--accent); }
+.showcase-github { display:inline-grid; place-items:center; flex:none; width:36px; height:36px; color:var(--ink-soft); border-radius:var(--radius-full); text-decoration:none; }
+.showcase-github:hover { color:var(--accent); background:var(--surface-raised); }
 .showcase-github:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 .showcase-shortcut-dock { position:fixed; right:max(18px,env(safe-area-inset-right)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:29; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-xs); background:var(--ground); color:var(--ink-soft); font:500 12px/1.4 var(--font-sans); cursor:pointer; box-shadow:0 2px 12px color-mix(in oklab,var(--ink) 6%,transparent); }
 .showcase-shortcut-dock:hover { border-color:var(--ink-faint); color:var(--ink); }
@@ -256,7 +264,6 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .showcase-nav > div:first-child::-webkit-scrollbar { display:none; }
 .showcase-nav > div:first-child a { flex-shrink:0; }
 @media(max-width:1150px) {
-  .showcase-origin { display:none; }
 }
 @media(max-width:700px) {
   .showcase-header { flex-wrap:wrap; align-items:center; }

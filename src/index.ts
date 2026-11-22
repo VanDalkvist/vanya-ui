@@ -98,6 +98,7 @@ export {
 export { SelectField, type SelectFieldProps, type SelectFieldOption } from "./components/SelectField";
 
 export { ActionLink, type ActionLinkProps } from "./components/ActionLink";
+export { GitHubIcon, type GitHubIconProps } from "./components/GitHubIcon";
 
 export { ScrollRegion, type ScrollRegionProps } from "./components/ScrollRegion";
 export { SectionToolbar, type SectionToolbarProps } from "./components/SectionToolbar";

@@ -56,7 +56,18 @@ describe("shortcut notation and keyboard UX", () => {
     expect(github).toHaveAttribute("target","_blank");
     expect(github).toHaveAttribute("rel","noopener noreferrer");
     expect(github).toHaveClass("showcase-github");
+    const mark=github.querySelector("svg");
+    expect(mark).toHaveAttribute("fill","none");
+    expect(mark).toHaveAttribute("stroke","currentColor");
+    expect(mark).toHaveAttribute("aria-hidden","true");
+    expect(mark?.querySelector("path")?.getAttribute("d")).toContain("M9 19c-5 1.5");
     expect(within(header).queryByRole("button",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+    const author=within(header).getByRole("link",{name:/Автор: Ваня Афанасов/});
+    expect(author).toHaveAttribute("href","https://vanya-arc.dev/");
+    expect(author).toHaveAttribute("rel",expect.stringContaining("author"));
+    expect(author).toHaveAttribute("target","_blank");
+    expect(author).toHaveClass("showcase-author-link");
+    expect(author).toHaveTextContent("Ваня Афанасов");
   });
 
   it("opens help with ? and preserves the pointer entry after opt-out", () => {
