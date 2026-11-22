@@ -23,6 +23,7 @@ describe("license compliance and published notices",()=>{
    expect(read("src/index.ts")).toContain('from "@vanya/brand"');
    expect(read("src/tokens.css")).toContain('@import "@vanya/brand/tokens.css"');
    expect(read("scripts/sync.ts")).toContain('node_modules/@vanya/brand/assets/favicon.svg');
+   expect(read("scripts/sync.ts")).toContain('LicenseRef-VanyaArc-Brand.txt');
    expect(read("LICENSES/CC-BY-4.0.txt")).toContain("Creative Commons Attribution 4.0 International");
    expect(read("REUSE.toml")).toContain("sources-and-licenses-audit-2026-11-22.md");
    expect(read("REUSE.toml")).toContain("ilyakhov-copy-audit-2026-11-22.md");
@@ -42,6 +43,8 @@ describe("license compliance and published notices",()=>{
  it("publishes license texts and builds a version-specific dependency inventory",()=>{
   const vite=read("vite.config.ts"), sync=read("scripts/sync.ts");
   expect(vite).toContain('license: { fileName: "licenses.txt" }');
+  expect(read("package.json")).toContain('scripts/finalize-published-licenses.mjs');
+  expect(read("scripts/finalize-published-licenses.mjs")).toContain('not granted under MIT');
   expect(sync).toContain('"public/LICENSE.txt"');
   expect(sync).toContain('["THIRD_PARTY_NOTICES.md","third-party.md"]');
   expect(read("src/showcase/ShowcaseFooter.tsx")).toContain('href="/reference/licensing.md"');

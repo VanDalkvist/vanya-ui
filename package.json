@@ -19,13 +19,13 @@
     "./tokens.css": "./src/tokens.css"
   },
   "scripts": {
-    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs",
+    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs",
     "test:watch": "vitest",
-    "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && bun run scripts/prerender.tsx",
+    "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && node scripts/finalize-published-licenses.mjs && bun run scripts/prerender.tsx",
     "dev": "vite",
     "sync": "bun run scripts/sync.ts",
     "prerender": "bun run scripts/prerender.tsx",
-    "test:agent": "node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs .github/actions/ui-contract/check.test.mjs scripts/check-llm-publication.test.mjs scripts/markdown-publication.test.mjs",
+    "test:agent": "node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs .github/actions/ui-contract/check.test.mjs scripts/check-llm-publication.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs",
     "check:llms": "node scripts/check-llm-publication.mjs"
   },
   "dependencies": {

@@ -1,5 +1,7 @@
 # Licensing review — Vanya Arc / UI
 
+> **Historical snapshot:** references to `package.json` using `MIT`, the old inline `src/brand` artwork, and three CC BY research documents describe earlier states on 22 November 2026. The current package uses `SEE LICENSE IN LICENSING.md`, the brand lives in `@vanya/brand`, and **five** research files are annotated CC BY 4.0. See [current license recheck](license-recheck-2026-11-22.md) and [LICENSING.md](../../LICENSING.md).
+
 Date: 22 November 2026. Repository: public `VanDalkvist/vanya-ui`, `main`. This is a source-and-upstream license review, **not** a legal opinion or a claim of full software-composition-analysis of every transitive package.
 
 ## Findings
