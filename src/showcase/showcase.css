@@ -294,4 +294,4 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 }
 .demo-compact-filter-search{min-width:200px;flex:1 1 280px;}
 .demo-compact-filter-strip>.ui-segments{flex:0 0 auto;}
-.demo-compact-filter-strip>.ui-select-field{width:155px;flex:0 0 155px;}
+.demo-compact-filter-strip>.ui-filter-select{width:175px;flex:0 0 175px;}
