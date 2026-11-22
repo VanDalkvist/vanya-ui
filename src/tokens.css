@@ -848,6 +848,14 @@
   .ui-feedback-source > span:nth-child(2) {
     color:inherit;
   }
+  .ui-action-link:active,.ui-action-button:not(:disabled):active {
+    color:var(--ink);
+  }
+  .ui-action-link[data-variant="pill"]:active,
+  .ui-action-button[data-variant="pill"]:not(:disabled):active,
+  .ui-action-button[data-variant="outline"]:not(:disabled):active {
+    background:var(--ui-feedback-pressed-fill);
+  }
   :is(.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):not(:disabled):active {
     background:var(--ui-feedback-pressed-fill);
   }
@@ -878,5 +886,9 @@
     .ui-action-button[data-variant="pill"]:not(:disabled):hover { color:var(--ink);background:var(--ui-feedback-hover-fill); }
     .ui-action-button[data-variant="text"]:not(:disabled):hover {color:var(--ink);}
     .ui-action-button[data-variant="outline"]:not(:disabled):hover {border-color:var(--ui-feedback-hover-border);background:var(--ui-feedback-hover-fill);}
+  }
+  @media(forced-colors:active){
+    :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible{outline:2px solid Highlight;}
+    .ui-feedback-row[aria-checked="true"],.ui-feedback-icon[aria-expanded="true"]{outline:1px solid Highlight;}
   }
 }

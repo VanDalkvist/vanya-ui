@@ -182,6 +182,11 @@ p { text-wrap:pretty; }
 .scene-keys-hint .ui-shortcut-keys { font-size:11px; }
 /* The only shortcut entry is a low-priority dock, never a second app header. */
 .showcase-github { display:inline-grid; place-items:center; flex:none; width:32px; height:32px; border-radius:var(--radius-full); text-decoration:none; }
+/* Keep the 14px glyph constant. Enlarge only pointer targets on touch screens. */
+@media(pointer:coarse){
+ .showcase-github{width:44px;height:44px;}
+ .showcase-nav .ui-feedback-icon{min-width:44px;min-height:44px;}
+}
 .showcase-shortcut-dock { position:fixed; right:max(18px,env(safe-area-inset-right)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:29; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-xs); background:var(--ground); color:var(--ink-soft); font:500 12px/1.4 var(--font-sans); cursor:pointer; box-shadow:0 2px 12px color-mix(in oklab,var(--ink) 6%,transparent); }
 .showcase-shortcut-dock:hover { border-color:var(--ink-faint); color:var(--ink); }
 .showcase-shortcut-dock:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
