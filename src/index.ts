@@ -44,6 +44,7 @@ export {
   SegmentedControl,
   type SegmentedControlProps,
   type SegmentItem,
+  type TabSegmentItem,
 } from "./components/SegmentedControl";
 export {
   RangeSlider,

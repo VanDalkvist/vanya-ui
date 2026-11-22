@@ -10,6 +10,7 @@ afterEach(() => {
   window.localStorage.removeItem("vanya_theme");
   window.history.replaceState(null, "", "/");
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe("#13: filters must not claim tab semantics; real tabs must follow APG", () => {

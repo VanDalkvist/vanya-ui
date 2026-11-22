@@ -69,7 +69,7 @@ export function ThemeToggle({
     if (!trigger) return;
     const selector = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
     const focusables = Array.from(document.querySelectorAll<HTMLElement>(selector))
-      .filter((el) => !el.closest('[hidden],[inert]') &&
+      .filter((el) => el.tabIndex >= 0 && !el.closest('[hidden],[inert]') &&
         getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden");
     const i = focusables.indexOf(trigger);
     const next = i < 0 ? undefined : focusables[i + (backwards ? -1 : 1)];

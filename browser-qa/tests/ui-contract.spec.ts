@@ -121,7 +121,7 @@ test("05 drawer opens and closes without obscuring its trigger permanently",asyn
   const dialog=page.getByRole("dialog");
   await expect(dialog).toBeVisible();
   await capture(page,info,"drawer-open");
-  await dialog.press("Escape");
+  await page.keyboard.press("Escape");
   await expect(dialog).toHaveCount(0);
   await assertUnobstructed(trigger);
 });
@@ -164,7 +164,8 @@ test("08 shortcuts and 200% CSS zoom approximation leave core controls reachable
   await page.evaluate(()=>{document.documentElement.style.zoom="2";});
   const slider=page.getByRole("slider",{name:"Расстояние между событиями"});
   await assertUnobstructed(slider);
-  await page.keyboard.press("?");
+  await page.evaluate(()=>(document.activeElement as HTMLElement)?.blur());
+  await page.keyboard.press("Shift+/");
   await expect(page.getByRole("dialog",{name:"Горячие клавиши"})).toBeVisible();
   await capture(page,info,"reduced-motion-css-zoom");
   // CSS zoom is an approximation: manual 200% browser zoom remains in the acceptance checklist.
