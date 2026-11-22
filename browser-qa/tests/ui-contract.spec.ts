@@ -55,9 +55,16 @@ for(const size of [
       if(isInitiallyVisible)await assertUnobstructed(slider,[0.15,0.5,0.85],false);
       await assertUnobstructed(slider,[0.15,0.5,0.85]);
       const before=Number(await slider.inputValue());
+      // Assert the control changes what the user actually sees on the wave.
+      // A slider whose value updates but whose downstream geometry stays frozen
+      // is a hollow success for this interactive showcase.
+      const movingEvent=page.locator('.scene .timeline-event[aria-label="NavLinks Ссылки и навигация"]');
+      await expect(movingEvent).toHaveCount(1);
+      const beforeX=await movingEvent.evaluate(el=>getComputedStyle(el).getPropertyValue("--event-x"));
       await slider.focus();
       await slider.press("ArrowRight");
       expect(Number(await slider.inputValue())).toBeGreaterThan(before);
+      await expect.poll(async()=>movingEvent.evaluate(el=>getComputedStyle(el).getPropertyValue("--event-x"))).not.toBe(beforeX);
       const afterKeyboard=Number(await slider.inputValue());
       const box=await slider.boundingBox();
       expect(box).not.toBeNull();
