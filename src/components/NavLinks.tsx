@@ -50,7 +50,7 @@ export function NavLinks({
             return <a
               key={item.id}
               href={item.href}
-              aria-current={item.isActive ? (item.href.startsWith("#") ? "location" : "page") : undefined}
+              aria-current={item.isActive ? (item.href.startsWith("#") || item.href.startsWith("/#") ? "location" : "page") : undefined}
               className={classes}
             >{item.label}</a>;
           }

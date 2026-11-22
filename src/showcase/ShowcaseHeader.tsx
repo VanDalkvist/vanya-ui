@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import { ActionLink, GitHubIcon, NavLinks, ThemeToggle, VanyaArcLockup } from "../index";
+import { useActiveShowcaseSection } from "./useActiveShowcaseSection";
 
 export const longreadSections = [
   ["composition", "Композиция"],
@@ -13,11 +14,14 @@ export const longreadSections = [
   ["setup", "Подключение"],
 ] as const;
 
-/** One compact, consistent header. All sections are native fragment destinations. */
+const SECTION_IDS = longreadSections.map(([id]) => id);
+
+/** One compact, consistent header. Native fragments and viewport-based current state. */
 export function ShowcaseHeader() {
+  const activeSection = useActiveShowcaseSection(SECTION_IDS);
   return <header className="showcase-header">
     <a className="showcase-name" href="/#composition" aria-label="Vanya Arc / UI — главная"><VanyaArcLockup product="UI" size="md" /></a>
-    <NavLinks items={longreadSections.map(([id, label]) => ({ id, label, href: `/#${id}` }))} className="showcase-nav">
+    <NavLinks items={longreadSections.map(([id, label]) => ({ id, label, href: `/#${id}`, isActive: id === activeSection }))} className="showcase-nav">
       <ActionLink className="showcase-author-link" href="https://vanya-arc.dev/" target="_blank" rel="author"
          aria-label="Автор: Ваня Афанасов — личный сайт (новая вкладка)" size="sm" variant="text">
          <span className="showcase-author-full">Ваня Афанасов</span>
