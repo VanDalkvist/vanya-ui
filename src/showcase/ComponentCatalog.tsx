@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
-  MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal,
+  MediaCard, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
@@ -32,6 +32,8 @@ export function ComponentCatalog() {
   const [sampleVisible, setSampleVisible] = useState(true);
   const [contextHeadingGone,setContextHeadingGone]=useState(false);
   const [slotActive, setSlotActive] = useState(true);
+  const [mediaQuery,setMediaQuery]=useState("");
+  const [sampleTitle,setSampleTitle]=useState("Тихий берег");
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
   const changeHorizon = (value: string) => {
@@ -43,6 +45,25 @@ export function ComponentCatalog() {
     <p className="catalog-intro">Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные.</p>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
+    </CatalogSection>
+    <CatalogSection id="media-catalogue" title="MediaCard / SearchField / TextField" description="Композиция для фильмотек, книг и других коллекций: настоящие ссылки, поиск, метаданные и формы на общих токенах.">
+     <div className="demo-media-catalogue">
+      <SectionToolbar title="Коллекция" variant="section" count={2} total={2}/>
+      <SearchField value={mediaQuery} onValueChange={setMediaQuery} label="Поиск по примерам" placeholder="Поиск по коллекции"/>
+      <div className="demo-media-items">
+       {["Тихий берег","Маяк на холме"].filter(t=>t.toLowerCase().includes(mediaQuery.toLowerCase())).map((title,i)=><MediaCard
+        key={title} title={title} href="#media-catalogue"
+        artwork={<span className="demo-media-art" aria-hidden="true">{i===0?"◉":"✦"}</span>}
+        subtitle={i===0?"Фильм · 2026":"Книга · 2025"}
+        meta={i===0?"Документальный":"Рассказы"}
+        footer={<ActionButton size="md" variant="accent" onClick={()=>setSampleTitle(title)}>Выбрать</ActionButton>}/>)}
+      </div>
+      <div className="demo-media-row"><MediaCard title="Тихий берег" href="#media-catalogue" layout="row"
+       artwork={<span className="demo-media-art" aria-hidden="true">◉</span>}
+       eyebrow="В подборке" subtitle="Короткая форма для полки" meta="Вымышленный пример"/></div>
+      <div className="demo-media-form"><TextField label="Название новой подборки" value={sampleTitle}
+       onChange={e=>setSampleTitle(e.target.value)} hint="Пример общего поля формы; данные никуда не отправляются."/></div>
+     </div>
     </CatalogSection>
     <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
       <SineWave className="h-60" fit origin={590} events={[
