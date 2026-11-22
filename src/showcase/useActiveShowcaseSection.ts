@@ -7,14 +7,23 @@ import { useEffect, useState } from "react";
  */
 export function visibleSection(ids: readonly string[], headerBottom: number): string | null {
   const probe = headerBottom + 40; // account for scroll-margin below the sticky topbar
-  let current: string | null = null;
+  let candidate: string | null = null;
   for (const id of ids) {
     const section = document.getElementById(id);
     if (!section) continue;
-    if (section.getBoundingClientRect().top <= probe) current = id;
-    else break;
+    const rect = section.getBoundingClientRect();
+    // The most recent active section must still contain the probe.
+    // #workspace is nested inside #catalog; once it ends, return to catalogue.
+    if (rect.top <= probe && rect.bottom > probe) candidate = id;
   }
-  return current ?? ids.find((id) => document.getElementById(id) !== null) ?? null;
+  if (candidate) return candidate;
+  // At the very start/end of the longread, choose the last section passed.
+  let last: string | null = null;
+  for (const id of ids) {
+    const section = document.getElementById(id);
+    if (section && section.getBoundingClientRect().top <= probe) last = id;
+  }
+  return last ?? ids.find((id) => document.getElementById(id) !== null) ?? null;
 }
 
 function sectionForHash(ids: readonly string[]): string | null {
