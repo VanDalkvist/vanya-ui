@@ -1,0 +1,91 @@
+import React from "react";
+import {afterEach,describe,expect,it,vi} from "vitest";
+import {cleanup,fireEvent,render,screen,within} from "@testing-library/react";
+import {readFileSync} from "node:fs";
+import {resolve} from "node:path";
+import {ActionButton,ActionLink,AvatarLink,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
+import {ShowcaseHeader} from "../src/showcase/ShowcaseHeader";
+
+const read=(file:string)=>readFileSync(resolve(import.meta.dirname,"..",file),"utf8");
+afterEach(()=>{cleanup();window.localStorage.removeItem("vanya_theme")});
+
+describe("interaction feedback contracts",()=>{
+ it("keeps hover as pointer-only enhancement and focus as its own state",()=>{
+  const css=read("src/tokens.css");
+  expect(css).toContain("--ui-feedback-hover-fill");
+  expect(css).toContain("@media (hover:hover) and (pointer:fine)");
+  expect(css).toContain(".ui-feedback-icon:not(:disabled)");
+  expect(css).toContain("outline:2px solid var(--accent)");
+  expect(css).toContain(".ui-feedback-nav:is([aria-current],[aria-pressed=\"true\"])");
+  expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+  expect(css).toContain(".ui-feedback-row[aria-checked=\"true\"]");
+ });
+ it("preserves real link and button behavior, disabled actions do not fire",()=>{
+  const handle=vi.fn();
+  render(<>
+   <ActionLink href="/reference/interaction-states.md" variant="text">Правила</ActionLink>
+   <ActionButton variant="outline" onClick={handle}>Сохранить</ActionButton>
+   <ActionButton variant="outline" onClick={handle} disabled>Недоступно</ActionButton>
+   <LinkChip url="https://example.com" label="Источник"/>
+  </>);
+  const link=screen.getByRole("link",{name:"Правила"});
+  expect(link).toHaveClass("ui-feedback-text");
+  expect(link).toHaveAttribute("data-variant","text");
+  const save=screen.getByRole("button",{name:"Сохранить"});
+  expect(save).toHaveClass("ui-feedback-text");
+  expect(save).toHaveAttribute("data-variant","outline");
+  fireEvent.click(save);
+  fireEvent.click(screen.getByRole("button",{name:"Недоступно"}));
+  expect(handle).toHaveBeenCalledTimes(1);
+  const source=screen.getByRole("link",{name:/Источник/});
+  expect(source).toHaveClass("ui-feedback-source");
+  expect(source.querySelector("span:nth-child(2)")).not.toHaveClass("hover:text-ink");
+ });
+ it("preserves selected navigation and filters independently of hover",()=>{
+  const onSelect=vi.fn();
+  render(<>
+   <NavLinks items={[{id:"a",label:"Сейчас",href:"#a",isActive:true},{id:"b",label:"История",href:"#b"}]}/>
+   <SegmentedControl semantics="filters" aria-label="Пример фильтра" items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]} value="all" onChange={onSelect}/>
+  </>);
+  const current=screen.getByRole("link",{name:"Сейчас"});
+  expect(current).toHaveAttribute("aria-current","location");
+  expect(current).toHaveClass("ui-feedback-nav");
+  const selected=screen.getByRole("button",{name:"Все"});
+  expect(selected).toHaveAttribute("aria-pressed","true");
+  expect(selected).toHaveClass("ui-feedback-segment");
+  fireEvent.click(screen.getByRole("button",{name:"Мои"}));
+  expect(onSelect).toHaveBeenCalledWith("mine");
+ });
+ it("does not scale avatar links or introduce layout movement during hover",()=>{
+  render(<AvatarLink href="https://example.com" src="/avatar.png" alt="Профиль"/>);
+  const link=screen.getByRole("link",{name:"Профиль"});
+  expect(link).toHaveClass("ui-feedback-avatar");
+  expect(link.className).not.toContain("hover:scale");
+  expect(link.className).not.toContain("hover:shadow");
+ });
+ it("keeps GitHub glyph smaller than its stable hit target",()=>{
+  render(<ShowcaseHeader/>);
+  const link=screen.getByRole("link",{name:/GitHub — исходники Vanya UI/});
+  expect(link).toHaveClass("ui-feedback-icon");
+  expect(link.querySelector("svg")).toHaveAttribute("width","14");
+  expect(link.querySelector("svg")).toHaveAttribute("height","14");
+  expect(read("src/showcase/showcase.css")).toContain(".showcase-github { display:inline-grid; place-items:center; flex:none; width:32px; height:32px;");
+ });
+ it("gives theme menu an accessible selected state, arrow navigation and Escape focus return",()=>{
+  render(<ThemeToggle/>);
+  const trigger=screen.getByRole("button",{name:/Тема оформления:/});
+  expect(trigger).toHaveClass("ui-feedback-icon");
+  expect(trigger).toHaveAttribute("aria-haspopup","menu");
+  fireEvent.click(trigger);
+  expect(trigger).toHaveAttribute("aria-expanded","true");
+  const menu=screen.getByRole("menu");
+  const selected=within(menu).getByRole("menuitemradio",{name:"Системная"});
+  expect(selected).toHaveAttribute("aria-checked","true");
+  expect(selected).toHaveFocus();
+  fireEvent.keyDown(menu,{key:"ArrowUp"});
+  expect(within(menu).getByRole("menuitemradio",{name:"Тёмная"})).toHaveFocus();
+  fireEvent.keyDown(menu,{key:"Escape"});
+  expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  expect(trigger).toHaveFocus();
+ });
+});
