@@ -12,9 +12,17 @@ export function install(root,sha){
  const spec=[
   'name: Vanya UI — visual feature contract',
   'on:',
-  '  pull_request:',
-  '  push:',
-  '    branches: [main]',
+  '  workflow_dispatch:',
+  '    inputs:',
+  '      mode:',
+  '        description: Choose React or visual-only contract',
+  '        type: choice',
+  '        options: [react, visual, auto]',
+  '        default: react',
+  '      base_sha:',
+  '        description: Optional comparison commit SHA',
+  '        type: string',
+  '        required: false',
   'permissions:',
   '  contents: read',
   'jobs:',
@@ -26,8 +34,8 @@ export function install(root,sha){
   '          fetch-depth: 0',
   '      - uses: VanDalkvist/vanya-ui/.github/actions/ui-contract@'+sha,
   '        with:',
-  '          mode: auto',
-  '          base-sha: '+String.fromCharCode(36)+'{{ github.event.pull_request.base.sha || github.event.before }}',
+  '          mode: '+String.fromCharCode(36)+'{{ inputs.mode }}',
+  '          base-sha: '+String.fromCharCode(36)+'{{ inputs.base_sha }}',
   ''
  ].join('\n');
  const content='# Vanya Arc / UI — visual contract\n\nRead https://github.com/VanDalkvist/vanya-ui/blob/main/docs/patterns/ui-feature-pipeline.md before each UI feature. React projects must reuse pinned @vanya/ui components and tokens; static visuals should follow its token/pattern design. UI changes require real browser tests; a build is not UI QA. Backend/CLI/data-only changes skip.\n';
@@ -41,6 +49,6 @@ if(process.argv[1]&&resolve(process.argv[1])===new URL(import.meta.url).pathname
   const [root,sha]=process.argv.slice(2);
   if(!root||!sha)throw Error('Usage: node scripts/install-ui-contract.mjs <project-root> <pinned-vanya-ui-sha>');
   const out=install(resolve(root),sha);
-  console.log('Installed '+out.workflow+'\nReview '+out.policy+'\nAdd a real browser test and configure required GitHub status for this repository.');
+  console.log('Installed '+out.workflow+'\nReview '+out.policy+'\nAdd a browser test; GitHub Actions remain workflow_dispatch only.');
  }catch(e){console.error(e.message);process.exitCode=1}
 }
