@@ -12,9 +12,12 @@ async function capture(page:Page,info:TestInfo,name:string) {
 /** Sample the actual pointer target at multiple points, including the right edge of the
  * hero slider where the old floating shortcut dock obscured it. This MUST fail for
  * any covering element even if the slider remains visible in the accessibility tree. */
-async function assertUnobstructed(locator:ReturnType<Page["locator"]>,fractions=[0.5],scroll=true) {
+type HitSample={fraction:number;onScreen:boolean;interactable:boolean;covering:string|null;rect:{x:number;y:number;width:number;height:number}};
+
+/** A direct browser geometry probe, not a CSS string check or visibility matcher. */
+async function probeHitTargets(locator:ReturnType<Page["locator"]>,fractions:number[],scroll=true):Promise<HitSample[]> {
   if(scroll)await locator.scrollIntoViewIfNeeded();
-  const result=await locator.evaluate((target:Element,parts:number[])=>{
+  return locator.evaluate((target:Element,parts:number[])=>{
     const rect=target.getBoundingClientRect();
     return parts.map(fraction=>{
       const x=rect.left+rect.width*fraction;
@@ -26,12 +29,15 @@ async function assertUnobstructed(locator:ReturnType<Page["locator"]>,fractions=
         rect:{x:rect.x,y:rect.y,width:rect.width,height:rect.height}};
     });
   },fractions);
-  for(const sample of result){
+}
+
+async function assertUnobstructed(locator:ReturnType<Page["locator"]>,fractions=[0.5],scroll=true) {
+  const samples=await probeHitTargets(locator,fractions,scroll);
+  for(const sample of samples){
     expect(sample.onScreen,JSON.stringify(sample)).toBe(true);
     expect(sample.interactable,JSON.stringify(sample)).toBe(true);
   }
 }
-
 for(const size of [
   {name:"desktop",width:1440,height:900},
   {name:"tablet",width:1024,height:768},
@@ -74,6 +80,31 @@ for(const size of [
     });
   }
 }
+
+test("01b falsification: a right-side blocker is detected by the SAME hit-test oracle",async({page})=>{
+  await page.setViewportSize({width:1440,height:900});
+  await page.goto("/");
+  const slider=page.getByRole("slider",{name:"Расстояние между событиями"});
+  await assertUnobstructed(slider,[0.15,0.5,0.85]);
+  const rect=await slider.boundingBox();
+  expect(rect).not.toBeNull();
+  // Mutation probe: deliberately recreate the original category of bug at the
+  // right edge without altering the application code or saving a golden image.
+  await page.evaluate(({x,y,width,height})=>{
+    const blocker=document.createElement("div");
+    blocker.id="test-right-edge-blocker";
+    Object.assign(blocker.style,{position:"fixed",left:`${x+width*0.72}px`,
+      top:`${y}px`,width:`${width*0.28}px`,height:`${height}px`,
+      zIndex:"2147483647",pointerEvents:"auto",background:"transparent"});
+    document.body.appendChild(blocker);
+  },rect!);
+  const obstructed=await probeHitTargets(slider,[0.15,0.5,0.85],false);
+  expect(obstructed[0].interactable).toBe(true); // not a blanket false
+  expect(obstructed[1].interactable).toBe(true);
+  expect(obstructed[2].interactable).toBe(false); // right-side collision detected
+  await page.locator("#test-right-edge-blocker").evaluate(el=>el.remove());
+  await assertUnobstructed(slider,[0.15,0.5,0.85],false);
+});
 
 test("02 native current-section navigation survives scroll and history",async({page},info)=>{
   await page.goto("/");
