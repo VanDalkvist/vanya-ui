@@ -6,7 +6,7 @@ import type { ComponentSize } from "../sizes";
 export interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: ComponentSize;
-  variant?: "text" | "mono" | "accent" | "pill";
+  variant?: "text" | "mono" | "accent" | "pill" | "outline";
   className?: string;
 }
 
@@ -27,6 +27,7 @@ export function ActionButton({
     accent: "px-0 font-sans font-medium text-accent hover:underline underline-offset-4",
     // Мягкая скругленная пилюля без рамок
     pill: "rounded-full font-sans text-ink-soft hover:bg-surface-raised hover:text-ink",
+    outline: "rounded-sm border border-border bg-surface font-sans font-medium text-ink hover:bg-surface-raised hover:border-accent",
   }[variant];
 
   return (
