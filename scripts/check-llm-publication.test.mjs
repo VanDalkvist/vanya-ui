@@ -28,14 +28,14 @@ test('public agent references must be present and canonical',()=>{
   put(root,'skills/vanya-ui/SKILL.md',body);
   put(root,'docs/patterns/ui-feature-pipeline.md',body);
   put(root,'docs/patterns/list-detail-composition.md',body);
-  put(root,'public/llms-full.txt','## Agent instructions\\n\\n'+body);
+  put(root,'public/llms-full.txt','## Agent instructions'+String.fromCharCode(10,10)+body);
   let result=validatePublication(root);
   assert.equal(result.ok,true,JSON.stringify(result.errors));
   put(root,'public/reference/ui-pipeline.md','stale generated copy');
   result=validatePublication(root);
   assert.ok(result.errors.some(x=>x.includes('Generated reference is stale')));
   put(root,'public/reference/ui-pipeline.md',body);
-  const bad=body.replace('- [reference/ui-pipeline.md]','\\\\n- [reference/ui-pipeline.md]');
+  const bad=body.replace('- [reference/ui-pipeline.md]',String.fromCharCode(92,110)+'- [reference/ui-pipeline.md]');
   put(root,'public/llms.txt',bad);
   result=validatePublication(root);
   assert.ok(result.errors.some(x=>x.includes('escaped newline')));
