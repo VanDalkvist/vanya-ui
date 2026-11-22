@@ -21,8 +21,15 @@ describe("showcase header: product, navigation and utility hierarchy",()=>{
  it("uses a single muted text tier across default section links and both right-side glyphs",()=>{
   const {container}=render(<ShowcaseHeader/>);
   const header=container.querySelector("header")!;
-  const section=within(header).getByRole("link",{name:"Композиция"});
-  expect(section.className).toContain("text-ink-soft/80");
+  const current=within(header).getByRole("link",{name:"Композиция"});
+  const other=within(header).getByRole("link",{name:"Айдентика"});
+  // Active location is deliberately accented; ordinary links remain in the
+  // muted tier, just like the GitHub/theme icon links at rest.
+  expect(current).toHaveAttribute("aria-current","location");
+  expect(current).toHaveClass("text-accent");
+  expect(current).not.toHaveClass("text-ink-soft/80");
+  expect(other).not.toHaveAttribute("aria-current");
+  expect(other).toHaveClass("text-ink-soft/80");
   const author=within(header).getByRole("link",{name:/Автор: Ваня Афанасов/});
   expect(author).toHaveClass("ui-feedback-text");
   const github=within(header).getByRole("link",{name:/GitHub — исходники Vanya UI/});
