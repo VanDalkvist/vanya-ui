@@ -114,7 +114,7 @@ Use Vanya UI's `LoadingRegion` with `Skeleton`, `SkeletonText`, and `MediaCardSk
 
 For long catalogues on desktop, use a **single compact sticky filter row** below the persistent app header. Keep the title and result count above the row. Its job is search + current scope + a few frequent selectors + a clearly labeled entry into the remaining facets; it is not another form screen.
 
-- Use `SearchField density="toolbar"`, `SegmentedControl density="toolbar" semantics="filters"` and `SelectField density="toolbar"`. Their **40px shared control height** and token surfaces come from Vanya UI, not app CSS. Native select labels remain visible in the same line as the selected value.
+- Use `SearchField density="toolbar"`, `SegmentedControl density="toolbar" semantics="filters"` and **`FilterSelect`**. Their **40px shared control height** and token surfaces come from Vanya UI, not app CSS. `FilterSelect` renders a styled, searchable listbox through a portal (with keyboard support), so browser/OS-native menus cannot escape the brand or get clipped by the sticky toolbar. Keep `SelectField` for ordinary forms where native select behavior is desirable.
 - Put rare and overflowing selectors inside one accessible, dismissible filter disclosure. It should overlay the content (with an appropriate max-height and scroll of its own) instead of pushing poster cards down. Keep selections synchronized with visible controls and show a filter count when active.
 - Make the app-specific **filter dock** sticky at exactly the real header height. It needs a solid enough background, a modest separation line, a z-index below the header and visible keyboard focus. Do not use `position:fixed` to remove it from the document flow. Test scrolled positions and direct-linked cards; sticky elements must not obscure focused content.
 - At widths below what the complete row can hold, move secondary selectors into the disclosure instead of wrapping the dock into a large second row. On small phones, retain search + the filter action in one line; current scope selection stays available inside the filter disclosure.
@@ -126,7 +126,7 @@ For long catalogues on desktop, use a **single compact sticky filter row** below
   <SearchField density="toolbar" label="Поиск" value={query} onValueChange={setQuery}/>
   <SegmentedControl density="toolbar" semantics="filters" aria-label="Чьи записи" value={scope} onChange={setScope}
     items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]}/>
-  <SelectField density="toolbar" label="Жанр" value={genre} onChange={e=>setGenre(e.target.value)} options={genres}/>
+  <FilterSelect label="Жанр" value={genre} onValueChange={setGenre} searchable options={genres}/>
   <ActionButton onClick={()=>setMoreFilters(open=>!open)}>Фильтры</ActionButton>
 </div>
 ```
