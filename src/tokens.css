@@ -639,3 +639,68 @@
 @media (prefers-reduced-motion: reduce){
  .ui-select-field[data-density="toolbar"]{transition:none;}
 }
+
+/* Vanya UI filter dropdown. Portal guarantees that sticky/overflowing application
+   toolbars never clip the menu. Geometry and palette follow semantic tokens. */
+@layer components {
+ .ui-filter-select{display:inline-flex;align-items:center;min-width:0;max-width:100%;height:40px;}
+ .ui-filter-select-trigger{
+  display:flex;align-items:center;gap:7px;width:100%;min-width:0;height:40px;
+  padding:0 11px 0 12px;background:var(--surface);color:var(--ink);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  font:500 13px/1.4 var(--font-sans);cursor:pointer;text-align:left;
+  transition:background 130ms ease,border-color 130ms ease;
+ }
+ .ui-filter-select-trigger:hover{border-color:color-mix(in oklab,var(--ink) 24%,var(--border));background:var(--surface-raised);}
+ .ui-filter-select-trigger:focus-visible,.ui-filter-select[data-expanded] .ui-filter-select-trigger{
+  outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);
+ }
+ .ui-filter-select-trigger:disabled{opacity:.45;cursor:not-allowed;}
+ .ui-filter-select-label{flex:none;font:500 12px/1.4 var(--font-sans);color:var(--ink-soft);white-space:nowrap;}
+ .ui-filter-select-value{
+  display:block;min-width:0;flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;font:550 13px/1.4 var(--font-sans);color:var(--ink);
+ }
+ .ui-filter-select-empty{color:var(--ink-soft);}
+ .ui-filter-select-chevron{flex:none;color:var(--ink-soft);transition:transform 130ms ease;}
+ .ui-filter-select[data-expanded] .ui-filter-select-chevron{transform:rotate(180deg);}
+ .ui-filter-select-panel{
+  z-index:90;min-width:0;display:flex;flex-direction:column;overflow:hidden;
+  background:var(--surface);color:var(--ink);border:1px solid var(--border);
+  border-radius:var(--radius-sm);box-shadow:0 18px 46px color-mix(in oklab,var(--ink) 21%,transparent);
+  padding:5px;font:500 14px/1.45 var(--font-sans);isolation:isolate;
+ }
+ .ui-filter-select-search-wrap{
+  display:flex;align-items:center;gap:9px;flex:0 0 auto;
+  min-height:40px;padding:0 10px;color:var(--ink-soft);
+  border-bottom:1px solid var(--border);margin-bottom:5px;
+ }
+ .ui-filter-select-search{
+  flex:1;width:100%;min-width:0;background:transparent;color:var(--ink);
+  font:500 14px/1.4 var(--font-sans);outline:none;border:0;height:37px;
+ }
+ .ui-filter-select-options{overflow-y:auto;overscroll-behavior:contain;outline:none;min-height:0;padding:2px;scrollbar-width:thin;}
+ .ui-filter-select-option{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  min-height:36px;max-width:100%;padding:7px 10px;
+  border-radius:var(--radius-xs);color:var(--ink);cursor:pointer;
+  font:500 14px/1.45 var(--font-sans);
+ }
+ .ui-filter-select-option-text{flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;}
+ .ui-filter-select-option>svg{color:var(--accent);flex:none;}
+ .ui-filter-select-option[data-active],.ui-filter-select-option:hover{
+  background:var(--surface-inset);color:var(--ink);
+ }
+ .ui-filter-select-option[aria-selected="true"]{color:var(--accent);font-weight:600;}
+ .ui-filter-select-option[aria-disabled="true"]{opacity:.4;pointer-events:none;cursor:not-allowed;}
+ .ui-filter-select-no-results,.ui-filter-select-more{
+  padding:11px 10px;margin:0;font:400 12px/1.55 var(--font-sans);color:var(--ink-soft);
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .ui-filter-select-trigger,.ui-filter-select-chevron{transition:none;}
+}
+@media(forced-colors:active){
+ .ui-filter-select-trigger,.ui-filter-select-panel{border:1px solid ButtonText;}
+ .ui-filter-select-option[data-active]{outline:1px solid Highlight;outline-offset:-1px;}
+}
