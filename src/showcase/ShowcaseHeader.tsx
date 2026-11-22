@@ -24,7 +24,7 @@ export function ShowcaseHeader() {
          <span className="showcase-author-compact">Автор</span>
          <ArrowUpRight size={13} aria-hidden="true" />
        </ActionLink>
-      <a className="showcase-github" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer" aria-label="GitHub — исходники Vanya UI (новая вкладка)" title="GitHub — исходники"><GitHubIcon size={17} /></a>
+      <a className="showcase-github ui-feedback-icon" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer" aria-label="GitHub — исходники Vanya UI (новая вкладка)" title="GitHub — исходники"><GitHubIcon size={14} /></a>
       <ThemeToggle />
     </NavLinks>
   </header>;

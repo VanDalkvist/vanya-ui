@@ -63,13 +63,13 @@ export function SegmentedControl<T extends string = string>({
             aria-pressed={semantics === "filters" ? isSelected : undefined}
             onClick={() => onChange(item.id)}
             className={clsx(
-              "inline-flex items-center border-0 bg-transparent transition-all duration-200",
+              "ui-feedback-segment inline-flex items-center border-0 bg-transparent",
               density==="toolbar"?"":"rounded-full",
               disabled ? "cursor-default opacity-35" : "cursor-pointer",
-              "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+              
               isSelected
                 ? "bg-surface text-accent font-medium shadow-xs"
-                : disabled ? "text-ink-soft" : "text-ink-soft hover:text-ink hover:bg-surface/40"
+                : disabled ? "text-ink-soft" : "text-ink-soft"
             )}
           >
             {item.icon}

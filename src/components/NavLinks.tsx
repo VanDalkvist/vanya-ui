@@ -40,10 +40,10 @@ export function NavLinks({
       <div className="flex items-center gap-x-3.5 sm:gap-x-4">
         {items.map((item) => {
           const classes = clsx(
-            "appearance-none border-0 bg-transparent p-0 font-sans text-[13px] sm:text-[13px] tracking-normal transition-colors duration-200 cursor-pointer focus-visible:text-accent focus-visible:outline-none",
+            "ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-[13px] sm:text-[13px] tracking-normal cursor-pointer",
             item.isActive
               ? "text-accent font-semibold"
-              : "text-ink-soft/80 font-medium hover:text-accent"
+              : "text-ink-soft/80 font-medium"
           );
           // URL navigation is native. onSelect handles only non-URL, local UI buttons.
           if (item.href) {
@@ -71,7 +71,7 @@ export function NavLinks({
           <button
             type="button"
             onClick={onNowClick}
-            className="appearance-none border-0 bg-transparent p-0 font-sans text-[12.5px] font-medium tracking-normal text-ink-soft/75 transition-colors duration-200 hover:text-accent focus-visible:text-accent focus-visible:outline-none cursor-pointer"
+            className="ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-[12.5px] font-medium tracking-normal text-ink-soft/75 cursor-pointer"
           >
             {nowLabel}
           </button>

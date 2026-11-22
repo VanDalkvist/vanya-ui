@@ -25,8 +25,8 @@ export function AvatarLink({
       title={alt}
       className={twMerge(
         clsx(
-          "ui-size ui-avatar pointer-events-auto inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-border transition-all duration-200 select-none",
-          "hover:scale-105 hover:border-accent hover:shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer",
+          "ui-size ui-avatar ui-feedback-avatar pointer-events-auto inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-border select-none",
+          "cursor-pointer",
           className
         )
       )}

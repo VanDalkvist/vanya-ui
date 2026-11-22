@@ -25,7 +25,7 @@ export function LinkChip({
       rel="noreferrer"
       className={twMerge(
         clsx(
-          "ui-size inline-flex items-center font-sans text-accent underline-offset-4 hover:underline select-none transition-opacity duration-150",
+          "ui-size ui-feedback-source inline-flex items-center font-sans text-ink-soft underline-offset-4 select-none",
           className
         )
       )}
@@ -34,7 +34,7 @@ export function LinkChip({
       <span className="font-mono tracking-[0.24em] text-ink-soft uppercase shrink-0">
         {label}
       </span>
-      <span className="min-w-0 truncate max-w-[280px] font-mono text-ink-soft hover:text-ink">
+      <span className="min-w-0 truncate max-w-[280px] font-mono">
         {url}
       </span>
       <span className="leading-none opacity-60" style={{ fontSize: "var(--ui-icon)" }} aria-hidden="true">↗</span>

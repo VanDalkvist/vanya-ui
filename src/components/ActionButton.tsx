@@ -20,25 +20,25 @@ export function ActionButton({
 }: ActionButtonProps) {
   const variantStyles = {
     // Чистая типографическая кнопка из Синусоиды (без рамок)
-    text: "px-0 font-sans font-medium tracking-normal text-ink-soft/80 hover:text-accent",
+    text: "px-0 font-sans font-medium tracking-normal text-ink-soft/80",
     // Моноширинное верхнее действие из Синусоиды
-    mono: "px-0 font-mono tracking-[0.16em] uppercase text-ink-soft hover:text-ink",
+    mono: "px-0 font-mono tracking-[0.16em] uppercase text-ink-soft",
     // Янтарный акцентный линк
-    accent: "px-0 font-sans font-medium text-accent hover:underline underline-offset-4",
+    accent: "px-0 font-sans font-medium text-accent underline-offset-4",
     // Мягкая скругленная пилюля без рамок
-    pill: "rounded-full font-sans text-ink-soft hover:bg-surface-raised hover:text-ink",
-    outline: "rounded-sm border border-border bg-surface font-sans font-medium text-ink hover:bg-surface-raised hover:border-accent",
+    pill: "rounded-full font-sans text-ink-soft",
+    outline: "rounded-sm border border-border bg-surface font-sans font-medium text-ink",
   }[variant];
 
   return (
     <button
       data-size={size}
+      data-variant={variant}
       type="button"
       disabled={disabled}
       className={twMerge(
         clsx(
-          "ui-size inline-flex items-center appearance-none border-0 bg-transparent outline-none transition-colors duration-200 cursor-pointer select-none",
-          "focus-visible:text-accent focus-visible:outline-none",
+          "ui-size ui-action-button ui-feedback-text inline-flex items-center appearance-none border-0 bg-transparent cursor-pointer select-none",
           disabled && "opacity-35 cursor-not-allowed pointer-events-none",
           variantStyles,
           className
