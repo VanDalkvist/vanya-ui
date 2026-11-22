@@ -119,3 +119,5 @@ export {TextField, type TextFieldProps} from "./components/TextField";
 
 export {Skeleton, SkeletonText, LoadingRegion, MediaCardSkeleton} from "./components/Skeleton";
 export type {SkeletonProps, SkeletonTextProps, LoadingRegionProps, MediaCardSkeletonProps, SkeletonShape} from "./components/Skeleton";
+
+export {FilterSelect, type FilterSelectProps, type FilterSelectOption} from "./components/FilterSelect";
