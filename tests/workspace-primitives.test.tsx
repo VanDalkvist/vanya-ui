@@ -13,6 +13,13 @@ describe("Workspace primitives", () => {
     expect(screen.getByText("Стоимость неизвестна")).toBeInTheDocument();
     expect(screen.getByText("$0")).toBeInTheDocument();
   });
+  it("supports the canonical large breadcrumb type scale without app-specific CSS",()=>{
+    render(<WorkspaceContextHeader breadcrumbs={[{id:"home",label:"Мастерская",href:"/"},{id:"catalog",label:"Каталог модулей"}]} title="Каталог модулей" showTitle={false} breadcrumbSize="large"/>);
+    const nav=screen.getByRole("navigation",{name:"Хлебные крошки"});
+    expect(nav).toHaveAttribute("data-size","large");
+    expect(nav.querySelectorAll("ol li")).toHaveLength(2);
+    expect(screen.getByRole("link",{name:"Мастерская"})).toHaveAttribute("href","/");
+  });
   it("includes the contextual source action without changing real breadcrumbs",()=>{
     const onOpen=vi.fn();
     render(<WorkspaceContextHeader breadcrumbs={[{id:"library",label:"Библиотека",href:"/#catalog"}]}
