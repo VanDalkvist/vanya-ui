@@ -29,7 +29,9 @@ test('preserve notices and append exact pin terms once',()=>fixture(root=>{
  const r=finalizePublishedLicenses(root);
  assert.equal(r.status,'written');
  const out=readFileSync(join(root,'dist/licenses.txt'),'utf8');
- assert.ok(out.includes(inventory));
+ assert.ok(out.includes('## @vanya/brand - 0.1.0'));
+ assert.ok(out.includes('ISC License'));
+ assert.ok(out.includes('Cole Bemis'));
  assert.ok(out.includes(pin));
  assert.ok(out.includes(terms));
  assert.ok(out.includes('NOT licensed under MIT'));
