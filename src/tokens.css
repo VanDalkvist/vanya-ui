@@ -55,6 +55,12 @@
 }
 
 :root {
+  /* Interaction-state primitives: separate intent (hover), focus, press and selection.
+     Semantic ink-derived overlays follow light/dark without hard-coded RGB. */
+  --ui-feedback-hover-fill: color-mix(in oklab,var(--ink) 6%,transparent);
+  --ui-feedback-pressed-fill: color-mix(in oklab,var(--ink) 11%,transparent);
+  --ui-feedback-hover-border: color-mix(in oklab,var(--ink) 25%,var(--border));
+  --ui-feedback-duration: 140ms;
   --event-card-radius: 8px;
   --event-card-shadow: 0 4px 16px -2px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
   --event-card-hover-shadow: 0 16px 36px -6px rgba(0,0,0,.12), 0 4px 12px -2px rgba(0,0,0,.06);
@@ -811,4 +817,65 @@
  @media(max-width:650px){.ui-surface-header-identity{flex-basis:100%;}.ui-surface-header-actions{width:100%;}.ui-workflow-strip-leading{flex-basis:100%;}.ui-workflow-strip-progress{max-width:100px;}.inspect-sheet__compact-status{display:none;}.inspect-sheet__compact-tools{gap:5px;}.inspect-sheet--wide{max-width:100vw;}}
  @media(max-height:600px){.inspect-sheet[data-has-compact-context="true"] .inspect-sheet__header{position:sticky;top:0;z-index:8;background:var(--surface);}}
  @media(prefers-reduced-motion:reduce){.ui-workflow-strip-progress>span{transition:none;}}
+}
+
+
+/* Interaction states (hover is an enhancement, never the sole affordance).
+   Reusable roles intentionally don't decide layout, domain identity or selected state.
+   Rich narrative timeline events remain a separate, explicitly expressive exception. */
+@layer components {
+  .ui-feedback-icon {
+    color:var(--ink-soft); background:transparent;
+    transition:color var(--ui-feedback-duration) ease,background-color var(--ui-feedback-duration) ease;
+  }
+  .ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source {
+    transition:color var(--ui-feedback-duration) ease,background-color var(--ui-feedback-duration) ease,border-color var(--ui-feedback-duration) ease;
+  }
+  :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible {
+    outline:2px solid var(--accent);outline-offset:2px;
+  }
+  .ui-feedback-icon[aria-expanded="true"] {
+    color:var(--accent);background:var(--accent-soft);
+  }
+  .ui-feedback-nav:is([aria-current],[aria-pressed="true"]),
+  .ui-feedback-row[aria-checked="true"] {
+    color:var(--accent);
+  }
+  .ui-feedback-row[aria-checked="true"] {
+    background:var(--accent-soft);
+  }
+  .ui-feedback-source > span:nth-child(2) {
+    color:inherit;
+  }
+  :is(.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):not(:disabled):active {
+    background:var(--ui-feedback-pressed-fill);
+  }
+  :is(.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):disabled,
+  .ui-feedback-nav:disabled { cursor:default; }
+
+  @media (hover:hover) and (pointer:fine) {
+    .ui-feedback-icon:not(:disabled):not([aria-disabled="true"]):not([aria-expanded="true"]):hover {
+      color:var(--ink);background:var(--ui-feedback-hover-fill);
+    }
+    .ui-feedback-icon[aria-expanded="true"]:hover { color:var(--accent); }
+    .ui-feedback-nav:not(:disabled):not([aria-current]):not([aria-pressed="true"]):hover {
+      color:var(--ink);
+    }
+    .ui-feedback-segment:not(:disabled):not([aria-selected="true"]):not([aria-pressed="true"]):hover,
+    .ui-feedback-row:not(:disabled):not([aria-checked="true"]):hover {
+      color:var(--ink);background:var(--ui-feedback-hover-fill);
+    }
+    .ui-feedback-row[aria-checked="true"]:hover { background:var(--accent-soft); }
+    .ui-feedback-avatar:hover { border-color:var(--ui-feedback-hover-border); }
+    .ui-feedback-source:hover { color:var(--ink);text-decoration:underline;text-underline-offset:3px; }
+    .ui-action-link[data-variant="text"]:hover { color:var(--ink);text-decoration:underline;text-underline-offset:3px; }
+    .ui-action-link[data-variant="mono"]:hover,
+    .ui-action-button[data-variant="mono"]:not(:disabled):hover { color:var(--ink); }
+    .ui-action-link[data-variant="accent"]:hover,
+    .ui-action-button[data-variant="accent"]:not(:disabled):hover { text-decoration:underline;text-underline-offset:4px; }
+    .ui-action-link[data-variant="pill"]:hover,
+    .ui-action-button[data-variant="pill"]:not(:disabled):hover { color:var(--ink);background:var(--ui-feedback-hover-fill); }
+    .ui-action-button[data-variant="text"]:not(:disabled):hover {color:var(--ink);}
+    .ui-action-button[data-variant="outline"]:not(:disabled):hover {border-color:var(--ui-feedback-hover-border);background:var(--ui-feedback-hover-fill);}
+  }
 }
