@@ -50,6 +50,10 @@ import { Link } from "react-router";
 
 For application routing choose a framework router/server strategy that handles direct requests. Don't implement `pushState` without handling `popstate`, initial state, titles, focus, scroll and server fallback. `NavLinks` from `@vanya/ui` renders native anchors for items with `href`; `onSelect` is reserved for local button-style state where no URL is supplied. `ActionLink` renders a native anchor; `ActionButton` is an action, not navigation.
 
+## Current section in a longread
+
+When the primary navigation links to real in-page sections (`/#identity`, `/#catalog`, `/#workspace`), mark the **currently visible** section with `aria-current="location"`. This is neither an accent hover nor the section last clicked. In the showcase, `useActiveShowcaseSection` observes the viewport relative to the real sticky-header bottom; `hashchange`/`popstate` support deep links and browser history, and scroll does not rewrite history. Avoid additional sticky navigation. Verify reload, Back/Forward and nested fragment targets in a browser.
+
 ## Links to authors and repository source
 
 A design-system site is a **product**, not its author's personal homepage. Keep the product logo and internal sections in primary navigation. In a compact *utility* group, label a personal-site link by **the person** (`Ваня Афанасов ↗`, collapsing to `Автор ↗` when necessary), not by a bare URL whose role is unclear. Use a real `ActionLink variant="text"` anchor with `rel="author"` and a descriptive accessible label; the personal site is not a breadcrumb ancestor or a main app section. Do **not** hide the only visible author route on small screens.

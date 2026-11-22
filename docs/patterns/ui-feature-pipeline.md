@@ -26,6 +26,10 @@ The CLI reads files, not git diffs. `inspect` returns source/library files to re
 
 Build success cannot certify layout. Playwright passing does not automatically prove every visual requirement. The skill defines the complete acceptance contract.
 
+## Actual Vanya UI browser gate
+
+For changes to the library and showcase, run the [manual browser gate](../../browser-qa/README.md) as well as unit/build/TypeScript checks. Install pinned Playwright in the isolated subpackage, run `npm run test:browser`, and inspect generated screenshots/traces; the gate hit-tests the slider and other controls, not merely their DOM presence. No GitHub Action is required, and `UI_VERIFIED` **must remain NOT_VERIFIED** until visual/keyboard sign-off. [Repair research](../research/ux-13-16-repair-loop-2026-11-23.md).
+
 ## Optional integrations
 
 GitHub composite Action and [manual-only example](../examples/ui-contract-action.md) are **optional wrappers**, not prerequisites. Keep any existing GitHub UI workflow `workflow_dispatch` only, without push, PR or schedule triggers. The legacy `scripts/install-ui-contract.mjs` installs that optional provider-specific wrapper and is **not part of the normal agent path**.
