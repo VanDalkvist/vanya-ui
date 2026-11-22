@@ -10,7 +10,7 @@ const rules = [
   {id:"keyboard-shortcuts", number:"05", title:"Клавиши должны помогать", description:"Добавляй сокращения для частых действий, показывай их рядом с командой и давай отключить. Не перехватывай сочетания браузера и ввод текста."},
 ];
 
-export function Guide() {
+export function Guide({onShowShortcuts}:{onShowShortcuts?:()=>void} = {}) {
   return <section id="principles" className="catalog guide" aria-labelledby="principles-title">
     <p className="guide-eyebrow">Принципы / 05</p>
     <h2 id="principles-title" className="catalog-title">Как устроен интерфейс</h2>
@@ -31,7 +31,7 @@ export function Guide() {
         {rule.id==="keyboard-shortcuts" && <>
           <div className="shortcut-guide-example" aria-label="Примеры сочетаний">
             <span>Перейти к разделу <ShortcutKeys keys={["G","I"]}/></span>
-            <span>Справка <ShortcutKeys keys={["?"]}/></span>
+            {onShowShortcuts ? <button type="button" className="shortcut-guide-open ui-feedback-text" onClick={onShowShortcuts} aria-label="Настроить горячие клавиши">Справка <ShortcutKeys keys={["?"]}/></button> : <span>Справка <ShortcutKeys keys={["?"]}/></span>}
             <span>Закрыть панель <ShortcutKeys keys={["Esc"]}/></span>
           </div>
           <p>Это работающие клавиши витрины. Команды с одной буквой можно отключить в справке. Ссылки в шапке работают и без них.</p>

@@ -46,8 +46,6 @@
 .token-sample { display:flex; align-items:center; gap:12px; font-family:var(--font-mono); font-size:12px; }
 /* The longread ends with a signature and useful exits, not another main menu. */
 .showcase-footer { max-width:1280px; margin:clamp(64px,8vw,112px) auto 0; padding:clamp(36px,4vw,54px) var(--spacing-scene) 24px; border-top:1px solid var(--border); color:var(--ink-soft); }
-/* Keep the final footer controls above the floating help action. */
-.showcase-footer { padding-bottom:88px; }
 .showcase-footer-main { display:flex; justify-content:space-between; align-items:flex-start; gap:32px 64px; }
 .showcase-footer-identity { min-width:0; }
 .showcase-footer-home { display:inline-flex; align-items:center; width:max-content; max-width:100%; color:var(--ink); text-decoration:none; }
@@ -189,12 +187,7 @@ p { text-wrap:pretty; }
  .showcase-github{width:44px;height:44px;}
  .showcase-nav .ui-feedback-icon{min-width:44px;min-height:44px;}
 }
-.showcase-shortcut-dock { position:fixed; right:max(18px,env(safe-area-inset-right)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:29; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-xs); background:var(--ground); color:var(--ink-soft); font:500 12px/1.4 var(--font-sans); cursor:pointer; box-shadow:0 2px 12px color-mix(in oklab,var(--ink) 6%,transparent); }
-@media(hover:hover) and (pointer:fine){.showcase-shortcut-dock:hover { border-color:var(--ui-feedback-hover-border);color:var(--ink);background:var(--ui-feedback-hover-fill); }}
-.showcase-shortcut-dock:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-.showcase-shortcut-dock:active { background:var(--ui-feedback-pressed-fill);color:var(--ink);transition-duration:0ms; }
 .showcase-name:active,.guide-link:active,.showcase-footer :is(a):active { opacity:.68;transition-duration:0ms; }
-.showcase-shortcut-dock kbd { font-size:10px; }
 .shortcut-pending { position:fixed; z-index:51; bottom:24px; left:50%; transform:translateX(-50%); padding:12px 18px; background:var(--surface-raised); border:1px solid var(--border-strong); color:var(--ink); font:500 13px var(--font-mono); box-shadow:var(--sheet-shadow); }
 .shortcut-pending span { color:var(--ink-soft); font:12px var(--font-sans); }
 .shortcut-help-list { margin:20px 0; border-block:1px solid var(--border); }
@@ -208,14 +201,14 @@ p { text-wrap:pretty; }
 .shortcut-preference strong { color:var(--ink); font:600 13px var(--font-sans); }
 .shortcut-preference small { color:var(--ink-soft); font:12px/1.65 var(--font-sans); }
 .shortcut-guide-example { display:flex; align-items:center; flex-wrap:wrap; gap:12px 28px; padding:18px 0; margin-top:14px; }
-.shortcut-guide-example>span { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--ink-soft); }
+.shortcut-guide-example> :is(span,button) { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--ink-soft); }
+.shortcut-guide-open { padding:0; border:0; background:transparent; cursor:pointer; font-family:inherit; }
+@media(hover:hover) and (pointer:fine){.shortcut-guide-open:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px;}}
 #keyboard-shortcuts { scroll-margin-top:calc(var(--showcase-header-height) + 30px); }
 @media(max-width:700px) {
   .scene-intro h1 { font-size:clamp(25px,6vw,34px); }
   .scene-discovery { margin-top:18px; }
   .scene-keys-hint { display:none; }
-  .showcase-shortcut-dock { width:44px; min-width:44px; padding:0; }
-  .showcase-shortcut-dock-label, .showcase-shortcut-dock kbd { display:none; }
 }
 
 /* Section captions stay quiet: no second table-of-contents block. */

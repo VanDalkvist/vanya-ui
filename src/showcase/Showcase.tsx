@@ -1,6 +1,4 @@
 import React from "react";
-import { Keyboard } from "lucide-react";
-import { Kbd } from "../index";
 import { Scene } from "./Scene";
 import { Guide } from "./Guide";
 import { IdentitySection } from "./IdentitySection";
@@ -16,17 +14,12 @@ export function Showcase(){
  return <>
   <a href="#principles" className="skip-link">К содержанию</a>
   <ShowcaseHeader />
-  <button type="button" className="showcase-shortcut-dock" onClick={() => shortcuts.setHelpOpen(true)} aria-label="Горячие клавиши" title="Горячие клавиши (?)">
-   <Keyboard size={16} aria-hidden="true" />
-   <span className="showcase-shortcut-dock-label">Клавиши</span>
-   <Kbd>?</Kbd>
-  </button>
   <main id="main-content">
    <Scene />
    <IdentitySection/>
    <TypographySection/>
    <WritingSection/>
-   <Guide/>
+   <Guide onShowShortcuts={() => shortcuts.setHelpOpen(true)}/>
    <ComponentCatalog/>
    <section id="setup" className="catalog setup" aria-labelledby="setup-title">
     <p className="guide-eyebrow">Подключение / 08</p>
