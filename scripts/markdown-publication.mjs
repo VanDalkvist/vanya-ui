@@ -12,6 +12,7 @@ const published={
  'skills/vanya-ui/SKILL.md':'reference/agent-skill.md',
  'docs/patterns/ui-feature-pipeline.md':'reference/ui-pipeline.md',
  'docs/patterns/list-detail-composition.md':'reference/list-detail.md',
+ 'docs/patterns/interaction-states.md':'reference/interaction-states.md',
  'docs/versioning.md':'reference/versioning.md',
  'docs/patterns/browser-navigation.md':'reference/navigation.md',
  'docs/patterns/typography.md':'reference/typography.md',

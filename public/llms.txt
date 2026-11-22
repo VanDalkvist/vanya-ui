@@ -17,6 +17,7 @@
 - [Typography](https://ui.vanya-arc.dev/reference/typography.md): Semantic type tokens, font families, readable lengths, mobile and zoom.
 - [Writing and editorial](https://ui.vanya-arc.dev/reference/writing.md): Local product copy rules and links to original methods (book reference-only; redaktura-skills CC BY 4.0).
 - [Keyboard shortcuts](https://ui.vanya-arc.dev/reference/keyboard-shortcuts.md): Normative rules for conflicts, access, keycap typography, opt-out, WCAG 2.1.4 and real showcase commands.
+- [Hover / focus / selected](https://ui.vanya-arc.dev/reference/interaction-states.md): Canonical interaction feedback, semantic roles, pointer/touch, accessible focus and selected controls.
 - [Navigation rule](https://ui.vanya-arc.dev/reference/navigation.md): URLs, browser history and links.
 
 ## Reference
