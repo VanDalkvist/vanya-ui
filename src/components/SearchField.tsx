@@ -8,10 +8,12 @@ export interface SearchFieldProps extends Omit<React.InputHTMLAttributes<HTMLInp
  onValueChange: (value:string)=>void;
  label: string;
  onClear?: ()=>void;
+ /** Compact 40px variant for shared filter rows. */
+ density?: "default" | "toolbar";
 }
-export function SearchField({value,onValueChange,label,onClear,className,id,placeholder="Поиск",...props}:SearchFieldProps){
+export function SearchField({value,onValueChange,label,onClear,className,id,placeholder="Поиск",density="default",...props}:SearchFieldProps){
  const generated=React.useId();
- return <div className={clsx("ui-search-field",className)} role="search">
+ return <div className={clsx("ui-search-field",className)} data-density={density} role="search">
   <label className="sr-only" htmlFor={id||generated}>{label}</label>
   <Search aria-hidden="true" className="ui-search-field-icon" size={18}/>
   <input {...props} id={id||generated} type="search" value={value} placeholder={placeholder}
