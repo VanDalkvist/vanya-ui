@@ -114,3 +114,5 @@ export { ShortcutKeys, type ShortcutKeysProps } from "./components/ShortcutKeys"
 
 export {MediaCard, type MediaCardProps} from "./components/MediaCard";
 export {SearchField, type SearchFieldProps} from "./components/SearchField";
+
+export {TextField, type TextFieldProps} from "./components/TextField";
