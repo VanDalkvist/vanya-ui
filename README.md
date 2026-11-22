@@ -169,3 +169,7 @@ bun run build     # production-сборка витрины в dist/
 ### Загрузка и skeleton
 
 Новые переиспользуемые компоненты: `Skeleton` (`text`, `block`, `circle`), `SkeletonText`, `MediaCardSkeleton` (`poster` / `row`) и `LoadingRegion`. Их геометрия повторяет реальные компоненты, а цвета и анимация — `@vanya/ui/tokens.css`. `LoadingRegion` сообщает о загрузке один раз, вложенные формы не участвуют в клавиатурной навигации. Ошибки и запросы остаются в логике приложения. [Правила и примеры](docs/patterns/loading-states.md) · [демо](https://ui.vanya-arc.dev/#loading-states).
+
+### Compact filter toolbar
+
+`SearchField`, `SelectField`, `SegmentedControl` accept `density="toolbar"` for an aligned 40px row with native controls and common tokens. Sticky placement and adaptive overflow belong to the consuming app. The <https://ui.vanya-arc.dev/#compact-filter-toolbar> specimen and [working-surfaces guide](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) show how to keep the filter row compact and accessible.
