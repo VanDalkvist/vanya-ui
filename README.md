@@ -172,4 +172,4 @@ bun run build     # production-сборка витрины в dist/
 
 ### Compact filter toolbar
 
-`SearchField`, `SelectField`, `SegmentedControl` accept `density="toolbar"` for an aligned 40px row with native controls and common tokens. Sticky placement and adaptive overflow belong to the consuming app. The <https://ui.vanya-arc.dev/#compact-filter-toolbar> specimen and [working-surfaces guide](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) show how to keep the filter row compact and accessible.
+`SearchField` and `SegmentedControl` accept `density="toolbar"`, while `FilterSelect` provides an aligned 40px branded dropdown listbox rendered through a portal with optional search, Escape/arrow-key navigation and viewport-aware placement. `SelectField` remains a native select for regular forms. Sticky placement and adaptive overflow belong to the consuming app. The <https://ui.vanya-arc.dev/#compact-filter-toolbar> specimen and [working-surfaces guide](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) show how to keep the filter row compact and accessible.
