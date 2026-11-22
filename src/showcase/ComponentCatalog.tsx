@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
-  LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, Skeleton, SkeletonText, TextField,
+  LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
@@ -34,6 +34,9 @@ export function ComponentCatalog() {
   const [slotActive, setSlotActive] = useState(true);
   const [mediaQuery,setMediaQuery]=useState("");
   const [sampleTitle,setSampleTitle]=useState("Тихий берег");
+  const [toolbarQuery,setToolbarQuery]=useState("");
+  const [toolbarScope,setToolbarScope]=useState("all");
+  const [toolbarGenre,setToolbarGenre]=useState("");
   const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
@@ -71,6 +74,16 @@ export function ComponentCatalog() {
        </div>
        <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md">Правила загрузки</a></p>
       </div>
+    </CatalogSection>
+    <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Режим toolbar объединяет поиск, выбор списка и нативные селекты: высота 40 px, видимые подписи и общие токены.">
+      <div className="demo-compact-filter-strip">
+        <div className="demo-compact-filter-search"><SearchField density="toolbar" label="Поиск по каталогу" placeholder="Найти" value={toolbarQuery} onValueChange={setToolbarQuery}/></div>
+        <SegmentedControl density="toolbar" semantics="filters" aria-label="Чьи фильмы показывать" value={toolbarScope} onChange={setToolbarScope}
+         items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]}/>
+        <SelectField density="toolbar" label="Жанр" value={toolbarGenre} onChange={e=>setToolbarGenre(e.target.value)}
+         options={[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}]}/>
+      </div>
+      <p className="ui-type-caption">Данные примера вымышлены. В приложении панель закрепляется под шапкой; лишние фильтры переходят в раскрываемый блок, а не создают второй ряд.</p>
     </CatalogSection>
     <CatalogSection id="media-catalogue" title="MediaCard / SearchField / TextField" description="Композиция для фильмотек, книг и других коллекций: настоящие ссылки, поиск, метаданные и формы на общих токенах.">
      <div className="demo-media-catalogue">
