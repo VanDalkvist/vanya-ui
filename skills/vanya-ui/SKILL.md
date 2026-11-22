@@ -12,9 +12,9 @@ description: Repeatable offline Vanya Arc / UI workflow for any coding agent imp
 For any UI feature, layout, component, form, navigation, loading/empty/error state, interface refactor, HTML page, interactive visual, SVG or visual report:
 
 1. Locate the Vanya UI folder locally, using the current project agent pointer or the path supplied by the user. **Never assume** a fixed home directory, GitHub repository URL, git checkout, cloud computer or CI environment.
-2. Run `node <ui-folder>/scripts/ui-pipeline.mjs inspect --project <project-folder>`; add `--package app` for monorepos.
+2. Run `node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs inspect --project PATH_TO_PROJECT`; add `--package app` for monorepos.
 3. Read the returned local `DESIGN.md`, `src/index.ts`, `src/tokens.css`, relevant `src/components/*`, `docs/patterns/*` and research. Verify actual component exports and props in source.
-4. If the consuming project lacks an agent entrypoint, run `node <ui-folder>/scripts/bootstrap-ui-pipeline.mjs --project <project-folder>` once. It creates local pointers only. **No GitHub workflow, dependency or token is installed.**
+4. If the consuming project lacks an agent entrypoint, run `node PATH_TO_VANYA_UI/scripts/bootstrap-ui-pipeline.mjs --project PATH_TO_PROJECT` once. It creates local pointers only. **No GitHub workflow, dependency or token is installed.**
 
 ## Phase 1 — model the task before coding
 
@@ -29,11 +29,11 @@ Make focused changes in the consuming project. For a missing generic primitive, 
 ## Phase 3 — run portable machine verification
 
 ```sh
-node <ui-folder>/scripts/ui-pipeline.mjs check --project <project-folder> [--package app]
-node <ui-folder>/scripts/ui-pipeline.mjs verify --project <project-folder> [--package app]
+node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs check --project PATH_TO_PROJECT [--package app]
+node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs verify --project PATH_TO_PROJECT [--package app]
 ```
 
-`check` validates actual files: local canonical policy, React dependency/imports and browser-test script. `verify` runs the target package's build and browser tests on **the current machine** via npm/pnpm/yarn/bun; it does not install packages, deploy, or query GitHub. Use `--mode react` if creating a new React UI, `--manager` to override auto-detection, `--json` for machine consumption and `--dry-run` to inspect commands without claiming they ran. In a monorepo use `--package <relative package path>` rather than guessing.
+`check` validates actual files: local canonical policy, React dependency/imports and browser-test script. `verify` runs the target package's build and browser tests on **the current machine** via npm/pnpm/yarn/bun; it does not install packages, deploy, or query GitHub. Use `--mode react` if creating a new React UI, `--manager` to override auto-detection, `--json` for machine consumption and `--dry-run` to inspect commands without claiming they ran. In a monorepo use `--package RELATIVE_PACKAGE_PATH` rather than guessing.
 
 Missing packages or browser binaries are explicit blockers. Do not hide them by running a remote GitHub job. Use the consuming project's installation instructions and obtain approval before any sensitive external access. Re-run both checks after the **last** code change.
 
