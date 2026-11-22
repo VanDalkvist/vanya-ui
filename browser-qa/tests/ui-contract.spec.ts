@@ -229,6 +229,8 @@ test("06 independent reader/list scroll owners do not move one another",async({p
 });
 
 test("07 pressed feedback and real counter outcome are distinct from mere hover",async({page},info)=>{
+  // Remove animation timing from the CSS oracle, but retain real hover/:active styles.
+  await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("/#interaction-states");
   const group=page.locator("#interaction-states");
   // Use a stable selector: the successful result adds an accessible status to the
@@ -244,9 +246,10 @@ test("07 pressed feedback and real counter outcome are distinct from mere hover"
   expect(r).not.toBeNull();
   await page.mouse.move(r!.x+r!.width/2,r!.y+r!.height/2);
   await page.mouse.down();
-  // Outline buttons really DO change their background on :active; use polling
-  // to avoid reading a mid-transition hover frame.
-  await expect.poll(async()=>action.evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(hover);
+  // The actual computed pressed fill must differ from settled hover; reduced
+  // motion prevents an intermediate hover transition from producing a false green.
+  expect(await action.evaluate(el=>el.matches(":active"))).toBe(true);
+  expect(await action.evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(hover);
   await page.mouse.up();
   await expect(output).toHaveText("Нажатие принято · 1");
   await expect(action).toHaveAttribute("data-action-state","success");
