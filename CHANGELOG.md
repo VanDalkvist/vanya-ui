@@ -13,6 +13,7 @@
 - `ActionLink`, `ActionButton`, `NavLinks`, `ThemeToggle`, `SegmentedControl`, `AvatarLink`, `LinkChip` согласованы по состояниям, без изменения публичных prop API.
 - Dropdown темы получил читаемый фокус, `menuitemradio`-семантику, навигацию стрелками и Escape с возвратом фокуса.
 - `FilterSelect` сохранил active/selected, но hover не включается на disabled или coarse-pointer.
+- `DisclosurePill`, `EventCard` и утилитарные ссылки/помощь витрины приведены к спокойным pointer-aware hover/focus состояниям.
 
 
 ### Added

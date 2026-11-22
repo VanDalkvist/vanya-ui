@@ -3,7 +3,7 @@ import {afterEach,describe,expect,it,vi} from "vitest";
 import {cleanup,fireEvent,render,screen,within} from "@testing-library/react";
 import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
-import {ActionButton,ActionLink,AvatarLink,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
+import {ActionButton,ActionLink,AvatarLink,DisclosurePill,EventCard,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
 import {ShowcaseHeader} from "../src/showcase/ShowcaseHeader";
 
 const read=(file:string)=>readFileSync(resolve(import.meta.dirname,"..",file),"utf8");
@@ -13,6 +13,8 @@ describe("interaction feedback contracts",()=>{
  it("keeps hover as pointer-only enhancement and focus as its own state",()=>{
   const css=read("src/tokens.css");
   expect(css).toContain("--ui-feedback-hover-fill");
+  expect(css).toContain("@layer utilities {\n  .ui-feedback-icon");
+  expect(css).toContain("@media(forced-colors:active)");
   expect(css).toContain("@media (hover:hover) and (pointer:fine)");
   expect(css).toContain(".ui-feedback-icon:not(:disabled)");
   expect(css).toContain("outline:2px solid var(--accent)");
@@ -62,6 +64,16 @@ describe("interaction feedback contracts",()=>{
   expect(link).toHaveClass("ui-feedback-avatar");
   expect(link.className).not.toContain("hover:scale");
   expect(link.className).not.toContain("hover:shadow");
+ });
+ it("uses the shared feedback on disclosure and close actions",()=>{
+  render(<>
+   <DisclosurePill title="Детали">Дополнительно</DisclosurePill>
+   <EventCard date="2026" title="Тест" description="Пример" links={[]} tags={[]} onClose={()=>{}}/>
+  </>);
+  const summary=screen.getByText("Детали").closest("summary");
+  expect(summary).toHaveClass("ui-feedback-row");
+  const close=screen.getByRole("button",{name:"Закрыть"});
+  expect(close).toHaveClass("ui-feedback-nav");
  });
  it("keeps GitHub glyph smaller than its stable hit target",()=>{
   render(<ShowcaseHeader/>);
