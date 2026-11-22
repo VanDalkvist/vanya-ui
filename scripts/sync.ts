@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderTokenReference } from "./token-reference";
+import { publicMarkdown } from "./markdown-publication.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const css = fs.readFileSync(path.join(root, "src/tokens.css"), "utf8");
@@ -99,7 +100,10 @@ const docs=[
  ["docs/research/workspace-scroll-composition-2026-11-21.md","workspaces.md"],
  ["docs/deployment.md","deployment.md"],
 ];
-for(const [from,to] of docs)fs.copyFileSync(path.join(root,from),path.join(refDir,to));
+for(const [from,to] of docs){
+ const original=fs.readFileSync(path.join(root,from),"utf8");
+ fs.writeFileSync(path.join(refDir,to),publicMarkdown(from,original));
+}
 const list="# Vanya Arc / UI — components\n\nPublic @vanya/ui exports. Source: https://github.com/VanDalkvist/vanya-ui\n\n"+
   components.map(file=>"- **"+file.slice(0,-4)+"**: https://github.com/VanDalkvist/vanya-ui/blob/main/src/components/"+file+"\n").join("")+
   "\nExact prop types are in https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts\n";
