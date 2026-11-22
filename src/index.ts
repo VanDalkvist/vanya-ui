@@ -116,3 +116,6 @@ export {MediaCard, type MediaCardProps} from "./components/MediaCard";
 export {SearchField, type SearchFieldProps} from "./components/SearchField";
 
 export {TextField, type TextFieldProps} from "./components/TextField";
+
+export {Skeleton, SkeletonText, LoadingRegion, MediaCardSkeleton} from "./components/Skeleton";
+export type {SkeletonProps, SkeletonTextProps, LoadingRegionProps, MediaCardSkeletonProps, SkeletonShape} from "./components/Skeleton";
