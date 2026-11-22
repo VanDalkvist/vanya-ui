@@ -4,7 +4,7 @@ import {
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
-  SurfaceHeader, WorkflowStrip, InspectorMeta,
+  SurfaceHeader, WorkflowStrip, InspectorMeta, CostIndicator,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -228,6 +228,10 @@ export function ComponentCatalog() {
         <WorkflowStrip label="Перевод" status="Ревью · 2 / 15"
           progress={{value:2,max:15,label:"Прогресс перевода"}}
           actions={<ActionButton size="sm" variant="text" onClick={()=>setOverlay("composition")}>Пауза</ActionButton>}/>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+          <CostIndicator label="Exa" certainty="unknown" usd={null}/>
+          <CostIndicator label="Перевод (free)" certainty="free" usd={0}/>
+        </div>
         <InspectorMeta summary="Exa · 9 988 символов · Кеш">
           <p>Исходный текст может быть неполным. Для точных цитат сверяй оригинальную страницу.</p>
           <p>Получено: 22.11.2026 · Подробности источника доступны без нагрузки на первый экран.</p>
