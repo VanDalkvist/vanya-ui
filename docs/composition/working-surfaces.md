@@ -32,6 +32,7 @@ References: [NN/g Sticky Headers](https://www.nngroup.com/articles/sticky-header
 
 - Use `ActionButton` for quick, frequent decisions beside the item.
 - Use `InspectDrawer` for rich details and optional advanced editing; don't force the drawer open for the primary one-click action.
+- Inside an entity inspector, **show the overview first and move rarely used edits into an explicit disclosure**. Use [entity inspector guidance](../patterns/entity-inspectors.md) to separate evidence, actions and form fields.
 - Use `CraftCard` for meaningful task surfaces/settings, not to wrap every line of text.
 - Keep owner/administrator tools secondary unless administration itself is the current task.
 - An empty result should suggest the nearest useful action, not blindly navigate to another page.
