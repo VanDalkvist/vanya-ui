@@ -21,7 +21,7 @@ Open space, quiet contextual actions and details on request. See DESIGN.md for t
 Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
-## Typography (normative)
+## Loading states (normative)\nUse Skeleton, SkeletonText, MediaCardSkeleton and LoadingRegion from @vanya/ui. Keep known page structure, reserve future layout, use one accessible status per loading area, disable pulse for reduced motion, and replace skeleton on success or error. Full docs: docs/patterns/loading-states.md; live /#loading-states.\n\n## Typography (normative)
 Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-compact, ui-type-caption and ui-type-code from src/tokens.css. Manrope is for UI, JetBrains Mono for code; Fraunces is an optional editorial face. Body 1rem/1.65, measure 66ch; test mobile, browser zoom and text spacing. Source docs/patterns/typography.md and /#typography.
 
 ## Writing (normative)
@@ -77,6 +77,7 @@ const docs=[
  ["BRAND.md","brand.md"],
  ["docs/identity/brand.md","identity.md"],
  ["docs/patterns/typography.md","typography.md"],
+ ["docs/patterns/loading-states.md","loading.md"],
  ["docs/patterns/writing-and-editorial.md","writing.md"],
  ["docs/patterns/sources-and-attribution.md","sources.md"],
  ["docs/patterns/browser-navigation.md","navigation.md"],
