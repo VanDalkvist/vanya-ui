@@ -66,10 +66,9 @@ export function SegmentedControl<T extends string = string>({
               "ui-feedback-segment inline-flex items-center border-0 bg-transparent",
               density==="toolbar"?"":"rounded-full",
               disabled ? "cursor-default opacity-35" : "cursor-pointer",
-              
               isSelected
                 ? "bg-surface text-accent font-medium shadow-xs"
-                : disabled ? "text-ink-soft" : "text-ink-soft"
+                : "text-ink-soft"
             )}
           >
             {item.icon}
