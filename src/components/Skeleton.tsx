@@ -37,7 +37,7 @@ export interface LoadingRegionProps extends React.HTMLAttributes<HTMLDivElement>
 export function LoadingRegion({label,children,className,...props}:LoadingRegionProps){
  return <div {...props} className={clsx("ui-loading-region",className)}>
   <span role="status" aria-live="polite" className="ui-loading-sr-only">{label}</span>
-  <div aria-busy="true" aria-label={label} className="ui-loading-region-content">{children}</div>
+  <div role="region" aria-busy="true" aria-label={label} className="ui-loading-region-content">{children}</div>
  </div>;
 }
 
