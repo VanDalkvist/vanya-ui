@@ -26,6 +26,7 @@ const eventTicks = [
 
 export function ComponentCatalog() {
   const [horizon, setHorizon] = useState<keyof typeof counts>("day");
+  const [tabMode, setTabMode] = useState<"read"|"explore">("read");
   const [range, setRange] = useState(40);
   const [mapFocus, setMapFocus] = useState(2023.5);
   const [overlay, setOverlay] = useState<"sheet" | "digest" | "composition" | null>(null);
@@ -198,8 +199,22 @@ export function ComponentCatalog() {
     </CatalogSection>
     <CatalogSection id="divider" title="Divider" description="Горизонтальный и вертикальный разделители."><div className="demo-column"><Divider orientation="horizontal" /><div className="size-examples"><span className="demo-label">Слева</span><Divider /><span className="demo-label">Справа</span></div></div></CatalogSection>
     <CatalogSection id="avatar" title="AvatarLink" description="Ссылка с изображением профиля. Два размера."><Sizes>{(size) => <AvatarLink size={size} src="/avatar.svg" alt="Пример профиля" href="https://vanya-arc.dev" />}</Sizes></CatalogSection>
-    <CatalogSection id="segments" title="SegmentedControl" description="Выбор одного варианта из группы. Два размера.">
-      <Sizes>{(size) => <SegmentedControl size={size} items={horizons} value={horizon} onChange={changeHorizon} />}</Sizes>
+    <CatalogSection id="segments" title="SegmentedControl" description="Фильтры — это кнопки выбора. Настоящие вкладки дополнительно связаны с панелями и поддерживают стрелки, Home/End и Tab.">
+      <Sizes>{(size) => <SegmentedControl size={size} semantics="filters" aria-label="Горизонт обзора" items={horizons} value={horizon} onChange={changeHorizon} />}</Sizes>
+      <div className="demo-apg-tabs">
+        <SegmentedControl semantics="tabs" aria-label="Представление исследования"
+          items={[
+            {id:"read",label:"Чтение",tabId:"demo-tab-read",panelId:"demo-panel-read"},
+            {id:"explore",label:"Исследование",tabId:"demo-tab-explore",panelId:"demo-panel-explore"}
+          ]}
+          value={tabMode} onChange={setTabMode}/>
+        <div id="demo-panel-read" role="tabpanel" tabIndex={0} aria-labelledby="demo-tab-read" hidden={tabMode!=="read"}>
+          Текст романа остаётся в центре чтения. Можно перейти на следующую вкладку стрелкой вправо.
+        </div>
+        <div id="demo-panel-explore" role="tabpanel" tabIndex={0} aria-labelledby="demo-tab-explore" hidden={tabMode!=="explore"}>
+          Карта, сцены и атлас становятся другим представлением той же главы.
+        </div>
+      </div>
     </CatalogSection>
     <CatalogSection id="range" title="RangeSlider" description="Ползунок для выбора значения.">
       <div className="demo-column"><RangeSlider label="Дистанция" aria-label="Дистанция в примере" value={range} min={0} max={80} onChange={(event) => setRange(Number(event.target.value))} /><output className="demo-label">{range}</output></div>
