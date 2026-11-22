@@ -13,7 +13,7 @@ export interface CraftCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function CraftCard({
   children,
   className,
-  isInteractive=false,
+  isInteractive: _isInteractive=false,
   onClick,
   onKeyDown,
   tabIndex,
@@ -36,7 +36,7 @@ export function CraftCard({
     }}
     className={twMerge(clsx(
       "rounded-sm border border-border bg-surface p-5 text-ink",
-      actionable && isInteractive && "ui-feedback-pressable cursor-pointer",
+      actionable && "ui-feedback-pressable cursor-pointer",
       className
     ))}
   >{children}</div>;
