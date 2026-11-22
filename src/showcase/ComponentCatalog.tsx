@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
-  LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
+  FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
@@ -75,13 +75,13 @@ export function ComponentCatalog() {
        <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md">Правила загрузки</a></p>
       </div>
     </CatalogSection>
-    <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Режим toolbar объединяет поиск, выбор списка и нативные селекты: высота 40 px, видимые подписи и общие токены.">
+    <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Компактный поиск и переключатель дополнены собственным выпадающим списком FilterSelect: единая высота 40 px, подписи и темы. Системное меню macOS не используется.">
       <div className="demo-compact-filter-strip">
         <div className="demo-compact-filter-search"><SearchField density="toolbar" label="Поиск по каталогу" placeholder="Найти" value={toolbarQuery} onValueChange={setToolbarQuery}/></div>
         <SegmentedControl density="toolbar" semantics="filters" aria-label="Чьи фильмы показывать" value={toolbarScope} onChange={setToolbarScope}
          items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]}/>
-        <SelectField density="toolbar" label="Жанр" value={toolbarGenre} onChange={e=>setToolbarGenre(e.target.value)}
-         options={[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}]}/>
+        <FilterSelect label="Жанр" value={toolbarGenre} onValueChange={setToolbarGenre}
+         searchable options={[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}]}/>
       </div>
       <p className="ui-type-caption">Данные примера вымышлены. В приложении панель закрепляется под шапкой; лишние фильтры переходят в раскрываемый блок, а не создают второй ряд.</p>
     </CatalogSection>
