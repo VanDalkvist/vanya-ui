@@ -887,6 +887,48 @@
     .ui-action-button[data-variant="text"]:not(:disabled):hover {color:var(--ink);}
     .ui-action-button[data-variant="outline"]:not(:disabled):hover {background:var(--ui-feedback-hover-fill);}
   }
+  /* Press must be visibly distinct from hover and must react immediately.
+     :active is momentary; pending/success/error are consumer-owned durable feedback. */
+  :is(.ui-feedback-text,.ui-feedback-nav,.ui-feedback-source,.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):active {
+    transition-duration:0ms;
+  }
+  .ui-action-button:not(:disabled):not([aria-disabled="true"]):is([data-variant="text"],[data-variant="mono"],[data-variant="accent"]):active,
+  .ui-action-link:is([data-variant="text"],[data-variant="mono"],[data-variant="accent"]):active,
+  .ui-feedback-nav:not([aria-disabled="true"]):active,
+  .ui-feedback-source:active {
+    opacity:.68;
+  }
+  .ui-action-button:not(:disabled):not([aria-disabled="true"]):is([data-variant="pill"],[data-variant="outline"]):active,
+  .ui-action-link[data-variant="pill"]:active,
+  .ui-feedback-icon:not([aria-disabled="true"]):active,
+  .ui-feedback-row:not([aria-disabled="true"]):active,
+  .ui-feedback-segment:not(:disabled):active {
+    background:var(--ui-feedback-pressed-fill);
+  }
+  .ui-action-button[aria-disabled="true"] {
+    cursor:progress;
+    opacity:.8;
+  }
+  .ui-action-button[aria-disabled="true"]:active {background:transparent;}
+  .ui-action-button[data-action-state="success"] .ui-action-indicator,
+  .ui-action-button[data-action-state="error"] .ui-action-indicator{color:var(--ink);}
+  .ui-action-indicator{width:1em;height:1em;flex:none;margin-right:5px;}
+  .ui-action-indicator-pending{animation:ui-action-spin .8s linear infinite;}
+  @keyframes ui-action-spin{to{transform:rotate(360deg);}}
+  @media(prefers-reduced-motion:reduce){
+    .ui-action-indicator-pending{animation:none;}
+  }
+  /* Form, search and dropdown controls also need a distinct press state. */
+  .ui-filter-select-trigger:not(:disabled):active,
+  .ui-search-field-clear:active,
+  .ui-filter-select-option:not([aria-disabled="true"]):active {
+    background:var(--ui-feedback-pressed-fill);
+    transition-duration:0ms;
+  }
+  .ui-workspace-context-crumbs :is(a,button):active,
+  .ui-workspace-context-breadcrumb-accessory :is(a,button):active,
+  .ui-media-card-title a:active {opacity:.68;}
+  .ui-media-card-artwork:active {filter:brightness(.88);}
   @media(forced-colors:active){
     :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible{outline:2px solid Highlight;}
     .ui-feedback-row[aria-checked="true"],.ui-feedback-icon[aria-expanded="true"]{outline:1px solid Highlight;}
