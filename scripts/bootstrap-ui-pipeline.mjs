@@ -13,15 +13,16 @@ export function bootstrap(project,library=defaultLibrary){
  if(!existsSync(join(ui,'skills/vanya-ui/SKILL.md')))throw Error('Canonical skill missing: '+ui);
  if(!existsSync(root))throw Error('Project directory missing: '+root);
  const link=pathFrom(root,ui);
+ const cli=JSON.stringify(link+'/scripts/ui-pipeline.mjs');
  const policyPath=join(root,'UI_CONTRACT.md');
  const agentPath=join(root,'.agents/skills/vanya-ui/SKILL.md');
  const policy=[
   '# Vanya Arc / UI — portable project contract','',
   'For UI and visual features read the canonical local skill:',link+'/skills/vanya-ui/SKILL.md','',
   'Portable commands (Node >=20; no Git or remote CI):','',
-  '    node '+link+'/scripts/ui-pipeline.mjs inspect --project .',
-  '    node '+link+'/scripts/ui-pipeline.mjs check --project .',
-  '    node '+link+'/scripts/ui-pipeline.mjs verify --project .','',
+  '    node '+cli+' inspect --project .',
+  '    node '+cli+' check --project .',
+  '    node '+cli+' verify --project .','',
   'Actual browser/visual acceptance remains required; machine checks alone are not proof.',
   'If the library moves, rerun bootstrap from the new local path or update this pointer.',
   'GitHub Actions are NOT required, and must stay manual-only if used.',''
@@ -32,7 +33,7 @@ export function bootstrap(project,library=defaultLibrary){
   '---','','# Vanya UI — agent entrypoint','',
   'Read the canonical skill: '+link+'/skills/vanya-ui/SKILL.md',
   'The local library is at '+link+' relative to this project root.',
-  'Run: node '+link+'/scripts/ui-pipeline.mjs inspect --project .',
+  'Run: node '+cli+' inspect --project .',
   'Then follow the canonical skill, run check and verify locally, and observe the UI in a real browser.',
   'No Git or GitHub dependency. Never equate successful build with successful UI QA.',''
  ].join('\n');
