@@ -161,6 +161,18 @@
       ]
     },
     {
+      "name": "git-hub-icon",
+      "type": "registry:ui",
+      "title": "GitHubIcon",
+      "description": "React UI component GitHubIcon from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/GitHubIcon.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hearth-pulse",
       "type": "registry:ui",
       "title": "HearthPulse",
