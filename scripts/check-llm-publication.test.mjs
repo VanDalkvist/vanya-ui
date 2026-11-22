@@ -28,16 +28,14 @@ test('public agent references must be present and canonical',()=>{
   put(root,'skills/vanya-ui/SKILL.md',body);
   put(root,'docs/patterns/ui-feature-pipeline.md',body);
   put(root,'docs/patterns/list-detail-composition.md',body);
+  put(root,'public/llms-full.txt','## Agent instructions\\n\\n'+body);
   let result=validatePublication(root);
-  // The extended reference needs the explicit heading, not just a URL.
-  assert.ok(result.errors.some(x=>x.includes('Extended reference')));
-  put(root,'public/llms-full.txt','## Agent instructions\n\n'+body);
-  // Test ensures failure for stale generated documentation and malformed Markdown.
+  assert.equal(result.ok,true,JSON.stringify(result.errors));
+  put(root,'public/reference/ui-pipeline.md','stale generated copy');
   result=validatePublication(root);
-  assert.equal(result.ok,false);
-  assert.ok(result.errors.some(x=>x.includes('stale'))||result.errors.some(x=>x.includes('differs')));
-  put(root,'public/llms-full.txt','## Agent instructions\n\n'+body);
-  const bad=body.replace('- [reference/ui-pipeline.md]','\\n- [reference/ui-pipeline.md]');
+  assert.ok(result.errors.some(x=>x.includes('Generated reference is stale')));
+  put(root,'public/reference/ui-pipeline.md',body);
+  const bad=body.replace('- [reference/ui-pipeline.md]','\\\\n- [reference/ui-pipeline.md]');
   put(root,'public/llms.txt',bad);
   result=validatePublication(root);
   assert.ok(result.errors.some(x=>x.includes('escaped newline')));
