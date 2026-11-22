@@ -824,7 +824,7 @@
 /* Interaction states (hover is an enhancement, never the sole affordance).
    Reusable roles intentionally don't decide layout, domain identity or selected state.
    Rich narrative timeline events remain a separate, explicitly expressive exception. */
-@layer components {
+@layer utilities {
   .ui-feedback-icon {
     color:var(--ink-soft); background:transparent;
     transition:color var(--ui-feedback-duration) ease,background-color var(--ui-feedback-duration) ease;
