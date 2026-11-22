@@ -55,7 +55,8 @@ describe("Navigation & Sliders", () => {
     );
     expect(screen.getByText("Раздел 1")).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Мини-карта времени" })).toBeInTheDocument();
-    expect(screen.getByRole("slider")).toBeInTheDocument();
+    expect(screen.getByRole("slider", { name: "Перейти по временной шкале" })).toBeInTheDocument();
+    expect(screen.getAllByRole("slider")).toHaveLength(2);
   });
 });
 
