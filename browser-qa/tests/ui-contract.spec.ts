@@ -167,6 +167,21 @@ test("03 theme menu Tab, Shift+Tab, arrows and Escape remain usable",async({page
   await capture(page,info,"theme-menu-keyboard");
 });
 
+test("03b cold-start: system theme, explicit choice and reload persistence",async({page})=>{
+  await page.emulateMedia({colorScheme:"dark"});
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme","dark");
+  const trigger=page.getByRole("button",{name:/Тема оформления:/}).first();
+  await trigger.click();
+  const menu=page.getByRole("menu",{name:"Тема оформления"});
+  await expect(menu.getByRole("menuitemradio",{name:"Системная"})).toHaveAttribute("aria-checked","true");
+  await menu.getByRole("menuitemradio",{name:"Светлая"}).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme","light");
+  expect(await page.evaluate(()=>localStorage.getItem("vanya_theme"))).toBe("light");
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme","light");
+});
+
 test("04 native filter buttons and connected tabs behave differently",async({page},info)=>{
   await page.goto("/#segments");
   const section=page.locator("#segments");
