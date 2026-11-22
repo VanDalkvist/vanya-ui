@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
-  MediaCard, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, TextField,
+  LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
@@ -34,6 +34,7 @@ export function ComponentCatalog() {
   const [slotActive, setSlotActive] = useState(true);
   const [mediaQuery,setMediaQuery]=useState("");
   const [sampleTitle,setSampleTitle]=useState("Тихий берег");
+  const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
   const changeHorizon = (value: string) => {
@@ -45,6 +46,31 @@ export function ComponentCatalog() {
     <p className="catalog-intro">Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные.</p>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
+    </CatalogSection>
+    <CatalogSection id="loading-states" title="Skeleton / LoadingRegion" description="Начальная загрузка, готовые данные и ошибка. Ровно одна подпись для скринридера, никаких кликабельных заглушек.">
+      <div className="demo-loading" >
+       <div className="demo-loading-controls" role="group" aria-label="Состояние примера">
+        {([{id:"loading",label:"Загрузка"},{id:"ready",label:"Готово"},{id:"error",label:"Ошибка"}] as const).map(item=>
+         <ActionButton key={item.id} size="md" variant={loadingDemo===item.id?"accent":"text"}
+          aria-pressed={loadingDemo===item.id} onClick={()=>setLoadingDemo(item.id)}>{item.label}</ActionButton>)}
+       </div>
+       <div className="demo-loading-surface">
+        <SectionToolbar title="Коллекция" variant="section"/>
+        {loadingDemo==="loading"?<LoadingRegion label="Загружаем коллекцию">
+         <div className="demo-loading-grid">{Array.from({length:3},(_,i)=><MediaCardSkeleton key={i}/>)}</div>
+         <div className="demo-loading-row"><MediaCardSkeleton layout="row"/></div>
+         <div className="demo-loading-shapes"><Skeleton shape="circle" width={34} height={34}/><SkeletonText lines={2} widths={["80%","57%"]}/></div>
+        </LoadingRegion>:loadingDemo==="ready"?<div className="demo-loading-grid">
+         {["Тихий берег","Маяк на холме","Следы в лесу"].map((title,i)=><MediaCard
+          key={title} title={title} href="#loading-states"
+          artwork={<span className="demo-media-art" aria-hidden="true">{["◉","✦","✳"][i]}</span>}
+          subtitle="Вымышленный пример" meta="2026"/>)}
+        </div>:<WorkspaceEmptyState title="Не удалось загрузить коллекцию"
+          description="Проверьте соединение и повторите запрос."
+          action={<ActionButton size="md" variant="accent" onClick={()=>setLoadingDemo("loading")}>Повторить</ActionButton>}/>}
+       </div>
+       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md">Правила загрузки</a></p>
+      </div>
     </CatalogSection>
     <CatalogSection id="media-catalogue" title="MediaCard / SearchField / TextField" description="Композиция для фильмотек, книг и других коллекций: настоящие ссылки, поиск, метаданные и формы на общих токенах.">
      <div className="demo-media-catalogue">
