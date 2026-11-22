@@ -50,6 +50,14 @@ import { Link } from "react-router";
 
 For application routing choose a framework router/server strategy that handles direct requests. Don't implement `pushState` without handling `popstate`, initial state, titles, focus, scroll and server fallback. `NavLinks` from `@vanya/ui` renders native anchors for items with `href`; `onSelect` is reserved for local button-style state where no URL is supplied. `ActionLink` renders a native anchor; `ActionButton` is an action, not navigation.
 
+## Links to authors and repository source
+
+A design-system site is a **product**, not its author's personal homepage. Keep the product logo and internal sections in primary navigation. In a compact *utility* group, label a personal-site link by **the person** (`Ваня Афанасов ↗`, collapsing to `Автор ↗` when necessary), not by a bare URL whose role is unclear. Use a real `ActionLink variant="text"` anchor with `rel="author"` and a descriptive accessible label; the personal site is not a breadcrumb ancestor or a main app section. Do **not** hide the only visible author route on small screens.
+
+A GitHub repository/source link may be icon-only because the GitHub silhouette is a recognisable destination symbol. Use the exported `GitHubIcon`, but still give the **link** a descriptive accessible name (e.g. “GitHub — исходники Vanya UI, новая вкладка”), safe `rel` and visible focus. Keep outline and filled brand icons distinct; do not reuse a rendered SVG copied from another app's inline markup. `ActionLink` owns textual link styling and focus; a product may supply layout classes, not recreate the link component. For other third-party sites with ambiguous icons, use a text label.
+
+This is a role- and destination-based recommendation, **not** a mandate to add author/social links to every app. [Source-backed audit](../research/author-source-utility-link-2026-11-22.md).
+
 ## Definition of done / agent acceptance checklist
 
 - [ ] Every destination has a documented canonical path, including settings, details, admin areas and meaningful subviews.

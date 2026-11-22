@@ -77,6 +77,12 @@ These are guidance and design QA checks, not a universal pixel-perfect template.
 
 This pattern is shared across all React apps built with Vanya UI.
 
+## External author and source utilities
+
+A topbar can have three levels: product identity, primary internal navigation and small utility links. Don't style the author's personal homepage as another in-app section or show a bare domain without its purpose. Use the library's `ActionLink` in the utility group for the **author's name** with a subtle outbound arrow and `rel="author"`. Reserve the standalone `GitHubIcon` for a recognisable GitHub source link with accessible text and visible focus. No extra brand palette, underlined raw hostname or second hero. On small screens shorten “Ваня Афанасов” to “Автор” *without hiding the link*. The app determines the actual author; the library owns link appearance.
+
+[Research and acceptance](../research/author-source-utility-link-2026-11-22.md).
+
 ## 7. Separate utility/admin navigation from daily tasks
 
 - Primary navigation names stable, frequently used destinations. In a compact app, keep three meaningful destinations rather than creating a tab for every technical operation.

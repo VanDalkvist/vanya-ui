@@ -1,4 +1,6 @@
 import React from "react";
+import {readFileSync} from "node:fs";
+import {resolve} from "node:path";
 import {describe,it,expect} from "vitest";
 import {render,screen} from "@testing-library/react";
 import {ActionLink,GitHubIcon} from "../src";
@@ -11,6 +13,12 @@ describe("Shared destination links and the independent GitHub glyph",()=>{
   expect(link.getAttribute("rel")?.split(" ")).toEqual(expect.arrayContaining(["author","noopener","noreferrer"]));
   expect(link.className).toContain("focus-visible:outline");
   expect(link.className).not.toContain("focus-visible:outline-none");
+ });
+ it("keeps the author link visible on compact screens instead of hiding the personal homepage",()=>{
+  const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
+  expect(css).not.toContain(".showcase-origin { display:none; }");
+  expect(css).toContain(".showcase-author-compact { display:inline; }");
+  expect(css).toContain(".showcase-author-full { display:none; }");
  });
  it("exports the legacy outline GitHub glyph as a reusable decoration",()=>{
   const {container}=render(<GitHubIcon size={17} data-testid="github-glyph" />);

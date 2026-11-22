@@ -17,6 +17,8 @@ When the site is built, Vite emits **[licenses.txt](https://ui.vanya-arc.dev/lic
 
 See the complete ISC + Feather MIT notice below. The icon packages' own files must retain copyright and permission notices on redistribution.
 
+The exported `GitHubIcon` preserves the **legacy Lucide/Feather Github outline icon** used on the author's personal site (`lucide-react ^0.575.0`). Its original path geometry is reused under the already-included upstream Lucide ISC and Feather MIT notices. This is an icon for linking to GitHub, not an assertion of GitHub sponsorship or affiliation.
+
 ## Vanya Arc brand as a separate dependency
 
 `@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) and [canonical rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). The public favicon and mark geometry come from this dependency; UI does not relicense the artwork.
