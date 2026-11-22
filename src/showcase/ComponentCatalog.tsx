@@ -49,7 +49,8 @@ export function ComponentCatalog() {
     if (value === "day" || value === "week" || value === "month") setHorizon(value);
   };
 
-  return <section id="catalog" className="catalog" aria-labelledby="catalog-title">
+  return <>
+    <section id="catalog" className="catalog" aria-labelledby="catalog-title">
     <h2 id="catalog-title" className="catalog-title">Компоненты</h2>
     <p className="catalog-intro">Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные.</p>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
@@ -245,7 +246,37 @@ export function ComponentCatalog() {
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
     </CatalogSection>
-    <CatalogSection id="workspace" title="Рабочие поверхности: композиция"
+    <CatalogSection id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
+      <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />
+    </CatalogSection>
+    <CatalogSection id="spider" title="SpiderRadar" description="Те же данные на четырёх осях."><SpiderRadar size={240} axes={items.map((item) => ({ label: item.label, value: item.percentage }))} /></CatalogSection>
+    <CatalogSection id="pulse" title="HearthPulse" description="Индикатор активности. Учитывает настройку уменьшения анимации."><HearthPulse /></CatalogSection>
+    <CatalogSection id="voice" title="VoiceWaveIndicator" description="Состояния индикатора речи."><VoiceWaveIndicator isSpeaking={speaking} level={0.7} /><ActionButton onClick={() => setSpeaking(!speaking)}>{speaking ? "Выключить пример" : "Включить пример"}</ActionButton></CatalogSection>
+    <CatalogSection id="inspector" title="InspectDrawer" description="Боковая панель с подробностями."><ActionButton onClick={() => setOverlay("sheet")}>Открыть InspectDrawer</ActionButton></CatalogSection>
+    <CatalogSection id="digest" title="ReceiptDigestModal" description="Окно с итогами и списком изменений."><ActionButton onClick={() => setOverlay("digest")}>Открыть ReceiptDigestModal</ActionButton></CatalogSection>
+    <InspectDrawer isOpen={overlay === "sheet"} title="Описание проекта" onClose={() => setOverlay(null)}><p>Здесь можно разместить описание, ссылки и другие подробности проекта.</p><p>Закрыть панель можно кнопкой, клавишей Esc или нажатием вне её.</p></InspectDrawer>
+    <InspectDrawer isOpen={overlay === "composition"} title="Читать оригинал"
+      size="wide" onClose={()=>setOverlay(null)}
+      compactContext={{title:"Background agents are here. Your orchestration isn't ready",eyebrow:"EXA",
+        status:"2 / 15",actions:<button type="button" onClick={()=>setOverlay(null)}>Готово</button>}}>
+      <SurfaceHeader collapseAnchor title="Background agents are here. Your orchestration isn't ready"
+        eyebrow="ПОЛНЫЙ ИЗВЛЕЧЁННЫЙ ТЕКСТ · EXA" subtitle="inngest.com"
+        actions={<button type="button" onClick={()=>setOverlay(null)}>Открыть сайт · пример</button>}/>
+      <WorkflowStrip label="Перевод · ревью · исправление" status="2 / 15"
+        progress={{value:2,max:15}} actions={<button onClick={()=>setOverlay(null)}>Пауза</button>}/>
+      <InspectorMeta summary="Exa · 9 988 символов · Кеш">
+        <p>Информация о происхождении и полноте доступна здесь, но не выталкивает статью ниже экрана.</p>
+      </InspectorMeta>
+      <div style={{maxWidth:"70ch",marginInline:"auto",fontFamily:"var(--font-serif)",fontSize:18,lineHeight:1.8}}>
+        {Array.from({length:18},(_,i)=><p key={i} style={{marginBottom:22}}>Every six months, the way to build an AI agent changes. A clear, compact header leaves space for reading rather than making the reader scroll through controls and disclaimers.</p>)}
+      </div>
+    </InspectDrawer>
+    <ReceiptDigestModal isOpen={overlay === "digest"} title="Пример итогов" narrative="Обновили витрину компонентов." receipts={["Добавили фон первого экрана", "Обновили примеры компонентов"]} onClose={() => setOverlay(null)} />
+  </section>
+  <section id="workspace" className="catalog" aria-labelledby="workspace-title">
+    <h2 id="workspace-title" className="catalog-title">Рабочие поверхности</h2>
+    <p className="catalog-intro">Композиции для работы с контекстом: список и детали, области прокрутки, заголовки и панели действий.</p>
+    <CatalogSection id="workspace-overview" title="Рабочие поверхности: композиция"
       description="Нейтральная композиция: заголовок списка, счётчик, пустое состояние, один скролл на область и футер действий.">
       <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
         <SectionToolbar title="Полка исследований" count={7} total={22}
@@ -352,31 +383,6 @@ export function ComponentCatalog() {
       <WorkspaceEmptyState title="Записей пока нет" description="Добавьте первую запись или поменяйте фильтр."
         action={<ActionButton onClick={()=>setOverlay("sheet")}>Новая запись</ActionButton>} />
     </CatalogSection>
-    <CatalogSection id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
-      <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />
-    </CatalogSection>
-    <CatalogSection id="spider" title="SpiderRadar" description="Те же данные на четырёх осях."><SpiderRadar size={240} axes={items.map((item) => ({ label: item.label, value: item.percentage }))} /></CatalogSection>
-    <CatalogSection id="pulse" title="HearthPulse" description="Индикатор активности. Учитывает настройку уменьшения анимации."><HearthPulse /></CatalogSection>
-    <CatalogSection id="voice" title="VoiceWaveIndicator" description="Состояния индикатора речи."><VoiceWaveIndicator isSpeaking={speaking} level={0.7} /><ActionButton onClick={() => setSpeaking(!speaking)}>{speaking ? "Выключить пример" : "Включить пример"}</ActionButton></CatalogSection>
-    <CatalogSection id="inspector" title="InspectDrawer" description="Боковая панель с подробностями."><ActionButton onClick={() => setOverlay("sheet")}>Открыть InspectDrawer</ActionButton></CatalogSection>
-    <CatalogSection id="digest" title="ReceiptDigestModal" description="Окно с итогами и списком изменений."><ActionButton onClick={() => setOverlay("digest")}>Открыть ReceiptDigestModal</ActionButton></CatalogSection>
-    <InspectDrawer isOpen={overlay === "sheet"} title="Описание проекта" onClose={() => setOverlay(null)}><p>Здесь можно разместить описание, ссылки и другие подробности проекта.</p><p>Закрыть панель можно кнопкой, клавишей Esc или нажатием вне её.</p></InspectDrawer>
-    <InspectDrawer isOpen={overlay === "composition"} title="Читать оригинал"
-      size="wide" onClose={()=>setOverlay(null)}
-      compactContext={{title:"Background agents are here. Your orchestration isn't ready",eyebrow:"EXA",
-        status:"2 / 15",actions:<button type="button" onClick={()=>setOverlay(null)}>Готово</button>}}>
-      <SurfaceHeader collapseAnchor title="Background agents are here. Your orchestration isn't ready"
-        eyebrow="ПОЛНЫЙ ИЗВЛЕЧЁННЫЙ ТЕКСТ · EXA" subtitle="inngest.com"
-        actions={<button type="button" onClick={()=>setOverlay(null)}>Открыть сайт · пример</button>}/>
-      <WorkflowStrip label="Перевод · ревью · исправление" status="2 / 15"
-        progress={{value:2,max:15}} actions={<button onClick={()=>setOverlay(null)}>Пауза</button>}/>
-      <InspectorMeta summary="Exa · 9 988 символов · Кеш">
-        <p>Информация о происхождении и полноте доступна здесь, но не выталкивает статью ниже экрана.</p>
-      </InspectorMeta>
-      <div style={{maxWidth:"70ch",marginInline:"auto",fontFamily:"var(--font-serif)",fontSize:18,lineHeight:1.8}}>
-        {Array.from({length:18},(_,i)=><p key={i} style={{marginBottom:22}}>Every six months, the way to build an AI agent changes. A clear, compact header leaves space for reading rather than making the reader scroll through controls and disclaimers.</p>)}
-      </div>
-    </InspectDrawer>
-    <ReceiptDigestModal isOpen={overlay === "digest"} title="Пример итогов" narrative="Обновили витрину компонентов." receipts={["Добавили фон первого экрана", "Обновили примеры компонентов"]} onClose={() => setOverlay(null)} />
-  </section>;
+  </section>
+  </>;
 }

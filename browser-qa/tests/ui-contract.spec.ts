@@ -126,10 +126,12 @@ test("02 native current-section navigation survives scroll and history",async({p
   await expect(page.locator('.showcase-nav a[aria-current="location"]')).toHaveCount(1);
   await page.locator("#workspace").evaluate(el=>el.scrollIntoView({block:"start"}));
   await expect(sectionLink(page,"Рабочие поверхности")).toHaveAttribute("aria-current","location");
-  // The workspace is nested inside #catalog. Returning to a later catalogue
-  // section should activate the parent, not leave the old workspace selected.
-  await page.locator("#energy").evaluate(el=>el.scrollIntoView({block:"start"}));
-  await expect(sectionLink(page,"Компоненты")).toHaveAttribute("aria-current","location");
+  // Scrolling forward through the whole workspace group must never revert
+  // to the earlier "Компоненты" navigation item.
+  await page.locator("#workspace-empty-state").evaluate(el=>el.scrollIntoView({block:"start"}));
+  await expect(sectionLink(page,"Рабочие поверхности")).toHaveAttribute("aria-current","location");
+  await page.locator("#setup").evaluate(el=>el.scrollIntoView({block:"start"}));
+  await expect(sectionLink(page,"Подключение")).toHaveAttribute("aria-current","location");
   await expect(page.locator('.showcase-nav a[aria-current="location"]')).toHaveCount(1);
   await capture(page,info,"header-current-section");
 });

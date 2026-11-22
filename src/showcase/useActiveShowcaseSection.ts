@@ -12,8 +12,7 @@ export function visibleSection(ids: readonly string[], headerBottom: number): st
     const section = document.getElementById(id);
     if (!section) continue;
     const rect = section.getBoundingClientRect();
-    // The most recent active section must still contain the probe.
-    // #workspace is nested inside #catalog; once it ends, return to catalogue.
+    // Only the section containing the probe is active; catalog and workspace are siblings.
     if (rect.top <= probe && rect.bottom > probe) candidate = id;
   }
   if (candidate) return candidate;

@@ -139,18 +139,40 @@ describe("#15: current section reflects viewport/history, not last clicked item"
     expect(visibleSection(["composition","identity","typography"],600)).toBe("typography");
   });
 
-  it("returns to the parent catalogue after the nested workspace block ends",()=>{
-    render(<section id="catalog"><section id="workspace"/><p>Продолжение каталога</p></section>);
-    const catalogue=document.getElementById("catalog")!;
-    const workspace=document.getElementById("workspace")!;
-    Object.defineProperty(catalogue,"getBoundingClientRect",{configurable:true,
-      value:()=>({top:-1000,bottom:1800})});
-    let end=220;
-    Object.defineProperty(workspace,"getBoundingClientRect",{configurable:true,
-      value:()=>({top:-200,bottom:end})});
-    expect(visibleSection(["catalog","workspace"],70)).toBe("workspace");
-    end=80;
-    expect(visibleSection(["catalog","workspace"],70)).toBe("catalog");
+  it("renders catalog, workspace and setup as consecutive sibling sections",()=>{
+    const {container}=render(<Showcase/>);
+    const catalog=container.querySelector("#catalog")!;
+    const workspace=container.querySelector("#workspace")!;
+    const setup=container.querySelector("#setup")!;
+    expect(catalog.contains(workspace)).toBe(false);
+    expect(catalog.nextElementSibling).toBe(workspace);
+    expect(workspace.nextElementSibling).toBe(setup);
+    for(const id of ["energy","spider","pulse","voice","inspector","digest"]){
+      expect(catalog.querySelector("#"+id)).not.toBeNull();
+      expect(workspace.querySelector("#"+id)).toBeNull();
+    }
+    for(const id of ["workspace-overview","workspace-split","scroll-region","section-toolbar",
+      "composition-reading-inspector","workspace-context-header","sticky-context",
+      "workspace-action-bar","workspace-empty-state"]){
+      expect(workspace.querySelector("#"+id)).not.toBeNull();
+      expect(catalog.querySelector("#"+id)).toBeNull();
+    }
+    expect(document.querySelectorAll("#workspace")).toHaveLength(1);
+  });
+
+  it("advances catalog → workspace → setup without reselecting catalog",()=>{
+    render(<section id="catalog"/><section id="workspace"/><section id="setup"/>);
+    const ids=["catalog","workspace","setup"] as const;
+    const elements=ids.map(id=>document.getElementById(id)!);
+    let bounds:[number,number][]=[[-700,180],[180,1100],[1100,1800]];
+    elements.forEach((el,i)=>Object.defineProperty(el,"getBoundingClientRect",{
+      configurable:true,value:()=>({top:bounds[i][0],bottom:bounds[i][1]})
+    }));
+    expect(visibleSection(ids,70)).toBe("catalog");
+    bounds=[[-900,-100],[-100,900],[900,1800]];
+    expect(visibleSection(ids,70)).toBe("workspace");
+    bounds=[[-1600,-1000],[-1000,-120],[-120,900]];
+    expect(visibleSection(ids,70)).toBe("setup");
   });
 
   it("handles deep links with the semantic current location, including history events",()=>{
