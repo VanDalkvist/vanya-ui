@@ -185,6 +185,18 @@
       ]
     },
     {
+      "name": "media-card",
+      "type": "registry:ui",
+      "title": "MediaCard",
+      "description": "React UI component MediaCard from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/MediaCard.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "mesh-status-badge",
       "type": "registry:ui",
       "title": "MeshStatusBadge",
@@ -269,6 +281,18 @@
       ]
     },
     {
+      "name": "search-field",
+      "type": "registry:ui",
+      "title": "SearchField",
+      "description": "React UI component SearchField from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/SearchField.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "section-toolbar",
       "type": "registry:ui",
       "title": "SectionToolbar",
@@ -308,7 +332,7 @@
       "name": "shortcut-keys",
       "type": "registry:ui",
       "title": "ShortcutKeys",
-      "description": "Accessible shortcut key labels for simultaneous and sequential commands",
+      "description": "React UI component ShortcutKeys from @vanya/ui",
       "files": [
         {
           "path": "src/components/ShortcutKeys.tsx",
@@ -324,6 +348,18 @@
       "files": [
         {
           "path": "src/components/SineWave.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "React UI component Skeleton from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/Skeleton.tsx",
           "type": "registry:ui"
         }
       ]
@@ -360,6 +396,18 @@
       "files": [
         {
           "path": "src/components/Tag.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-field",
+      "type": "registry:ui",
+      "title": "TextField",
+      "description": "React UI component TextField from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/TextField.tsx",
           "type": "registry:ui"
         }
       ]
