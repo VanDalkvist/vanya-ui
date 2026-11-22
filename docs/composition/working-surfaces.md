@@ -109,3 +109,26 @@ This pattern is intended for films, books, games, playlists, courses and other a
 ## 9. Loading the workspace without blanking it out
 
 Use Vanya UI's `LoadingRegion` with `Skeleton`, `SkeletonText`, and `MediaCardSkeleton`. Real stable chrome and known headings remain visible. Unknown rows and covers adopt the eventual layout's geometry; error handling replaces skeletons with a recovery affordance, not indefinite animation. Announce one loading state per area; decorative blocks are unfocusable, reduce motion disables pulsing. [Full loading pattern](../patterns/loading-states.md), [public demo](https://ui.vanya-arc.dev/#loading-states).
+
+## 10. Single-row sticky catalogue filters
+
+For long catalogues on desktop, use a **single compact sticky filter row** below the persistent app header. Keep the title and result count above the row. Its job is search + current scope + a few frequent selectors + a clearly labeled entry into the remaining facets; it is not another form screen.
+
+- Use `SearchField density="toolbar"`, `SegmentedControl density="toolbar" semantics="filters"` and `SelectField density="toolbar"`. Their **40px shared control height** and token surfaces come from Vanya UI, not app CSS. Native select labels remain visible in the same line as the selected value.
+- Put rare and overflowing selectors inside one accessible, dismissible filter disclosure. It should overlay the content (with an appropriate max-height and scroll of its own) instead of pushing poster cards down. Keep selections synchronized with visible controls and show a filter count when active.
+- Make the app-specific **filter dock** sticky at exactly the real header height. It needs a solid enough background, a modest separation line, a z-index below the header and visible keyboard focus. Do not use `position:fixed` to remove it from the document flow. Test scrolled positions and direct-linked cards; sticky elements must not obscure focused content.
+- At widths below what the complete row can hold, move secondary selectors into the disclosure instead of wrapping the dock into a large second row. On small phones, retain search + the filter action in one line; current scope selection stays available inside the filter disclosure.
+- Match the page gutter to the actual viewport without hardcoding a narrow `max-width` on the data catalogue. Typographic reading columns may remain narrower, but a grid of posters benefits from the available viewport.
+- The component package owns appearance and control semantics, while the consuming app owns sticky offset, which facets matter, their domain values, breakpoints, and filtering logic. Do not introduce a shared component that assumes movie-specific names or fields.
+
+```tsx
+<div className="my-app-filter-dock">
+  <SearchField density="toolbar" label="Поиск" value={query} onValueChange={setQuery}/>
+  <SegmentedControl density="toolbar" semantics="filters" aria-label="Чьи записи" value={scope} onChange={setScope}
+    items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]}/>
+  <SelectField density="toolbar" label="Жанр" value={genre} onChange={e=>setGenre(e.target.value)} options={genres}/>
+  <ActionButton onClick={()=>setMoreFilters(open=>!open)}>Фильтры</ActionButton>
+</div>
+```
+
+See [NN/g — Sticky Headers](https://www.nngroup.com/articles/sticky-headers/) and [NN/g — Applying Filters](https://www.nngroup.com/articles/applying-filters/). The 40px value and responsive composition are **our own implementation choices**, not attributed to those external authors.
