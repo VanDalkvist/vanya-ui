@@ -553,3 +553,46 @@
  .ui-text-field-note{margin:0;font:400 12px/1.6 var(--font-sans);color:var(--ink-soft);}
  .ui-text-field-error{color:var(--accent);}
 }
+
+/* Loading placeholders are subordinate to actual content and share its geometry.
+   All tones derive from @vanya/brand semantic colors through @vanya/ui tokens. */
+@layer components {
+ .ui-skeleton{
+   display:block;flex:none;max-width:100%;min-width:0;box-sizing:border-box;
+   background:color-mix(in oklab,var(--surface-inset) 84%,var(--ink) 9%);
+   border-radius:var(--radius-sm);pointer-events:none;user-select:none;
+ }
+ .ui-skeleton[data-shape="text"]{
+   display:inline-block;vertical-align:middle;width:100%;height:1em;
+   border-radius:var(--radius-xs);
+ }
+ .ui-skeleton[data-shape="block"]{width:100%;min-height:16px;}
+ .ui-skeleton[data-shape="circle"]{width:32px;height:32px;border-radius:50%;}
+ .ui-skeleton-text{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0;}
+ .ui-skeleton-text .ui-skeleton{min-height:0;}
+ .ui-skeleton[data-motion="pulse"]{animation:ui-skeleton-breathe 2s ease-in-out infinite;}
+ .ui-loading-region{min-width:0;}
+ .ui-loading-region-content{min-width:0;}
+ .ui-loading-sr-only{
+   position:absolute!important;width:1px!important;height:1px!important;
+   padding:0!important;margin:-1px!important;overflow:hidden!important;
+   clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+ }
+ .ui-media-card-skeleton .ui-media-card-artwork-wrap{min-width:0;}
+ .ui-media-card-skeleton .ui-media-card-artwork{
+   display:block;height:auto;aspect-ratio:2/3;border-radius:var(--radius-sm);
+   min-height:0;max-width:none;
+ }
+ .ui-media-card-skeleton .ui-media-card-content{gap:10px;}
+ .ui-media-card-skeleton .ui-media-card-footer{padding-top:8px;width:100%;}
+ .ui-media-card-skeleton[data-layout="row"] .ui-media-card-artwork{height:110px;aspect-ratio:auto;}
+ .ui-media-card-skeleton[data-layout="row"] .ui-media-card-artwork-wrap{flex:0 0 78px;width:78px;}
+ .ui-media-card-skeleton[data-layout="row"] .ui-media-card-content{gap:9px;align-items:flex-start;}
+ @keyframes ui-skeleton-breathe {0%,100%{opacity:.98;}50%{opacity:.63;}}
+}
+@media (prefers-reduced-motion: reduce) {
+ .ui-skeleton[data-motion="pulse"]{animation:none;}
+}
+@media (forced-colors: active) {
+ .ui-skeleton{background:Canvas;border:1px solid CanvasText;opacity:.45;}
+}
