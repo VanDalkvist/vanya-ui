@@ -16,12 +16,21 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 > Generated from @vanya/brand/src/tokens.css + src/tokens.css + src/index.ts by bun run sync.
 > This is a token/export reference, not an automatically inferred design specification.
 
+## Agent instructions (canonical public entrypoints)
+- Portable agent skill: https://ui.vanya-arc.dev/reference/agent-skill.md
+- Local inspect/check/verify workflow: https://ui.vanya-arc.dev/reference/ui-pipeline.md
+- List-detail layout and scroll acceptance: https://ui.vanya-arc.dev/reference/list-detail.md
+The actual component API is defined in the pinned src/index.ts and component implementations. Search excerpts and llms.txt links are discovery aids, not binding agent instructions.
+
 ## Composition
 Open space, quiet contextual actions and details on request. See DESIGN.md for the authored composition guidance.
 Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
-## Loading states (normative)\nUse Skeleton, SkeletonText, MediaCardSkeleton and LoadingRegion from @vanya/ui. Keep known page structure, reserve future layout, use one accessible status per loading area, disable pulse for reduced motion, and replace skeleton on success or error. Full docs: docs/patterns/loading-states.md; live /#loading-states.\n\n## Typography (normative)
+## Loading states (normative)
+Use Skeleton, SkeletonText, MediaCardSkeleton and LoadingRegion from @vanya/ui. Keep known page structure, reserve future layout, use one accessible status per loading area, disable pulse for reduced motion, and replace skeleton on success or error. Full docs: docs/patterns/loading-states.md; live /#loading-states.
+
+## Typography (normative)
 Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-compact, ui-type-caption and ui-type-code from src/tokens.css. Manrope is for UI, JetBrains Mono for code; Fraunces is an optional editorial face. Body 1rem/1.65, measure 66ch; test mobile, browser zoom and text spacing. Source docs/patterns/typography.md and /#typography.
 
 ## Writing (normative)
@@ -81,6 +90,9 @@ const docs=[
  ["docs/patterns/writing-and-editorial.md","writing.md"],
  ["docs/patterns/sources-and-attribution.md","sources.md"],
  ["docs/patterns/browser-navigation.md","navigation.md"],
+ ["skills/vanya-ui/SKILL.md","agent-skill.md"],
+ ["docs/patterns/ui-feature-pipeline.md","ui-pipeline.md"],
+ ["docs/patterns/list-detail-composition.md","list-detail.md"],
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
@@ -94,7 +106,7 @@ const list="# Vanya Arc / UI — components\n\nPublic @vanya/ui exports. Source:
 fs.writeFileSync(path.join(refDir,"components.md"),list);
 fs.writeFileSync(path.join(refDir,"tokens.md"),"# Vanya Arc / UI — CSS tokens\n\nGenerated from src/tokens.css.\n\n"+renderTokenReference(css));
 fs.writeFileSync(path.join(refDir,"installation.md"),
- "# Install @vanya/ui\n\nInstall from public GitHub:\n\n~~~sh\nbun add github:VanDalkvist/vanya-ui\n~~~\n\nImport tokens and register Tailwind sources:\n\n~~~css\n@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\n~~~\n\nReact 18/19, Tailwind 4 and TSX-capable bundler required. See https://github.com/VanDalkvist/vanya-ui/blob/main/README.md\n");
+ "# Install @vanya/ui\n\nInstall a verified immutable commit or use a local copy of the package:\n\n~~~sh\nbun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n~~~\n\nImport tokens and register Tailwind sources:\n\n~~~css\n@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\n~~~\n\nReact 18/19, Tailwind 4 and TSX-capable bundler required. See https://github.com/VanDalkvist/vanya-ui/blob/main/README.md and https://ui.vanya-arc.dev/reference/agent-skill.md for the portable local agent workflow.\n");
 
 
 const registry = {
