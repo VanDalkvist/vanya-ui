@@ -14,6 +14,7 @@ export {
 export {
   ActionButton,
   type ActionButtonProps,
+  type ActionButtonState,
 } from "./components/ActionButton";
 export {
   InspectDrawer,
