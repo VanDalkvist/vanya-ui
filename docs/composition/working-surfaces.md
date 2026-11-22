@@ -52,6 +52,10 @@ The shared app topbar is **one stable surface on every route**: same size, align
 
 For a product workspace with many modules, the **project identity can persist directly above a changing reader**. Treat it as a flex/grid sibling to one `ScrollRegion`, not another floating sticky topbar. Keep common identity/status and the next important action compact; move long stage history and full link lists into the overview. No extra fixed identity for unrelated one-page readers. Reference: [fixed context master–detail contract](../patterns/list-detail-composition.md#продолжительная-идентичность-fixed-context--masterdetail).
 
+## Interaction feedback across workspaces
+
+Hover — feedback, not selection. Use [the canonical interaction state contract](../patterns/interaction-states.md) for icon utilities, links, navigation, menus and selection controls. Keep selected/expanded state visible after pointer exit, visible 2px focus rings for keyboard access, and no hover-only content or sticky touch hover. A neutral utility link and an expressive narrative scene need **different** treatments; do not apply lift/shadow to every surface.
+
 ## Acceptance checklist
 
 - Can a first-time user identify the primary task without reading a long description?

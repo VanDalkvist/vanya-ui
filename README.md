@@ -25,6 +25,10 @@ node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --p
 
 В UI есть `ActionLink` для семантических ссылок с видимым focus и отдельный контурный `GitHubIcon` (legacy Lucide/Feather) для ссылок на репозитории. В витрине ссылка **«Ваня Афанасов ↗»** обозначает автора (`rel=author`), а GitHub-иконка обозначает исходники. Это второстепенные утилиты, не пункты основной навигации. [Исследование](docs/research/author-source-utility-link-2026-11-22.md).
 
+### Состояния взаимодействия
+
+Канонический [контракт hover/focus/pressed/selected/disabled](docs/patterns/interaction-states.md) и [исследовательский цикл](docs/research/hover-research-loop-2026-11-22.md) описывают, как `ActionLink`, `ActionButton`, `ThemeToggle`, `NavLinks`, `SegmentedControl` и другие экспортируемые компоненты используют одну систему `ui-feedback-*` ролей и токенов. [Живой стенд](https://ui.vanya-arc.dev/#interaction-states) проверяется через hover и Tab. Богатые сюжетные сцены остаются осознанными исключениями.
+
 ## Версии и обновление потребителей
 
 Ведём [SemVer и changelog](docs/versioning.md) с версии исходников `0.2.0`. Публичный сайт на `main` **не означает релиз**: ручной тег `vX.Y.Z` ставится после тестов, browser QA и проверки коммита. Продукты закрепляют полный SHA и lockfile, а не движущийся `main`. Локальная проверка: `npm run release:check` (Node.js, без сети). [История изменений](CHANGELOG.md).

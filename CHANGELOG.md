@@ -4,6 +4,17 @@
 
 ## [Unreleased]
 
+### Added (interaction-state research loop)
+- Нормативные `ui-feedback-*` роли в токенах: hover по типу компонента, отдельные focus/pressed/selected/disabled, поддержка pointer и forced colors.
+- Живой стенд `#interaction-states`, документ для агентов и исследовательский NMT/critical loop с внешними референсами.
+
+### Changed
+- GitHub-глиф уменьшен с 17 до 14 px; область нажатия остаётся 32 px на desktop и увеличивается до 44 px на coarse pointer.
+- `ActionLink`, `ActionButton`, `NavLinks`, `ThemeToggle`, `SegmentedControl`, `AvatarLink`, `LinkChip` согласованы по состояниям, без изменения публичных prop API.
+- Dropdown темы получил читаемый фокус, `menuitemradio`-семантику, навигацию стрелками и Escape с возвратом фокуса.
+- `FilterSelect` сохранил active/selected, но hover не включается на disabled или coarse-pointer.
+
+
 ### Added
 - `GitHubIcon` — отдельная переиспользуемая контурная SVG-иконка legacy Lucide/Feather, совпадающая с личным сайтом; знак и ссылка остаются разными компонентами.
 

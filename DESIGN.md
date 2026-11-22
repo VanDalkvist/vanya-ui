@@ -131,3 +131,8 @@ Known page content (header, page title, navigation) stays real while unknown dat
 ## Compact, sticky filter docks
 
 For long data catalogues, keep one compact filter row below the app header on desktop, not a tall multirow form. Use Vanya UI `FilterSelect` (custom portal dropdown with optional searchable listbox), `SearchField density="toolbar"` and `SegmentedControl density="toolbar"` (40px aligned controls, visible inline labels and semantic tokens). Use native `SelectField` only in normal forms, not as a styled catalogue dropdown: macOS and other OSes paint `<select>` menus outside the app theme. Move overflowing or rare facets to a dismissible disclosure; do not silently drop filters. The app decides header offset, breakpoints and filter semantics; the package owns control presentation and accessibility. On mobile prioritize a compact search + filters action. See [composition rule](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) and [interactive specimen](https://ui.vanya-arc.dev/#compact-filter-toolbar).
+
+
+## Interaction feedback contract
+
+For new/modified UI **do not independently invent hovers** for each button, link and icon. Read [canonical state roles](docs/patterns/interaction-states.md): distinguish hover, keyboard focus, pressed, selected/expanded and disabled. Use existing semantic variables and `ui-feedback-*` classes in exports, pointer hover only when supported, reduced motion, visible keyboard focus and accessible labels. The live `#interaction-states` catalogue is a real component testbed. Rich narrative interactions need their own explicit justification, not uniform lift/shadow. [Research and criticism](docs/research/hover-research-loop-2026-11-22.md).
