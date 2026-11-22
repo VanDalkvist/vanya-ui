@@ -1,4 +1,6 @@
 import React from "react";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { ShortcutKeys } from "../src";
@@ -35,6 +37,15 @@ describe("shortcut notation and keyboard UX", () => {
     expect(within(dialog).getByRole("checkbox",{name:/Быстрые переходы включены/})).toBeChecked();
     fireEvent.keyDown(dialog,{key:"Escape",code:"Escape"});
     expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+  });
+
+  it("places the keyboard help dock at bottom right, respecting the safe area", () => {
+    const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
+    const rule=css.split(".showcase-shortcut-dock { position:fixed;")[1]?.split("}")[0];
+    expect(rule).toContain("right:max(18px,env(safe-area-inset-right))");
+    expect(rule).toContain("bottom:max(18px,env(safe-area-inset-bottom))");
+    expect(rule).not.toContain("left:");
+    expect(css).toContain(".showcase-shortcut-dock:focus-visible");
   });
 
   it("has one keyboard-accessible GitHub icon link in the top navigation", () => {

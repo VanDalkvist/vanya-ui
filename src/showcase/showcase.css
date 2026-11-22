@@ -177,7 +177,7 @@ p { text-wrap:pretty; }
 .showcase-github { display:inline-grid; place-items:center; flex:none; width:36px; height:36px; color:var(--ink-soft); border-radius:var(--radius-xs); text-decoration:none; }
 .showcase-github:hover { color:var(--accent); }
 .showcase-github:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-.showcase-shortcut-dock { position:fixed; left:max(18px,env(safe-area-inset-left)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:29; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-xs); background:var(--ground); color:var(--ink-soft); font:500 12px/1.4 var(--font-sans); cursor:pointer; box-shadow:0 2px 12px color-mix(in oklab,var(--ink) 6%,transparent); }
+.showcase-shortcut-dock { position:fixed; right:max(18px,env(safe-area-inset-right)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:29; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-xs); background:var(--ground); color:var(--ink-soft); font:500 12px/1.4 var(--font-sans); cursor:pointer; box-shadow:0 2px 12px color-mix(in oklab,var(--ink) 6%,transparent); }
 .showcase-shortcut-dock:hover { border-color:var(--ink-faint); color:var(--ink); }
 .showcase-shortcut-dock:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
 .showcase-shortcut-dock kbd { font-size:10px; }
