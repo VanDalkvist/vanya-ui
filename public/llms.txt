@@ -2,10 +2,17 @@
 
 > Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
+## Agent instructions (start here)
+- [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.
+- [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → check → verify locally on any machine, without GitHub, CI, tokens or fixed paths.
+- [List–detail composition](https://ui.vanya-arc.dev/reference/list-detail.md): Normative layout, scroll owners, navigation and responsive acceptance.
+- [Actual component exports](https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts): Consult the exact source and installed version for API signatures.
+
 ## Overview
 - [Single longread](https://ui.vanya-arc.dev/): Human reference, semantic HTML and interactive demos.
 - [Longread Markdown](https://ui.vanya-arc.dev/index.md): Text without JavaScript.
 - [Identity](https://ui.vanya-arc.dev/reference/identity.md): Vanya Arc parent brand, / UI product, original VA mark and reusable React components.
+- [Loading states](https://ui.vanya-arc.dev/reference/loading.md): Skeletons, aria-busy, reduced motion, error and retry, examples.
 - [Typography](https://ui.vanya-arc.dev/reference/typography.md): Semantic type tokens, font families, readable lengths, mobile and zoom.
 - [Writing and editorial](https://ui.vanya-arc.dev/reference/writing.md): Local product copy rules and links to original methods (book reference-only; redaktura-skills CC BY 4.0).
 - [Keyboard shortcuts](https://ui.vanya-arc.dev/reference/keyboard-shortcuts.md): Normative rules for conflicts, access, keycap typography, opt-out, WCAG 2.1.4 and real showcase commands.
@@ -31,4 +38,4 @@
 - [Public GitHub repository](https://github.com/VanDalkvist/vanya-ui): Source, tests and mixed-license scope (original source code MIT; selected research CC BY 4.0).
 - [Extended machine-readable reference](https://ui.vanya-arc.dev/llms-full.txt): Generated tokens and export index.
 
-This is a navigation aid for agents, not an indexing or ranking guarantee.
+This is a navigation aid for agents, not a guarantee that any search engine or model will automatically discover, follow or prioritize these instructions. When working in a local repo, read the pinned/local skill and component sources rather than relying on a search excerpt.

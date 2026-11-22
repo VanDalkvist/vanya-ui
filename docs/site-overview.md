@@ -2,11 +2,21 @@
 
 > React-компоненты, токены, композиция и нативная браузерная навигация. Основной сайт — один лонгрид. Примеры только синтетические, без приватных данных. Код — MIT; выбранные авторские исследования — CC BY 4.0; официальные знаки — отдельно.
 
+## Агентам и LLM
+
+- [Канонический скилл Vanya UI](https://ui.vanya-arc.dev/reference/agent-skill.md) — полный переносимый рабочий цикл без GitHub.
+- [Локальный пайплайн](https://ui.vanya-arc.dev/reference/ui-pipeline.md) — команды `inspect`, `check`, `verify` и проверка в браузере.
+- [Композиция list–detail](https://ui.vanya-arc.dev/reference/list-detail.md) — прокрутка, breadcrumbs, размеры областей и критерии приёмки.
+- [Исходные экспорты компонентов](https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts) — проверять по версии проекта, не выдумывать API.
+
+Для воспроизводимой работы скопируй исходники дизайн-системы локально и передай агенту путь к `skills/vanya-ui/SKILL.md`. Онлайн-страницы — доступные поисковикам указатели, но не обязательная часть пайплайна.
+
 ## Путеводитель
 
 - [Композиция](https://ui.vanya-arc.dev/#composition): открытый интерфейс и интерактивная синусоида.
 - [Айдентика](https://ui.vanya-arc.dev/#identity): родительский бренд, продукт / UI, утверждённый знак, типографика и цвета.
-- [Загрузка и скелетоны](https://ui.vanya-arc.dev/#loading-states): примеры и [правила](https://ui.vanya-arc.dev/reference/loading.md).\n- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
+- [Загрузка и скелетоны](https://ui.vanya-arc.dev/#loading-states): примеры и [правила](https://ui.vanya-arc.dev/reference/loading.md).
+- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
 - [Тексты](https://ui.vanya-arc.dev/#writing): примеры текста и ссылки на оригинальные скиллы.
 - [Принципы](https://ui.vanya-arc.dev/#principles): устойчивые интерфейсные правила.
 - [Горячие клавиши](https://ui.vanya-arc.dev/#keyboard-shortcuts): настоящие G → буква, справка ?, выключатель и дизайн подсказок.
@@ -45,7 +55,7 @@
 ## Подключение
 
 ~~~sh
-bun add github:VanDalkvist/vanya-ui
+bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'
 ~~~
 
 ~~~tsx
