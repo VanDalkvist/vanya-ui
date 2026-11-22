@@ -13,6 +13,7 @@ test('local agent bootstrap works with no git and does not alter CI',()=>{
   assert.match(skill,/ui-pipeline\.mjs/);
   assert.doesNotMatch(skill,/github\.com/);
   assert.match(readFileSync(join(root,'UI_CONTRACT.md'),'utf8'),/check --project/);
+  assert.match(readFileSync(join(root,'UI_CONTRACT.md'),'utf8'),/node \"[^\"]+ui-pipeline\.mjs\" check/);
   writeFileSync(join(root,'UI_CONTRACT.md'),'keep original');
   const second=bootstrap(root);
   assert.equal(second.created.length,0);

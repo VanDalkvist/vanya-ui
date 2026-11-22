@@ -68,3 +68,14 @@ test('CLI can run from a different working directory and emit JSON without git o
  assert.equal(c.status,0,c.stderr);
  const o=JSON.parse(c.stdout);assert.equal(o.status,'pass');
 }));
+
+test('floating Vanya UI dependency is rejected even when imported',()=>fixture(root=>{
+ react(root);
+ const path=join(root,'app/package.json');
+ const data=JSON.parse(readFileSync(path,'utf8'));
+ data.dependencies['@vanya/ui']='github:VanDalkvist/vanya-ui#main';
+ writeFileSync(path,JSON.stringify(data));
+ const result=checkProject(inspectProject({project:root}));
+ assert.equal(result.status,'fail');
+ assert.ok(result.problems.some(x=>x.includes('immutable')));
+}));
