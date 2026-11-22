@@ -6,7 +6,7 @@
 
 - [Композиция](https://ui.vanya-arc.dev/#composition): открытый интерфейс и интерактивная синусоида.
 - [Айдентика](https://ui.vanya-arc.dev/#identity): родительский бренд, продукт / UI, утверждённый знак, типографика и цвета.
-- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
+- [Загрузка и скелетоны](https://ui.vanya-arc.dev/#loading-states): примеры и [правила](https://ui.vanya-arc.dev/reference/loading.md).\n- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
 - [Тексты](https://ui.vanya-arc.dev/#writing): примеры текста и ссылки на оригинальные скиллы.
 - [Принципы](https://ui.vanya-arc.dev/#principles): устойчивые интерфейсные правила.
 - [Горячие клавиши](https://ui.vanya-arc.dev/#keyboard-shortcuts): настоящие G → буква, справка ?, выключатель и дизайн подсказок.
