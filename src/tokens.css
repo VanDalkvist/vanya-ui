@@ -630,8 +630,9 @@
  }
  .ui-segments[data-density="toolbar"]{
   --ui-height:40px;
-  height:40px;font-size:13px;
+  height:40px;font-size:13px;border-radius:var(--radius-sm);
  }
+ .ui-segments[data-density="toolbar"]>button{border-radius:var(--radius-xs);}
  .ui-segments[data-density="toolbar"]>button{
   height:34px;
  }
