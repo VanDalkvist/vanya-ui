@@ -139,6 +139,20 @@ describe("#15: current section reflects viewport/history, not last clicked item"
     expect(visibleSection(["composition","identity","typography"],600)).toBe("typography");
   });
 
+  it("returns to the parent catalogue after the nested workspace block ends",()=>{
+    render(<section id="catalog"><section id="workspace"/><p>Продолжение каталога</p></section>);
+    const catalogue=document.getElementById("catalog")!;
+    const workspace=document.getElementById("workspace")!;
+    Object.defineProperty(catalogue,"getBoundingClientRect",{configurable:true,
+      value:()=>({top:-1000,bottom:1800})});
+    let end=220;
+    Object.defineProperty(workspace,"getBoundingClientRect",{configurable:true,
+      value:()=>({top:-200,bottom:end})});
+    expect(visibleSection(["catalog","workspace"],70)).toBe("workspace");
+    end=80;
+    expect(visibleSection(["catalog","workspace"],70)).toBe("catalog");
+  });
+
   it("handles deep links with the semantic current location, including history events",()=>{
     // Suppress RAF geometry in jsdom (all rectangles are zero); test geometry separately above.
     vi.stubGlobal("requestAnimationFrame", vi.fn(()=>1));
