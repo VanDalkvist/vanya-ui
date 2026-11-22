@@ -165,3 +165,7 @@ bun run build     # production-сборка витрины в dist/
 ### Media catalogues
 
 `MediaCard` and `SearchField` are reusable presentation primitives for readable film, book and media collections. `MediaCard` accepts native-link `href`, artwork slot, headline, metadata and an optional footer; its layout may be `poster` (grid) or `row` (compact shelf). `SearchField` is fully controlled with an accessible label and a clear action; the app owns the search algorithm. Pair with `SectionToolbar variant="section"`, `SelectField`, `SegmentedControl semantics="filters"` and labeled `ScrollRegion` rather than inventing local lookalikes. [Composition rules](docs/composition/working-surfaces.md#8-media-catalogues-and-searchable-collections).
+
+### Загрузка и skeleton
+
+Новые переиспользуемые компоненты: `Skeleton` (`text`, `block`, `circle`), `SkeletonText`, `MediaCardSkeleton` (`poster` / `row`) и `LoadingRegion`. Их геометрия повторяет реальные компоненты, а цвета и анимация — `@vanya/ui/tokens.css`. `LoadingRegion` сообщает о загрузке один раз, вложенные формы не участвуют в клавиатурной навигации. Ошибки и запросы остаются в логике приложения. [Правила и примеры](docs/patterns/loading-states.md) · [демо](https://ui.vanya-arc.dev/#loading-states).
