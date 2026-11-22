@@ -20,3 +20,11 @@
 ## Limits and applicability
 
 This is a **showcase placement**, not a mandatory `HelpFloatingButton` design-system component. On apps with a sidebar, put Help in the utility section; in an editor with busy bottom-right controls, choose a help menu elsewhere. Never cover primary commands or make the keyboard the only access path. Run a real visual review on desktop, mobile, 200% zoom and dark/light before claiming visual QA.
+
+## Updated decision — 2026-11-22: remove floating entry
+
+A user screenshot showed that the bottom-right keyboard help dock was an oversized bordered rectangle **covering the first-screen “Расстояние между событиями” slider**. A persistent low-frequency utility must not cover the scene's primary control.
+
+**Decision:** remove floating button, its CSS and the special footer padding. Do not replace it with a topbar `?` icon. Keep `?` and the existing `InspectDrawer`. The existing «Принципы → Клавиши» section gets an in-context “Настроить горячие клавиши” button, so mouse/touch/keyboard users can reopen settings even after opting out of shortcuts. No floating or automatic popups.
+
+This supersedes the original placement decision above, retained for research history. Acceptance: no `.showcase-shortcut-dock` DOM/CSS; slider remains accessible; `?` works when enabled; contextual control works even when shortcuts are disabled. Source tests do not establish pixel-level visual QA.
