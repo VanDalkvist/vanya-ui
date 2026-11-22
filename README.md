@@ -161,3 +161,7 @@ bun run build     # production-сборка витрины в dist/
 При копировании и распространении кода или его существенных частей сохраняются имя автора, copyright и текст лицензии. Отдельная обязательная ссылка в интерфейсе в MIT не добавлена.
 
 **Название и знак:** для новых версий действуют [правила официального бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md) и отдельная область действия в [LICENSING.md](LICENSING.md). Они не отменяют разрешения, полученные с историческими MIT-версиями, и не являются подтверждением регистрации товарного знака.
+
+### Media catalogues
+
+`MediaCard` and `SearchField` are reusable presentation primitives for readable film, book and media collections. `MediaCard` accepts native-link `href`, artwork slot, headline, metadata and an optional footer; its layout may be `poster` (grid) or `row` (compact shelf). `SearchField` is fully controlled with an accessible label and a clear action; the app owns the search algorithm. Pair with `SectionToolbar variant="section"`, `SelectField`, `SegmentedControl semantics="filters"` and labeled `ScrollRegion` rather than inventing local lookalikes. [Composition rules](docs/composition/working-surfaces.md#8-media-catalogues-and-searchable-collections).
