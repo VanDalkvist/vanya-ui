@@ -427,6 +427,7 @@
   .ui-workspace-context-crumbs { display:block; min-width:0; overflow:hidden; }
   .ui-workspace-context-crumbs ol { display:flex; align-items:center; min-width:0; gap:7px; margin:0; padding:0; list-style:none; }
   .ui-workspace-context-crumbs li { display:flex; align-items:center; flex:0 1 auto; min-width:0; gap:7px; font:500 12px/1.4 var(--font-sans); color:var(--ink-soft); white-space:nowrap; }
+  .ui-workspace-context-crumbs[data-size="large"] li { font-size:16px; }
   .ui-workspace-context-crumbs li:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; }
   .ui-workspace-context-crumbs :is(button, a) { display:block; min-width:0; max-width:100%; padding:0; border:0; border-radius:0; background:none; color:var(--ink-soft); font:inherit; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .ui-workspace-context-crumbs :is(button, a):hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px; }
@@ -443,6 +444,7 @@
     .ui-workspace-context-identity { gap:3px; }
     .ui-workspace-context-heading strong { font-size:12px; }
     .ui-workspace-context-crumbs li { font-size:10px; }
+    .ui-workspace-context-crumbs[data-size="large"] li { font-size:14px; }
     .ui-workspace-context-crumbs li:not(:first-child) { display:none; }
   }
 }
