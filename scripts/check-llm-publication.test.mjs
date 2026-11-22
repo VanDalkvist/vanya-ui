@@ -7,7 +7,8 @@ import {validatePublication} from './check-llm-publication.mjs';
 const paths=[
  'llms.txt','llms-full.txt','index.md','reference/agent-skill.md',
  'reference/ui-pipeline.md','reference/list-detail.md','reference/components.md',
- 'reference/workspaces.md','reference/installation.md'
+ 'reference/workspaces.md','reference/installation.md',
+ 'reference/brand-artwork-license.txt'
 ];
 const site='https://ui.vanya-arc.dev/';
 function put(root,path,body){

@@ -26,8 +26,9 @@
 - [Installation](https://ui.vanya-arc.dev/reference/installation.md): How to use @vanya/ui.
 - [Sources, quotations and required attribution](https://ui.vanya-arc.dev/reference/sources.md): How to record primary sources, distinguish short quotes from CC-licensed adaptations, and avoid relicensing third-party content.
 - [Third-party licenses and attribution](https://ui.vanya-arc.dev/reference/third-party.md): React, Lucide/Feather, fonts and credited Agent Skills.
-- [Built JavaScript dependency licenses](https://ui.vanya-arc.dev/licenses.txt): Auto-generated full notices for deployed Vite bundle.
-- [Licensing scopes](https://ui.vanya-arc.dev/reference/licensing.md): MIT software, selected CC BY research, protected Vanya Arc art and historical grants.
+- [Built JavaScript dependency licenses](https://ui.vanya-arc.dev/licenses.txt): Bundled dependency notices with supplemental artwork terms; not a whole-site rights grant.
+- [Licensing scopes](https://ui.vanya-arc.dev/reference/licensing.md): MIT software, selected CC BY research, separately licensed official artwork and historical grants.
+- [Official artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt): exact LicenseRef-VanyaArc-Brand terms from the pinned brand package.
 - [Canonical brand source](https://github.com/VanDalkvist/vanya-arc-brand): V→A artwork, SVG and React lockups, colors, typography and research.
 - [UI brand integration compatibility reference](https://ui.vanya-arc.dev/reference/brand.md): pointer to canonical brand repo.
 - [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
