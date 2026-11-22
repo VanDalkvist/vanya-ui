@@ -49,11 +49,20 @@ function scanSources(root,maxFiles=3500){
  return found;
 }
 function hasReact(pkg){return Boolean(pkg.dependencies?.react||pkg.devDependencies?.react||pkg.peerDependencies?.react)}
-function hasVanya(pkg){return Boolean(pkg.dependencies?.['@vanya/ui']||pkg.devDependencies?.['@vanya/ui']||pkg.peerDependencies?.['@vanya/ui'])}
-function detectManager(dir){
- if(existsSync(join(dir,'bun.lock'))||existsSync(join(dir,'bun.lockb')))return 'bun';
- if(existsSync(join(dir,'pnpm-lock.yaml')))return 'pnpm';
- if(existsSync(join(dir,'yarn.lock')))return 'yarn';
+function vanyaSpec(pkg){return pkg.dependencies?.['@vanya/ui']||pkg.devDependencies?.['@vanya/ui']||pkg.peerDependencies?.['@vanya/ui']||null}
+function hasVanya(pkg){return Boolean(vanyaSpec(pkg))}
+function pinned(spec){
+ if(typeof spec!=='string')return false;
+ return /^(file:|link:|workspace:)/.test(spec)
+  || /(?:#|\/)[0-9a-f]{40}(?:\.tar\.gz)?$/i.test(spec)
+  || /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/.test(spec);
+}
+function detectManager(dir,root){
+ for(const home of [dir,root]){
+  if(existsSync(join(home,'bun.lock'))||existsSync(join(home,'bun.lockb')))return 'bun';
+  if(existsSync(join(home,'pnpm-lock.yaml')))return 'pnpm';
+  if(existsSync(join(home,'yarn.lock')))return 'yarn';
+ }
  return 'npm';
 }
 function selectPackage(root,packages,requested,mode){
@@ -89,10 +98,11 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
   mode:finalMode,sourceFiles:files.length,visualFiles:visualFiles.length,
   library:libraryRoot,hasPolicy:/\bvanya\s*(?:[-/]\s*)?(?:arc\s*)?(?:[-/]\s*)?ui\b|@vanya\/ui/i.test(policy),
   hasDependency:chosen?hasVanya(chosen.data):false,
+  pinnedDependency:chosen?pinned(vanyaSpec(chosen.data)):false,
   hasImport:/(?:from\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|@import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"])/.test(relevantSources),
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
   buildScript:Boolean(scripts.build),
-  scripts,manager:chosen?detectManager(chosen.dir):null,
+  scripts,manager:chosen?detectManager(chosen.dir,root):null,
   documents:['skills/vanya-ui/SKILL.md','DESIGN.md','src/index.ts','src/tokens.css',
    'docs/patterns/list-detail-composition.md','docs/research/workspace-scroll-composition-2026-11-21.md',
    'docs/patterns/browser-navigation.md'].map(name=>join(libraryRoot,name))
@@ -105,6 +115,7 @@ export function checkProject(info){
  if(info.mode==='react'){
   if(!info.package)problems.push('React UI needs a selected package.json; use --package');
   if(!info.hasDependency)problems.push('React UI must use a pinned @vanya/ui package dependency');
+  else if(!info.pinnedDependency)problems.push('Pin @vanya/ui to a verified immutable version/commit or local file/workspace dependency');
   if(!info.hasImport)problems.push('Import real @vanya/ui components or @vanya/ui/tokens.css in project source');
   if(!info.buildScript)problems.push('Add a reproducible build script to the UI package');
   if(!info.browserScript)problems.push('Add a runnable test:e2e, test:browser or test:ui script');
@@ -114,15 +125,16 @@ export function checkProject(info){
  }
  return {status:problems.length?'fail':'pass',problems,warnings};
 }
-function runScript(info,manager,name){
+function runScript(info,manager,name,asJson=false){
  const dir=info.packageRoot;
  const args=manager==='yarn'?[name]:['run',name];
- process.stdout.write('\n[ui-pipeline] '+manager+' '+args.join(' ')+' @ '+dir+'\n');
- const call=spawnSync(manager,args,{cwd:dir,stdio:'inherit',shell:false,env:process.env});
+ (asJson?process.stderr:process.stdout).write('\n[ui-pipeline] '+manager+' '+args.join(' ')+' @ '+dir+'\n');
+ // Keep machine-readable JSON on stdout, send child logs to stderr.
+ const call=spawnSync(manager,args,{cwd:dir,stdio:asJson?['inherit',2,2]:'inherit',shell:false,env:process.env});
  if(call.error)return {script:name,status:'failed',reason:call.error.message};
  return {script:name,status:call.status===0?'passed':'failed',exitCode:call.status,signal:call.signal||undefined};
 }
-export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false}={}){
+export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={}){
  const checked=checkProject(info);
  const result={project:info.project,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked'};
  if(checked.status==='skip'){result.status='skipped';return result}
@@ -137,7 +149,7 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
  for(const name of tasks)if(!info.scripts[name]){result.issues=['Missing script '+name];return result}
  if(dryRun){result.status='planned';result.checks=tasks.map(script=>({script,status:'NOT_RUN'}));return result}
  for(const name of tasks){
-  const item=runScript(info,runtime,name);
+  const item=runScript(info,runtime,name,asJson);
   result.checks.push(item);
   if(item.status!=='passed'){result.status='failed';return result}
  }
@@ -196,7 +208,7 @@ export function runCli(argv){
  }
  const result=verifyProject(info,{
   manager:options.manager,buildScript:options['build-script'],browserScript:options['browser-script'],
-  unitScript:options['unit-script'],dryRun:Boolean(options['dry-run'])
+  unitScript:options['unit-script'],dryRun:Boolean(options['dry-run']),asJson:Boolean(options.json)
  });
  output(result,options.json);
  return result.status==='passed'||result.status==='skipped'||result.status==='planned'?0:1;
