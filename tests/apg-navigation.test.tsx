@@ -53,7 +53,7 @@ describe("#13: filters must not claim tab semantics; real tabs must follow APG",
     expect(atlas).toHaveAttribute("aria-selected","true");
     expect(atlas).toHaveAttribute("tabindex","0");
     expect(reading).toHaveAttribute("tabindex","-1");
-    expect(screen.getByRole("tabpanel",{name:"t-atlas"})).toBeInTheDocument();
+    expect(screen.getByRole("tabpanel",{name:"Атлас"})).toBeInTheDocument();
     fireEvent.keyDown(atlas,{key:"Home"});
     expect(reading).toHaveFocus();
     expect(reading).toHaveAttribute("aria-selected","true");
@@ -140,8 +140,8 @@ describe("#15: current section reflects viewport/history, not last clicked item"
 
   it("handles deep links with the semantic current location, including history events",()=>{
     // Suppress RAF geometry in jsdom (all rectangles are zero); test geometry separately above.
-    vi.spyOn(window,"requestAnimationFrame").mockImplementation(()=>1);
-    vi.spyOn(window,"cancelAnimationFrame").mockImplementation(()=>{});
+    vi.stubGlobal("requestAnimationFrame", vi.fn(()=>1));
+    vi.stubGlobal("cancelAnimationFrame", vi.fn());
     render(<Showcase/>);
     window.history.replaceState(null,"","/#identity");
     fireEvent(window,new Event("hashchange"));

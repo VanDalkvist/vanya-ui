@@ -43,7 +43,9 @@ export function useActiveShowcaseSection(ids: readonly string[]) {
     };
     const schedule = () => {
       if (frame) return;
-      frame = window.requestAnimationFrame(measure);
+      frame = typeof window.requestAnimationFrame === "function"
+        ? window.requestAnimationFrame(measure)
+        : window.setTimeout(measure, 16);
     };
     const syncLocation = () => {
       const selected = sectionForHash(ids);
@@ -62,7 +64,10 @@ export function useActiveShowcaseSection(ids: readonly string[]) {
       window.removeEventListener("hashchange", syncLocation);
       window.removeEventListener("popstate", syncLocation);
       window.removeEventListener("pageshow", schedule);
-      if (frame) window.cancelAnimationFrame(frame);
+      if (frame) {
+        if (typeof window.cancelAnimationFrame === "function") window.cancelAnimationFrame(frame);
+        else window.clearTimeout(frame);
+      }
     };
   }, [ids]);
   return active;
