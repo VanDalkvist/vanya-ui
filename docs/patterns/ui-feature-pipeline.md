@@ -1,6 +1,6 @@
 # UI feature pipeline — portable agent workflow
 
-The **canonical executable procedure** is [Vanya UI agent skill](../../skills/vanya-ui/SKILL.md). The [portable CLI](../../scripts/ui-pipeline.mjs) and [local bootstrap](../../scripts/bootstrap-ui-pipeline.mjs) work on any machine with Node.js 20+ and folders containing the design system and target project. No Git/GitHub access, cloud browser or CI runner is required.
+The **canonical executable procedure** is [Vanya UI agent skill](../../skills/vanya-ui/SKILL.md). For package consumers use [explicit SemVer/SHA release policy](../versioning.md); the portable workflow never bumps or deploys a dependency without an explicit decision. The [portable CLI](../../scripts/ui-pipeline.mjs) and [local bootstrap](../../scripts/bootstrap-ui-pipeline.mjs) work on any machine with Node.js 20+ and folders containing the design system and target project. No Git/GitHub access, cloud browser or CI runner is required.
 
 ## Run locally
 

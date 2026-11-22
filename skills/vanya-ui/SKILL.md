@@ -22,7 +22,7 @@ Identify: primary user action, screen/route, source of truth, required component
 
 For multi-view workspaces, explicitly compare the **same global topbar geometry across home/overview/modules/catalogue**. Use `WorkspaceContextHeader` in that existing bar (including `breadcrumbSize="large"` when a 16px/14px reading scale is needed), never a detached duplicate. If the same project identity is relevant across many modules, keep a compact identity **outside** the reader scroll as its flex sibling; do not add another sticky toolbar. [Canonical recipe](../../docs/patterns/list-detail-composition.md#продолжительная-идентичность-fixed-context--masterdetail). Explain changes concisely in the work log/handoff.
 
-Use `WorkspaceSplit`, `ScrollRegion`, `WorkspaceContextHeader`, `Skeleton`, semantic controls, and actual exports where applicable. Never invent library APIs. For React UI use pinned `@vanya/ui` and `@vanya/ui/tokens.css`. For non-React SVG or host visuals apply tokens/rules without injecting React or global app CSS. Non-UI API/CLI/data changes skip the UI steps.
+Use `WorkspaceSplit`, `ScrollRegion`, `WorkspaceContextHeader`, `Skeleton`, semantic controls, and actual exports where applicable. Never invent library APIs. For versioned Vanya UI packages, pin a verified immutable source commit SHA and lockfile, never moving `main`. [Release policy](../../docs/versioning.md). For React UI use pinned `@vanya/ui` and `@vanya/ui/tokens.css`. For non-React SVG or host visuals apply tokens/rules without injecting React or global app CSS. Non-UI API/CLI/data changes skip the UI steps.
 
 ## Phase 2 — implement one complete feature
 

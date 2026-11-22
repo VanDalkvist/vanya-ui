@@ -32,6 +32,9 @@ describe("public search and agent discovery",()=>{
   expect(read("scripts/sync.ts")).toContain("docs/patterns/writing-and-editorial.md");
   expect(read("llms.txt")).toContain("/reference/keyboard-shortcuts.md");
   expect(read("llms.txt")).toContain("/reference/licensing.md");
+  expect(read("llms.txt")).toContain("/reference/versioning.md");
+  expect(read("public/sitemap.xml")).toContain("/reference/versioning.md");
+  expect(read("scripts/sync.ts")).toContain('["docs/versioning.md","versioning.md"]');
   expect(read("llms.txt")).toContain("/reference/brand.md");
   expect(read("public/sitemap.xml")).toContain("/reference/licensing.md");
   expect(read("public/sitemap.xml")).toContain("/reference/brand.md");

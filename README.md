@@ -1,6 +1,6 @@
 # Vanya Arc / UI
 
-React-компоненты и интерфейсные токены для приложений [vanya-arc.dev](https://vanya-arc.dev/). Имя пакета — `@vanya/ui`.
+React-компоненты и интерфейсные токены для приложений [vanya-arc.dev](https://vanya-arc.dev/). Имя пакета — `@vanya/ui`. Текущая исходная версия — **0.2.0** (тег релиза проверяется отдельно).
 
 **[Живая витрина → ui.vanya-arc.dev](https://ui.vanya-arc.dev/)**
 
@@ -20,6 +20,10 @@ node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --p
 ```
 
 Самопроверка переносимого инструмента: `npm run test:agent` либо `node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs` (работает без GitHub). Bootstrap создаёт только локальные указатели для агентов, а не GitHub workflow. `verify` вызывает **существующие локальные** build/browser скрипты приложения; предварительная установка зависимостей/браузера — отдельная задача приложения. Вывод `--json` пригоден для агента. Пройти тесты недостаточно: скилл требует визуальную проверку поведения в браузере. GitHub workflow остаётся необязательной ручной обёрткой.
+
+## Версии и обновление потребителей
+
+Ведём [SemVer и changelog](docs/versioning.md) с версии исходников `0.2.0`. Публичный сайт на `main` **не означает релиз**: ручной тег `vX.Y.Z` ставится после тестов, browser QA и проверки коммита. Продукты закрепляют полный SHA и lockfile, а не движущийся `main`. Локальная проверка: `npm run release:check` (Node.js, без сети). [История изменений](CHANGELOG.md).
 
 ## Айдентика Vanya Arc
 

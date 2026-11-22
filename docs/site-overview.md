@@ -7,6 +7,7 @@
 - [Канонический скилл Vanya UI](https://ui.vanya-arc.dev/reference/agent-skill.md) — полный переносимый рабочий цикл без GitHub.
 - [Локальный пайплайн](https://ui.vanya-arc.dev/reference/ui-pipeline.md) — команды `inspect`, `check`, `verify` и проверка в браузере.
 - [Композиция list–detail](https://ui.vanya-arc.dev/reference/list-detail.md) — прокрутка, breadcrumbs, размеры областей и критерии приёмки.
+- [Версии и обновления](https://ui.vanya-arc.dev/reference/versioning.md) — SemVer, теги, SHA и как отличать релиз от деплоя сайта.
 - [Исходные экспорты компонентов](https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts) — проверять по версии проекта, не выдумывать API.
 
 Для воспроизводимой работы скопируй исходники дизайн-системы локально и передай агенту путь к `skills/vanya-ui/SKILL.md`. Онлайн-страницы — доступные поисковикам указатели, но не обязательная часть пайплайна.

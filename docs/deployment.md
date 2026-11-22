@@ -45,6 +45,10 @@ Before announcing a production release:
 4. Inspect built HTML and JS as public artifacts for accidental secrets or private data; no `.env`, production credentials, private URLs or real user records.
 5. If build/deploy fails, inspect Workers Builds logs; do not claim that a Git commit alone is a website release.
 
+## Versioned package vs live documentation
+
+Every successful Workers Build deploys the documentation from `main`, **not** a new consumer package release or Git tag. Follow the separate [SemVer and SHA-pin procedure](versioning.md); do not add push/PR/schedule GitHub Actions for release automation.
+
 ## Recovery
 
 Cloudflare retains Worker versions and deployments. If a release breaks the live site, restore a known-good Worker version via Cloudflare deployments. Fix the source on `main` to keep it aligned with production; avoid long-lived manual divergences.

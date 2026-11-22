@@ -21,6 +21,7 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 - Portable agent skill: https://ui.vanya-arc.dev/reference/agent-skill.md
 - Local inspect/check/verify workflow: https://ui.vanya-arc.dev/reference/ui-pipeline.md
 - List-detail layout and scroll acceptance: https://ui.vanya-arc.dev/reference/list-detail.md
+- Package versioning and SHA pinning: https://ui.vanya-arc.dev/reference/versioning.md
 The actual component API is defined in the pinned src/index.ts and component implementations. Search excerpts and llms.txt links are discovery aids, not binding agent instructions.
 
 ## Composition
@@ -97,6 +98,7 @@ const docs=[
  ["skills/vanya-ui/SKILL.md","agent-skill.md"],
  ["docs/patterns/ui-feature-pipeline.md","ui-pipeline.md"],
  ["docs/patterns/list-detail-composition.md","list-detail.md"],
+ ["docs/versioning.md","versioning.md"],
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
