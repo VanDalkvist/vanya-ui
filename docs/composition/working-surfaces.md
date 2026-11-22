@@ -83,10 +83,11 @@ References: [NN/g utility navigation](https://www.nngroup.com/articles/utility-n
 
 ## 8. Media catalogues and searchable collections
 
-Use the exported `MediaCard`, `SearchField`, `SectionToolbar variant="section"`, `SegmentedControl semantics="filters"`, `SelectField` and `ScrollRegion orientation="horizontal"` rather than duplicating their HTML and control styles inside each app. They are presentation primitives, not film-specific objects.
+Use the exported `MediaCard`, `SearchField`, `TextField`, `SectionToolbar variant="section"`, `SegmentedControl semantics="filters"`, `SelectField` and `ScrollRegion orientation="horizontal"` rather than duplicating their HTML and control styles inside each app. They are presentation primitives, not film-specific objects.
 
 - `MediaCard` supports `layout="poster"|"row"`: native artwork and title anchors, optional `eyebrow`, `subtitle`, `meta`, `overlay`, `footer` and `onNavigate`. Pass complete semantic media data and app-specific decisions through slots. **Don't** put provider logic, watchlist state, hardcoded themes or icon sets in the shared component.
 - `SearchField` is controlled by `value`/`onValueChange`, has an explicit accessible label and a clear button. Search/filter behavior remains in the application.
+- `TextField` supplies a real visible label, 42px keyboard-friendly control, optional hint/error, and semantic focus states. Use it for account, invite, token and other form inputs instead of local `.text-input` imitations. Validation and submission remain with the consumer.
 - `SectionToolbar variant="section"` displays a meaningful subheading using the shared Manrope scale. The default `compact` variant preserves existing dense toolbars.
 - Keep search and selected scope in the first row, a handful of common filters immediately available, and rarer filters in a clearly labeled disclosure. Preserve all existing filter capabilities and a visible reset affordance when active.
 - Poster imagery needs a proper aspect ratio, descriptive alternative and enough resolution. Source retrieval and fallback strategy belong to the **domain app**, not the generic `MediaCard`.
