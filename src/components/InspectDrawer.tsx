@@ -84,7 +84,7 @@ export function InspectDrawer({isOpen,title,onClose,children,size="default",comp
       {compactContext.actions&&<span className="inspect-sheet__compact-actions">{compactContext.actions}</span>}
      </div>}
     <button type="button" onClick={onClose} aria-label="Закрыть инспектор"
-     className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xs bg-transparent text-ink-soft transition-colors hover:bg-surface-raised">
+     className="ui-feedback-icon grid size-9 shrink-0 cursor-pointer place-items-center rounded-xs">
      <X className="size-4" aria-hidden="true"/>
     </button>
    </header>

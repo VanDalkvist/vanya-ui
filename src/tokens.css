@@ -949,6 +949,24 @@
   @media(prefers-reduced-motion:reduce){
     .ui-action-indicator-pending{animation:none;}
   }
+  /* Expressive narrative controls still receive a real pressed response.
+     The glyph/card returns to its resting lift on press; no synthetic success. */
+  .event-point[data-interactive="true"]:not(:disabled):active .event-point-glyph{
+    scale:.94;transition-duration:0ms;
+  }
+  .timeline-event[data-interactive="true"]:not(:disabled):active .timeline-event-card{
+    --event-card-lift:0px;
+    background:var(--surface-inset);
+    transition-duration:0ms;
+  }
+  .timeline-preview[data-interactive="true"]:active{
+    background:var(--ui-feedback-pressed-fill);
+    box-shadow:none;
+    transition-duration:0ms;
+  }
+  .timeline-preview[data-interactive="true"]:active img{
+    transform:none;transition-duration:0ms;
+  }
   /* Form, search and dropdown controls also need a distinct press state. */
   .ui-filter-select-trigger:not(:disabled):active,
   .ui-search-field-clear:active,

@@ -59,7 +59,7 @@ export function ReceiptDigestModal({
             type="button"
             onClick={onClose}
             aria-label="Закрыть окно"
-            className="rounded-xs p-1 text-ink-soft hover:bg-surface-raised hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber"
+            className="ui-feedback-icon grid size-9 place-items-center rounded-xs p-1 cursor-pointer"
           >
             <X className="size-4" />
           </button>
