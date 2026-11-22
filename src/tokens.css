@@ -660,7 +660,7 @@
   font:500 13px/1.4 var(--font-sans);cursor:pointer;text-align:left;
   transition:background 130ms ease,border-color 130ms ease;
  }
- .ui-filter-select-trigger:hover{border-color:color-mix(in oklab,var(--ink) 24%,var(--border));background:var(--surface-raised);}
+ @media(hover:hover) and (pointer:fine){.ui-filter-select-trigger:not(:disabled):hover{border-color:var(--ui-feedback-hover-border);background:var(--ui-feedback-hover-fill);}}
  .ui-filter-select-trigger:focus-visible,.ui-filter-select[data-expanded] .ui-filter-select-trigger{
   outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);
  }
@@ -697,10 +697,11 @@
  }
  .ui-filter-select-option-text{flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;}
  .ui-filter-select-option>svg{color:var(--accent);flex:none;}
- .ui-filter-select-option[data-active],.ui-filter-select-option:hover{
+ .ui-filter-select-option[data-active]{
   background:var(--surface-inset);color:var(--ink);
  }
  .ui-filter-select-option[aria-selected="true"]{color:var(--accent);font-weight:600;}
+ @media(hover:hover) and (pointer:fine){.ui-filter-select-option:not([aria-disabled="true"]):hover{background:var(--ui-feedback-hover-fill);}}
  .ui-filter-select-option[aria-disabled="true"]{opacity:.4;pointer-events:none;cursor:not-allowed;}
  .ui-filter-select-no-results,.ui-filter-select-more{
   padding:11px 10px;margin:0;font:400 12px/1.55 var(--font-sans);color:var(--ink-soft);
