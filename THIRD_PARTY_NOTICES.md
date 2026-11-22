@@ -4,7 +4,7 @@
 
 The original reusable **software** (not the entire mixed package) is licensed under [MIT](https://github.com/VanDalkvist/vanya-ui/blob/main/LICENSE), Copyright © 2026 Vanya Afanasov. This does **not** change ownership or license obligations for third-party libraries, icons, fonts, or editorial sources.
 
-When the site is built, Vite also emits **[licenses.txt](https://ui.vanya-arc.dev/licenses.txt)**: complete notices for dependencies bundled into the deployed client code. That generated list is version-specific and supplements the curated index below. License obligations apply to consumers' own bundles too.
+When the site is built, Vite emits **[licenses.txt](https://ui.vanya-arc.dev/licenses.txt)** for bundled dependency code. **Important:** an automated license detector may display only the MIT text for the mixed-license `@vanya/brand` package, which does *not* license its official artwork. The build therefore appends the exact [separate artwork terms](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) from the pinned package to `licenses.txt`. This is a version-specific inventory of bundled code **plus** an explicit brand notice, not a license for every asset on the website. License obligations apply to consumers' own bundles too.
 
 ## Runtime packages
 
@@ -19,7 +19,7 @@ See the complete ISC + Feather MIT notice below. The icon packages' own files mu
 
 ## Vanya Arc brand as a separate dependency
 
-`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). UI does not vendor or sublicense the mark.
+`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) and [canonical rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). The public favicon and mark geometry come from this dependency; UI does not relicense the artwork.
 
 ## Fonts
 

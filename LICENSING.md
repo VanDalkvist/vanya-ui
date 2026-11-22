@@ -26,7 +26,7 @@ Source references from Apple HIG, W3C, the book by Ilyakhov and Sarycheva, or ex
 
 `REUSE.toml` identifies the five selected CC BY documents; project-authored code and ordinary guides remain MIT by stated scope. **Do not assert full REUSE compliance** until all applicable files pass a complete lint. The package dependency has its own metadata and terms.
 
-The live site publishes `/LICENSE.txt` (the original project's MIT grant), `/reference/licensing.md` (this full mixed-license map), `/reference/sources.md` (citation rules), `/reference/third-party.md` and `/licenses.txt` (generated bundled dependency notices). A copy of `LICENSE.txt` alone does **not** describe the entire website's rights.
+The live site publishes `/LICENSE.txt` (the original project's MIT grant), `/reference/licensing.md` (this full mixed-license map), `/reference/sources.md` (citation rules), `/reference/third-party.md`, `/reference/brand-artwork-license.txt` (the **exact custom artwork terms shipped with the pinned** `@vanya/brand` package) and `/licenses.txt` (generated bundled dependency notices **plus an explicit supplement for separately licensed artwork**). A copy of `LICENSE.txt` alone does **not** describe the entire website's rights.
 
 ## Primary legal sources
 

@@ -11,6 +11,7 @@ const base=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const required=[
  'llms.txt','llms-full.txt','index.md',
  'reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md',
+ 'reference/brand-artwork-license.txt',
  'reference/components.md','reference/workspaces.md','reference/installation.md'
 ];
 const site='https://ui.vanya-arc.dev';
@@ -28,6 +29,11 @@ export function validatePublication(root=base){
  if(!robot.includes(site+'/sitemap.xml'))errors.push('robots.txt does not link sitemap');
  const rootLlms=existsSync(join(root,'llms.txt'))?readFileSync(join(root,'llms.txt'),'utf8'):'';
  if(llms!==rootLlms)errors.push('public/llms.txt is stale compared with canonical llms.txt (run sync)');
+ // The public, standalone brand artwork notice must match the pinned dependency exactly.
+ const brandTerms=join(root,'node_modules','@vanya','brand','LICENSES','LicenseRef-VanyaArc-Brand.txt');
+ const publishedBrand=join(root,'public','reference','brand-artwork-license.txt');
+ if(existsSync(brandTerms)&&existsSync(publishedBrand)&&readFileSync(brandTerms,'utf8')!==readFileSync(publishedBrand,'utf8'))
+  errors.push('Published brand artwork license differs from pinned package');
  const canonical=[
   ['reference/agent-skill.md','skills/vanya-ui/SKILL.md'],
   ['reference/ui-pipeline.md','docs/patterns/ui-feature-pipeline.md'],

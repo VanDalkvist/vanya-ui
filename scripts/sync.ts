@@ -81,6 +81,9 @@ fs.copyFileSync(path.join(root,"LICENSE"),path.join(root,"public/LICENSE.txt"));
 fs.copyFileSync(path.join(root,"node_modules/@vanya/brand/assets/favicon.svg"),path.join(root,"public/vanya-arc-mark.svg"));
 const refDir=path.join(root,"public/reference");
 fs.mkdirSync(refDir,{recursive:true});
+// Brand artwork has a custom license, separate from its MIT renderer code.
+// Always copy the exact terms shipped in the pinned @vanya/brand dependency.
+fs.copyFileSync(path.join(root,"node_modules/@vanya/brand/LICENSES/LicenseRef-VanyaArc-Brand.txt"),path.join(refDir,"brand-artwork-license.txt"));
 const docs=[
  ["THIRD_PARTY_NOTICES.md","third-party.md"],
  ["LICENSING.md","licensing.md"],
