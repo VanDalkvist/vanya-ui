@@ -13,6 +13,7 @@ const required=[
  'reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md',
  'reference/versioning.md',
  'reference/interaction-states.md',
+ 'reference/action-feedback.md',
  'reference/brand-artwork-license.txt',
  'reference/components.md','reference/workspaces.md','reference/installation.md'
 ];
@@ -41,7 +42,8 @@ export function validatePublication(root=base){
   ['reference/ui-pipeline.md','docs/patterns/ui-feature-pipeline.md'],
   ['reference/list-detail.md','docs/patterns/list-detail-composition.md'],
   ['reference/versioning.md','docs/versioning.md'],
-  ['reference/interaction-states.md','docs/patterns/interaction-states.md']
+  ['reference/interaction-states.md','docs/patterns/interaction-states.md'],
+  ['reference/action-feedback.md','docs/patterns/action-feedback.md']
  ];
  for(const [published,source] of canonical){
   const pub=join(root,'public',published),src=join(root,source);
@@ -61,7 +63,7 @@ export function validatePublication(root=base){
   if(/\\n(?:#{1,6}\s|[-*]\s)/.test(body))errors.push(name+' contains literal escaped newline before Markdown heading/list');
   if(body.length<200)errors.push(name+' unexpectedly short');
  }
- const requiredLinks=['reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md'];
+ const requiredLinks=['reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
  for(const path of requiredLinks){
   const url=site+'/'+path;
   if(!llms.includes(url))errors.push('Missing primary llms.txt link: '+url);

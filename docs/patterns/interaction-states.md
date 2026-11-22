@@ -26,6 +26,10 @@ Hover означает *наведение доступным указателе
 
 **Тот же принцип для меню навигации:** обычный `hover` остаётся нейтральным (`var(--ink)`); `aria-current` или `aria-pressed=true` сохраняет акцент после ухода указателя. Однако это не «никогда не использовать accent при hover»: активное CTA, error/destructive и специальные выразительные interactions могут иметь отдельный смысловой цвет. **Приоритет семантики выше однообразия.** У Apple [Focus and selection](https://developer.apple.com/design/human-interface-guidelines/focus-and-selection/) акцентное выделение также зависит от типа списка и активности окна; это подтверждает *контекстность*, а не догму «серый всегда на hover».
 
+### From press to visible result
+
+Hover, focus, press and selected are different; a visible `:active` alone is not enough to acknowledge asynchronous completion. The canonical [action-feedback workflow](action-feedback.md) covers momentary press, caller-controlled pending/success/error and genuine keyboard actions. The [research and critical alternatives](../research/press-feedback-research-loop-2026-11-22.md) explain why automatic success animation and global toasts were rejected.
+
 ### Общие интерфейсные роли
 
 Используйте **существующие компоненты**, а не копируйте Tailwind классы в продукты:

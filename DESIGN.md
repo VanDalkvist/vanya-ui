@@ -136,3 +136,8 @@ For long data catalogues, keep one compact filter row below the app header on de
 ## Interaction feedback contract
 
 For new/modified UI **do not independently invent hovers** for each button, link and icon. Read [canonical state roles](docs/patterns/interaction-states.md): distinguish hover, keyboard focus, pressed, selected/expanded and disabled. Use existing semantic variables and `ui-feedback-*` classes in exports, pointer hover only when supported, reduced motion, visible keyboard focus and accessible labels. The live `#interaction-states` catalogue is a real component testbed. Rich narrative interactions need their own explicit justification, not uniform lift/shadow. [Research and criticism](docs/research/hover-research-loop-2026-11-22.md).
+
+
+## Press and result feedback — mandatory
+
+Any new or changed local action must have immediate **pressed** feedback, then expose true pending/result state when appropriate. Do not confuse `hover`, `:active`, keyboard focus, persistent `aria-pressed` or successful completion. [Canonical press-result contract](docs/patterns/action-feedback.md), [research/criticism](docs/research/press-feedback-research-loop-2026-11-22.md), [interactive demo](https://ui.vanya-arc.dev/#action-feedback). Use native buttons where possible; no click-only wrappers, no arbitrary timers, no success before a confirmed result.

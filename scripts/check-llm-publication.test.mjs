@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {validatePublication} from './check-llm-publication.mjs';
 const paths=[
  'llms.txt','llms-full.txt','index.md','reference/agent-skill.md',
- 'reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/components.md',
+ 'reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/components.md',
  'reference/workspaces.md','reference/installation.md',
  'reference/brand-artwork-license.txt'
 ];
@@ -17,7 +17,7 @@ function put(root,path,body){
 test('public agent references must be present and canonical',()=>{
  const root=mkdtempSync(join(tmpdir(),'ui-crawler-'));
  try{
-  const links=['reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md'].map(p=>'- ['+p+']('+site+p+')');
+  const links=['reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'].map(p=>'- ['+p+']('+site+p+')');
   const body='# Vanya UI agent references\n\n'+links.join('\n')+'\n\nThis is a public document for crawler and LLM discovery.\n';
   for(const p of paths){
    const text=p==='reference/installation.md'?'# Installation\n\nbun add "github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>"\n':body;
@@ -31,6 +31,7 @@ test('public agent references must be present and canonical',()=>{
   put(root,'docs/patterns/list-detail-composition.md',body);
   put(root,'docs/versioning.md',body);
   put(root,'docs/patterns/interaction-states.md',body);
+  put(root,'docs/patterns/action-feedback.md',body);
   put(root,'public/llms-full.txt','## Agent instructions'+String.fromCharCode(10,10)+body);
   let result=validatePublication(root);
   assert.equal(result.ok,true,JSON.stringify(result.errors));

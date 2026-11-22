@@ -29,6 +29,10 @@ node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --p
 
 Канонический [контракт hover/focus/pressed/selected/disabled](docs/patterns/interaction-states.md) и [исследовательский цикл](docs/research/hover-research-loop-2026-11-22.md) описывают, как `ActionLink`, `ActionButton`, `ThemeToggle`, `NavLinks`, `SegmentedControl` и другие экспортируемые компоненты используют одну систему `ui-feedback-*` ролей и токенов. [Живой стенд](https://ui.vanya-arc.dev/#interaction-states) проверяется через hover и Tab. Богатые сюжетные сцены остаются осознанными исключениями.
 
+### Действие: нажал → выполняется → результат
+
+Визуального `:active` недостаточно, чтобы сообщить об операции после отпускания кнопки. [Правила действий](docs/patterns/action-feedback.md) и [Press Feedback Research Loop](docs/research/press-feedback-research-loop-2026-11-22.md) задают мгновенный pressed-отклик и правдивые состояния `ActionButton.actionState="pending|success|error"`, которые управляются продуктом. [Живой демо-стенд](https://ui.vanya-arc.dev/#action-feedback) не имитирует внешнюю сеть.
+
 ## Версии и обновление потребителей
 
 Ведём [SemVer и changelog](docs/versioning.md) с версии исходников `0.2.0`. Публичный сайт на `main` **не означает релиз**: ручной тег `vX.Y.Z` ставится после тестов, browser QA и проверки коммита. Продукты закрепляют полный SHA и lockfile, а не движущийся `main`. Локальная проверка: `npm run release:check` (Node.js, без сети). [История изменений](CHANGELOG.md).

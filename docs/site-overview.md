@@ -24,6 +24,7 @@
 - [Принципы](https://ui.vanya-arc.dev/#principles): устойчивые интерфейсные правила.
 - [Горячие клавиши](https://ui.vanya-arc.dev/#keyboard-shortcuts): настоящие G → буква, справка ?, выключатель и дизайн подсказок.
 - [Состояния взаимодействия](https://ui.vanya-arc.dev/#interaction-states) — живой стенд hover / focus / pressed / selected и [канонические правила](https://ui.vanya-arc.dev/reference/interaction-states.md).
+- [Нажатие и результат](https://ui.vanya-arc.dev/#action-feedback) — проверяемый сценарий press → pending → success/error и [правила действий](https://ui.vanya-arc.dev/reference/action-feedback.md).
 - [Навигация и URL](https://ui.vanya-arc.dev/#browser-navigation): адрес каждого самостоятельного ресурса, Back/Forward и реальная ссылка вместо кнопки.
 - [Компоненты](https://ui.vanya-arc.dev/#catalog): примеры настоящих React-примитивов.
 - [Рабочие поверхности](https://ui.vanya-arc.dev/#workspace): разделение списка и чтения, прокрутка, контекстные панели.
