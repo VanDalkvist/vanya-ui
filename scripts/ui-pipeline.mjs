@@ -87,7 +87,7 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
  return {
   project:root,package:chosen?.id||null,packageRoot:scanRoot,
   mode:finalMode,sourceFiles:files.length,visualFiles:visualFiles.length,
-  library:libraryRoot,hasPolicy:/vanya[-/ ](?:arc[-/ ])?ui|@vanya\/ui/i.test(policy),
+  library:libraryRoot,hasPolicy:/\bvanya\s*(?:[-/]\s*)?(?:arc\s*)?(?:[-/]\s*)?ui\b|@vanya\/ui/i.test(policy),
   hasDependency:chosen?hasVanya(chosen.data):false,
   hasImport:/(?:from\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|@import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"])/.test(relevantSources),
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
