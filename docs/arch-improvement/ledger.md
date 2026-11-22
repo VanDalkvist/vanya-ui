@@ -161,3 +161,46 @@
 - Public current tree contains no Cloudflare tooling/configuration. Deployment is owned by the separate private repository, following the operator’s explicit separation policy. An early non-secret WIP config remains in historical commits; no credential or account ID was in that file and shared history was not rewritten.
 - Production showcase is live at https://ui.vanya-arc.dev. HTTPS root, source JS/CSS SHA-256 equality, all 33 compiled live-browser checks and inspected desktop/mobile captures verified. Main-site navigation was verified in production at desktop/390/360px after Workers Builds success; a focused five-test suite also checks native Enter/new-tab navigation and existing social links.
 - Verification scope: 24 unit tests, TypeScript, production build and generated-reference sync; author/browser verification, not an independent review or accessibility certification. Source branch/main publication is tracked separately from the live static deployment.
+
+## Cycle 7 — 2026-11-23 — PR #25 architecture review and test integrity (#13–16)
+
+### Context
+- Branch: `fix/ux-13-16-interaction-browser-gate-20261123`, draft PR #25, `main` unchanged.
+- Source: [cycle 7 plan](../superpowers/plans/2026-11-23-arch-improvement-cycle-7-pr25.md), [full evidence and test matrix](../research/pr25-test-integrity-review-2026-11-23.md).
+- Memory replay: cycles 1–6 of this ledger; existing project memory was absent prior to this cycle.
+- Applicable: AP-046, AP-054, AP-056, AP-057, AP-069, AP-074, AP-075, AP-076. Auth/data/migration rules N/A.
+
+### Findings and triage
+- [P1][AP-076] Press test verified a state marker without actual visible result — **fix-now**.
+- [P1][AP-056] Slider hit-test only checked centre after scroll — **fix-now**.
+- [P1][AP-075] Browser QA used dev server, not compiled output — **fix-now**.
+- [P2][AP-056] Missing real Shift+Tab, tabpanel focus and content, manual scroll, two-way scroll owner, persisted theme — **fix-now**.
+- [P2][AP-057] CSS transition timing could pollute pressed-vs-hover comparison — **fix-now**.
+- [P2][AP-057] QA subpackage lockfile not committed — **blocked** until real install.
+- [P1][AP-075/076] No executed compiled browser/screenshot review/S9b — **blocked**.
+- [P2][AP-046] SegmentedControl default changed semantics; release/consumer compatibility decision pending — **blocked for release**.
+- [P3] Existing CSS string-source tests are not visual proof — **log-only**.
+
+### Fixes applied
+- Kept components unchanged unless broken by reliable evidence.
+- `browser-qa/tests/ui-contract.spec.ts`: multi-point actual DOM hit-test, initial-viewport capture, deliberately obstructed right-edge negative control; slider changes SineWave `--event-x`; real click count; explicit pending→error→reset→success; full Tab/Shift+Tab, selected panel content/focus, nested scroll/current navigation, two-way scroll, drawer content/focus and theme reload.
+- `browser-qa/playwright.config.ts`, `package.json`: build + `vite preview` public compiled surface, no Cloudflare deploy or GitHub Actions.
+- Docs/plan/README and issue evidence updated. Tests' meaningful assertions traced to real component code.
+
+### Verification
+- Source-based four semantic probes: traceability, split brain, entrypoint wiring and anti-gaming examined; implementation appears wired, but static evidence cannot certify runtime.
+- New tests: 9 focused unit cases, 11 browser test declarations producing 16 Chromium executions (six light/dark × viewport cases), **NOT_RUN** in current environment.
+- Full `bun run test`, `tsc`, `bun run build`, compiled Playwright, screenshot review, native zoom and screen reader: **NOT_RUN/NOT_VERIFIED**. No prior green reused.
+- S9a: **VERDICT FAIL (execution evidence unavailable)**. S9b black-box: **VERDICT FAIL (not executed)**. Overall Arch Loop **FAIL / BLOCKED**; PR remains draft; no merge or issue closure.
+
+### Residual risk
+- Browser-qa transitive lockfile uncommitted; cannot claim deterministic install until generated/verified.
+- Full native focus order and screen-reader details unverified; `ThemeToggle` uses a manual tabbables query that needs real browser scrutiny.
+- Breaking ARIA default needs deliberate version/consumer migration before package release.
+- No user-facing UI verified from this branch; historical public main checks are not evidence for the PR.
+
+### Lessons for memory
+- Test effects that users can observe, not just `data-*` receipts or JSX attributes.
+- Prove failure detection with a negative control for serious regressions (right-side slider obstruction).
+- Assert only what the source actually renders; review CSS state by exact component variant.
+- E2E means built public surface; dev-only browser checks are an intermediate check, not S9 PASS.
