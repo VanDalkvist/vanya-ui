@@ -4,6 +4,7 @@ import {
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
+  SurfaceHeader, WorkflowStrip, InspectorMeta,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -27,7 +28,7 @@ export function ComponentCatalog() {
   const [horizon, setHorizon] = useState<keyof typeof counts>("day");
   const [range, setRange] = useState(40);
   const [mapFocus, setMapFocus] = useState(2023.5);
-  const [overlay, setOverlay] = useState<"sheet" | "digest" | null>(null);
+  const [overlay, setOverlay] = useState<"sheet" | "digest" | "composition" | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [sampleVisible, setSampleVisible] = useState(true);
   const [contextHeadingGone,setContextHeadingGone]=useState(false);
@@ -218,6 +219,23 @@ export function ComponentCatalog() {
           actions={<ActionButton size="sm" onClick={()=>setOverlay("sheet")}>Действия</ActionButton>}/>
       </div>
     </CatalogSection>
+    <CatalogSection id="composition-reading-inspector" title="Композиция / Reader Inspector"
+      description="Правила композиции: один исходный заголовок, действия возле контекста, одна компактная полоса процесса и вторичная информация в раскрытии. При прокрутке название переходит в существующий InspectDrawer, без второго sticky-хедера. Не складывай flex gap и space-y.">
+      <div style={{width:"min(100%,760px)",display:"flex",flexDirection:"column",gap:11}}>
+        <SurfaceHeader title="Background agents are here. Your orchestration isn't ready"
+          eyebrow="СТАТЬЯ · EXA" subtitle="inngest.com"
+          actions={<ActionButton size="sm" variant="text" onClick={()=>setOverlay("composition")}>Обновить</ActionButton>}/>
+        <WorkflowStrip label="Перевод" status="Ревью · 2 / 15"
+          progress={{value:2,max:15,label:"Прогресс перевода"}}
+          actions={<ActionButton size="sm" variant="text" onClick={()=>setOverlay("composition")}>Пауза</ActionButton>}/>
+        <InspectorMeta summary="Exa · 9 988 символов · Кеш">
+          <p>Исходный текст может быть неполным. Для точных цитат сверяй оригинальную страницу.</p>
+          <p>Получено: 22.11.2026 · Подробности источника доступны без нагрузки на первый экран.</p>
+        </InspectorMeta>
+        <p style={{fontFamily:"var(--font-serif)",fontSize:18,lineHeight:1.75,maxWidth:"70ch",margin:0}}>Every six months, the right way to build an AI agent changes. В примере тело статьи начинается сразу после короткой рабочей панели.</p>
+        <ActionButton size="sm" variant="accent" onClick={()=>setOverlay("composition")}>Открыть пример в дровере</ActionButton>
+      </div>
+    </CatalogSection>
     <CatalogSection id="workspace-context-header" title="WorkspaceContextHeader"
       description="Контекстная навигация, полный заголовок и действие внутри существующей верхней панели — без второго sticky header. Хлебные крошки ведут к реальным родительским разделам.">
       <div style={{display:"flex",gap:16,alignItems:"center",width:"min(100%, 900px)",minHeight:78,padding:"10px 14px",background:"var(--surface)",border:"1px solid var(--border)"}}>
@@ -266,6 +284,22 @@ export function ComponentCatalog() {
     <CatalogSection id="inspector" title="InspectDrawer" description="Боковая панель с подробностями."><ActionButton onClick={() => setOverlay("sheet")}>Открыть InspectDrawer</ActionButton></CatalogSection>
     <CatalogSection id="digest" title="ReceiptDigestModal" description="Окно с итогами и списком изменений."><ActionButton onClick={() => setOverlay("digest")}>Открыть ReceiptDigestModal</ActionButton></CatalogSection>
     <InspectDrawer isOpen={overlay === "sheet"} title="Описание проекта" onClose={() => setOverlay(null)}><p>Здесь можно разместить описание, ссылки и другие подробности проекта.</p><p>Закрыть панель можно кнопкой, клавишей Esc или нажатием вне её.</p></InspectDrawer>
+    <InspectDrawer isOpen={overlay === "composition"} title="Читать оригинал"
+      size="wide" onClose={()=>setOverlay(null)}
+      compactContext={{title:"Background agents are here. Your orchestration isn't ready",eyebrow:"EXA",
+        status:"2 / 15",actions:<button type="button" onClick={()=>setOverlay(null)}>Готово</button>}}>
+      <SurfaceHeader collapseAnchor title="Background agents are here. Your orchestration isn't ready"
+        eyebrow="ПОЛНЫЙ ИЗВЛЕЧЁННЫЙ ТЕКСТ · EXA" subtitle="inngest.com"
+        actions={<button type="button" onClick={()=>setOverlay(null)}>Открыть сайт · пример</button>}/>
+      <WorkflowStrip label="Перевод · ревью · исправление" status="2 / 15"
+        progress={{value:2,max:15}} actions={<button onClick={()=>setOverlay(null)}>Пауза</button>}/>
+      <InspectorMeta summary="Exa · 9 988 символов · Кеш">
+        <p>Информация о происхождении и полноте доступна здесь, но не выталкивает статью ниже экрана.</p>
+      </InspectorMeta>
+      <div style={{maxWidth:"70ch",marginInline:"auto",fontFamily:"var(--font-serif)",fontSize:18,lineHeight:1.8}}>
+        {Array.from({length:18},(_,i)=><p key={i} style={{marginBottom:22}}>Every six months, the way to build an AI agent changes. A clear, compact header leaves space for reading rather than making the reader scroll through controls and disclaimers.</p>)}
+      </div>
+    </InspectDrawer>
     <ReceiptDigestModal isOpen={overlay === "digest"} title="Пример итогов" narrative="Обновили витрину компонентов." receipts={["Добавили фон первого экрана", "Обновили примеры компонентов"]} onClose={() => setOverlay(null)} />
   </section>;
 }
