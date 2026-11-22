@@ -1,6 +1,4 @@
 import React from "react";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { ShortcutKeys } from "../src";
@@ -25,13 +23,12 @@ describe("shortcut notation and keyboard UX", () => {
     expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(2);
   });
 
-  it("opens real help from the corner dock and offers visible navigation and opt-out", () => {
+  it("opens help contextually from Principles and has no floating overlay", () => {
     render(<Showcase/>);
     expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
-    const dock=screen.getByRole("button",{name:"Горячие клавиши"});
-    expect(dock).toHaveClass("showcase-shortcut-dock");
-    expect(document.querySelector(".showcase-header .showcase-shortcut-button")).not.toBeInTheDocument();
-    fireEvent.click(dock);
+    expect(document.querySelector(".showcase-shortcut-dock")).not.toBeInTheDocument();
+    expect(screen.getByRole("slider",{name:"Расстояние между событиями"})).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button",{name:"Настроить горячие клавиши"}));
     const dialog=screen.getByRole("dialog",{name:"Горячие клавиши"});
     expect(within(dialog).getByRole("link",{name:"Айдентика"})).toHaveAttribute("href","/#identity");
     expect(within(dialog).getByRole("checkbox",{name:/Быстрые переходы включены/})).toBeChecked();
@@ -39,13 +36,12 @@ describe("shortcut notation and keyboard UX", () => {
     expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
   });
 
-  it("places the keyboard help dock at bottom right, respecting the safe area", () => {
-    const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
-    const rule=css.split(".showcase-shortcut-dock { position:fixed;")[1]?.split("}")[0];
-    expect(rule).toContain("right:max(18px,env(safe-area-inset-right))");
-    expect(rule).toContain("bottom:max(18px,env(safe-area-inset-bottom))");
-    expect(rule).not.toContain("left:");
-    expect(css).toContain(".showcase-shortcut-dock:focus-visible");
+  it("keeps the distance control and contextual settings reachable without a floating element", () => {
+    const {container}=render(<Showcase/>);
+    expect(container.querySelector(".showcase-shortcut-dock")).toBeNull();
+    expect(screen.queryByRole("button",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+    expect(screen.getByRole("slider",{name:"Расстояние между событиями"})).toBeInTheDocument();
+    expect(screen.getByRole("button",{name:"Настроить горячие клавиши"})).toBeInTheDocument();
   });
 
   it("has one keyboard-accessible GitHub icon link in the top navigation", () => {
@@ -70,7 +66,7 @@ describe("shortcut notation and keyboard UX", () => {
     expect(author).toHaveTextContent("Ваня Афанасов");
   });
 
-  it("opens help with ? and preserves the pointer entry after opt-out", () => {
+  it("opens help with ? and retains contextual access after opting out", () => {
     render(<Showcase/>);
     fireEvent.keyDown(window,{key:"?",code:"Slash",shiftKey:true});
     const dialog=screen.getByRole("dialog",{name:"Горячие клавиши"});
@@ -79,7 +75,7 @@ describe("shortcut notation and keyboard UX", () => {
     fireEvent.click(within(dialog).getByRole("button",{name:"Закрыть инспектор"}));
     fireEvent.keyDown(window,{key:"?",code:"Slash",shiftKey:true});
     expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button",{name:"Горячие клавиши"}));
+    fireEvent.click(screen.getByRole("button",{name:"Настроить горячие клавиши"}));
     expect(screen.getByRole("dialog",{name:"Горячие клавиши"})).toBeInTheDocument();
   });
 
@@ -123,7 +119,7 @@ describe("shortcut notation and keyboard UX", () => {
 
   it("persists the optional character-shortcut opt-out", () => {
     render(<Showcase/>);
-    fireEvent.click(screen.getByRole("button",{name:"Горячие клавиши"}));
+    fireEvent.click(screen.getByRole("button",{name:"Настроить горячие клавиши"}));
     const dialog=screen.getByRole("dialog",{name:"Горячие клавиши"});
     fireEvent.click(within(dialog).getByRole("checkbox",{name:/Быстрые переходы включены/}));
     expect(window.localStorage.getItem(SHOWCASE_SHORTCUT_STORAGE)).toBe("off");
@@ -131,8 +127,8 @@ describe("shortcut notation and keyboard UX", () => {
     fireEvent.keyDown(window,{key:"g",code:"KeyG"});
     fireEvent.keyDown(window,{key:"i",code:"KeyI"});
     expect(window.location.hash).toBe("");
-    // Help remains discoverable by its visible button after the opt-out.
-    fireEvent.click(screen.getByRole("button",{name:"Горячие клавиши"}));
+    // Contextual settings remain reachable even after disabling character shortcuts.
+    fireEvent.click(screen.getByRole("button",{name:"Настроить горячие клавиши"}));
     expect(screen.getByRole("dialog",{name:"Горячие клавиши"})).toBeInTheDocument();
   });
 });
