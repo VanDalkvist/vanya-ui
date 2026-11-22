@@ -41,6 +41,7 @@ export function ComponentCatalog() {
   const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
   const [interactionScope,setInteractionScope] = useState("all");
   const [interactionClicks,setInteractionClicks] = useState(0);
+  const [requestDemo,setRequestDemo] = useState<"idle"|"pending"|"success"|"error">("idle");
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
   const changeHorizon = (value: string) => {
@@ -64,10 +65,10 @@ export function ComponentCatalog() {
         <div className="demo-interaction-sample">
           <span className="demo-label">Действие / disabled</span>
           <div className="demo-interaction-pair">
-            <ActionButton variant="outline" size="md" onClick={()=>setInteractionClicks(n=>n+1)}>Проверить действие</ActionButton>
+            <ActionButton variant="outline" size="md" actionState={interactionClicks>0?"success":"idle"} onClick={()=>setInteractionClicks(n=>n+1)}>Проверить действие</ActionButton>
             <ActionButton variant="outline" size="md" disabled>Недоступно</ActionButton>
           </div>
-          <output className="ui-type-caption">Нажатий: {interactionClicks}</output>
+          <output role="status" className="ui-type-caption">{interactionClicks>0?`Нажатие принято · ${interactionClicks}`:"Нажми, чтобы увидеть подтверждение"}</output>
         </div>
         <div className="demo-interaction-sample">
           <span className="demo-label">Hover не заменяет selected</span>
@@ -87,6 +88,25 @@ export function ComponentCatalog() {
           </div>
           <span className="ui-type-caption">14px символ внутри удобной области нажатия; только мягкий фон</span>
         </div>
+      </div>
+    </CatalogSection>
+    <CatalogSection id="action-feedback" title="Press / pending / result"
+      description="Нажатие должно откликаться сразу. Дальше состояние сообщает приложение: ожидание не считается успехом, а результат не появляется без явного события. Ниже — управляемая демонстрация, без сети и искусственных таймеров.">
+      <div className="demo-action-feedback">
+        <div className="demo-interaction-pair">
+          <ActionButton size="md" variant="outline" actionState={requestDemo}
+            statusLabel={requestDemo==="pending"?"Тестовое действие ожидает результата":undefined}
+            onClick={()=>setRequestDemo("pending")}>Отправить тестовое действие</ActionButton>
+          <ActionButton size="md" variant="text" disabled={requestDemo!=="pending"}
+            onClick={()=>setRequestDemo("success")}>Подтвердить успех</ActionButton>
+          <ActionButton size="md" variant="text" disabled={requestDemo!=="pending"}
+            onClick={()=>setRequestDemo("error")}>Вернуть ошибку</ActionButton>
+          <ActionButton size="md" variant="text" onClick={()=>setRequestDemo("idle")}>Сбросить</ActionButton>
+        </div>
+        <output className="ui-type-caption" role="status" aria-live="polite">
+          {requestDemo==="idle"?"Действие ещё не запускали.":requestDemo==="pending"?"Приложение выполняет действие; повторный клик заблокирован.":requestDemo==="success"?"Тестовый результат: выполнено.": "Тестовый результат: ошибка. Можно повторить."}
+        </output>
+        <a href="/reference/action-feedback.md" className="guide-link">Почему press ≠ успешный результат ↗</a>
       </div>
     </CatalogSection>
     <CatalogSection id="loading-states" title="Skeleton / LoadingRegion" description="Начальная загрузка, готовые данные и ошибка. Ровно одна подпись для скринридера, никаких кликабельных заглушек.">
