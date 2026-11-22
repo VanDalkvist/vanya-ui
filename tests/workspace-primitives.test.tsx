@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader, SurfaceHeader, WorkflowStrip, InspectorMeta } from "../src/index";
 
 describe("Workspace primitives", () => {
   it("does not duplicate the in-document heading until that heading scrolls away", () => {
@@ -101,6 +101,32 @@ describe("Workspace primitives", () => {
     expect(screen.getByRole("region",{name:"Document"})).toBeInTheDocument();
   });
 
+  it("composes reader identity, workflow and secondary metadata without extra scroll containers",()=>{
+    render(<>
+      <SurfaceHeader title="Статья о долговечных агентах" eyebrow="Оригинал · Exa"
+        subtitle="example.org" collapseAnchor actions={<button>Открыть сайт</button>}/>
+      <WorkflowStrip label="Перевод" status="Ревью · 2 из 9" progress={{value:2,max:9,label:"Перевод статьи"}}
+        actions={<button>Приостановить</button>}/>
+      <InspectorMeta summary="Источник · 12 400 символов">
+        <p>Exa может пропустить изображения.</p>
+      </InspectorMeta>
+    </>);
+    expect(screen.getByRole("heading",{name:"Статья о долговечных агентах"})).toBeInTheDocument();
+    expect(screen.getByRole("progressbar",{name:"Перевод статьи"})).toHaveAttribute("aria-valuenow","2");
+    expect(screen.getByText("Источник · 12 400 символов").closest("details")).not.toHaveAttribute("open");
+    fireEvent.click(screen.getByText("Источник · 12 400 символов"));
+    expect(screen.getByText("Источник · 12 400 символов").closest("details")).toHaveAttribute("open");
+    expect(screen.getByText("Статья о долговечных агентах").closest("header")).toHaveAttribute("data-inspect-collapse-anchor","true");
+  });
+  it("uses one existing inspector heading in expanded or compact state",()=>{
+    render(<InspectDrawer isOpen title="Читать" onClose={()=>{}}
+      compactContext={{title:"Название первоисточника",status:"3/12",actions:<button>Пауза</button>}}>
+      <SurfaceHeader title="Название первоисточника" collapseAnchor/>
+    </InspectDrawer>);
+    expect(screen.getByRole("heading",{name:"Читать"})).toBeInTheDocument();
+    expect(screen.queryByRole("button",{name:"Пауза"})).not.toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toHaveAttribute("data-has-compact-context","true");
+  });
   it("holds inspector title and dismiss control outside its scrollable body", () => {
     const close = vi.fn();
     render(<InspectDrawer isOpen title="Детали" onClose={close}><p>Длинная запись</p></InspectDrawer>);

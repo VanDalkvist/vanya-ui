@@ -105,3 +105,8 @@ export { WorkspaceSplit, type WorkspaceSplitProps } from "./components/Workspace
 export { StickyContextBar, type StickyContextBarProps } from "./components/StickyContextBar";
 
 export { WorkspaceContextHeader, type WorkspaceContextHeaderProps, type WorkspaceContextCrumb } from "./components/WorkspaceContextHeader";
+
+export {SurfaceHeader,type SurfaceHeaderProps} from "./components/SurfaceHeader";
+export {WorkflowStrip,type WorkflowStripProps} from "./components/WorkflowStrip";
+export {InspectorMeta,type InspectorMetaProps} from "./components/InspectorMeta";
+export type {InspectorCompactContext} from "./components/InspectDrawer";
