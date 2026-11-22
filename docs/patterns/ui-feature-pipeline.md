@@ -23,13 +23,24 @@ Run the changed-path unit tests, type/build checks, and real browser smoke tests
 
 Build and deployment success **do not** prove scroll, composition, visual correctness, or keyboard behavior. Mock API data in reproducible Playwright tests where the real app is behind authentication. If a real authenticated browser smoke was not performed, mark it NOT VERIFIED.
 
-For a new or not-yet-enrolled repository, run `node ~/Projects/vanya-ui/scripts/install-ui-contract.mjs <project-root> <verified-commit-sha>`. This writes the caller workflow and a link to canonical policy; it does not overwrite existing files or grant branch-protection permissions. Add a real browser-test job and protect the status when available.
+For a new or not-yet-enrolled repository, run `node ~/Projects/vanya-ui/scripts/install-ui-contract.mjs <project-root> <verified-commit-sha>`. The installer creates a **manual-only** GitHub workflow and canonical policy link; it never overwrites existing files. Add a project-specific browser-test job if appropriate.
 
-## 5. Make it a shared automated contract
-The reusable composite action lives at [.github/actions/ui-contract](../../.github/actions/ui-contract/action.yml). Install it in each frontend repo as its own required CI step, pinned to an immutable Vanya UI SHA. It checks changed UI files, local AGENTS/UI_CONTRACT, package dependency, actual source imports and presence of a browser-test script. **It is a static gate:** run the browser test job as well, do not substitute a declared script for executing it.
+## 5. Enforce locally; GitHub Actions run manually
 
-Consumer example: [CI integration](../examples/ui-contract-action.md). New UI repos must start with the contract; existing repositories should be migrated incrementally, but UI-changing PRs without the contract fail. Non-UI PRs skip. New repos do **not** inherit GitHub workflows automatically; install a caller workflow and configure its required status per repo.
+The reusable composite action lives at [.github/actions/ui-contract](../../.github/actions/ui-contract/action.yml). Keep it pinned to a verified immutable Vanya UI SHA in the consumer repository. Its caller workflow must have **only `workflow_dispatch`** (no `push`, `pull_request`, `schedule` or dispatch from another workflow).
 
+The agent must run the contract and real browser tests as part of implementing a UI change. For a React project, from that project's root:
+
+```bash
+VANYA_UI_MODE=react node ~/Projects/vanya-ui/.github/actions/ui-contract/check.mjs
+npm run test:e2e # substitute the project's browser-test command
+```
+
+GitHub Actions are an optional **manual** verification path: Actions → Vanya UI contract → Run workflow, choose branch and optionally a comparison SHA. `react` mode checks the dependency, canon and test entrypoint even if the last commit is not visual. The contract action is static; the browser test must actually execute separately or in the manually triggered workflow.
+
+Manual-only workflows do not automatically block PRs, run on push or prove browser correctness. Do not configure an auto-required PR status for this manual check. The agent's working procedure is the enforcement mechanism, not an automatic GitHub gate. The user may explicitly request a manual GitHub verification.
+
+Consumer example: [manual workflow](../examples/ui-contract-action.md). Backends, CLI and data-only projects do not need an artificial UI dependency or a contract job.
 ## Definition of done
 1. Canonical docs and current component source read; pinned version checked.
 2. Component reuse or justified non-React visual mapping.
