@@ -13,6 +13,8 @@ export type WorkspaceContextCrumb = {
 };
 export interface WorkspaceContextHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   breadcrumbs: WorkspaceContextCrumb[];
+  /** Canonical breadcrumb typography: default (12px) or large (16px desktop, 14px compact). */
+  breadcrumbSize?: "default" | "large";
   breadcrumbAccessory?: React.ReactNode;
   title: string;
   showTitle?: boolean;
@@ -20,10 +22,10 @@ export interface WorkspaceContextHeaderProps extends React.HTMLAttributes<HTMLDi
   actions?: React.ReactNode;
   label?: string;
 }
-export function WorkspaceContextHeader({breadcrumbs,breadcrumbAccessory,title,showTitle=true,status,actions,label="Текущий документ",className,...props}:WorkspaceContextHeaderProps){
+export function WorkspaceContextHeader({breadcrumbs,breadcrumbSize="default",breadcrumbAccessory,title,showTitle=true,status,actions,label="Текущий документ",className,...props}:WorkspaceContextHeaderProps){
   return <div {...props} className={clsx("ui-workspace-context",className)} role="group" aria-label={label}>
     <div className="ui-workspace-context-identity">
-      {breadcrumbs.length>0&&<nav className="ui-workspace-context-crumbs" aria-label="Хлебные крошки">
+      {breadcrumbs.length>0&&<nav className="ui-workspace-context-crumbs" data-size={breadcrumbSize} aria-label="Хлебные крошки">
         <ol>{breadcrumbs.map((item,i)=><li key={item.id}>
           {i>0&&<span className="ui-workspace-context-separator" aria-hidden="true">/</span>}
           {item.href?<a href={item.href}>{item.label}</a>:item.onSelect?<button type="button" onClick={item.onSelect}>{item.label}</button>:<span>{item.label}</span>}
