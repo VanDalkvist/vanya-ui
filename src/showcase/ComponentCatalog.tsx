@@ -151,7 +151,7 @@ export function ComponentCatalog() {
       </div>
     </CatalogSection>
     <CatalogSection id="composition-reading-inspector" title="Композиция / Reader Inspector"
-      description="Один заголовок в потоке, действия справа, короткая полоса процесса и раскрываемое происхождение. При прокрутке заголовок переходит в существующую панель InspectDrawer, без второго sticky-блока.">
+      description="Правила композиции: один исходный заголовок, действия возле контекста, одна компактная полоса процесса и вторичная информация в раскрытии. При прокрутке название переходит в существующий InspectDrawer, без второго sticky-хедера. Не складывай flex gap и space-y.">
       <div style={{width:"min(100%,760px)",display:"flex",flexDirection:"column",gap:11}}>
         <SurfaceHeader title="Background agents are here. Your orchestration isn't ready"
           eyebrow="СТАТЬЯ · EXA" subtitle="inngest.com"
