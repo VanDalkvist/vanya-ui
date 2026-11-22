@@ -23,6 +23,8 @@ Run the changed-path unit tests, type/build checks, and real browser smoke tests
 
 Build and deployment success **do not** prove scroll, composition, visual correctness, or keyboard behavior. Mock API data in reproducible Playwright tests where the real app is behind authentication. If a real authenticated browser smoke was not performed, mark it NOT VERIFIED.
 
+For a new or not-yet-enrolled repository, run `node ~/Projects/vanya-ui/scripts/install-ui-contract.mjs <project-root> <verified-commit-sha>`. This writes the caller workflow and a link to canonical policy; it does not overwrite existing files or grant branch-protection permissions. Add a real browser-test job and protect the status when available.
+
 ## 5. Make it a shared automated contract
 The reusable composite action lives at [.github/actions/ui-contract](../../.github/actions/ui-contract/action.yml). Install it in each frontend repo as its own required CI step, pinned to an immutable Vanya UI SHA. It checks changed UI files, local AGENTS/UI_CONTRACT, package dependency, actual source imports and presence of a browser-test script. **It is a static gate:** run the browser test job as well, do not substitute a declared script for executing it.
 
