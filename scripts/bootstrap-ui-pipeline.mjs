@@ -3,11 +3,11 @@
  * Node >=20. Usage: node bootstrap-ui-pipeline.mjs --project <path>
  */
 import {existsSync,mkdirSync,writeFileSync} from 'node:fs';
-import {resolve,relative,join,dirname,sep} from 'node:path';
+import {resolve,relative,join,dirname,sep,isAbsolute} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const defaultLibrary=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const pathFrom=(base,target)=>{const p=relative(base,target).split(sep).join('/');return p.startsWith('.')?p:'./'+p};
+const pathFrom=(base,target)=>{const p=relative(base,target).split(sep).join('/');return isAbsolute(p)||p.startsWith('.')?p:'./'+p};
 export function bootstrap(project,library=defaultLibrary){
  const root=resolve(project),ui=resolve(library);
  if(!existsSync(join(ui,'skills/vanya-ui/SKILL.md')))throw Error('Canonical skill missing: '+ui);
