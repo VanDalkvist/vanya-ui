@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  ActionButton, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
+  ActionButton, ActionLink, GitHubIcon, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
@@ -39,6 +39,8 @@ export function ComponentCatalog() {
   const [toolbarScope,setToolbarScope]=useState("all");
   const [toolbarGenre,setToolbarGenre]=useState("");
   const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
+  const [interactionScope,setInteractionScope] = useState("all");
+  const [interactionClicks,setInteractionClicks] = useState(0);
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
   const changeHorizon = (value: string) => {
@@ -50,6 +52,42 @@ export function ComponentCatalog() {
     <p className="catalog-intro">Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные.</p>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
+    </CatalogSection>
+    <CatalogSection id="interaction-states" title="Hover / focus / selected"
+      description="Один контракт взаимодействия: наведи курсор, перейди Tab, нажми и сравни выбранное состояние. Цвета адаптируются к светлой и тёмной теме; на таче hover не требуется.">
+      <div className="demo-interaction-specimen">
+        <div className="demo-interaction-sample">
+          <span className="demo-label">Текстовая ссылка</span>
+          <ActionLink href="/reference/interaction-states.md" variant="text" size="md">Правила состояний ↗</ActionLink>
+          <span className="ui-type-caption">Цвет + подчёркивание при наведении; focus — отдельный контур</span>
+        </div>
+        <div className="demo-interaction-sample">
+          <span className="demo-label">Действие / disabled</span>
+          <div className="demo-interaction-pair">
+            <ActionButton variant="outline" size="md" onClick={()=>setInteractionClicks(n=>n+1)}>Проверить действие</ActionButton>
+            <ActionButton variant="outline" size="md" disabled>Недоступно</ActionButton>
+          </div>
+          <output className="ui-type-caption">Нажатий: {interactionClicks}</output>
+        </div>
+        <div className="demo-interaction-sample">
+          <span className="demo-label">Hover не заменяет selected</span>
+          <SegmentedControl semantics="filters" aria-label="Пример выбранного состояния"
+            value={interactionScope} onChange={setInteractionScope}
+            items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]} />
+          <span className="ui-type-caption">Текущий выбор остаётся видимым после ухода курсора</span>
+        </div>
+        <div className="demo-interaction-sample">
+          <span className="demo-label">Иконки и тема</span>
+          <div className="demo-interaction-pair">
+            <a href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer"
+              aria-label="GitHub — исходники Vanya UI, новая вкладка" className="ui-feedback-icon demo-interaction-icon">
+              <GitHubIcon size={14}/>
+            </a>
+            <ThemeToggle/>
+          </div>
+          <span className="ui-type-caption">14px символ внутри удобной области нажатия; только мягкий фон</span>
+        </div>
+      </div>
     </CatalogSection>
     <CatalogSection id="loading-states" title="Skeleton / LoadingRegion" description="Начальная загрузка, готовые данные и ошибка. Ровно одна подпись для скринридера, никаких кликабельных заглушек.">
       <div className="demo-loading" >

@@ -27,6 +27,7 @@ export function Guide() {
         </>}
         {rule.id==="composition-principle" && <><a className="guide-link" href="/reference/composition.md">Примеры композиции <ArrowUpRight size={14} aria-hidden="true"/></a><a className="guide-link" href="/#composition-reading-inspector">Читающий дровер и стоимость запросов <ArrowUpRight size={14} aria-hidden="true"/></a></>}
         {rule.id==="scroll-principle" && <a className="guide-link" href="/reference/workspaces.md">Правила прокрутки <ArrowUpRight size={14} aria-hidden="true"/></a>}
+        {rule.id==="components-principle" && <a className="guide-link" href="/reference/interaction-states.md">Контракт hover и focus <ArrowUpRight size={14} aria-hidden="true"/></a>}
         {rule.id==="keyboard-shortcuts" && <>
           <div className="shortcut-guide-example" aria-label="Примеры сочетаний">
             <span>Перейти к разделу <ShortcutKeys keys={["G","I"]}/></span>
