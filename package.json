@@ -28,7 +28,8 @@
     "test:agent": "node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs .github/actions/ui-contract/check.test.mjs scripts/check-llm-publication.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs",
     "check:llms": "node scripts/check-llm-publication.mjs",
     "release:check": "node scripts/check-release.mjs",
-    "test:browser": "npm --prefix browser-qa run test"
+    "test:browser": "npm --prefix browser-qa run test",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#6c6a3d2d1b25e212817c354b2ee76163c4a64fab",

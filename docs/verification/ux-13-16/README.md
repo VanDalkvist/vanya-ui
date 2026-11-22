@@ -23,7 +23,7 @@ npm --prefix browser-qa exec -- playwright install chromium
 npm run test:browser
 ```
 
-Playwright is installed only for the optional browser subproject. The suite writes actual PNGs and traces to `browser-qa/artifacts/`. Open `browser-qa/artifacts/report/index.html` and review each scenario; do not commit random machine-dependent screenshots as baselines.
+Playwright is installed only for the optional browser subproject. Running `npm run test:browser` rebuilds the real production assets and tests them through `vite preview`, not the Vite dev server. The suite writes actual PNGs and traces to `browser-qa/artifacts/`. Open `browser-qa/artifacts/report/index.html` and review each scenario; do not commit random machine-dependent screenshots as baselines.
 
 ## Manual sign-off
 

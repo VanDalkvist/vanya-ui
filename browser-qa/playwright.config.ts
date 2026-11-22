@@ -20,10 +20,10 @@ export default defineConfig({
     locale: "ru-RU",
   },
   webServer: {
-    command: "bun run dev --host 127.0.0.1 --port 4173 --strictPort",
+    command: "bun run build && bun run preview",
     cwd: resolve(import.meta.dirname, ".."),
     url,
     reuseExistingServer: false,
-    timeout: 90_000,
+    timeout: 180_000,
   },
 });
