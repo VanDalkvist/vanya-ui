@@ -115,3 +115,7 @@ The opening scene is Experience: the composition is the example. The component r
 ## Verification limits
 
 A passing build, detector or unit test does not establish aesthetic acceptance. Inspect the assembled light/dark and narrow-screen views. User approval of the visual result remains separate from technical checks.
+
+## Media catalog primitives
+
+For posters, covers and other image-led catalogues, use the newly exported `MediaCard` (`layout="poster"` or `layout="row"`) and controlled `SearchField`. `MediaCard` owns semantic anchors, artwork geometry, readable Manrope hierarchy and footer slots; an app supplies its own images, domain ratings, state and actions. Filter row composition uses existing `SegmentedControl semantics="filters"`, `SelectField`, `SectionToolbar variant="section"` and `ScrollRegion orientation="horizontal"` for short responsive shelves. Keep providers and watchlist logic out of the component package. See [composition guide](docs/composition/working-surfaces.md#8-media-catalogues-and-searchable-collections).
