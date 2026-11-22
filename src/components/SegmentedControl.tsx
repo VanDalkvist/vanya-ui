@@ -17,6 +17,8 @@ export interface SegmentedControlProps<T extends string = string> {
   className?: string;
   /** xs remains a legacy alias for sm. */
   size?: ComponentSize | "xs";
+  /** Matches compact filter toolbar form controls rather than standalone tabs. */
+  density?: "default" | "toolbar";
   disabled?: boolean;
   /** Use filters for in-place data filtering; tabs for actual tab panels (default). */
   semantics?: "tabs" | "filters";
@@ -29,6 +31,7 @@ export function SegmentedControl<T extends string = string>({
   onChange,
   className,
   size = "md",
+  density = "default",
   disabled = false,
   semantics = "tabs",
   "aria-label": ariaLabel,
@@ -39,6 +42,7 @@ export function SegmentedControl<T extends string = string>({
       aria-label={ariaLabel}
       aria-disabled={disabled || undefined}
       data-size={size === "xs" ? "sm" : size}
+      data-density={density}
       className={twMerge(
         clsx(
           "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center rounded-full border border-border bg-surface-raised/60 font-sans select-none backdrop-blur-xs",
