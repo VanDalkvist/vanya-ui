@@ -45,7 +45,8 @@ export function SegmentedControl<T extends string = string>({
       data-density={density}
       className={twMerge(
         clsx(
-          "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center rounded-full border border-border bg-surface-raised/60 font-sans select-none backdrop-blur-xs",
+          "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center border border-border bg-surface-raised/60 font-sans select-none backdrop-blur-xs",
+          density==="toolbar"?"":"rounded-full",
           className
         )
       )}
@@ -62,7 +63,8 @@ export function SegmentedControl<T extends string = string>({
             aria-pressed={semantics === "filters" ? isSelected : undefined}
             onClick={() => onChange(item.id)}
             className={clsx(
-              "inline-flex items-center rounded-full border-0 bg-transparent transition-all duration-200",
+              "inline-flex items-center border-0 bg-transparent transition-all duration-200",
+              density==="toolbar"?"":"rounded-full",
               disabled ? "cursor-default opacity-35" : "cursor-pointer",
               "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
               isSelected
