@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Refined — interaction semantics
+- Нейтральный outline-button и FilterSelect при hover меняют только поверхность, без подсветки структурной границы; keyboard focus и opened states остаются самостоятельными.
+- Apple HIG, Atlassian, Carbon и NN/g перепроверены: нет универсального запрета border-hover, но Vanya UI осознанно выбирает спокойную схему. Навигация использует нейтральный hover, accent зарезервирован для выбранности и смысловых приоритетов.
+
+
 ### Added (interaction-state research loop)
 - Нормативные `ui-feedback-*` роли в токенах: hover по типу компонента, отдельные focus/pressed/selected/disabled, поддержка pointer и forced colors.
 - Живой стенд `#interaction-states`, документ для агентов и исследовательский NMT/critical loop с внешними референсами.

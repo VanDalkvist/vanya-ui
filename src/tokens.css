@@ -660,7 +660,7 @@
   font:500 13px/1.4 var(--font-sans);cursor:pointer;text-align:left;
   transition:background 130ms ease,border-color 130ms ease;
  }
- @media(hover:hover) and (pointer:fine){.ui-filter-select-trigger:not(:disabled):hover{border-color:var(--ui-feedback-hover-border);background:var(--ui-feedback-hover-fill);}}
+ @media(hover:hover) and (pointer:fine){.ui-filter-select-trigger:not(:disabled):hover{background:var(--ui-feedback-hover-fill);}}
  .ui-filter-select-trigger:focus-visible,.ui-filter-select[data-expanded] .ui-filter-select-trigger{
   outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent);
  }
@@ -885,7 +885,7 @@
     .ui-action-link[data-variant="pill"]:hover,
     .ui-action-button[data-variant="pill"]:not(:disabled):hover { color:var(--ink);background:var(--ui-feedback-hover-fill); }
     .ui-action-button[data-variant="text"]:not(:disabled):hover {color:var(--ink);}
-    .ui-action-button[data-variant="outline"]:not(:disabled):hover {border-color:var(--ui-feedback-hover-border);background:var(--ui-feedback-hover-fill);}
+    .ui-action-button[data-variant="outline"]:not(:disabled):hover {background:var(--ui-feedback-hover-fill);}
   }
   @media(forced-colors:active){
     :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible{outline:2px solid Highlight;}

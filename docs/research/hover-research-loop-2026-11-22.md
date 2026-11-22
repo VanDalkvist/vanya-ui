@@ -68,6 +68,20 @@
 4. `DeskSlotCard` и `Minimap` требуют отдельного аудита именно клавиатурной семантики и структуры событий: hover полирует только визуальную сторону, не исправляет ложное ощущение интерактивности.
 5. Позже оценить поведение pointer coarse на iPad с мышью и контраст в обоих цветовых режимах.
 
+## 5.1 Fact-check: hover border и accent (Apple / Atlassian / Carbon)
+
+Вопрос: «Должна ли outline-кнопка менять цвет границы или только фон? Должен ли hover навигации быть нейтральным, а selected — accent?»
+
+**По первоисточникам:**
+- [Apple HIG — Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons): button style зависит от роли, для custom button обязательно press feedback; нет абсолютного запрета border-hover. Акцент назначается преимущественно важным действиям, но не всем кнопкам.
+- [Apple HIG — Focus and selection](https://developer.apple.com/design/human-interface-guidelines/focus-and-selection/): в списках активное выделение может иметь акцентную подложку, менее активное — серую; keyboard-focus и selection не эквивалентны hover.
+- [Apple HIG — Pointing devices](https://developer.apple.com/design/human-interface-guidelines/pointing-devices): highlight/lift/hover effects имеют разные назначения, нет универсального предписания именно background вместо border.
+- [Atlassian Elevation — Hovered and pressed](https://atlassian.design/foundations/elevation/): **default bordered** имеет статичный `color.border`, в hovered/pressed меняется поверхность. Это наиболее близкий и строгий образец для neutral outline Vanya UI.
+- [Carbon Button](https://www.carbondesignsystem.com/building-blocks/core/components/button/specifications): типы primary/secondary/tertiary/ghost задают разные фоны/границы/цвета на разных состояниях, не правило «никогда не менять border».
+- [NN/g — Button States](https://www.nngroup.com/articles/button-states-communicate-interaction/): subtle background shifts характерны для hover, самостоятельный outline лучше сохранять для focus, и нужно разделять button *style* и *state*.
+
+**Критическое решение:** в Vanya UI `ActionButton outline` и `FilterSelect` изменяют при hover только фон, сохраняя border. `focus-visible` сохраняет явный outline, `pressed` — плотную нейтральную поверхность. У навигации `hover` нейтрален, выбранность оранжевая. Это локальная политика design language, а не всеобщая UX-норма. Реальные визуальные сравнения light/dark + pointer/keyboard всё ещё нужны.
+
 ## 6. Acceptance и доказательства
 
 Автоматически: статические контракты, component-registry, Jest/Vitest DOM-семантика, keyboard menu, `prefers-reduced-motion`, реальные переходы и наличие публичного документа. Отдельно: Cloudflare build/deploy по точному SHA.

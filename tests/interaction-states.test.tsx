@@ -22,6 +22,17 @@ describe("interaction feedback contracts",()=>{
   expect(css).toContain("@media (prefers-reduced-motion: reduce)");
   expect(css).toContain(".ui-feedback-row[aria-checked=\"true\"]");
  });
+ it("keeps outlined button and filter borders stable on hover; reserves strong border for focus",()=>{
+  const css=read("src/tokens.css");
+  const outlined=css.match(/\.ui-action-button\[data-variant="outline"\]:not\(:disabled\):hover\s*\{([^}]+)\}/)?.[1];
+  const filter=css.match(/\.ui-filter-select-trigger:not\(:disabled\):hover\s*\{([^}]+)\}/)?.[1];
+  expect(outlined).toContain("background:var(--ui-feedback-hover-fill)");
+  expect(outlined).not.toContain("border-color");
+  expect(filter).toContain("background:var(--ui-feedback-hover-fill)");
+  expect(filter).not.toContain("border-color");
+  expect(css).toContain(".ui-filter-select-trigger:focus-visible");
+  expect(css).toContain("border-color:var(--accent)");
+ });
  it("preserves real link and button behavior, disabled actions do not fire",()=>{
   const handle=vi.fn();
   render(<>
