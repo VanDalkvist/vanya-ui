@@ -97,6 +97,58 @@ App shell (100dvh, no outer vertical scroll)
 
 Компоненты `WorkspaceSplit` / `ScrollRegion` в библиотеке предоставляют геометрию и семантику; реальную привязку ко viewport, роутинг и текущую секцию обязан сделать потребляющий продукт. Отступы и breakpoint выбираются по доступной ширине *после* вычета сайдбара, не по ширине монитора в одиночку.
 
+## Продолжительная идентичность: fixed context + master–detail
+
+**Два разных контекста, две разные задачи.** `WorkspaceContextHeader` живёт *в уже существующем глобальном header* и отвечает за URL, breadcrumb ancestors и текущий раздел. Для приложения с множеством разделов одного проекта допускается **одна компактная закреплённая идентичность объекта** непосредственно над reader: название проекта, его действительно общий статус, краткое описание, следующий ход и главные ссылки. Эта панель — структурный sibling reader, а **не** второй `position:sticky` toolbar внутри текста.
+
+**Не превращайте это в обязательный шаблон.** Статичная шапка проекта полезна, когда её данные сохраняют значение при переходе между несколькими модулями и помогают выбрать действие. Для одиночной статьи/каталога без постоянной сущности достаточно глобальной строки и заголовка в потоке; `StickyContextBar` остаётся для автономного reader *без* глобальной контекстной строки. Не закрепляйте заголовок ещё раз только потому, что возможно.
+
+### Контракт устойчивой композиции
+
+1. **Одна геометрия shell на всех маршрутах.** Home, overview, modules, catalogue используют одну высоту, горизонтальные gutters, границу и положение глобального `topbar`. Контент может меняться; `:has(.page)` не должен переписывать геометрию topbar на отдельных маршрутах. Dashboard может прокручиваться обычной страницей; viewport workspace — своими ограниченными reader/list областями.
+2. **Не повторять одну и ту же информацию.** Глобальные breadcrumbs показывают путь, выбранный модуль и текущую секцию. Project identity показывает устойчивую сущность и состояние. Заголовок *текущего модуля* живёт в его reader. Поля проекта не должны превращаться в ещё одну громоздкую карточку над каждой инструкцией.
+3. **Identity остаётся на месте при смене reader.** Внутри `WorkspaceSplit` колонка detail содержит `identity (flex:0 0 auto)` и `ScrollRegion (flex:1 1 0;min-height:0)`. Переключение overview ⇄ module изменяет только reader; его `scrollTop` сбрасывается, а прокрутка списка и положение шапки не прыгают. На узком viewport список превращается в короткий горизонтальный chooser.
+4. **Семантические уровни и ссылки.** У identity один `h1`; у выбранного модуля — `h2`; у разделов — `h3`. Предки breadcrumbs — настоящие `href`, текущий объект — не фиктивная ссылка. Для читаемых крошек используйте `<WorkspaceContextHeader breadcrumbSize="large" ... />`: 16px desktop и 14px compact; `default` сохраняет исходную шкалу 12px. Не правьте размеры у неиспользуемого локального `.breadcrumbs` — Vanya UI задаёт typography на `.ui-workspace-context-crumbs li`.
+5. **Полнота без бесконечной высоты.** Зафиксируйте только информацию, которая нужна на всех вкладках: имя, статус, краткое описание, ключевой next action и ссылки. Длинные описания, перечни версий, полный workflow, доказательства и настройки — в прокручиваемом overview/module. Данные можно показать компактно без скрытия необходимых действий; если header занимает существенную часть окна, вернитесь к обычной странице или сократите состав.
+6. **Не путать фиксированность с `position:fixed`.** Глобальный shell header остаётся структурным sibling основной области, а проектная идентичность — структурным sibling reader. Они сохраняют место из-за ограниченной высоты/владения скроллом, не из-за хитрого sticky stacking.
+7. **Высота и прокрутка — реальный контракт.** При `min-height:0` на каждом grid/flex предке reader владелец вертикального скролла существует. При смене модуля нельзя прокручивать `window`, терять навигацию или ставить новый scrollbar на общий контейнер.
+
+### Базовая схема, не готовый продуктовый компонент
+
+```tsx
+<header className="app-topbar">
+  <WorkspaceContextHeader
+    breadcrumbs={ancestors} breadcrumbSize="large"
+    title={selectedTitle} showTitle={false}
+  />
+</header>
+<main className="workspace-main">
+  <WorkspaceSplit compact="stack"
+    navigation={<nav aria-label="Разделы проекта">{/* overview + modules, real anchors */}</nav>}
+    detail={<div className="project-detail">
+      <header className="project-identity"><h1>{project.name}</h1>{/* status + context */}</header>
+      <ScrollRegion label="Содержимое раздела" className="project-reader">
+        {selectedContent}
+      </ScrollRegion>
+    </div>}
+  />
+</main>
+```
+
+```css
+.app-topbar{flex:0 0 auto} /* same geometry for every route */
+.workspace-main{flex:1 1 0;min-height:0;overflow:hidden}
+.project-detail{display:flex;flex-direction:column;height:100%;min-height:0;overflow:hidden}
+.project-identity{flex:0 0 auto}
+.project-reader{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior-y:contain}
+```
+
+**Разделение ответственности:** библиотека даёт `WorkspaceSplit`, `ScrollRegion`, `WorkspaceContextHeader`, токены и семантику. Продукт задаёт состав шапки, URL, статус, реальные данные, ширину навигации, высоты и reset reader. Новый универсальный `ProjectHeader` не нужен, пока не доказаны общие API и одинаковая семантика в нескольких независимых продуктах.
+
+### Проверка после изменений
+
+Сравните bounding rectangles (top, left, height) глобального header при Home → Project Overview → Module → Catalogue; они не должны меняться на одной ширине viewport. Аналогично сравните project identity между overview и двумя разными модулями. Прокрутите длинную инструкцию, смените модуль, пройдите Back/Forward, вернитесь к обзору. Убедитесь, что window не прыгает, список не теряет позицию, статус проекта остаётся виден, в mobile/200% zoom нет обрезанных контролов. Автоматический PASS и *визуально наблюдённый* PASS — разные доказательства.
+
 ## Адресность и доступность
 
 - Каждому выбранному разделу нужен прямой адрес с восстановлением при refresh и Back/Forward; в приложении используйте обычные ссылки или полноценный router. Визуальный selection не заменяет URL.

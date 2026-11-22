@@ -86,3 +86,11 @@ The app topbar breadcrumbs should follow the actual selection and reader section
 **Target regression cases:** scroll to the end of a 12-module catalogue and to the end of a long article independently; change modules while the article is at its end (new reader starts at its heading); use Back/Forward after clicking three modules; open a direct link to a deep module; compare collapsed vs. expanded app sidebar at 1440×900 and 1920×1080; test 1050px, 760px and 320px widths, 200% zoom, short viewport and keyboard focus. The product shell and title must remain stable without scroll jumps.
 
 Formal reusable rules and geometry: [list–detail composition](../patterns/list-detail-composition.md). Related prior research: Atlassian, Primer, NN/g and W3C links above.
+
+## Verified composition refinement: global chrome vs persistent project identity (2026-11-22)
+
+A multi-view application exposed a previously under-specified edge case: page-level home had a tall/wide header, while bounded catalogue and modules had a different fixed header. Switching destinations caused visible header movement even though each individual screen looked reasonable. The solution is **one shared topbar geometry across every route**; the home page may keep regular document scrolling, while master–detail views keep independent bounded readers.
+
+A second finding: an entity shared by many modules benefits from a compact *persistent identity* above the selected module reader. That identity is structurally fixed in its column by `flex:0 0 auto` and the bounded reader below it, **not a duplicate sticky app header**. Data that applies to all modules (name, current status, short description, next action and key links) may remain; the full overview and module body still scroll. This is an **exception requiring genuine multi-view value**, not a contradiction of the earlier recommendation to avoid stacking sticky panels.
+
+The existing `WorkspaceSplit`, `ScrollRegion` and `WorkspaceContextHeader` already support this. No new low-level primitive or project-specific API is needed. See the [normative master–detail recipe](../patterns/list-detail-composition.md#продолжительная-идентичность-fixed-context--masterdetail).

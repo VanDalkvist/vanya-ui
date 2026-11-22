@@ -46,6 +46,12 @@ Use Vanya UI's own `tokens.css` and real exported React components. Local app CS
 
 `--ground`, `--surface`, `--ink`, `--ink-soft`, `--ink-faint`, `--accent`, and `--border` are semantic tokens; avoid hardcoding theme palettes.
 
+## Persistent context without competing headers
+
+The shared app topbar is **one stable surface on every route**: same size, alignment, border and page gutter whether the user is on a dashboard or a bounded master–detail workspace. Use `WorkspaceContextHeader` inside it for real breadcrumbs; `breadcrumbSize="large"` is the reusable 16px/14px reading scale, while the compact default stays backward compatible. Do not adjust a topbar through view-specific CSS as a shortcut for page padding. Dashboard content and workspace content may follow different scroll policies *beneath* that shared chrome.
+
+For a product workspace with many modules, the **project identity can persist directly above a changing reader**. Treat it as a flex/grid sibling to one `ScrollRegion`, not another floating sticky topbar. Keep common identity/status and the next important action compact; move long stage history and full link lists into the overview. No extra fixed identity for unrelated one-page readers. Reference: [fixed context master–detail contract](../patterns/list-detail-composition.md#продолжительная-идентичность-fixed-context--masterdetail).
+
 ## Acceptance checklist
 
 - Can a first-time user identify the primary task without reading a long description?

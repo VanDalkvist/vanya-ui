@@ -18,7 +18,9 @@ For any UI feature, layout, component, form, navigation, loading/empty/error sta
 
 ## Phase 1 — model the task before coding
 
-Identify: primary user action, screen/route, source of truth, required components, layout hierarchy, each vertical scroll owner, active context/breadcrumbs, Back/Forward, typography, breakpoints, loading/empty/error, keyboard focus, dark/light, source/legal links. Explain changes concisely in the work log/handoff.
+Identify: primary user action, screen/route, source of truth, required components, layout hierarchy, each vertical scroll owner, active context/breadcrumbs, Back/Forward, typography, breakpoints, loading/empty/error, keyboard focus, dark/light, source/legal links.
+
+For multi-view workspaces, explicitly compare the **same global topbar geometry across home/overview/modules/catalogue**. Use `WorkspaceContextHeader` in that existing bar (including `breadcrumbSize="large"` when a 16px/14px reading scale is needed), never a detached duplicate. If the same project identity is relevant across many modules, keep a compact identity **outside** the reader scroll as its flex sibling; do not add another sticky toolbar. [Canonical recipe](../../docs/patterns/list-detail-composition.md#продолжительная-идентичность-fixed-context--masterdetail). Explain changes concisely in the work log/handoff.
 
 Use `WorkspaceSplit`, `ScrollRegion`, `WorkspaceContextHeader`, `Skeleton`, semantic controls, and actual exports where applicable. Never invent library APIs. For React UI use pinned `@vanya/ui` and `@vanya/ui/tokens.css`. For non-React SVG or host visuals apply tokens/rules without injecting React or global app CSS. Non-UI API/CLI/data changes skip the UI steps.
 
@@ -42,6 +44,7 @@ Missing packages or browser binaries are explicit blockers. Do not hide them by 
 Automated tests are necessary but **do not prove visual quality**. In a real local browser/preview, record route, viewport, steps and evidence for:
 
 - 1440×900: main hierarchy, adequate reader width, visible active context and breadcrumbs, correct independent scroll owners.
+- Home → overview → module → catalogue: compare topbar bounding geometry; between modules compare project identity bounding geometry. Only the lower reader changes, including its scroll offset. Do not treat a build as visual proof.
 - Long navigation plus long document: independently scroll, change item, confirm reader starts at its heading and list remains usable.
 - Direct URL, reload, 3 selections, browser Back/Forward, keyboard focus, reduced motion.
 - 1024×768, 390×844, 320×568 and 200% zoom: no overlapped controls or page horizontal overflow.
