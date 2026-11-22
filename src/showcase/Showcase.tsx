@@ -25,7 +25,7 @@ export function Showcase(){
     <p className="guide-eyebrow">Подключение / 08</p>
     <h2 id="setup-title" className="catalog-title">Подключить библиотеку</h2>
     <p className="catalog-intro">Используй локальную копию библиотеки или закрепи конкретный коммит при установке. Подключи токены и импортируй нужные компоненты.</p>
-    <pre><code>{'bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n\nimport { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";'}</code></pre>
+    <pre><code>{`bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n\nimport { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";`}</code></pre>
     <p className="catalog-intro">Для агентов: <a href="/reference/agent-skill.md">канонический UI-скилл</a>, <a href="/reference/ui-pipeline.md">локальный пайплайн</a>, <a href="/llms.txt">LLM-навигация</a> и <a href="/reference/components.md">компоненты</a>.</p>
    </section>
   </main>
