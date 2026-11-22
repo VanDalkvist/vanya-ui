@@ -1,6 +1,6 @@
 {
   "name": "@vanya/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
   "license": "SEE LICENSE IN LICENSING.md",
@@ -19,14 +19,15 @@
     "./tokens.css": "./src/tokens.css"
   },
   "scripts": {
-    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs",
+    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs",
     "test:watch": "vitest",
     "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && node scripts/finalize-published-licenses.mjs && bun run scripts/prerender.tsx",
     "dev": "vite",
     "sync": "bun run scripts/sync.ts",
     "prerender": "bun run scripts/prerender.tsx",
-    "test:agent": "node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs .github/actions/ui-contract/check.test.mjs scripts/check-llm-publication.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs",
-    "check:llms": "node scripts/check-llm-publication.mjs"
+    "test:agent": "node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs .github/actions/ui-contract/check.test.mjs scripts/check-llm-publication.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs",
+    "check:llms": "node scripts/check-llm-publication.mjs",
+    "release:check": "node scripts/check-release.mjs"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#6c6a3d2d1b25e212817c354b2ee76163c4a64fab",
