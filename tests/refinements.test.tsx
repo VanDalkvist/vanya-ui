@@ -29,11 +29,11 @@ describe("approved showcase refinements", () => {
   it("keeps selection working through the last segment", () => {
     function Example() {
       const [value, setValue] = React.useState("day");
-      return <SegmentedControl items={[{ id: "day", label: "День" }, { id: "month", label: "Месяц" }]} value={value} onChange={setValue} />;
+      return <SegmentedControl semantics="filters" items={[{ id: "day", label: "День" }, { id: "month", label: "Месяц" }]} value={value} onChange={setValue} />;
     }
     render(<Example />);
-    fireEvent.click(screen.getByRole("tab", { name: "Месяц" }));
-    expect(screen.getByRole("tab", { name: "Месяц" })).toHaveAttribute("aria-selected", "true");
+    fireEvent.click(screen.getByRole("button", { name: "Месяц" }));
+    expect(screen.getByRole("tab", { name: "Месяц" })).toHaveAttribute("aria-pressed", "true");
   });
 
   it("synchronizes separate theme controls on the same page", () => {

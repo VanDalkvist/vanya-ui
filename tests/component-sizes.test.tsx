@@ -14,5 +14,5 @@ it("accepts both canonical CategoryBadge sizes without losing identity", () => {
 
 it("normalizes the old xs segmented size to the shared compact size", () => {
   render(<SegmentedControl items={[{ id: "one", label: "Первый" }]} value="one" onChange={() => {}} size="xs" />);
-  expect(screen.getByRole("tablist")).toHaveAttribute("data-size", "sm");
+  expect(screen.getByRole("group")).toHaveAttribute("data-size", "sm");
 });
