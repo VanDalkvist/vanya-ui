@@ -105,3 +105,7 @@ Use the exported `MediaCard`, `SearchField`, `TextField`, `SectionToolbar varian
 ```
 
 This pattern is intended for films, books, games, playlists, courses and other artwork-led collections. Reference: [NN/g progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/), [Baymard product list scanning and essential attributes](https://baymard.com/research-articles/product-listing-information).
+
+## 9. Loading the workspace without blanking it out
+
+Use Vanya UI's `LoadingRegion` with `Skeleton`, `SkeletonText`, and `MediaCardSkeleton`. Real stable chrome and known headings remain visible. Unknown rows and covers adopt the eventual layout's geometry; error handling replaces skeletons with a recovery affordance, not indefinite animation. Announce one loading state per area; decorative blocks are unfocusable, reduce motion disables pulsing. [Full loading pattern](../patterns/loading-states.md), [public demo](https://ui.vanya-arc.dev/#loading-states).
