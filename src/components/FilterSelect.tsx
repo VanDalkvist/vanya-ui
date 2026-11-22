@@ -96,15 +96,13 @@ export function FilterSelect({
   else if(event.key==="PageUp"){event.preventDefault();setActive(Math.max(0,active-8))}
   else if(event.key==="Enter"&&!event.nativeEvent.isComposing){event.preventDefault();const o=capped[active];if(o)pick(o)}
   else if(event.key==="Escape"){event.preventDefault();event.stopPropagation();close(true)}
+  else if(event.key==="Tab"){close()}
  };
  useLayoutEffect(()=>{
   if(!open)return;
   updatePosition();
-  const frame=window.requestAnimationFrame(()=>{
-   if(doSearch)searchRef.current?.focus();
-   else listRef.current?.focus();
-  });
-  return()=>window.cancelAnimationFrame(frame);
+  if(doSearch)searchRef.current?.focus();
+  else listRef.current?.focus();
  },[open,doSearch]);
  useEffect(()=>{
   if(!open)return;
