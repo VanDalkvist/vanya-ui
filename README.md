@@ -33,6 +33,12 @@ node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --p
 
 Визуального `:active` недостаточно, чтобы сообщить об операции после отпускания кнопки. [Правила действий](docs/patterns/action-feedback.md) и [Press Feedback Research Loop](docs/research/press-feedback-research-loop-2026-11-22.md) задают мгновенный pressed-отклик и правдивые состояния `ActionButton.actionState="pending|success|error"`, которые управляются продуктом. [Живой демо-стенд](https://ui.vanya-arc.dev/#action-feedback) не имитирует внешнюю сеть.
 
+### ARIA tabs, theme menu and browser acceptance
+
+`SegmentedControl` defaults to **filters** (native buttons with `aria-pressed`), not pseudo-tabs. For real tab panels use `semantics="tabs"` with `TabSegmentItem.tabId`/`panelId`, matching `role="tabpanel"` and keyboard arrow/Home/End navigation. This changes prior default semantics; consumers relying on `role=tab` must migrate intentionally and review compatibility before upgrading their pinned SHA. The theme menu handles roving focus, Tab/Shift+Tab and Escape; the site header marks the viewport-active section through native URL fragments.
+
+Portable local browser verification: see [browser-qa](browser-qa/README.md), run `npm run test:browser` after installing the isolated pinned Playwright toolchain. It checks actual hit targets and captures screenshots, but only reviewed real-browser evidence can mark `UI_VERIFIED`. [Implementation and alternatives](docs/research/ux-13-16-repair-loop-2026-11-23.md).
+
 ## Версии и обновление потребителей
 
 Ведём [SemVer и changelog](docs/versioning.md) с версии исходников `0.2.0`. Публичный сайт на `main` **не означает релиз**: ручной тег `vX.Y.Z` ставится после тестов, browser QA и проверки коммита. Продукты закрепляют полный SHA и lockfile, а не движущийся `main`. Локальная проверка: `npm run release:check` (Node.js, без сети). [История изменений](CHANGELOG.md).

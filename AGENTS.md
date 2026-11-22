@@ -10,6 +10,8 @@ node scripts/ui-pipeline.mjs check --project . --mode visual
 node scripts/ui-pipeline.mjs verify --project /path/to/consumer --package app
 ```
 
+For changes to Vanya UI component behavior/scroll/keyboard, run the **manual real-browser gate** in [browser-qa](browser-qa/README.md) plus tests and build; never equate unit tests with visual verification. The [repair loop](docs/research/ux-13-16-repair-loop-2026-11-23.md) records #13–16 decisions. No automatic GitHub workflows or unsolicited consumer updates.
+
 For consumer project setup use `node scripts/bootstrap-ui-pipeline.mjs --project /path/to/consumer`. This only installs local agent pointers. All visual changes require browser observation beyond automated tests; report NOT VERIFIED if unable to inspect.
 
 GitHub Actions, if present, are optional **manual-only** adapters. Never add push/PR/schedule triggers to UI contract workflows, and never require CI to execute the agent workflow.

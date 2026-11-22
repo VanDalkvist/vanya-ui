@@ -26,6 +26,12 @@ Hover означает *наведение доступным указателе
 
 **Тот же принцип для меню навигации:** обычный `hover` остаётся нейтральным (`var(--ink)`); `aria-current` или `aria-pressed=true` сохраняет акцент после ухода указателя. Однако это не «никогда не использовать accent при hover»: активное CTA, error/destructive и специальные выразительные interactions могут иметь отдельный смысловой цвет. **Приоритет семантики выше однообразия.** У Apple [Focus and selection](https://developer.apple.com/design/human-interface-guidelines/focus-and-selection/) акцентное выделение также зависит от типа списка и активности окна; это подтверждает *контекстность*, а не догму «серый всегда на hover».
 
+### Tabs vs filters are different interactions
+
+`SegmentedControl` defaults to `semantics="filters"`: a labelled group of ordinary buttons with `aria-pressed`, no invented tab panels. Only use explicit `semantics="tabs"` with `TabSegmentItem` entries containing **both** `tabId` and `panelId`. Render matching `role="tabpanel" id={panelId} aria-labelledby={tabId}` elements. The control implements roving Tab stop, Left/Right/Home/End, skips disabled tabs and activates on focus; render panels synchronously. [W3C APG Tabs](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+
+The ThemeToggle dropdown follows a different composite pattern: menuitemradio options are `tabIndex=-1`, arrows/Home/End move inside the menu, Tab/Shift+Tab **leave it**, and Escape returns to the trigger. `aria-checked` is chosen theme, not the ephemeral keyboard focus. [W3C APG Menu](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/).
+
 ### From press to visible result
 
 Hover, focus, press and selected are different; a visible `:active` alone is not enough to acknowledge asynchronous completion. The canonical [action-feedback workflow](action-feedback.md) covers momentary press, caller-controlled pending/success/error and genuine keyboard actions. The [research and critical alternatives](../research/press-feedback-research-loop-2026-11-22.md) explain why automatic success animation and global toasts were rejected.

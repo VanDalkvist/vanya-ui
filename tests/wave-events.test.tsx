@@ -39,11 +39,18 @@ it("uses the shared segmented control for radar periods and disables a passive s
   const periods = [{ id: "day", label: "День" }, { id: "week", label: "Неделя" }];
   const change = vi.fn();
   const { rerender } = render(<EnergyRadar items={[]} horizons={periods} activeHorizon="day" onHorizonChange={change} />);
-  expect(screen.getByRole("tablist", { name: "Период" })).toHaveAttribute("data-size", "sm");
-  fireEvent.click(screen.getByRole("tab", { name: "Неделя" }));
+  expect(screen.getByRole("group", { name: "Период" })).toHaveAttribute("data-size", "sm");
+  expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+  const week = screen.getByRole("button", { name: "Неделя" });
+  expect(week).toHaveAttribute("aria-pressed", "false");
+  fireEvent.click(week);
   expect(change).toHaveBeenCalledWith("week");
   rerender(<EnergyRadar items={[]} horizons={periods} activeHorizon="week" />);
-  expect(screen.getByRole("tab", { name: "Неделя" })).toBeDisabled();
+  const disabledWeek = screen.getByRole("button", { name: "Неделя" });
+  expect(disabledWeek).toHaveAttribute("aria-pressed", "true");
+  expect(disabledWeek).toBeDisabled();
+  fireEvent.click(disabledWeek);
+  expect(change).toHaveBeenCalledTimes(1);
 });
 
 it("preserves all four source event weights and focus-dependent radii", () => {

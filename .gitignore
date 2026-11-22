@@ -10,3 +10,6 @@ dist
 !/wrangler.jsonc
 .dev.vars*
 .env*
+
+browser-qa/node_modules/
+browser-qa/artifacts/

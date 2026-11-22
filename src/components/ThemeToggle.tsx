@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
 import { Sun, Moon, Laptop, Check } from "lucide-react";
 import { useTheme, type Theme } from "../hooks/useTheme";
 import { clsx } from "clsx";
@@ -24,6 +24,8 @@ export function ThemeToggle({
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  const initialFocus = useRef<"selected" | "first" | "last">("selected");
 
   // Всегда показываем иконку разрешенного состояния
   const ActiveIcon = resolvedTheme === "dark" ? Moon : Sun;
@@ -52,10 +54,36 @@ export function ThemeToggle({
 
   useEffect(() => {
     if (!isOpen) return;
-    menuRef.current?.querySelector<HTMLButtonElement>('[role="menuitemradio"][aria-checked="true"]')?.focus();
+    const items = Array.from(menuRef.current?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') || []);
+    const first = items[0];
+    const last = items[items.length - 1];
+    const selected = items.find((item) => item.getAttribute("aria-checked") === "true");
+    (initialFocus.current === "first" ? first
+      : initialFocus.current === "last" ? last : selected || first)?.focus();
+    initialFocus.current = "selected";
   }, [isOpen]);
 
+  /** APG menu items have tabIndex -1. Tab leaves the menu, not just its last row. */
+  function leaveMenu(backwards: boolean) {
+    const trigger = triggerRef.current;
+    if (!trigger) return;
+    const selector = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    const focusables = Array.from(document.querySelectorAll<HTMLElement>(selector))
+      .filter((el) => el.tabIndex >= 0 && !el.closest('[hidden],[inert]') &&
+        getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden");
+    const i = focusables.indexOf(trigger);
+    const next = i < 0 ? undefined : focusables[i + (backwards ? -1 : 1)];
+    setIsOpen(false);
+    if (next) next.focus();
+    else trigger.blur(); // let the user leave the tab order at either end
+  }
+
   function handleMenuKeys(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      leaveMenu(event.shiftKey);
+      return;
+    }
     if (event.key === "Escape") {
       event.preventDefault();
       event.stopPropagation();
@@ -112,15 +140,24 @@ export function ThemeToggle({
   }
 
   return (
-    <div ref={containerRef} className={twMerge("relative inline-block", className)}>
+    <div ref={containerRef} onBlurCapture={(event) => {
+      if (!containerRef.current?.contains(event.relatedTarget as Node | null)) setIsOpen(false);
+    }} className={twMerge("relative inline-block", className)}>
       <button
         ref={triggerRef}
         type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => { initialFocus.current = "selected"; setIsOpen((prev) => !prev); }}
+        onKeyDown={(event) => {
+          if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+          event.preventDefault();
+          initialFocus.current = event.key === "ArrowDown" ? "first" : "last";
+          setIsOpen(true);
+        }}
         aria-label={`Тема оформления: ${currentLabel}. Нажмите для смены.`}
         title={`Тема оформления: ${currentLabel}`}
         aria-expanded={isOpen}
         aria-haspopup="menu"
+        aria-controls={isOpen ? menuId : undefined}
         className="ui-feedback-icon pointer-events-auto inline-flex size-8 items-center justify-center appearance-none rounded-full border-0 p-0 cursor-pointer"
       >
         <ActiveIcon className="size-3.5" />
@@ -129,7 +166,9 @@ export function ThemeToggle({
       {isOpen && (
         <div
           ref={menuRef}
+          id={menuId}
           role="menu"
+          aria-label="Тема оформления"
           onKeyDown={handleMenuKeys}
           className="absolute right-0 top-full mt-1.5 z-50 min-w-[140px] rounded-[4px] border border-border bg-surface-raised p-1 text-ink shadow-[0_4px_16px_rgba(0,0,0,0.18)] backdrop-blur-md"
         >
@@ -141,6 +180,7 @@ export function ThemeToggle({
                 key={opt.id}
                 role="menuitemradio"
                 aria-checked={isSelected}
+                tabIndex={-1}
                 type="button"
                 onClick={() => {
                   setTheme(opt.id);

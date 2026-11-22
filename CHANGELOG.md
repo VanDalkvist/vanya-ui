@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+### Changed (breaking semantics; pre-1.0, needs intentional release)
+- `SegmentedControl` default semantics changed from pseudo-tabs to true **filters** (`role=group`, buttons with `aria-pressed`). Explicit `semantics="tabs"` now takes linked `TabSegmentItem.tabId/panelId` and implements roving focus, arrows, Home/End and automatic selection. Existing consumers expecting implicit `role=tab` must review their usage before updating the SHA.
+- `ThemeToggle` menu now uses one composite keyboard model (menuitemradio `tabIndex=-1`, Tab/Shift+Tab exits, arrows/Home/End, Escape/focus-out).
+- Showcase header reports the genuinely active in-page section, preserving native hash and Back/Forward navigation.
+
+### Added — browser verification (#16)
+- Manual-only portable Playwright gate (`npm run test:browser`), 390/1024/1440 px × light/dark, real pointer hit-test of the distance control, keyboard tabs/theme, navigation/history, drawers, independent scroll, hover/press and reduced motion; screenshot/trace artifacts require manual sign-off before `UI_VERIFIED`.
+
+
 ### Changed — keyboard help
 - Убрана плавающая плашка «Клавиши / ?», перекрывавшая регулировку расстояния; удалены стили, мобильный вариант и лишний отступ футера.
 - Справка осталась доступной по `?` и внутри «Принципы → Клавиши» без постоянной кнопки в шапке или над сценой.
