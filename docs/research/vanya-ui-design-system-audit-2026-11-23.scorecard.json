@@ -1,0 +1,100 @@
+{
+  "audit": "Vanya UI Design System Health Audit",
+  "date": "2026-11-23",
+  "source_sha": "4083f39490da6865e5ba867636885fd2bdc6d385",
+  "method": "One-evaluator source-based desk assessment, 8 equally weighted categories; NOT user research or independent visual audit",
+  "overall_score": 6.7,
+  "author_language_score": 8.2,
+  "operational_readiness_score": 5.3,
+  "confidence": "mixed; visual/accessibility/adoption require field evidence",
+  "ratings": [
+    {
+      "dimension": "visual-language",
+      "label": "Авторский визуальный язык",
+      "score": 8.4,
+      "confidence": "low-medium",
+      "evidence": "semantic tokens + @vanya/brand; no current visual capture"
+    },
+    {
+      "dimension": "composition",
+      "label": "Композиция и навигация",
+      "score": 8.3,
+      "confidence": "medium",
+      "evidence": "WorkspaceSplit, ScrollRegion, patterns"
+    },
+    {
+      "dimension": "interaction",
+      "label": "Взаимодействия",
+      "score": 7.2,
+      "confidence": "medium",
+      "evidence": "feedback roles, controlled ActionButton, remaining APG gaps"
+    },
+    {
+      "dimension": "component-architecture",
+      "label": "API и DX",
+      "score": 6.4,
+      "confidence": "high",
+      "evidence": "typed exports; source-only TSX; core/domain mix"
+    },
+    {
+      "dimension": "accessibility",
+      "label": "Доступность",
+      "score": 6,
+      "confidence": "medium",
+      "evidence": "keyboard work; incomplete composite ARIA; no browser axe audit"
+    },
+    {
+      "dimension": "agent-documentation",
+      "label": "Документация и агентский пайплайн",
+      "score": 8.7,
+      "confidence": "high",
+      "evidence": "portable CLI, skills, public llms references"
+    },
+    {
+      "dimension": "release-reproducibility",
+      "label": "Релизы и проверка поставки",
+      "score": 4.9,
+      "confidence": "high",
+      "evidence": "v0.2.0 absent tag, source exports, no visual regression gate"
+    },
+    {
+      "dimension": "adoption-impact",
+      "label": "Adoption и измеренный эффект",
+      "score": 3.8,
+      "confidence": "low",
+      "evidence": "Ferma confirmed; organization-wide metrics unavailable"
+    }
+  ],
+  "zeroheight_axes_approx": {
+    "Foundations": 3,
+    "Documentation": 3,
+    "Governance": 2,
+    "Adoption": 2,
+    "Measurement": 1,
+    "AI_Readiness": 3
+  },
+  "zeroheight_note": "Approximate mapping, not official zeroheight 29-question assessment",
+  "confirmed_components": 48,
+  "confirmed_vitest": 103,
+  "confirmed_node": 18,
+  "confirmed_consumers": [
+    "VanDalkvist/ferma"
+  ],
+  "unmeasured": [
+    "WCAG conformance",
+    "browser screenshot QA",
+    "full adoption",
+    "time saved",
+    "consumer upgrade reliability"
+  ],
+  "priority_findings": [
+    "UX-01",
+    "UX-02",
+    "QA-01",
+    "DIST-01",
+    "UX-03",
+    "DX-01",
+    "IMPACT-01"
+  ],
+  "source_document": "docs/research/vanya-ui-design-system-audit-2026-11-23.md"
+}
