@@ -73,7 +73,7 @@ Public HTML is pre-rendered at build time and hydrated by React. The curated `ll
 
 ## Workspace composition
 
-**Mandatory for UI changes in all owned repositories:** [UI feature pipeline](docs/patterns/ui-feature-pipeline.md). Before implementation read the actual package exports and scroll/navigation rules; on every UI PR run the [cross-repository UI contract action](.github/actions/ui-contract/action.yml) and a real browser test. A build alone cannot certify layout or scroll behavior.
+**Mandatory for UI changes in all owned repositories:** [UI feature pipeline](docs/patterns/ui-feature-pipeline.md). Before implementation read the actual package exports and scroll/navigation rules. For every UI feature the agent runs the [cross-repository UI contract checker](.github/actions/ui-contract/check.mjs) locally and a real browser test. The optional GitHub workflow runs **only on manual `workflow_dispatch`**, never on push/PR/schedule. A build alone cannot certify layout or scroll behavior.
 
 **List–detail / master–detail:** [нормативная схема композиции](docs/patterns/list-detail-composition.md) и [исследование источников](docs/research/list-detail-composition-2026-11-22.md). Не делите навигационный список и длинную инструкцию поровну по ширине; короткие метки не должны сжимать длинный вопрос в несколько строк. Выбор, контекст, прокрутка, типографика и адаптация составляют один паттерн, а не набор произвольных отступов.
 
