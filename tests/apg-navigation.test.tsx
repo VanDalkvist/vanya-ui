@@ -161,7 +161,7 @@ describe("#15: current section reflects viewport/history, not last clicked item"
   });
 
   it("advances catalog → workspace → setup without reselecting catalog",()=>{
-    render(<section id="catalog"/><section id="workspace"/><section id="setup"/>);
+    render(<><section id="catalog"/><section id="workspace"/><section id="setup"/></>);
     const ids=["catalog","workspace","setup"] as const;
     const elements=ids.map(id=>document.getElementById(id)!);
     let bounds:[number,number][]=[[-700,180],[180,1100],[1100,1800]];
