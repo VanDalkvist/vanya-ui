@@ -6,6 +6,7 @@
 import {readFileSync,existsSync} from 'node:fs';
 import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {publicMarkdown} from './markdown-publication.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const required=[
  'llms.txt','llms-full.txt','index.md',
@@ -34,8 +35,16 @@ export function validatePublication(root=base){
  ];
  for(const [published,source] of canonical){
   const pub=join(root,'public',published),src=join(root,source);
-  if(existsSync(pub)&&existsSync(src)&&readFileSync(pub,'utf8')!==readFileSync(src,'utf8'))
-   errors.push('Generated reference is stale: '+published+' differs from '+source);
+  if(existsSync(pub)&&existsSync(src)&&readFileSync(pub,'utf8')!==publicMarkdown(source,readFileSync(src,'utf8')))
+   errors.push('Generated reference is stale or has broken links: '+published+' differs from '+source);
+ }
+ for(const [path] of canonical){
+  const published=join(root,'public',path);
+  if(existsSync(published)){
+   const md=readFileSync(published,'utf8');
+   if(/\]\(\.\.?\//.test(md))errors.push('Unresolved relative Markdown link in /'+path);
+   if(/<ui-folder>|<project-folder>/.test(md))errors.push('Unsafe angle-bracket command placeholder in /'+path);
+  }
  }
  const docs=[['llms.txt',llms],['index.md',overview],['llms-full.txt',full]];
  for(const [name,body] of docs){
