@@ -37,6 +37,8 @@
 .token-sample { display:flex; align-items:center; gap:12px; font-family:var(--font-mono); font-size:12px; }
 /* The longread ends with a signature and useful exits, not another main menu. */
 .showcase-footer { max-width:1280px; margin:clamp(64px,8vw,112px) auto 0; padding:clamp(36px,4vw,54px) var(--spacing-scene) 24px; border-top:1px solid var(--border); color:var(--ink-soft); }
+/* Keep the final footer controls above the floating help action. */
+.showcase-footer { padding-bottom:88px; }
 .showcase-footer-main { display:flex; justify-content:space-between; align-items:flex-start; gap:32px 64px; }
 .showcase-footer-identity { min-width:0; }
 .showcase-footer-home { display:inline-flex; align-items:center; width:max-content; max-width:100%; color:var(--ink); text-decoration:none; }
@@ -171,9 +173,14 @@ p { text-wrap:pretty; }
 .scene-catalog-link:hover { color:var(--accent); }
 .scene-keys-hint { display:inline-flex; align-items:center; gap:8px; color:var(--ink-faint); }
 .scene-keys-hint .ui-shortcut-keys { font-size:11px; }
-.showcase-shortcut-button { display:inline-grid; place-items:center; cursor:pointer; color:var(--ink-soft); border:0; background:transparent; min-width:32px; min-height:32px; padding:3px; }
-.showcase-shortcut-button:hover, .showcase-shortcut-button:focus-visible { color:var(--accent); outline-offset:2px; }
-.showcase-shortcut-button kbd { font-size:11px; }
+/* The only shortcut entry is a low-priority dock, never a second app header. */
+.showcase-github { display:inline-grid; place-items:center; flex:none; width:36px; height:36px; color:var(--ink-soft); border-radius:var(--radius-xs); text-decoration:none; }
+.showcase-github:hover { color:var(--accent); }
+.showcase-github:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.showcase-shortcut-dock { position:fixed; left:max(18px,env(safe-area-inset-left)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:29; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:7px 12px; border:1px solid var(--border-strong); border-radius:var(--radius-xs); background:var(--ground); color:var(--ink-soft); font:500 12px/1.4 var(--font-sans); cursor:pointer; box-shadow:0 2px 12px color-mix(in oklab,var(--ink) 6%,transparent); }
+.showcase-shortcut-dock:hover { border-color:var(--ink-faint); color:var(--ink); }
+.showcase-shortcut-dock:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.showcase-shortcut-dock kbd { font-size:10px; }
 .shortcut-pending { position:fixed; z-index:51; bottom:24px; left:50%; transform:translateX(-50%); padding:12px 18px; background:var(--surface-raised); border:1px solid var(--border-strong); color:var(--ink); font:500 13px var(--font-mono); box-shadow:var(--sheet-shadow); }
 .shortcut-pending span { color:var(--ink-soft); font:12px var(--font-sans); }
 .shortcut-help-list { margin:20px 0; border-block:1px solid var(--border); }
@@ -193,7 +200,8 @@ p { text-wrap:pretty; }
   .scene-intro h1 { font-size:clamp(25px,6vw,34px); }
   .scene-discovery { margin-top:18px; }
   .scene-keys-hint { display:none; }
-  .showcase-shortcut-button { min-width:36px; }
+  .showcase-shortcut-dock { width:44px; min-width:44px; padding:0; }
+  .showcase-shortcut-dock-label, .showcase-shortcut-dock kbd { display:none; }
 }
 
 /* Section captions stay quiet: no second table-of-contents block. */
