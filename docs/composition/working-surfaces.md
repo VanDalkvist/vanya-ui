@@ -80,3 +80,27 @@ This pattern is shared across all React apps built with Vanya UI.
 - Preserve mobile header composition: place daily destinations together and owner utilities separately; do not rely on unlabeled gear icons.
 
 References: [NN/g utility navigation](https://www.nngroup.com/articles/utility-navigation/), [NN/g information architecture](https://www.nngroup.com/articles/ia-study-guide/), [Material primary navigation](https://m1.material.io/components/bottom-navigation.html).
+
+## 8. Media catalogues and searchable collections
+
+Use the exported `MediaCard`, `SearchField`, `SectionToolbar variant="section"`, `SegmentedControl semantics="filters"`, `SelectField` and `ScrollRegion orientation="horizontal"` rather than duplicating their HTML and control styles inside each app. They are presentation primitives, not film-specific objects.
+
+- `MediaCard` supports `layout="poster"|"row"`: native artwork and title anchors, optional `eyebrow`, `subtitle`, `meta`, `overlay`, `footer` and `onNavigate`. Pass complete semantic media data and app-specific decisions through slots. **Don't** put provider logic, watchlist state, hardcoded themes or icon sets in the shared component.
+- `SearchField` is controlled by `value`/`onValueChange`, has an explicit accessible label and a clear button. Search/filter behavior remains in the application.
+- `SectionToolbar variant="section"` displays a meaningful subheading using the shared Manrope scale. The default `compact` variant preserves existing dense toolbars.
+- Keep search and selected scope in the first row, a handful of common filters immediately available, and rarer filters in a clearly labeled disclosure. Preserve all existing filter capabilities and a visible reset affordance when active.
+- Poster imagery needs a proper aspect ratio, descriptive alternative and enough resolution. Source retrieval and fallback strategy belong to the **domain app**, not the generic `MediaCard`.
+- A large grid should not repeat every available field beneath every poster. Prioritise a visible title, one informative subtitle, one correctly attributed score, and the main state/action. Further details belong in the existing `InspectDrawer`.
+- Do not shrink functional text to 9–11px to fit more columns. Use `ui-type-heading`, `ui-type-subheading`, `ui-type-compact` and `ui-type-caption`, adjusting column count before reducing typography.
+- On narrow widths, wrap the controls naturally. For a short horizontal media collection, use one labeled `ScrollRegion`; the main catalogue should use normal document scrolling.
+
+```tsx
+<SectionToolbar title="Коллекция" variant="section" count={filtered.length} total={items.length}/>
+<SearchField label="Поиск по коллекции" placeholder="Название" value={query} onValueChange={setQuery}/>
+<SegmentedControl semantics="filters" aria-label="Чья коллекция" value={scope} onChange={setScope}
+  items={[{id:"all",label:"Все"},{id:"mine",label:"Мои"}]}/>
+<MediaCard title={item.title} href={item.href} artwork={<img src={item.image} alt={item.title}/>}
+  subtitle={item.year} meta={item.author} footer={item.actions}/>
+```
+
+This pattern is intended for films, books, games, playlists, courses and other artwork-led collections. Reference: [NN/g progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/), [Baymard product list scanning and essential attributes](https://baymard.com/research-articles/product-listing-information).
