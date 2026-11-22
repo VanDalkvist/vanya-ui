@@ -28,6 +28,12 @@ The personal link's visible label is `Ваня Афанасов` above 1150px an
 
 The GitHub repository gets its own **exported SVG icon component** because this particular glyph stopped shipping in newer Lucide versions while a pinned consumer still uses the older outline. The component is only a graphic; link semantics, destination and accessible names belong to the caller. Unlike `GitHubIcon`, product-specific routes and author identities are **not** baked into the library.
 
+## Revision — right-side contrast and avatar hypothesis
+
+On 2026-11-22, the author evaluated adding a photo and noticed the GitHub/theme symbols appeared darker than the left navigation. Source confirmed that text links were `text-ink-soft/80` whereas icons used full `--ink-soft`. The header now opts into the same **80% muted ink** on both icon controls via `--ui-feedback-icon-ink`; hover, focus and opened-state accent remain independent.
+
+The portrait on the personal site currently identifies a **Telegram-channel link**; reusing that image for the design-system author link could wrongly imply an account/profile control. Keep a *named* author link and the single product logo. [Research and alternative critique](header-identity-hierarchy-loop-2026-11-22.md).
+
 ## Acceptance
 
 Check that the header shows the author link at 1440, 1150, 1024, 390 and 320px (including 200% zoom), alongside GitHub and theme. At narrow widths the nav may scroll horizontally, but utility links must never disappear. Verify keyboard focus and non-jumping shared header, light/dark, icon silhouette vs the source site, native Cmd/Ctrl-click, new-tab security and an accurate `rel=author` link. Static/unit tests cannot replace real screenshot/browser evidence.

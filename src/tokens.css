@@ -826,7 +826,7 @@
    Rich narrative timeline events remain a separate, explicitly expressive exception. */
 @layer utilities {
   .ui-feedback-icon {
-    color:var(--ink-soft); background:transparent;
+    color:var(--ui-feedback-icon-ink,var(--ink-soft)); background:transparent;
     transition:color var(--ui-feedback-duration) ease,background-color var(--ui-feedback-duration) ease;
   }
   .ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source {

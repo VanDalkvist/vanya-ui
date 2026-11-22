@@ -1,5 +1,7 @@
 .showcase-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px var(--spacing-scene); }
-.showcase-nav { column-gap:12px; }
+/* Match the neutral icon buttons with NavLinks / ActionLink text-ink-soft/80.
+   Default library icons remain unchanged; the page header opts into a quiet utility tier. */
+.showcase-nav { column-gap:12px; --ui-feedback-icon-ink:color-mix(in oklab,var(--ink-soft) 80%,transparent); }
 /* Author is a semantic external utility link, not another primary page/route.
    Appearance comes from shared ActionLink; only placement and responsive labels live here. */
 .showcase-author-link { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; flex:none; min-width:0; font-size:13px; text-decoration:none; }

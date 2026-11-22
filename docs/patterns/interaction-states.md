@@ -30,6 +30,12 @@ Hover означает *наведение доступным указателе
 
 Hover, focus, press and selected are different; a visible `:active` alone is not enough to acknowledge asynchronous completion. The canonical [action-feedback workflow](action-feedback.md) covers momentary press, caller-controlled pending/success/error and genuine keyboard actions. The [research and critical alternatives](../research/press-feedback-research-loop-2026-11-22.md) explain why automatic success animation and global toasts were rejected.
 
+### Группы утилит в шапке и визуальная иерархия
+
+У иконки нет права становиться визуально важнее соседнего текстового пункта *только потому, что ей присвоили другой токен*. Для дополнительных действий используйте единый приглушённый уровень: `ui-feedback-icon` поддерживает локальную переменную `--ui-feedback-icon-ink`, по умолчанию `var(--ink-soft)`. На витрине группа `showcase-nav` задаёт `color-mix(in oklab,var(--ink-soft) 80%,transparent)` — то же значение, что `text-ink-soft/80` у ссылок. Выбранный/открытый элемент сохраняет акцент, hover — нейтральный контрастный тон.
+
+**Не добавлять аватар автоматически** к ссылке на автора документации. В этой композиции он конкурирует с лого и создаёт ложный намёк на меню личного аккаунта. `AvatarLink` остаётся уместен там, где сама задача состоит в идентификации человека. [Research loop / critique](../research/header-identity-hierarchy-loop-2026-11-22.md).
+
 ### Общие интерфейсные роли
 
 Используйте **существующие компоненты**, а не копируйте Tailwind классы в продукты:
