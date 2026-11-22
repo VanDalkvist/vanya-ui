@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type KeyboardEvent } from "react";
 import { Sun, Moon, Laptop, Check } from "lucide-react";
 import { useTheme, type Theme } from "../hooks/useTheme";
 import { clsx } from "clsx";
@@ -22,6 +22,8 @@ export function ThemeToggle({
   const { theme, resolvedTheme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Всегда показываем иконку разрешенного состояния
   const ActiveIcon = resolvedTheme === "dark" ? Moon : Sun;
@@ -48,6 +50,29 @@ export function ThemeToggle({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    menuRef.current?.querySelector<HTMLButtonElement>('[role="menuitemradio"][aria-checked="true"]')?.focus();
+  }, [isOpen]);
+
+  function handleMenuKeys(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      setIsOpen(false);
+      triggerRef.current?.focus();
+      return;
+    }
+    if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const items = Array.from(menuRef.current?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') || []);
+    if (!items.length) return;
+    const current = items.indexOf(document.activeElement as HTMLButtonElement);
+    const next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 :
+      event.key === "ArrowDown" ? (current + 1) % items.length : (current + items.length - 1) % items.length;
+    items[next]?.focus();
+  }
+
   if (variant === "segmented") {
     return (
       <div
@@ -72,10 +97,10 @@ export function ThemeToggle({
               aria-pressed={isSelected}
               title={opt.label}
               className={clsx(
-                "grid size-6 place-items-center rounded-full border-0 bg-transparent transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+                "ui-feedback-segment grid size-6 place-items-center rounded-full border-0 bg-transparent cursor-pointer",
                 isSelected
                   ? "bg-surface text-accent shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
-                  : "text-ink-soft/70 hover:text-ink"
+                  : "text-ink-soft/70"
               )}
             >
               <Icon className="size-3.5" />
@@ -89,19 +114,23 @@ export function ThemeToggle({
   return (
     <div ref={containerRef} className={twMerge("relative inline-block", className)}>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={`Тема оформления: ${currentLabel}. Нажмите для смены.`}
         title={`Тема оформления: ${currentLabel}`}
         aria-expanded={isOpen}
-        className="pointer-events-auto inline-flex size-6 items-center justify-center appearance-none border-0 bg-transparent p-0 outline-none text-ink-soft/60 transition-colors duration-200 hover:text-ink cursor-pointer focus-visible:text-accent"
+        aria-haspopup="menu"
+        className="ui-feedback-icon pointer-events-auto inline-flex size-8 items-center justify-center appearance-none rounded-full border-0 p-0 cursor-pointer"
       >
-        <ActiveIcon className="size-4 transition-transform duration-200" />
+        <ActiveIcon className="size-3.5" />
       </button>
 
       {isOpen && (
         <div
+          ref={menuRef}
           role="menu"
+          onKeyDown={handleMenuKeys}
           className="absolute right-0 top-full mt-1.5 z-50 min-w-[140px] rounded-[4px] border border-border bg-surface-raised p-1 text-ink shadow-[0_4px_16px_rgba(0,0,0,0.18)] backdrop-blur-md"
         >
           {THEME_OPTIONS.map((opt) => {
@@ -110,17 +139,19 @@ export function ThemeToggle({
             return (
               <button
                 key={opt.id}
-                role="menuitem"
+                role="menuitemradio"
+                aria-checked={isSelected}
                 type="button"
                 onClick={() => {
                   setTheme(opt.id);
                   setIsOpen(false);
+                  triggerRef.current?.focus();
                 }}
                 className={clsx(
-                  "flex w-full cursor-pointer select-none items-center justify-between rounded-[2px] px-2.5 py-1.5 font-sans text-[12px] border-0 outline-none transition-colors",
+                  "ui-feedback-row flex w-full cursor-pointer select-none items-center justify-between rounded-[2px] px-2.5 py-1.5 font-sans text-[12px] border-0",
                   isSelected
-                    ? "bg-surface font-medium text-accent"
-                    : "bg-transparent text-ink-soft hover:bg-surface/50 hover:text-ink"
+                    ? "font-medium text-accent"
+                    : "text-ink-soft"
                 )}
               >
                 <span className="flex items-center gap-2">
