@@ -74,3 +74,15 @@ References: [Atlassian Page Header](https://atlassian.design/components/page-hea
 ### Preventing duplicate titles
 
 The `WorkspaceContextHeader.showTitle` flag is driven by the **visibility of the document's own h1 in its scroll owner**. While that heading is in view the shell shows only the real ancestor crumbs, count and actions. Once the in-document heading is no longer visible, the shell shows the title. The same title is never visible twice. Observe the document heading using `IntersectionObserver` rooted in the correct reader/viewport, not `window.scrollY`; reset when the selected document changes. A fixed global shell is not an excuse to repeat section-sized onboarding text above every article.
+
+## Regression: the scrolling page that looked like a workspace (2026-11-22)
+
+A compact navigation list plus a detailed article **does not become an independent workspace** just because the list uses `position:sticky`, `max-height:calc(100dvh - ...)`, and `overflow-y:auto`. When the *reader* still lives in normal document flow, scrolling the page sends its title out of view, moves the footer unpredictably relative to the list, and makes `scrollIntoView` move the entire screen after each selection. Centered `max-width` plus multiple outer paddings adds a large unrelated gap after the application sidebar.
+
+This is an application-level composition defect, not a missing low-level scroll component. Fix the **whole chain**: viewport-bounded shell, flex ancestors with `min-height:0`, main area with `overflow:hidden`, two sibling scroll owners, uncentered working canvas, one persistent global context header, and anchor-based navigation/history. Keep `max-width:66ch` on *reader prose*, not on the canvas.
+
+The app topbar breadcrumbs should follow the actual selection and reader section: clickable parent path, selected object, and the nearest section heading during article scroll. Track sections relative to the reader scroller. The reader heading may scroll away; the **context** must not. Do not add a second sticky toolbar over the reader.
+
+**Target regression cases:** scroll to the end of a 12-module catalogue and to the end of a long article independently; change modules while the article is at its end (new reader starts at its heading); use Back/Forward after clicking three modules; open a direct link to a deep module; compare collapsed vs. expanded app sidebar at 1440×900 and 1920×1080; test 1050px, 760px and 320px widths, 200% zoom, short viewport and keyboard focus. The product shell and title must remain stable without scroll jumps.
+
+Formal reusable rules and geometry: [list–detail composition](../patterns/list-detail-composition.md). Related prior research: Atlassian, Primer, NN/g and W3C links above.
