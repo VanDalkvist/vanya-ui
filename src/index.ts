@@ -121,3 +121,9 @@ export {Skeleton, SkeletonText, LoadingRegion, MediaCardSkeleton} from "./compon
 export type {SkeletonProps, SkeletonTextProps, LoadingRegionProps, MediaCardSkeletonProps, SkeletonShape} from "./components/Skeleton";
 
 export {FilterSelect, type FilterSelectProps, type FilterSelectOption} from "./components/FilterSelect";
+
+export {SurfaceHeader,type SurfaceHeaderProps} from "./components/SurfaceHeader";
+export {WorkflowStrip,type WorkflowStripProps} from "./components/WorkflowStrip";
+export {InspectorMeta,type InspectorMetaProps} from "./components/InspectorMeta";
+export type {InspectorCompactContext} from "./components/InspectDrawer";
+export {CostIndicator,type CostIndicatorProps,type CostCertainty} from "./components/CostIndicator";

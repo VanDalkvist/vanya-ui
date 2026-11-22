@@ -1,9 +1,37 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader, SurfaceHeader, WorkflowStrip, InspectorMeta, CostIndicator } from "../src/index";
 
 describe("Workspace primitives", () => {
+
+  it("does not misrepresent unknown costs as free or zero", () => {
+    render(<>
+      <CostIndicator label="Exa" usd={null} certainty="unknown"/>
+      <CostIndicator label="Перевод" usd={0} certainty="free"/>
+    </>);
+    expect(screen.getByText("Стоимость неизвестна")).toBeInTheDocument();
+    expect(screen.getByText("$0")).toBeInTheDocument();
+  });
+  it("includes the contextual source action without changing real breadcrumbs",()=>{
+    const onOpen=vi.fn();
+    render(<WorkspaceContextHeader breadcrumbs={[{id:"library",label:"Библиотека",href:"/#catalog"}]}
+      breadcrumbAccessory={<button onClick={onOpen}>Оригинал</button>}
+      title="Исследование" showTitle={false}/>);
+    expect(screen.getByRole("link",{name:"Библиотека"})).toHaveAttribute("href","/#catalog");
+    expect(screen.getByRole("navigation",{name:"Хлебные крошки"}).querySelectorAll("ol li")).toHaveLength(1);
+    fireEvent.click(screen.getByRole("button",{name:"Оригинал"}));expect(onOpen).toHaveBeenCalledOnce();
+  });
+  it("keeps a compact workflow and provenance details in the reader",()=>{
+    render(<>
+      <SurfaceHeader title="Агенты" eyebrow="Exa" collapseAnchor/>
+      <WorkflowStrip label="Перевод" status="2/15" progress={{value:2,max:15}}/>
+      <InspectorMeta summary="Происхождение">Получено из Exa</InspectorMeta>
+    </>);
+    expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow","2");
+    expect(screen.getByText("Происхождение").closest("details")).toBeInTheDocument();
+  });
+
   it("does not duplicate the in-document heading until that heading scrolls away", () => {
     const nav=[{id:"stage",label:"Читать"}];
     const view=render(<WorkspaceContextHeader title="Только один заголовок" breadcrumbs={nav} showTitle={false}

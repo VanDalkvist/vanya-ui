@@ -53,6 +53,18 @@
       ]
     },
     {
+      "name": "cost-indicator",
+      "type": "registry:ui",
+      "title": "CostIndicator",
+      "description": "React UI component CostIndicator from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/CostIndicator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "craft-card",
       "type": "registry:ui",
       "title": "CraftCard",
@@ -168,6 +180,18 @@
       "files": [
         {
           "path": "src/components/InspectDrawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "inspector-meta",
+      "type": "registry:ui",
+      "title": "InspectorMeta",
+      "description": "React UI component InspectorMeta from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/InspectorMeta.tsx",
           "type": "registry:ui"
         }
       ]
@@ -401,6 +425,18 @@
       ]
     },
     {
+      "name": "surface-header",
+      "type": "registry:ui",
+      "title": "SurfaceHeader",
+      "description": "React UI component SurfaceHeader from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/SurfaceHeader.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tag",
       "type": "registry:ui",
       "title": "Tag",
@@ -468,6 +504,18 @@
       "files": [
         {
           "path": "src/components/VoiceWaveIndicator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "workflow-strip",
+      "type": "registry:ui",
+      "title": "WorkflowStrip",
+      "description": "React UI component WorkflowStrip from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/WorkflowStrip.tsx",
           "type": "registry:ui"
         }
       ]
