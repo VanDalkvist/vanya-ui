@@ -1,14 +1,10 @@
 name: Vanya UI contract
-description: Fail changed UI features that bypass canonical components or browser test entrypoints
+description: Optional manual-only adapter that invokes the provider-independent local Vanya UI contract
 inputs:
   mode:
     description: auto, react, visual, or off for genuinely non-UI repos
     required: false
     default: auto
-  base-sha:
-    required: false
-    default: ""
-    description: Pull request base or previous push SHA
   root:
     required: false
     default: "."
@@ -19,6 +15,5 @@ runs:
       shell: bash
       env:
         VANYA_UI_MODE: ${{ inputs.mode }}
-        VANYA_UI_BASE: ${{ inputs.base-sha }}
         VANYA_UI_ROOT: ${{ inputs.root }}
       run: node "${{ github.action_path }}/check.mjs"

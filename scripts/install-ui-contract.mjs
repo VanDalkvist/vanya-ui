@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Bootstrap the shared UI contract into a project. No secrets or remote mutation.
+/** OPTIONAL GitHub-only adapter bootstrap. The real UI pipeline is scripts/ui-pipeline.mjs and skills/vanya-ui/SKILL.md. No secrets or remote mutation.
  * Usage: node scripts/install-ui-contract.mjs <project-root> <pinned-vanya-ui-sha>
  */
 import {existsSync,mkdirSync,writeFileSync} from 'node:fs';
@@ -19,10 +19,6 @@ export function install(root,sha){
   '        type: choice',
   '        options: [react, visual, auto]',
   '        default: react',
-  '      base_sha:',
-  '        description: Optional comparison commit SHA',
-  '        type: string',
-  '        required: false',
   'permissions:',
   '  contents: read',
   'jobs:',
@@ -35,7 +31,6 @@ export function install(root,sha){
   '      - uses: VanDalkvist/vanya-ui/.github/actions/ui-contract@'+sha,
   '        with:',
   '          mode: '+String.fromCharCode(36)+'{{ inputs.mode }}',
-  '          base-sha: '+String.fromCharCode(36)+'{{ inputs.base_sha }}',
   ''
  ].join('\n');
  const content='# Vanya Arc / UI — visual contract\n\nRead https://github.com/VanDalkvist/vanya-ui/blob/main/docs/patterns/ui-feature-pipeline.md before each UI feature. React projects must reuse pinned @vanya/ui components and tokens; static visuals should follow its token/pattern design. UI changes require real browser tests; a build is not UI QA. Backend/CLI/data-only changes skip.\n';

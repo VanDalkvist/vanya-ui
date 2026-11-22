@@ -12,10 +12,6 @@ on:
         type: choice
         options: [react, visual, auto]
         default: react
-      base_sha:
-        description: Optional comparison commit SHA
-        type: string
-        required: false
 permissions:
   contents: read
 jobs:
@@ -28,7 +24,6 @@ jobs:
       - uses: VanDalkvist/vanya-ui/.github/actions/ui-contract@<VANYA_UI_ACTION_SHA>
         with:
           mode: ${{ inputs.mode }}
-          base-sha: ${{ inputs.base_sha }}
 ```
 
 
