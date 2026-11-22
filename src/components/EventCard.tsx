@@ -48,7 +48,7 @@ export function EventCard({
           <button
             type="button"
             onClick={onClose}
-            className="-mt-1 min-h-9 appearance-none border-0 bg-transparent px-1 font-sans text-[11px] tracking-[0.24em] text-ink-soft uppercase transition-colors hover:text-accent cursor-pointer"
+            className="ui-feedback-nav -mt-1 min-h-9 appearance-none border-0 bg-transparent px-1 font-sans text-[11px] tracking-[0.24em] text-ink-soft uppercase cursor-pointer"
           >
             Закрыть
           </button>
