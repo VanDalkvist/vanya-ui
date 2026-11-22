@@ -23,14 +23,42 @@ describe("shortcut notation and keyboard UX", () => {
     expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(2);
   });
 
-  it("opens real help from the header and offers visible navigation and opt-out", () => {
+  it("opens real help from the corner dock and offers visible navigation and opt-out", () => {
     render(<Showcase/>);
-    fireEvent.click(screen.getByRole("button",{name:"Горячие клавиши"}));
+    expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+    const dock=screen.getByRole("button",{name:"Горячие клавиши"});
+    expect(dock).toHaveClass("showcase-shortcut-dock");
+    expect(document.querySelector(".showcase-header .showcase-shortcut-button")).not.toBeInTheDocument();
+    fireEvent.click(dock);
     const dialog=screen.getByRole("dialog",{name:"Горячие клавиши"});
     expect(within(dialog).getByRole("link",{name:"Айдентика"})).toHaveAttribute("href","/#identity");
     expect(within(dialog).getByRole("checkbox",{name:/Быстрые переходы включены/})).toBeChecked();
     fireEvent.keyDown(dialog,{key:"Escape",code:"Escape"});
     expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+  });
+
+  it("has one keyboard-accessible GitHub icon link in the top navigation", () => {
+    render(<Showcase/>);
+    const header=document.querySelector(".showcase-header") as HTMLElement;
+    const github=within(header).getByRole("link",{name:/GitHub — исходники Vanya UI/});
+    expect(github).toHaveAttribute("href","https://github.com/VanDalkvist/vanya-ui");
+    expect(github).toHaveAttribute("target","_blank");
+    expect(github).toHaveAttribute("rel","noopener noreferrer");
+    expect(github).toHaveClass("showcase-github");
+    expect(within(header).queryByRole("button",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+  });
+
+  it("opens help with ? and preserves the pointer entry after opt-out", () => {
+    render(<Showcase/>);
+    fireEvent.keyDown(window,{key:"?",code:"Slash",shiftKey:true});
+    const dialog=screen.getByRole("dialog",{name:"Горячие клавиши"});
+    expect(dialog).toBeInTheDocument();
+    fireEvent.click(within(dialog).getByRole("checkbox",{name:/Быстрые переходы включены/}));
+    fireEvent.click(within(dialog).getByRole("button",{name:"Закрыть инспектор"}));
+    fireEvent.keyDown(window,{key:"?",code:"Slash",shiftKey:true});
+    expect(screen.queryByRole("dialog",{name:"Горячие клавиши"})).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button",{name:"Горячие клавиши"}));
+    expect(screen.getByRole("dialog",{name:"Горячие клавиши"})).toBeInTheDocument();
   });
 
   it("uses a real URL fragment for G → I and preserves normal browser shortcuts", () => {
