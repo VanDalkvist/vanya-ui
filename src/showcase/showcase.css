@@ -285,3 +285,13 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
  .demo-loading-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
  .demo-loading-grid>*:nth-child(3){display:none;}
 }
+
+/* Compact toolbar specimen: scroll only the demonstration, not the document. */
+.demo-compact-filter-strip{
+ display:flex;align-items:center;gap:10px;min-width:0;width:100%;
+ overflow-x:auto;overflow-y:hidden;padding:5px 2px 10px;
+ scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.demo-compact-filter-search{min-width:200px;flex:1 1 280px;}
+.demo-compact-filter-strip>.ui-segments{flex:0 0 auto;}
+.demo-compact-filter-strip>.ui-select-field{width:155px;flex:0 0 155px;}
