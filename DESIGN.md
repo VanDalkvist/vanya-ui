@@ -73,6 +73,8 @@ Public HTML is pre-rendered at build time and hydrated by React. The curated `ll
 
 ## Workspace composition
 
+**Mandatory for UI changes in all owned repositories:** [UI feature pipeline](docs/patterns/ui-feature-pipeline.md). Before implementation read the actual package exports and scroll/navigation rules; on every UI PR run the [cross-repository UI contract action](.github/actions/ui-contract/action.yml) and a real browser test. A build alone cannot certify layout or scroll behavior.
+
 **List–detail / master–detail:** [нормативная схема композиции](docs/patterns/list-detail-composition.md) и [исследование источников](docs/research/list-detail-composition-2026-11-22.md). Не делите навигационный список и длинную инструкцию поровну по ширине; короткие метки не должны сжимать длинный вопрос в несколько строк. Выбор, контекст, прокрутка, типографика и адаптация составляют один паттерн, а не набор произвольных отступов.
 
 The merged workspace primitives are `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceActionBar`, `WorkspaceEmptyState`, `StickyContextBar`, and `WorkspaceContextHeader`. Use one compact global header, not a second sticky header for each reader. Scope scrollbar styles to owned regions. Use real hrefs for navigable breadcrumbs. Research: [workspace scroll composition](docs/research/workspace-scroll-composition-2026-11-21.md).
