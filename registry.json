@@ -137,6 +137,18 @@
       ]
     },
     {
+      "name": "filter-select",
+      "type": "registry:ui",
+      "title": "FilterSelect",
+      "description": "React UI component FilterSelect from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/FilterSelect.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hearth-pulse",
       "type": "registry:ui",
       "title": "HearthPulse",
