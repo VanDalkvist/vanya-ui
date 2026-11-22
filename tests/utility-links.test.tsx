@@ -11,8 +11,10 @@ describe("Shared destination links and the independent GitHub glyph",()=>{
   const link=screen.getByRole("link",{name:"Ваня Афанасов"});
   expect(link).toHaveAttribute("href","https://vanya-arc.dev/");
   expect(link.getAttribute("rel")?.split(" ")).toEqual(expect.arrayContaining(["author","noopener","noreferrer"]));
-  expect(link.className).toContain("focus-visible:outline");
-  expect(link.className).not.toContain("focus-visible:outline-none");
+  expect(link).toHaveClass("ui-feedback-text");
+  const styles=readFileSync(resolve(import.meta.dirname,"../src/tokens.css"),"utf8");
+  expect(styles).toContain(".ui-feedback-source):focus-visible");
+  expect(styles).toContain("outline:2px solid var(--accent)");
  });
  it("keeps the author link visible on compact screens instead of hiding the personal homepage",()=>{
   const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
