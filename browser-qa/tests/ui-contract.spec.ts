@@ -9,19 +9,27 @@ async function capture(page:Page,info:TestInfo,name:string) {
 }
 
 /** Physical hit test: checks what actually receives a pointer, not just JSX visibility. */
-async function assertUnobstructed(locator:ReturnType<Page["locator"]>) {
-  await locator.scrollIntoViewIfNeeded();
-  const result=await locator.evaluate((target:Element)=>{
+/** Sample the actual pointer target at multiple points, including the right edge of the
+ * hero slider where the old floating shortcut dock obscured it. This MUST fail for
+ * any covering element even if the slider remains visible in the accessibility tree. */
+async function assertUnobstructed(locator:ReturnType<Page["locator"]>,fractions=[0.5],scroll=true) {
+  if(scroll)await locator.scrollIntoViewIfNeeded();
+  const result=await locator.evaluate((target:Element,parts:number[])=>{
     const rect=target.getBoundingClientRect();
-    const x=rect.left+rect.width/2;
-    const y=rect.top+rect.height/2;
-    const onScreen=x>=0&&y>=0&&x<innerWidth&&y<innerHeight;
-    const top=onScreen?document.elementFromPoint(x,y):null;
-    return {onScreen,interactable:!!top&&(target===top||target.contains(top)),
-      covering:top?.tagName.toLowerCase()||null,rect:{x:rect.x,y:rect.y,width:rect.width,height:rect.height}};
-  });
-  expect(result.onScreen,JSON.stringify(result)).toBe(true);
-  expect(result.interactable,JSON.stringify(result)).toBe(true);
+    return parts.map(fraction=>{
+      const x=rect.left+rect.width*fraction;
+      const y=rect.top+rect.height/2;
+      const onScreen=x>=0&&y>=0&&x<innerWidth&&y<innerHeight;
+      const top=onScreen?document.elementFromPoint(x,y):null;
+      return {fraction,onScreen,interactable:!!top&&(target===top||target.contains(top)),
+        covering:top?.tagName.toLowerCase()||null,
+        rect:{x:rect.x,y:rect.y,width:rect.width,height:rect.height}};
+    });
+  },fractions);
+  for(const sample of result){
+    expect(sample.onScreen,JSON.stringify(sample)).toBe(true);
+    expect(sample.interactable,JSON.stringify(sample)).toBe(true);
+  }
 }
 
 for(const size of [
@@ -38,12 +46,24 @@ for(const size of [
       expect(await page.locator(".showcase-shortcut-dock").count()).toBe(0);
       const slider=page.getByRole("slider",{name:"Расстояние между событиями"});
       await expect(slider).toBeVisible();
-      await assertUnobstructed(slider);
+      // Capture the ORIGINAL viewport before scrollIntoViewIfNeeded can move the target.
+      await capture(page,info,"hero-initial-"+size.name+"-"+theme);
+      const isInitiallyVisible=await slider.evaluate(el=>{
+        const r=el.getBoundingClientRect();
+        return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth;
+      });
+      if(isInitiallyVisible)await assertUnobstructed(slider,[0.15,0.5,0.85],false);
+      await assertUnobstructed(slider,[0.15,0.5,0.85]);
       const before=Number(await slider.inputValue());
       await slider.focus();
       await slider.press("ArrowRight");
       expect(Number(await slider.inputValue())).toBeGreaterThan(before);
-      await capture(page,info,"hero-"+size.name+"-"+theme);
+      const afterKeyboard=Number(await slider.inputValue());
+      const box=await slider.boundingBox();
+      expect(box).not.toBeNull();
+      await slider.click({position:{x:box!.width*0.85,y:box!.height/2}});
+      await expect.poll(async()=>Number(await slider.inputValue())).toBeGreaterThan(afterKeyboard);
+      await capture(page,info,"hero-control-"+size.name+"-"+theme);
     });
   }
 }
@@ -62,6 +82,17 @@ test("02 native current-section navigation survives scroll and history",async({p
   await expect(sectionLink(page,"Компоненты")).toHaveAttribute("aria-current","location");
   await page.goto("/#typography");
   await expect(sectionLink(page,"Шрифты")).toHaveAttribute("aria-current","location");
+  // A real scroll without clicking any link must update the current section.
+  await page.locator("#writing").evaluate(el=>el.scrollIntoView({block:"start"}));
+  await expect(sectionLink(page,"Тексты")).toHaveAttribute("aria-current","location");
+  await expect(page.locator('.showcase-nav a[aria-current="location"]')).toHaveCount(1);
+  await page.locator("#workspace").evaluate(el=>el.scrollIntoView({block:"start"}));
+  await expect(sectionLink(page,"Рабочие поверхности")).toHaveAttribute("aria-current","location");
+  // The workspace is nested inside #catalog. Returning to a later catalogue
+  // section should activate the parent, not leave the old workspace selected.
+  await page.locator("#energy").evaluate(el=>el.scrollIntoView({block:"start"}));
+  await expect(sectionLink(page,"Компоненты")).toHaveAttribute("aria-current","location");
+  await expect(page.locator('.showcase-nav a[aria-current="location"]')).toHaveCount(1);
   await capture(page,info,"header-current-section");
 });
 
@@ -90,7 +121,11 @@ test("03 theme menu Tab, Shift+Tab, arrows and Escape remain usable",async({page
   await toggle.click();
   await menu.getByRole("menuitemradio",{name:"Тёмная"}).press("Tab");
   await expect(menu).toHaveCount(0);
-  await expect(toggle).not.toBeFocused();
+  await expect(page.getByRole("link",{name:/Перейти к компонентам/})).toBeFocused();
+  await toggle.click();
+  await menu.getByRole("menuitemradio",{name:"Тёмная"}).press("Shift+Tab");
+  await expect(menu).toHaveCount(0);
+  await expect(page.getByRole("link",{name:/GitHub — исходники Vanya UI/}).first()).toBeFocused();
   await capture(page,info,"theme-menu-keyboard");
 });
 
@@ -108,8 +143,14 @@ test("04 native filter buttons and connected tabs behave differently",async({pag
   const panel=section.getByRole("tabpanel",{name:"Исследование"});
   await expect(panel).toBeVisible();
   expect(await explore.getAttribute("aria-controls")).toBe(await panel.getAttribute("id"));
+  await explore.press("Tab");
+  await expect(panel).toBeFocused(); // keyboard actually reaches visible panel content
+  await read.focus();
+  await read.press("End");
+  await expect(explore).toBeFocused();
   await explore.press("Home");
   await expect(read).toHaveAttribute("aria-selected","true");
+  await expect(section.getByRole("tabpanel",{name:"Чтение"})).toContainText("Текст романа");
   await capture(page,info,"filter-versus-tabs");
 });
 
@@ -120,9 +161,12 @@ test("05 drawer opens and closes without obscuring its trigger permanently",asyn
   await trigger.click();
   const dialog=page.getByRole("dialog");
   await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText("Описание проекта");
+  await expect(dialog).toContainText("Здесь можно разместить описание");
   await capture(page,info,"drawer-open");
   await page.keyboard.press("Escape");
   await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused(); // drawer restores the real opener, not just closes
   await assertUnobstructed(trigger);
 });
 
@@ -137,12 +181,24 @@ test("06 independent reader/list scroll owners do not move one another",async({p
   const leftPos=await left.evaluate(el=>el.scrollTop);
   expect(leftPos).toBeGreaterThan(0);
   expect(await right.evaluate(el=>el.scrollTop)).toBe(initial);
+  await right.evaluate(el=>{el.scrollTop=el.scrollHeight;});
+  const rightPos=await right.evaluate(el=>el.scrollTop);
+  expect(rightPos).toBeGreaterThan(0);
+  expect(await left.evaluate(el=>el.scrollTop)).toBe(leftPos);
+  await left.evaluate(el=>{el.scrollTop=0;});
+  expect(await right.evaluate(el=>el.scrollTop)).toBe(rightPos);
   await capture(page,info,"independent-scroll-owners");
 });
 
-test("07 hover, press and result are distinct and never report false success",async({page},info)=>{
+test("07 pressed feedback and real counter outcome are distinct from mere hover",async({page},info)=>{
   await page.goto("/#interaction-states");
-  const action=page.locator("#interaction-states").getByRole("button",{name:"Проверить действие"});
+  const group=page.locator("#interaction-states");
+  // Use a stable selector: the successful result adds an accessible status to the
+  // button's name, so re-querying by its OLD name would be a false test failure.
+  const action=group.locator('button[data-action-state]').first();
+  const output=group.locator('output[role="status"]');
+  await expect(output).toHaveText("Нажми, чтобы увидеть подтверждение");
+  await expect(action).toHaveAttribute("data-action-state","idle");
   await assertUnobstructed(action);
   await action.hover();
   const hover=await action.evaluate(el=>getComputedStyle(el).backgroundColor);
@@ -150,17 +206,46 @@ test("07 hover, press and result are distinct and never report false success",as
   expect(r).not.toBeNull();
   await page.mouse.move(r!.x+r!.width/2,r!.y+r!.height/2);
   await page.mouse.down();
-  const pressed=await action.evaluate(el=>getComputedStyle(el).backgroundColor);
+  // Outline buttons really DO change their background on :active; use polling
+  // to avoid reading a mid-transition hover frame.
+  await expect.poll(async()=>action.evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(hover);
   await page.mouse.up();
-  expect(pressed).not.toBe(hover);
+  await expect(output).toHaveText("Нажатие принято · 1");
   await expect(action).toHaveAttribute("data-action-state","success");
+  await action.click();
+  await expect(output).toHaveText("Нажатие принято · 2");
   await capture(page,info,"pressed-and-result");
+});
+
+test("07b pending must not turn into success without a deliberate result",async({page},info)=>{
+  await page.goto("/#action-feedback");
+  const group=page.locator("#action-feedback");
+  const action=group.locator('button[data-action-state]').first();
+  const output=group.locator('output[role="status"]');
+  await expect(output).toHaveText("Действие ещё не запускали.");
+  await action.click();
+  await expect(action).toHaveAttribute("data-action-state","pending");
+  await expect(action).toHaveAttribute("aria-disabled","true");
+  await expect(output).toHaveText("Приложение выполняет действие; повторный клик заблокирован.");
+  await expect(output).not.toContainText("выполнено");
+  await group.getByRole("button",{name:"Вернуть ошибку"}).click();
+  await expect(action).toHaveAttribute("data-action-state","error");
+  await expect(output).toHaveText("Тестовый результат: ошибка. Можно повторить.");
+  await group.getByRole("button",{name:"Сбросить"}).click();
+  await expect(action).toHaveAttribute("data-action-state","idle");
+  await expect(output).toHaveText("Действие ещё не запускали.");
+  await action.click();
+  await group.getByRole("button",{name:"Подтвердить успех"}).click();
+  await expect(output).toHaveText("Тестовый результат: выполнено.");
+  await expect(action).toHaveAttribute("data-action-state","success");
+  await capture(page,info,"pending-explicit-result");
 });
 
 test("08 shortcuts and 200% CSS zoom approximation leave core controls reachable",async({page},info)=>{
   await page.setViewportSize({width:390,height:844});
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("/");
+  expect(await page.evaluate(()=>matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(true);
   await page.evaluate(()=>{document.documentElement.style.zoom="2";});
   const slider=page.getByRole("slider",{name:"Расстояние между событиями"});
   await assertUnobstructed(slider);
