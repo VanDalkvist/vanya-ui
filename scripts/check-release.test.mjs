@@ -64,3 +64,19 @@ test('consumer CSS oracle checks emitted tokens and rejects missing library or u
  assert.doesNotThrow(()=>assertConsumerCss(css));
  for(const token of ['--accent:','.ui-action-button','.rounded-sm'])assert.throws(()=>assertConsumerCss(css.replace(token,'missing')),/Expected shared CSS/);
 });
+
+
+test('consumer lock oracle binds direct requested and resolved package; unrelated SHA cannot pass',async()=>{
+ const {assertConsumerLock}=await import('./consumer-smoke.mjs');
+ const sha='ef40f50e9f62a4780c35181391c0309fe50fee5e';
+ const url='https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/'+sha;
+ const npm=JSON.stringify({packages:{'':{dependencies:{'@vanya/ui':url}},'node_modules/@vanya/ui':{resolved:url},'node_modules/unrelated':{resolved:url}}});
+ const bun='{\n "workspaces": {\n  "": {\n   "dependencies": {\n    "@vanya/ui": "'+url+'",\n   },\n  },\n },\n "packages": {\n  "@vanya/ui": ["@vanya/ui@'+url+'", {}, "sha512-synthetic"],\n  "unrelated": ["unrelated@'+url+'", {}, "sha512-synthetic"],\n },\n}';
+ for(const [manager,lock] of [['npm',npm],['bun',bun]]){
+  assert.doesNotThrow(()=>assertConsumerLock(lock,manager,sha));
+  assert.throws(()=>assertConsumerLock(lock.replace(url,url.replace(sha,'0'.repeat(40))),manager,sha),/Direct consumer dependency/);
+  const wrong=lock.replace(manager==='npm'?'"resolved":"'+url+'"':'"@vanya/ui@'+url+'"',manager==='npm'?'"resolved":"https://example.invalid/wrong"':'"@vanya/ui@https://example.invalid/wrong"');
+  assert.notEqual(wrong,lock);
+  assert.throws(()=>assertConsumerLock(wrong,manager,sha),/Direct consumer dependency/);
+ }
+});

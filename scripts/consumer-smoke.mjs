@@ -38,6 +38,26 @@ export function fixture(sha, row) {
   };
 }
 
+// Verify the resolved direct dependency, not an arbitrary occurrence of the SHA.
+export function assertConsumerLock(lock, manager, sha) {
+  const url = "https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/" + sha;
+  let requested, resolved;
+  if(manager==="npm") {
+    const parsed=JSON.parse(lock);
+    requested=parsed.packages?.[""]?.dependencies?.["@vanya/ui"];
+    resolved=parsed.packages?.["node_modules/@vanya/ui"]?.resolved;
+  } else if(manager==="bun") {
+    // bun.lock is JSONC; inspect the direct workspace and exact package tuple.
+    const split=lock.indexOf('"packages":');
+    if(split<0)throw new Error("Missing Bun package records");
+    const workspace=lock.slice(0,split), packages=lock.slice(split);
+    requested=workspace.match(/^[ \t]*"@vanya\/ui"\s*:\s*"([^"]+)"\s*,?\s*$/m)?.[1];
+    resolved=packages.match(/^[ \t]*"@vanya\/ui"\s*:\s*\[\s*"([^"]+)"/m)?.[1];
+    if(resolved?.startsWith("@vanya/ui@"))resolved=resolved.slice("@vanya/ui@".length);
+  } else throw new Error("Unsupported consumer lock format");
+  if(requested!==url||resolved!==url)throw new Error("Direct consumer dependency does not resolve to pinned SHA");
+}
+
 // Tailwind's inline theme aliases can be inlined away. Check a real brand token,
 // shared interaction rule, and a utility emitted by the source scanner.
 export function assertConsumerCss(css) {
@@ -81,7 +101,10 @@ async function main() {
         run(cwd,row.manager,["install"]);
         // The generated lockfile must retain the requested immutable tarball reference.
         const lock=readFileSync(join(cwd,row.manager==="npm"?"package-lock.json":"bun.lock"),"utf8");
-        if(!lock.includes(sha))throw new Error("Pinned SHA missing from consumer lockfile");
+        assertConsumerLock(lock,row.manager,sha);
+        const installed=JSON.parse(readFileSync(join(cwd,"node_modules","@vanya","ui","package.json"),"utf8"));
+        if(installed.name!=="@vanya/ui")throw new Error("Wrong installed package");
+        receipt.packageVersion=installed.version;
         receipt.checks.install="PASS";
         phase="types";run(cwd,row.manager,["run","types"]);receipt.checks.types="PASS";
         phase="client";run(cwd,row.manager,["run","build"]);
@@ -104,7 +127,7 @@ async function main() {
     writeFileSync(join(root,"receipt.json"),JSON.stringify(results,null,2)+"\n");
     console.log(JSON.stringify(receipt));
   }
-  console.log("Receipts and lockfiles retained at "+root);
+  console.log("Receipts and lockfiles retained at "+root+" (local only; review for private paths before sharing)");
   if(!prepare&&results.some(r=>r.status!=="PASS"))process.exitCode=1;
 }
 

@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.19] - 2026-11-25
+
+### Fixed — QA integrity
+- Validate the direct consumer lock resolution and installed package identity; document transitive browser toolchain pinning and private receipt handling.
+
 ## [0.3.18] - 2026-11-25
 
 ### Fixed — licensing documentation
