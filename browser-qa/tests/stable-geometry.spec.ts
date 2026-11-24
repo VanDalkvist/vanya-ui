@@ -56,10 +56,20 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
     const manyPoints = await series.getAttribute("points");
     expect(manyPoints).toBeTruthy();
     const before = await geometry(anchors);
+    const controlsEncloseButtons = () => controls.evaluate(el => {
+      const outer = el.getBoundingClientRect();
+      return Array.from(el.querySelectorAll("button")).every(button => {
+        const r = button.getBoundingClientRect();
+        return r.left >= outer.left - 1 && r.right <= outer.right + 1 &&
+          r.top >= outer.top - 1 && r.bottom <= outer.bottom + 1;
+      });
+    });
     const assertStable = async () => {
       await expect.poll(async () => largestShift(before, await geometry(anchors))).toBeLessThanOrEqual(1);
       expect(await section.evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
+      expect(await controlsEncloseButtons(), "all selector rows must fit inside the visible group").toBe(true);
     };
+    await assertStable();
 
     await pick("empty");
     await expect(results.getByText("Нет проектов",{exact:true})).toBeVisible();
@@ -107,6 +117,11 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
       await plot.evaluate(el => { (el as HTMLElement).style.marginTop="12px"; });
       expect(largestShift(before,await geometry(anchors))).toBeGreaterThan(1);
       await plot.evaluate(el => { (el as HTMLElement).style.marginTop=""; });
+      await assertStable();
+      // Reproduce the observed two-row selector overflowing its single-row token height.
+      await controls.evaluate(el => { (el as HTMLElement).style.height="var(--ui-height)"; });
+      expect(await controlsEncloseButtons()).toBe(false);
+      await controls.evaluate(el => { (el as HTMLElement).style.height=""; });
       await assertStable();
     }
   });

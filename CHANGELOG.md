@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-11-25
+
+### Fixed
+- Let the two-row showcase selector grow with its actual content, preserving one enclosing surface. Browser regression now detects children outside their group's geometry, including a negative control reproducing the original fixed height.
+
 ## [0.3.5] - 2026-11-25
 
 ### Added
