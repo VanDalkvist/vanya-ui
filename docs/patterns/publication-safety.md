@@ -18,6 +18,8 @@ Both the repository `VanDalkvist/vanya-ui` and the deployed website `https://ui.
 - Public references and deliberately shared project URLs, with no secret query parameters or authorization context.
 - Sanitized examples **only after verifying** that no private detail, identifying metadata or embedded credential remains.
 
+Public verification receipts may include the public commit SHA, public URL, test counts and asset filenames. Keep provider account/build IDs, dashboard URLs, private session references, raw logs and comment edit history out of public reports. Review PR and issue descriptions and comments as well as Git diffs.
+
 ## Mandatory release checklist
 
 1. Review the complete commit diff, including generated files and deleted files (history remains public).

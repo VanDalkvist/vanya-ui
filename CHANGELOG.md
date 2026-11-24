@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.13] - 2026-11-25
+
+### Fixed — publication hygiene
+- Minimize internal verification metadata in public documentation and clarify safe evidence reporting.
+
 ## [0.3.12] - 2026-11-25
 
 ### Fixed — manual QA

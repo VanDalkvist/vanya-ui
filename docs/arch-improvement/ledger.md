@@ -57,7 +57,7 @@
 - Bounded real-component repairs: obsolete OfferCard ActionButton variants; readable metadata; theme-aware category contrast; stable preview borders on hover.
 
 ### Verification receipts
-- Full Vitest suite: 8/8 passed (four baseline tests plus four focused regressions); report: BB thread thr_iqfqpdagcr / ui-tests.json.
+- Full Vitest suite: 8/8 passed (four baseline tests plus four focused regressions); report: BB thread [internal reference omitted] / ui-tests.json.
 - TypeScript noEmit: exit 0. Baseline obsolete OfferCard variants previously failed this check.
 - Production Vite build: exit 0; index.html and showcase.html both emitted and visited via a separately owned preview server.
 - Browser smoke: 15 passed, no runtime errors; production acceptance: 6 passed. Covered native sheet, focus, Escape, theme persistence, data selection, disclosures, mobile overflow, spacing changes, reduced motion and both built URLs.
@@ -97,7 +97,7 @@
 - Theme-sync regression observed failing with notification disabled, then green restored. No new test framework or coverage campaign.
 - Compiled-browser smoke: 17 checks passed, no runtime errors. Both HTML URLs verified, along with exact header/title, CTA removal, sticky header/anchor clearance, all 26 named rows, intrinsic segment widths, four harness identities/distributions, 17 minimap ticks and seek, synchronized theme controls and mobile overflow.
 - Segment geometry: trailing inset 3px at both shown sizes, instead of a stretched empty tail.
-- Screenshots: BB thread thr_iqfqpdagcr / refined-{scene,controls,radar,mobile}.jpg. Browser reports: refinements-browser-checks.json; tests: refinements-tests.json.
+- Screenshots: BB thread [internal reference omitted] / refined-{scene,controls,radar,mobile}.jpg. Browser reports: refinements-browser-checks.json; tests: refinements-tests.json.
 - Sync idempotent; whitespace clean. Detector retains only the pinned cream-palette warning and an em-dash advisory; no clean-detector claim.
 
 ### Architecture verification — scoped author review
@@ -112,7 +112,7 @@
 ## Cycle 4 — Passive labels, copy, common sizes and review follow-ups (2026-11-06)
 
 ### User scope and changes
-- Checked primary Carbon/GOV.UK tag guidance: read-only labels do not have clickable hover/focus states; actionable variants must be distinguishable. Informational chart titles are not a click action. Source URLs and the working plan are in docs/superpowers/plans/2026-11-06-passive-labels-and-copy.md; raw source evidence is tag-hover-primary-sources.md in BB thread thr_iqfqpdagcr.
+- Checked primary Carbon/GOV.UK tag guidance: read-only labels do not have clickable hover/focus states; actionable variants must be distinguishable. Informational chart titles are not a click action. Source URLs and the working plan are in docs/superpowers/plans/2026-11-06-passive-labels-and-copy.md; raw source evidence is tag-hover-primary-sources.md in BB thread [internal reference omitted].
 - Tag and MeshStatusBadge render static spans without an action and native buttons when onClick is supplied. Disabled controls do not show enabled hover feedback. Toggle tags expose aria-pressed only when isActive is actually supplied. Static preview images and card containers no longer suggest a click; nested park remains actionable. Clickable project titles use native buttons without nesting the park button.
 - Applied redaktura and ux-copy to scene, descriptions, sample content, overlays and indicator defaults. Removed atmospheric assertions and the stale default three-project quota label. The user explicitly corrected a removal proposal: the intro was never removed and is retained, with a literal heading and a smaller 24–28px hierarchy. Palette, spacing composition and wave remain.
 - Radar now takes the full catalogue width; legend items do not break internally and the total has its own clearance. Setup is always visible in a separate section after all components, rather than expanding above them.
@@ -123,7 +123,7 @@
 - Full Vitest suite: 18 passed. Focused passive-label and size-contract regressions were first observed failing. TypeScript, production build, sync idempotence and git diff --check pass.
 - Chrome/dev browser: 34 passed, no runtime errors. Actual computed hover compared in both themes for passive labels/cards and chart bars. Native Enter/Space, disabled actions, dialog Escape/focus return, image scale feedback and separate title/park actions checked.
 - Measured both actual sizes across all eight families, including font/line/icon metrics: common 24/32px outer heights. Checked full-width radar, wrapping legend and detached setup; both entry URLs render without mobile overflow. Header including original-site link remains within 88px at 390px viewport.
-- Reports: passive-labels-tests.json, passive-labels-browser-checks.json. Screenshots: passive-labels-{scene,radar,mobile}.jpg and component-sizes.jpg in BB thread thr_iqfqpdagcr. Retook light screenshots after theme transitions settled.
+- Reports: passive-labels-tests.json, passive-labels-browser-checks.json. Screenshots: passive-labels-{scene,radar,mobile}.jpg and component-sizes.jpg in BB thread [internal reference omitted]. Retook light screenshots after theme transitions settled.
 
 ### Architecture verification — scoped author self-review
 - Passed: AP-046 (additive props and retained xs alias, documented visual migration), AP-054/AP-069 (static versus actionable semantics, native keyboard controls, disabled/focus behavior), AP-068 (one executable size foundation, unchanged palette), AP-070 (motion preference preserved).
@@ -144,7 +144,7 @@
 - Full suite: 24 passed; TypeScript, production Vite build, generated-reference sync and whitespace check pass. Initial source-geometry/native-action regressions were observed red before implementation.
 - Compiled Chrome checks: 33 passed with no runtime errors, covering both entrypoints, responsive coordinates, ghost/point anchoring, unique gradient IDs, source hover colors/shadows, native Enter/Space, disabled behavior, shared focus, dialog/Escape/focus return, spacing extremes, light/dark, mobile/reduced-motion and the corrected one-pixel divider.
 - Follow-up probes verify intro/canvas separation, curve/echo containment, real shared radar selection and distribution updates, external-link affordance, and an adversarial later point placed beneath a card to verify native paint/hit-test ordering.
-- Reports and inspected screenshots: BB thread thr_iqfqpdagcr / wave-events-{tests,browser-checks}.json and wave-events-{scene,components,dark,mobile}.jpg. Public reference was inspected independently; no full pixel-equivalence claim.
+- Reports and inspected screenshots: BB thread [internal reference omitted] / wave-events-{tests,browser-checks}.json and wave-events-{scene,components,dark,mobile}.jpg. Public reference was inspected independently; no full pixel-equivalence claim.
 
 ### Architecture verification — scoped author self-review
 - Passed: AP-020/AP-068 (one geometry/glyph/style foundation and actual package composition), AP-028 (source-derived numeric and real native-action regressions), AP-046 (SVG surface retained, additive point APIs; OfferCard export retained), AP-054/AP-069 (native controls, single event action, shared focus, disabled semantics), AP-070 (reduced-motion checked).
@@ -158,7 +158,7 @@
 
 - Upgraded Vite to 8.3.6 and compatible Vitest to 5.1.0 at the operator’s request. Migrated the build input setting to rolldownOptions and DOM matcher setup to the runner-specific entry. Component runtime/palette/geometry were not redesigned.
 - Rewrote README against actual exports, source-based GitHub installation, Tailwind source scanning, sizes, theme/fonts and real build commands. Added standard MIT with Copyright (c) 2026 Vanya Afanasov and matching package metadata. MIT preserves the copyright/license notice; no extra mandatory UI-link clause was added.
-- Public current tree contains no Cloudflare tooling/configuration. Deployment is owned by the separate private repository, following the operator’s explicit separation policy. An early non-secret WIP config remains in historical commits; no credential or account ID was in that file and shared history was not rewritten.
+- Deployment details are maintained outside the public design-system documentation.
 - Production showcase is live at https://ui.vanya-arc.dev. HTTPS root, source JS/CSS SHA-256 equality, all 33 compiled live-browser checks and inspected desktop/mobile captures verified. Main-site navigation was verified in production at desktop/390/360px after Workers Builds success; a focused five-test suite also checks native Enter/new-tab navigation and existing social links.
 - Verification scope: 24 unit tests, TypeScript, production build and generated-reference sync; author/browser verification, not an independent review or accessibility certification. Source branch/main publication is tracked separately from the live static deployment.
 
