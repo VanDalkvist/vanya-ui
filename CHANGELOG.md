@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.21] - 2026-11-25
+
+### Fixed — agent discovery
+- Derive the public named export index from the explicit source barrel, distinguish types and runtime exports, add stable geometry and privacy entrypoints, align installation and token references with source distribution, and verify generated export coverage.
+
 ## [0.3.20] - 2026-11-25
 
 ### Fixed — test integrity

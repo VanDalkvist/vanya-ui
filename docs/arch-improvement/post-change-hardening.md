@@ -24,3 +24,6 @@
 
 ## Cycle 21 — 0.3.20 — test meaning and falsification
 - Independent source review of browser/unit/consumer assertions: see [semantic test review](../verification/semantic-test-review.md). Tightened tests at observable outcomes rather than internal flags alone. New negative chart mutation uses same data oracle; accessibility mutation compares baseline/defect/restoration under the same rule tags. Existing hit-test and geometry mutations retained. No runtime product changes. All newly edited browser scenarios remain NOT_RUN until executed; no UI_VERIFIED or tag claim.
+
+## Cycle 22 — 0.3.21 — LLM-friendly publication
+- Source RED: file-name-based export index omitted additional exports in shared files, hooks and brand re-exports; overview omitted stable geometry; composition/privacy references were outside mandatory canonical checks; token reference missed brand tokens. Derive named exports from explicit source barrel and distinguish runtime/type imports; keep existing registry file-level behavior. Add canonical geometry/privacy links and validation, align immutable install example and pin brand rights references. Negative publication fixture changes a runtime export into a type and must fail. Source review complete. Build and anonymous HTTP readback pending; actual independent coding-agent task not run. No new runtime dependencies or visual changes.

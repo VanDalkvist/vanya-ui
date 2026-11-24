@@ -3,6 +3,8 @@
 > Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
 ## Agent instructions (start here)
+- [Stable geometry and composition](https://ui.vanya-arc.dev/reference/composition.md): Protected elements, changing data and responsive layout.
+- [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Keep private data and internal evidence out of public output.
 - [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.
 - [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → check → verify locally on any machine, without GitHub, CI, tokens or fixed paths.
 - [List–detail composition](https://ui.vanya-arc.dev/reference/list-detail.md): Normative layout, scroll owners, navigation and responsive acceptance.
@@ -34,7 +36,7 @@
 - [Official artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt): exact LicenseRef-VanyaArc-Brand terms from the pinned brand package.
 - [Canonical brand source](https://github.com/VanDalkvist/vanya-arc-brand): V→A artwork, SVG and React lockups, colors, typography and research.
 - [UI brand integration compatibility reference](https://ui.vanya-arc.dev/reference/brand.md): pointer to canonical brand repo.
-- [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
+- [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
 - [Vanya UI MIT license](https://ui.vanya-arc.dev/LICENSE.txt): Copyright 2026 Vanya Afanasov.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 

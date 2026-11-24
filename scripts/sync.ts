@@ -3,11 +3,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderTokenReference } from "./token-reference";
 import { publicMarkdown } from "./markdown-publication.mjs";
+import { readNamedExports, renderExportIndex } from "./public-export-index.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const css = fs.readFileSync(path.join(root, "src/tokens.css"), "utf8");
 const brandCss = fs.readFileSync(path.join(root,"node_modules/@vanya/brand/src/tokens.css"),"utf8");
 const exports = fs.readFileSync(path.join(root, "src/index.ts"), "utf8");
+const namedExports = readNamedExports(exports);
+const exportIndex = renderExportIndex(exports);
 const components = fs.readdirSync(path.join(root, "src/components"))
   .filter((file) => file.endsWith(".tsx") && exports.includes(`./components/${file.slice(0, -4)}"`))
   .sort();
@@ -18,6 +21,9 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 > This is a token/export reference, not an automatically inferred design specification.
 
 ## Agent instructions (canonical public entrypoints)
+- Canonical composition and stable geometry: https://ui.vanya-arc.dev/reference/composition.md
+- Public data boundary: https://ui.vanya-arc.dev/reference/publication-safety.md
+- Install and source package constraints: https://ui.vanya-arc.dev/reference/installation.md
 - Portable agent skill: https://ui.vanya-arc.dev/reference/agent-skill.md
 - Local inspect/check/verify workflow: https://ui.vanya-arc.dev/reference/ui-pipeline.md
 - List-detail layout and scroll acceptance: https://ui.vanya-arc.dev/reference/list-detail.md
@@ -31,6 +37,9 @@ Open space, quiet contextual actions and details on request. See DESIGN.md for t
 Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
+## Interaction API (source contract)
+SegmentedControl defaults to filters (aria-pressed). Explicit tabs require tabId/panelId and matching panels. For unavailable controlled tabs, onChange requests the first enabled tab; the owner updates selection and panel together. ThemeToggle delegates sequential Tab focus to the browser. For stable geometry, name protected elements and verify their rendered coordinates across states. See https://ui.vanya-arc.dev/reference/composition.md and https://ui.vanya-arc.dev/reference/agent-skill.md.
+
 ## Loading states (normative)
 Use Skeleton, SkeletonText, MediaCardSkeleton and LoadingRegion from @vanya/ui. Keep known page structure, reserve future layout, use one accessible status per loading area, disable pulse for reduced motion, and replace skeleton on success or error. Full docs: docs/patterns/loading-states.md; live /#loading-states.
 
@@ -41,7 +50,7 @@ Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-
 Project-specific voice and verified product facts are in .agents/redpolitika.md. For editorial methods, use source links and fetch originals only when the task requires them: Ilyakhov and Sarycheva, the book https://bureau.ru/books/pishi/190 (not CC BY); Sarycheva and Arkhipov, original redaktura-skills https://github.com/N1arko/redaktura-skills (CC BY 4.0). Never represent our local rules as their copied or official method. Do not vendor upstream SKILL.md text, or invent source content when offline. Full source routing: docs/patterns/writing-and-editorial.md; live /#writing.
 
 ## Identity (normative)
-Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/main/docs/brand-guidelines.md; UI integration docs/identity/brand.md; live /#identity.
+Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/docs/brand-guidelines.md; UI integration docs/identity/brand.md; live /#identity.
 
 ## Keyboard shortcuts (normative)
 Shortcuts are optional accelerators, not replacements for commands. Avoid browser/OS collisions; do not run inside text inputs, IME or unrelated dialogs. Character-only shortcuts must be switchable off (WCAG 2.1.4). Use Kbd and ShortcutKeys for semantic accessible hints, follow the token palette, and keep a single source of truth for actual bindings. Full guidance: docs/patterns/keyboard-shortcuts.md, live section /#keyboard-shortcuts.
@@ -57,7 +66,7 @@ Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Off
 Every external claim needs its true primary author/organization, title, direct URL, the specific supported assertion and a rights status (reference-only, explicit license, permitted quotation or written permission). Distinguish citations, protected quotations, licensed adaptations and independently created commentary. A link is NOT a copyright license. Ilyakhov and Sarycheva's book is linked for commentary; redaktura-skills is CC BY 4.0 with its own named authors. For CC BY adaptations include author/title/source/license/changes; for MIT code preserve notices; for images/diagrams obtain permission or verify terms before reproduction. Refer to docs/patterns/sources-and-attribution.md and /reference/sources.md. Do not assert legal clearance merely because a source is public.
 
 ## Licenses and third-party attribution (mandatory)
-This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md; older MIT grants persist.
+This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/BRAND.md; older MIT grants persist.
 
 ## Public publication safety (mandatory)
 The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
@@ -65,8 +74,8 @@ The GitHub repository and https://ui.vanya-arc.dev are public. Never include pri
 ## Actual CSS tokens
 ${renderTokenReference(brandCss + "\n" + css)}
 
-## Exported components (${components.length})
-${components.map((file) => `- ${file.slice(0, -4)}: import from "@vanya/ui"`).join("\n")}
+## Public named exports (${namedExports.length})
+${exportIndex}
 
 ## Usage
 \`\`\`tsx
@@ -114,12 +123,12 @@ for(const [from,to] of docs){
  fs.writeFileSync(path.join(refDir,to),publicMarkdown(from,original));
 }
 const list="# Vanya Arc / UI — components\n\nPublic @vanya/ui exports. Source: https://github.com/VanDalkvist/vanya-ui\n\n"+
-  components.map(file=>"- **"+file.slice(0,-4)+"**: https://github.com/VanDalkvist/vanya-ui/blob/main/src/components/"+file+"\n").join("")+
+  exportIndex+"\n"+
   "\nExact prop types are in https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts\n";
 fs.writeFileSync(path.join(refDir,"components.md"),list);
-fs.writeFileSync(path.join(refDir,"tokens.md"),"# Vanya Arc / UI — CSS tokens\n\nGenerated from src/tokens.css.\n\n"+renderTokenReference(css));
+fs.writeFileSync(path.join(refDir,"tokens.md"),"# Vanya Arc / UI — CSS tokens\n\nGenerated from pinned @vanya/brand and src/tokens.css.\n\n"+renderTokenReference(brandCss+"\n"+css));
 fs.writeFileSync(path.join(refDir,"installation.md"),
- "# Install @vanya/ui\n\nInstall a verified immutable commit or use a local copy of the package:\n\n~~~sh\nbun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n~~~\n\nImport tokens and register Tailwind sources:\n\n~~~css\n@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\n~~~\n\nReact 18/19, Tailwind 4 and TSX-capable bundler required. See https://github.com/VanDalkvist/vanya-ui/blob/main/README.md and https://ui.vanya-arc.dev/reference/agent-skill.md for the portable local agent workflow.\n");
+ "# Install @vanya/ui\n\nInstall a verified immutable commit or use a local copy of the package:\n\n~~~sh\nbun add 'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/<verified-40-char-commit-sha>'\n~~~\n\nImport tokens and register Tailwind sources:\n\n~~~css\n@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\n~~~\n\nReact 18/19, Tailwind 4 and TSX-capable bundler required. See https://github.com/VanDalkvist/vanya-ui/blob/main/README.md and https://ui.vanya-arc.dev/reference/agent-skill.md for the portable local agent workflow.\n");
 
 
 const registry = {

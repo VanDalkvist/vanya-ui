@@ -4,6 +4,9 @@
 
 ## Агентам и LLM
 
+- [Стабильная геометрия и композиция](https://ui.vanya-arc.dev/reference/composition.md) — измеримые правила для динамических данных.
+- [Безопасность публикации](https://ui.vanya-arc.dev/reference/publication-safety.md) — границы публичных материалов.
+
 - [Канонический скилл Vanya UI](https://ui.vanya-arc.dev/reference/agent-skill.md) — полный переносимый рабочий цикл без GitHub.
 - [Локальный пайплайн](https://ui.vanya-arc.dev/reference/ui-pipeline.md) — команды `inspect`, `check`, `verify` и проверка в браузере.
 - [Композиция list–detail](https://ui.vanya-arc.dev/reference/list-detail.md) — прокрутка, breadcrumbs, размеры областей и критерии приёмки.
@@ -32,7 +35,7 @@
 
 ## Айдентика
 
-Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/docs/brand-guidelines.md) и [интеграция в UI](https://ui.vanya-arc.dev/reference/identity.md).
+Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/docs/brand-guidelines.md) и [интеграция в UI](https://ui.vanya-arc.dev/reference/identity.md).
 
 ## Типографика
 
@@ -56,13 +59,14 @@
 2. В рабочих приложениях задача важнее большого вступления. Используй компактную постоянную навигацию.
 3. Не вкладывай вертикальные скроллы. Две соседние области с явными владельцами разрешены на больших экранах.
 4. Компоненты и токены переиспользуются из `@vanya/ui`; стили и семантику не дублируют в каждом приложении.
-5. Буквенные клавиши — только как необязательное ускорение: покажи справку, сохрани обычную навигацию, дай выключить и не перехватывай команды браузера.
-6. Публичный сайт и репозиторий не содержат секретов, приватных ссылок или внутренних данных.
+5. При смене фильтра, загрузке и ошибках сохраняй положение защищаемых элементов; проверяй фактические координаты. На узких экранах используй прокрутку страницы.
+6. Буквенные клавиши — только как необязательное ускорение: покажи справку, сохрани обычную навигацию, дай выключить и не перехватывай команды браузера.
+7. Публичный сайт и репозиторий не содержат секретов, приватных ссылок или внутренних данных.
 
 ## Подключение
 
 ~~~sh
-bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'
+bun add 'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/<verified-40-char-commit-sha>'
 ~~~
 
 ~~~tsx
@@ -76,6 +80,6 @@ import "@vanya/ui/tokens.css";
 
 ## Лицензии и авторство
 
-Исходный **код** проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS и отдельные условия знака](https://ui.vanya-arc.dev/licenses.txt) · [Условия использования фирменного рисунка](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
+Исходный **код** проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS и отдельные условия знака](https://ui.vanya-arc.dev/licenses.txt) · [Условия использования фирменного рисунка](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
 
 Дополнительные источники: [компоненты](https://ui.vanya-arc.dev/reference/components.md), [навигация](https://ui.vanya-arc.dev/reference/navigation.md), [токены](https://ui.vanya-arc.dev/reference/tokens.md), [репозиторий](https://github.com/VanDalkvist/vanya-ui).

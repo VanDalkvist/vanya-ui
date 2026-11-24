@@ -6,6 +6,7 @@
 import {readFileSync,existsSync} from 'node:fs';
 import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {renderExportIndex} from './public-export-index.mjs';
 import {publicMarkdown} from './markdown-publication.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const required=[
@@ -15,7 +16,7 @@ const required=[
  'reference/interaction-states.md',
  'reference/action-feedback.md',
  'reference/brand-artwork-license.txt',
- 'reference/components.md','reference/workspaces.md','reference/installation.md'
+ 'reference/components.md','reference/workspaces.md','reference/installation.md','reference/composition.md','reference/publication-safety.md','reference/tokens.md'
 ];
 const site='https://ui.vanya-arc.dev';
 const read=(root,path)=>readFileSync(join(root,'public',path),'utf8');
@@ -43,7 +44,9 @@ export function validatePublication(root=base){
   ['reference/list-detail.md','docs/patterns/list-detail-composition.md'],
   ['reference/versioning.md','docs/versioning.md'],
   ['reference/interaction-states.md','docs/patterns/interaction-states.md'],
-  ['reference/action-feedback.md','docs/patterns/action-feedback.md']
+  ['reference/action-feedback.md','docs/patterns/action-feedback.md'],
+  ['reference/composition.md','docs/composition/working-surfaces.md'],
+  ['reference/publication-safety.md','docs/patterns/publication-safety.md']
  ];
  for(const [published,source] of canonical){
   const pub=join(root,'public',published),src=join(root,source);
@@ -63,7 +66,7 @@ export function validatePublication(root=base){
   if(/\\n(?:#{1,6}\s|[-*]\s)/.test(body))errors.push(name+' contains literal escaped newline before Markdown heading/list');
   if(body.length<200)errors.push(name+' unexpectedly short');
  }
- const requiredLinks=['reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
+ const requiredLinks=['reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
  for(const path of requiredLinks){
   const url=site+'/'+path;
   if(!llms.includes(url))errors.push('Missing primary llms.txt link: '+url);
@@ -88,6 +91,11 @@ export function validatePublication(root=base){
  const install=existsSync(join(root,'public/reference/installation.md'))?read(root,'reference/installation.md'):'';
  if(/bun add github:VanDalkvist\/vanya-ui(?:\s|$)/m.test(install))errors.push('Installation doc still recommends unpinned moving branch');
  if(!install.includes('verified-40-char-commit-sha'))errors.push('Installation doc lacks immutable version example');
+ const barrel=join(root,'src/index.ts');
+ try{
+  const expected=renderExportIndex(readFileSync(barrel,'utf8'));
+  if(!full.includes(expected)||!read(root,'reference/components.md').includes(expected))errors.push('Public export index differs from source barrel');
+ }catch(error){errors.push('Cannot validate public export index: '+error.message)}
  if(!full.includes('## Agent instructions'))errors.push('Extended reference lacks agent instruction entrypoints');
  return {ok:errors.length===0,errors,warnings,checked:required.length};
 }
