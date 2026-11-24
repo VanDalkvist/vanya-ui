@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { ActionButton, ActionLink } from "../index";
 
 /** Live specimens use published UI typography tokens. No parallel private type scale. */
 const sizes = [
@@ -12,20 +13,49 @@ const sizes = [
 ] as const;
 
 export function TypographySection() {
+  const [lastAction,setLastAction]=useState("");
   return <section id="typography" className="catalog typography-section" aria-labelledby="typography-title">
     <p className="guide-eyebrow">Типографика / 03</p>
     <h2 id="typography-title" className="catalog-title">Текст, который удобно читать</h2>
-    <p className="catalog-intro">Manrope — для интерфейса и заголовков. JetBrains Mono — для кода и клавиш. Fraunces остаётся для отдельных редакционных материалов. Размер и интервал зависят от роли текста.</p>
+    <p className="catalog-intro">Manrope — для интерфейса и заголовков. JetBrains Mono — для кода, клавиш и коротких метаданных. Fraunces подходит для редакционной латиницы. Для русских материалов пока используй Manrope. Размер и интервал зависят от роли текста.</p>
     <div className="type-specimens">
       {sizes.map(item => <div className="type-specimen" key={item.token}>
         <div className="type-specimen-meta"><span>{item.role}</span><code>{item.token}</code></div>
         <p className={item.className}>{item.text}</p>
       </div>)}
     </div>
+    <div className="type-specimens" id="typography-tracking" aria-labelledby="type-tracking-title">
+      <h3 id="type-tracking-title" className="ui-type-subheading">Интервалы в русском и английском тексте</h3>
+      <div className="type-specimen">
+        <div className="type-specimen-meta"><span>Обычное действие</span><code>normal</code></div>
+        <div className="type-action-pair">
+          <ActionButton onClick={()=>setLastAction("Открыто")}>Открыть проект</ActionButton>
+          <ActionButton lang="en" onClick={()=>setLastAction("Opened")}>Open project</ActionButton>
+        </div>
+      </div>
+      <div className="type-specimen">
+        <div className="type-specimen-meta"><span>Моноширинное действие</span><code>--type-tracking-action-mono</code></div>
+        <div className="type-action-pair">
+          <ActionButton variant="mono" onClick={()=>setLastAction("Подробнее")}>Подробнее</ActionButton>
+          <ActionButton variant="mono" lang="en" onClick={()=>setLastAction("Details")}>Details</ActionButton>
+          <ActionLink variant="mono" href="#type-reading-title">К чтению</ActionLink>
+          <ActionLink variant="mono" lang="en" href="#type-reading-title">Read on</ActionLink>
+        </div>
+      </div>
+      <div className="type-specimen">
+        <div className="type-specimen-meta"><span>Короткие метаданные</span><code>--type-tracking-metadata</code></div>
+        <div className="type-action-pair"><span className="ui-type-metadata uppercase">Ноябрь 2026</span><span className="ui-type-metadata uppercase" lang="en">November 2026</span></div>
+      </div>
+      <div className="type-specimen">
+        <div className="type-specimen-meta"><span>Заголовок и основной текст</span><code>Manrope</code></div>
+        <div><p className="ui-type-heading">Новые возможности</p><p className="ui-type-heading" lang="en">New possibilities</p><p className="ui-type-body">Выбери событие и прочитай историю.</p><p className="ui-type-body" lang="en">Choose an event and read its story.</p></div>
+      </div>
+      <p className="ui-type-caption" role="status"> {lastAction ? "Выбрано: "+lastAction : "Выбери действие в примере."}</p>
+    </div>
     <div className="type-reading-demo">
       <div>
         <span className="type-demo-label">Текст для чтения</span>
-        <h3 className="ui-type-subheading">Когда нужна ещё одна панель</h3>
+        <h3 id="type-reading-title" className="ui-type-subheading">Когда нужна ещё одна панель</h3>
         <p className="ui-type-body">Сначала покажи человеку задачу и ближайшее действие. Длинное описание можно открыть в отдельной панели. Так рабочий экран сохраняет пространство, а подробности остаются доступными.</p>
         <p className="ui-type-body">На телефоне текст идёт одной колонкой. В длинном материале ширина строки ограничена; на широком экране строка не растягивается на всю страницу.</p>
       </div>

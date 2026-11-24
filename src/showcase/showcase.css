@@ -358,3 +358,7 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
  .showcase-header{grid-template-columns:minmax(0,1fr);grid-template-areas:"brand" "navigation" "utilities";padding-inline:12px}
  .showcase-utilities{justify-content:flex-end;min-height:32px}
 }
+
+/* Bilingual type specimens use real controls and shared role tokens. */
+.type-action-pair { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px 20px; min-width:0; }
+#type-reading-title { scroll-margin-top:calc(var(--showcase-header-height) + 36px); }

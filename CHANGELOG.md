@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.23] - 2026-11-25
+
+### Added — typography showcase and QA
+- Live bilingual specimens for normal/mono actions, metadata, headings and body. Browser contract checks computed tracking, actual action/fragment navigation, containment and old-tracking negative control.
+
 ## [0.3.22] - 2026-11-25
 
 ### Fixed
