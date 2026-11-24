@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.14] - 2026-11-25
+
+### Fixed
+- Delegate theme-menu Tab and Shift+Tab traversal to the browser after restoring focus to the trigger; remove the document-wide hand-built tabbable list.
+
 ## [0.3.13] - 2026-11-25
 
 ### Fixed — publication hygiene

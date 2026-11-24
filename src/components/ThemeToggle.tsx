@@ -63,25 +63,12 @@ export function ThemeToggle({
     initialFocus.current = "selected";
   }, [isOpen]);
 
-  /** APG menu items have tabIndex -1. Tab leaves the menu, not just its last row. */
-  function leaveMenu(backwards: boolean) {
-    const trigger = triggerRef.current;
-    if (!trigger) return;
-    const selector = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
-    const focusables = Array.from(document.querySelectorAll<HTMLElement>(selector))
-      .filter((el) => el.tabIndex >= 0 && !el.closest('[hidden],[inert]') &&
-        getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden");
-    const i = focusables.indexOf(trigger);
-    const next = i < 0 ? undefined : focusables[i + (backwards ? -1 : 1)];
-    setIsOpen(false);
-    if (next) next.focus();
-    else trigger.blur(); // let the user leave the tab order at either end
-  }
-
   function handleMenuKeys(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "Tab") {
-      event.preventDefault();
-      leaveMenu(event.shiftKey);
+      // Re-anchor sequential focus at the trigger. Leave Tab's default
+      // action to the browser, including hidden ancestors and focus scopes.
+      triggerRef.current?.focus();
+      setIsOpen(false);
       return;
     }
     if (event.key === "Escape") {

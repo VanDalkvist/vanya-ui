@@ -313,3 +313,22 @@ test("08 shortcuts and 200% CSS zoom approximation leave core controls reachable
   await capture(page,info,"reduced-motion-css-zoom");
   // CSS zoom is an approximation: manual 200% browser zoom remains in the acceptance checklist.
 });
+
+
+test("theme menu delegates Tab to browser across CSS-hidden ancestors",async({page})=>{
+  await page.goto("/");
+  const trigger=page.getByRole("button",{name:/Тема оформления:/}).first();
+  await trigger.evaluate(el=>{
+    const hidden=document.createElement("div"); hidden.style.display="none";
+    hidden.innerHTML='<button type="button">Hidden QA target</button>';
+    const next=document.createElement("button"); next.type="button"; next.textContent="Next QA target";
+    const prev=document.createElement("button"); prev.type="button"; prev.textContent="Previous QA target";
+    el.parentElement!.before(prev); el.parentElement!.after(hidden,next);
+  });
+  await trigger.focus(); await trigger.press("ArrowDown"); await page.keyboard.press("Tab");
+  await expect(page.getByRole("button",{name:"Next QA target"})).toBeFocused();
+  await expect(page.getByRole("menu",{name:"Тема оформления"})).toHaveCount(0);
+  await trigger.focus(); await trigger.press("ArrowDown"); await page.keyboard.press("Shift+Tab");
+  await expect(page.getByRole("button",{name:"Previous QA target"})).toBeFocused();
+  await expect(page.getByRole("menu",{name:"Тема оформления"})).toHaveCount(0);
+});

@@ -94,17 +94,17 @@ describe("#14: ThemeToggle menu keyboard contract",()=>{
     expect(trigger).toHaveFocus();
   });
 
-  it("Tab and Shift+Tab leave the menu to real adjacent controls, no focus trap",()=>{
+  it("Tab and Shift+Tab close the menu and delegate traversal to the browser",()=>{
     render(<><button type="button">До</button><ThemeToggle/><button type="button">После</button></>);
     const trigger=screen.getByRole("button",{name:/Тема оформления:/});
     fireEvent.click(trigger);
-    fireEvent.keyDown(screen.getByRole("menu"),{key:"Tab"});
+    expect(fireEvent.keyDown(screen.getByRole("menu"),{key:"Tab"})).toBe(true);
     expect(screen.queryByRole("menu")).toBeNull();
-    expect(screen.getByRole("button",{name:"После"})).toHaveFocus();
+    expect(trigger).toHaveFocus();
     fireEvent.click(trigger);
-    fireEvent.keyDown(screen.getByRole("menu"),{key:"Tab",shiftKey:true});
+    expect(fireEvent.keyDown(screen.getByRole("menu"),{key:"Tab",shiftKey:true})).toBe(true);
     expect(screen.queryByRole("menu")).toBeNull();
-    expect(screen.getByRole("button",{name:"До"})).toHaveFocus();
+    expect(trigger).toHaveFocus();
   });
 
   it("closes on focus leaving and retains proper checked value after selection",()=>{
