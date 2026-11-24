@@ -7,17 +7,18 @@ const sizes = [
   { role: "Заголовок раздела", token: "--type-heading-size", className: "ui-type-heading", text: "Компоненты и правила" },
   { role: "Подзаголовок", token: "--type-subheading-size", className: "ui-type-subheading", text: "Детали открываются по запросу" },
   { role: "Основной текст", token: "--type-body-size", className: "ui-type-body", text: "В рабочем интерфейсе главное действие находится на виду. Подробности можно открыть отдельно, когда они понадобятся." },
-  { role: "Короткая подпись", token: "--type-compact-size", className: "ui-type-compact", text: "Выделите событие на линии, чтобы посмотреть детали." },
-  { role: "Метаданные", token: "--type-caption-size", className: "ui-type-caption", text: "18 ноября 2026 · пример" },
+  { role: "Плотный текст", token: "--type-compact-size", className: "ui-type-compact", text: "Выбери событие на линии, чтобы открыть подробности." },
+  { role: "Подпись", token: "--type-caption-size", className: "ui-type-caption", text: "18 ноября 2026 · пример" },
   { role: "Код и клавиши", token: "--type-code-size", className: "ui-type-code", text: 'import { SineWave } from "@vanya/ui";' },
 ] as const;
 
 export function TypographySection() {
   const [lastAction,setLastAction]=useState("");
   return <section id="typography" className="catalog typography-section" aria-labelledby="typography-title">
-    <p className="guide-eyebrow">Типографика / 03</p>
-    <h2 id="typography-title" className="catalog-title">Текст, который удобно читать</h2>
-    <p className="catalog-intro">Manrope — для интерфейса и заголовков. JetBrains Mono — для кода, клавиш и коротких метаданных. Fraunces подходит для редакционной латиницы. Для русских материалов пока используй Manrope. Размер и интервал зависят от роли текста.</p>
+    <p className="guide-eyebrow">03</p>
+    <h2 id="typography-title" className="catalog-title">Типографика</h2>
+    <p className="catalog-intro">Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты.</p>
+    <h3 className="ui-type-subheading type-section-title">Размеры текста</h3>
     <div className="type-specimens">
       {sizes.map(item => <div className="type-specimen" key={item.token}>
         <div className="type-specimen-meta"><span>{item.role}</span><code>{item.token}</code></div>
@@ -25,7 +26,7 @@ export function TypographySection() {
       </div>)}
     </div>
     <div className="type-specimens" id="typography-tracking" aria-labelledby="type-tracking-title">
-      <h3 id="type-tracking-title" className="ui-type-subheading">Интервалы в русском и английском тексте</h3>
+      <h3 id="type-tracking-title" className="ui-type-subheading">Межбуквенные интервалы</h3>
       <div className="type-specimen">
         <div className="type-specimen-meta"><span>Обычное действие</span><code>normal</code></div>
         <div className="type-action-pair">
@@ -52,17 +53,36 @@ export function TypographySection() {
       </div>
       <p className="ui-type-caption" role="status"> {lastAction ? "Выбрано: "+lastAction : "Выбери действие в примере."}</p>
     </div>
+    <section id="typography-editorial" aria-labelledby="type-editorial-title" className="type-editorial-section">
+      <h3 id="type-editorial-title" className="ui-type-subheading">Редакционный текст</h3>
+      <p className="ui-type-body">Spectral подходит для чтения и авторских материалов. Кнопки, меню и рабочие заголовки сохраняют Manrope.</p>
+      <div className="type-editorial-pair">
+        <article lang="ru">
+          <p className="ui-type-metadata">Русский · Spectral</p>
+          <h4 className="ui-type-editorial-heading">Время для новых идей</h4>
+          <p className="ui-type-editorial-body">Иногда полезно вернуться к заметкам и увидеть, как менялись идеи. В каждой истории остаются детали, которые помогают понять сегодняшний выбор.</p>
+          <p className="ui-type-editorial-body"><em>У каждого открытия есть свой ритм.</em></p>
+        </article>
+        <article lang="en">
+          <p className="ui-type-metadata">English · Spectral</p>
+          <h4 className="ui-type-editorial-heading">Time for new ideas</h4>
+          <p className="ui-type-editorial-body">Returning to our notes can reveal how ideas have changed. Every story holds details that help us understand the choices we make today.</p>
+          <p className="ui-type-editorial-body"><em>Every discovery has its own rhythm.</em></p>
+        </article>
+      </div>
+      <p className="ui-type-caption">Spectral 400 — текст и курсив; 600 — заголовок. <a href="/reference/typography.md">Правила подключения и примеры кода</a></p>
+    </section>
     <div className="type-reading-demo">
       <div>
         <span className="type-demo-label">Текст для чтения</span>
         <h3 id="type-reading-title" className="ui-type-subheading">Когда нужна ещё одна панель</h3>
         <p className="ui-type-body">Сначала покажи человеку задачу и ближайшее действие. Длинное описание можно открыть в отдельной панели. Так рабочий экран сохраняет пространство, а подробности остаются доступными.</p>
-        <p className="ui-type-body">На телефоне текст идёт одной колонкой. В длинном материале ширина строки ограничена; на широком экране строка не растягивается на всю страницу.</p>
+        <p className="ui-type-body">На телефоне текст идёт одной колонкой. На широком экране ограничивай длину строки, чтобы удобно переходить к следующей.</p>
       </div>
       <div className="type-rules-brief">
         <h3>Правила</h3>
         <p>Основной текст — 16 px с межстрочным интервалом 1,65. Плотные элементы — 14 px. Подписи — 13 px, только для короткого текста.</p>
-        <p>У текста есть предельная ширина 66ch. Размеры задаются в rem, масштабирование браузера не отключается. У логотипа — своя оптическая настройка букв, которая не распространяется на абзацы.</p>
+        <p>Длина строки — до 66ch. Используй rem и сохраняй возможность масштабирования. Плотные интервалы логотипа предназначены для вордмарка.</p>
         <a href="/reference/typography.md">Токены, примеры и требования доступности</a>
       </div>
     </div>

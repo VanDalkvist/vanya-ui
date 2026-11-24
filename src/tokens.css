@@ -498,6 +498,8 @@
   .ui-type-compact { font-family: var(--font-sans); font-size: var(--type-compact-size); line-height: var(--type-compact-leading); max-width: var(--type-reading-measure); }
   .ui-type-caption { font-family: var(--font-sans); font-size: var(--type-caption-size); line-height: var(--type-caption-leading); }
   .ui-type-metadata { font: 500 var(--type-caption-size)/var(--type-caption-leading) var(--font-mono); letter-spacing: var(--type-tracking-metadata); }
+  .ui-type-editorial-heading { font-family: var(--font-serif); font-size: var(--type-heading-size); font-weight: 600; line-height: var(--type-heading-leading); text-wrap: balance; }
+  .ui-type-editorial-body { font-family: var(--font-serif); font-size: var(--type-body-size); line-height: var(--type-body-leading); max-width: var(--type-reading-measure); }
   .ui-type-code { font-family: var(--font-mono); font-size: var(--type-code-size); line-height: 1.65; font-variant-ligatures: none; }
 }
 

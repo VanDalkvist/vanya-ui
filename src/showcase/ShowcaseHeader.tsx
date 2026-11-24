@@ -6,7 +6,7 @@ import { useActiveShowcaseSection } from "./useActiveShowcaseSection";
 export const longreadSections = [
   ["composition", "Композиция"],
   ["identity", "Айдентика"],
-  ["typography", "Шрифты"],
+  ["typography", "Типографика"],
   ["writing", "Тексты"],
   ["principles", "Принципы"],
   ["catalog", "Компоненты"],

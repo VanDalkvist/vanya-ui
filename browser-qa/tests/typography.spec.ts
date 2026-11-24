@@ -46,3 +46,24 @@ for(const width of [320,390,1024,1440]) for(const theme of ["light","dark"] as c
     expect(await scope.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
   });
 }
+
+// Verify actual painted glyphs (including Cyrillic and italic) via Chromium CDP.
+test("Spectral paints Russian and English editorial text",async({page})=>{
+  await page.goto("/#typography-editorial");
+  await page.evaluate(async()=>{await document.fonts.ready;});
+  const session=await page.context().newCDPSession(page);
+  await session.send("DOM.enable"); await session.send("CSS.enable");
+  const {root}=await session.send("DOM.getDocument");
+  for(const lang of ["ru","en"]){
+    for(const role of [".ui-type-editorial-heading",".ui-type-editorial-body","em"]){
+      const selector='#typography-editorial article[lang="'+lang+'"] '+role;
+      await expect(page.locator(selector).first()).toBeVisible();
+      const {nodeId}=await session.send("DOM.querySelector",{nodeId:root.nodeId,selector});
+      expect(nodeId).toBeGreaterThan(0);
+      const {fonts}=await session.send("CSS.getPlatformFontsForNode",{nodeId});
+      expect(fonts.some(font=>font.isCustomFont&&font.familyName.includes("Spectral")&&font.glyphCount>0)).toBe(true);
+      expect(fonts.filter(font=>font.glyphCount>0).every(font=>font.familyName.includes("Spectral"))).toBe(true);
+    }
+  }
+  await session.detach();
+});

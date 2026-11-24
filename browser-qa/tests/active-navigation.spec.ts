@@ -7,7 +7,7 @@ for (const width of [1440,1024,390,320]) {
     await page.goto("/#typography");
     await page.evaluate(async()=>{await document.fonts.ready});
     const current=page.locator('.showcase-nav a[aria-current="location"]');
-    await expect(current).toHaveText("Шрифты");
+    await expect(current).toHaveText("Типографика");
     const visibleInStrip = () => current.evaluate(el => {
       const strip = el.parentElement!.getBoundingClientRect(), link = el.getBoundingClientRect();
       return link.left >= strip.left - 1 && link.right <= strip.right + 1;

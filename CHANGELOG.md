@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.24] - 2026-11-25
+
+### Changed
+- Adopt Spectral for optional Russian/English editorial content through pinned @vanya/brand 0.1.1; preserve Manrope and JetBrains Mono. Rename typography section/navigation and add bilingual editorial specimens and actual glyph-rendering QA.
+
 ## [0.3.23] - 2026-11-25
 
 ### Added — typography showcase and QA

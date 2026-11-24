@@ -122,7 +122,7 @@ test("02 native current-section navigation survives scroll and history",async({p
   await page.goForward();
   await expect(sectionLink(page,"Компоненты")).toHaveAttribute("aria-current","location");
   await page.goto("/#typography");
-  await expect(sectionLink(page,"Шрифты")).toHaveAttribute("aria-current","location");
+  await expect(sectionLink(page,"Типографика")).toHaveAttribute("aria-current","location");
   // A real scroll without clicking any link must update the current section.
   await page.locator("#writing").evaluate(el=>el.scrollIntoView({block:"start"}));
   await expect(sectionLink(page,"Тексты")).toHaveAttribute("aria-current","location");
