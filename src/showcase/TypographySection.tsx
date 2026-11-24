@@ -19,7 +19,7 @@ export function TypographySection() {
     <h2 id="typography-title" className="catalog-title">Типографика</h2>
     <p className="catalog-intro">Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты.</p>
     <h3 className="ui-type-subheading type-section-title">Размеры текста</h3>
-    <div className="type-specimens">
+    <div className="type-specimens" id="typography-scale">
       {sizes.map(item => <div className="type-specimen" key={item.token}>
         <div className="type-specimen-meta"><span>{item.role}</span><code>{item.token}</code></div>
         <p className={item.className}>{item.text}</p>
@@ -30,8 +30,8 @@ export function TypographySection() {
       <div className="type-specimen">
         <div className="type-specimen-meta"><span>Обычное действие</span><code>normal</code></div>
         <div className="type-action-pair">
-          <ActionButton onClick={()=>setLastAction("Открыто")}>Открыть проект</ActionButton>
-          <ActionButton lang="en" onClick={()=>setLastAction("Opened")}>Open project</ActionButton>
+          <ActionButton onClick={()=>setLastAction("Открыть проект")}>Открыть проект</ActionButton>
+          <ActionButton lang="en" onClick={()=>setLastAction("Open project")}>Open project</ActionButton>
         </div>
       </div>
       <div className="type-specimen">
@@ -51,7 +51,7 @@ export function TypographySection() {
         <div className="type-specimen-meta"><span>Заголовок и основной текст</span><code>Manrope</code></div>
         <div><p className="ui-type-heading">Новые возможности</p><p className="ui-type-heading" lang="en">New possibilities</p><p className="ui-type-body">Выбери событие и прочитай историю.</p><p className="ui-type-body" lang="en">Choose an event and read its story.</p></div>
       </div>
-      <p className="ui-type-caption" role="status"> {lastAction ? "Выбрано: "+lastAction : "Выбери действие в примере."}</p>
+      <p className="ui-type-caption" role="status">{lastAction ? "Выбрано: "+lastAction : "Выбери действие в примере."}</p>
     </div>
     <section id="typography-editorial" aria-labelledby="type-editorial-title" className="type-editorial-section">
       <h3 id="type-editorial-title" className="ui-type-subheading">Редакционный текст</h3>

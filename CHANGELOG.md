@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.26] - 2026-11-25
+
+### Fixed
+- Replace brittle specimen-count regression with role-specific and interactive assertions; enforce canonical typography publication and add a painted-font fallback negative control. Clarify simulated action feedback.
+
 ## [0.3.25] - 2026-11-25
 
 ### Changed

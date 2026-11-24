@@ -2,7 +2,7 @@ import React from "react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe,expect,it } from "vitest";
-import { render,screen } from "@testing-library/react";
+import { render,screen,within,fireEvent } from "@testing-library/react";
 import { TypographySection } from "../src/showcase/TypographySection";
 import { WritingSection } from "../src/showcase/WritingSection";
 import { Scene } from "../src/showcase/Scene";
@@ -19,11 +19,28 @@ describe("typography and editor guidance",()=>{
   expect(css).toContain("--size-sm-font: 12px;");
   expect(css).toContain("--size-md-font: 13px;");
  });
- it("renders seven working specimens with direct Markdown links",()=>{
+ it("renders the shared scale, bilingual editorial examples and functional action specimen",()=>{
   const {container}=render(<TypographySection/>);
-  expect(screen.getByRole("heading",{name:"Текст, который удобно читать"})).toBeInTheDocument();
-  expect(container.querySelectorAll(".type-specimen")).toHaveLength(7);
-  expect(screen.getByRole("link",{name:/Токены, примеры/})).toHaveAttribute("href","/reference/typography.md");
+  expect(screen.getByRole("heading",{name:"Типографика",level:2})).toBeInTheDocument();
+  const scale=container.querySelector("#typography-scale")!;
+  expect(scale).not.toBeNull();
+  for(const role of ["display","heading","subheading","body","compact","caption","code"]){
+   const specimen=scale.querySelector(".ui-type-"+role);
+   expect(specimen?.textContent?.trim()).toBeTruthy();
+   expect(specimen?.closest(".type-specimen")?.textContent).toContain("--type-"+role+"-size");
+  }
+  for(const lang of ["ru","en"]){
+   const article=container.querySelector("#typography-editorial article[lang='"+lang+"']")!;
+   expect(article).not.toBeNull();
+   expect(within(article as HTMLElement).getByRole("heading",{level:4})).toHaveClass("ui-type-editorial-heading");
+   expect(article.querySelector(".ui-type-editorial-body")?.textContent?.trim()).toBeTruthy();
+   expect(article.querySelector(".ui-type-editorial-body em")?.textContent?.trim()).toBeTruthy();
+  }
+  const tracking=within(container.querySelector("#typography-tracking") as HTMLElement);
+  fireEvent.click(tracking.getByRole("button",{name:"Подробнее"}));
+  expect(tracking.getByRole("status")).toHaveTextContent("Выбрано: Подробнее");
+  expect(tracking.getByRole("link",{name:"К чтению"})).toHaveAttribute("href","#type-reading-title");
+  expect(screen.getByRole("link",{name:"Правила подключения и примеры кода"})).toHaveAttribute("href","/reference/typography.md");
  });
  it("credits both original authors, source and skills",()=>{
   render(<WritingSection/>);

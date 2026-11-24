@@ -65,5 +65,13 @@ test("Spectral paints Russian and English editorial text",async({page})=>{
       expect(fonts.filter(font=>font.glyphCount>0).every(font=>font.familyName.includes("Spectral"))).toBe(true);
     }
   }
+  // Fallback must be detected by the same painted-glyph criterion.
+  const sample=page.locator('#typography-editorial article[lang="ru"] .ui-type-editorial-body').first();
+  const {nodeId}=await session.send("DOM.querySelector",{nodeId:root.nodeId,selector:'#typography-editorial article[lang="ru"] .ui-type-editorial-body'});
+  const hasSpectral=async()=> (await session.send("CSS.getPlatformFontsForNode",{nodeId})).fonts.some(font=>font.isCustomFont&&font.familyName.includes("Spectral")&&font.glyphCount>0);
+  await sample.evaluate(el=>{(el as HTMLElement).style.fontFamily="monospace";});
+  await expect.poll(hasSpectral).toBe(false);
+  await sample.evaluate(el=>{(el as HTMLElement).style.fontFamily="";});
+  await expect.poll(hasSpectral).toBe(true);
   await session.detach();
 });
