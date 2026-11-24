@@ -38,10 +38,22 @@ export function fixture(sha, row) {
   };
 }
 
+// Tailwind's inline theme aliases can be inlined away. Check a real brand token,
+// shared interaction rule, and a utility emitted by the source scanner.
+export function assertConsumerCss(css) {
+  if(!css.includes(".ui-action-button")||!css.includes("--accent:")||!css.includes(".rounded-sm"))
+    throw new Error("Expected shared CSS and generated utility missing");
+}
+
 function run(cwd, cmd, args) {
-  const result=spawnSync(cmd,args,{cwd,stdio:"inherit",shell:process.platform==="win32",timeout:240000});
+  const result=spawnSync(cmd,args,{cwd,encoding:"utf8",shell:process.platform==="win32",timeout:240000,maxBuffer:8*1024*1024});
+  const output=(result.stdout??"")+(result.stderr??"");
+  writeFileSync(join(cwd,cmd+"-"+args.join("-").replace(/[^a-zA-Z0-9-]/g,"")+".log"),output);
+  if(result.stdout)process.stdout.write(result.stdout);
+  if(result.stderr)process.stderr.write(result.stderr);
   if(result.error) throw result.error;
   if(result.status!==0) throw new Error(cmd+" "+args.join(" ")+" exited "+result.status);
+  return (result.stdout??"").trim();
 }
 
 async function main() {
@@ -63,7 +75,8 @@ async function main() {
     let phase="toolchain";
     try{
       if(!prepare){
-        run(cwd,row.manager,["--version"]);
+        receipt.managerVersion=run(cwd,row.manager,["--version"]);
+        receipt.nodeVersion=process.version;
         phase="install";
         run(cwd,row.manager,["install"]);
         // The generated lockfile must retain the requested immutable tarball reference.
@@ -73,7 +86,7 @@ async function main() {
         phase="types";run(cwd,row.manager,["run","types"]);receipt.checks.types="PASS";
         phase="client";run(cwd,row.manager,["run","build"]);
         const css=readdirSync(join(cwd,"dist","assets")).filter(x=>x.endsWith(".css")).map(x=>readFileSync(join(cwd,"dist","assets",x),"utf8")).join("\n");
-        if(!css.includes(".ui-action-button")||!css.includes("--color-accent")||!css.includes(".rounded-sm"))throw new Error("Expected shared CSS and generated utility missing");
+        assertConsumerCss(css);
         receipt.checks.client="PASS";
         phase="ssr";run(cwd,row.manager,["run","ssr"]);
         const entry=readdirSync(join(cwd,"dist-ssr")).find(x=>/^entry-server\.(js|mjs)$/.test(x));

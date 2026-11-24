@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.12] - 2026-11-25
+
+### Fixed — manual QA
+- Validate emitted brand token and shared CSS rather than an inline Tailwind theme alias; preserve per-command logs and runtime versions in isolated consumer smoke receipts. Add positive and negative checks for the CSS oracle.
+
 ## [0.3.11] - 2026-11-25
 
 ### Added — manual QA

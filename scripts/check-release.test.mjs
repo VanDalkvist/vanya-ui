@@ -56,3 +56,11 @@ test('consumer smoke fixture has independent exact-SHA installs and real client/
   assert.match(files['vite.config.mjs'],/noExternal/);
  }
 });
+
+
+test('consumer CSS oracle checks emitted tokens and rejects missing library or utility',async()=>{
+ const {assertConsumerCss}=await import('./consumer-smoke.mjs');
+ const css=':root{--accent: red}.ui-action-button:active{color:var(--accent)}.rounded-sm{border-radius:2px}';
+ assert.doesNotThrow(()=>assertConsumerCss(css));
+ for(const token of ['--accent:','.ui-action-button','.rounded-sm'])assert.throws(()=>assertConsumerCss(css.replace(token,'missing')),/Expected shared CSS/);
+});
