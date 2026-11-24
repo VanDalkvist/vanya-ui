@@ -21,7 +21,7 @@ The exported `GitHubIcon` preserves the **legacy Lucide/Feather Github outline i
 
 ## Vanya Arc brand as a separate dependency
 
-`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) and [canonical rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/LICENSING.md). The public favicon and mark geometry come from this dependency; UI does not relicense the artwork.
+`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) and [canonical rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/LICENSING.md). The public favicon and mark geometry come from this dependency; UI does not relicense the artwork.
 
 ## Fonts
 
@@ -30,7 +30,7 @@ The website loads fonts **from Google Fonts** via stylesheet URLs; font binaries
 | Family | License | Original font-license reference |
 | --- | --- | --- |
 | Manrope | SIL Open Font License 1.1 | https://github.com/google/fonts/tree/main/ofl/manrope |
-| Fraunces | SIL Open Font License 1.1 | https://github.com/google/fonts/tree/main/ofl/fraunces |
+| Spectral | SIL Open Font License 1.1 | https://github.com/google/fonts/tree/main/ofl/spectral |
 | JetBrains Mono | SIL Open Font License 1.1 | https://github.com/JetBrains/JetBrainsMono/blob/master/OFL.txt |
 
 Commercial applications and rendered logos may use these families subject to their license terms. Do not package Apple San Francisco fonts under these licenses.

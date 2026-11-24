@@ -14,7 +14,7 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 
 ## Typography — required
 
-Use `src/tokens.css` semantic classes `ui-type-display`, `ui-type-heading`, `ui-type-subheading`, `ui-type-body`, `ui-type-compact`, `ui-type-caption`, `ui-type-code`. Manrope for UI text, JetBrains Mono for code/shortcuts, Fraunces optionally in editorial work. Body: 1rem/1.65, measure 66ch; review mobile, zoom and text spacing. Logo tracking is not body typography. [Typography guide](docs/patterns/typography.md), [audit](docs/research/typography-audit-2026-11-22.md), [live examples](https://ui.vanya-arc.dev/#typography).
+Use `src/tokens.css` semantic classes `ui-type-display`, `ui-type-heading`, `ui-type-subheading`, `ui-type-body`, `ui-type-compact`, `ui-type-caption`, `ui-type-code`, `ui-type-metadata`, `ui-type-editorial-heading`, `ui-type-editorial-body`. Manrope for UI text, JetBrains Mono for code/shortcuts, Spectral optionally for Russian and English editorial prose, quotes and headings. Body: 1rem/1.65, measure 66ch; review mobile, zoom and text spacing. Logo tracking is not body typography. [Typography guide](docs/patterns/typography.md), [audit](docs/research/typography-audit-2026-11-22.md), [live examples](https://ui.vanya-arc.dev/#typography).
 
 ## First-screen meaning — required
 
@@ -35,7 +35,7 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 ## Mixed-license scopes — required
 
-MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
+MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
 
 ## Licensing and third-party rights — required
 
@@ -81,7 +81,7 @@ The merged workspace primitives are `WorkspaceSplit`, `ScrollRegion`, `SectionTo
 
 ## Typography and hierarchy
 
-Manrope is the normal interface and display face, including EventCard, TimelinePreviewCard and InspectDrawer headings. Use size, weight, measure and spacing to separate content from controls. Fraunces remains available for intentionally editorial content, such as ReceiptDigestModal narrative prose. JetBrains Mono is for code, measurements and short metadata, not every heading.
+Manrope is the normal interface and display face, including EventCard, TimelinePreviewCard and InspectDrawer headings. Use size, weight, measure and spacing to separate content from controls. Spectral remains available for intentionally editorial content, such as ReceiptDigestModal narrative prose. JetBrains Mono is for code, measurements and short metadata, not every heading.
 
 ## Composition recipes
 

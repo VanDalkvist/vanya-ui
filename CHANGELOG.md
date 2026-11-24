@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.25] - 2026-11-25
+
+### Changed
+- Align typography guide, brand rights references, notices, agent skill and LLM publication inputs with Spectral and bilingual editorial roles. Record semantic editorial and architecture reviews.
+
 ## [0.3.24] - 2026-11-25
 
 ### Changed

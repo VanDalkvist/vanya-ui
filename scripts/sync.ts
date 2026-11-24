@@ -34,7 +34,7 @@ The actual component API is defined in the pinned src/index.ts and component imp
 
 ## Composition
 Open space, quiet contextual actions and details on request. See DESIGN.md for the authored composition guidance.
-Manrope is the default UI/display family; Fraunces remains available for deliberately editorial prose.
+Manrope is the default UI/display family; Spectral remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
 ## Interaction API (source contract)
@@ -44,13 +44,13 @@ SegmentedControl defaults to filters (aria-pressed). Explicit tabs require tabId
 Use Skeleton, SkeletonText, MediaCardSkeleton and LoadingRegion from @vanya/ui. Keep known page structure, reserve future layout, use one accessible status per loading area, disable pulse for reduced motion, and replace skeleton on success or error. Full docs: docs/patterns/loading-states.md; live /#loading-states.
 
 ## Typography (normative)
-Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-compact, ui-type-caption and ui-type-code from src/tokens.css. Manrope is for UI, JetBrains Mono for code; Fraunces is an optional editorial face. Body 1rem/1.65, measure 66ch; test mobile, browser zoom and text spacing. Source docs/patterns/typography.md and /#typography.
+Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-compact, ui-type-caption, ui-type-code, ui-type-metadata, ui-type-editorial-heading and ui-type-editorial-body from src/tokens.css. Manrope is for UI, JetBrains Mono for code; Spectral is the optional Russian/English editorial face; load used weights and italic separately. Verify actual rendered glyphs. Body 1rem/1.65, measure 66ch; test mobile, browser zoom and text spacing. Source docs/patterns/typography.md and /#typography.
 
 ## Writing (normative)
 Project-specific voice and verified product facts are in .agents/redpolitika.md. For editorial methods, use source links and fetch originals only when the task requires them: Ilyakhov and Sarycheva, the book https://bureau.ru/books/pishi/190 (not CC BY); Sarycheva and Arkhipov, original redaktura-skills https://github.com/N1arko/redaktura-skills (CC BY 4.0). Never represent our local rules as their copied or official method. Do not vendor upstream SKILL.md text, or invent source content when offline. Full source routing: docs/patterns/writing-and-editorial.md; live /#writing.
 
 ## Identity (normative)
-Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/docs/brand-guidelines.md; UI integration docs/identity/brand.md; live /#identity.
+Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/docs/brand-guidelines.md; UI integration docs/identity/brand.md; live /#identity.
 
 ## Keyboard shortcuts (normative)
 Shortcuts are optional accelerators, not replacements for commands. Avoid browser/OS collisions; do not run inside text inputs, IME or unrelated dialogs. Character-only shortcuts must be switchable off (WCAG 2.1.4). Use Kbd and ShortcutKeys for semantic accessible hints, follow the token palette, and keep a single source of truth for actual bindings. Full guidance: docs/patterns/keyboard-shortcuts.md, live section /#keyboard-shortcuts.
@@ -66,7 +66,7 @@ Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Off
 Every external claim needs its true primary author/organization, title, direct URL, the specific supported assertion and a rights status (reference-only, explicit license, permitted quotation or written permission). Distinguish citations, protected quotations, licensed adaptations and independently created commentary. A link is NOT a copyright license. Ilyakhov and Sarycheva's book is linked for commentary; redaktura-skills is CC BY 4.0 with its own named authors. For CC BY adaptations include author/title/source/license/changes; for MIT code preserve notices; for images/diagrams obtain permission or verify terms before reproduction. Refer to docs/patterns/sources-and-attribution.md and /reference/sources.md. Do not assert legal clearance merely because a source is public.
 
 ## Licenses and third-party attribution (mandatory)
-This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Fraunces, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/BRAND.md; older MIT grants persist.
+This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Spectral, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/BRAND.md; older MIT grants persist.
 
 ## Public publication safety (mandatory)
 The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.

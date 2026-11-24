@@ -18,7 +18,7 @@ For any UI feature, layout, component, form, navigation, loading/empty/error sta
 
 ## Phase 1 — model the task before coding
 
-**Typography:** follow [semantic type roles and tracking](../../docs/patterns/typography.md). Manrope for ordinary actions, compact mono action tracking .03em via the shared token, separate short metadata role, Fraunces for Latin editorial only; use Manrope for Cyrillic editorial until a serif is approved. Verify actual loaded fonts and Russian/English labels.
+**Typography:** follow [semantic type roles and tracking](../../docs/patterns/typography.md). Manrope for ordinary actions, compact mono action tracking .03em via the shared token, separate short metadata role, Spectral for optional Russian/English editorial prose, quotes and titles via ui-type-editorial-heading/body; applications load used weights and italics separately. Verify rendered glyphs, not only CSS family declarations. Verify actual loaded fonts and Russian/English labels.
 
 Identify: primary user action, screen/route, source of truth, required components, layout hierarchy, each vertical scroll owner, active context/breadcrumbs, Back/Forward, typography, breakpoints, loading/empty/error, keyboard focus, dark/light, source/legal links.
 

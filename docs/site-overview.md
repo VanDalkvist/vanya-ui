@@ -22,7 +22,7 @@
 - [Композиция](https://ui.vanya-arc.dev/#composition): открытый интерфейс и интерактивная синусоида.
 - [Айдентика](https://ui.vanya-arc.dev/#identity): родительский бренд, продукт / UI, утверждённый знак, типографика и цвета.
 - [Загрузка и скелетоны](https://ui.vanya-arc.dev/#loading-states): примеры и [правила](https://ui.vanya-arc.dev/reference/loading.md).
-- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, моношрифт, текстовые роли и размеры.
+- [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, JetBrains Mono, Spectral, текстовые роли и размеры.
 - [Тексты](https://ui.vanya-arc.dev/#writing): примеры текста и ссылки на оригинальные скиллы.
 - [Принципы](https://ui.vanya-arc.dev/#principles): устойчивые интерфейсные правила.
 - [Горячие клавиши](https://ui.vanya-arc.dev/#keyboard-shortcuts): настоящие G → буква, справка ?, выключатель и дизайн подсказок.
@@ -35,11 +35,11 @@
 
 ## Айдентика
 
-Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/docs/brand-guidelines.md) и [интеграция в UI](https://ui.vanya-arc.dev/reference/identity.md).
+Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/docs/brand-guidelines.md) и [интеграция в UI](https://ui.vanya-arc.dev/reference/identity.md).
 
 ## Типографика
 
-Используй общие CSS-роли `ui-type-display/heading/subheading/body/compact/caption/code` из `tokens.css`; чтение — 16px/1.65 и ширина 66ch. [Полные правила](https://ui.vanya-arc.dev/reference/typography.md).
+Используй общие CSS-роли `ui-type-display/heading/subheading/body/compact/caption/code/metadata и редакционные ui-type-editorial-heading/body` из `tokens.css`; чтение — 16px/1.65 и ширина 66ch. [Полные правила](https://ui.vanya-arc.dev/reference/typography.md).
 
 ## Тексты
 
@@ -80,6 +80,6 @@ import "@vanya/ui/tokens.css";
 
 ## Лицензии и авторство
 
-Исходный **код** проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Fraunces/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS и отдельные условия знака](https://ui.vanya-arc.dev/licenses.txt) · [Условия использования фирменного рисунка](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
+Исходный **код** проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Spectral/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS и отдельные условия знака](https://ui.vanya-arc.dev/licenses.txt) · [Условия использования фирменного рисунка](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
 
 Дополнительные источники: [компоненты](https://ui.vanya-arc.dev/reference/components.md), [навигация](https://ui.vanya-arc.dev/reference/navigation.md), [токены](https://ui.vanya-arc.dev/reference/tokens.md), [репозиторий](https://github.com/VanDalkvist/vanya-ui).
