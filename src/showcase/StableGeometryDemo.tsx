@@ -4,8 +4,8 @@ import { CatalogSection } from "./CatalogSection";
 
 type DemoState = "empty" | "one" | "many" | "loading" | "partial" | "error";
 const states: { id: DemoState; label: string }[] = [
-  { id: "empty", label: "Пусто" }, { id: "one", label: "1 элемент" },
-  { id: "many", label: "12 элементов" }, { id: "loading", label: "Загрузка" },
+  { id: "empty", label: "0 проектов" }, { id: "one", label: "1 проект" },
+  { id: "many", label: "12 проектов" }, { id: "loading", label: "Загрузка" },
   { id: "partial", label: "Частично" }, { id: "error", label: "Ошибка" },
 ];
 const samples: Record<DemoState, number[] | null> = {
@@ -29,10 +29,10 @@ export function StableGeometryDemo() {
     : geometryDemo === "loading" ? "График загружается" : "График недоступен";
   const points = values?.map((value, i) => (24 + i * 46) + "," + (102 - value * 4)).join(" ");
   return (
-    <CatalogSection id="composition-stable-geometry" title="Композиция / Стабильная геометрия"
-      description="Переключи состояния. График, фильтры и соседнее действие сохраняют место; меняется содержимое результата. Демонстрационные данные.">
+    <CatalogSection id="composition-stable-geometry" title="Стабильность интерфейса"
+      description="Выбери состояние примера. Сравни положение кнопок и графика. Данные вымышлены.">
       <div style={{width:"100%",minWidth:0}}>
-        <SegmentedControl<DemoState> semantics="filters" aria-label="Состояние результата"
+        <SegmentedControl<DemoState> semantics="filters" aria-label="Состояние примера"
           className="stable-geometry-controls" items={states} value={geometryDemo} onChange={setGeometryDemo}/>
         <div className="stable-geometry-demo">
           <div style={{minWidth:0}}>
@@ -46,8 +46,7 @@ export function StableGeometryDemo() {
                 {values.map((value, i) => <circle key={i} cx={24 + i * 46} cy={102 - value * 4} r="3" fill="var(--accent)"><title>{"День " + (i + 1) + ": " + value}</title></circle>)}
               </svg> : <div className="stable-geometry-plot-message">{plotLabel}</div>}
             </div>
-            <p className="ui-type-caption">График и независимая строка действия</p>
-            <ActionLink href="#stable-workspace-geometry">Правило композиции</ActionLink>
+            <ActionLink href="/reference/composition.md">Правила композиции (раздел 11)</ActionLink>
             <details className="stable-geometry-details">
               <summary>Значения графика</summary>
               <p>{values ? plotLabel : "Значения пока недоступны."}</p>
@@ -55,16 +54,15 @@ export function StableGeometryDemo() {
           </div>
           <div style={{minWidth:0}}>
             <div className="ui-type-caption" style={{minHeight:28}}>Результаты</div>
-            <ScrollRegion label="Демонстрационный список" className="stable-geometry-results">
+            <ScrollRegion label="Проекты" className="stable-geometry-results">
               {geometryDemo === "loading" ? <LoadingRegion label="Загрузка результатов">{Array.from({length:3},(_,i)=><Skeleton key={i} width="90%" height={32}/>)}</LoadingRegion> :
-                geometryDemo === "empty" ? <WorkspaceEmptyState title="Результатов нет"/> :
-                geometryDemo === "error" ? <WorkspaceEmptyState title="Не удалось загрузить результаты" description="Выбери другое состояние примера."/> :
-                <><p className="ui-type-caption" role="status">{geometryDemo === "partial" ? "Доступно 6 из 12 проектов; данные за три дня отсутствуют." : "Проектов: " + names.length}</p>
+                geometryDemo === "empty" ? <WorkspaceEmptyState title="Нет проектов" description="Выбери состояние с проектами."/> :
+                geometryDemo === "error" ? <WorkspaceEmptyState title="Не удалось загрузить проекты" description="Выбери другое состояние примера."/> :
+                <><p className="ui-type-caption" role="status">{geometryDemo === "partial" ? "Доступно 6 из 12 проектов. Данных за последние 3 дня нет." : "Проектов: " + names.length}</p>
                 <ul className="stable-geometry-list">{names.map(name => <li key={name}>{name}</li>)}</ul></>}
             </ScrollRegion>
           </div>
         </div>
-        <a className="guide-link" href="/reference/composition.md">Контракт и чек-лист геометрии</a>
       </div>
     </CatalogSection>
   );

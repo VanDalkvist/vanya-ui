@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-11-25
+
+### Changed — documentation and showcase
+- Simplify geometry example copy, give empty/error states a next step, keep one canonical reference link, and require named protected elements per transition.
+
 ## [0.3.3] - 2026-11-25
 
 ### Changed — showcase only
