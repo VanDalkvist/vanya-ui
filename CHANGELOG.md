@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-11-25
+
+### Added
+- Geometry regression scenarios in existing Playwright gate: six states, four widths, both themes, real data changes, disclosure, keyboard and negative-control layout mutation. Example selector allows label reflow and stable font weight.
+
 ## [0.3.4] - 2026-11-25
 
 ### Changed — documentation and showcase

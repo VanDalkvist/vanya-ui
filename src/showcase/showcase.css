@@ -331,7 +331,7 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .stable-geometry-plot { height:160px; min-width:0; padding-top:16px; }
 .stable-geometry-results { height:190px; }
 .stable-geometry-controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); width:100%; border-radius:var(--radius-sm); }
-.stable-geometry-controls button { justify-content:center; min-width:0; white-space:normal; }
+.stable-geometry-controls button { justify-content:center; min-width:0; height:auto; min-height:calc(var(--ui-height) - 6px); padding-block:4px; white-space:normal; overflow-wrap:anywhere; font-weight:500; }
 .stable-geometry-list { list-style:none; margin:0; padding:0; }
 .stable-geometry-list li { padding:10px 4px; border-bottom:1px solid var(--border); overflow-wrap:anywhere; }
 .stable-geometry-plot-message { display:grid; place-items:center; height:100%; color:var(--ink-soft); }
