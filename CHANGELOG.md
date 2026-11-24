@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.9] - 2026-11-25
+
+### Added — browser QA only
+- Pinned axe-core WCAG A/AA smoke for component specimens and open menu/drawer, evidence attachments for incomplete checks, and missing-name negative control.
+
 ## [0.3.8] - 2026-11-25
 
 ### Fixed
