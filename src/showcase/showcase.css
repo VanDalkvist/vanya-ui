@@ -325,3 +325,12 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .demo-apg-tabs [role="tabpanel"]{min-height:72px;max-width:60ch;width:100%;padding:12px;background:var(--surface-inset);border-radius:var(--radius-sm);font-size:13px;line-height:1.6;}
 .demo-apg-tabs [role="tabpanel"][hidden]{display:none;}
 .demo-apg-tabs [role="tabpanel"]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* Showcase-only example; no new library primitives. */
+.stable-geometry-demo { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:24px; align-items:start; margin:20px 0; }
+.stable-geometry-plot { height:160px; min-width:0; padding-top:16px; }
+.stable-geometry-results { height:190px; }
+@media(max-width:640px) {
+  .stable-geometry-demo { grid-template-columns:minmax(0,1fr); gap:16px; }
+  .stable-geometry-results.ui-scroll-region { height:auto; overflow:visible; }
+}
