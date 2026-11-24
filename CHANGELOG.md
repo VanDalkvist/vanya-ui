@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-11-25
+
+### Changed — showcase only
+- Isolate the stable geometry example and its local state in a dedicated showcase component; preserve markup, IDs and styles.
+
 ## [0.3.1] - 2026-11-25
 
 ### Fixed

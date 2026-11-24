@@ -13,3 +13,8 @@ Source: PR #26 `99993a041a677ed1f0e41986efbad00839a54885`, main `81cb01abd6088dd
 - S4–S8: replace obsolete tabs default in the composition guide; trace `SegmentedControl.tsx` discriminated union and runtime branch, and cross-check canonical skill. Existing consumer behavior unchanged.
 - Design review (source): filters change the current collection; tabs select linked panels and support composite keyboard navigation. Documentation now gives implementable instructions for both.
 - Source check PASS: explicit tabs, panel IDs, filter default agree across guide, skill and component. Browser/full build NOT_RUN; UNTAGGED. Next: isolate showcase example.
+
+## Cycle 3 — 0.3.2 — showcase boundary
+- S4–S8: extract the exact existing example and its local useState into StableGeometryDemo.tsx, wired once at the original catalog position. No shared exports, new abstractions or CSS changes.
+- Design review (source): unchanged DOM, states, IDs, text and styles; interaction and placement remain identical by construction. Catalog remains above the historical line budget; broader decomposition is outside this slice.
+- Source check PASS: extracted markup and state byte-equivalent, single callsite, imports from public index. Browser/full build NOT_RUN; UNTAGGED. Next: improve example state coverage.

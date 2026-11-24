@@ -8,6 +8,7 @@ import {
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
+import { StableGeometryDemo } from "./StableGeometryDemo";
 
 function Sizes({ children }: { children: (size: "sm" | "md") => React.ReactNode }) {
   return <div className="demo-column">{(["md", "sm"] as const).map((size) => <div key={size} className="size-examples"><span className="demo-label size-label">{size}</span>{children(size)}</div>)}</div>;
@@ -39,7 +40,6 @@ export function ComponentCatalog() {
   const [toolbarQuery,setToolbarQuery]=useState("");
   const [toolbarScope,setToolbarScope]=useState("all");
   const [toolbarGenre,setToolbarGenre]=useState("");
-  const [geometryDemo,setGeometryDemo]=useState<"empty"|"one"|"many"|"loading">("many");
   const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
   const [interactionScope,setInteractionScope] = useState("all");
   const [interactionClicks,setInteractionClicks] = useState(0);
@@ -324,35 +324,7 @@ export function ComponentCatalog() {
           actions={<ActionButton size="sm" onClick={()=>setOverlay("sheet")}>Действия</ActionButton>}/>
       </div>
     </CatalogSection>
-    <CatalogSection id="composition-stable-geometry" title="Композиция / Стабильная геометрия"
-      description="Переключи состояния. График, фильтры и соседнее действие сохраняют место; меняется содержимое результата. Демонстрационные данные.">
-      <div style={{width:"100%",minWidth:0}}>
-        <SegmentedControl semantics="filters" aria-label="Состояние результата"
-          items={[{id:"empty",label:"Пусто"},{id:"one",label:"1 элемент"},{id:"many",label:"12 элементов"},{id:"loading",label:"Загрузка"}]}
-          value={geometryDemo} onChange={v=>{if(v==="empty"||v==="one"||v==="many"||v==="loading")setGeometryDemo(v);}}/>
-        <div className="stable-geometry-demo">
-          <div style={{minWidth:0}}>
-            <div className="stable-geometry-plot">
-              <svg width="100%" height="100%" viewBox="0 0 320 120" preserveAspectRatio="none" role="img" aria-label="Условный график">
-                {[20,60,100].map(y=><path key={y} d={`M0 ${y} H320`} stroke="var(--border)" strokeDasharray="3 4"/>)}
-                <path d="M0 90 C30 90 45 20 75 20 S125 100 155 100 S220 22 250 22 S295 70 320 70" fill="none" stroke="var(--accent)" strokeWidth="2" vectorEffect="non-scaling-stroke"/>
-              </svg>
-            </div>
-            <p className="ui-type-caption">График и независимая строка действия</p>
-            <ActionLink href="#stable-workspace-geometry">Правило композиции</ActionLink>
-          </div>
-          <div style={{minWidth:0}}>
-            <div className="ui-type-caption" style={{minHeight:28}}>Результаты</div>
-            <ScrollRegion label="Демонстрационный список" className="stable-geometry-results">
-              {geometryDemo==="loading"?<LoadingRegion label="Загрузка результатов">{Array.from({length:3},(_,i)=><Skeleton key={i} width="90%" height={32}/>)}</LoadingRegion>:
-                geometryDemo==="empty"?<WorkspaceEmptyState title="Результатов нет"/>:
-                Array.from({length:geometryDemo==="one"?1:12},(_,i)=><div key={i} style={{padding:"10px 4px",borderBottom:"1px solid var(--border)"}}>Результат {i+1}</div>)}
-            </ScrollRegion>
-          </div>
-        </div>
-        <a className="guide-link" href="/reference/composition.md">Контракт и чек-лист геометрии</a>
-      </div>
-    </CatalogSection>
+    <StableGeometryDemo />
     <CatalogSection id="composition-reading-inspector" title="Композиция / Reader Inspector"
       description="Правила композиции: один исходный заголовок, действия возле контекста, одна компактная полоса процесса и вторичная информация в раскрытии. При прокрутке название переходит в существующий InspectDrawer, без второго sticky-хедера. Не складывай flex gap и space-y.">
       <div style={{width:"min(100%,760px)",display:"flex",flexDirection:"column",gap:11}}>
