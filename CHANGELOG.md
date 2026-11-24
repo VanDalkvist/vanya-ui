@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.16] - 2026-11-25
+
+### Fixed
+- Give showcase navigation and utilities explicit layout areas; measure sticky-header height for fragment clearance and active-section tracking. Remove absolute-positioned mobile utilities.
+
 ## [0.3.15] - 2026-11-25
 
 ### Fixed

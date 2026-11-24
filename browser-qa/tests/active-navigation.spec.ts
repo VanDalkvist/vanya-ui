@@ -29,3 +29,18 @@ for (const width of [1440,1024,390,320]) {
     await expect(current).toHaveText("Компоненты");
   });
 }
+
+for (const width of [320,390,1024,1440]) test("header areas and measured clearance at "+width,async({page})=>{
+  await page.setViewportSize({width,height:844}); await page.goto("/");
+  await page.evaluate(async()=>{await document.fonts.ready});
+  const header=page.locator(".showcase-header");
+  await expect.poll(()=>header.evaluate(el=>Math.abs(Math.ceil(el.getBoundingClientRect().height)-parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--showcase-header-height"))))).toBeLessThanOrEqual(1);
+  const separated=()=>header.evaluate(el=>{
+    const rects=[".showcase-name",".showcase-nav",".showcase-utilities"].map(s=>el.querySelector(s)!.getBoundingClientRect());
+    return rects.every((a,i)=>rects.slice(i+1).every(b=>a.right<=b.left+1||b.right<=a.left+1||a.bottom<=b.top+1||b.bottom<=a.top+1));
+  });
+  expect(await separated()).toBe(true);
+  await page.evaluate(()=>{document.documentElement.style.fontSize="200%"});
+  await expect.poll(()=>header.evaluate(el=>Math.abs(Math.ceil(el.getBoundingClientRect().height)-parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--showcase-header-height"))))).toBeLessThanOrEqual(1);
+  expect(await separated()).toBe(true);
+});

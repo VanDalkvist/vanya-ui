@@ -57,9 +57,16 @@ export function useActiveShowcaseSection(ids: readonly string[]) {
   const [active, setActive] = useState<string>(ids[0] ?? "");
   useEffect(() => {
     let frame = 0;
+    const header = document.querySelector<HTMLElement>(".showcase-header");
+    const root = document.documentElement;
+    const previousHeight = root.style.getPropertyValue("--showcase-header-height");
+    const updateHeight = () => {
+      const height = header?.getBoundingClientRect().height ?? 0;
+      if (height > 0) root.style.setProperty("--showcase-header-height", `${Math.ceil(height)}px`);
+    };
     const measure = () => {
       frame = 0;
-      const header = document.querySelector<HTMLElement>(".showcase-header");
+      updateHeight();
       const next = visibleSection(ids, header?.getBoundingClientRect().bottom ?? 0);
       if (next) setActive((previous) => previous === next ? previous : next);
     };
@@ -79,8 +86,16 @@ export function useActiveShowcaseSection(ids: readonly string[]) {
     window.addEventListener("hashchange", syncLocation);
     window.addEventListener("popstate", syncLocation);
     window.addEventListener("pageshow", schedule);
+    updateHeight();
+    const observer = typeof ResizeObserver !== "undefined" && header ? new ResizeObserver(() => {
+      updateHeight(); schedule();
+    }) : null;
+    if (header) observer?.observe(header);
     syncLocation();
     return () => {
+      observer?.disconnect();
+      if (previousHeight) root.style.setProperty("--showcase-header-height", previousHeight);
+      else root.style.removeProperty("--showcase-header-height");
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       window.removeEventListener("hashchange", syncLocation);

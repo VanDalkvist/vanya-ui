@@ -37,7 +37,7 @@ export function NavLinks({
       aria-label="Навигация"
     >
       {/* Нарративные разделы */}
-      <div className="flex items-center gap-x-3.5 sm:gap-x-4">
+      <div data-ui-nav-items="" className="flex items-center gap-x-3.5 sm:gap-x-4">
         {items.map((item) => {
           const classes = clsx(
             "ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-[13px] sm:text-[13px] tracking-normal cursor-pointer",

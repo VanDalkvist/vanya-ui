@@ -43,6 +43,14 @@ describe("showcase header: product, navigation and utility hierarchy",()=>{
   expect(layout).not.toContain(".showcase-github { color:var(--ink-soft)");
   expect(github.querySelector("svg")).toHaveAttribute("width","14");
  });
+ it("keeps navigation and utilities in explicit separate layout areas",()=>{
+  const {container}=render(<ShowcaseHeader/>);
+  const nav=container.querySelector(".showcase-nav")!;
+  const utilities=container.querySelector(".showcase-utilities")!;
+  expect(nav.querySelector("[data-ui-nav-items]")).not.toBeNull();
+  expect(nav.contains(utilities)).toBe(false);
+  expect(within(utilities as HTMLElement).getByRole("button",{name:/Тема оформления:/})).toBeInTheDocument();
+ });
  it("leaves expanded theme, focus and hover as separate feedback states",()=>{
   const css=read("src/tokens.css");
   expect(css).toContain('.ui-feedback-icon[aria-expanded="true"]');

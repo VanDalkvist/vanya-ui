@@ -1,7 +1,7 @@
 .showcase-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px var(--spacing-scene); }
 /* Match the neutral icon buttons with NavLinks / ActionLink text-ink-soft/80.
    Default library icons remain unchanged; the page header opts into a quiet utility tier. */
-.showcase-nav { column-gap:12px; --ui-feedback-icon-ink:color-mix(in oklab,var(--ink-soft) 80%,transparent); }
+.showcase-nav, .showcase-utilities { column-gap:12px; --ui-feedback-icon-ink:color-mix(in oklab,var(--ink-soft) 80%,transparent); }
 /* Author is a semantic external utility link, not another primary page/route.
    Appearance comes from shared ActionLink; only placement and responsive labels live here. */
 .showcase-author-link { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; flex:none; min-width:0; font-size:13px; text-decoration:none; }
@@ -185,7 +185,7 @@ p { text-wrap:pretty; }
 /* Keep the 14px glyph constant. Enlarge only pointer targets on touch screens. */
 @media(pointer:coarse){
  .showcase-github{width:44px;height:44px;}
- .showcase-nav .ui-feedback-icon{min-width:44px;min-height:44px;}
+ .showcase-utilities .ui-feedback-icon{min-width:44px;min-height:44px;}
 }
 .showcase-name:active,.guide-link:active,.showcase-footer :is(a):active { opacity:.68;transition-duration:0ms; }
 .shortcut-pending { position:fixed; z-index:51; bottom:24px; left:50%; transform:translateX(-50%); padding:12px 18px; background:var(--surface-raised); border:1px solid var(--border-strong); color:var(--ink); font:500 13px var(--font-mono); box-shadow:var(--sheet-shadow); }
@@ -259,13 +259,13 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .writing-attribution { max-width:var(--type-reading-measure); color:var(--ink-soft); font:var(--type-compact-size)/1.75 var(--font-sans); margin:24px 0; }
 .writing-attribution strong { color:var(--ink); }
 .showcase-nav { min-width:0; flex:1 1 auto; justify-content:flex-end; }
-.showcase-nav > div:first-child { min-width:0; display:flex; flex:0 1 auto; gap:12px; white-space:nowrap; overflow-x:auto; scrollbar-width:none; }
-.showcase-nav > div:first-child::-webkit-scrollbar { display:none; }
-.showcase-nav > div:first-child a { flex-shrink:0; }
+.showcase-nav [data-ui-nav-items] { min-width:0; display:flex; flex:0 1 auto; gap:12px; white-space:nowrap; overflow-x:auto; scrollbar-width:none; }
+.showcase-nav [data-ui-nav-items]::-webkit-scrollbar { display:none; }
+.showcase-nav [data-ui-nav-items] a { flex-shrink:0; }
 @media(max-width:700px) {
   .showcase-header { flex-wrap:wrap; align-items:center; }
   .showcase-nav { flex-basis:100%; justify-content:space-between; flex-wrap:nowrap; }
-  .showcase-nav > div:first-child { flex:1 1 auto; overflow-x:auto; }
+  .showcase-nav [data-ui-nav-items] { flex:1 1 auto; overflow-x:auto; }
   .type-specimen { grid-template-columns:1fr; gap:10px; }
   .type-specimen-meta { flex-direction:row; flex-wrap:wrap; justify-content:space-between; }
   .type-reading-demo, .writing-example, .writing-principles { grid-template-columns:1fr; }
@@ -343,21 +343,18 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
   .stable-geometry-results.ui-scroll-region { height:auto; overflow:visible; }
 }
 
-/* Keep the complete active section label visible in the mobile navigation strip. */
+/* Explicit showcase areas; normal flow prevents brand/utility overlap. */
+.showcase-header{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"brand navigation utilities"}
+.showcase-name{grid-area:brand}
+.showcase-nav{grid-area:navigation;min-width:0}
+.showcase-utilities{grid-area:utilities;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
 @media(max-width:700px){
- .showcase-header{gap:8px;padding-block:10px}
+ .showcase-header{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand utilities" "navigation navigation";gap:8px;padding-block:10px}
  .showcase-name{min-height:44px}
- .showcase-nav{flex-basis:100%;justify-content:flex-start}
- .showcase-nav>span{display:none}
- .showcase-nav>div:last-child{position:absolute;top:10px;right:var(--spacing-scene);min-height:44px}
- .showcase-nav>div:first-child{flex:1 1 100%;padding:3px 2px}
+ .showcase-nav{justify-content:flex-start}
+ .showcase-nav [data-ui-nav-items]{flex:1 1 100%;padding:3px 2px}
 }
 @media(max-width:360px){
- .showcase-header{padding-inline:12px}
- .showcase-nav>div:last-child{right:12px}
-}
-@media(max-width:360px) and (pointer:coarse){
- .showcase-nav>div:last-child{position:static;justify-content:flex-end;min-height:44px}
- .showcase-nav{flex-wrap:wrap}
- .showcase-nav>div:first-child{flex-basis:100%}
+ .showcase-header{grid-template-columns:minmax(0,1fr);grid-template-areas:"brand" "navigation" "utilities";padding-inline:12px}
+ .showcase-utilities{justify-content:flex-end;min-height:32px}
 }

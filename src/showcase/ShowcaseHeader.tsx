@@ -21,7 +21,7 @@ export function ShowcaseHeader() {
   const activeSection = useActiveShowcaseSection(SECTION_IDS);
   const headerRef = useRef<HTMLElement>(null);
   useEffect(() => {
-    const strip = headerRef.current?.querySelector<HTMLElement>(".showcase-nav > div:first-child");
+    const strip = headerRef.current?.querySelector<HTMLElement>(".showcase-nav [data-ui-nav-items]");
     const selected = strip?.querySelector<HTMLElement>('a[aria-current="location"]');
     if (!strip || !selected) return;
     const reveal = () => {
@@ -36,7 +36,8 @@ export function ShowcaseHeader() {
   }, [activeSection]);
   return <header ref={headerRef} className="showcase-header">
     <a className="showcase-name" href="/#composition" aria-label="Vanya Arc / UI — главная"><VanyaArcLockup product="UI" size="md" /></a>
-    <NavLinks items={longreadSections.map(([id, label]) => ({ id, label, href: `/#${id}`, isActive: id === activeSection }))} className="showcase-nav">
+    <NavLinks items={longreadSections.map(([id, label]) => ({ id, label, href: `/#${id}`, isActive: id === activeSection }))} className="showcase-nav"/>
+    <div className="showcase-utilities">
       <ActionLink className="showcase-author-link" href="https://vanya-arc.dev/" target="_blank" rel="author"
          aria-label="Автор: Ваня Афанасов — личный сайт (новая вкладка)" size="sm" variant="text">
          <span className="showcase-author-full">Ваня Афанасов</span>
@@ -45,6 +46,6 @@ export function ShowcaseHeader() {
        </ActionLink>
       <a className="showcase-github ui-feedback-icon" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer" aria-label="GitHub — исходники Vanya UI (новая вкладка)" title="GitHub — исходники"><GitHubIcon size={14} /></a>
       <ThemeToggle />
-    </NavLinks>
+    </div>
   </header>;
 }
