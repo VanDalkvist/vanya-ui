@@ -38,3 +38,21 @@ test('package metadata resolves one source entrypoint and existing public files'
  assert.ok(existsSync(join(root,pkg.exports['./tokens.css'])));
  assert.equal(entry.require,undefined);
 });
+
+
+test('consumer smoke fixture has independent exact-SHA installs and real client/SSR inputs',async()=>{
+ const {fixture,matrix}=await import('./consumer-smoke.mjs');
+ const sha='ef40f50e9f62a4780c35181391c0309fe50fee5e';
+ assert.deepEqual(matrix.map(x=>x.manager),['npm','bun']);
+ assert.throws(()=>fixture('main',matrix[0]),/40-character/);
+ for(const row of matrix){
+  const files=fixture(sha,row),pkg=JSON.parse(files['package.json']);
+  assert.equal(pkg.dependencies['@vanya/ui'],'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/'+sha);
+  assert.equal(pkg.dependencies.react,row.react);
+  assert.equal(pkg.dependencies['react-dom'],row.react);
+  assert.match(files['src/App.tsx'],/SegmentedControl/);
+  assert.match(files['src/style.css'],/@source/);
+  assert.match(files['src/entry-server.tsx'],/renderToString/);
+  assert.match(files['vite.config.mjs'],/noExternal/);
+ }
+});

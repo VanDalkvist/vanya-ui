@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.11] - 2026-11-25
+
+### Added — manual QA
+- Isolated pinned-SHA consumer smoke matrix for npm/React 18 and Bun/React 19, with type, client/CSS and SSR checks; document manual release and migration. Fixture generation is covered by offline tests; consumer execution pending.
+
 ## [0.3.10] - 2026-11-25
 
 ### Fixed
