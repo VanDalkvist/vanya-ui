@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.10] - 2026-11-25
+
+### Fixed
+- Align package entrypoint metadata with the existing ESM source distribution; resolve types first and document bundler/SSR requirements. Add an offline source-contract regression test. Public exports and component APIs unchanged.
+
 ## [0.3.9] - 2026-11-25
 
 ### Added — browser QA only

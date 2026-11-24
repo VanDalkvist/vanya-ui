@@ -20,3 +20,21 @@ test('local offline release check validates source version and changelog',()=>{
   assert.match(validateReleaseVersion(dir).errors.join(' '),/Unreleased/);
  }finally{rmSync(dir,{recursive:true,force:true})}
 });
+
+// Check the actual source-package contract separately from the generic release fixture.
+test('package metadata resolves one source entrypoint and existing public files',async()=>{
+ const {readFileSync,existsSync}=await import('node:fs');
+ const {fileURLToPath}=await import('node:url');
+ const root=fileURLToPath(new URL('../',import.meta.url));
+ const pkg=JSON.parse(readFileSync(join(root,'package.json'),'utf8'));
+ const entry=pkg.exports['.'];
+ assert.equal(pkg.type,'module');
+ assert.equal(Object.keys(entry)[0],'types');
+ for(const path of [pkg.main,pkg.module,pkg.types,entry.types,entry.import]){
+  assert.equal(path,'./src/index.ts');
+  assert.ok(existsSync(join(root,path)),path);
+ }
+ assert.equal(pkg.exports['./tokens.css'],'./src/tokens.css');
+ assert.ok(existsSync(join(root,pkg.exports['./tokens.css'])));
+ assert.equal(entry.require,undefined);
+});
