@@ -35,7 +35,7 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 ## Mixed-license scopes — required
 
-MIT covers original program code and ordinary guides; three original research documents are licensed under CC BY 4.0 as marked. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
+MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
 
 ## Licensing and third-party rights — required
 

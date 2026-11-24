@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.18] - 2026-11-25
+
+### Fixed — licensing documentation
+- Align mixed-license scope and marked research, record isolated browser QA dependencies and pin brand rights references to the installed source commit.
+
 ## [0.3.17] - 2026-11-25
 
 ### Changed

@@ -21,7 +21,7 @@ The exported `GitHubIcon` preserves the **legacy Lucide/Feather Github outline i
 
 ## Vanya Arc brand as a separate dependency
 
-`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) and [canonical rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/LICENSING.md). The public favicon and mark geometry come from this dependency; UI does not relicense the artwork.
+`@vanya/ui` depends on the public GitHub package [`@vanya/brand`](https://github.com/VanDalkvist/vanya-arc-brand). The brand package declares mixed licensing via `SEE LICENSE IN LICENSING.md`: its original React/CSS code is MIT, while official artwork/mark has a [separate brand-artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt) and [canonical rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/6c6a3d2d1b25e212817c354b2ee76163c4a64fab/LICENSING.md). The public favicon and mark geometry come from this dependency; UI does not relicense the artwork.
 
 ## Fonts
 
@@ -58,6 +58,15 @@ Upstream examples:
 - https://github.com/vitest-dev/vitest/blob/main/LICENSE
 - https://github.com/tailwindlabs/tailwindcss/blob/main/LICENSE
 - https://github.com/microsoft/TypeScript/blob/main/LICENSE.txt
+
+## Browser QA tooling (local test dependencies)
+
+| Work | Declared license | Upstream |
+| --- | --- | --- |
+| `@playwright/test` (1.65.1) | Apache-2.0 | https://github.com/microsoft/playwright/blob/main/LICENSE and https://github.com/microsoft/playwright/blob/main/NOTICE |
+| `axe-core` (4.14.1) | MPL-2.0 | https://github.com/dequelabs/axe-core/blob/develop/LICENSE |
+
+These are isolated `browser-qa` devDependencies. The showcase build and consumer runtime package do not import them. Retain upstream license/NOTICE materials and fulfill MPL source obligations if distributing covered code; the Vanya UI test code retains its own original-work MIT scope. Browser binaries have their own notices. Upstream project metadata confirms these license families; review the exact installed packages and their transitive notices once the QA lockfile is generated.
 
 ## Lucide and Feather: complete upstream license notice
 
