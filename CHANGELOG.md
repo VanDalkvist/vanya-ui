@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-25
+
+### Fixed
+- Align the workspace composition guide with the filter default and explicit linked tabs contract from PR #25.
+
 ## [0.3.0] - 2026-11-25
 
 ### Added — stable geometry (cycle 1)

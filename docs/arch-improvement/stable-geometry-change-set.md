@@ -8,3 +8,8 @@ Source: PR #26 `99993a041a677ed1f0e41986efbad00839a54885`, main `81cb01abd6088dd
 - Design review (source): link placement and existing composition unchanged; correct target serves the user task. No new library primitives or consumer changes.
 - Source checks: exact two broken occurrences replaced; canonical heading and both route mappings confirmed; SemVer/changelog match. Regression test added, not executed here. S9 browser/full build NOT_RUN; release UNTAGGED, UI NOT_VERIFIED.
 - Next: synchronize obsolete SegmentedControl semantics in composition contract.
+
+## Cycle 2 — 0.3.1 — semantic contract
+- S4–S8: replace obsolete tabs default in the composition guide; trace `SegmentedControl.tsx` discriminated union and runtime branch, and cross-check canonical skill. Existing consumer behavior unchanged.
+- Design review (source): filters change the current collection; tabs select linked panels and support composite keyboard navigation. Documentation now gives implementable instructions for both.
+- Source check PASS: explicit tabs, panel IDs, filter default agree across guide, skill and component. Browser/full build NOT_RUN; UNTAGGED. Next: isolate showcase example.

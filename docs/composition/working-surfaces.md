@@ -12,7 +12,7 @@ Avoid oversized, repeated titles, hero paragraphs, and duplicate section heading
 
 - `NavLinks` names **primary destinations**, not every available capability. Aim for few stable destinations.
 - `SegmentedControl semantics="filters"` changes the **subset** within the current context, e.g., All / Mine / Shared. As a filter, it exposes a labeled `group` of pressed buttons to assistive technology.
-- `SegmentedControl semantics="tabs"` (default for backwards compatibility) represents actual tab navigation and exposes a `tablist`.
+- `SegmentedControl` defaults to filters; specify `semantics="tabs"` for actual tab navigation. Supply `tabId` and `panelId` for each tab and render the associated `tabpanel`. Tabs use arrow keys, Home/End and roving focus.
 - `Tag` is useful for small, immediately visible participant or category selections; convey pressed state and result count.
 - Prefer one common search input that searches the whole underlying collection, not a silently narrower derived subset.
 
