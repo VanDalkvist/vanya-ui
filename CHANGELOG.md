@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.20] - 2026-11-25
+
+### Fixed — test integrity
+- Review semantic test coverage; assert visible timeline movement, actual filter totals, linked dynamic tab panels, exact plot data, loading/error outcomes, anchor clearance, and meaningful axe negative control.
+
 ## [0.3.19] - 2026-11-25
 
 ### Fixed — QA integrity

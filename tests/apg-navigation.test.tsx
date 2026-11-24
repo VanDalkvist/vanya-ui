@@ -92,6 +92,34 @@ describe("#13: filters must not claim tab semantics; real tabs must follow APG",
     expect(change).toHaveBeenCalledTimes(2);
   });
 
+  it("reconciles the visible panel and selected tab after the owner accepts recovery",()=>{
+    const all=[
+      {id:"a",label:"A",tabId:"tab-a",panelId:"panel-a"},
+      {id:"b",label:"B",tabId:"tab-b",panelId:"panel-b"},
+      {id:"c",label:"C",tabId:"tab-c",panelId:"panel-c"},
+    ];
+    function Host({mode}:{mode:"initial"|"disabled"|"removed"}){
+      const [value,setValue]=React.useState("a");
+      const items=mode==="removed"?all.slice(2):all.map(i=>({...i,disabled:mode==="disabled"&&i.id==="a"}));
+      return <><SegmentedControl semantics="tabs" aria-label="Views" value={value} items={items} onChange={setValue}/>
+        {items.map(i=><div key={i.id} role="tabpanel" id={i.panelId} aria-labelledby={i.tabId} hidden={i.id!==value}>{i.label} content</div>)}</>;
+    }
+    const view=render(<Host mode="initial"/>);
+    const selected=(label:string)=>{
+      const tab=screen.getByRole("tab",{name:label});
+      expect(tab).toHaveAttribute("aria-selected","true");
+      expect(tab).toHaveAttribute("tabindex","0");
+      const panel=screen.getByRole("tabpanel",{name:label});
+      expect(panel).toHaveTextContent(label+" content");
+      expect(tab.getAttribute("aria-controls")).toBe(panel.id);
+      expect(screen.getAllByRole("tabpanel")).toHaveLength(1);
+      expect(screen.getAllByRole("tab").filter(t=>t.getAttribute("aria-selected")==="true")).toHaveLength(1);
+    };
+    selected("A");
+    view.rerender(<Host mode="disabled"/>); selected("B");
+    view.rerender(<Host mode="removed"/>); selected("C");
+  });
+
   it("does not request automatic filter changes or changes while the group is disabled",()=>{
     const change=vi.fn();
     const items=[{id:"b",label:"B",tabId:"tab-b",panelId:"panel-b"}];

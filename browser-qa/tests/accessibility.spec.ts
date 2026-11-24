@@ -7,6 +7,10 @@ const controls = ["#segments","#range","#actions","#compact-filter-toolbar","#me
 async function scan(page: Page, info: TestInfo, name: string, scope: string[]) {
   // Use the pinned local npm package: no CDN, credentials, production bundle or extra service.
   await page.addScriptTag({content:axe.source});
+  for(const selector of scope){
+    await expect(page.locator(selector), "scan scope must exist: "+selector).toHaveCount(1);
+    await expect(page.locator(selector)).toBeVisible();
+  }
   const result = await page.evaluate(async ({scope,tags}) =>
     window.axe.run(scope,{runOnly:{type:"tag",values:tags}}),{scope,tags});
   const receipt = {
@@ -49,9 +53,19 @@ for(const theme of ["light","dark"] as const) {
 test("axe oracle detects a missing accessible name",async({page},info)=>{
   await page.goto("/#range");
   const slider=page.locator("#range").getByRole("slider");
-  await slider.evaluate(el=>el.removeAttribute("aria-label"));
+  await expect(slider).toHaveCount(1);
   await page.addScriptTag({content:axe.source});
-  const violations=await page.evaluate(async()=> (await window.axe.run(["#range"],{runOnly:["aria-input-field-name","label"]})).violations.map(v=>v.id));
-  await info.attach("negative-control.json",{body:JSON.stringify(violations),contentType:"application/json"});
-  expect(violations.some(id=>id==="aria-input-field-name"||id==="label")).toBe(true);
+  const scanRange=()=>page.evaluate(async()=> (await window.axe.run(["#range"],{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]}})).violations.flatMap(v=>v.nodes.map(n=>({id:v.id,target:n.target}))));
+  const isMissingName=(v:{id:string,target:unknown[]})=>["aria-input-field-name","label"].includes(v.id)&&JSON.stringify(v.target).includes("input");
+  const before=await scanRange();
+  expect(before.some(isMissingName)).toBe(false);
+  const name=await slider.getAttribute("aria-label");
+  expect(name).toBeTruthy();
+  await slider.evaluate(el=>el.removeAttribute("aria-label"));
+  const red=await scanRange();
+  expect(red.some(isMissingName)).toBe(true);
+  await slider.evaluate((el,label)=>el.setAttribute("aria-label",label!),name);
+  const after=await scanRange();
+  expect(after.some(isMissingName)).toBe(false);
+  await info.attach("negative-control.json",{body:JSON.stringify({before,red,after}),contentType:"application/json"});
 });

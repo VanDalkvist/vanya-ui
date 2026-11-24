@@ -66,16 +66,19 @@ for(const size of [
       // is a hollow success for this interactive showcase.
       const movingEvent=page.locator('.scene .timeline-event[aria-label="NavLinks Ссылки и навигация"]');
       await expect(movingEvent).toHaveCount(1);
-      const beforeX=await movingEvent.evaluate(el=>getComputedStyle(el).getPropertyValue("--event-x"));
+      const position=()=>movingEvent.evaluate(el=>{const r=el.getBoundingClientRect();return r.x+scrollX;});
+      const beforeX=await position();
       await slider.focus();
       await slider.press("ArrowRight");
       expect(Number(await slider.inputValue())).toBeGreaterThan(before);
-      await expect.poll(async()=>movingEvent.evaluate(el=>getComputedStyle(el).getPropertyValue("--event-x"))).not.toBe(beforeX);
+      await expect.poll(async()=>Math.abs(await position()-beforeX)).toBeGreaterThan(1);
       const afterKeyboard=Number(await slider.inputValue());
+      const keyboardX=await position();
       const box=await slider.boundingBox();
       expect(box).not.toBeNull();
       await slider.click({position:{x:box!.width*0.85,y:box!.height/2}});
       await expect.poll(async()=>Number(await slider.inputValue())).toBeGreaterThan(afterKeyboard);
+      await expect.poll(async()=>Math.abs(await position()-keyboardX)).toBeGreaterThan(1);
       await capture(page,info,"hero-control-"+size.name+"-"+theme);
     });
   }
@@ -187,7 +190,19 @@ test("03b cold-start: system theme, explicit choice and reload persistence",asyn
 test("04 native filter buttons and connected tabs behave differently",async({page},info)=>{
   await page.goto("/#segments");
   const section=page.locator("#segments");
-  await expect(section.getByRole("group",{name:"Период обзора"}).first()).toBeVisible();
+  const filters=section.getByRole("group",{name:"Период обзора"}).first();
+  const radar=page.locator("#energy");
+  await expect(filters.getByRole("button",{name:"День"})).toHaveAttribute("aria-pressed","true");
+  await expect(radar.getByText("10",{exact:true})).toBeVisible();
+  await filters.getByRole("button",{name:"Неделя"}).click();
+  await expect(filters.getByRole("button",{name:"Неделя"})).toHaveAttribute("aria-pressed","true");
+  await expect(filters.getByRole("button",{name:"День"})).toHaveAttribute("aria-pressed","false");
+  await expect(radar.getByText("20",{exact:true})).toBeVisible();
+  await expect(radar.getByText("10",{exact:true})).toHaveCount(0);
+  await expect(radar.getByRole("group",{name:"Период"}).getByRole("button",{name:"Неделя"})).toHaveAttribute("aria-pressed","true");
+  await filters.getByRole("button",{name:"Месяц"}).click();
+  await expect(radar.getByText("40",{exact:true})).toBeVisible();
+  await expect(radar.getByText("20",{exact:true})).toHaveCount(0);
   await expect(section.getByRole("tablist",{name:"Разделы исследования"})).toBeVisible();
   const read=section.getByRole("tab",{name:"Чтение"});
   const explore=section.getByRole("tab",{name:"Исследование"});
@@ -206,6 +221,8 @@ test("04 native filter buttons and connected tabs behave differently",async({pag
   await explore.press("Home");
   await expect(read).toHaveAttribute("aria-selected","true");
   await expect(section.getByRole("tabpanel",{name:"Чтение"})).toContainText("Текст романа");
+  await expect(section.getByRole("tabpanel",{name:"Исследование"})).toHaveCount(0);
+  await expect(section.getByRole("tab",{name:"Исследование"})).toHaveAttribute("aria-selected","false");
   await capture(page,info,"filter-versus-tabs");
 });
 

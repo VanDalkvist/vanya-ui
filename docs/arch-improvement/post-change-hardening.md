@@ -21,3 +21,6 @@
 
 ## Cycle 20 — 0.3.19 — consumer and browser QA reproducibility
 - Source RED: SHA substring in an unrelated dependency can satisfy old oracle. Check requested and resolved direct package in npm and Bun lock records; check installed name, record package version. Synthetic positive/negative lock fixtures cover wrong requested/resolved dependency. Exact Bun remote-tarball format and real installs remain unverified until networked run. Browser QA lockfile must be generated and reviewed before immutable receipt; no fabricated lockfile. No product rendering changes; raw logs stay local. Source review complete; exact build and consumer execution pending.
+
+## Cycle 21 — 0.3.20 — test meaning and falsification
+- Independent source review of browser/unit/consumer assertions: see [semantic test review](../verification/semantic-test-review.md). Tightened tests at observable outcomes rather than internal flags alone. New negative chart mutation uses same data oracle; accessibility mutation compares baseline/defect/restoration under the same rule tags. Existing hit-test and geometry mutations retained. No runtime product changes. All newly edited browser scenarios remain NOT_RUN until executed; no UI_VERIFIED or tag claim.

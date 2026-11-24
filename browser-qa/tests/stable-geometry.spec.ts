@@ -53,8 +53,16 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
       await expect(button).toHaveAttribute("aria-pressed","true");
     };
     await expect(results.getByRole("listitem")).toHaveCount(12);
-    const manyPoints = await series.getAttribute("points");
-    expect(manyPoints).toBeTruthy();
+    // Independent expected data, not derived from the rendered initial state.
+    const manyPoints = "24,86 70,62 116,74 162,38 208,58 254,22 300,54";
+    const matchesSeries = async (points: string, count: number) =>
+      await series.count()===1 && await series.getAttribute("points")===points &&
+      await plot.locator("circle").count()===count;
+    const assertSeries = async (points: string, count: number) => {
+      await expect.poll(()=>matchesSeries(points,count)).toBe(true);
+      await expect(series).toBeVisible();
+    };
+    await assertSeries(manyPoints,7);
     const before = await geometry(anchors);
     const controlsEncloseButtons = () => controls.evaluate(el => {
       const outer = el.getBoundingClientRect();
@@ -73,30 +81,35 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
 
     await pick("empty");
     await expect(results.getByText("Нет проектов",{exact:true})).toBeVisible();
-    await expect(series).toHaveAttribute("points","24,102 70,102 116,102 162,102 208,102 254,102 300,102");
+    await expect(results.getByRole("listitem")).toHaveCount(0);
+    await assertSeries("24,102 70,102 116,102 162,102 208,102 254,102 300,102",7);
     await assertStable();
     await pick("one", true);
     await expect(results.getByRole("listitem")).toHaveCount(1);
-    await expect(series).not.toHaveAttribute("points",manyPoints!);
+    await assertSeries("24,98 70,94 116,98 162,90 208,94 254,98 300,86",7);
     await assertStable();
     await pick("loading");
     await expect(plot.getByText("График загружается")).toBeVisible();
+    await expect(results.getByRole("region",{name:"Загрузка результатов"})).toHaveAttribute("aria-busy","true");
+    await expect(results.getByRole("listitem")).toHaveCount(0);
     await expect(series).toHaveCount(0);
     await assertStable();
     await pick("partial");
     await expect(results.getByRole("listitem")).toHaveCount(6);
     await expect(results.getByText("Доступно 6 из 12 проектов. Данных за последние 3 дня нет.")).toBeVisible();
-    await expect(plot.locator("circle")).toHaveCount(4);
+    await assertSeries("24,86 70,62 116,74 162,38",4);
+    await expect(results.getByRole("region",{name:"Загрузка результатов"})).toHaveCount(0);
     await assertStable();
     await pick("error");
     await expect(results.getByText("Не удалось загрузить проекты")).toBeVisible();
+    await expect(results.getByRole("listitem")).toHaveCount(0);
     await expect(series).toHaveCount(0);
     await assertStable();
     await plot.scrollIntoViewIfNeeded();
     await info.attach("geometry-error", {body:await page.screenshot({animations:"disabled"}),contentType:"image/png"});
     await pick("many");
     await expect(results.getByRole("listitem")).toHaveCount(12);
-    await expect(series).toHaveAttribute("points",manyPoints!);
+    await assertSeries(manyPoints,7);
     await assertStable();
     await expect(results.getByText("Исследование длинных пользовательских сценариев и рабочих пространств")).toHaveCount(1);
     const details = section.locator(".stable-geometry-details");
@@ -114,6 +127,11 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
 
     // Negative control: the same oracle must detect a deliberate layout regression.
     if (size.width===1440 && theme==="light") {
+      // A present but frozen chart must fail the same data oracle.
+      await series.evaluate(el=>el.setAttribute("points","24,102 70,102 116,102 162,102 208,102 254,102 300,102"));
+      expect(await matchesSeries(manyPoints,7)).toBe(false);
+      await series.evaluate((el,points)=>el.setAttribute("points",points),manyPoints);
+      await assertSeries(manyPoints,7);
       await plot.evaluate(el => { (el as HTMLElement).style.marginTop="12px"; });
       expect(largestShift(before,await geometry(anchors))).toBeGreaterThan(1);
       await plot.evaluate(el => { (el as HTMLElement).style.marginTop=""; });
