@@ -140,7 +140,7 @@ export function ThemeToggle({
           initialFocus.current = event.key === "ArrowDown" ? "first" : "last";
           setIsOpen(true);
         }}
-        aria-label={`Тема оформления: ${currentLabel}. Нажмите для смены.`}
+        aria-label={`Тема оформления: ${currentLabel}`}
         title={`Тема оформления: ${currentLabel}`}
         aria-expanded={isOpen}
         aria-haspopup="menu"

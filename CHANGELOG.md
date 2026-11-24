@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.17] - 2026-11-25
+
+### Changed
+- Clarify guide and control copy, add chart units and day labels, simplify theme accessible name. Keep tests aligned with visible copy.
+
 ## [0.3.16] - 2026-11-25
 
 ### Fixed

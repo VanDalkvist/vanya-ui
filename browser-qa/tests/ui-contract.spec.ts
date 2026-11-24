@@ -187,8 +187,8 @@ test("03b cold-start: system theme, explicit choice and reload persistence",asyn
 test("04 native filter buttons and connected tabs behave differently",async({page},info)=>{
   await page.goto("/#segments");
   const section=page.locator("#segments");
-  await expect(section.getByRole("group",{name:"Горизонт обзора"}).first()).toBeVisible();
-  await expect(section.getByRole("tablist",{name:"Представление исследования"})).toBeVisible();
+  await expect(section.getByRole("group",{name:"Период обзора"}).first()).toBeVisible();
+  await expect(section.getByRole("tablist",{name:"Разделы исследования"})).toBeVisible();
   const read=section.getByRole("tab",{name:"Чтение"});
   const explore=section.getByRole("tab",{name:"Исследование"});
   await read.focus();

@@ -12,3 +12,6 @@
 
 ## Cycle 17 — 0.3.16 — showcase header ownership
 - Source RED: selectors depend on child positions; absolute utilities can overlap brand; CSS height guesses diverge from measured header. Use stable navigation item hook and explicit showcase grid areas. Utilities are a sibling of navigation; native link order and theme focus targets retained. Narrow 320–360 layout uses three normal-flow rows; other mobile widths retain two. Header geometry observed through ResizeObserver, CSS fallback remains for prerender and no-JS. Design review source-only: no absolute utility placement, explicit grid and active strip, 200% text test added; actual screenshot and touch acceptance pending under #27. No new library API prop or dependency.
+
+## Cycle 18 — 0.3.17 — editorial re-review
+- Applied local editorial policy: concrete user actions, consistent labels and explicit synthetic chart units/days. Keep source-specific component names and URL contracts. Removed redundant instruction from theme accessible name, retaining its prefix for existing locators. Updated known browser expectations. Design review source-only: axis labels inside fixed plot, missing days remain unplotted, no new outer geometry; readability/fit requires actual screenshot. Prior upstream editorial method review remains attributed; no upstream text copied. Exact build and browser pending.

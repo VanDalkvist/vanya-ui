@@ -35,7 +35,7 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
     const plot = section.locator(".stable-geometry-plot");
     const series = plot.locator("polyline");
     const results = section.getByRole("region", {name:"Проекты"});
-    const help = section.getByRole("link", {name:"Правила композиции (раздел 11)"});
+    const help = section.getByRole("link", {name:"Правила стабильного интерфейса"});
     const anchors: Anchor[] = [
       {name:"controls",locator:controls,protectHeight:true},
       {name:"plot",locator:plot,protectHeight:true},
@@ -105,7 +105,7 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
     const fixedBefore = await geometry(fixed);
     await details.locator("summary").click();
     await expect(details).toHaveAttribute("open","");
-    await expect(details.getByText("Активность по дням:",{exact:false})).toBeVisible();
+    await expect(details.getByText("Действия по дням (1–7):",{exact:false})).toBeVisible();
     await expect.poll(async () => largestShift(fixedBefore,await geometry(fixed))).toBeLessThanOrEqual(1);
     await details.locator("summary").click();
     await assertStable();

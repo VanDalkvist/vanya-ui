@@ -193,7 +193,7 @@ export function ComponentCatalog() {
         <a href="/#keyboard-shortcuts" className="guide-link">Как назначать горячие клавиши</a>
       </div>
     </CatalogSection>
-    <CatalogSection id="navigation" title="NavLinks" description="Навигация по адресам через настоящие ссылки, а не локальный React state.">
+    <CatalogSection id="navigation" title="NavLinks" description="Ссылки открывают страницы по адресам и работают с историей браузера.">
       <div className="demo-column">
         <NavLinks items={[{ id: "divider", label: "К разделителю", href: "#divider" }, { id: "principles", label: "Правила URL", href: "/#browser-navigation" }]} />
         <p className="demo-label">Обе ссылки можно скопировать, открыть в новой вкладке или пройти назад/вперёд.</p>
@@ -201,10 +201,10 @@ export function ComponentCatalog() {
     </CatalogSection>
     <CatalogSection id="divider" title="Divider" description="Горизонтальный и вертикальный разделители."><div className="demo-column"><Divider orientation="horizontal" /><div className="size-examples"><span className="demo-label">Слева</span><Divider /><span className="demo-label">Справа</span></div></div></CatalogSection>
     <CatalogSection id="avatar" title="AvatarLink" description="Ссылка с изображением профиля. Два размера."><Sizes>{(size) => <AvatarLink size={size} src="/avatar.svg" alt="Пример профиля" href="https://vanya-arc.dev" />}</Sizes></CatalogSection>
-    <CatalogSection id="segments" title="SegmentedControl" description="Фильтры — это кнопки выбора. Настоящие вкладки дополнительно связаны с панелями и поддерживают стрелки, Home/End и Tab.">
-      <Sizes>{(size) => <SegmentedControl size={size} semantics="filters" aria-label="Горизонт обзора" items={horizons} value={horizon} onChange={changeHorizon} />}</Sizes>
+    <CatalogSection id="segments" title="SegmentedControl" description="Фильтры меняют набор данных. Вкладки открывают связанные панели; переключай их стрелками, Home и End.">
+      <Sizes>{(size) => <SegmentedControl size={size} semantics="filters" aria-label="Период обзора" items={horizons} value={horizon} onChange={changeHorizon} />}</Sizes>
       <div className="demo-apg-tabs">
-        <SegmentedControl semantics="tabs" aria-label="Представление исследования"
+        <SegmentedControl semantics="tabs" aria-label="Разделы исследования"
           items={[
             {id:"read",label:"Чтение",tabId:"demo-tab-read",panelId:"demo-panel-read"},
             {id:"explore",label:"Исследование",tabId:"demo-tab-explore",panelId:"demo-panel-explore"}
