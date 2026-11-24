@@ -1,0 +1,10 @@
+# Stable geometry change set — iterative review
+
+Source: PR #26 `99993a041a677ed1f0e41986efbad00839a54885`, main `81cb01abd6088dd1050b3a86eeb5193e58324455`. Direct main updates authorized. Each slice gets a version checkpoint and a separate source/design review. No tags or consumer upgrades before the existing release gate. Browser and full build evidence must be recorded separately; source inspection does not establish UI_VERIFIED.
+
+## Cycle 1 — 0.3.0 — canonical reference
+- S0–S5: prior review found incorrect public link; `sync.ts` and publication mapping both associate working-surfaces.md with composition.md. PR #25's already merged semantic breaking change requires the minor bump per pre-1.0 policy.
+- S6–S8: integrate existing proposal with both showcase links corrected; raw Markdown link opens the correct document, canonical source link keeps its section anchor. Add a publication mapping regression case. Version and dated changelog updated atomically.
+- Design review (source): link placement and existing composition unchanged; correct target serves the user task. No new library primitives or consumer changes.
+- Source checks: exact two broken occurrences replaced; canonical heading and both route mappings confirmed; SemVer/changelog match. Regression test added, not executed here. S9 browser/full build NOT_RUN; release UNTAGGED, UI NOT_VERIFIED.
+- Next: synchronize obsolete SegmentedControl semantics in composition contract.

@@ -17,3 +17,8 @@ test('preserve absolute urls, fragments and source text',()=>{
  assert.ok(output.includes('reference/list-detail.md#acceptance'));
  assert.equal(input.includes('reference/list-detail.md'),false);
 });
+
+test('stable geometry links resolve to the composition guide',()=>{
+ const input='[Geometry](../../docs/composition/working-surfaces.md#11-stable-geometry-during-ordinary-workspace-interaction)';
+ assert.equal(publicMarkdown('skills/vanya-ui/SKILL.md',input),'[Geometry](https://ui.vanya-arc.dev/reference/composition.md#11-stable-geometry-during-ordinary-workspace-interaction)');
+});

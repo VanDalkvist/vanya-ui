@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-25
+
+### Added — stable geometry (cycle 1)
+- Integrated the workspace geometry proposal from PR #26; public showcase links open the canonical composition reference. Source Markdown retains the section anchor.
+- Version checkpoint on main; browser QA, consumer smoke and release tag are pending. Breaking filter/tab semantics from the previously merged PR #25 are included below.
+
 ### Changed (breaking semantics; pre-1.0, needs intentional release)
 - `SegmentedControl` default semantics changed from pseudo-tabs to true **filters** (`role=group`, buttons with `aria-pressed`). Explicit `semantics="tabs"` now takes linked `TabSegmentItem.tabId/panelId` and implements roving focus, arrows, Home/End and automatic selection. Existing consumers expecting implicit `role=tab` must review their usage before updating the SHA.
 - `ThemeToggle` menu now uses one composite keyboard model (menuitemradio `tabIndex=-1`, Tab/Shift+Tab exits, arrows/Home/End, Escape/focus-out).
