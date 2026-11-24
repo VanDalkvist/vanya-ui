@@ -18,3 +18,8 @@ Source: PR #26 `99993a041a677ed1f0e41986efbad00839a54885`, main `81cb01abd6088dd
 - S4–S8: extract the exact existing example and its local useState into StableGeometryDemo.tsx, wired once at the original catalog position. No shared exports, new abstractions or CSS changes.
 - Design review (source): unchanged DOM, states, IDs, text and styles; interaction and placement remain identical by construction. Catalog remains above the historical line budget; broader decomposition is outside this slice.
 - Source check PASS: extracted markup and state byte-equivalent, single callsite, imports from public index. Browser/full build NOT_RUN; UNTAGGED. Next: improve example state coverage.
+
+## Cycle 4 — 0.3.3 — meaningful geometry example
+- S4–S8: replace invariant decorative path with deterministic state-driven samples; six states include zero/one/many/loading/partial/error, real changing points and long names. Partial has four known values, missing days omitted; error/loading show no series. Reuse library controls and preserve stable plot slot. Grid controls keep equal columns; list rows wrap; mobile remains document flow. Values are inspectable via labelled chart and native disclosure.
+- Design review (source): protected plot, control grid and guide action precede variable results; chart has fixed scale, no stretched SVG; meaningful changes are visible and synthetic. The existing mobile ScrollRegion focus stop remains a browser QA item; disclosure may intentionally expand downstream content.
+- Source check PASS: state/sample coverage, known-zero versus missing, stable layout selectors, no new public exports. Browser/full build NOT_RUN; UNTAGGED. Next: copy pass.

@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-11-25
+
+### Changed — showcase only
+- Demonstrate changing chart values, long names, zero, loading, partial and error results, with a fixed plot slot and responsive list. Expose actual sample values through a disclosure.
+
 ## [0.3.2] - 2026-11-25
 
 ### Changed — showcase only

@@ -330,6 +330,14 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .stable-geometry-demo { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:24px; align-items:start; margin:20px 0; }
 .stable-geometry-plot { height:160px; min-width:0; padding-top:16px; }
 .stable-geometry-results { height:190px; }
+.stable-geometry-controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); width:100%; border-radius:var(--radius-sm); }
+.stable-geometry-controls button { justify-content:center; min-width:0; white-space:normal; }
+.stable-geometry-list { list-style:none; margin:0; padding:0; }
+.stable-geometry-list li { padding:10px 4px; border-bottom:1px solid var(--border); overflow-wrap:anywhere; }
+.stable-geometry-plot-message { display:grid; place-items:center; height:100%; color:var(--ink-soft); }
+.stable-geometry-details { margin-top:12px; }
+.stable-geometry-details summary { cursor:pointer; }
+.stable-geometry-details p { overflow-wrap:anywhere; }
 @media(max-width:640px) {
   .stable-geometry-demo { grid-template-columns:minmax(0,1fr); gap:16px; }
   .stable-geometry-results.ui-scroll-region { height:auto; overflow:visible; }
