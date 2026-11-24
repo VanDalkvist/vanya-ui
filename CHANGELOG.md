@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-11-25
+
+### Fixed
+- Give the mobile primary navigation the full width of its row, reveal the current link without moving vertical page scroll, and keep utilities accessible on narrow touch screens.
+
 ## [0.3.7] - 2026-11-25
 
 ### Fixed

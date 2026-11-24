@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { ActionLink, GitHubIcon, NavLinks, ThemeToggle, VanyaArcLockup } from "../index";
 import { useActiveShowcaseSection } from "./useActiveShowcaseSection";
@@ -19,7 +19,22 @@ const SECTION_IDS = longreadSections.map(([id]) => id);
 /** One compact, consistent header. Native fragments and viewport-based current state. */
 export function ShowcaseHeader() {
   const activeSection = useActiveShowcaseSection(SECTION_IDS);
-  return <header className="showcase-header">
+  const headerRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const strip = headerRef.current?.querySelector<HTMLElement>(".showcase-nav > div:first-child");
+    const selected = strip?.querySelector<HTMLElement>('a[aria-current="location"]');
+    if (!strip || !selected) return;
+    const reveal = () => {
+      const viewport = strip.getBoundingClientRect();
+      const link = selected.getBoundingClientRect();
+      if (link.left < viewport.left + 2) strip.scrollLeft += link.left - viewport.left - 2;
+      else if (link.right > viewport.right - 2) strip.scrollLeft += link.right - viewport.right + 2;
+    };
+    reveal();
+    window.addEventListener("resize", reveal);
+    return () => window.removeEventListener("resize", reveal);
+  }, [activeSection]);
+  return <header ref={headerRef} className="showcase-header">
     <a className="showcase-name" href="/#composition" aria-label="Vanya Arc / UI — главная"><VanyaArcLockup product="UI" size="md" /></a>
     <NavLinks items={longreadSections.map(([id, label]) => ({ id, label, href: `/#${id}`, isActive: id === activeSection }))} className="showcase-nav">
       <ActionLink className="showcase-author-link" href="https://vanya-arc.dev/" target="_blank" rel="author"
