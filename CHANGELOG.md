@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.22] - 2026-11-25
+
+### Fixed
+- Reduce mono action tracking from .16em to .03em through a shared semantic token; retain heading values and define a separate metadata role. Clarify Cyrillic editorial fallback and agent instructions.
+
 ## [0.3.21] - 2026-11-25
 
 ### Fixed — agent discovery

@@ -484,14 +484,20 @@
   --type-caption-leading: 1.5;
   --type-code-size: 0.8125rem;
   --type-reading-measure: 66ch;
+  --type-tracking-action-mono: .03em;
+  --type-tracking-metadata: .06em;
+  --type-tracking-display: -.035em;
+  --type-tracking-heading: -.025em;
+  --type-tracking-subheading: -.015em;
 }
 @layer components {
-  .ui-type-display { font-family: var(--font-sans); font-size: var(--type-display-size); font-weight: 600; line-height: var(--type-display-leading); letter-spacing: -.035em; text-wrap: balance; }
-  .ui-type-heading { font-family: var(--font-sans); font-size: var(--type-heading-size); font-weight: 600; line-height: var(--type-heading-leading); letter-spacing: -.025em; text-wrap: balance; }
-  .ui-type-subheading { font-family: var(--font-sans); font-size: var(--type-subheading-size); font-weight: 600; line-height: var(--type-subheading-leading); letter-spacing: -.015em; }
+  .ui-type-display { font-family: var(--font-sans); font-size: var(--type-display-size); font-weight: 600; line-height: var(--type-display-leading); letter-spacing: var(--type-tracking-display); text-wrap: balance; }
+  .ui-type-heading { font-family: var(--font-sans); font-size: var(--type-heading-size); font-weight: 600; line-height: var(--type-heading-leading); letter-spacing: var(--type-tracking-heading); text-wrap: balance; }
+  .ui-type-subheading { font-family: var(--font-sans); font-size: var(--type-subheading-size); font-weight: 600; line-height: var(--type-subheading-leading); letter-spacing: var(--type-tracking-subheading); }
   .ui-type-body { font-family: var(--font-sans); font-size: var(--type-body-size); line-height: var(--type-body-leading); max-width: var(--type-reading-measure); }
   .ui-type-compact { font-family: var(--font-sans); font-size: var(--type-compact-size); line-height: var(--type-compact-leading); max-width: var(--type-reading-measure); }
   .ui-type-caption { font-family: var(--font-sans); font-size: var(--type-caption-size); line-height: var(--type-caption-leading); }
+  .ui-type-metadata { font: 500 var(--type-caption-size)/var(--type-caption-leading) var(--font-mono); letter-spacing: var(--type-tracking-metadata); }
   .ui-type-code { font-family: var(--font-mono); font-size: var(--type-code-size); line-height: 1.65; font-variant-ligatures: none; }
 }
 

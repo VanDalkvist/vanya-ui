@@ -18,6 +18,8 @@ For any UI feature, layout, component, form, navigation, loading/empty/error sta
 
 ## Phase 1 — model the task before coding
 
+**Typography:** follow [semantic type roles and tracking](../../docs/patterns/typography.md). Manrope for ordinary actions, compact mono action tracking .03em via the shared token, separate short metadata role, Fraunces for Latin editorial only; use Manrope for Cyrillic editorial until a serif is approved. Verify actual loaded fonts and Russian/English labels.
+
 Identify: primary user action, screen/route, source of truth, required components, layout hierarchy, each vertical scroll owner, active context/breadcrumbs, Back/Forward, typography, breakpoints, loading/empty/error, keyboard focus, dark/light, source/legal links.
 
 **Mandatory interaction state pass:** inspect [the canonical hover/focus/pressed/selected contract](../../docs/patterns/interaction-states.md) before changing icon buttons, theme pickers, links, navigation, filtering or cards. Do not add app-specific hover animations when role styles already exist. Check state persistence, pointer fine/coarse, focus, disabled, light/dark and reduced motion. The public gallery has a [real interactive specimen](https://ui.vanya-arc.dev/#interaction-states).

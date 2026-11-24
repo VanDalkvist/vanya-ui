@@ -38,7 +38,7 @@ export function ActionButton({
   const pending=actionState==="pending";
   const variantStyles={
     text:"px-0 font-sans font-medium tracking-normal text-ink-soft/80",
-    mono:"px-0 font-mono tracking-[0.16em] uppercase text-ink-soft",
+    mono:"px-0 font-mono tracking-[var(--type-tracking-action-mono)] uppercase text-ink-soft",
     accent:"px-0 font-sans font-medium text-accent underline-offset-4",
     pill:"rounded-full font-sans text-ink-soft",
     outline:"rounded-sm border border-border bg-surface font-sans font-medium text-ink",
