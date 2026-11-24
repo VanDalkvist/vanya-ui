@@ -149,3 +149,28 @@ For long catalogues on desktop, use a **single compact sticky filter row** below
 ```
 
 See [NN/g — Sticky Headers](https://www.nngroup.com/articles/sticky-headers/) and [NN/g — Applying Filters](https://www.nngroup.com/articles/applying-filters/). The 40px value and responsive composition are **our own implementation choices**, not attributed to those external authors.
+
+
+## 11. Stable geometry during ordinary workspace interaction
+
+**Goal:** preserve the user's spatial anchors while the data, selection and state change. For an unchanged viewport, zoom and page, frequently used controls, primary navigation, chart viewport, and nearby independent task surfaces should remain at the same coordinates during filtering, selecting, loading and background refresh. A responsive breakpoint, deliberate document expansion, text zoom, or navigation may legitimately change the layout. Preserve access to all content.
+
+Before implementation, identify the anchors and the variable-size regions. Compare at least empty, one item, many items, long names, loading, partial results, error, and successful refresh. A list or legend with unknown length must not accidentally determine the height or width of unrelated controls.
+
+- **Separate spatial ownership.** Put persistent controls and related results in a stable grid. Give an independently changing desktop list a bounded, keyboard-accessible `ScrollRegion` with stable gutter when this preserves the primary interaction. Use document flow on narrow screens; place variable-length results after independent actions when practical. Do not introduce nested scrolling for an ordinary document.
+- **Reserve the appropriate space.** Keep the chart/preview viewport, axis label gutter, control hitbox, and loading geometry consistent; use responsive dimensions, not content-dependent SVG aspect ratios. Retain known data during revalidation when authorized, with truthful snapshot/loading/error state. Replace skeletons inside the same result slot. A missing observation is not a zero.
+- **Constrain by role.** Multi-line prose and actionable rows need intrinsic height and text reflow. Short labels may have stable slots, tabular numerals, consistent font metrics and an accessible full label when visually abbreviated. Avoid changing font weight or border width if that moves neighboring controls. A fixed-height `ActionButton` is for compact actions, not multi-line result rows.
+- **Keep disclosure local.** Technical detail may live in an accessible overlay or after the primary task surface. Opening a status detail should not move an unrelated filter, graph, or input. Reserve scrollbar space on scroll owners where classic scrollbars would otherwise change geometry. Do not globally disable scrolling or hide necessary warnings.
+- **Charts:** preserve the plot rectangle while filters change. Keep series identity/colors stable where the comparison refers to the same series; label a changed scale. Distinguish zero, missing, and partial data. Keep the active date/filter stable when still valid. A smoothing method is a visualization decision; the actual values must remain inspectable.
+
+### Acceptance and evidence
+
+At the same viewport size, capture anchor bounding rectangles before/after: first load → ready; period A → B → A; selected result 0 → 1 → many; toggled series; open/close disclosure; pending → success/error; scrollbar absent → present. Check keyboard focus and actual hit targets. Use `getBoundingClientRect()` or Playwright `boundingBox()` with an explicitly chosen small tolerance (e.g. 1 CSS px in a controlled test), plus visual review. Test 1440, 1024, 390, 320 CSS px and zoom/text spacing as applicable. Allow intentional reflow for changed viewport, accessible text enlargement, or explicitly expanded content; test stability of unaffected anchors. Never enforce this by clipping content or shrinking typography.
+
+CLS is a useful complementary signal for unexpected page shifts. It excludes some shifts immediately following user input, so a low CLS alone cannot verify an interactive workspace. This anchor-based acceptance is a local Vanya UI design decision. Do not promise a global zero-CLS score based on one test.
+
+References (independent sources; no copied method or layout):
+- Google web.dev, [Optimize Cumulative Layout Shift](https://web.dev/articles/optimize-cls/) and [Cumulative Layout Shift](https://web.dev/articles/cls/): reserved geometry, async content, and recent-input exclusions.
+- MDN, [scrollbar-gutter](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/scrollbar-gutter): reserving space for classic scrollbars.
+- W3C, [Understanding Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow): accessibility constraints on constrained geometry.
+- Existing local contracts: [loading states](../patterns/loading-states.md), [interaction states](../patterns/interaction-states.md), [typography](../patterns/typography.md), and the scroll-owner rules above.
