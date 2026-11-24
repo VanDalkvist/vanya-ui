@@ -6,13 +6,27 @@ import { useEffect, useState } from "react";
  * no click-only React state and no rewriting native browser history on scroll.
  */
 export function visibleSection(ids: readonly string[], headerBottom: number): string | null {
-  const probe = headerBottom + 40; // account for scroll-margin below the sticky topbar
+  // Native fragment alignment uses each target's computed scroll margin. Account
+  // for that actual value as well as the measured sticky header.
+  const probeFor = (section: HTMLElement) =>
+    Math.max(headerBottom + 40, (parseFloat(getComputedStyle(section).scrollMarginTop) || 0) + 2);
+  // At the end of a scrollable document the last section can be visible without
+  // being able to reach the probe (the browser clamps scrollY).
+  const root = document.documentElement;
+  const lastId = ids[ids.length - 1];
+  const lastSection = lastId ? document.getElementById(lastId) : null;
+  if (lastSection && root.scrollHeight > window.innerHeight &&
+      root.scrollHeight - window.innerHeight - window.scrollY <= 2) {
+    const rect = lastSection.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > headerBottom) return lastId;
+  }
   let candidate: string | null = null;
   for (const id of ids) {
     const section = document.getElementById(id);
     if (!section) continue;
     const rect = section.getBoundingClientRect();
     // Only the section containing the probe is active; catalog and workspace are siblings.
+    const probe = probeFor(section);
     if (rect.top <= probe && rect.bottom > probe) candidate = id;
   }
   if (candidate) return candidate;
@@ -20,7 +34,7 @@ export function visibleSection(ids: readonly string[], headerBottom: number): st
   let last: string | null = null;
   for (const id of ids) {
     const section = document.getElementById(id);
-    if (section && section.getBoundingClientRect().top <= probe) last = id;
+    if (section && section.getBoundingClientRect().top <= probeFor(section)) last = id;
   }
   return last ?? ids.find((id) => document.getElementById(id) !== null) ?? null;
 }

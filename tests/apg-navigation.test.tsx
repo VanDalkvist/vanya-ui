@@ -139,6 +139,32 @@ describe("#15: current section reflects viewport/history, not last clicked item"
     expect(visibleSection(["composition","identity","typography"],600)).toBe("typography");
   });
 
+  it("selects a fragment aligned to its computed mobile scroll margin",()=>{
+    render(<><section id="previous"/><section id="target" style={{scrollMarginTop:"160px"}}/></>);
+    const previous=document.getElementById("previous")!;
+    const target=document.getElementById("target")!;
+    Object.defineProperty(previous,"getBoundingClientRect",{configurable:true,value:()=>({top:-500,bottom:160})});
+    Object.defineProperty(target,"getBoundingClientRect",{configurable:true,value:()=>({top:160,bottom:900})});
+    expect(visibleSection(["previous","target"],82)).toBe("target");
+  });
+
+  it("selects the last visible section at the clamped document end",()=>{
+    render(<><section id="previous"/><section id="target"/></>);
+    const previous=document.getElementById("previous")!;
+    const target=document.getElementById("target")!;
+    Object.defineProperty(previous,"getBoundingClientRect",{configurable:true,value:()=>({top:-800,bottom:170})});
+    Object.defineProperty(target,"getBoundingClientRect",{configurable:true,value:()=>({top:170,bottom:540})});
+    const old=Object.getOwnPropertyDescriptor(document.documentElement,"scrollHeight");
+    try {
+      Object.defineProperty(document.documentElement,"scrollHeight",{configurable:true,value:2000});
+      vi.stubGlobal("innerHeight",844); vi.stubGlobal("scrollY",1156);
+      expect(visibleSection(["previous","target"],89)).toBe("target");
+    } finally {
+      if(old)Object.defineProperty(document.documentElement,"scrollHeight",old);
+      else Reflect.deleteProperty(document.documentElement,"scrollHeight");
+    }
+  });
+
   it("renders catalog, workspace and setup as consecutive sibling sections",()=>{
     const {container}=render(<Showcase/>);
     const catalog=container.querySelector("#catalog")!;

@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-11-25
+
+### Fixed
+- Active showcase navigation follows the native target's scroll margin and handles the last visible section at the document's scroll limit. Add unit and real-browser regression scenarios at four widths.
+
 ## [0.3.6] - 2026-11-25
 
 ### Fixed

@@ -1,0 +1,8 @@
+# Accessibility Change Set — #13–17
+
+Source main `a29e224fd47c8e73c83f892d773333d4de150201`. Direct main, separate versioned slices, no new PRs, no release tags until verified.
+
+## Cycle 8 — 0.3.7 — active navigation (#15)
+- 0.3.6 build a00367f1-4acd-4fad-990b-491d524e27a4 successful: 113 Vitest, 19 Node, TypeScript, release/publication/build/deploy. Browser Run verified exact assets main-YECCh5lS.css / main-fYSyzJ3o.js: 48 geometry transitions at four widths/two themes, 0px delta, all contained, no overflow, correct data and negative controls. Full portable runner and native zoom/screen reader still unexecuted.
+- Real browser on 0.3.6: tab keyboard selection/panel/Shift+Tab and theme menu ArrowDown/End/Home/Escape/Enter/Space/Tab/Shift+Tab passed 1440/390/320. Navigation RED: 390/320 header 82.39px, fragment scroll margin 160px, current section remains previous; at 1024 and document end setup top ~170px but probe ~129px. At 1440 with taller viewport bottom can also clamp before probe. Active link in mobile horizontal strip can be clipped: separate next slice.
+- S4–S8: use computed scrollMarginTop in the viewport probe (2px rounding tolerance), retain actual header threshold, choose last visible section only at actual scroll limit. Existing native URL/history preserved; no new public component props. Two unit regressions, four Playwright width cases. Source design review: current indication follows reading position and browser anchor alignment, no visual changes yet. Exact 0.3.7 build and browser GREEN pending.
