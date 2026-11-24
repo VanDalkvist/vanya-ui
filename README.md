@@ -212,3 +212,8 @@ bun run build     # production-сборка витрины в dist/
 ### Compact filter toolbar
 
 `SearchField` and `SegmentedControl` accept `density="toolbar"`, while `FilterSelect` provides an aligned 40px branded dropdown listbox rendered through a portal with optional search, Escape/arrow-key navigation and viewport-aware placement. `SelectField` remains a native select for regular forms. Sticky placement and adaptive overflow belong to the consuming app. The <https://ui.vanya-arc.dev/#compact-filter-toolbar> specimen and [working-surfaces guide](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) show how to keep the filter row compact and accessible.
+
+
+## Назначение (уточнение владельца, 24.11.2026)
+
+Vanya UI — внутренняя дизайн-система для разработки собственных продуктов Vanya Arc. Публичная витрина помогает владельцу видеть компоненты и проверять их, а агентам — использовать библиотеку в его проектах. Коммерциализация дизайн-системы, привлечение сторонних разработчиков и внешняя adoption-метрика владельцем не заявлены. Не предлагать эти направления по умолчанию.
