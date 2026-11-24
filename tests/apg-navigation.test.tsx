@@ -66,6 +66,40 @@ describe("#13: filters must not claim tab semantics; real tabs must follow APG",
     expect(atlas).toHaveFocus(); // wraps backwards
   });
 
+  it("requests one controlled recovery when the selected tab is disabled or removed",()=>{
+    const items = [
+      {id:"a",label:"A",tabId:"tab-a",panelId:"panel-a"},
+      {id:"b",label:"B",tabId:"tab-b",panelId:"panel-b"},
+      {id:"c",label:"C",tabId:"tab-c",panelId:"panel-c"},
+    ];
+    const change=vi.fn();
+    const view=render(<SegmentedControl semantics="tabs" items={items} value="a" onChange={change}/>);
+    expect(change).not.toHaveBeenCalled();
+    const unavailable=items.map(item=>({...item,disabled:item.id==="a"}));
+    view.rerender(<SegmentedControl semantics="tabs" items={unavailable} value="a" onChange={change}/>);
+    expect(change).toHaveBeenCalledExactlyOnceWith("b");
+    expect(screen.getByRole("tab",{name:"A"})).toHaveAttribute("aria-selected","true");
+    expect(screen.getByRole("tab",{name:"B"})).toHaveAttribute("aria-selected","false");
+    view.rerender(<SegmentedControl semantics="tabs" items={[...unavailable]} value="a" onChange={v=>change(v)}/>);
+    expect(change).toHaveBeenCalledTimes(1);
+    view.rerender(<SegmentedControl semantics="tabs" items={items.slice(1)} value="b" onChange={change}/>);
+    expect(screen.getByRole("tab",{name:"B"})).toHaveAttribute("aria-selected","true");
+    view.rerender(<SegmentedControl semantics="tabs" items={items.slice(2)} value="b" onChange={change}/>);
+    expect(change).toHaveBeenLastCalledWith("c");
+    expect(screen.getByRole("tab",{name:"C"})).toHaveAttribute("aria-selected","false");
+    expect(screen.getByRole("tab",{name:"C"})).toHaveAttribute("tabindex","0");
+    view.rerender(<SegmentedControl semantics="tabs" items={[{...items[2],disabled:true}]} value="b" onChange={change}/>);
+    expect(change).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not request automatic filter changes or changes while the group is disabled",()=>{
+    const change=vi.fn();
+    const items=[{id:"b",label:"B",tabId:"tab-b",panelId:"panel-b"}];
+    const view=render(<SegmentedControl items={items} value="a" onChange={change}/>);
+    view.rerender(<SegmentedControl semantics="tabs" disabled items={items} value="a" onChange={change}/>);
+    expect(change).not.toHaveBeenCalled();
+  });
+
   it("does not invent a reachable tab when all options are unavailable", () => {
     render(<SegmentedControl semantics="tabs" value="a" onChange={()=>{}} disabled
       items={[{id:"a",label:"A",tabId:"tab-a",panelId:"panel-a"}]}/>);

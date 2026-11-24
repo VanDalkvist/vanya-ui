@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.15] - 2026-11-25
+
+### Fixed
+- Request controlled tab selection recovery when an enabled tablist loses its selected option. Preserve owner-controlled panels and avoid duplicate recovery callbacks; filters stay unchanged.
+
 ## [0.3.14] - 2026-11-25
 
 ### Fixed

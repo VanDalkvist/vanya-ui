@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ComponentSize } from "../sizes";
@@ -52,6 +52,21 @@ export function SegmentedControl<T extends string = string>(props: SegmentedCont
   const enabledItems = items.filter((item) => !item.disabled);
   const tabStop = enabledItems.some((item) => item.id === value)
     ? value : enabledItems[0]?.id;
+
+  // The owner renders the panels from value. Request recovery once per
+  // invalid value/fallback pair; never silently select a different panel.
+  const fallback = tabs && !disabled && tabStop !== value ? tabStop : undefined;
+  const requestedRecovery = useRef<{value: T; fallback: T} | null>(null);
+  useEffect(() => {
+    if (fallback === undefined) {
+      requestedRecovery.current = null;
+      return;
+    }
+    if (requestedRecovery.current?.value === value &&
+        requestedRecovery.current.fallback === fallback) return;
+    requestedRecovery.current = {value, fallback};
+    onChange(fallback);
+  }, [fallback, value, onChange]);
 
   function handleTabKeyDown(event: React.KeyboardEvent<HTMLButtonElement>, id: T) {
     if (!tabs || disabled || !enabledItems.length) return;
