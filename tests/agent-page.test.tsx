@@ -2,6 +2,7 @@ import React from "react";
 import {afterEach,describe,expect,it,vi} from "vitest";
 import {cleanup,fireEvent,render,screen,waitFor,within} from "@testing-library/react";
 import {readFileSync} from "node:fs";
+import {resolve} from "node:path";
 import {AgentPage} from "../src/showcase/AgentPage";
 import {AgentSection} from "../src/showcase/AgentSection";
 import {agentPrompts,verifiedHarness} from "../src/showcase/agent-harness-data";
@@ -10,7 +11,7 @@ afterEach(()=>{cleanup();if(originalClipboard)Object.defineProperty(navigator,"c
 describe("independent Agent Mode page",()=>{
  it("exposes the native route and canonical quickstart",()=>{
   render(<AgentSection/>);expect(screen.getByRole("link",{name:"Открыть Agent Mode"})).toHaveAttribute("href","/agents/");
-  const html=readFileSync(new URL("../agents/index.html",import.meta.url),"utf8");
+  const html=readFileSync(resolve(import.meta.dirname,"..","agents/index.html"),"utf8");
   expect(html).toContain('rel="canonical" href="https://ui.vanya-arc.dev/agents/"');
   expect(html).toContain("/src/showcase/agent-main.tsx");
  });
@@ -19,7 +20,7 @@ describe("independent Agent Mode page",()=>{
   expect(screen.getByRole("heading",{level:1})).toHaveTextContent("Дизайн-система");
   expect(screen.getByText(/кандидат без релизного тега/)).toBeVisible();
   expect(screen.getByRole("link",{name:new RegExp(verifiedHarness.sha.slice(0,8))})).toHaveAttribute("href","https://github.com/VanDalkvist/vanya-ui/commit/"+verifiedHarness.sha);
-  expect(readFileSync(new URL("../docs/versioning.md",import.meta.url),"utf8")).toContain(verifiedHarness.sha);
+  expect(readFileSync(resolve(import.meta.dirname,"..","docs/versioning.md"),"utf8")).toContain(verifiedHarness.sha);
   expect(screen.getByText("node --input-type=module -e \"import '@vanya/ui/lint'\"")).toBeVisible();
   expect(screen.getByText("node --input-type=module -e \"import '@vanya/ui/check-built'\"")).toBeVisible();
   const button=screen.getByRole("button",{name:"Сохранить пример"});fireEvent.click(button);
