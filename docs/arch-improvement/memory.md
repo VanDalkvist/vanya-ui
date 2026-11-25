@@ -20,3 +20,9 @@
 - Cause: inference from test naming without tracing its exact live showcase instantiation.
 - Use next time: inspect the rendering callsite, CSS variant-specific behavior and test locator together before declaring a wrong oracle. Correct mistakes explicitly and preserve what was genuinely wrong.
 - Evidence: `src/showcase/ComponentCatalog.tsx` and `src/tokens.css`, [review](../research/pr25-test-integrity-review-2026-11-23.md).
+
+## 2026-11-25 — Verify the consumer's installed design harness
+- Context: #36, AP-012/AP-068/AP-075/AP-076.
+- A checkout-only linter and a product-authored success script leave the real agent execution path unproven.
+- Use next time: resolve policy and frozen toolchain from the installed immutable dependency; require canonical binding and execute before build/browser; exercise a deliberate invalid source change and observe actual nonzero exit. Prove separate distribution installs before release. Legacy baselines require explicit capture and policy fingerprint; never auto-refresh during feature work.
+- Evidence: cycle 8 plan, design-harness.e2e.test.mjs, successful builds a78b3432-f6e0-4267-adf9-8833bafde97a and b5878c88-fd36-4044-92c9-9761f17a5365.

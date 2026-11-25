@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Copy, ArrowUpRight } from "lucide-react";
 import { ActionButton, ActionLink, type ActionButtonState } from "../index";
 
-export const agentPrompt = "Создай продукт на Vanya UI. Найди или получи локальную копию репозитория https://github.com/VanDalkvist/vanya-ui. Прочитай skills/vanya-ui/SKILL.md, используй scope new и пройди полный цикл реализации и приёмки.";
+import { agentPrompts } from "./agent-harness-data";
+export const agentPrompt = agentPrompts.new;
 
 const resources = [
   { label:"Agent Skill", description:"Канонический сценарий работы агента.", href:"/reference/agent-skill.md" },
-  { label:"CLI и приёмка", description:"Inspect, plan, check, verify, review. Критерии и доказательства.", href:"/reference/ui-pipeline.md" },
+  { label:"CLI и приёмка", description:"Adopt, lint, verify, review. Критерии и доказательства.", href:"/reference/ui-pipeline.md" },
   { label:"Компоненты", description:"Реальные экспорты и ссылки на исходники.", href:"/reference/components.md" },
   { label:"Токены", description:"Палитра, типографика и размеры.", href:"/reference/tokens.md" },
   { label:"LLM-индекс", description:"Короткий путеводитель по документации.", href:"/llms.txt" },
@@ -28,6 +29,7 @@ export function AgentSection() {
     <p className="guide-eyebrow">Агентам / 09</p>
     <h2 id="agents-title" className="catalog-title">Дизайн-система для агентов</h2>
     <p className="catalog-intro">Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере.</p>
+    <ActionLink href="/agents/" variant="accent" size="md">Открыть Agent Mode <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
     <div className="agents-columns">
       <div className="agents-start">
         <h3 className="ui-type-subheading">Начать работу</h3>

@@ -9,6 +9,12 @@ import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
 import {resolve,relative,join,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
+import {verifyConsumerCss} from './consumer-built-css.mjs';
+import {authoredInventory,componentUsage,tokenImports} from './design-source-inventory.mjs';
+import {checkProject} from './ui-contract.mjs';
+import {runConsumerLint,inspectHarness,verificationFingerprint} from './design-harness.mjs';
+import {adoptConsumer} from './adopt-ui-harness.mjs';
+import {captureConsumerBaseline} from './capture-ui-baseline.mjs';
 import {createAcceptancePlan,reviewAcceptance,criteria} from './ui-acceptance.mjs';
 
 const libraryRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
@@ -94,15 +100,15 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
  const scanned=files.filter(f=>/\.(tsx|jsx|ts|js|mjs|css|scss|vue|svelte|html)$/.test(f)).slice(0,1200).map(path=>({path,source:read(path).slice(0,120000)}));
  const relevantSources=scanned.map(f=>f.source).join('\n');
  // A deliberately bounded literal import check; this is not a module graph or CSS parser.
- const tokenImportFiles=scanned.filter(({path,source})=>{
-  const clean=source.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^[ \t]*\/\/.*$/gm,'');
-  const css=/\.(css|scss|vue|svelte|html)$/.test(path)&&/(?:^|[;\n])\s*@import\s+(?:url\(\s*)?['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
-  const js=/\.(tsx|jsx|ts|js|mjs|vue|svelte)$/.test(path)&&/(?:^|[;\n])\s*import\s*['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
-  return css||js;
- }).map(({path})=>relative(scanRoot,path));
+ const authored=finalMode==='react'&&chosen?authoredInventory(scanRoot):scanned.map(({path,source})=>({name:relative(scanRoot,path),source}));
+ const tokenImportFiles=tokenImports(authored);
  const hasTailwindSource=scanned.some(({path,source})=>/\.(css|scss)$/.test(path)&&/@source\s+['"][^'"]*@vanya\/ui\/src\/?['"]/.test(source.replace(/\/\*[\s\S]*?\*\//g,'')));
  const scripts=chosen?.data.scripts||{};
  const libraryVersion=json(join(libraryRoot,'package.json'))?.version||null;
+ const designHarness=finalMode==='react'&&chosen?inspectHarness(scanRoot,scripts):null;
+ const usage=finalMode==='react'&&chosen?componentUsage(authored):[];
+ let fingerprint=null;
+ if(designHarness?.status==='ready')try{fingerprint=verificationFingerprint(scanRoot,root)}catch(e){designHarness.status='invalid';designHarness.problems.push(e.message)}
  const installed=chosen?[chosen.dir,root].map(dir=>json(join(dir,'node_modules','@vanya','ui','package.json'))).find(p=>p?.name==='@vanya/ui'):null;
  return {
   project:root,package:chosen?.id||null,packageRoot:scanRoot,
@@ -116,32 +122,13 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
   buildScript:Boolean(scripts.build),
   scripts,manager:chosen?detectManager(chosen.dir,root):null,
+  designHarness,componentUsage:usage,verificationFingerprint:fingerprint,
   documents:['skills/vanya-ui/SKILL.md','DESIGN.md','src/index.ts','src/tokens.css',
    'docs/patterns/list-detail-composition.md','docs/research/workspace-scroll-composition-2026-11-21.md',
    'docs/patterns/browser-navigation.md',...criteria.map(c=>c.canonical)].filter((name,i,all)=>all.indexOf(name)===i).map(name=>join(libraryRoot,name))
  };
 }
-export function checkProject(info){
- const problems=[],warnings=[];
- if(info.mode==='none')return {status:'skip',problems,warnings:['No UI surface detected; pass --mode visual/react if this is a new UI feature']};
- if(!info.hasPolicy)problems.push('Create UI_CONTRACT.md referencing the canonical Vanya UI skill (see bootstrap-ui-pipeline.mjs)');
- if(info.mode==='react'){
-  if(!info.package)problems.push('React UI needs a selected package.json; use --package');
-  if(!info.hasDependency)problems.push('React UI must use a pinned @vanya/ui package dependency');
-  else if(!info.pinnedDependency)problems.push('Pin @vanya/ui to a verified immutable version/commit or local file/workspace dependency');
-  if(info.hasDependency&&!info.installedVersion)warnings.push('Installed @vanya/ui version not detected; inspect actual installed package before coding');
-  if(info.installedVersion&&info.libraryVersion&&info.installedVersion!==info.libraryVersion)warnings.push('Installed @vanya/ui '+info.installedVersion+' differs from local guides '+info.libraryVersion+'; check installed APIs or explicitly upgrade');
-  if(!info.hasTokensImport)problems.push('Import @vanya/ui/tokens.css in the global CSS entry or a side-effect JS/TS import (literal source check)');
-  if(info.hasTokensImport&&!info.hasTailwindSource)warnings.push('No explicit @source path to @vanya/ui/src detected; confirm Tailwind 4 scans the installed sources or equivalent configuration');
-  if(!info.hasImport)problems.push('Import real @vanya/ui components or @vanya/ui/tokens.css in project source');
-  if(!info.buildScript)problems.push('Add a reproducible build script to the UI package');
-  if(!info.browserScript)problems.push('Add a runnable test:e2e, test:browser or test:ui script');
- }else{
-  if(!info.visualFiles)warnings.push('No existing visual source yet; write the UI then rerun');
-  if(!info.browserScript)warnings.push('No browser script; visual acceptance must be recorded separately');
- }
- return {status:problems.length?'fail':'pass',problems,warnings};
-}
+export {checkProject};
 function runScript(info,manager,name,asJson=false){
  const dir=info.packageRoot;
  const args=manager==='yarn'?[name]:['run',name];
@@ -151,9 +138,9 @@ function runScript(info,manager,name,asJson=false){
  if(call.error)return {script:name,status:'failed',reason:call.error.message};
  return {script:name,status:call.status===0?'passed':'failed',exitCode:call.status,signal:call.signal||undefined};
 }
-export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={}){
+export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={},executeLint=runConsumerLint){
  const checked=checkProject(info);
- const result={project:info.project,package:info.package,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked'};
+ const result={project:info.project,package:info.package,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked',verificationFingerprint:info.verificationFingerprint};
  if(checked.status==='skip'){result.status='skipped';return result}
  if(checked.status==='fail'){result.issues=checked.problems;return result}
  if(!info.package){result.issues=['No executable package.json. Visual review required; cannot certify automatically'];return result}
@@ -164,13 +151,29 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
  if(!info.scripts[build]){result.issues=['Missing build script '+build];return result}
  if(info.mode==='react'&&!browser){result.issues=['No browser-test script'];return result}
  const tasks=[...(unitScript?[unitScript]:[]),build,...(browser?[browser]:[])];
+ const requiresLint=info.mode==='react';
+ if(requiresLint){
+  result.lintScript='lint:design';
+  if(build!=='build'||browser!==info.browserScript){result.issues=['React verification must run canonical build and selected browser script'];return result}
+ }
  for(const name of tasks)if(!info.scripts[name]){result.issues=['Missing script '+name];return result}
- if(dryRun){result.status='planned';result.checks=tasks.map(script=>({script,status:'NOT_RUN'}));return result}
+ if(dryRun){result.status='planned';result.checks=[...(requiresLint?['lint:design']:[]),...tasks.flatMap(t=>requiresLint&&t===build?[t,'built-css']:[t])].map(script=>({script,status:'NOT_RUN'}));return result}
+ if(requiresLint){
+  let item;
+  try{item=executeLint({project:info.packageRoot,asJson})}
+  catch(e){item={script:'lint:design',status:'failed',reason:e.message}}
+  result.checks.push(item);
+  if(item.status!=='passed'||item.exitCode!==0){result.status='failed';return result}
+ }
  for(const name of tasks){
   const item=runScript(info,runtime,name,asJson);
   result.checks.push(item);
   if(item.status!=='passed'){result.status='failed';return result}
+  if(requiresLint&&name===build){
+   try{result.checks.push(verifyConsumerCss(info.packageRoot))}catch(e){result.checks.push({script:'built-css',status:'failed',reason:e.message});result.status='failed';return result}
+  }
  }
+ if(requiresLint&&verificationFingerprint(info.packageRoot,info.project)!==info.verificationFingerprint){result.status='failed';result.issues=['Source or design policy changed during verification; rerun after final edits'];return result}
  result.status='passed';
  // Browser tests have executed, but real visual exploration, keyboard and theme
  // evidence must be collected by the agent. Never declare these verified by build.
@@ -178,14 +181,14 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
 }
 function parseArgs(argv){
  const [command,...tail]=argv;
- if(!['inspect','check','verify','plan','review','help'].includes(command||'help'))throw Error('Unknown command '+command);
+ if(!['inspect','check','verify','plan','review','lint','adopt','baseline','help'].includes(command||'help'))throw Error('Unknown command '+command);
  const options={};
- const boolean=new Set(['json','dry-run']);
+ const boolean=new Set(['json','dry-run','migrate']);
  for(let i=0;i<tail.length;i++){
   const arg=tail[i];if(!arg.startsWith('--'))throw Error('Unexpected argument '+arg);
   const key=arg.slice(2);
   if(boolean.has(key)){options[key]=true;continue}
-  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification'].includes(key))throw Error('Unknown option --'+key);
+  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification','sources','css-output'].includes(key))throw Error('Unknown option --'+key);
   const value=tail[++i];
   if(!value||value.startsWith('--'))throw Error('Missing value for --'+key);
   options[key]=value;
@@ -204,6 +207,8 @@ function output(obj,asJson){
   if(obj.warnings)for(const x of obj.warnings)console.log('  WARN: '+x);
   if(obj.checks)for(const x of obj.checks)console.log('  '+x.status+': '+x.script);
   if(obj.visualReview)console.log('Visual/interaction review: '+obj.visualReview+' (agent must verify independently)');
+  if(obj.changed)for(const path of obj.changed)console.log('  wrote '+path);
+  if(obj.designHarness)console.log('Design harness: '+obj.designHarness.status);
   if(obj.hasPolicy!==undefined)console.log('Canonical policy: '+(obj.hasPolicy?'found':'missing'));
   if(obj.browserScript)console.log('Browser test: '+obj.browserScript);
   if(obj.libraryVersion)console.log('Local guide version: '+obj.libraryVersion);
@@ -216,6 +221,9 @@ export function runCli(argv){
   console.log('Vanya UI portable agent pipeline (Node >=20; offline; no GitHub)\n'
    +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
    +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
+   +'Adopt: adopt --project <dir> --sources src,app [--css-output dist] [--package app] (explicit persistent setup)\n'
+   +'Baseline: baseline --project <dir> [--package app] [--migrate] (explicit debt capture or non-growing migration)\n'
+   +'Lint: lint --project <dir> [--sources src,app] [--package app] (requires installed @vanya/ui and frozen tools)\n'
    +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
    +'Review: review --receipt receipt.json [--verification verify.json] (checks recorded evidence and supplied machine results)\n'
    +'For repeatable agent steps read <vanya-ui>/skills/vanya-ui/SKILL.md.');
@@ -241,6 +249,22 @@ export function runCli(argv){
   console.log(JSON.stringify(review,null,2));return review.status==='recorded'?0:1;
  }
  const info=inspectProject({project:options.project||'.',mode:options.mode||'auto',packageDir:options.package});
+ if(command==='adopt'){
+  if(info.mode!=='react'||!info.package||!info.pinnedDependency)throw Error('adopt requires a selected React package with a pinned @vanya/ui dependency');
+  const outcome=adoptConsumer({project:info.packageRoot,sources:options.sources?.split(','),cssOutput:options['css-output']});
+  output(outcome,options.json);return 0;
+ }
+ if(command==='baseline'){
+  if(info.mode!=='react'||!info.package||!info.pinnedDependency||info.designHarness?.status!=='ready'||options.sources)throw Error('baseline requires an adopted React package and uses its exact configured source scope');
+  const outcome=captureConsumerBaseline({project:info.packageRoot,asJson:Boolean(options.json),migrate:Boolean(options.migrate)});
+  output(outcome,options.json);return 0;
+ }
+ if(command==='lint'){
+  if(info.mode!=='react'||!info.package)throw Error('lint requires a React package; select it with --package');
+  const item=runConsumerLint({project:info.packageRoot,sources:options.sources?.split(','),asJson:Boolean(options.json)});
+  output({status:item.status,checks:[item],project:info.project,package:info.package},options.json);
+  return item.status==='passed'?0:1;
+ }
  if(command==='inspect'){output(info,options.json);return 0}
  if(command==='check'){
   const checked=checkProject(info);

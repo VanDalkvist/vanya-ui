@@ -24,6 +24,8 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 - Canonical composition and stable geometry: https://ui.vanya-arc.dev/reference/composition.md
 - Public data boundary: https://ui.vanya-arc.dev/reference/publication-safety.md
 - Install and source package constraints: https://ui.vanya-arc.dev/reference/installation.md
+- Agent harness quickstart: https://ui.vanya-arc.dev/reference/design-harness-quickstart.md
+- Agent mode: https://ui.vanya-arc.dev/agents/
 - Portable agent skill: https://ui.vanya-arc.dev/reference/agent-skill.md
 - Local inspect/plan/check/verify/review workflow (task-scoped evidence): https://ui.vanya-arc.dev/reference/ui-pipeline.md
 - List-detail layout and scroll acceptance: https://ui.vanya-arc.dev/reference/list-detail.md
@@ -108,6 +110,7 @@ const docs=[
  ["docs/patterns/browser-navigation.md","navigation.md"],
  ["skills/vanya-ui/SKILL.md","agent-skill.md"],
  ["docs/patterns/ui-feature-pipeline.md","ui-pipeline.md"],
+ ["docs/patterns/design-harness-quickstart.md","design-harness-quickstart.md"],
  ["docs/patterns/list-detail-composition.md","list-detail.md"],
  ["docs/versioning.md","versioning.md"],
  ["docs/patterns/interaction-states.md","interaction-states.md"],

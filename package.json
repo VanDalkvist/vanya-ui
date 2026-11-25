@@ -1,6 +1,6 @@
 {
   "name": "@vanya/ui",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
   "license": "SEE LICENSE IN LICENSING.md",
@@ -16,10 +16,12 @@
       "types": "./src/index.ts",
       "import": "./src/index.ts"
     },
-    "./tokens.css": "./src/tokens.css"
+    "./tokens.css": "./src/tokens.css",
+    "./lint": "./scripts/design-harness-bin.mjs",
+    "./check-built": "./scripts/consumer-built-css-bin.mjs"
   },
   "scripts": {
-    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs",
+    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",
     "test:watch": "vitest",
     "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && node scripts/finalize-published-licenses.mjs && bun run scripts/prerender.tsx && node scripts/check-built-ui.mjs",
     "lint:design:pilot": "node scripts/design-lint-pilot.mjs",
@@ -31,7 +33,9 @@
     "release:check": "node scripts/check-release.mjs",
     "test:browser": "npm --prefix browser-qa run test",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "test:consumer": "node scripts/consumer-smoke.mjs"
+    "test:consumer": "node scripts/consumer-smoke.mjs",
+    "test:harness": "node --test scripts/design-harness.e2e.test.mjs",
+    "test:harness:consumer": "node scripts/consumer-smoke.mjs"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#c3aa7ce7672bb06932dda333ba8bc98e8290f5ae",
@@ -56,5 +60,8 @@
     "typescript": "^5.7.0",
     "vite": "8.3.6",
     "vitest": "5.1.0"
+  },
+  "bin": {
+    "vanya-ui-lint": "./scripts/design-harness-bin.mjs"
   }
 }

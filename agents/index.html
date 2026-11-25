@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Vanya UI для coding-агентов: дизайн-каноны, компоненты, харнесс и проверки CI." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://ui.vanya-arc.dev/agents/" />
+    <link rel="icon" type="image/svg+xml" href="/vanya-arc-mark.svg" />
+    <link rel="alternate" type="text/markdown" href="https://ui.vanya-arc.dev/reference/design-harness-quickstart.md" title="Markdown version" />
+    <link rel="describedby" type="text/markdown" href="https://ui.vanya-arc.dev/llms.txt" />
+    <link rel="alternate" type="text/markdown" href="https://ui.vanya-arc.dev/reference/agent-skill.md" title="Agent instructions for Vanya UI" />
+    <link rel="sitemap" type="application/xml" href="https://ui.vanya-arc.dev/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vanya Arc / UI — Agent Mode" />
+    <meta property="og:description" content="Подключение Vanya UI, исполняемые правила и проверка качества в CI." />
+    <meta property="og:url" content="https://ui.vanya-arc.dev/agents/" />
+    <title>Vanya Arc / UI — Agent Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+    <script>
+      try {
+        const theme = localStorage.getItem("vanya_theme");
+        const dark = theme === "dark" || ((!theme || theme === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", dark);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/showcase/agent-main.tsx"></script>
+  </body>
+</html>

@@ -68,7 +68,7 @@ export function assertConsumerCss(css) {
 function run(cwd, cmd, args) {
   const result=spawnSync(cmd,args,{cwd,encoding:"utf8",shell:process.platform==="win32",timeout:240000,maxBuffer:8*1024*1024});
   const output=(result.stdout??"")+(result.stderr??"");
-  writeFileSync(join(cwd,cmd+"-"+args.join("-").replace(/[^a-zA-Z0-9-]/g,"")+".log"),output);
+  writeFileSync(join(cwd,cmd.replace(/[^a-zA-Z0-9-]/g,"")+"-"+args.join("-").replace(/[^a-zA-Z0-9-]/g,"")+".log"),output);
   if(result.stdout)process.stdout.write(result.stdout);
   if(result.stderr)process.stderr.write(result.stderr);
   if(result.error) throw result.error;
@@ -79,18 +79,24 @@ function run(cwd, cmd, args) {
 async function main() {
   const args=process.argv.slice(2);
   const sha=args[0];
-  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>a!=="--prepare-only")) {
-    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only]");
+  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>!["--prepare-only","--harness","--browser"].includes(a))) {
+    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only] [--harness] [--browser]");
     process.exitCode=2;return;
   }
-  const prepare=args.includes("--prepare-only");
+  const prepare=args.includes("--prepare-only"), harness=args.includes("--harness"), browser=args.includes("--browser");
+  if(browser&&!harness)throw Error("--browser requires --harness");
   const root=mkdtempSync(join(tmpdir(),"vanya-ui-consumer-"));
   console.log("Isolated fixture directory: "+root);
   const results=[];
   for(const row of matrix){
     const cwd=join(root,row.manager);
     mkdirSync(join(cwd,"src"),{recursive:true});
-    for(const [name,content] of Object.entries(fixture(sha,row))) writeFileSync(join(cwd,name),content);
+    const files=fixture(sha,row);
+    if(browser&&row.manager==="npm"){
+      files["src/App.tsx"]="import {ActionButton,SegmentedControl,WorkspaceSplit,SurfaceHeader,ThemeToggle,type SegmentItem} from \"@vanya/ui\";\nimport {useState} from \"react\";\nconst items: SegmentItem<\"a\"|\"b\">[]=[{id:\"a\",label:\"First\"},{id:\"b\",label:\"Second\"}];\nexport function App(){\n const [value,setValue]=useState<\"a\"|\"b\">(\"a\"),[count,setCount]=useState(0);\n return <main className=\"consumer-workspace\" data-testid=\"workspace\">\n  <SurfaceHeader headingLevel={2} title=\"Consumer workspace\" subtitle=\"Review and update projects\" actions={<ThemeToggle/>}/>\n  <WorkspaceSplit navigation={<section className=\"consumer-nav\" aria-label=\"Project filters\">\n   <SegmentedControl aria-label=\"Consumer filter\" items={items} value={value} onChange={setValue}/>\n   <p className=\"ui-type-body\" data-testid=\"filter-result\">{value===\"a\"?\"First project\":\"Second project\"}</p>\n  </section>} detail={<section className=\"consumer-detail\" aria-label=\"Project details\">\n   <h2 className=\"ui-type-heading\">Project details</h2>\n   <p className=\"ui-type-body\" data-testid=\"body-copy\">Review the current project and record an update.</p>\n   <ActionButton size=\"md\" variant=\"outline\" actionState={count?\"success\":\"idle\"} onClick={()=>setCount(n=>n+1)}>Consumer action</ActionButton>\n   <p className=\"ui-type-body\" data-testid=\"result\" aria-live=\"polite\">Updates: {count}</p>\n  </section>}/>\n </main>;\n}\n";
+      files["src/style.css"]="@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\nbody { margin:0; background:var(--ground);color:var(--ink);font-family:var(--font-sans); }\n.consumer-workspace { width:100%;padding:var(--spacing-scene); }\n.consumer-nav,.consumer-detail {padding:var(--spacing-scene);min-width:0;}\n";
+    }
+    for(const [name,content] of Object.entries(files)) writeFileSync(join(cwd,name),content);
     const receipt={sha,manager:row.manager,react:row.react,checks:{},status:"NOT_RUN"};
     let phase="toolchain";
     try{
@@ -106,11 +112,43 @@ async function main() {
         if(installed.name!=="@vanya/ui")throw new Error("Wrong installed package");
         receipt.packageVersion=installed.version;
         receipt.checks.install="PASS";
+        if(harness){
+          phase="harness-adopt";
+          run(cwd,process.execPath,[join(cwd,"node_modules/@vanya/ui/scripts/ui-pipeline.mjs"),"adopt","--project",cwd,"--sources","src"]);
+          phase="harness-lint";run(cwd,row.manager,["run","lint:design"]);run(cwd,process.execPath,["--input-type=module","-e","import '@vanya/ui/lint'"]);receipt.checks.harnessLint="PASS";
+          phase="harness-negative";
+          const cssPath=join(cwd,"src/style.css"),before=readFileSync(cssPath,"utf8");
+          try{
+            writeFileSync(cssPath,before+"\n.probe { color: #f123ab; font-size: 19px; }\n");
+            const bad=spawnSync(row.manager,["run","lint:design"],{cwd,encoding:"utf8",shell:process.platform==="win32",timeout:480000,maxBuffer:8*1024*1024});
+            const output=(bad.stdout??"")+(bad.stderr??"");
+            writeFileSync(join(cwd,"harness-negative.log"),output);
+            if(bad.error||bad.status!==1||!output.includes("#f123ab")||!output.includes("new=2"))throw Error("Expected actual design violations to block package lint");
+            receipt.checks.harnessNegative="PASS";
+          }finally{writeFileSync(cssPath,before)}
+        }
         phase="types";run(cwd,row.manager,["run","types"]);receipt.checks.types="PASS";
         phase="client";run(cwd,row.manager,["run","build"]);
         const css=readdirSync(join(cwd,"dist","assets")).filter(x=>x.endsWith(".css")).map(x=>readFileSync(join(cwd,"dist","assets",x),"utf8")).join("\n");
         assertConsumerCss(css);
+        if(harness){
+          phase="compiled-css";run(cwd,process.execPath,["--input-type=module","-e","import '@vanya/ui/check-built'"]);receipt.checks.compiledCss="PASS";
+          const cssPath=join(cwd,"src/style.css"),before=readFileSync(cssPath,"utf8");
+          try{
+            phase="compiled-css-negative";writeFileSync(cssPath,"/* disconnected tokens */\n");
+            run(cwd,row.manager,["run","build"]);
+            const bad=spawnSync(process.execPath,["--input-type=module","-e","import '@vanya/ui/check-built'"],{cwd,encoding:"utf8",timeout:60000});
+            if(bad.error||bad.status!==1||!/Missing compiled UI CSS|No compiled CSS found/.test((bad.stdout??"")+(bad.stderr??"")))throw Error("Disconnected token stylesheet must fail compiled CSS gate");
+            receipt.checks.compiledCssNegative="PASS";
+          }finally{writeFileSync(cssPath,before)}
+          run(cwd,row.manager,["run","build"]);
+        }
         receipt.checks.client="PASS";
+        if(browser&&row.manager==="npm"){
+          phase="browser-workspace";
+          const {reviewConsumerWorkspace}=await import("../browser-qa/consumer-harness-browser.mjs");
+          receipt.browser=await reviewConsumerWorkspace(cwd);receipt.checks.browserWorkspace="PASS";
+        }
         phase="ssr";run(cwd,row.manager,["run","ssr"]);
         const entry=readdirSync(join(cwd,"dist-ssr")).find(x=>/^entry-server\.(js|mjs)$/.test(x));
         if(!entry)throw new Error("Missing SSR entry");

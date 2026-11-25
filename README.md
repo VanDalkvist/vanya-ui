@@ -8,20 +8,22 @@ React-компоненты и интерфейсные токены для пр�
 
 ## Агентам: один переносимый UI-пайплайн
 
-**[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
+**[Agent Mode](https://ui.vanya-arc.dev/agents/)** · **[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
 
 Скопируй папку Vanya UI на любую машину с Node.js 20+, дай агенту путь к ней и к приложению. Git, GitHub, Actions, учётные данные и интернет **не нужны для самого пайплайна**:
 
 ```sh
 node /path/to/vanya-ui/scripts/bootstrap-ui-pipeline.mjs --project /path/to/app
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs inspect --project /path/to/app
+# Once the verified harness-capable @vanya/ui package and source directories exist:
+node /path/to/vanya-ui/scripts/ui-pipeline.mjs adopt --project /path/to/app --sources src
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs check --project /path/to/app
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --package app
 ```
 
-Для каждой UI-задачи: `plan --project /path/to/app --scope feature --task "Описание задачи" --target "/route" > ui-receipt.json`, затем реализация, `check`, `verify`, браузерная приёмка и `review --receipt ui-receipt.json --verification ui-verification.json`. [Протокол приёмки](docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt) задаёт критерии и доказательства; review проверяет структуру отчёта. Для нового приложения используйте `--scope new`, `--mode react` даже в пустом репозитории и [порядок подключения](docs/patterns/ui-feature-pipeline.md#new-product-setup). Сохраняйте реальный `verify --json > ui-verification.json`. Массовая миграция требует явной задачи. Для существующих проектов достаточно актуального локального скилла; bootstrap сохраняет пользовательские инструкции.
+Для каждой UI-задачи: `plan --project /path/to/app --scope feature --task "Описание задачи" --target "/route" > ui-receipt.json`, затем реализация, `check`, `verify`, браузерная приёмка и `review --receipt ui-receipt.json --verification ui-verification.json`. [Протокол приёмки](docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt) задаёт критерии и доказательства; review проверяет структуру отчёта. Для нового приложения используйте `--scope new`, `--mode react` даже в пустом репозитории и [порядок подключения](docs/patterns/ui-feature-pipeline.md#new-product-setup). Сохраняйте реальный `verify --json > ui-verification.json`. Массовая миграция требует явной задачи. Для React-потребителя требуется совместимый установленный харнесс; bootstrap сохраняет пользовательские инструкции. [Единый quickstart](docs/patterns/design-harness-quickstart.md).
 
-Самопроверка переносимого инструмента: `npm run test:agent` либо `node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs` (работает без GitHub). Bootstrap создаёт только локальные указатели для агентов, а не GitHub workflow. `verify` вызывает **существующие локальные** build/browser скрипты приложения; предварительная установка зависимостей/браузера — отдельная задача приложения. Вывод `--json` пригоден для агента. Пройти тесты недостаточно: скилл требует визуальную проверку поведения в браузере. GitHub workflow остаётся необязательной ручной обёрткой.
+Самопроверка переносимого инструмента: `npm run test:agent` либо `node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs` (работает без GitHub). Bootstrap создаёт локальные указатели. `adopt` закрепляет `vanya-ui.config.json`, `lint:design` и управляемый блок AGENTS.md. Добавьте прямой вызов установленного харнесса в существующий CI до deploy (см. [quickstart](docs/patterns/design-harness-quickstart.md)); `verify` запускает канонический линтер напрямую. Правила поставляются установленным пакетом. Операции `inspect/check/plan` работают без сети; фактический lint/verify может требовать npm registry для изолированного `npm ci`. `verify` вызывает **существующие локальные** build/browser скрипты приложения; предварительная установка зависимостей/браузера — отдельная задача приложения. Вывод `--json` пригоден для агента. Пройти тесты недостаточно: скилл требует визуальную проверку поведения в браузере. GitHub workflow остаётся необязательной ручной обёрткой.
 
 ### Ссылки на автора и исходники
 
@@ -219,3 +221,6 @@ bun run build     # production-сборка витрины в dist/
 ## Назначение (уточнение владельца, 24.11.2026)
 
 Vanya UI — внутренняя дизайн-система для разработки собственных продуктов Vanya Arc. Публичная витрина помогает владельцу видеть компоненты и проверять их, а агентам — использовать библиотеку в его проектах. Коммерциализация дизайн-системы, привлечение сторонних разработчиков и внешняя adoption-метрика владельцем не заявлены. Не предлагать эти направления по умолчанию.
+
+### Миграция существующего продукта
+После `adopt` выполните `node /path/to/vanya-ui/scripts/ui-pipeline.mjs baseline --project /path/to/app` один раз и проверьте реальные записи `vanya-ui.baseline.json`. Команда фиксирует CSS и JSX долг и включает режим baseline в конфигурации. Повторный автоматический захват запрещён; изменение исходной строки или добавление нарушения блокирует lint. Храните baseline в самом продукте, учитывайте приватность исходников. Новые продукты остаются strict.

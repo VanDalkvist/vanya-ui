@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [tailwindcss()],
-  build: { license: { fileName: "licenses.txt" }, rolldownOptions: { input: { main: "index.html", showcase: "showcase.html", navigation: "guidelines/navigation/index.html" } } },
+  build: { license: { fileName: "licenses.txt" }, rolldownOptions: { input: { main: "index.html", showcase: "showcase.html", navigation: "guidelines/navigation/index.html", agents: "agents/index.html" } } },
   test: {
     globals: true,
     environment: "jsdom",

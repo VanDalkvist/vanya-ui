@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,mkdirSync,writeFileSync,rmSync,readFileSync} from 'node:fs';
+import {mkdtempSync,mkdirSync,writeFileSync,rmSync,readFileSync,symlinkSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -12,12 +12,25 @@ function fixture(fn){
 }
 const file=(root,name,content)=>{const p=join(root,name);mkdirSync(join(p,'..'),{recursive:true});writeFileSync(p,content)};
 function react(root,opts={}){
- file(root,'app/package.json',JSON.stringify({name:'demo-ui',type:'module',dependencies:{react:'19',...(opts.dependency===false?{}:{'@vanya/ui':'file:../ui'})},scripts:{build:'node build.mjs',...(opts.browser===false?{}:{'test:e2e':'node browser.mjs'})}}));
+ file(root,'app/package.json',JSON.stringify({name:'demo-ui',type:'module',dependencies:{react:'19',...(opts.dependency===false?{}:{'@vanya/ui':'file:../ui'})},scripts:{build:'node build.mjs','lint:design':'vanya-ui-lint',...(opts.browser===false?{}:{'test:e2e':'node browser.mjs'})}}));
  file(root,'UI_CONTRACT.md','Canonical: Vanya Arc / UI; read skills/vanya-ui/SKILL.md');
+ file(root,'app/vanya-ui.config.json',JSON.stringify({schemaVersion:1,sources:['src'],mode:'strict'}));
+ mkdirSync(join(root,'app/node_modules/@vanya'),{recursive:true});
+ symlinkSync(new URL('../',import.meta.url).pathname,join(root,'app/node_modules/@vanya/ui'),'junction');
  if(opts.tokens!==false)file(root,'app/src/style.css','@import "@vanya/ui/tokens.css";\n@source "../node_modules/@vanya/ui/src";');
- file(root,'app/src/App.jsx',opts.import===false?'export const App=()=>null;':'import {ScrollRegion} from "@vanya/ui"; export const App=()=>ScrollRegion;');
- file(root,'app/build.mjs','console.log("built");');
+ file(root,'app/src/App.jsx',opts.import===false?'export const App=()=>null;':'import {ScrollRegion} from "@vanya/ui"; export const App=()=> <ScrollRegion/>;');
+ file(root,'app/build.mjs',"import {mkdirSync,writeFileSync} from 'node:fs';mkdirSync('dist',{recursive:true});writeFileSync('dist/app.css',\":root{--ground:white;--accent:red;--type-body-size:1rem}.ui-size{}.ui-action-button{}.rounded-sm{}\");console.log(\"built\");");
  file(root,'app/browser.mjs','console.log("browser-ok");');
+}
+// Unit orchestration seam: the networked real runner is exercised by design-harness.e2e.test.mjs.
+function verifyWithLint(info){
+ let calls=0;
+ const result=verifyProject(info,{},({project})=>{
+  calls++;assert.equal(project,info.packageRoot);
+  return {script:'lint:design',status:'passed',exitCode:0};
+ });
+ assert.equal(calls,1,'React verify must call the lint port');
+ return result;
 }
 test('React consumer works as portable file tree without a .git directory',()=>fixture(root=>{
  react(root);
@@ -25,9 +38,9 @@ test('React consumer works as portable file tree without a .git directory',()=>f
  assert.equal(info.mode,'react');assert.equal(info.package,'app');
  assert.equal(info.hasDependency,true);assert.equal(info.hasImport,true);
  assert.equal(checkProject(info).status,'pass');
- const result=verifyProject(info);
+ const result=verifyWithLint(info);
  assert.equal(result.status,'passed');
- assert.deepEqual(result.checks.map(x=>x.status),['passed','passed']);
+ assert.deepEqual(result.checks.map(x=>x.status),['passed','passed','passed','passed']);
  assert.equal(result.visualReview,'NOT_VERIFIED');
 }));
 test('React missing dependency, import or browser script is rejected',()=>fixture(root=>{
@@ -157,7 +170,7 @@ test('project-bound React feature cannot exclude execution; actual verify result
  assert.equal(reviewAcceptance(p,{projectInfo:info}).status,'invalid');
  const planned=verifyProject(info,{dryRun:true});
  assert.equal(reviewAcceptance(p,{projectInfo:info,verification:planned}).status,'invalid');
- const executed=verifyProject(info);
+ const executed=verifyWithLint(info);
  assert.equal(reviewAcceptance(p,{projectInfo:info,verification:executed}).status,'recorded');
  assert.equal(reviewAcceptance(p,{projectInfo:info,verification:{...executed,project:'/wrong'}}).status,'invalid');
  assert.equal(reviewAcceptance(p,{projectInfo:info,verification:{...executed,checks:executed.checks.slice(0,1)}}).status,'invalid');
@@ -175,7 +188,7 @@ test('new product CLI review consumes actual verify JSON and rejects a planned r
  const p=completePlan('new');p.targetProject={project:root,mode:'react',package:'app'};
  file(root,'receipt.json',JSON.stringify(p));
  const args=[script,'verify','--project',root,'--mode','react','--package','app','--json'];
- const v=spawnSync(process.execPath,args,{encoding:'utf8'});assert.equal(v.status,0,v.stderr);file(root,'verify.json',v.stdout);
+ const v=verifyWithLint(inspectProject({project:root,mode:'react',packageDir:'app'}));assert.equal(v.status,'passed');file(root,'verify.json',JSON.stringify(v));
  const review=[script,'review','--receipt',join(root,'receipt.json'),'--verification',join(root,'verify.json')];
  const good=spawnSync(process.execPath,review,{encoding:'utf8'});assert.equal(good.status,0,good.stderr+good.stdout);
  const dry=spawnSync(process.execPath,[...args,'--dry-run'],{encoding:'utf8'});file(root,'verify.json',dry.stdout);
@@ -200,4 +213,15 @@ test('token hookup is mandatory for React; comments do not satisfy it',()=>fixtu
  file(root,'app/src/main.ts','import "@vanya/ui/tokens.css";');
  assert.equal(inspect().hasTokensImport,true);
  assert.ok(checkProject(inspect()).warnings.some(x=>x.includes('@source')));
+}));
+
+test('new receipt requires strict and current execution evidence',()=>fixture(root=>{
+ react(root);const info=inspectProject({project:root});
+ const p=completePlan('new');p.targetProject={project:root,package:'app',mode:'react'};
+ const executed=verifyWithLint(info);
+ assert.equal(reviewAcceptance(p,{projectInfo:info,verification:executed}).status,'recorded');
+ const baseline={...info,designHarness:{...info.designHarness,config:{...info.designHarness.config,mode:'baseline'}}};
+ assert.equal(reviewAcceptance(p,{projectInfo:baseline,verification:executed}).status,'invalid');
+ const stale={...info,hasTokensImport:false,pinnedDependency:false};
+ assert.equal(reviewAcceptance(p,{projectInfo:stale,verification:executed}).status,'invalid');
 }));
