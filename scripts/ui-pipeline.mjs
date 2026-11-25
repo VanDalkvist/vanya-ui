@@ -57,18 +57,18 @@ const commandHelp={
  inspect:'inspect --project <dir> [--package app] [--mode auto|react|visual|none] [--json]',
  check:'check --project <dir> [--package app] [--mode auto|react|visual|none] [--json]',
  verify:'verify --project <dir> [--package app] [--mode auto|react|visual|none] [--manager npm|pnpm|yarn|bun] [--build-script build] [--browser-script test:e2e] [--unit-script test:unit] [--dry-run] [--json]',
- adopt:'adopt --project <dir> --sources src,app [--css-output dist] [--package app] [--json]',
- baseline:'baseline --project <dir> [--package app] [--migrate] [--json]',
- lint:'lint --project <dir> [--sources src,app] [--package app] [--json]',
- plan:'plan --project <dir> --task <description> --target <route/component> [--package app] [--mode auto|react|visual] [--scope new|feature|screen|migration]',
- review:'review --receipt receipt.json [--verification verify.json] [--project <dir>] [--package app] [--mode auto|react|visual]',
+ adopt:'adopt --project <dir> --sources src,app [--css-output dist] [--package app] [--mode auto|react] [--json]',
+ baseline:'baseline --project <dir> [--package app] [--mode auto|react] [--migrate] [--json]',
+ lint:'lint --project <dir> [--sources src,app] [--package app] [--mode auto|react] [--json]',
+ plan:'plan --project <dir> --task <description> --target <route/component> [--package app] [--mode auto|react|visual] [--scope new|feature|screen|migration] [--json]',
+ review:'review --receipt receipt.json [--verification verify.json] [--project <dir>] [--package app] [--mode auto|react|visual] [--json]',
  contribute:'contribute --project <library> [--manager npm|pnpm|yarn|bun] [--dry-run] [--json]'
 };
 function printHelp(command){
  if(command){
   if(!Object.hasOwn(commandHelp,command))throw Error('Unknown command '+command);
   console.log('Usage: vui '+commandHelp[command]);
-  if(command==='contribute')console.log('Verify library contributions: test, typecheck, build, lint:design:pilot. Read docs/patterns/contributing.md. Visual acceptance is separate.');
+  if(command==='contribute')console.log('Verify library contributions: test, typecheck, build, lint:design:pilot. Visual acceptance is separate.\nContributor guide: '+join(libraryRoot,'docs/patterns/contributing.md'));
   return;
  }
  console.log('Vanya Arc / UI — vanya-arc-ui (vui)\nNode >=20; portable source-tree entrypoint: node scripts/ui-pipeline.mjs\n\nConsumer commands:');
@@ -89,7 +89,7 @@ export function runCli(argv){
   if(argv.length>2)throw Error('Usage: vui help [command]');
   printHelp(argv[1]);return 0;
  }
- if(argv.length===2&&['--help','-h'].includes(argv[1])){
+ if(argv.slice(1).some(x=>x==='--help'||x==='-h')){
   printHelp(argv[0]);return 0;
  }
  const {command,options}=parseArgs(argv);

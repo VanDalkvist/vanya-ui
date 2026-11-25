@@ -15,3 +15,5 @@ Smallest viable repairs: use one option schema for help/validation; existing ins
 
 ## Implementation status
 Code and regression cases prepared for CI; no observed full RED/GREEN run in this environment. Existing baseline untouched; expanded lint results must be reviewed before acceptance. Independent S9 and agent evals remain NOT_VERIFIED/NOT_RUN.
+
+Compatibility review: supported --mode flags for adopt/baseline/lint and explicit --json for plan/review remain accepted; --help is side-effect-free at any argument position. Existing documented invocation with options before --help is covered.

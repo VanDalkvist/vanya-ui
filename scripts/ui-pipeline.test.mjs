@@ -319,6 +319,8 @@ test('CLI help exposes actual canonical resource paths and workflow commands',()
  assert.equal(result.status,0,result.stderr);
  assert.match(result.stdout,/inspect.*plan.*verify.*review/);
  assert.match(result.stdout,/contribute.*--project/);
+ const sub=spawnSync(process.execPath,[new URL('./ui-pipeline.mjs',import.meta.url).pathname,'contribute','--project',root,'--help'],{cwd:root,encoding:'utf8'});
+ assert.equal(sub.status,0,sub.stderr);assert.match(sub.stdout,/Contributor guide: /);
  const skill=result.stdout.split('\n').find(line=>line.startsWith('Skill: '))?.slice(7);
  assert.ok(skill);assert.ok(readFileSync(skill,'utf8').includes('name: vanya-ui'));
 }));
