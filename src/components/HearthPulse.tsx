@@ -16,7 +16,7 @@ export function HearthPulse({
     <span
       className={twMerge(
         clsx(
-          "inline-flex items-center gap-1.5 font-mono text-[11px] text-amber select-none lowercase",
+          "inline-flex items-center gap-1.5 font-mono text-meta text-amber select-none lowercase",
           className
         )
       )}

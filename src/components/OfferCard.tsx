@@ -32,7 +32,7 @@ export function OfferCard({
       className={twMerge(
         clsx(
           "flex flex-col justify-between gap-4 p-4 transition-all duration-150",
-          isActive && "border-hairline-amber bg-surface-raised",
+          isActive && "border-accent/30 bg-surface-raised",
           className
         )
       )}
@@ -43,7 +43,7 @@ export function OfferCard({
             {title}
           </h4>
           {isActive && (
-            <span className="font-mono text-[10px] text-amber lowercase bg-amber/10 border border-amber/30 px-1.5 py-0.5 rounded-xs">
+            <span className="font-mono text-meta text-amber lowercase bg-amber/10 border border-amber/30 px-1.5 py-0.5 rounded-xs">
               на столе
             </span>
           )}

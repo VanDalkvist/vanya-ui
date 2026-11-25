@@ -23,7 +23,7 @@ export function DisclosurePill({
     >
       <summary
         className={clsx(
-          "ui-feedback-row inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 font-sans text-[11px] tracking-wide text-ink-soft select-none",
+          "ui-feedback-row inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 font-sans text-meta tracking-wide text-ink-soft select-none",
           "[&::-webkit-details-marker]:hidden"
         )}
         onKeyDown={(e) => {

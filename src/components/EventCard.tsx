@@ -41,14 +41,14 @@ export function EventCard({
     >
       {/* Header: Date + Close */}
       <div className="flex items-start justify-between gap-4">
-        <div className="font-mono text-meta tracking-[0.16em] text-ink-soft uppercase">
+        <div className="font-mono text-meta tracking-narrative text-ink-soft uppercase">
           {date}
         </div>
         {onClose && (
           <button
             type="button"
             onClick={onClose}
-            className="ui-feedback-nav -mt-1 min-h-9 appearance-none border-0 bg-transparent px-1 font-sans text-[11px] tracking-[0.24em] text-ink-soft uppercase cursor-pointer"
+            className="ui-feedback-nav -mt-1 min-h-9 appearance-none border-0 bg-transparent px-1 font-sans text-meta tracking-eyebrow text-ink-soft uppercase cursor-pointer"
           >
             Закрыть
           </button>
@@ -69,7 +69,7 @@ export function EventCard({
 
       {/* Media Image */}
       {imageSrc && (
-        <div className="relative mt-5 overflow-hidden rounded-[6px] border border-border bg-ground aspect-[16/9] w-full">
+        <div className="relative mt-5 overflow-hidden rounded-md border border-border bg-ground aspect-[16/9] w-full">
           <img
             src={imageSrc}
             alt={title}
