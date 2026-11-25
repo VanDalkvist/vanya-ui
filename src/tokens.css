@@ -49,6 +49,13 @@
   --t-transition: 200ms;
   --text-meta: 0.6875rem;
   --text-meta--line-height: 1.5;
+  --text-control: var(--size-md-font);
+  /* Narrative date labels and compact uppercase eyebrows retain their established tracking. */
+  --tracking-narrative: 0.16em;
+  --tracking-eyebrow: 0.24em;
+  /* Existing selected-control and popover elevation. */
+  --shadow-control-selected: 0 1px 4px rgba(0,0,0,0.12);
+  --shadow-control-menu: 0 4px 16px rgba(0,0,0,0.18);
   --spacing-scene: clamp(24px, 4vw, 64px);
   --spacing-focus: clamp(32px, 6vw, 96px);
   --shadow-sheet: var(--sheet-shadow);
@@ -128,6 +135,12 @@
 
 
   --border: oklch(1 0 0 / 10%);             /* Тончайший светлый контур */
+}
+
+@utility transition-card-preview {
+  transition-property: background-color, box-shadow, transform;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
 }
 
 @layer components {

@@ -114,7 +114,7 @@ export function ThemeToggle({
               className={clsx(
                 "ui-feedback-segment grid size-6 place-items-center rounded-full border-0 bg-transparent cursor-pointer",
                 isSelected
-                  ? "bg-surface text-accent shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
+                  ? "bg-surface text-accent shadow-control-selected"
                   : "text-ink-soft/70"
               )}
             >
@@ -157,7 +157,7 @@ export function ThemeToggle({
           role="menu"
           aria-label="Тема оформления"
           onKeyDown={handleMenuKeys}
-          className="absolute right-0 top-full mt-1.5 z-50 min-w-[140px] rounded-[4px] border border-border bg-surface-raised p-1 text-ink shadow-[0_4px_16px_rgba(0,0,0,0.18)] backdrop-blur-md"
+          className="absolute right-0 top-full mt-1.5 z-50 min-w-[140px] rounded-sm border border-border bg-surface-raised p-1 text-ink shadow-control-menu backdrop-blur-md"
         >
           {THEME_OPTIONS.map((opt) => {
             const Icon = opt.icon;
@@ -175,7 +175,7 @@ export function ThemeToggle({
                   triggerRef.current?.focus();
                 }}
                 className={clsx(
-                  "ui-feedback-row flex w-full cursor-pointer select-none items-center justify-between rounded-[2px] px-2.5 py-1.5 font-sans text-[12px] border-0",
+                  "ui-feedback-row flex w-full cursor-pointer select-none items-center justify-between rounded-xs px-2.5 py-1.5 font-sans text-xs border-0",
                   isSelected
                     ? "font-medium text-accent"
                     : "text-ink-soft"

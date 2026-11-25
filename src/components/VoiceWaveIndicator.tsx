@@ -38,7 +38,7 @@ export const VoiceWaveIndicator: React.FC<VoiceWaveIndicatorProps> = ({
           );
         })}
       </div>
-      <span className="font-mono text-[11px] text-ink-soft">{label}</span>
+      <span className="font-mono text-meta text-ink-soft">{label}</span>
     </div>
   );
 };
