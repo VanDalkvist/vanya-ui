@@ -19,8 +19,8 @@ Date: 2026-11-25. Approved design: portable existing CLI, mandatory deterministi
 
 ## S6–S7 plan (reviewed against AP-075/076)
 ### Slice 0 — walking skeleton: real consumer lint
-- [ ] RED: executable Node test spawns public CLI lint for isolated React consumer, package symlink to actual checked-out distribution; valid CSS and JSX -> exit 0; insert actual raw color + arbitrary size -> exit nonzero; missing installed runner -> exit nonzero with actionable error. No mock lint adapter.
-- [ ] Verify RED from Cloudflare nonproduction build; expected command missing.
+- [x] RED: executable Node test spawns public CLI lint for isolated React consumer, package symlink to actual checked-out distribution; valid CSS and JSX -> exit 0; insert actual raw color + arbitrary size -> exit nonzero; missing installed runner -> exit nonzero with actionable error. No mock lint adapter.
+- [x] Verify RED: Cloudflare build 474b24e5-c692-4214-b355-c2d2169cc4a0 failed exactly with `Unknown command lint` (asserted expected exit 0, actual 1).
 - [ ] Implement minimal public lint command, thin installed-package resolution adapter; validate source roots and resolve brand/token sources through installed package; invoke the existing frozen runner. Explicit source roots in config/args, default src only when present; reject absent roots. Do not implicitly install design-system package.
 - [ ] GREEN actual CLI happy path, invalid source and missing package; same production code, actual frozen tools, no mocks. Gate no secrets in logs. Record runtime result. 
 ### Slice 1 — adoption and execution
