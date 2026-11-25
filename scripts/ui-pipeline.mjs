@@ -1,5 +1,5 @@
-import {checkContribution} from './contributor-boundary.mjs';
 #!/usr/bin/env node
+import {checkContribution} from './contributor-boundary.mjs';
 /**
  * Vanya Arc / UI — portable agent pipeline.
  * Zero runtime dependencies. Works with a copied folder/zip or local checkout;
