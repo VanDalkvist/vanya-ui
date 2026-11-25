@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.27] - 2026-11-25
+
+### Fixed
+- Align navigation regression with the renamed typography section; assert the eight actual header links and stable fragment targets, including the matching typography heading.
+
 ## [0.3.26] - 2026-11-25
 
 ### Fixed

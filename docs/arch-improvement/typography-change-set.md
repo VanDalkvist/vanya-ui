@@ -31,3 +31,6 @@ Literata (screen reading, Cyrillic), Source Serif 4 (editorial versatility, opti
 ## Cycle 27 — 0.3.26 — regression and evidence integrity
 - Actual RED from 0.3.23 Workers build: 118 passing / 1 failed Vitest; old typography test required exactly seven .type-specimen nodes. Preserve seven base scale roles by explicit per-role/token assertions and separately test bilingual heading/body/italic and action feedback. No weakened user outcome or deleted test. Demo reports selection rather than claiming an actual project opened.
 - LLM gate now requires typography reference presence, canonical equality, sitemap and discovery links; stale-font-guide negative fixture exercises the same gate. CDP test deliberately forces fallback and restores Spectral. Source review of new checks completed; actual full build/browser remains pending. Privacy review of this diff: synthetic examples, no internal IDs or secrets. No release tag.
+
+## Cycle 28 — 0.3.27 — navigation regression
+- Actual build RED on 0.3.26: navigation-guidelines.test.tsx searched for the previous typography label. Updated the independent expected label, scoped the oracle to actual header navigation, retained all eight fragment targets and checked the matching typography heading. No production UI, package entrypoint, or dependencies changed. Source review completed; final build and browser receipts pending.
