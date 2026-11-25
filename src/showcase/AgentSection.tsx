@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Copy, ArrowUpRight } from "lucide-react";
 import { ActionButton, ActionLink, type ActionButtonState } from "../index";
 
-export const agentPrompt = "Создай продукт на Vanya UI. Найди или получи локальную копию репозитория https://github.com/VanDalkvist/vanya-ui. Прочитай skills/vanya-ui/SKILL.md, используй scope new и пройди полный цикл реализации и приёмки.";
+export const agentPrompt = "Создай продукт на Vanya UI. Найди или получи локальную копию репозитория https://github.com/VanDalkvist/vanya-ui. Прочитай skills/vanya-ui/SKILL.md и docs/patterns/design-harness-quickstart.md. Используй scope new, подключи харнесс в strict mode и пройди полный цикл реализации и приёмки.";
 
 const resources = [
   { label:"Agent Skill", description:"Канонический сценарий работы агента.", href:"/reference/agent-skill.md" },
-  { label:"CLI и приёмка", description:"Inspect, plan, check, verify, review. Критерии и доказательства.", href:"/reference/ui-pipeline.md" },
+  { label:"CLI и приёмка", description:"Adopt, lint, verify, review. Критерии и доказательства.", href:"/reference/ui-pipeline.md" },
   { label:"Компоненты", description:"Реальные экспорты и ссылки на исходники.", href:"/reference/components.md" },
   { label:"Токены", description:"Палитра, типографика и размеры.", href:"/reference/tokens.md" },
   { label:"LLM-индекс", description:"Короткий путеводитель по документации.", href:"/llms.txt" },

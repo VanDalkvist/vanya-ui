@@ -45,3 +45,5 @@ Review findings A1–A5 / D1–D3: [review](https://github.com/VanDalkvist/vanya
 - RED: add actual CLI regression tests for changed source receipt, omitted UI source, token-only app, inline suppression, fake CI binding; pure validator regression for new/baseline and broken current contract. Keep prior tests green.
 - GREEN: bounded authored inventory, canonical direct bin, immutable input fingerprint and current contract check. Reuse existing runner, no extra orchestrator. Explicit source scope and supported file types, operational failures fail closed.
 - Follow-up: compiled CSS oracle, controlled baseline migration, quickstart alignment and representative actual browser specimen. Record unverified browser/blind-agent gates independently. No release tag until evidence and approved release.
+
+S9 repair implementation: de4153ca tests; d2e311a2 coverage and CI; ad48b9ed receipt; 3176852c compiled CSS; 608efd3f baseline migration; canonical quickstart and public prompt. Intermediate RED build skipped; previous source-validator replay remains actual failure evidence. Final CI and browser/independent review pending. No tag/merge until gates pass.

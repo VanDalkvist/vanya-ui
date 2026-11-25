@@ -57,6 +57,8 @@
 
 ~~~sh
 npm run test:consumer -- FULL_40_CHAR_SHA
+# For 0.5.x harness-capable candidates:
+npm run test:consumer -- FULL_40_CHAR_SHA --harness
 ~~~
 
 Скрипт создаёт две временные директории вне репозитория: npm + React 18 и Bun + React 19, обе с Vite 8 / Tailwind 4. Каждая устанавливает source tarball конкретного SHA, проверяет точное разрешение прямой зависимости в lockfile, имя установленного пакета, TypeScript bundler resolution, клиентскую сборку и CSS, SSR build и фактическую HTML-разметку. Лог и receipt.json сохраняются рядом с lockfiles. Перед публикацией выписки проверьте локальные пути, параметры окружения и сведения инфраструктуры; исходные логи оставляйте локально. Результат FAIL/BLOCKED требует выяснения причины; тест не изменяет реальные потребители. Для просмотра исходников стенда без установки добавьте `--prepare-only`: этот режим оставляет статус NOT_RUN.
@@ -76,3 +78,6 @@ npm run test:consumer -- FULL_40_CHAR_SHA
 - `CONSUMER_UPDATED`: отдельный результат для каждого продукта.
 
 Первая осмысленная исходная версия — `0.2.0`. Номер сам по себе **не означает**, что тег создан.
+
+## Harness-capable release
+The last verified tag listed above is a pre-harness release. Candidate 0.5.0 is not a release until the new exact SHA, source/compiled consumer tests and visual acceptance are verified and explicitly published. Use the [harness quickstart](patterns/design-harness-quickstart.md) for the compatible pin. Existing products keep their current pin unless explicitly migrated. No implicit use of moving main.
