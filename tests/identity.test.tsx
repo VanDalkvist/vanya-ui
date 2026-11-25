@@ -26,9 +26,7 @@ describe("Vanya Arc identity",()=>{
   expect(document.querySelector("#identity")).toBeInTheDocument();
   expect(screen.getByRole("link",{name:/Правила и примеры для агентов/})).toHaveAttribute("href","/reference/identity.md");
   expect(screen.getByText("--accent")).toBeInTheDocument();
-  expect(screen.getByText(/знаки не утверждены/)).toBeVisible();
-  expect(screen.getByRole("img",{name:"Vanya Arc / Signal"}).querySelector(".vanya-arc-product-mark svg")).toBeInTheDocument();
-  expect(screen.getByRole("img",{name:"Vanya Arc / Flow"}).querySelector(".vanya-arc-product-mark svg")).toBeInTheDocument();
+  expect(screen.getByRole("heading",{name:"Индивидуальный знак сервиса"})).toBeVisible();
  });
 });
 

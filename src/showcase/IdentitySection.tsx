@@ -1,13 +1,5 @@
 import React from "react";
-import { VanyaArcLockup, type VanyaArcProductMarkProps } from "../index";
-
-// Synthetic examples, not approved service marks.
-function SignalExample({monochrome}:VanyaArcProductMarkProps){
- return <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 28 Q10 28 15 28 L21 9 L28 38 L34 20 Q39 20 43 20" fill="none" stroke={monochrome?"currentColor":"var(--accent)"} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-}
-function FlowExample({monochrome}:VanyaArcProductMarkProps){
- return <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 30 C11 30 12 15 22 15 S34 33 43 20" fill="none" stroke={monochrome?"currentColor":"var(--ink)"} strokeWidth="3.2" strokeLinecap="round"/><path d="M5 37 C12 37 17 22 27 22 S37 31 43 27" fill="none" stroke={monochrome?"currentColor":"var(--accent)"} strokeWidth="3.2" strokeLinecap="round"/></svg>;
-}
+import { VanyaArcLockup } from "../index";
 
 /** Public, reusable reference for the parent brand and its UI product. */
 export function IdentitySection() {
@@ -23,10 +15,9 @@ export function IdentitySection() {
     <div className="identity-panel"><span className="identity-panel-label">01 · Родительский бренд</span><VanyaArcLockup size="md"/><p>Исходный V→A — неизменный знак родительского бренда.</p></div>
     <div className="identity-panel"><span className="identity-panel-label">02 · Дизайн-система</span><VanyaArcLockup product="UI" size="md"/><p>UI использует исходный знак V→A и акцентный суффикс.</p></div>
   </div>
-  <p className="catalog-intro">Условные примеры продуктовой геометрии. Signal и Flow — демонстрационные названия; знаки не утверждены как айдентика сервисов.</p>
-  <div className="identity-comparisons">
-    <div className="identity-panel"><span className="identity-panel-label">Пример · Импульс</span><VanyaArcLockup product="Signal" productMark={SignalExample} size="md"/><p>Изменение сигнала задаёт форму штриха.</p></div>
-    <div className="identity-panel"><span className="identity-panel-label">Пример · Течение</span><VanyaArcLockup product="Flow" productMark={FlowExample} size="md"/><p>Параллельные волны передают движение потока.</p></div>
+  <div className="identity-rules">
+    <article><h3>Единое семейство</h3><p>Общие пластика волны, цветовые роли, типографика и структура Vanya Arc / Product.</p></article>
+    <article><h3>Индивидуальный знак сервиса</h3><p>Геометрия отражает назначение продукта. Символ и favicon проектируются отдельно, с согласованием владельца.</p></article>
   </div>
   <div className="identity-comparisons identity-modes">
     <div className="identity-panel identity-dark-panel dark"><span className="identity-panel-label">03 · Тёмная тема</span><VanyaArcLockup product="UI" size="md"/><p>Те же токены, но для тёмного фона.</p></div>

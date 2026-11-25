@@ -22,7 +22,7 @@
 ## Путеводитель
 
 - [Композиция](https://ui.vanya-arc.dev/#composition): открытый интерфейс и интерактивная синусоида.
-- [Айдентика](https://ui.vanya-arc.dev/#identity): родительский бренд, продукт / UI, утверждённый знак, типографика и цвета.
+- [Айдентика](https://ui.vanya-arc.dev/#identity): семейство индивидуальных волновых символов, исходный знак Vanya Arc / UI, типографика и цвета.
 - [Загрузка и скелетоны](https://ui.vanya-arc.dev/#loading-states): примеры и [правила](https://ui.vanya-arc.dev/reference/loading.md).
 - [Типографика](https://ui.vanya-arc.dev/#typography): Manrope, JetBrains Mono, Spectral, текстовые роли и размеры.
 - [Тексты](https://ui.vanya-arc.dev/#writing): примеры текста и ссылки на оригинальные скиллы.
@@ -38,7 +38,7 @@
 
 ## Айдентика
 
-Родительский бренд называется **Vanya Arc**. Его знак — непрерывный асимметричный V → A с тёмным коротким гребнем и высоким терракотовым продолжением. Дизайн-система — продукт **Vanya Arc / UI**, где только UI акцентный. Вордмарк основан на Manrope с оптически настроенными интервалами, системная типографика интерфейсов остаётся прежней. Используй `VanyaArcMark` или `VanyaArcLockup` из пакета; подробности: [канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/docs/brand-guidelines.md) и [интеграция в UI](https://ui.vanya-arc.dev/reference/identity.md).
+**Vanya Arc** — зонтичный бренд. Утверждённый исходный V→A принадлежит родителю и UI. Синусоида — генеративный принцип: каждый другой официальный сервис получает индивидуальную форму, выражающую назначение, и такой же favicon. Общие палитра, Manrope и структура Vanya Arc / Product создают родство. Используй `VanyaArcLockup productMark` для утверждённого символа. [Канонический брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/70c7a6ff839355a45d11bd9d51a888aeaa4cac43/docs/brand-guidelines.md) · [Интеграция и процедура](https://ui.vanya-arc.dev/reference/identity.md).
 
 ## Типографика
 
@@ -83,6 +83,6 @@ import "@vanya/ui/tokens.css";
 
 ## Лицензии и авторство
 
-Исходный **код** проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Spectral/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS и отдельные условия знака](https://ui.vanya-arc.dev/licenses.txt) · [Условия использования фирменного рисунка](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
+Исходный **код** проекта лицензирован под [MIT](https://ui.vanya-arc.dev/LICENSE.txt); автор — Ваня Афанасов, 2026. Сторонние инструменты и материалы сохраняют собственные лицензии: React/clsx/tailwind-merge (MIT), Lucide (ISC, включая MIT для части Feather-иконок), Manrope/Spectral/JetBrains Mono (OFL-1.1), редакторские скиллы Сарычевой/Архипова (CC BY 4.0). [Реестр и полные уведомления Lucide/Feather](https://ui.vanya-arc.dev/reference/third-party.md) · [Лицензии собранного JS и отдельные условия знака](https://ui.vanya-arc.dev/licenses.txt) · [Условия использования фирменного рисунка](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt). Для текущих версий действуют [правила бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/70c7a6ff839355a45d11bd9d51a888aeaa4cac43/BRAND.md) и [таблица лицензий](https://ui.vanya-arc.dev/reference/licensing.md); ранее выданные MIT-разрешения сохраняются.
 
 Дополнительные источники: [компоненты](https://ui.vanya-arc.dev/reference/components.md), [навигация](https://ui.vanya-arc.dev/reference/navigation.md), [токены](https://ui.vanya-arc.dev/reference/tokens.md), [репозиторий](https://github.com/VanDalkvist/vanya-ui).

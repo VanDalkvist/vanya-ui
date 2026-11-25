@@ -46,6 +46,8 @@ Each row starts PENDING. For PASS, record evidence as e.g. `{"method":"browser",
 
 ## New product setup
 
+For a new official Vanya Arc service, UI-12 includes the [individual identity procedure](../identity/brand.md): approved distinct wave symbol, matching favicon, shared lockup and source/rights evidence. Pending approval means identity is not complete. Existing products retain their approved marks.
+
 1. Identify the requested product, user action, initial routes and data states. Keep product architecture and hosting within the user's request. Create the target folder. Inspect with `--mode react` for an intended React app even before package.json exists; a failed base check is expected before setup. Plan with `--project` and `--scope new`; record the intended mode/package.
 2. Use the requested stack, or a minimal TSX-capable React 18/19 + Tailwind 4 setup if the stack is open. For a non-React visual artifact use visual mode and the canonical tokens without forcing React. Preserve any existing project configuration.
 3. Choose a verified immutable release from [versioning](../versioning.md), install its source distribution and commit the actual lockfile according to project policy. For a new React app prefer the verified source tarball. Inspect installed exports; align the component API with the chosen version. The local guide may be newer than the installed package.
@@ -69,7 +71,7 @@ Use canonical sources on demand. Read the relevant sections; a new/whole-screen 
 | UI-09 loading/dynamic geometry | [loading](loading-states.md), [working surfaces](../composition/working-surfaces.md) | Compare actual ready/loading/empty/error states, preserve unaffected anchors, no fabricated data. |
 | UI-10 shortcuts | [keyboard shortcuts](keyboard-shortcuts.md) | Visible alternative, IME/input exclusions, disable character shortcuts. |
 | UI-11 browser/layout | [DESIGN](../../DESIGN.md), applicable pattern | Measure actual width/overflow/hit targets and inspect supported themes. For full surfaces cover 1440/1024/390/320 CSS px and applicable native zoom 200%; smaller tasks cover affected breakpoints and regressions. |
-| UI-12 identity/sources | [brand](../identity/brand.md), [sources](sources-and-attribution.md), [licenses](../../LICENSING.md) | Approved brand assets, provenance and rights; retain required notices. |
+| UI-12 identity/sources | [brand](../identity/brand.md), [sources](sources-and-attribution.md), [licenses](../../LICENSING.md) | Approved product-specific mark and matching favicon for official services; parent/UI V→A reserved. Record approval, visual evidence, provenance and rights; retain required notices. |
 | UI-13 execution | [browser-qa](../../browser-qa/README.md) for the library; target test scripts for products | Actual build and applicable browser/unit results; JSON execution record. |
 | UI-14 publication | [safety](publication-safety.md) | Changed source and relevant built output contain no unauthorized private data or secrets; record requested deployment readback. |
 
