@@ -66,13 +66,13 @@ export function inspectHarness(project,scripts={}){
  return {status:problems.length?'invalid':'ready',problems,config,version};
 }
 
-export function runConsumerLint({project,sources,asJson=false,captureFile}){
+export function runConsumerLint({project,sources,asJson=false,captureFile,migrate=false}){
  const root=resolve(project);
  const {runner,version}=resolveInstalledHarness(root);
  const config=sources?{sources:validateSources(root,sources),mode:'strict'}:readHarnessConfig(root);
  const targets=config.sources;
  lintInventory(root,targets);
- if(captureFile&&(sources||config.mode!=='strict'))throw Error('Baseline capture requires the adopted strict source scope');
+ if(captureFile&&(sources||config.mode!==(migrate?'baseline':'strict')))throw Error('Baseline capture requires the adopted configured source scope');
  const policy=captureFile?'--capture-baseline='+captureFile:config.mode==='baseline'?'--baseline='+join(root,HARNESS_BASELINE):'--strict';
  const result=spawnSync(process.execPath,[runner,'--project='+root,policy,...targets],{
   cwd:root,stdio:asJson?['ignore',2,2]:'inherit',shell:false,timeout:480000

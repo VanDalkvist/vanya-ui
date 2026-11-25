@@ -183,7 +183,7 @@ function parseArgs(argv){
  const [command,...tail]=argv;
  if(!['inspect','check','verify','plan','review','lint','adopt','baseline','help'].includes(command||'help'))throw Error('Unknown command '+command);
  const options={};
- const boolean=new Set(['json','dry-run']);
+ const boolean=new Set(['json','dry-run','migrate']);
  for(let i=0;i<tail.length;i++){
   const arg=tail[i];if(!arg.startsWith('--'))throw Error('Unexpected argument '+arg);
   const key=arg.slice(2);
@@ -222,7 +222,7 @@ export function runCli(argv){
    +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
    +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
    +'Adopt: adopt --project <dir> --sources src,app [--css-output dist] [--package app] (explicit persistent setup)\n'
-   +'Baseline: baseline --project <dir> [--package app] (explicit one-time capture of existing debt)\n'
+   +'Baseline: baseline --project <dir> [--package app] [--migrate] (explicit debt capture or non-growing migration)\n'
    +'Lint: lint --project <dir> [--sources src,app] [--package app] (requires installed @vanya/ui and frozen tools)\n'
    +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
    +'Review: review --receipt receipt.json [--verification verify.json] (checks recorded evidence and supplied machine results)\n'
@@ -256,7 +256,7 @@ export function runCli(argv){
  }
  if(command==='baseline'){
   if(info.mode!=='react'||!info.package||!info.pinnedDependency||info.designHarness?.status!=='ready'||options.sources)throw Error('baseline requires an adopted React package and uses its exact configured source scope');
-  const outcome=captureConsumerBaseline({project:info.packageRoot,asJson:Boolean(options.json)});
+  const outcome=captureConsumerBaseline({project:info.packageRoot,asJson:Boolean(options.json),migrate:Boolean(options.migrate)});
   output(outcome,options.json);return 0;
  }
  if(command==='lint'){

@@ -47,7 +47,8 @@ try{
  }
  const bin=name=>join(dir,'node_modules','.bin',name);
  const ox=join(dir,'oxlintrc.json');
- writeFileSync(ox,JSON.stringify({jsPlugins:['@shadcn/lint'],categories:{correctness:'off'},settings:{shadcn:{componentImports:['^@vanya/ui(/|$)'],themeImports:['^@vanya/ui/','^@vanya/brand/'],note:'Use Vanya UI tokens.'}},rules:{'shadcn/no-raw-colors':'error','shadcn/no-arbitrary-values':['error',{allow:['layout']}]}}));
+ const oxRules={jsPlugins:['@shadcn/lint'],categories:{correctness:'off'},settings:{shadcn:{componentImports:['^@vanya/ui(/|$)'],themeImports:['^@vanya/ui/','^@vanya/brand/'],note:'Use Vanya UI tokens.'}},rules:{'shadcn/no-raw-colors':'error','shadcn/no-arbitrary-values':['error',{allow:['layout']}]}};
+ writeFileSync(ox,JSON.stringify(oxRules));
  const style=join(dir,'stylelint.json');
  const rules={
   'no-unknown-custom-properties':true,
@@ -56,7 +57,7 @@ try{
  };
  const references=[join(library,'src/tokens.css'),createRequire(join(library,'package.json')).resolve('@vanya/brand/tokens.css')];
  writeFileSync(style,JSON.stringify({referenceFiles:references,rules}));
- const policyFingerprint=createHash('sha256').update(JSON.stringify([readFileSync(lock,'utf8'),readFileSync(fileURLToPath(import.meta.url),'utf8'),readFileSync(join(library,'scripts/design-lint-baseline.mjs'),'utf8'),...references.map(path=>readFileSync(path,'utf8'))])).digest('hex');
+ const policyFingerprint=createHash('sha256').update(JSON.stringify([readFileSync(lock,'utf8'),'design-policy-v2',oxRules,rules,readFileSync(join(library,'scripts/design-lint-baseline.mjs'),'utf8'),readFileSync(join(library,'scripts/design-source-inventory.mjs'),'utf8'),...references.map(path=>readFileSync(path,'utf8'))])).digest('hex');
  const debt=debtPath?assertDebtBaseline(JSON.parse(readFileSync(debtPath,'utf8')),{sources:sourceTargets,policyFingerprint}):null;
  const f=name=>join(tools,'fixtures',name);
  const jsx=(paths,cwd=project)=>run(bin('oxlint'),['--config',ox,...paths],cwd);

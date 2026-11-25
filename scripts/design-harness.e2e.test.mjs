@@ -124,6 +124,13 @@ test('existing consumer explicitly captures CSS and JSX debt, rejects regression
   const cssFail=run('lint');assert.equal(cssFail.status,1,cssFail.stdout+cssFail.stderr);assert.match(cssFail.stdout+cssFail.stderr,/new=1/);
   writeFileSync(css,badCss);writeFileSync(jsx,badJsx+'export const New=()=> <div className="bg-pink-500 text-[19px]"/>;\n');
   const jsxFail=run('lint');assert.equal(jsxFail.status,1,jsxFail.stdout+jsxFail.stderr);assert.match(jsxFail.stdout+jsxFail.stderr,/no-raw-colors/);
+  writeFileSync(jsx,badJsx);writeFileSync(css,badCss);
+  const old={...data,policyFingerprint:'0'.repeat(64)};writeFileSync(baseline,JSON.stringify(old));
+  const stalePolicy=run('lint');assert.equal(stalePolicy.status,1);assert.match(stalePolicy.stdout+stalePolicy.stderr,/policy changed/i);
+  const migrated=run('baseline','--migrate');assert.equal(migrated.status,0,migrated.stdout+migrated.stderr);
+  const current=readFileSync(baseline,'utf8');assert.equal(JSON.parse(current).policyFingerprint,data.policyFingerprint);
+  writeFileSync(css,badCss+'.new {color:#f123ab;}\n');
+  const growth=run('baseline','--migrate');assert.equal(growth.status,1,growth.stdout+growth.stderr);assert.equal(readFileSync(baseline,'utf8'),current);
   rmSync(baseline);const missing=run('lint');assert.equal(missing.status,1);assert.match(missing.stderr+missing.stdout,/baseline/i);
  }finally{rmSync(project,{recursive:true,force:true})}
 });
