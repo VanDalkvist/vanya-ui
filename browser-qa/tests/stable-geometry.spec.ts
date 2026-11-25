@@ -55,12 +55,27 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
     await expect(results.getByRole("listitem")).toHaveCount(12);
     // Independent expected data, not derived from the rendered initial state.
     const manyPoints = "24,86 70,62 116,74 162,38 208,58 254,22 300,54";
-    const matchesSeries = async (points: string, count: number) =>
-      await series.count()===1 && await series.getAttribute("points")===points &&
-      await plot.locator("circle").count()===count;
+    const matchesSeries = async (points: string, count: number) => {
+      if(await series.count()!==1||await series.getAttribute("points")!==points||!await plot.locator("svg").isVisible())return false;
+      // Horizontal zero series have a zero-height SVG geometry box but a painted stroke.
+      const painted=await series.evaluate(el=>{
+        const style=getComputedStyle(el);
+        return style.display!=="none"&&style.visibility==="visible"&&
+          style.stroke!=="none"&&style.stroke!=="transparent"&&
+          parseFloat(style.strokeWidth)>0&&parseFloat(style.opacity)>0&&parseFloat(style.strokeOpacity)>0&&
+          (el as SVGPolylineElement).getTotalLength()>0;
+      });
+      if(!painted)return false;
+      const marks=await plot.locator("circle").all();
+      if(marks.length!==count)return false;
+      const expected=points.split(" ");
+      for(const [i,mark] of marks.entries()){
+        if(!await mark.isVisible()||await mark.getAttribute("cx")+","+await mark.getAttribute("cy")!==expected[i])return false;
+      }
+      return true;
+    };
     const assertSeries = async (points: string, count: number) => {
       await expect.poll(()=>matchesSeries(points,count)).toBe(true);
-      await expect(series).toBeVisible();
     };
     await assertSeries(manyPoints,7);
     const before = await geometry(anchors);
@@ -131,6 +146,10 @@ for (const size of sizes) for (const theme of ["light", "dark"] as const) {
       await series.evaluate(el=>el.setAttribute("points","24,102 70,102 116,102 162,102 208,102 254,102 300,102"));
       expect(await matchesSeries(manyPoints,7)).toBe(false);
       await series.evaluate((el,points)=>el.setAttribute("points",points),manyPoints);
+      await assertSeries(manyPoints,7);
+      await series.evaluate(el=>{(el as SVGElement).style.display="none";});
+      expect(await matchesSeries(manyPoints,7)).toBe(false);
+      await series.evaluate(el=>{(el as SVGElement).style.display="";});
       await assertSeries(manyPoints,7);
       await plot.evaluate(el => { (el as HTMLElement).style.marginTop="12px"; });
       expect(largestShift(before,await geometry(anchors))).toBeGreaterThan(1);

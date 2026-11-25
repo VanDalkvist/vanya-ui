@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-25
+
+### Fixed — browser QA
+- Verify horizontal zero-value plots using the SVG stroke and marker geometry, with a hidden-series negative control; include CraftCard in scoped axe checks.
+
 ## [0.4.0] - 2026-11-25
 
 ### Breaking
