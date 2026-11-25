@@ -19,7 +19,7 @@
     "./tokens.css": "./src/tokens.css"
   },
   "scripts": {
-    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs",
+    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",
     "test:watch": "vitest",
     "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && node scripts/finalize-published-licenses.mjs && bun run scripts/prerender.tsx && node scripts/check-built-ui.mjs",
     "lint:design:pilot": "node scripts/design-lint-pilot.mjs",
@@ -31,7 +31,8 @@
     "release:check": "node scripts/check-release.mjs",
     "test:browser": "npm --prefix browser-qa run test",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "test:consumer": "node scripts/consumer-smoke.mjs"
+    "test:consumer": "node scripts/consumer-smoke.mjs",
+    "test:harness": "node --test scripts/design-harness.e2e.test.mjs"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#c3aa7ce7672bb06932dda333ba8bc98e8290f5ae",
