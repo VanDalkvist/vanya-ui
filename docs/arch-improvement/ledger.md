@@ -204,3 +204,23 @@
 - Prove failure detection with a negative control for serious regressions (right-side slider obstruction).
 - Assert only what the source actually renders; review CSS state by exact component variant.
 - E2E means built public surface; dev-only browser checks are an intermediate check, not S9 PASS.
+
+## Cycle 8 — 2026-11-25 — portable design-system harness (#36)
+
+### Context and triage
+- [Approved design, AP mapping, and sliced TDD plan](../superpowers/plans/2026-11-25-arch-improvement-cycle-8-design-system-harness.md). Base main 035346e7f67c8c3bcf09a4c148d2129b5f359bb1; isolated qa/design-system-harness; no consuming product modified.
+- Fix-now P1: missing canonical executable lint and persistent wiring. Fix-now P2: consumer scope/installed rules, legacy baseline and package distribution evidence. Log-only P3: existing large CLI and cosmetic concerns.
+- Public contract intentionally tightens React verification; candidate minor 0.5.0. No tag or release; existing product pins remain valid as they are.
+
+### Implementation and semantic probes (author review)
+- Traceability: ui-pipeline delegates adopt to adopt-ui-harness, baseline to capture-ui-baseline, and lint/verify to design-harness; package bin invokes the same runner. createRequire resolves actual installed tokens, runner and frozen package-lock. No duplicate consumer policy or accepted-unused adapter.
+- Entry-point/runtime: adopt persists the canonical command and source roots, preserves existing scripts and AGENTS instructions; check validates the binding; verify runs lint before build/browser and review requires actual lint evidence. Baseline capture is explicit; rules/lock/token fingerprint and source-line multiset reject added or altered debt and stale policy. Impeccable remains advisory.
+- Anti-gaming: real toolchain negative controls catch raw values, missing installed package, fake package script, new debt and absent baseline. The first two E2E tests use linked installed package and real lint. Build/browser marker files only establish sequencing; they do not establish rendered UI acceptance. Package smoke uses independent immutable SHA installation, actual npm/Bun package executable, client/SSR build, and deliberate CSS violation.
+- Residual risks: declared source roots still require review for completeness; source lint cannot certify semantic component reuse or visual correctness. No blind-agent outcome or real-product CI rollout yet. Independent reviewers are unavailable in this runtime. No S9 dual-circuit PASS claimed.
+
+### Execution evidence
+- Slice 0: RED 474b24e5-c692-4214-b355-c2d2169cc4a0 (unknown lint command); GREEN a78b3432-f6e0-4267-adf9-8833bafde97a, real lint E2E 1/1 and successful full validation.
+- Slice 1: RED bcb0f862-d891-4c8e-8e3a-00a955224f56 (unknown adopt command); GREEN b5878c88-fd36-4044-92c9-9761f17a5365, E2E 2/2, 125 Vitest and 36 Node tests, full validation success.
+- Slice 2: RED 794de941-f05a-4692-b7a6-4854f433ed50 (unknown baseline command, earlier tests passed); implementation a8c56048b9e7247ec336ded07c89b78dca4e755d, build df1d41ef-4bd6-417f-8819-00c2998c485b. GREEN pending at time of this record.
+- Distribution gate: candidate 0.5.0, non-production Workers Builds trigger extends validation with exact-SHA npm/React18 and Bun/React19 smoke when test:harness:consumer exists; deploy command remains validation-only. Production trigger untouched. Final result pending.
+- S9a author probes completed with residual risks, independent review NOT_RUN. S9b earlier executable linked-package journeys PASS, final baseline and package smoke pending, blind-agent/browser review NOT_RUN. Overall Arch Loop NOT_VERIFIED; draft PR only.
