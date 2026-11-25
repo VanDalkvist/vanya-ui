@@ -125,6 +125,18 @@ async function main() {
         phase="client";run(cwd,row.manager,["run","build"]);
         const css=readdirSync(join(cwd,"dist","assets")).filter(x=>x.endsWith(".css")).map(x=>readFileSync(join(cwd,"dist","assets",x),"utf8")).join("\n");
         assertConsumerCss(css);
+        if(harness){
+          phase="compiled-css";run(cwd,process.execPath,["--input-type=module","-e","import '@vanya/ui/check-built'"]);receipt.checks.compiledCss="PASS";
+          const cssPath=join(cwd,"src/style.css"),before=readFileSync(cssPath,"utf8");
+          try{
+            phase="compiled-css-negative";writeFileSync(cssPath,"/* disconnected tokens */\n");
+            run(cwd,row.manager,["run","build"]);
+            const bad=spawnSync(process.execPath,["--input-type=module","-e","import '@vanya/ui/check-built'"],{cwd,encoding:"utf8",timeout:60000});
+            if(bad.error||bad.status!==1||!/Missing compiled UI CSS|No compiled CSS found/.test((bad.stdout??"")+(bad.stderr??"")))throw Error("Disconnected token stylesheet must fail compiled CSS gate");
+            receipt.checks.compiledCssNegative="PASS";
+          }finally{writeFileSync(cssPath,before)}
+          run(cwd,row.manager,["run","build"]);
+        }
         receipt.checks.client="PASS";
         phase="ssr";run(cwd,row.manager,["run","ssr"]);
         const entry=readdirSync(join(cwd,"dist-ssr")).find(x=>/^entry-server\.(js|mjs)$/.test(x));

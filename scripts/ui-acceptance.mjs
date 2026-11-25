@@ -68,6 +68,7 @@ export function reviewAcceptance(receipt,{projectInfo,verification}={}){
    if(current.status!=='pass')errors.push('UI-13 current contract failed: '+current.problems.join('; '));
    if(receipt.scope==='new'&&projectInfo.designHarness?.config?.mode!=='strict')errors.push('UI-13 new products require strict mode');
    if(!projectInfo.verificationFingerprint||v?.verificationFingerprint!==projectInfo.verificationFingerprint)errors.push('UI-13 source/policy fingerprint changed; rerun verify');
+   if(!v?.checks?.some(c=>c.script==='built-css'&&c.status==='passed'&&c.exitCode===0&&c.assets>0&&c.output===projectInfo.designHarness?.config?.cssOutput))errors.push('UI-13 actual compiled CSS evidence required');
    if(v?.buildScript!=='build'||v?.browserScript!==projectInfo.browserScript)errors.push('UI-13 canonical build/browser script required');
   }
   const passed=Array.isArray(v?.checks)?v.checks:[];

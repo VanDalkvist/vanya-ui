@@ -1,7 +1,7 @@
 // Explicit command boundary: persist only the canonical consumer wiring.
 import {existsSync,readFileSync,writeFileSync,lstatSync,mkdtempSync,renameSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
-import {CANONICAL_LINT_SCRIPT,HARNESS_CONFIG,resolveInstalledHarness,validateSources,readHarnessConfig} from './design-harness.mjs';
+import {CANONICAL_LINT_SCRIPT,HARNESS_CONFIG,resolveInstalledHarness,validateSources,readHarnessConfig,validateCssOutput} from './design-harness.mjs';
 
 const start='<!-- vanya-ui:harness:start -->',end='<!-- vanya-ui:harness:end -->';
 const block=[
@@ -18,10 +18,10 @@ function readable(path){
  if(!lstatSync(path).isFile())throw Error('Refusing to replace a non-regular file: '+path);
  return readFileSync(path,'utf8');
 }
-export function adoptConsumer({project,sources}){
+export function adoptConsumer({project,sources,cssOutput}){
  const root=resolve(project);
  const {version}=resolveInstalledHarness(root);
- let config={schemaVersion:1,sources:validateSources(root,sources),mode:'strict'};
+ let config={schemaVersion:1,sources:validateSources(root,sources),mode:'strict',cssOutput:validateCssOutput(cssOutput)};
  const pkgPath=join(root,'package.json'),configPath=join(root,HARNESS_CONFIG),agentsPath=join(root,'AGENTS.md');
  const pkgText=readable(pkgPath);if(pkgText===null)throw Error('Missing package.json');
  const pkg=JSON.parse(pkgText),scripts=pkg.scripts||{};
@@ -29,7 +29,7 @@ export function adoptConsumer({project,sources}){
  const existing=readable(configPath);
  if(existing!==null){
   const current=readHarnessConfig(root);
-  if(JSON.stringify(current.sources)!==JSON.stringify(config.sources))throw Error('Existing harness source configuration differs; review it explicitly');
+  if(JSON.stringify(current.sources)!==JSON.stringify(config.sources)||(cssOutput!==undefined&&current.cssOutput!==config.cssOutput))throw Error('Existing harness source configuration differs; review it explicitly');
   config=current;
  }
  const agents=readable(agentsPath)||'';

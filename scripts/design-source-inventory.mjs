@@ -9,20 +9,20 @@ const unsupported=/\.(?:scss|sass|less|styl|vue|svelte)$/i;
 const testFile=/(?:\.(?:test|spec|stories)\.[^.]+|\.d\.[cm]?ts)$/i;
 const norm=s=>s.split(sep).join('/');
 const inside=(file,root)=>file===root||file.startsWith(root+'/');
-export function authoredInventory(root){
+export function authoredInventory(root,{includeTests=false}={}){
  const result=[],pending=[root];
  while(pending.length){
   const dir=pending.pop();
   for(const ent of readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){
    const file=join(dir,ent.name);
-   if(excluded.has(ent.name)||ent.name.startsWith('.'))continue;
+   if((excluded.has(ent.name)&&!(includeTests&&['tests','test','__tests__','fixtures'].includes(ent.name)))||ent.name.startsWith('.'))continue;
    if(ent.isSymbolicLink())throw Error('Unsupported authored symlink: '+norm(relative(root,file)));
    if(ent.isDirectory()){if(existsSync(join(file,'package.json')))continue;pending.push(file);continue}
-   if(!ent.isFile()||testFile.test(ent.name))continue;
+   if(!ent.isFile()||(!includeTests&&testFile.test(ent.name)))continue;
    const name=norm(relative(root,file));
    if(!js.test(name)&&!css.test(name)&&!unsupported.test(name)&&!name.endsWith('.html'))continue;
    const source=readFileSync(file,'utf8');
-   result.push({name,source,kind:js.test(name)?'js':css.test(name)?'css':unsupported.test(name)?'unsupported':'html',ui:css.test(name)||unsupported.test(name)||/\.[jt]sx$/i.test(name)||/\bclassName\b|@vanya\/ui|(?:React\.)?createElement\s*\(|<[A-Z][A-Za-z0-9]*[\s/>]/.test(source)});
+   result.push({name,source,kind:js.test(name)?'js':css.test(name)?'css':unsupported.test(name)?'unsupported':'html',ui:css.test(name)||unsupported.test(name)||/\.[jt]sx$/i.test(name)||/\bclassName\b|(?:from\s*|import\s*|require\s*\(\s*)['"]@vanya\/ui|(?:React\.)?createElement\s*\(|<[A-Z][A-Za-z0-9]*[\s/>]/.test(source)});
    if(result.length>3500)throw Error('Authored inventory exceeds supported 3500 files; select the UI package explicitly');
   }
  }
@@ -63,4 +63,12 @@ export function componentUsage(files){
   }
  }
  return result;
+}
+
+export function tokenImports(files){
+ return files.filter(({name,source})=>{
+  const clean=source.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^[ \t]*\/\/.*$/gm,'');
+  return /\.(css|scss|vue|svelte|html)$/.test(name)&&/(?:^|[;\n])\s*@import\s+(?:url\(\s*)?['"]@vanya\/ui\/tokens\.css['"]/.test(clean)
+   ||/\.(tsx|jsx|ts|js|mjs|vue|svelte)$/.test(name)&&/(?:^|[;\n])\s*import\s*['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
+ }).map(f=>f.name);
 }

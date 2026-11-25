@@ -9,7 +9,8 @@ import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
 import {resolve,relative,join,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
-import {authoredInventory,componentUsage} from './design-source-inventory.mjs';
+import {verifyConsumerCss} from './consumer-built-css.mjs';
+import {authoredInventory,componentUsage,tokenImports} from './design-source-inventory.mjs';
 import {checkProject} from './ui-contract.mjs';
 import {runConsumerLint,inspectHarness,verificationFingerprint} from './design-harness.mjs';
 import {adoptConsumer} from './adopt-ui-harness.mjs';
@@ -99,17 +100,13 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
  const scanned=files.filter(f=>/\.(tsx|jsx|ts|js|mjs|css|scss|vue|svelte|html)$/.test(f)).slice(0,1200).map(path=>({path,source:read(path).slice(0,120000)}));
  const relevantSources=scanned.map(f=>f.source).join('\n');
  // A deliberately bounded literal import check; this is not a module graph or CSS parser.
- const tokenImportFiles=scanned.filter(({path,source})=>{
-  const clean=source.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^[ \t]*\/\/.*$/gm,'');
-  const css=/\.(css|scss|vue|svelte|html)$/.test(path)&&/(?:^|[;\n])\s*@import\s+(?:url\(\s*)?['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
-  const js=/\.(tsx|jsx|ts|js|mjs|vue|svelte)$/.test(path)&&/(?:^|[;\n])\s*import\s*['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
-  return css||js;
- }).map(({path})=>relative(scanRoot,path));
+ const authored=finalMode==='react'&&chosen?authoredInventory(scanRoot):scanned.map(({path,source})=>({name:relative(scanRoot,path),source}));
+ const tokenImportFiles=tokenImports(authored);
  const hasTailwindSource=scanned.some(({path,source})=>/\.(css|scss)$/.test(path)&&/@source\s+['"][^'"]*@vanya\/ui\/src\/?['"]/.test(source.replace(/\/\*[\s\S]*?\*\//g,'')));
  const scripts=chosen?.data.scripts||{};
  const libraryVersion=json(join(libraryRoot,'package.json'))?.version||null;
  const designHarness=finalMode==='react'&&chosen?inspectHarness(scanRoot,scripts):null;
- const usage=finalMode==='react'&&chosen?componentUsage(authoredInventory(scanRoot)):[];
+ const usage=finalMode==='react'&&chosen?componentUsage(authored):[];
  let fingerprint=null;
  if(designHarness?.status==='ready')try{fingerprint=verificationFingerprint(scanRoot,root)}catch(e){designHarness.status='invalid';designHarness.problems.push(e.message)}
  const installed=chosen?[chosen.dir,root].map(dir=>json(join(dir,'node_modules','@vanya','ui','package.json'))).find(p=>p?.name==='@vanya/ui'):null;
@@ -160,7 +157,7 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
   if(build!=='build'||browser!==info.browserScript){result.issues=['React verification must run canonical build and selected browser script'];return result}
  }
  for(const name of tasks)if(!info.scripts[name]){result.issues=['Missing script '+name];return result}
- if(dryRun){result.status='planned';result.checks=[...(requiresLint?['lint:design']:[]),...tasks].map(script=>({script,status:'NOT_RUN'}));return result}
+ if(dryRun){result.status='planned';result.checks=[...(requiresLint?['lint:design']:[]),...tasks.flatMap(t=>requiresLint&&t===build?[t,'built-css']:[t])].map(script=>({script,status:'NOT_RUN'}));return result}
  if(requiresLint){
   let item;
   try{item=executeLint({project:info.packageRoot,asJson})}
@@ -172,6 +169,9 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
   const item=runScript(info,runtime,name,asJson);
   result.checks.push(item);
   if(item.status!=='passed'){result.status='failed';return result}
+  if(requiresLint&&name===build){
+   try{result.checks.push(verifyConsumerCss(info.packageRoot))}catch(e){result.checks.push({script:'built-css',status:'failed',reason:e.message});result.status='failed';return result}
+  }
  }
  if(requiresLint&&verificationFingerprint(info.packageRoot,info.project)!==info.verificationFingerprint){result.status='failed';result.issues=['Source or design policy changed during verification; rerun after final edits'];return result}
  result.status='passed';
@@ -188,7 +188,7 @@ function parseArgs(argv){
   const arg=tail[i];if(!arg.startsWith('--'))throw Error('Unexpected argument '+arg);
   const key=arg.slice(2);
   if(boolean.has(key)){options[key]=true;continue}
-  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification','sources'].includes(key))throw Error('Unknown option --'+key);
+  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification','sources','css-output'].includes(key))throw Error('Unknown option --'+key);
   const value=tail[++i];
   if(!value||value.startsWith('--'))throw Error('Missing value for --'+key);
   options[key]=value;
@@ -221,7 +221,7 @@ export function runCli(argv){
   console.log('Vanya UI portable agent pipeline (Node >=20; offline; no GitHub)\n'
    +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
    +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
-   +'Adopt: adopt --project <dir> --sources src,app [--package app] (explicit persistent setup)\n'
+   +'Adopt: adopt --project <dir> --sources src,app [--css-output dist] [--package app] (explicit persistent setup)\n'
    +'Baseline: baseline --project <dir> [--package app] (explicit one-time capture of existing debt)\n'
    +'Lint: lint --project <dir> [--sources src,app] [--package app] (requires installed @vanya/ui and frozen tools)\n'
    +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
@@ -251,7 +251,7 @@ export function runCli(argv){
  const info=inspectProject({project:options.project||'.',mode:options.mode||'auto',packageDir:options.package});
  if(command==='adopt'){
   if(info.mode!=='react'||!info.package||!info.pinnedDependency)throw Error('adopt requires a selected React package with a pinned @vanya/ui dependency');
-  const outcome=adoptConsumer({project:info.packageRoot,sources:options.sources?.split(',')});
+  const outcome=adoptConsumer({project:info.packageRoot,sources:options.sources?.split(','),cssOutput:options['css-output']});
   output(outcome,options.json);return 0;
  }
  if(command==='baseline'){

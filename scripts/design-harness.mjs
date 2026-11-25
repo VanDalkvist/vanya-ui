@@ -3,7 +3,7 @@ import {existsSync,readFileSync,realpathSync,statSync} from 'node:fs';
 import {dirname,join,relative,resolve,isAbsolute,sep} from 'node:path';
 import {createRequire} from 'node:module';
 import {spawnSync} from 'node:child_process';
-import {authoredInventory,lintInventory,hashInputs} from './design-source-inventory.mjs';
+import {authoredInventory,lintInventory,hashInputs,tokenImports,componentUsage} from './design-source-inventory.mjs';
 import {createHash} from 'node:crypto';
 import {assertDebtBaseline} from './design-lint-baseline.mjs';
 
@@ -40,12 +40,16 @@ export function validateSources(project,sources){
  return [...seen];
 }
 
+export function validateCssOutput(value='dist'){
+ if(typeof value!=='string'||!value||isAbsolute(value)||value.includes('\\')||value.split('/').some(s=>!s||s==='.'||s==='..')||!['dist','build','.next','.output','out'].includes(value.split('/')[0]))throw Error('cssOutput must be a relative compiled output path under dist, build, .next, .output or out');
+ return value;
+}
 export function readHarnessConfig(project){
  const path=join(project,HARNESS_CONFIG);
  if(!existsSync(path))throw Error('Missing '+HARNESS_CONFIG+'; run ui-pipeline adopt --project <dir> --sources src');
  const data=JSON.parse(readFileSync(path,'utf8'));
- if(data?.schemaVersion!==1||!['strict','baseline'].includes(data.mode)||Object.keys(data).some(k=>!['schemaVersion','mode','sources'].includes(k)))throw Error('Invalid '+HARNESS_CONFIG+' (expected schemaVersion 1, mode and sources)');
- const config={schemaVersion:1,sources:validateSources(project,data.sources),mode:data.mode};
+ if(data?.schemaVersion!==1||!['strict','baseline'].includes(data.mode)||Object.keys(data).some(k=>!['schemaVersion','mode','sources','cssOutput'].includes(k)))throw Error('Invalid '+HARNESS_CONFIG+' (expected schemaVersion 1, mode and sources)');
+ const config={schemaVersion:1,sources:validateSources(project,data.sources),mode:data.mode,cssOutput:validateCssOutput(data.cssOutput)};
  if(config.mode==='baseline'){
   const baseline=join(project,HARNESS_BASELINE);
   if(!existsSync(baseline))throw Error('Missing '+HARNESS_BASELINE+'; restore the reviewed baseline');
@@ -79,7 +83,7 @@ export function runConsumerLint({project,sources,asJson=false,captureFile}){
 
 export function verificationFingerprint(project,workspace=project){
  const {library}=resolveInstalledHarness(project);
- const files=authoredInventory(project);
+ const files=authoredInventory(project,{includeTests:true});
  const extra=['package.json','vanya-ui.config.json','vanya-ui.baseline.json','tsconfig.json','package-lock.json','bun.lock','bun.lockb','pnpm-lock.yaml','yarn.lock','AGENTS.md','UI_CONTRACT.md'];
  const hash=createHash('sha256').update(hashInputs(project,files,extra.slice()));
  if(workspace!==project)hash.update(hashInputs(workspace,[],['package.json','package-lock.json','bun.lock','bun.lockb','pnpm-lock.yaml','yarn.lock','AGENTS.md','UI_CONTRACT.md']));
@@ -91,5 +95,7 @@ export function runCanonicalCi({project,asJson=false}){
  const pkg=JSON.parse(readFileSync(join(project,'package.json'),'utf8'));
  const binding=inspectHarness(project,pkg.scripts||{});
  if(binding.status!=='ready')throw Error(binding.problems.join('; '));
+ const inventory=authoredInventory(project);
+ if(!tokenImports(inventory).length||!componentUsage(inventory).length)throw Error('Missing canonical token import or actual shared component JSX');
  return runConsumerLint({project,asJson});
 }

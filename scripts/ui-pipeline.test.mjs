@@ -19,7 +19,7 @@ function react(root,opts={}){
  symlinkSync(new URL('../',import.meta.url).pathname,join(root,'app/node_modules/@vanya/ui'),'junction');
  if(opts.tokens!==false)file(root,'app/src/style.css','@import "@vanya/ui/tokens.css";\n@source "../node_modules/@vanya/ui/src";');
  file(root,'app/src/App.jsx',opts.import===false?'export const App=()=>null;':'import {ScrollRegion} from "@vanya/ui"; export const App=()=> <ScrollRegion/>;');
- file(root,'app/build.mjs','console.log("built");');
+ file(root,'app/build.mjs',"import {mkdirSync,writeFileSync} from 'node:fs';mkdirSync('dist',{recursive:true});writeFileSync('dist/app.css',\":root{--ground:white;--accent:red;--type-body-size:1rem}.ui-size{}.ui-action-button{}.rounded-sm{}\");console.log(\"built\");");
  file(root,'app/browser.mjs','console.log("browser-ok");');
 }
 // Unit orchestration seam: the networked real runner is exercised by design-harness.e2e.test.mjs.
@@ -40,7 +40,7 @@ test('React consumer works as portable file tree without a .git directory',()=>f
  assert.equal(checkProject(info).status,'pass');
  const result=verifyWithLint(info);
  assert.equal(result.status,'passed');
- assert.deepEqual(result.checks.map(x=>x.status),['passed','passed','passed']);
+ assert.deepEqual(result.checks.map(x=>x.status),['passed','passed','passed','passed']);
  assert.equal(result.visualReview,'NOT_VERIFIED');
 }));
 test('React missing dependency, import or browser script is rejected',()=>fixture(root=>{

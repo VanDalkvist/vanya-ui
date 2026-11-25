@@ -44,7 +44,7 @@ test('adopt persists the canonical check; verify executes it before build and re
   const original={name:'adoption-consumer',type:'module',dependencies:{react:'19','@vanya/ui':'file:'+library},scripts:{build:'node build.mjs','test:e2e':'node browser.mjs',custom:'echo keep'}};
   writeFileSync(manifest,JSON.stringify(original));
   writeFileSync(join(project,'AGENTS.md'),'# Product rules\nKeep the product boundaries.\n');
-  writeFileSync(join(project,'build.mjs'),"import {writeFileSync} from 'node:fs';writeFileSync('build-ran','yes');");
+  writeFileSync(join(project,'build.mjs'),"import {writeFileSync,mkdirSync} from 'node:fs';mkdirSync('dist',{recursive:true});writeFileSync('dist/app.css',\":root{--ground:white;--accent:red;--type-body-size:1rem}.ui-size{}.ui-action-button{}.rounded-sm{}\");writeFileSync('build-ran','yes');");
   writeFileSync(join(project,'browser.mjs'),"import {writeFileSync} from 'node:fs';writeFileSync('browser-ran','yes');");
   writeFileSync(join(project,'src/App.tsx'),'import {ActionButton} from "@vanya/ui"; export const App=()=> <ActionButton>Save</ActionButton>;');
   const css=join(project,'src/style.css'),valid='@import "@vanya/ui/tokens.css";\n@source "../node_modules/@vanya/ui/src";\n.card {color:var(--ink);font-size:var(--size-md-font);}\n';
@@ -52,7 +52,7 @@ test('adopt persists the canonical check; verify executes it before build and re
   const run=(command,...rest)=>spawnSync(process.execPath,[cli,command,'--project',project,...rest],{cwd:tmpdir(),encoding:'utf8',timeout:240000,maxBuffer:8*1024*1024});
   const adopted=run('adopt','--sources','src');assert.equal(adopted.status,0,adopted.stderr+adopted.stdout);
   const config=join(project,'vanya-ui.config.json');
-  assert.deepEqual(JSON.parse(readFileSync(config,'utf8')),{schemaVersion:1,sources:['src'],mode:'strict'});
+  assert.deepEqual(JSON.parse(readFileSync(config,'utf8')),{schemaVersion:1,sources:['src'],mode:'strict',cssOutput:'dist'});
   const pkg=JSON.parse(readFileSync(manifest,'utf8'));
   assert.deepEqual(pkg.dependencies,original.dependencies);assert.deepEqual(pkg.scripts,{...original.scripts,'lint:design':'vanya-ui-lint'});
   const agents=readFileSync(join(project,'AGENTS.md'),'utf8');
@@ -61,7 +61,7 @@ test('adopt persists the canonical check; verify executes it before build and re
   assert.equal(readFileSync(join(project,'AGENTS.md'),'utf8'),agents);
   const clean=run('verify','--json');assert.equal(clean.status,0,clean.stderr+clean.stdout);
   const evidence=JSON.parse(clean.stdout);
-  assert.deepEqual(evidence.checks.map(c=>c.script),['lint:design','build','test:e2e']);
+  assert.deepEqual(evidence.checks.map(c=>c.script),['lint:design','build','built-css','test:e2e']);
   assert.ok(existsSync(join(project,'build-ran')));assert.ok(existsSync(join(project,'browser-ran')));
   const planned=run('plan','--scope','new','--task','Create demo','--target','/','--mode','react');
   assert.equal(planned.status,0,planned.stderr);
