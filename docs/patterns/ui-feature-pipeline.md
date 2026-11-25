@@ -12,7 +12,7 @@ node /path/to/vanya-ui/scripts/ui-pipeline.mjs check --project /path/to/project
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/project --package app
 ```
 
-The CLI reads files, not git diffs. `inspect` returns source/library files to read and available local scripts. `check` verifies the base policy/dependency/import/script contract and reports observed version/CSS wiring warnings. It does not certify component selection or layout. `verify` executes build and browser scripts **locally** with npm/pnpm/yarn/bun; it never installs packages, uses secrets, deploys or assumes internet. In new React UI use `--mode react`; in monorepos specify `--package`. `--json` provides machine-readable status, `--dry-run` reports planned commands as NOT_RUN.
+The CLI reads files, not git diffs. `inspect` returns source/library files to read and available local scripts. `check` verifies the base policy/dependency/import/script contract and requires a literal canonical tokens.css import in React source and reports matching paths, version and explicit Tailwind @source warnings. The bounded scan is a source precondition; confirm the actual global entry and built CSS separately. See [static enforcement research](../arch-improvement/static-design-enforcement.md). It does not certify component selection or layout. `verify` executes build and browser scripts **locally** with npm/pnpm/yarn/bun; it never installs packages, uses secrets, deploys or assumes internet. In new React UI use `--mode react`; in monorepos specify `--package`. `--json` provides machine-readable status, `--dry-run` reports planned commands as NOT_RUN.
 
 ## Agent lifecycle
 

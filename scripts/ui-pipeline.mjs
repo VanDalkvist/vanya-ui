@@ -91,8 +91,16 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
  const finalMode=mode==='auto'&&effectiveMode==='visual'&&!visualFiles.length?'none':effectiveMode;
  const contracts=[root,...(chosen&&chosen.dir!==root?[chosen.dir]:[])].flatMap(dir=>policyFiles.map(name=>join(dir,name)));
  const policy=contracts.filter(existsSync).map(path=>read(path)).join('\n');
- const relevantSources=files.filter(f=>/\.(tsx|jsx|ts|js|mjs|css|scss|vue|svelte|html)$/.test(f))
-  .slice(0,1200).map(f=>read(f).slice(0,120000)).join('\n');
+ const scanned=files.filter(f=>/\.(tsx|jsx|ts|js|mjs|css|scss|vue|svelte|html)$/.test(f)).slice(0,1200).map(path=>({path,source:read(path).slice(0,120000)}));
+ const relevantSources=scanned.map(f=>f.source).join('\n');
+ // A deliberately bounded literal import check; this is not a module graph or CSS parser.
+ const tokenImportFiles=scanned.filter(({path,source})=>{
+  const clean=source.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^[ \t]*\/\/.*$/gm,'');
+  const css=/\.(css|scss|vue|svelte|html)$/.test(path)&&/(?:^|[;\n])\s*@import\s+(?:url\(\s*)?['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
+  const js=/\.(tsx|jsx|ts|js|mjs|vue|svelte)$/.test(path)&&/(?:^|[;\n])\s*import\s*['"]@vanya\/ui\/tokens\.css['"]/.test(clean);
+  return css||js;
+ }).map(({path})=>relative(scanRoot,path));
+ const hasTailwindSource=scanned.some(({path,source})=>/\.(css|scss)$/.test(path)&&/@source\s+['"][^'"]*@vanya\/ui\/src\/?['"]/.test(source.replace(/\/\*[\s\S]*?\*\//g,'')));
  const scripts=chosen?.data.scripts||{};
  const libraryVersion=json(join(libraryRoot,'package.json'))?.version||null;
  const installed=chosen?[chosen.dir,root].map(dir=>json(join(dir,'node_modules','@vanya','ui','package.json'))).find(p=>p?.name==='@vanya/ui'):null;
@@ -104,7 +112,7 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
   hasDependency:chosen?hasVanya(chosen.data):false,
   pinnedDependency:chosen?pinned(vanyaSpec(chosen.data)):false,
   hasImport:/(?:from\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|@import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"])/.test(relevantSources),
-  hasTokensImport:/(?:@import\s*|import\s*)['"]@vanya\/ui\/tokens\.css['"]/.test(relevantSources),
+  hasTokensImport:tokenImportFiles.length>0,tokenImportFiles,hasTailwindSource,
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
   buildScript:Boolean(scripts.build),
   scripts,manager:chosen?detectManager(chosen.dir,root):null,
@@ -123,7 +131,8 @@ export function checkProject(info){
   else if(!info.pinnedDependency)problems.push('Pin @vanya/ui to a verified immutable version/commit or local file/workspace dependency');
   if(info.hasDependency&&!info.installedVersion)warnings.push('Installed @vanya/ui version not detected; inspect actual installed package before coding');
   if(info.installedVersion&&info.libraryVersion&&info.installedVersion!==info.libraryVersion)warnings.push('Installed @vanya/ui '+info.installedVersion+' differs from local guides '+info.libraryVersion+'; check installed APIs or explicitly upgrade');
-  if(info.hasImport&&!info.hasTokensImport)warnings.push('No direct tokens.css import detected in scanned sources; verify actual global CSS wiring');
+  if(!info.hasTokensImport)problems.push('Import @vanya/ui/tokens.css in the global CSS entry or a side-effect JS/TS import (literal source check)');
+  if(info.hasTokensImport&&!info.hasTailwindSource)warnings.push('No explicit @source path to @vanya/ui/src detected; confirm Tailwind 4 scans the installed sources or equivalent configuration');
   if(!info.hasImport)problems.push('Import real @vanya/ui components or @vanya/ui/tokens.css in project source');
   if(!info.buildScript)problems.push('Add a reproducible build script to the UI package');
   if(!info.browserScript)problems.push('Add a runnable test:e2e, test:browser or test:ui script');

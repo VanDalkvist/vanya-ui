@@ -14,6 +14,7 @@ const file=(root,name,content)=>{const p=join(root,name);mkdirSync(join(p,'..'),
 function react(root,opts={}){
  file(root,'app/package.json',JSON.stringify({name:'demo-ui',type:'module',dependencies:{react:'19',...(opts.dependency===false?{}:{'@vanya/ui':'file:../ui'})},scripts:{build:'node build.mjs',...(opts.browser===false?{}:{'test:e2e':'node browser.mjs'})}}));
  file(root,'UI_CONTRACT.md','Canonical: Vanya Arc / UI; read skills/vanya-ui/SKILL.md');
+ if(opts.tokens!==false)file(root,'app/src/style.css','@import "@vanya/ui/tokens.css";\n@source "../node_modules/@vanya/ui/src";');
  file(root,'app/src/App.jsx',opts.import===false?'export const App=()=>null;':'import {ScrollRegion} from "@vanya/ui"; export const App=()=>ScrollRegion;');
  file(root,'app/build.mjs','console.log("built");');
  file(root,'app/browser.mjs','console.log("browser-ok");');
@@ -179,4 +180,24 @@ test('new product CLI review consumes actual verify JSON and rejects a planned r
  const good=spawnSync(process.execPath,review,{encoding:'utf8'});assert.equal(good.status,0,good.stderr+good.stdout);
  const dry=spawnSync(process.execPath,[...args,'--dry-run'],{encoding:'utf8'});file(root,'verify.json',dry.stdout);
  const bad=spawnSync(process.execPath,review,{encoding:'utf8'});assert.equal(bad.status,1,bad.stderr);assert.equal(JSON.parse(bad.stdout).status,'invalid');
+}));
+
+test('token hookup is mandatory for React; comments do not satisfy it',()=>fixture(root=>{
+ react(root,{tokens:false});
+ const inspect=()=>inspectProject({project:root});
+ assert.equal(inspect().hasTokensImport,false);
+ assert.ok(checkProject(inspect()).problems.some(x=>x.includes('tokens.css')));
+ file(root,'app/src/style.css','/* @import "@vanya/ui/tokens.css"; */');
+ file(root,'app/src/unused.ts','// import "@vanya/ui/tokens.css";');
+ assert.equal(inspect().hasTokensImport,false);
+ file(root,'app/src/style.css','@import url("@vanya/ui/tokens.css");\n@source "../node_modules/@vanya/ui/src";');
+ const info=inspect();
+ assert.equal(info.hasTokensImport,true);
+ assert.equal(info.hasTailwindSource,true);
+ assert.deepEqual(info.tokenImportFiles,['src/style.css']);
+ assert.equal(checkProject(info).status,'pass');
+ file(root,'app/src/style.css','');
+ file(root,'app/src/main.ts','import "@vanya/ui/tokens.css";');
+ assert.equal(inspect().hasTokensImport,true);
+ assert.ok(checkProject(inspect()).warnings.some(x=>x.includes('@source')));
 }));

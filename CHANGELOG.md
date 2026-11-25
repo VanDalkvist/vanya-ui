@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.4.7] - 2026-11-25
+
+### Added
+- Mandatory literal token stylesheet hookup for React consumer checks; report matching paths and warn on absent explicit Tailwind source registration. Compiled showcase CSS smoke gate, with negative fixtures.
+- Browserless external lint pilot for Impeccable, shadcn/oxlint and Stylelint; source diagnostics only. No skill installation or product dependency changes.
+
 ## [0.4.6] - 2026-11-25
 
 ### Fixed
