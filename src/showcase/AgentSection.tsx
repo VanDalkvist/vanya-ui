@@ -34,7 +34,7 @@ export function AgentSection() {
         <p className="ui-type-body">Промпт для нового продукта. Добавь описание задачи и передай его coding-агенту.</p>
         <pre className="agents-prompt ui-type-code"><code>{agentPrompt}</code></pre>
         <div className="agents-copy-row">
-          <ActionButton size="lg" variant="outline" actionState={copyState}
+          <ActionButton size="md" variant="outline" actionState={copyState}
             statusLabel={copyState==="success"?"Промпт скопирован":copyState==="error"?"Не удалось скопировать промпт":"Копирование"}
             onClick={copyPrompt}><Copy size={16} aria-hidden="true"/>Скопировать промпт</ActionButton>
           <span className="agents-copy-feedback ui-type-compact">{copyState==="success"?"Промпт скопирован":copyState==="error"?"Выдели текст и скопируй вручную.":""}</span>
@@ -43,15 +43,15 @@ export function AgentSection() {
           <h3 className="ui-type-subheading">Что доступно</h3>
           <p className="ui-type-body">Открытые исходники, локальный CLI и 14 критериев приёмки. Для исполнения нужна копия библиотеки, Node.js 20+ и браузер для визуальной проверки.</p>
           <p className="ui-type-compact agents-note">Поведенческие evals Codex и Claude Code пока не подтверждены.</p>
-          <ActionLink size="lg" href="/reference/versioning.md" className="agents-resource-link">Проверенный релиз и SHA <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
-          <ActionLink size="lg" href="/reference/installation.md" className="agents-resource-link">Подключение пакета <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+          <ActionLink size="md" href="/reference/versioning.md" className="agents-resource-link">Проверенный релиз и SHA <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+          <ActionLink size="md" href="/reference/installation.md" className="agents-resource-link">Подключение пакета <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
         </div>
       </div>
       <div className="agents-resources">
         <h3 className="ui-type-subheading">Документация и инструменты</h3>
         <ul className="agents-resource-list">
           {resources.map(resource=><li key={resource.href}>
-            <ActionLink size="lg" href={resource.href} className="agents-resource-link">{resource.label}<ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+            <ActionLink size="md" href={resource.href} className="agents-resource-link">{resource.label}<ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
             <p className="ui-type-compact agents-note">{resource.description}</p>
           </li>)}
         </ul>

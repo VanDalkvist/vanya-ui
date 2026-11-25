@@ -11,3 +11,7 @@ Arch review: existing Showcase mounts AgentSection in its only main; ShowcaseHea
 Baseline 0.4.3 Cloudflare FAIL: 33/34 Node tests passed, bootstrap expected obsolete `plan --task` instead of current `plan --project . --task`. Corrected assertion to match project-bound plan and verify receipt. No production skill behavior changed.
 
 Version 0.4.4; exact-head tests/build and browser observations pending at commit. Previous verified component tag remains unchanged. No automated workflow added.
+
+## Deployment repair — 0.4.5
+
+Cloudflare exact 0.4.4 commit b69273807a8a43bf3a226f5c57efc9d10629ac9f failed the TypeScript gate (four TS2322 diagnostics). All 34 Node tests passed; the old bootstrap assertion is resolved. AgentSection incorrectly used lg, but ComponentSize in src/sizes.ts permits sm/md only. Replaced all four values with md, preserving local layout and copy hit-target CSS. No global tokens, component contracts or unrelated sections changed. New exact-head deployment and live readback pending.

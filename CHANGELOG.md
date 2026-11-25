@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.4.5] - 2026-11-25
+
+### Fixed
+- Use the supported md density of ActionButton and ActionLink in the agent section; preserve the scoped 44px copy hit target. Resolve TypeScript deployment failure in 0.4.4.
+
 ## [0.4.4] - 2026-11-25
 
 ### Added
