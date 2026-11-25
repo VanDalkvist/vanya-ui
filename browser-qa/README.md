@@ -27,3 +27,6 @@ Playwright first runs the full production `bun run build` (including sync and pr
 To refresh artifacts safely, delete `browser-qa/artifacts/` locally; no deployment is touched.
 
 **Cold-load hero geometry:** `tests/hero-initial-frame.spec.ts` holds the compiled client script while the real prerendered page loads. It checks reserved layout, invisible provisional wave, a negative control that reveals mismatched fallback geometry, stable first visible SVG coordinates, actual slider behavior and the no-script fallback. Run `npm --prefix browser-qa run test -- hero-initial-frame.spec.ts`. This is a browser test; unit/build success is not evidence that the first visible frame passed.
+
+## Consumer harness workspace specimen (#36)
+Use existing pinned browser setup, then `node scripts/consumer-smoke.mjs FULL_SHA --harness --browser`. The npm/React18 fixture becomes a real WorkspaceSplit/SurfaceHeader/SegmentedControl/ActionButton consumer, built with Vite. A local HTTP server serves dist; Chromium checks wide/narrow, light/dark, real state and keyboard outcome, body typography, available width and deliberately constrained-width negative control. Captures and actual measurements stay in the temp consumer. Review screenshots separately; this is not a blind-agent result. No automatic browser installation in production CI.

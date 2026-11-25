@@ -18,3 +18,5 @@ For a monorepo add `--package <relative-package>` consistently. Source directori
 ## Existing React project
 Inspect current pin, actual UI roots, component usage, CSS entry and build output. Upgrade only within the approved adoption/migration scope. Run the same adopt command, then strict lint first. If explicit migration approval includes existing debt, run `baseline --project <app>` (same package selection) and review/commit the recorded CSS and JSX debt. Existing unrelated scripts and AGENTS instructions are retained.
 When the policy changes, run `baseline --project <app> --migrate` explicitly after inspection; the operation accepts only a subset of exact prior findings. Fix new/changed debt first. Review the diff; automatic debt growth is prohibited. Do not change existing pins or deploy without authorization.
+
+For a representative browser adoption check, follow [consumer workspace specimen](../../browser-qa/README.md#consumer-harness-workspace-specimen-36). This is a scoped example and automated geometry/behavior evidence; inspect screenshots and perform a separate blind-agent exercise before claiming the full agent design loop verified.

@@ -79,18 +79,24 @@ function run(cwd, cmd, args) {
 async function main() {
   const args=process.argv.slice(2);
   const sha=args[0];
-  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>!["--prepare-only","--harness"].includes(a))) {
-    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only] [--harness]");
+  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>!["--prepare-only","--harness","--browser"].includes(a))) {
+    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only] [--harness] [--browser]");
     process.exitCode=2;return;
   }
-  const prepare=args.includes("--prepare-only"), harness=args.includes("--harness");
+  const prepare=args.includes("--prepare-only"), harness=args.includes("--harness"), browser=args.includes("--browser");
+  if(browser&&!harness)throw Error("--browser requires --harness");
   const root=mkdtempSync(join(tmpdir(),"vanya-ui-consumer-"));
   console.log("Isolated fixture directory: "+root);
   const results=[];
   for(const row of matrix){
     const cwd=join(root,row.manager);
     mkdirSync(join(cwd,"src"),{recursive:true});
-    for(const [name,content] of Object.entries(fixture(sha,row))) writeFileSync(join(cwd,name),content);
+    const files=fixture(sha,row);
+    if(browser&&row.manager==="npm"){
+      files["src/App.tsx"]="import {ActionButton,SegmentedControl,WorkspaceSplit,SurfaceHeader,ThemeToggle,type SegmentItem} from \"@vanya/ui\";\nimport {useState} from \"react\";\nconst items: SegmentItem<\"a\"|\"b\">[]=[{id:\"a\",label:\"First\"},{id:\"b\",label:\"Second\"}];\nexport function App(){\n const [value,setValue]=useState<\"a\"|\"b\">(\"a\"),[count,setCount]=useState(0);\n return <main className=\"consumer-workspace\" data-testid=\"workspace\">\n  <SurfaceHeader headingLevel={2} title=\"Consumer workspace\" subtitle=\"Review and update projects\" actions={<ThemeToggle/>}/>\n  <WorkspaceSplit navigation={<section className=\"consumer-nav\" aria-label=\"Project filters\">\n   <SegmentedControl aria-label=\"Consumer filter\" items={items} value={value} onChange={setValue}/>\n   <p className=\"ui-type-body\" data-testid=\"filter-result\">{value===\"a\"?\"First project\":\"Second project\"}</p>\n  </section>} detail={<section className=\"consumer-detail\" aria-label=\"Project details\">\n   <h2 className=\"ui-type-heading\">Project details</h2>\n   <p className=\"ui-type-body\" data-testid=\"body-copy\">Review the current project and record an update.</p>\n   <ActionButton size=\"md\" variant=\"outline\" actionState={count?\"success\":\"idle\"} onClick={()=>setCount(n=>n+1)}>Consumer action</ActionButton>\n   <p className=\"ui-type-body\" data-testid=\"result\" aria-live=\"polite\">Updates: {count}</p>\n  </section>}/>\n </main>;\n}\n";
+      files["src/style.css"]="@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\nbody { margin:0; background:var(--ground);color:var(--ink);font-family:var(--font-sans); }\n.consumer-workspace { width:100%;padding:var(--spacing-scene); }\n.consumer-nav,.consumer-detail {padding:var(--spacing-scene);min-width:0;}\n";
+    }
+    for(const [name,content] of Object.entries(files)) writeFileSync(join(cwd,name),content);
     const receipt={sha,manager:row.manager,react:row.react,checks:{},status:"NOT_RUN"};
     let phase="toolchain";
     try{
@@ -138,6 +144,11 @@ async function main() {
           run(cwd,row.manager,["run","build"]);
         }
         receipt.checks.client="PASS";
+        if(browser&&row.manager==="npm"){
+          phase="browser-workspace";
+          const {reviewConsumerWorkspace}=await import("../browser-qa/consumer-harness-browser.mjs");
+          receipt.browser=await reviewConsumerWorkspace(cwd);receipt.checks.browserWorkspace="PASS";
+        }
         phase="ssr";run(cwd,row.manager,["run","ssr"]);
         const entry=readdirSync(join(cwd,"dist-ssr")).find(x=>/^entry-server\.(js|mjs)$/.test(x));
         if(!entry)throw new Error("Missing SSR entry");
