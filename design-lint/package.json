@@ -1,0 +1,11 @@
+{
+  "name": "vanya-ui-design-lint",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "impeccable": "4.11.0",
+    "@shadcn/lint": "0.2.5",
+    "oxlint": "1.95.0",
+    "stylelint": "18.1.0"
+  }
+}

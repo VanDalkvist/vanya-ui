@@ -79,3 +79,7 @@ For changes to the library and showcase, run the [manual browser gate](../../bro
 GitHub composite Action and [manual-only example](../examples/ui-contract-action.md) are **optional wrappers**, not prerequisites. Keep any existing GitHub UI workflow `workflow_dispatch` only, without push, PR or schedule triggers. The legacy `scripts/install-ui-contract.mjs` installs that optional provider-specific wrapper and is **not part of the normal agent path**.
 
 See [DESIGN.md](../../DESIGN.md), [list-detail composition](list-detail-composition.md), [scroll ownership](../research/workspace-scroll-composition-2026-11-21.md) and [browser navigation](browser-navigation.md).
+
+
+## Static source lint (candidate, #33)
+See [static design enforcement](../arch-improvement/static-design-enforcement.md) for calibrated rules, fixture evidence and current status. After the tool lock and validation are confirmed, use the shared browserless command from the design-system checkout with an explicit consumer root and source directory. Record its result separately from the portable base contract and browser QA. Product updates are opt-in.

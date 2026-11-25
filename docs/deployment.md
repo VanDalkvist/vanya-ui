@@ -10,7 +10,7 @@ Cloudflare Dashboard: Workers & Pages → **vanya-ui** → Settings → Builds.
 
 Build command:
 ```sh
-bun install --frozen-lockfile && bun run test && bunx tsc --noEmit -p tsconfig.build.json && bun run build
+bun install --frozen-lockfile && bun run test && bunx tsc --noEmit -p tsconfig.build.json && bun run build && bun run lint:design:pilot
 ```
 
 Deploy command:
@@ -24,7 +24,7 @@ Repository root: `/`. Wrangler config: `wrangler.jsonc`. It names the existing W
 
 The canonical document is `/` with anchors `/#identity`, `/#typography`, `/#writing`, `/#principles`, `/#workspace` and `/#browser-navigation`. Legacy `/guidelines/navigation/` and `/showcase.html` use HTTP 301 redirects in `public/_redirects` (the old HTML fallback also has a link). Never configure an SPA fallback that serves home for arbitrary URLs.
 
-`bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. `public/_headers` sets UTF-8 for Markdown and plain-text agent resources and scoped security headers. Build failures prevent production deployment. The build also checks that compiled CSS contains required brand/type tokens, shared component selectors and a generated utility. The optional networked `bun run lint:design:pilot` produces external source diagnostics; findings and scan errors are logged explicitly, without blocking the initial baseline deployment.
+`bun run build` runs `bun run sync`, Vite, then `scripts/prerender.tsx`: it produces usable HTML at `dist/index.html` **without client JS** plus `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` and Markdown at `index.md` and `reference/*.md`. React hydrates the server-rendered tree for live interactions. `public/_headers` sets UTF-8 for Markdown and plain-text agent resources and scoped security headers. Build failures prevent production deployment. The build also checks that compiled CSS contains required brand/type tokens, shared component selectors and a generated utility. The networked `bun run lint:design:pilot` is a separate source check. See the static enforcement record for the current evidence and promotion criteria. Non-production builds use the same gate after calibration and end with `echo VALIDATION_ONLY_DO_NOT_DEPLOY`.
 
 ## Mixed-license publication
 

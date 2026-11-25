@@ -16,3 +16,16 @@
 
 ## Verification
 Local npm registry resolution EAI_AGAIN in current tool environment, so external scans not executed locally. Exact-head build and Cloudflare pilot pending. No browser required for this slice. External skill composition parked in #34.
+
+## Calibration — PR #35
+First actual production build `e2663627-8d55-4419-b6aa-22a37da4f91c` at `b1547ec`: Impeccable returned [], Oxlint reported two unused imports, Stylelint reported 471 warnings. This is a baseline observation, not proof of specific rule coverage.
+
+The candidate uses dedicated npm tool manifest, frozen `npm ci` once a generated lock is committed, explicit fixture failures, and narrower CSS rules for colors, typography, radii and undefined variables. Arbitrary container geometry is accepted by the CSS policy. Impeccable remains advisory for findings. Source fixtures use real executable tools; no source rewriting or browser installation.
+
+Acceptance: the negative fixture must fail for the intended rule IDs and the positive fixture must pass; an operational error must fail validation. Run against the showcase and review individual findings; promote only calibrated clean rules, document narrow exceptions. Do not merge or claim the strict gate is enabled before the actual CI logs and lockfile are present. Product callers can use the same script with `--project=/absolute/app src` (explicit source directory, installed design-system token sources); test the consumer configuration independently before adoption. Existing products and releases remain untouched.
+
+Validation build `a21df8a4-2dfd-485a-a3d7-82bdceb0e4e8` is queued at `23d7f90`. Local DNS resolution to GitHub/npm is unavailable; Cloudflare is the execution environment.
+
+Calibration build a21df8a4-2dfd-485a-a3d7-82bdceb0e4e8 **SUCCESS**: all five fixtures passed, Oxlint/shadcn scanned 18 files with 2 active rules and 0 findings; Impeccable returned []; Stylelint produced 70 findings (69 literal font-size/radius values, one CSS keyword currentColor). The keyword is explicitly accepted. The 69 observed findings are recorded with file, rule, message and exact source declaration line in `design-lint/showcase-baseline.json`. The candidate gate rejects any new finding; matching existing debt consumes a single entry, and removals are visible as resolved. For consumers and --strict, no legacy baseline is applied. Baseline exceptions are confined to the showcase; no new blanket ignore. Build-generated lock text was redacted by the log channel; the next bootstrap emits hex chunks for exact recovery of the public npm lock. Do not merge until the frozen run passes.
+
+Follow-up: build 9c2fe5e4-e91e-4b75-99df-d9b9db41db02 failed closed: all fixtures passed but the JSON normalizer used escaped regexes, so source lines were empty and the rule suffix remained. Corrected with a pure normalizer and multiset comparator, with unit tests covering exact matching, line endings, duplicates, changed source/rule/file, and removals. Recovered and validated the actual generated lock from public npm metadata; next build uses npm ci. No production promotion until frozen validation passes.
