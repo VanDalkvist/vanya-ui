@@ -7,6 +7,7 @@
 ## [0.6.0] - 2026-11-25
 
 ### Added
+- CLI entrypoints `vanya-arc-ui` and `vui` alias the same portable pipeline; standard help, per-command help and version output. Existing lint and direct script entrypoints retained.
 - Contributor operation in the portable UI pipeline: discover and generalize reusable UI knowledge, run existing library test/typecheck/build/design-lint scripts, and record applicable UI review. Portable folders supported; no Git or new publication scanner.
 
 ### Changed

@@ -14,7 +14,9 @@ Find the full local Vanya UI source tree through the project pointer or user-pro
 
 If the task explicitly brings reusable code, rules or tests into Vanya UI, use the [contributor workflow](../../docs/patterns/contributing.md) within this same harness. Read it and follow the contributor path instead of consumer adoption. Otherwise keep consumer work local. Both paths work with an ordinary source directory; use existing project scripts for verification.
 
-Choose one scope:
+CLI discovery: `vui --help`, `vui <command> --help`, `vui --version` (equivalent installed name: `vanya-arc-ui`). Use the executable from the selected immutable package revision, e.g. `./node_modules/.bin/vui`; check that it supports the requested operation. The direct `node "$UI/scripts/ui-pipeline.mjs"` form below works with a matching ordinary source folder and is the portable fallback. For contributors, read the contributor guide and run `vui contribute --project <library> --dry-run` then execute the real checks; follow the contributor guide through submission and stop there.
+
+Choose one scope for consumer work:
 
 | Scope | Use when |
 | --- | --- |

@@ -108,6 +108,17 @@ async function main() {
         // The generated lockfile must retain the requested immutable tarball reference.
         const lock=readFileSync(join(cwd,row.manager==="npm"?"package-lock.json":"bun.lock"),"utf8");
         assertConsumerLock(lock,row.manager,sha);
+        if(harness){
+          phase="cli-entrypoint";
+          for(const name of ["vanya-arc-ui","vui"]){
+            const executable=join(cwd,"node_modules/.bin",name);
+            const help=run(cwd,executable,["--help"]);
+            if(!help.includes("Contributor command:")||!help.includes("Consumer commands:"))throw Error("Missing CLI help for "+name);
+            const sub=run(cwd,executable,["contribute","--help"]);
+            if(!sub.includes("Usage: vui contribute"))throw Error("Missing subcommand help for "+name);
+          }
+          receipt.checks.cliEntrypoint="PASS";
+        }
         const installed=JSON.parse(readFileSync(join(cwd,"node_modules","@vanya","ui","package.json"),"utf8"));
         if(installed.name!=="@vanya/ui")throw new Error("Wrong installed package");
         receipt.packageVersion=installed.version;

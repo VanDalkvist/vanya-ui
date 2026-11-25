@@ -5,7 +5,7 @@
  * no Git, GitHub, network access, repository secrets or fixed home directory.
  * Node.js >=20. It NEVER installs dependencies or pushes/deploys code.
  */
-import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
+import {readFileSync,existsSync,readdirSync,statSync,realpathSync} from 'node:fs';
 import {resolve,relative,join,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
@@ -186,7 +186,7 @@ function verifyContribution(options){
  const pkg=json(join(root,'package.json'));
  const tasks=['test','typecheck','build','lint:design:pilot'];
  if(Object.keys(options).some(k=>!['project','manager','json','dry-run'].includes(k))){
-  result.issues=['Unsupported contributor option; use contribute --help via pipeline help'];return result;
+  result.issues=['Unsupported contributor option; use vui contribute --help'];return result;
  }
  if(pkg?.name!=='@vanya/ui'){
   result.issues=['Select the Vanya UI library root with --project'];return result;
@@ -241,21 +241,40 @@ function output(obj,asJson){
   if(obj.dependencySpec)console.log('Declared dependency: '+obj.dependencySpec+' / installed: '+(obj.installedVersion||'unknown'));
  }
 }
-export function runCli(argv){
- const {command,options}=parseArgs(argv);
- if(command==='help'){
-  console.log('Vanya UI portable agent pipeline (Node >=20; offline; no GitHub)\n'
-   +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
-   +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
-   +'Adopt: adopt --project <dir> --sources src,app [--css-output dist] [--package app] (explicit persistent setup)\n'
-   +'Baseline: baseline --project <dir> [--package app] [--migrate] (explicit debt capture or non-growing migration)\n'
-   +'Lint: lint --project <dir> [--sources src,app] [--package app] (requires installed @vanya/ui and frozen tools)\n'
-   +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
-   +'Review: review --receipt receipt.json [--verification verify.json] (checks recorded evidence and supplied machine results)\n'
-   +'Contributor: contribute --project <library> [--manager npm|pnpm|yarn|bun] [--dry-run] [--json]\n'
-   +'For repeatable agent steps read <vanya-ui>/skills/vanya-ui/SKILL.md.');
-  return 0;
+const commandHelp={
+ inspect:'inspect --project <dir> [--package app] [--mode auto|react|visual|none] [--json]',
+ check:'check --project <dir> [--package app] [--mode auto|react|visual|none] [--json]',
+ verify:'verify --project <dir> [--package app] [--mode auto|react|visual|none] [--manager npm|pnpm|yarn|bun] [--build-script build] [--browser-script test:e2e] [--unit-script test:unit] [--dry-run] [--json]',
+ adopt:'adopt --project <dir> --sources src,app [--css-output dist] [--package app] [--json]',
+ baseline:'baseline --project <dir> [--package app] [--migrate] [--json]',
+ lint:'lint --project <dir> [--sources src,app] [--package app] [--json]',
+ plan:'plan --project <dir> --task <description> --target <route/component> [--package app] [--mode auto|react|visual] [--scope new|feature|screen|migration]',
+ review:'review --receipt receipt.json [--verification verify.json] [--project <dir>] [--package app] [--mode auto|react|visual]',
+ contribute:'contribute --project <library> [--manager npm|pnpm|yarn|bun] [--dry-run] [--json]'
+};
+function printHelp(command){
+ if(command){
+  if(!Object.hasOwn(commandHelp,command))throw Error('Unknown command '+command);
+  console.log('Usage: vui '+commandHelp[command]);
+  if(command==='contribute')console.log('Verify library contributions: test, typecheck, build, lint:design:pilot. Read docs/patterns/contributing.md. Visual acceptance is separate.');
+  return;
  }
+ console.log('Vanya Arc / UI — vanya-arc-ui (vui)\nNode >=20; portable source-tree entrypoint: node scripts/ui-pipeline.mjs\n\nConsumer commands:');
+ for(const name of ['inspect','adopt','plan','check','verify','review','lint','baseline'])console.log('  vui '+commandHelp[name]);
+ console.log('\nContributor command:\n  vui '+commandHelp.contribute+'\n\nOptions: --help, --version. Use vui <command> --help for details.\nAgent instructions: skills/vanya-ui/SKILL.md');
+}
+export function runCli(argv){
+ if(argv.length===1&&['--version','-v'].includes(argv[0])){
+  console.log(json(join(libraryRoot,'package.json'))?.version||'unknown');return 0;
+ }
+ if(!argv.length||['help','--help','-h'].includes(argv[0])){
+  if(argv.length>2)throw Error('Usage: vui help [command]');
+  printHelp(argv[1]);return 0;
+ }
+ if(argv.slice(1).some(x=>x==='--help'||x==='-h')){
+  printHelp(argv[0]);return 0;
+ }
+ const {command,options}=parseArgs(argv);
  if(command==='contribute'){
   const outcome=verifyContribution(options);
   output(outcome,options.json);return ['passed','planned'].includes(outcome.status)?0:1;
@@ -309,7 +328,7 @@ export function runCli(argv){
  output(result,options.json);
  return result.status==='passed'||result.status==='skipped'||result.status==='planned'?0:1;
 }
-if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+if(process.argv[1]&&existsSync(process.argv[1])&&realpathSync(process.argv[1])===realpathSync(fileURLToPath(import.meta.url))){
  try{process.exitCode=runCli(process.argv.slice(2))}
  catch(e){console.error('[ui-pipeline] ERROR: '+e.message);process.exitCode=1}
 }

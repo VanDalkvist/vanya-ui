@@ -2,7 +2,7 @@
 
 **For any UI/visual feature in this or another project:** read [the canonical portable skill](skills/vanya-ui/SKILL.md) first, then inspect actual exports in `src/index.ts` and patterns in `DESIGN.md`.
 
-Provider-independent local commands (Node.js 20+, no Git or GitHub):
+CLI names: `vanya-arc-ui` and `vui` when installed. Run `vui --help`, `vui <command> --help` or `vui --version`. Both names call the same portable script. With a source folder or an older package pin, use the direct Node entrypoint below (Node.js 20+, no Git or GitHub):
 
 ```sh
 node scripts/ui-pipeline.mjs inspect --project .

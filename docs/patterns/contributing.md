@@ -18,7 +18,7 @@ Use the existing rights and [publication safety](publication-safety.md) rules. A
 
 ## 3. Verify
 
-From the library directory with its existing dependencies installed:
+From the library directory with its existing dependencies installed, use `vui contribute --project . --help` to discover options when the CLI is installed (equivalent: `vanya-arc-ui`). The portable direct invocation is:
 
 ~~~sh
 node scripts/ui-pipeline.mjs contribute --project . --dry-run

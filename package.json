@@ -63,6 +63,8 @@
     "vitest": "5.1.0"
   },
   "bin": {
+    "vanya-arc-ui": "./scripts/ui-pipeline.mjs",
+    "vui": "./scripts/ui-pipeline.mjs",
     "vanya-ui-lint": "./scripts/design-harness-bin.mjs"
   }
 }

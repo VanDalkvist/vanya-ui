@@ -245,3 +245,6 @@ Owner narrowed the cleanup: preserve approved historical and technical reference
 
 ### Contributor mode — owner-approved simplification
 The publication-specific scanner, Git/history traversal, private policy contract and extra build gates are removed. The contributor route now reuses existing library verification scripts (test, typecheck, build, lint:design:pilot) and the same CLI runner. The skill delegates UI-focused discovery, generalization, applicable acceptance and evidence to one guide. Existing publication/rights policy and ordinary build remain in place. Regression fixtures target real no-Git execution, failure, dry-run and invalid input. No consumer/runtime or identity changes. Prior scanner CI success applies to historical revisions only; current CI pending. Independent reviewer and live skill evals remain NOT_VERIFIED/NOT_RUN.
+
+### CLI discovery
+Owner selected `vanya-arc-ui` / `vui` as aliases of the existing pipeline, with standard help and version. Preserve direct Node and existing CI lint entrypoints; symlink dispatch and both installed aliases covered by regression/consumer smoke cases. No additional runtime dependencies or command framework. CI pending.
