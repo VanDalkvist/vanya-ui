@@ -7,7 +7,7 @@
 ## [0.6.0] - 2026-11-25
 
 ### Added
-- Contributor operation in the portable UI pipeline: explicit private preflight, source and compiled publication checks in existing build, generic contribution guidance and fixture tests.
+- Contributor operation in the portable UI pipeline: discover and generalize reusable UI knowledge, run existing library test/typecheck/build/design-lint scripts, and record applicable UI review. Portable folders supported; no Git or new publication scanner.
 
 ### Changed
 - Brand architecture: individual wave-based marks and matching favicons for official services. Parent and UI retain the original V→A. Re-export `productMark`; existing calls retain their default, and temporary wordmarks are explicitly requested with `showMark={false}`. Candidate until verification; existing consumer pins remain unchanged.

@@ -2,7 +2,7 @@
 
 The **canonical executable procedure** is [Vanya UI agent skill](../../skills/vanya-ui/SKILL.md). For package consumers use [explicit SemVer/SHA release policy](../versioning.md); the portable workflow never bumps or deploys a dependency without an explicit decision. The [portable CLI](../../scripts/ui-pipeline.mjs) and [local bootstrap](../../scripts/bootstrap-ui-pipeline.mjs) work on any machine with Node.js 20+ and folders containing the design system and target project. No Git/GitHub access, cloud browser or CI runner is required.
 
-For explicit library contributions use the [contributor mode](contributing.md) of the same CLI. It adds local Git-based publication preflight; ordinary consumer commands do not require Git.
+For explicit library contributions use the [contributor mode](contributing.md) of the same CLI. It executes the existing library verification scripts; both paths support ordinary folders without Git.
 
 ## Run locally
 

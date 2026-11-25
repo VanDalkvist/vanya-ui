@@ -1,7 +1,7 @@
 ---
 name: vanya-ui
 description: Create, redesign, migrate, implement and review products, screens, components and visual artifacts using the Vanya Arc design system. Use for UI tasks in Vanya UI projects or when Vanya UI is requested, including new apps, layout, typography, navigation, interaction, accessibility, design audits and explicit contributions of reusable components or rules to Vanya UI. Skip backend-only, CLI-only and infrastructure tasks.
-compatibility: Requires a local Vanya UI source tree, a target project folder and Node.js 20+. Browser verification requires the target toolchain and browser access. Package installation may require network access. Contributor preflight requires local Git and a maintainer-supplied private policy file.
+compatibility: Requires a local Vanya UI source tree, a target project folder and Node.js 20+. Browser verification requires the target toolchain and browser access. Package installation may require network access. Contributor verification requires the library's existing development toolchain.
 ---
 
 # Vanya UI
@@ -12,7 +12,7 @@ Deliver the requested visual change, using the actual installed component API an
 
 Find the full local Vanya UI source tree through the project pointer or user-provided path. It must contain this skill, DESIGN.md, src, docs and scripts. A copied skill alone is insufficient; locate the source tree or report BLOCKED. Do not invent unavailable API or instructions. No fixed paths, git checkout, CI or hosting provider are required.
 
-If the task explicitly brings reusable code, rules or tests into Vanya UI, use the [contributor workflow](../../docs/patterns/contributing.md) within this same harness. Read it before preparing any public artifacts. Otherwise keep consumer work local. Contributor preflight requires local Git and private policy; normal consumer commands keep their existing environment requirements.
+If the task explicitly brings reusable code, rules or tests into Vanya UI, use the [contributor workflow](../../docs/patterns/contributing.md) within this same harness. Read it and follow the contributor path instead of consumer adoption. Otherwise keep consumer work local. Both paths work with an ordinary source directory; use existing project scripts for verification.
 
 Choose one scope:
 

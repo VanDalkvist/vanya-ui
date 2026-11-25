@@ -8,7 +8,7 @@ React-компоненты и интерфейсные токены для пр�
 
 ## Агентам: один переносимый UI-пайплайн
 
-[Контрибуция в дизайн-систему](docs/patterns/contributing.md) — отдельный сценарий существующего харнесса. Локальный preflight для контрибьюторов требует Git и приватную политику владельца; потребительские команды сохраняют прежний контракт.
+[Контрибуция в дизайн-систему](docs/patterns/contributing.md) — отдельный сценарий существующего харнесса. Команда `node scripts/ui-pipeline.mjs contribute --project .` запускает тесты, typecheck, сборку и дизайн-линтеры библиотеки. Для контрибуции достаточно локальной папки исходников и обычного toolchain.
 
 **[Agent Mode](https://ui.vanya-arc.dev/agents/)** · **[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
 

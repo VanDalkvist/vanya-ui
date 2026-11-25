@@ -21,9 +21,9 @@ Both the repository `VanDalkvist/vanya-ui` and the deployed website `https://ui.
 
 Public verification receipts may include the public commit SHA, public URL, test counts and asset filenames. Keep provider account/build IDs, dashboard URLs, private session references, raw logs and comment edit history out of public reports. Review PR and issue descriptions and comments as well as Git diffs.
 
-## Contributor preflight
+## Contributions
 
-Follow the [contributor guide](contributing.md). Run the owner preflight locally before public push using an externally supplied private policy; run the generic source and compiled checks in the existing build. Review outgoing commits, PR text, issue text and attachments separately. Generic CI does not have the private dictionary; a successful machine check cannot certify semantic privacy or binary content. Never publish the policy, raw reports or matching values.
+Follow the [contributor guide](contributing.md). Apply these existing publication and rights rules when preparing a contribution. Keep reusable contracts independent of consuming services and preserve explicitly approved references. Review public text, images and generated output as applicable; library verification does not certify privacy.
 
 ## Mandatory release checklist
 

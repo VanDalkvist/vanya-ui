@@ -1,14 +1,12 @@
 ## Reusable change
-- Problem and intended generic use:
-- Existing primitives considered:
+- Generic problem and intended use:
+- Existing primitives/rules considered; why this change belongs in the library:
 - API and compatibility:
-- Canonical references and rights:
+- Applicable canonical references and rights:
 
 ## Evidence
 - Actual test, typecheck, build and design lint results:
-- Applicable UI acceptance / visual evidence:
-- Contributor private preflight status (no private values):
-- Generic source and compiled check status:
-- Manual PUB-05 review: rights, context, filenames, images, discussion and synthetic data:
+- Applicable UI acceptance / visual and interaction evidence:
+- Remaining limitations or NOT_VERIFIED checks:
 
-Keep unapproved consuming-service identities, raw logs and private evidence outside this public PR. Explicitly approved public technical references may be retained. Mark unavailable evidence honestly. No automatic consumer upgrades or deployments.
+Keep the contribution bounded. Apply the existing publication policy; approved technical references may remain. No automatic consumer upgrades or deployments.

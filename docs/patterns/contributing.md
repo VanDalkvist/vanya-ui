@@ -1,53 +1,38 @@
 # Contributor mode — Vanya UI Harness
 
-Use when bringing a component, reusable interaction, design rule, token, fix or test into the public library. Ordinary consumer work stays within the existing consumer workflow. Explicit user task boundaries take precedence.
+Use for an explicit contribution of a component, interaction, composition pattern, design rule, token, fix or test to the library. Ordinary UI work remains in the consumer workflow.
 
 ## 1. Discover and decide
 
-Read DESIGN.md, actual exports and relevant canonical patterns. Inspect the candidate locally. Explain the reusable problem, existing shared alternatives, expected API or rule and a concrete synthetic use case. If an existing primitive solves it, use or extend that primitive. Keep specialized reusable components and existing defaults unless a separately approved change requires migration.
+Read DESIGN.md, actual exports in src/index.ts and applicable pattern documents. Inspect the candidate and its use case. Compare existing primitives, tokens and guidance. Choose reuse, a focused extension, a new reusable component/rule, or keep the implementation local. Explain the generic problem and why the chosen approach belongs in the library. Do not create a second implementation of an existing contract without a concrete reason.
 
-## 2. Generalize within the originating project
+## 2. Prepare a reusable contribution
 
-Prepare a bounded candidate with portable inputs and outputs, existing tokens and components, synthetic examples, applicable states and accessible interactions. Verify rights to contribute the code or rule. Keep unapproved originating-service identities, screenshots, adoption records and data outside the public library. Explicitly approved public technical references and historical attribution may remain. Keep private origin evidence locally or in its owning project; reusable contracts must remain independent. Do not change unrelated exports or consumer pins. Use the existing source, licensing and publication rules.
+For components: keep a focused API, portable inputs/outputs, existing visual tokens and shared primitives, accessible names, applicable states and keyboard behavior. Add representative synthetic examples to the existing showcase when useful. Preserve public exports and defaults unless a breaking change is separately approved.
 
-## 3. Verify and review
+For patterns and rules: describe applicability, concrete constraints, exceptions and a representative example. Update the canonical reference and existing publication mapping if needed. A new rule should solve a demonstrated recurring problem or prevent a concrete defect; prefer clarifying existing canon.
 
-Run the same local library test, typecheck, build and frozen design lint commands as the existing CI. For component changes use the existing UI acceptance criteria and actual library showcase; execute applicable interaction, narrow/wide, theme and regression checks. Use the existing receipt for UI work with mode visual and scope feature; for rules-only changes run relevant doc/tests/build checks without inventing visual evidence. Test actual API behavior, not just types; preserve compatible defaults.
+For tokens: identify the semantic role, use the existing palette and scales, check light/dark and affected components. Avoid duplicate tokens.
 
-Before sending any public commit, branch, PR, comment or attachment, inspect the final publication candidate. The existing CLI adds three explicit phases:
+Use the existing rights and [publication safety](publication-safety.md) rules. Approved public technical references may remain. Keep domain behavior and unapproved source material in the originating project. Do not update consumer pins automatically.
+
+## 3. Verify
+
+From the library directory with its existing dependencies installed:
 
 ~~~sh
-# From the local library checkout; choose the actual last public base, available locally.
-node scripts/ui-pipeline.mjs contribute --phase preflight --project . --base main --policy /private/path/policy.json --json
-# Build executes generic source and built phases; repeat the private built check locally.
-bun run build
-node scripts/ui-pipeline.mjs contribute --phase built --project . --policy /private/path/policy.json --json
+node scripts/ui-pipeline.mjs contribute --project . --dry-run
+node scripts/ui-pipeline.mjs contribute --project . --json
 ~~~
 
-The private policy is a maintainer-supplied JSON file **outside** the library checkout:
-~~~json
-{"schemaVersion":1,"identifiers":["example-internal-identifier","https://example.invalid/internal-service"]}
-~~~
-Literal matches are case-insensitive after Unicode NFKC normalization, including filenames and commit messages. Supply precise identifiers to avoid ambiguous matches. Never store or transmit the actual list in public source, issue/PR text, CI variables accessible to untrusted PR code, logs or attachments. Missing private policy or unavailable local Git base blocks owner preflight. Use the actual intended outgoing range, including intermediate commits. Local tool checks staged/index, outgoing snapshots and tracked plus nonignored candidates. Re-run after final commit; never push a known failed candidate. Already-public history requires a separate decision, not silent rewriting. Generic CI checks source and compiled output without the dictionary. It cannot prove the absence of unknown service identities.
+The operation runs the actual library test, typecheck, build and lint:design:pilot scripts in order; failure stops the sequence. The existing build checks generated Markdown and compiled UI. The existing design-lint pilot retains its documented source scope and debt policy. No Git checkout, credentials or private dictionary is needed. The frozen lint toolchain retains its normal installation requirements. The CLI does not install application dependencies or publish. CI remains unchanged. Agents without a shell may prepare the candidate and report commands as NOT_RUN; the maintainer CI supplies execution evidence.
 
-| Check | Scope |
-| --- | --- |
-| PUB-01 | Inventory, safe paths, explicit binary coverage |
-| PUB-02 | Private literal policy, if supplied |
-| PUB-03 | Literal import escape, absolute import and local dependency references; tracked environment files |
-| PUB-04 | Compiled dist inventory and configured checks |
-| PUB-05 | Manual semantic, rights, image/metadata and discussion review |
+For component/visual changes select applicable criteria from the existing UI-01–UI-14 catalog. Test real behavior and verify actual showcase rendering in supported themes and representative viewports, accessibility and interactions as applicable. Run the library browser suite for changed behavior/scroll/keyboard per AGENTS.md. Document actual observations separately from the machine report. For rules-only changes verify the canonical documentation, examples and relevant deterministic checks; do not invent visual evidence. Contributor command output is machine evidence, not a consumer verify receipt or a visual approval.
 
-A binary asset requires manual review; the tool does not inspect pixels or certify semantic privacy. Review names, descriptions, commit messages, raw extraction reports, PR/issue text, attachments and any generated files. Generic CI pass covers only its declared checks. If no trusted execution environment or private policy is available, report BLOCKED for private preflight and keep the candidate local. Never fabricate PASS, auto-push, publish a raw scan report or deploy.
+## 4. Review and submit
 
-## 4. Submit
+Use the existing contribution template. Include the generic problem, chosen reuse/extension, compatibility, canonical reference, executable checks and applicable visual evidence. Record missing checks honestly. Keep the candidate within task scope; a maintainer accepts the change, and package publishing/adoption follows the existing versioning policy.
 
-Use the contribution template: reusable problem, selected approach, public API/compatibility, canonical references, actual test/build results, visual evidence if applicable, rights and PUB-05 observation, private preflight status without identifiers. A maintainer accepts the change and publishes an immutable verified release separately; consumers choose adoption individually.
+Optional discovery: `bun scripts/extract-from-repo.ts /explicit/source/directory` lists repeated control styles. Review results locally; the script copies nothing and creates no PRs. Prefer reading actual source and existing exports for a targeted contribution.
 
-## Local discovery tool
-
-`bun scripts/extract-from-repo.ts /explicit/source/directory` is optional local pattern discovery. Its raw output contains paths and must remain local. It never copies code or creates PRs.
-
-## Skill quality checks
-
-The current skill uses progressive disclosure and explicit triggers, including negative cases. See [Agent Skills specification](https://agentskills.io/specification) and [outcome-based skill evals](https://developers.openai.com/blog/eval-skills). No upstream skill text is copied. Live-model eval runs require a separate available agent runner; CLI integration tests establish only executable behavior.
+Skill routing uses progressive disclosure and explicit trigger cases. See [Agent Skills specification](https://agentskills.io/specification) and [outcome-based skill evals](https://developers.openai.com/blog/eval-skills). Live-model eval runs are separate from CLI regression tests.
