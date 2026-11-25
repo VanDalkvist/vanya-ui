@@ -3,9 +3,11 @@ import {existsSync,readFileSync,realpathSync,statSync} from 'node:fs';
 import {dirname,join,relative,resolve,isAbsolute,sep} from 'node:path';
 import {createRequire} from 'node:module';
 import {spawnSync} from 'node:child_process';
+import {assertDebtBaseline} from './design-lint-baseline.mjs';
 
 export const CANONICAL_LINT_SCRIPT='vanya-ui-lint';
 export const HARNESS_CONFIG='vanya-ui.config.json';
+export const HARNESS_BASELINE='vanya-ui.baseline.json';
 
 export function resolveInstalledHarness(project){
  const require=createRequire(join(resolve(project),'package.json'));
@@ -40,8 +42,14 @@ export function readHarnessConfig(project){
  const path=join(project,HARNESS_CONFIG);
  if(!existsSync(path))throw Error('Missing '+HARNESS_CONFIG+'; run ui-pipeline adopt --project <dir> --sources src');
  const data=JSON.parse(readFileSync(path,'utf8'));
- if(data?.schemaVersion!==1||data.mode!=='strict'||Object.keys(data).some(k=>!['schemaVersion','mode','sources'].includes(k)))throw Error('Invalid '+HARNESS_CONFIG+' (expected schemaVersion 1, strict mode and sources)');
- return {schemaVersion:1,sources:validateSources(project,data.sources),mode:'strict'};
+ if(data?.schemaVersion!==1||!['strict','baseline'].includes(data.mode)||Object.keys(data).some(k=>!['schemaVersion','mode','sources'].includes(k)))throw Error('Invalid '+HARNESS_CONFIG+' (expected schemaVersion 1, mode and sources)');
+ const config={schemaVersion:1,sources:validateSources(project,data.sources),mode:data.mode};
+ if(config.mode==='baseline'){
+  const baseline=join(project,HARNESS_BASELINE);
+  if(!existsSync(baseline))throw Error('Missing '+HARNESS_BASELINE+'; restore the reviewed baseline');
+  assertDebtBaseline(JSON.parse(readFileSync(baseline,'utf8')),{sources:config.sources});
+ }
+ return config;
 }
 
 export function inspectHarness(project,scripts={}){
@@ -52,11 +60,14 @@ export function inspectHarness(project,scripts={}){
  return {status:problems.length?'invalid':'ready',problems,config,version};
 }
 
-export function runConsumerLint({project,sources,asJson=false}){
+export function runConsumerLint({project,sources,asJson=false,captureFile}){
  const root=resolve(project);
  const {runner,version}=resolveInstalledHarness(root);
- const targets=sources?validateSources(root,sources):readHarnessConfig(root).sources;
- const result=spawnSync(process.execPath,[runner,'--project='+root,'--strict',...targets],{
+ const config=sources?{sources:validateSources(root,sources),mode:'strict'}:readHarnessConfig(root);
+ const targets=config.sources;
+ if(captureFile&&(sources||config.mode!=='strict'))throw Error('Baseline capture requires the adopted strict source scope');
+ const policy=captureFile?'--capture-baseline='+captureFile:config.mode==='baseline'?'--baseline='+join(root,HARNESS_BASELINE):'--strict';
+ const result=spawnSync(process.execPath,[runner,'--project='+root,policy,...targets],{
   cwd:root,stdio:asJson?['ignore',2,2]:'inherit',shell:false,timeout:480000
  });
  if(result.error)return {script:'lint:design',status:'failed',reason:result.error.message,version,sources:targets};

@@ -21,13 +21,17 @@ function readable(path){
 export function adoptConsumer({project,sources}){
  const root=resolve(project);
  const {version}=resolveInstalledHarness(root);
- const config={schemaVersion:1,sources:validateSources(root,sources),mode:'strict'};
+ let config={schemaVersion:1,sources:validateSources(root,sources),mode:'strict'};
  const pkgPath=join(root,'package.json'),configPath=join(root,HARNESS_CONFIG),agentsPath=join(root,'AGENTS.md');
  const pkgText=readable(pkgPath);if(pkgText===null)throw Error('Missing package.json');
  const pkg=JSON.parse(pkgText),scripts=pkg.scripts||{};
  if(scripts['lint:design']!==undefined&&scripts['lint:design']!==CANONICAL_LINT_SCRIPT)throw Error('Conflicting lint:design script; review it before adopting Vanya UI');
  const existing=readable(configPath);
- if(existing!==null&&JSON.stringify(readHarnessConfig(root))!==JSON.stringify(config))throw Error('Existing harness source configuration differs; review it explicitly');
+ if(existing!==null){
+  const current=readHarnessConfig(root);
+  if(JSON.stringify(current.sources)!==JSON.stringify(config.sources))throw Error('Existing harness source configuration differs; review it explicitly');
+  config=current;
+ }
  const agents=readable(agentsPath)||'';
  if((agents.includes(start)||agents.includes(end))&&!agents.includes(block))throw Error('Existing Vanya UI AGENTS.md managed block differs; review it explicitly');
  const writes=[];

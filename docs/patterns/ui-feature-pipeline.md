@@ -86,3 +86,6 @@ See [DESIGN.md](../../DESIGN.md), [list-detail composition](list-detail-composit
 
 ## Static source lint (candidate, #33)
 See [static design enforcement](../arch-improvement/static-design-enforcement.md) for calibrated rules, fixture evidence and current status. After the tool lock and validation are confirmed, use the shared browserless command from the design-system checkout with an explicit consumer root and source directory. Record its result separately from the portable base contract and browser QA. Product updates are opt-in.
+
+### Existing product baseline
+After explicit adoption, `ui-pipeline.mjs baseline --project <app> [--package <relative>]` captures actual CSS and JSX debt once, with exact source lines and a policy fingerprint. Review the product-owned baseline before committing it. Missing/invalid baseline or changed policy fails closed; automatic recapture is forbidden. Strict lint remains the default for new products.

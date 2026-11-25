@@ -4,7 +4,8 @@ import {mkdtempSync,writeFileSync,readFileSync,existsSync,rmSync,copyFileSync} f
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname,relative,sep} from 'node:path';
 import {createRequire} from 'node:module';
-import {normalizeWarning,compareBaseline} from './design-lint-baseline.mjs';
+import {createHash} from 'node:crypto';
+import {normalizeWarning,compareBaseline,assertDebtBaseline,isCssRule,isJsxRule} from './design-lint-baseline.mjs';
 import {fileURLToPath} from 'node:url';
 const library=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2);
@@ -13,6 +14,8 @@ const targets=args.filter(a=>!a.startsWith('--'));
 const sourceTargets=targets.length?targets:[project===library?'src/showcase':'src'];
 const cssTargets=sourceTargets.map(t=>t.endsWith('.css')?t:t+'/**/*.css');
 const isLibrary=project===library;
+const debtPath=args.find(a=>a.startsWith('--baseline='))?.slice(11);
+const capturePath=args.find(a=>a.startsWith('--capture-baseline='))?.slice(19);
 const tools=join(library,'design-lint');
 const dir=mkdtempSync(join(tmpdir(),'vanya-design-lint-'));
 const env=Object.fromEntries(Object.entries(process.env).filter(([key])=>['PATH','HOME','TMPDIR','TEMP','TMP','LANG','LC_ALL','CI','SSL_CERT_FILE','SSL_CERT_DIR','NODE_EXTRA_CA_CERTS','SystemRoot','ComSpec'].includes(key)));
@@ -26,6 +29,7 @@ const fixture=(name,r,code,markers=[])=>{
  console.log('[design-lint] FIXTURE PASS '+name);
 };
 try{
+ if((debtPath&&capturePath)||((debtPath||capturePath)&&(isLibrary||args.includes('--strict')||args.includes('--bootstrap-lock'))))throw Error('Invalid baseline operation');
  checked('baseline unit tests',run(process.execPath,['--test',join(library,'scripts/design-lint-baseline.test.mjs')],library),[0]);
  copyFileSync(join(tools,'package.json'),join(dir,'package.json'));
  const lock=join(tools,'package-lock.json');
@@ -49,7 +53,10 @@ try{
   'value-type-custom-property-required-list':[['color','length'],{ignoreValues:['0','transparent','currentcolor','currentColor'],ignoreProperties:{length:['/^(?!(?:font-size|border(?:-(?:top|bottom)-(?:left|right))?-radius)$).+$/']}}],
   'declaration-property-value-disallowed-list':{'font-family':['/^(?!var\\(|inherit$|initial$|unset$|revert(?:-layer)?$).+/']}
  };
- writeFileSync(style,JSON.stringify({referenceFiles:[join(library,'src/tokens.css'),createRequire(join(library,'package.json')).resolve('@vanya/brand/tokens.css')],rules}));
+ const references=[join(library,'src/tokens.css'),createRequire(join(library,'package.json')).resolve('@vanya/brand/tokens.css')];
+ writeFileSync(style,JSON.stringify({referenceFiles:references,rules}));
+ const policyFingerprint=createHash('sha256').update(JSON.stringify([readFileSync(lock,'utf8'),readFileSync(fileURLToPath(import.meta.url),'utf8'),readFileSync(join(library,'scripts/design-lint-baseline.mjs'),'utf8'),...references.map(path=>readFileSync(path,'utf8'))])).digest('hex');
+ const debt=debtPath?assertDebtBaseline(JSON.parse(readFileSync(debtPath,'utf8')),{sources:sourceTargets,policyFingerprint}):null;
  const f=name=>join(tools,'fixtures',name);
  const jsx=(paths,cwd=project)=>run(bin('oxlint'),['--config',ox,...paths],cwd);
  const css=(paths,cwd=project)=>run(bin('stylelint'),['--config',style,...paths],cwd);
@@ -59,24 +66,42 @@ try{
  fixture('stylelint good (including geometry)',css([f('good.css')],library),0);
  fixture('stylelint bad',css([f('bad.css')],library),2,['no-unknown-custom-properties','value-type-custom-property-required-list','declaration-property-value-disallowed-list','19px','17px','#f123ab']);
  fixture('Impeccable gradient text',imp([f('impeccable.css')],dir),2,['gradient-text']);
- const jsxResult=jsx(sourceTargets);
- checked('shadcn',jsxResult,[0,1]);
+ const jsxResult=run(bin('oxlint'),['--config',ox,'--format','json',...sourceTargets]);
+ if(!valid(jsxResult,[0,1])){show(jsxResult);throw Error('shadcn execution failed: '+jsxResult.status)}
+ const jsxReport=[jsxResult.stdout,jsxResult.stderr].map(out=>{try{return JSON.parse(out)}catch{return null}}).find(v=>Array.isArray(v?.diagnostics));
+ if(!jsxReport||!Number.isInteger(jsxReport.number_of_files)||jsxReport.number_of_files<1||jsxReport.number_of_rules<2)throw Error('Invalid or empty shadcn report');
+ const jsxWarnings=jsxReport.diagnostics.map(d=>{
+  if(!isJsxRule(d.code)||typeof d.filename!=='string'||typeof d.message!=='string'||!Number.isInteger(d.labels?.[0]?.span?.line))throw Error('Unexpected shadcn diagnostic: '+String(d.code));
+  const absolute=resolve(project,d.filename);
+  return normalizeWarning(relative(project,absolute).split(sep).join('/'),{rule:d.code,text:d.message,line:d.labels[0].span.line},readFileSync(absolute,'utf8'));
+ });
+ if(jsxResult.status!==0&&!jsxWarnings.length)throw Error('shadcn failed without rule findings');
  const cssResult=run(bin('stylelint'),['--config',style,'--formatter','json',...cssTargets]);
- checked('Stylelint',cssResult,[0,2]);
+ if(!valid(cssResult,[0,2])){show(cssResult);throw Error('Stylelint execution failed: '+cssResult.status)}
  const report=[cssResult.stdout,cssResult.stderr].map(out=>{try{return JSON.parse(out)}catch{return null}}).find(Array.isArray);
  if(!report||!report.length||report.some(f=>!Array.isArray(f.warnings)||f.invalidOptionWarnings?.length||f.parseErrors?.length))throw Error('Stylelint report missing or invalid');
  const warnings=report.flatMap(f=>f.warnings.map(w=>{
+  if(!isCssRule(w.rule))throw Error('Unexpected Stylelint diagnostic: '+w.rule);
   const absolute=resolve(project,f.source);
   return normalizeWarning(relative(project,absolute).split(sep).join('/'),w,readFileSync(absolute,'utf8'));
  }));
  if(cssResult.status===2&&!warnings.length)throw Error('Stylelint reported failure without rule findings');
- const baseline=isLibrary&&!args.includes('--strict')?JSON.parse(readFileSync(join(tools,'showcase-baseline.json'),'utf8')):[];
- const {newFindings,resolved}=compareBaseline(warnings,baseline);
- console.log('[design-lint] Stylelint total='+warnings.length+' existing='+(warnings.length-newFindings.length)+' new='+newFindings.length+' resolved='+resolved.length);
- if(newFindings.length)console.error(JSON.stringify(newFindings,null,2));
+ const baseline=debt?.entries||(isLibrary&&!args.includes('--strict')?JSON.parse(readFileSync(join(tools,'showcase-baseline.json'),'utf8')):[]);
+ const compare=(name,items,filter)=>{
+  const {newFindings,resolved}=compareBaseline(items,baseline.filter(e=>filter(e.rule)));
+  console.log('[design-lint] '+name+' total='+items.length+' existing='+(items.length-newFindings.length)+' new='+newFindings.length+' resolved='+resolved.length);
+  if(newFindings.length&&!capturePath)console.error(JSON.stringify(newFindings,null,2));
+  return newFindings.length;
+ };
+ const jsNew=compare('shadcn',jsxWarnings,isJsxRule);
+ const cssNew=compare('Stylelint',warnings,isCssRule);
  const impResult=imp(sourceTargets);
  checked('Impeccable',impResult,[0,2]);
  console.log('[design-lint] Impeccable '+(impResult.status===0?'CLEAN':'FINDINGS')+' (advisory)');
- if(jsxResult.status!==0||newFindings.length)process.exitCode=1;
+ if(capturePath){
+  const report=assertDebtBaseline({schemaVersion:1,policyFingerprint,sources:sourceTargets,entries:[...jsxWarnings,...warnings]},{sources:sourceTargets,policyFingerprint});
+  writeFileSync(capturePath,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+  console.log('[design-lint] captured '+report.entries.length+' existing findings');
+ }else if(jsNew||cssNew)process.exitCode=1;
 }catch(e){console.error('[design-lint] ERROR '+e.message);process.exitCode=1;}
 finally{rmSync(dir,{recursive:true,force:true});}

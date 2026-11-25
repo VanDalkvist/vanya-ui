@@ -37,3 +37,5 @@ Date: 2026-11-25. Approved design: portable existing CLI, mandatory deterministi
 - [ ] Ledger and durable lessons; no merge until scoped gates pass. Do not claim full harness before all slices.
 
 Slice 1 RED confirmed in Cloudflare bcb0f862-d891-4c8e-8e3a-00a955224f56: slice 0 passed, adoption failed exactly `Unknown command adopt`. Implementation follows the approved slice. The portable unit orchestration uses an explicit lint port; actual tool execution is tested independently through the public CLI.
+
+Slice 2 RED confirmed: Cloudflare 794de941-f05a-4692-b7a6-4854f433ed50 passed both preceding harness journeys and failed exactly `Unknown command baseline`. Baseline uses the official Oxlint JSON format (https://oxc.rs/docs/guide/usage/linter/output-formats), source-line multiset entries for both CSS and JSX, and a policy fingerprint bound to frozen tool lock, rule runner and token sources. Existing debt capture is explicit and refuses recapture. No external product files are modified by this implementation.
