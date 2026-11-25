@@ -20,3 +20,9 @@ Compatibility review: supported --mode flags for adopt/baseline/lint and explici
 
 ## Follow-up from real consumer smoke
 - [ ] Ignore regular-file links outside the existing authored-source formats; preserve refusal of source and directory links. Real Ferma symptom: linked registry JSON blocked all diagnostics. Regression: inspect/check/verify --dry-run continue with linked JSON; authored JSX and directory links remain rejected. Review scope: no new traversal, source allowlist, dependency or consumer change. Exact-head CI required.
+
+## Component lint remediation (owner approved)
+- [ ] Use existing token utilities for exact 11/12px font and 2/4/6px radius equivalents; normalize nearby sizes 10→11, 12.5→13, 13.5→14. Use 13px existing control font via named theme alias. Kbd uses canonical 2px (DESIGN.md); timeline thumbnail 3→4px. Verify rendered typography/line-height and narrow surfaces in browser before release.
+- [ ] Keep wide narrative labels/eyebrows at existing .16em/.24em via named theme tracking tokens (existing visual intent); minimap .1em uses tracking-widest. Keep ThemeToggle existing exact elevation values in named theme shadow tokens. Keep transition property list via named CSS utility; no broadened animations.
+- [ ] Replace undefined OfferCard selected border with existing accent/30 (matches active badge). Preserve API and interactions. No new baseline entries, relaxed rules, consumer edits or unrelated restyling.
+- [ ] Actual negative fixtures remain blocking. Existing CI must show zero new shadcn/Stylelint findings; test/build/consumer matrix remain intact. Exact-head browser review and independent S9 remain required. Review: bounded token normalization, no new subsystem; source values audited against tokens and DESIGN.md, CI confirms real lint output.
