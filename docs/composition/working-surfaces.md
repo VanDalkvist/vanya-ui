@@ -46,6 +46,18 @@ Use Vanya UI's own `tokens.css` and real exported React components. Local app CS
 
 `--ground`, `--surface`, `--ink`, `--ink-soft`, `--ink-faint`, `--accent`, and `--border` are semantic tokens; avoid hardcoding theme palettes.
 
+## Divider ownership and visual grouping
+
+Use spacing and headings to establish the hierarchy of content. Give a visible boundary exactly one owner (container or adjacent row). A divider needs a clear role: separate adjacent scan rows, mark a functional boundary between surfaces, or preserve the outline of an interactive element.
+
+- Narrative prose, editorial comparisons and parallel explanatory blocks: use whitespace, aligned baselines and headings; omit decorative outer lines around each block.
+- Flat repeated rows: use one 1px semantic border between adjacent rows, for example `.row + .row { border-top: 1px solid var(--border); }`. The first and last exterior edges are open unless the list itself needs a functional boundary.
+- If an entire group needs a line, place one on its shared boundary. Avoid combining a container edge with near-parallel edges of its children. For a two-column grid, divide at row boundaries only when helpful; review the single-column arrangement separately.
+- Keep borders that communicate input affordance, selection, pane ownership, focus, sticky chrome, table structure or a real contained surface. Respect accessibility and contrast requirements; do not globally lower border opacity to compensate for excess lines.
+- Review adjacent groups together in light/dark and at 320/390/1024/1440 CSS px. Count redundant visible boundaries and confirm information groups are still apparent through spacing and alignment. Browser evidence is required for visual acceptance.
+
+Showcase examples: [Typography](https://ui.vanya-arc.dev/#typography), [Writing](https://ui.vanya-arc.dev/#writing).
+
 ## Persistent context without competing headers
 
 The shared app topbar is **one stable surface on every route**: same size, alignment, border and page gutter whether the user is on a dashboard or a bounded master–detail workspace. Use `WorkspaceContextHeader` inside it for real breadcrumbs; `breadcrumbSize="large"` is the reusable 16px/14px reading scale, while the compact default stays backward compatible. Do not adjust a topbar through view-specific CSS as a shortcut for page padding. Dashboard content and workspace content may follow different scroll policies *beneath* that shared chrome.

@@ -141,3 +141,6 @@ For new/modified UI **do not independently invent hovers** for each button, link
 ## Press and result feedback — mandatory
 
 Any new or changed local action must have immediate **pressed** feedback, then expose true pending/result state when appropriate. Do not confuse `hover`, `:active`, keyboard focus, persistent `aria-pressed` or successful completion. [Canonical press-result contract](docs/patterns/action-feedback.md), [research/criticism](docs/research/press-feedback-research-loop-2026-11-22.md), [interactive demo](https://ui.vanya-arc.dev/#action-feedback). Use native buttons where possible; no click-only wrappers, no arbitrary timers, no success before a confirmed result.
+
+
+**Dividers:** use spacing and headings for content grouping; assign each visible boundary one owner. Repeated scan rows may use internal separators; keep functional surface/control/focus borders. See [divider ownership](docs/composition/working-surfaces.md#divider-ownership-and-visual-grouping).

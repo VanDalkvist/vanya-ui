@@ -26,7 +26,7 @@
 ## Reference
 - [Components](https://ui.vanya-arc.dev/reference/components.md): Real exported React components and source links.
 - [Tokens](https://ui.vanya-arc.dev/reference/tokens.md): Generated theme tokens.
-- [Composition](https://ui.vanya-arc.dev/reference/composition.md): Reusable interface patterns.
+- [Composition](https://ui.vanya-arc.dev/reference/composition.md): Reusable interface patterns. Includes single-owner dividers and spacing-first grouping.
 - [Workspace scrolling](https://ui.vanya-arc.dev/reference/workspaces.md): Scroll owners and sticky context.
 - [Installation](https://ui.vanya-arc.dev/reference/installation.md): How to use @vanya/ui.
 - [Sources, quotations and required attribution](https://ui.vanya-arc.dev/reference/sources.md): How to record primary sources, distinguish short quotes from CC-licensed adaptations, and avoid relicensing third-party content.

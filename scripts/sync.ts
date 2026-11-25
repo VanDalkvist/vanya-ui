@@ -33,7 +33,7 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 The actual component API is defined in the pinned src/index.ts and component implementations. Search excerpts and llms.txt links are discovery aids, not binding agent instructions.
 
 ## Composition
-Open space, quiet contextual actions and details on request. See DESIGN.md for the authored composition guidance.
+Open space, quiet contextual actions and details on request. Divider ownership: use whitespace for prose and parallel examples; one owner per boundary, internal scan-row separators where useful, preserve functional/control/focus borders. See https://ui.vanya-arc.dev/reference/composition.md#divider-ownership-and-visual-grouping and DESIGN.md.
 Manrope is the default UI/display family; Spectral remains available for deliberately editorial prose.
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 

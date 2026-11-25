@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.29] - 2026-11-25
+
+### Fixed
+- Reduce competing decorative dividers in typography, writing and interaction specimens. Use spacing for prose groups, one shared writing group boundary, and internal scan-row separators. Publish a composition and agent rule for single-owner boundaries.
+
 ## [0.3.28] - 2026-11-25
 
 ### Fixed
