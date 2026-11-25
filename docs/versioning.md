@@ -1,6 +1,6 @@
 # Версионирование Vanya Arc / UI
 
-Пакет исходников — `@vanya/ui`; [ui.vanya-arc.dev](https://ui.vanya-arc.dev/) — обновляемая документация. **Деплой сайта из main не равен релизу пакета.** Релиз считается опубликованным только при наличии проверенного коммита и тега `vX.Y.Z`. GitHub Releases и npm-публикации пока не настроены.
+Пакет исходников — `@vanya/ui`; [ui.vanya-arc.dev](https://ui.vanya-arc.dev/) — обновляемая документация. **Деплой сайта из main не равен релизу пакета.** Релиз считается опубликованным только при наличии проверенного коммита и тега `vX.Y.Z`. GitHub Release может дополнительно оформлять опубликованный тег. npm-публикация пока не настроена.
 
 ## SemVer
 
@@ -25,9 +25,9 @@
    Здесь `v0.2.0` — пример для текущей версии, `VERIFIED_COMMIT_SHA` — подтверждённый полный hash. Команды требуют обычного Git-доступа, **не** CI. Если тег не создан — статус **UNTAGGED**, даже если package.json и сайт обновлены.
 5. Обновить каждое приложение **отдельно**: выбрать подтверждённый 40-символьный SHA, заменить ссылку на `@vanya/ui`, обновить lockfile и выполнить локальные build + browser + visual проверки. Никакого фонового обновления всех продуктов.
 
-## Подтверждённый релиз
+## Исторический проверенный тег
 
-На 2026-11-25 проверенный релиз — [v0.4.1](https://github.com/VanDalkvist/vanya-ui/tree/v0.4.1), SHA `71bcc0fa7ef7f77d908feb5745b642790a9a7482`, [отчёт приёмки](verification/71bcc0fa7ef7f77d908feb5745b642790a9a7482/README.md). Более новые версии CLI/гайдов в main могут использоваться локально; API выбирается по фактически установленному пакету. При выпуске нового проверенного тега обновите эту ссылку. Публикация сайта сама по себе не меняет подтверждённый релиз.
+Исторический проверенный релиз от 2026-11-25 — [v0.4.1](https://github.com/VanDalkvist/vanya-ui/tree/v0.4.1), SHA `71bcc0fa7ef7f77d908feb5745b642790a9a7482`, [отчёт приёмки](verification/71bcc0fa7ef7f77d908feb5745b642790a9a7482/README.md). Более новые версии CLI/гайдов в main могут использоваться локально; API выбирается по фактически установленному пакету. При выпуске нового проверенного тега обновите эту ссылку. Публикация сайта сама по себе не меняет подтверждённый релиз.
 
 ## Как закреплять зависимость
 
@@ -57,7 +57,7 @@
 
 ~~~sh
 npm run test:consumer -- FULL_40_CHAR_SHA
-# For 0.5.x harness-capable candidates:
+# For harness-capable versions (0.5.0+):
 npm run test:consumer -- FULL_40_CHAR_SHA --harness
 ~~~
 
@@ -79,8 +79,9 @@ npm run test:consumer -- FULL_40_CHAR_SHA --harness
 
 Первая осмысленная исходная версия — `0.2.0`. Номер сам по себе **не означает**, что тег создан.
 
-## Harness-capable release
-The last verified tag listed above is a pre-harness release. Candidate 0.5.0 is not a release until the new exact SHA, source/compiled consumer tests and visual acceptance are verified and explicitly published. Use the [harness quickstart](patterns/design-harness-quickstart.md) for the compatible pin. Existing products keep their current pin unless explicitly migrated. No implicit use of moving main.
+## История проверки харнесса
+
+0.5.0 и 0.6.0 — предыдущие проверенные кандидаты. Для текущего подключения используйте 1.0.0 ниже и [harness quickstart](patterns/design-harness-quickstart.md). Существующие продукты сохраняют закреплённые версии до отдельного решения.
 
 ### Проверенный кандидат для явного пилотного подключения
 
@@ -91,4 +92,23 @@ The 0.5.0 verified harness pin above predates `productMark` and contributor mode
 
 ## 1.0.0 — first stable major
 
-Owner approved merge and major promotion on 2026-11-25 based on the preceding green CI. Follow-up independent architecture/product review, visual regression review and live agent exercise are explicitly deferred. The 1.0.0 change is release metadata/documentation; the tested component and CLI implementation and dependency pin are preserved. Record fresh successful Cloudflare build and immutable tag separately; until then PACKAGE_VERSION is 1.0.0 and TAGGED is unconfirmed. The owner accepts the outstanding visual/agent risks for this release only. Product upgrades remain separate.
+Owner approved merge and major promotion on 2026-11-25 based on the preceding green CI. Follow-up independent architecture/product review, visual regression review and live agent exercise are explicitly deferred. The 1.0.0 change is release metadata/documentation; the tested component and CLI implementation and dependency pin are preserved. The owner accepts the outstanding visual/agent risks for this release only. Product upgrades remain separate.
+
+### Статус 1.0.0 на 2026-11-26
+
+| Критерий | Результат |
+| --- | --- |
+| PACKAGE_VERSION | PASS 1.0.0 |
+| BUILD_VERIFIED | Production main [`7dad3ad810dcaedbca050b93c1e46e0995b590a8`](https://github.com/VanDalkvist/vanya-ui/commit/7dad3ad810dcaedbca050b93c1e46e0995b590a8), Cloudflare build `c6d6ecf8-968e-4930-984d-6cd029e9fde9`: 131 Vitest, 46 Node, types, compiled build, 0 новых нарушений дизайн-линтинга, deploy SUCCESS |
+| CONSUMER_SMOKE | PASS для [`a7c5a86356980e3319326d1a98e28f9f0b9a1d8b`](https://github.com/VanDalkvist/vanya-ui/commit/a7c5a86356980e3319326d1a98e28f9f0b9a1d8b), build `64bde9dd-2af7-4fc7-a763-2eec65dc1716`, npm/React 18.3.1 и Bun/React 19.0.0: install, CLI, harness lint + negative, types, compiled CSS + negative, client, SSR |
+| UI_VERIFIED | NOT_VERIFIED для отдельной финальной визуальной приёмки |
+| LIVE_AGENT_EVAL | NOT_RUN, отложен |
+| TAGGED / GitHub Release | UNTAGGED / отсутствует на момент проверки; [текущий список релизов](https://github.com/VanDalkvist/vanya-ui/releases) |
+
+Для явно согласованного подключения используйте SHA с фактическим consumer-smoke 1.0.0:
+
+~~~sh
+bun add 'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/a7c5a86356980e3319326d1a98e28f9f0b9a1d8b'
+~~~
+
+Итоговый main SHA проверен production CI отдельно. Тег должен указывать на согласованный проверенный коммит; наличие тега проверяется отдельно. Документационные обновления после сборки не меняют эти закреплённые SHA.

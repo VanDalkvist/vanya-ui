@@ -1,6 +1,6 @@
 # Vanya Arc / UI
 
-React-компоненты и интерфейсные токены для приложений [vanya-arc.dev](https://vanya-arc.dev/). Имя пакета — `@vanya/ui`. Текущая исходная версия указана в [package.json](package.json); опубликованные теги проверяются отдельно.
+Vanya UI — дизайн-система Vanya Arc: React-компоненты, токены, каноны интерфейсов и переносимый агентский харнесс. Пакет — `@vanya/ui`; текущая версия исходников — **1.0.0** ([package.json](package.json)). Статус выпуска и проверенные SHA — в [versioning](docs/versioning.md).
 
 **[Живая витрина → ui.vanya-arc.dev](https://ui.vanya-arc.dev/)**
 
@@ -22,7 +22,7 @@ React-компоненты и интерфейсные токены для пр�
 
 [Контрибуция в дизайн-систему](docs/patterns/contributing.md) — отдельный сценарий существующего харнесса. Команда `node scripts/ui-pipeline.mjs contribute --project .` запускает тесты, typecheck, сборку и дизайн-линтеры библиотеки. Для контрибуции достаточно локальной папки исходников и обычного toolchain.
 
-**[Agent Mode](https://ui.vanya-arc.dev/agents/)** · **[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
+**[Агентам на витрине](https://ui.vanya-arc.dev/#agents)** · [Agent Mode](https://ui.vanya-arc.dev/agents/) · **[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
 
 Скопируй папку Vanya UI на любую машину с Node.js 20+, дай агенту путь к ней и к приложению. Git, GitHub, Actions, учётные данные и интернет **не нужны для самого пайплайна**:
 
@@ -30,12 +30,12 @@ React-компоненты и интерфейсные токены для пр�
 node /path/to/vanya-ui/scripts/bootstrap-ui-pipeline.mjs --project /path/to/app
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs inspect --project /path/to/app
 # Once the verified harness-capable @vanya/ui package and source directories exist:
-node /path/to/vanya-ui/scripts/ui-pipeline.mjs adopt --project /path/to/app --sources src
+node /path/to/vanya-ui/scripts/ui-pipeline.mjs adopt --project /path/to/app --sources src --css-output dist
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs check --project /path/to/app
-node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --package app
+node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --json > ui-verification.json
 ```
 
-Для каждой UI-задачи: `plan --project /path/to/app --scope feature --task "Описание задачи" --target "/route" > ui-receipt.json`, затем реализация, `check`, `verify`, браузерная приёмка и `review --receipt ui-receipt.json --verification ui-verification.json`. [Протокол приёмки](docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt) задаёт критерии и доказательства; review проверяет структуру отчёта. Для нового приложения используйте `--scope new`, `--mode react` даже в пустом репозитории и [порядок подключения](docs/patterns/ui-feature-pipeline.md#new-product-setup). Сохраняйте реальный `verify --json > ui-verification.json`. Массовая миграция требует явной задачи. Для React-потребителя требуется совместимый установленный харнесс; bootstrap сохраняет пользовательские инструкции. [Единый quickstart](docs/patterns/design-harness-quickstart.md).
+Для каждой UI-задачи: `plan --project /path/to/app --scope feature --task "Описание задачи" --target "/route" > ui-receipt.json`, затем реализация, `check`, `verify`, браузерная приёмка и `review --project /path/to/app --receipt ui-receipt.json --verification ui-verification.json`. [Протокол приёмки](docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt) задаёт критерии и доказательства; review проверяет структуру отчёта. Для нового приложения используйте `--scope new`, `--mode react` даже в пустом репозитории и [порядок подключения](docs/patterns/ui-feature-pipeline.md#new-product-setup). Сохраняйте реальный `verify --json > ui-verification.json`. Массовая миграция требует явной задачи. Для React-потребителя требуется совместимый установленный харнесс; bootstrap сохраняет пользовательские инструкции. [Единый quickstart](docs/patterns/design-harness-quickstart.md).
 
 Самопроверка переносимого инструмента: `npm run test:agent` либо `node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs` (работает без GitHub). Bootstrap создаёт локальные указатели. `adopt` закрепляет `vanya-ui.config.json`, `lint:design` и управляемый блок AGENTS.md. Добавьте прямой вызов установленного харнесса в существующий CI до deploy (см. [quickstart](docs/patterns/design-harness-quickstart.md)); `verify` запускает канонический линтер напрямую. Правила поставляются установленным пакетом. Операции `inspect/check/plan` работают без сети; фактический lint/verify может требовать npm registry для изолированного `npm ci`. `verify` вызывает **существующие локальные** build/browser скрипты приложения; предварительная установка зависимостей/браузера — отдельная задача приложения. Вывод `--json` пригоден для агента. Пройти тесты недостаточно: скилл требует визуальную проверку поведения в браузере. GitHub workflow остаётся необязательной ручной обёрткой.
 
@@ -59,11 +59,11 @@ Portable local browser verification: see [browser-qa](browser-qa/README.md), run
 
 ## Версии и обновление потребителей
 
-Ведём [SemVer и changelog](docs/versioning.md) с версии исходников `0.2.0`. Публичный сайт на `main` **не означает релиз**: ручной тег `vX.Y.Z` ставится после тестов, browser QA и проверки коммита. Продукты закрепляют полный SHA и lockfile, а не движущийся `main`. Локальная проверка: `npm run release:check` (Node.js, без сети). [История изменений](CHANGELOG.md).
+**1.0.0** — первая стабильная major-версия исходников. Production CI прошёл на [`7dad3ad8`](https://github.com/VanDalkvist/vanya-ui/commit/7dad3ad810dcaedbca050b93c1e46e0995b590a8); установочный SHA [`a7c5a863`](https://github.com/VanDalkvist/vanya-ui/commit/a7c5a86356980e3319326d1a98e28f9f0b9a1d8b) прошёл также consumer-smoke для npm/React 18 и Bun/React 19. На момент проверки 26.11.2026 тег `v1.0.0` и GitHub Release ещё отсутствуют. Дополнительная визуальная приёмка и live-agent eval отложены владельцем. Продукты закрепляют полный SHA и lockfile. См. [статус и SemVer](docs/versioning.md), [историю изменений](CHANGELOG.md) и [проверку опубликованных релизов](https://github.com/VanDalkvist/vanya-ui/releases).
 
 ## Айдентика Vanya Arc
 
-**Vanya Arc** — зонтичный бренд с индивидуальными знаками сервисов. Исходный асимметричный V→A принадлежит родителю и UI. Синусоида задаёт генеративный принцип: каждый другой официальный сервис получает собственную утверждённую форму и favicon. Родство держится на пластике, цветовых ролях, Manrope и структуре Vanya Arc / Product. [vanya-arc-brand](https://github.com/VanDalkvist/vanya-arc-brand) владеет общим контрактом; продукт владеет собственными утверждёнными активами. Используй `VanyaArcLockup productMark` для индивидуального знака.
+**Vanya Arc** — зонтичный бренд с индивидуальными знаками сервисов. Исходный асимметричный V→A принадлежит родителю и UI. Синусоида задаёт генеративный принцип: каждый другой официальный сервис получает собственную утверждённую форму и favicon. Для квадратной аватарки сервиса рекомендуется использовать тот же знак. Родство держится на пластике, цветовых ролях, Manrope и структуре Vanya Arc / Product. [vanya-arc-brand](https://github.com/VanDalkvist/vanya-arc-brand) владеет общим контрактом; продукт владеет собственными утверждёнными активами. Используй `VanyaArcLockup productMark` для индивидуального знака.
 
 [Живой раздел «Айдентика»](https://ui.vanya-arc.dev/#identity) · [Официальный брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/docs/brand-guidelines.md) · [как бренд подключён к UI](docs/identity/brand.md). Из `@vanya/ui` доступны `VanyaArcMark` и `VanyaArcLockup`.
 
@@ -104,10 +104,10 @@ Manrope — для интерфейсов, JetBrains Mono — для кода и
 Для локальной разработки можно использовать соседнюю копию библиотеки (`file:../vanya-ui`) — это не требует GitHub как точки входа в агентный пайплайн. Для удалённой установки закрепи **конкретный проверенный коммит**, а не плавающий `main`:
 
 ```sh
-bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'
+bun add 'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/a7c5a86356980e3319326d1a98e28f9f0b9a1d8b'
 ```
 
-Сама установка пакета и его зависимостей может требовать сеть; переносимый **агентный пайплайн** ничего не скачивает и не устанавливает.
+Этот SHA содержит версию 1.0.0 и проверен в двух consumer-smoke окружениях. Сохраните lockfile. Установка зависимостей требует доступного registry/GitHub; `inspect`, `check` и `plan` работают локально. Исполняемый lint/verify может установить изолированный набор линтеров через npm ci.
 
 Требуются React 18 или 19, Tailwind CSS 4 и сборщик, который обрабатывает TypeScript/TSX из зависимостей. Контракт поставки — ESM source package: `exports`, `main`, `module` и `types` указывают на `src/index.ts`. Потребитель компилирует TS/TSX и обрабатывает CSS. `dist/` содержит витрину сайта. Поддержка CommonJS, Node без TSX-трансформации и npm-релиз пока не заявлена. Для установки и проверки совместимости см. [правила поставки](docs/versioning.md#контракт-поставки).
 
@@ -134,9 +134,9 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 }
 ```
 
-## Рабочие поверхности и состав PR #1
+## Рабочие поверхности
 
-Из PR #1 в `main` перенесены `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceActionBar`, `WorkspaceEmptyState`, `StickyContextBar` и `WorkspaceContextHeader` вместе с тестами и исследованиями. Их примеры находятся прямо в разделе [«Рабочие поверхности»](https://ui.vanya-arc.dev/#workspace). Библиотека не навязывает приложению второй sticky header или глобальный скролл.
+В библиотеку входят `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceActionBar`, `WorkspaceEmptyState`, `StickyContextBar` и `WorkspaceContextHeader` вместе с тестами и исследованиями. Их примеры находятся прямо в разделе [«Рабочие поверхности»](https://ui.vanya-arc.dev/#workspace). Библиотека не навязывает приложению второй sticky header или глобальный скролл.
 
 ## Редактура первого экрана
 
@@ -174,10 +174,11 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 ```sh
 bun install
 bun run dev       # интерактивная витрина
-bun run test      # Vitest
+bun run test      # Vitest + Node + release metadata + harness tests
 bunx tsc --noEmit -p tsconfig.build.json  # проверка исходников библиотеки
 bun run sync      # справочник токенов и реестр экспортов
 bun run build     # production-сборка витрины в dist/
+bun run lint:design:pilot # source lint и отрицательные fixtures
 ```
 
 Сборщик — Vite 8, тесты — Vitest 5. `/` и `/showcase.html` используют одну React-точку входа. Сайт — **единый лонгрид** с разделами `/#composition`, `/#identity`, `/#principles`, `/#catalog`, `/#workspace`, `/#setup`. Прежний адрес `/guidelines/navigation/` перенаправляет на `/#browser-navigation`. При сборке HTML предварительно рендерится для агентов без JavaScript, а React гидратирует интерактивные примеры. Публичная конфигурация деплоя находится в [`wrangler.jsonc`](wrangler.jsonc), а секреты и токены — только в Cloudflare (никогда не в Git). Сборка и деплой выполняются Cloudflare Workers Builds при push/merge в `main`; см. [`docs/deployment.md`](docs/deployment.md).
@@ -237,4 +238,4 @@ bun run build     # production-сборка витрины в dist/
 Vanya UI — внутренняя дизайн-система для разработки собственных продуктов Vanya Arc. Публичная витрина помогает владельцу видеть компоненты и проверять их, а агентам — использовать библиотеку в его проектах. Коммерциализация дизайн-системы, привлечение сторонних разработчиков и внешняя adoption-метрика владельцем не заявлены. Не предлагать эти направления по умолчанию.
 
 ### Миграция существующего продукта
-После `adopt` выполните `node /path/to/vanya-ui/scripts/ui-pipeline.mjs baseline --project /path/to/app` один раз и проверьте реальные записи `vanya-ui.baseline.json`. Команда фиксирует CSS и JSX долг и включает режим baseline в конфигурации. Повторный автоматический захват запрещён; изменение исходной строки или добавление нарушения блокирует lint. Храните baseline в самом продукте, учитывайте приватность исходников. Новые продукты остаются strict.
+После `adopt` сначала выполните строгий lint. При явно согласованной миграции с накопленным долгом выполните `node /path/to/vanya-ui/scripts/ui-pipeline.mjs baseline --project /path/to/app` один раз и проверьте реальные записи `vanya-ui.baseline.json`. Команда фиксирует CSS и JSX долг и включает режим baseline в конфигурации. Повторный автоматический захват запрещён; изменение исходной строки или добавление нарушения блокирует lint. Храните baseline в самом продукте, учитывайте приватность исходников. Новые продукты остаются strict.
