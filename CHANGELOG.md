@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-11-25
+
+### Added
+- Agent-facing longread section and native menu anchor: copyable new-product prompt, canonical skill/CLI/components/tokens/LLM references, verified release reference and honest evaluation limits. Existing first screen and routes remain intact.
+
+### Fixed
+- Update the stale bootstrap assertion for project-bound acceptance introduced in 0.4.3.
+
 ## [0.4.3] - 2026-11-25
 
 ### Changed — agent skill and acceptance

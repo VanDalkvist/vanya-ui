@@ -18,13 +18,17 @@ for (const width of [1440,1024,390,320]) {
       return r.top>=header.bottom-1&&r.top<innerHeight;
     });
     await expect.poll(()=>targetCleared("typography")).toBe(true);
-    for (const [id,label] of [["writing","Тексты"],["workspace","Рабочие поверхности"],["setup","Подключение"]]) {
+    for (const [id,label] of [["writing","Тексты"],["workspace","Рабочие поверхности"],["setup","Подключение"],["agents","Агентам"]]) {
       await page.locator("#"+id).evaluate(el=>el.scrollIntoView({block:"start",behavior:"instant"}));
       await expect(current).toHaveText(label);
       await expect(current).toHaveCount(1);
       await expect.poll(visibleInStrip).toBe(true);
       await expect.poll(()=>targetCleared(id)).toBe(true);
     }
+    await page.goto("/#agents");
+    await expect(current).toHaveText("Агентам");
+    await page.reload();
+    await expect(current).toHaveText("Агентам");
     await page.goto("/#identity");
     await expect(current).toHaveText("Айдентика");
     await page.goto("/#catalog");

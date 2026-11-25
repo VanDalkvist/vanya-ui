@@ -12,6 +12,7 @@ export const longreadSections = [
   ["catalog", "Компоненты"],
   ["workspace", "Рабочие поверхности"],
   ["setup", "Подключение"],
+  ["agents", "Агентам"],
 ] as const;
 
 const SECTION_IDS = longreadSections.map(([id]) => id);

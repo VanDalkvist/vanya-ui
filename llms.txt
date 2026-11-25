@@ -3,6 +3,7 @@
 > Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
 ## Agent instructions (start here)
+- [Agent experience](https://ui.vanya-arc.dev/#agents): Copyable new-product prompt, documentation, tools, verified release reference and readiness limits.
 - [Stable geometry and composition](https://ui.vanya-arc.dev/reference/composition.md): Protected elements, changing data and responsive layout.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Keep private data and internal evidence out of public output.
 - [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.

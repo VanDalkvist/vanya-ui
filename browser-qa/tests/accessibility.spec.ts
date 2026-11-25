@@ -2,7 +2,7 @@ import { expect, test, type Page, type TestInfo } from "@playwright/test";
 import axe from "axe-core";
 
 const tags = ["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"];
-const controls = ["#segments","#range","#actions","#compact-filter-toolbar","#media-catalogue","#craft-card","#composition-stable-geometry",".showcase-header"];
+const controls = ["#segments","#range","#actions","#compact-filter-toolbar","#media-catalogue","#craft-card","#composition-stable-geometry","#agents",".showcase-header"];
 
 async function scan(page: Page, info: TestInfo, name: string, scope: string[]) {
   // Use the pinned local npm package: no CDN, credentials, production bundle or extra service.

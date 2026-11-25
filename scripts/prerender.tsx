@@ -9,6 +9,6 @@ const html=readFileSync(file,"utf8");
 const marker='<div id="root"></div>';
 if(!html.includes(marker))throw new Error("Cannot prerender: Vite HTML root not found");
 const markup=renderToString(<Showcase/>);
-if(!markup.includes("browser-navigation")||!markup.includes("workspace"))throw new Error("Missing longread content");
+if(!markup.includes("browser-navigation")||!markup.includes("workspace")||!markup.includes('id="agents"'))throw new Error("Missing longread content");
 writeFileSync(file,html.replace(marker,`<div id="root">${markup}</div>`));
 console.log(`Prerendered ${markup.length} bytes of public HTML for crawlers`);

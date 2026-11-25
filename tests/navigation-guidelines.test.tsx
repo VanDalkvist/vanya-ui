@@ -11,13 +11,13 @@ describe("single longread navigation",()=>{
   expect(html).toContain("url=/#browser-navigation");
   expect(html).toContain('name="robots" content="noindex,follow"');
  });
- it("exposes native anchor navigation for all eight sections",()=>{
+ it("exposes native anchor navigation for all nine sections",()=>{
   const {container}=render(<Showcase/>);
   const headers=container.querySelectorAll<HTMLElement>("header.showcase-header");
   expect(headers).toHaveLength(1);
   const nav=within(headers[0]).getByRole("navigation",{name:"Навигация"});
-  expect(within(nav).getAllByRole("link")).toHaveLength(8);
-  for(const [id,label] of [["composition","Композиция"],["identity","Айдентика"],["typography","Типографика"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"]]){
+  expect(within(nav).getAllByRole("link")).toHaveLength(9);
+  for(const [id,label] of [["composition","Композиция"],["identity","Айдентика"],["typography","Типографика"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"],["agents","Агентам"]]){
    expect(document.getElementById(id)).not.toBeNull();
    expect(within(nav).getByRole("link",{name:label,exact:true})).toHaveAttribute("href","/#"+id);
   }

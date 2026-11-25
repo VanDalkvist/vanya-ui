@@ -376,3 +376,24 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .type-editorial-pair h4 { margin:12px 0 16px; }
 .type-editorial-pair p + p { margin-top:1em; }
 @media(max-width:700px){ .type-editorial-pair { grid-template-columns:1fr; } }
+
+/* Agent-facing documentation is a final longread section, scoped to its own surface. */
+.agents-section { scroll-margin-top:calc(var(--showcase-header-height) + 36px); }
+.agents-columns { display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,1fr); gap:clamp(32px,5vw,72px); margin-top:36px; }
+.agents-columns > * { min-width:0; }
+.agents-start > p { margin-top:12px; }
+.agents-section .agents-prompt { white-space:pre-wrap; overflow-wrap:anywhere; font-size:var(--type-code-size); line-height:var(--type-body-leading); padding:20px; }
+.agents-copy-row { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; margin-top:12px; min-height:44px; }
+.agents-copy-row button { min-height:44px; gap:8px; max-width:100%; }
+.agents-copy-feedback { color:var(--ink); min-height:1.5em; }
+.agents-readiness { margin-top:32px; }
+.agents-readiness p { margin-top:12px; }
+.agents-readiness .agents-resource-link { display:flex; width:fit-content; max-width:100%; margin-top:8px; }
+.agents-note { color:var(--ink-soft); overflow-wrap:anywhere; }
+.agents-resource-list { list-style:none; padding:0; margin:16px 0 0; }
+.agents-resource-list li { padding:12px 0; }
+.agents-resource-list li + li { border-top:1px solid var(--border); }
+.agents-resource-link { display:inline-flex; gap:8px; align-items:center; font-size:var(--type-body-size); line-height:var(--type-body-leading); color:var(--ink); white-space:normal; height:auto; min-height:36px; text-decoration:none; }
+.agents-resource-link svg { flex:none; }
+.agents-resource-list p { margin-top:2px; }
+@media(max-width:700px){ .agents-columns { grid-template-columns:minmax(0,1fr); gap:36px; } .agents-copy-row { align-items:flex-start; flex-direction:column; } }
