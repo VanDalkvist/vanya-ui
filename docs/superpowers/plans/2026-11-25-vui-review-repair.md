@@ -1,0 +1,14 @@
+# VUI review repair — bounded slice
+
+Owner approved findings in PR #38 review 6059464700. Base c934e8c9bb8715466f9b9c6988a8437043c9df0d. Context: existing UI package, portable CLI, canonical skill, consumer verification and contributor guide. Read existing memory and AP-019/020/021/022/074/075/076 in prior S4 review; preserve no-Git/no-new-dependency design. No product deployment, identity art or consumer pin changes.
+
+## S5/S6 selected fixes
+- [ ] P1: validate options per command and reject duplicate flags before inspecting/writing. Reject `adopt --dry-run`, `baseline --dry-run`, unknown/unsupported options; test real unchanged manifest/config/agent files. Preserve documented options, global help/version and direct entrypoint.
+- [ ] P2: extract existing project discovery and verification use cases from CLI into cohesive modules; keep public re-exports, explicit runner wiring, one command interface. CLI <=250 lines, no new runtime dependencies. Verify real existing consumer and contributor journeys.
+- [ ] P2: require explicit UI-12 applicability for new scope with source observation; independent/unbranded products can record scope and sources; existing feature N/A remains supported. Test rejected N/A and accepted applicable observations.
+- [ ] P2: expand existing library pilot lint inventory to shared component files as well as showcase. Keep canonical token definitions separate. Reuse existing lint tools/negative controls; exercise the default component path with actual bad fixture and source scope. Existing recorded showcase baseline unchanged; any newly surfaced legacy debt must be inspected, not auto-captured or waived. No general token redesign.
+- [ ] P2: clear help paths and two workflows, validate actual installed CLI; skill explicit branch and pinned local bin, fallback for source folder, no arbitrary tool discovery. Maintain documented JSON/exit semantics and genuine visual evidence boundary.
+- [ ] Verify exact SHA via current CI, assess actual findings; independent S9 and live agent evals require available isolated agent runner. Do not claim those passed from unit tests.
+
+## S7 plan review
+Smallest viable repairs: use one option schema for help/validation; existing inspection and verification code moved without behavioral rewrite except explicit input validation. Reuse the real lint rules, not a regex imitation. Preserve token owner scope and baseline integrity. Test invalid mutations and result evidence, not merely output shape. Previous parser source probe reproduces RED logically; actual test execution RED not yet observed. Independent product review, visual QA and live skill evals remain blocked by runner availability. No extra CI workflow, framework, authentication, publication scanner or full redesign.

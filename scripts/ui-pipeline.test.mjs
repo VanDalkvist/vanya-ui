@@ -281,3 +281,44 @@ test('CLI names share one executable and installed symlink aliases run help and 
   assert.notEqual(run('not-a-command','--help').status,0);
  }
 }));
+
+test('invalid mutation options are rejected before modifying a project',()=>fixture(root=>{
+ react(root);
+ const app=join(root,'app'), manifest=join(app,'package.json'), config=join(app,'vanya-ui.config.json'), agents=join(app,'AGENTS.md');
+ const before=[manifest,config].map(p=>readFileSync(p,'utf8'));
+ const cli=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const run=(...args)=>spawnSync(process.execPath,[cli,...args],{cwd:root,encoding:'utf8'});
+ for(const args of [
+  ['adopt','--project',root,'--sources','src','--dry-run'],
+  ['baseline','--project',root,'--dry-run'],
+  ['adopt','--project',root,'--project',root,'--sources','src'],
+  ['inspect','--project',root,'--scope','new']
+ ]){
+  const result=run(...args);
+  assert.equal(result.status,1,result.stdout+result.stderr);
+  assert.match(result.stderr,/Unsupported option|Duplicate option/);
+  assert.deepEqual([manifest,config].map(p=>readFileSync(p,'utf8')),before);
+  assert.throws(()=>readFileSync(agents,'utf8'),/ENOENT/);
+ }
+}));
+test('new product requires an explicit identity applicability observation',()=>fixture(root=>{
+ react(root);
+ const info=inspectProject({project:root});
+ const receipt=completePlan('new');receipt.targetProject={project:root,package:'app',mode:'react'};
+ const verified=verifyWithLint(info);
+ const identity=receipt.criteria.find(row=>row.id==='UI-12');
+ identity.status='N/A';identity.reason='Skipped';
+ assert.ok(reviewAcceptance(receipt,{projectInfo:info,verification:verified}).errors.some(e=>e.includes('UI-12')));
+ identity.status='PASS';identity.evidence=[{method:'source',target:'src/App.jsx',observation:'Independent application; own identity and source rights reviewed'}];
+ assert.equal(reviewAcceptance(receipt,{projectInfo:info,verification:verified}).status,'recorded');
+ receipt.scope='feature';identity.status='N/A';identity.reason='No branding changes';
+ assert.equal(reviewAcceptance(receipt,{projectInfo:info,verification:verified}).status,'recorded');
+}));
+test('CLI help exposes actual canonical resource paths and workflow commands',()=>fixture(root=>{
+ const result=spawnSync(process.execPath,[new URL('./ui-pipeline.mjs',import.meta.url).pathname,'--help'],{cwd:root,encoding:'utf8'});
+ assert.equal(result.status,0,result.stderr);
+ assert.match(result.stdout,/inspect.*plan.*verify.*review/);
+ assert.match(result.stdout,/contribute.*--project/);
+ const skill=result.stdout.split('\n').find(line=>line.startsWith('Skill: '))?.slice(7);
+ assert.ok(skill);assert.ok(readFileSync(skill,'utf8').includes('name: vanya-ui'));
+}));
