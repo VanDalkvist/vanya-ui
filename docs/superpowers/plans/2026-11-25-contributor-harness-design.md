@@ -1,6 +1,6 @@
 # Contributor mode — design proposal and bounded implementation plan
 
-Status: PROPOSED / owner design review pending. No runtime implementation or merge authorization in this document.
+Status: APPROVED FOR IMPLEMENTATION (owner, 2026-11-25). Merge/release remains separate. S7 author review completed; independent implementation verification remains required.
 
 ## Context and invariants
 
@@ -61,3 +61,6 @@ One additional operation in existing CLI: contributor preflight. Proposed names:
 ## S7 preliminary plan review
 
 Avoid two registries or duplicate acceptance schemas. Keep matcher pure and adapters explicit; one CLI operation, no new dependencies. The owner dictionary must never be public or sent to an untrusted build. Pre-push is the confidentiality boundary; CI is a deployment gate. Test real exit and build wiring, including outgoing intermediate commits, and redact all outputs. Verify scope rather than claiming exhaustive confidentiality. Product-specific provenance, historic cleanup, new API-diff suite, browser automation expansion and UI marketing are parked. Await owner review before implementation.
+
+## Execution clarification
+Use a single contributor command, three explicit phases, no consumer acceptance schema changes. CI source checks tracked checkout; owner preflight scans outgoing commits, index and current tracked/nonignored candidate files with the external policy. Binary content is explicitly manual. Scope limits fail closed; no automatic private policy injection. Add tests before implementation in the change set; do not claim observed RED unless executed. Preserve existing components.

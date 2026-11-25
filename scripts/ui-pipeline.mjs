@@ -1,3 +1,4 @@
+import {checkContribution} from './contributor-boundary.mjs';
 #!/usr/bin/env node
 /**
  * Vanya Arc / UI — portable agent pipeline.
@@ -181,14 +182,14 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
 }
 function parseArgs(argv){
  const [command,...tail]=argv;
- if(!['inspect','check','verify','plan','review','lint','adopt','baseline','help'].includes(command||'help'))throw Error('Unknown command '+command);
+ if(!['inspect','check','verify','plan','review','lint','adopt','baseline','contribute','help'].includes(command||'help'))throw Error('Unknown command '+command);
  const options={};
  const boolean=new Set(['json','dry-run','migrate']);
  for(let i=0;i<tail.length;i++){
   const arg=tail[i];if(!arg.startsWith('--'))throw Error('Unexpected argument '+arg);
   const key=arg.slice(2);
   if(boolean.has(key)){options[key]=true;continue}
-  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification','sources','css-output'].includes(key))throw Error('Unknown option --'+key);
+  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification','sources','css-output','phase','policy','base'].includes(key))throw Error('Unknown option --'+key);
   const value=tail[++i];
   if(!value||value.startsWith('--'))throw Error('Missing value for --'+key);
   options[key]=value;
@@ -226,8 +227,13 @@ export function runCli(argv){
    +'Lint: lint --project <dir> [--sources src,app] [--package app] (requires installed @vanya/ui and frozen tools)\n'
    +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
    +'Review: review --receipt receipt.json [--verification verify.json] (checks recorded evidence and supplied machine results)\n'
+   +'Contributor: contribute --phase preflight|source|built --project <library> [--policy <private-file> --base <local-ref>] --json\n'
    +'For repeatable agent steps read <vanya-ui>/skills/vanya-ui/SKILL.md.');
   return 0;
+ }
+ if(command==='contribute'){
+  const outcome=checkContribution({project:options.project,phase:options.phase,policy:options.policy,base:options.base});
+  console.log(JSON.stringify(outcome,null,options.json?2:0));return outcome.status==='pass'?0:1;
  }
  if(command==='plan'){
   const scope=options.scope||'feature';
