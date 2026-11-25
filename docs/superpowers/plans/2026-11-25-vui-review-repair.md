@@ -12,3 +12,6 @@ Owner approved findings in PR #38 review 6059464700. Base c934e8c9bb8715466f9b9c
 
 ## S7 plan review
 Smallest viable repairs: use one option schema for help/validation; existing inspection and verification code moved without behavioral rewrite except explicit input validation. Reuse the real lint rules, not a regex imitation. Preserve token owner scope and baseline integrity. Test invalid mutations and result evidence, not merely output shape. Previous parser source probe reproduces RED logically; actual test execution RED not yet observed. Independent product review, visual QA and live skill evals remain blocked by runner availability. No extra CI workflow, framework, authentication, publication scanner or full redesign.
+
+## Implementation status
+Code and regression cases prepared for CI; no observed full RED/GREEN run in this environment. Existing baseline untouched; expanded lint results must be reviewed before acceptance. Independent S9 and agent evals remain NOT_VERIFIED/NOT_RUN.

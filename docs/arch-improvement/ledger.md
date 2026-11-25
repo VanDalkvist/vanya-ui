@@ -248,3 +248,6 @@ The publication-specific scanner, Git/history traversal, private policy contract
 
 ### CLI discovery
 Owner selected `vanya-arc-ui` / `vui` as aliases of the existing pipeline, with standard help and version. Preserve direct Node and existing CI lint entrypoints; symlink dispatch and both installed aliases covered by regression/consumer smoke cases. No additional runtime dependencies or command framework. CI pending.
+
+### VUI review repair — implementation
+Owner approved the bounded fixes in review 6059464700. CLI option validation derives from the command usage contract, rejects unsupported/duplicate options before side effects; inspection and verification extracted into cohesive modules with existing exports retained. Help exposes resolved local resources and both workflows. New-scope UI-12 requires an explicit source observation. Existing design lint pilot expanded to shared components and showcase, with actual component-path negative fixtures; original debt baseline unchanged. Tests for invalid mutation options, identity and help added. No additional runtime dependencies or product migration. Exact-head CI, actual expanded lint findings and independent S9/live agent evidence remain pending. Plan: docs/superpowers/plans/2026-11-25-vui-review-repair.md.
