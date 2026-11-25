@@ -17,3 +17,6 @@ Smallest viable repairs: use one option schema for help/validation; existing ins
 Code and regression cases prepared for CI; no observed full RED/GREEN run in this environment. Existing baseline untouched; expanded lint results must be reviewed before acceptance. Independent S9 and agent evals remain NOT_VERIFIED/NOT_RUN.
 
 Compatibility review: supported --mode flags for adopt/baseline/lint and explicit --json for plan/review remain accepted; --help is side-effect-free at any argument position. Existing documented invocation with options before --help is covered.
+
+## Follow-up from real consumer smoke
+- [ ] Ignore regular-file links outside the existing authored-source formats; preserve refusal of source and directory links. Real Ferma symptom: linked registry JSON blocked all diagnostics. Regression: inspect/check/verify --dry-run continue with linked JSON; authored JSX and directory links remain rejected. Review scope: no new traversal, source allowlist, dependency or consumer change. Exact-head CI required.

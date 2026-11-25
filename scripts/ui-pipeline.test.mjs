@@ -324,3 +324,30 @@ test('CLI help exposes actual canonical resource paths and workflow commands',()
  const skill=result.stdout.split('\n').find(line=>line.startsWith('Skill: '))?.slice(7);
  assert.ok(skill);assert.ok(readFileSync(skill,'utf8').includes('name: vanya-ui'));
 }));
+
+test('linked JSON data does not block React inspection, contract checks or verify planning',()=>fixture(root=>{
+ react(root);
+ file(root,'shared/registry.json','{"id":"shared"}');
+ const data=join(root,'app/src/registry.json');
+ symlinkSync(join(root,'shared/registry.json'),data,'file');
+ const cli=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const run=(...args)=>spawnSync(process.execPath,[cli,...args,'--project',root,'--json'],{cwd:root,encoding:'utf8'});
+ const inspected=run('inspect');
+ assert.equal(inspected.status,0,inspected.stderr+inspected.stdout);
+ const info=JSON.parse(inspected.stdout);
+ assert.equal(info.mode,'react');assert.equal(info.package,'app');assert.equal(info.hasTokensImport,true);
+ const checked=run('check');assert.equal(checked.status,0,checked.stderr+checked.stdout);
+ const planned=run('verify','--dry-run');assert.equal(planned.status,0,planned.stderr+planned.stdout);
+ assert.equal(JSON.parse(planned.stdout).status,'planned');
+ assert.equal(readFileSync(data,'utf8'),'{"id":"shared"}');
+}));
+test('authored source and directory symlinks remain blocked',()=>fixture(root=>{
+ react(root);
+ file(root,'shared/Outside.jsx','export const Outside=()=>null;');
+ const linked=join(root,'app/src/Outside.jsx');
+ symlinkSync(join(root,'shared/Outside.jsx'),linked,'file');
+ assert.throws(()=>inspectProject({project:root}),/Unsupported authored symlink: src\/Outside\.jsx/);
+ rmSync(linked);
+ symlinkSync(join(root,'shared'),join(root,'app/src/data.json'),'junction');
+ assert.throws(()=>inspectProject({project:root}),/Unsupported authored symlink: src\/data\.json/);
+}));
