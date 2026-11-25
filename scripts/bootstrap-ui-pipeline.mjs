@@ -21,8 +21,10 @@ export function bootstrap(project,library=defaultLibrary){
   'For UI and visual features read the canonical local skill:',link+'/skills/vanya-ui/SKILL.md','',
   'Portable commands (Node >=20; no Git or remote CI):','',
   '    node '+cli+' inspect --project .',
+  '    node '+cli+' plan --task "Describe one requested UI change" --target "/affected-route" > ui-receipt.json',
   '    node '+cli+' check --project .',
-  '    node '+cli+' verify --project .','',
+  '    node '+cli+' verify --project .',
+  '    node '+cli+' review --receipt ui-receipt.json','',
   'Actual browser/visual acceptance remains required; machine checks alone are not proof.',
   'If the library moves, rerun bootstrap from the new local path or update this pointer.',
   'GitHub Actions are NOT required, and must stay manual-only if used.',''
@@ -34,7 +36,7 @@ export function bootstrap(project,library=defaultLibrary){
   'Read the canonical skill: '+link+'/skills/vanya-ui/SKILL.md',
   'The local library is at '+link+' relative to this project root.',
   'Run: node '+cli+' inspect --project .',
-  'Then follow the canonical skill, run check and verify locally, and observe the UI in a real browser.',
+  'Then follow the canonical skill: scope the task with plan, implement, check/verify locally, observe UI and complete/review the receipt.',
   'No Git or GitHub dependency. Never equate successful build with successful UI QA.',''
  ].join('\n');
  const created=[];

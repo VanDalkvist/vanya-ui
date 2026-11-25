@@ -79,3 +79,61 @@ test('floating Vanya UI dependency is rejected even when imported',()=>fixture(r
  assert.equal(result.status,'fail');
  assert.ok(result.problems.some(x=>x.includes('immutable')));
 }));
+
+import {createAcceptancePlan,reviewAcceptance,criteria} from './ui-acceptance.mjs';
+function completePlan(scope='feature'){
+ const plan=createAcceptancePlan({task:'Fix catalog spacing',target:'/catalog',scope,libraryVersion:'0.4.2'});
+ for(const row of plan.criteria){
+  row.status='PASS';row.evidence=[{method:row.method,target:'/catalog',observation:'Fixture observation',viewport:'390x844',theme:'dark',command:'npm run build'}];
+ }
+ return plan;
+}
+test('task receipt is incomplete until each criterion is assessed',()=>{
+ const p=createAcceptancePlan({task:'Fix spacing',target:'/catalog'});
+ assert.equal(p.criteria.length,14);
+ assert.equal(reviewAcceptance(p).status,'incomplete');
+ assert.equal(reviewAcceptance(p).unresolved.length,14);
+ assert.throws(()=>createAcceptancePlan({task:'Fix spacing'}),/--target/);
+});
+test('receipt rejects missing/duplicate IDs, invalid exclusion and missing evidence',()=>{
+ const p=completePlan();
+ assert.equal(reviewAcceptance(p).status,'recorded');
+ p.criteria[0].status='N/A';p.criteria[0].reason='not applicable';
+ p.criteria[2].evidence=[];
+ p.criteria[3].status='N/A';p.criteria[3].reason='';
+ p.criteria.push(p.criteria[1]);p.criteria.splice(4,1);
+ const r=reviewAcceptance(p);
+ assert.equal(r.status,'invalid');
+ for(const re of [/Duplicate/,/Missing criterion/,/cannot be N\/A/,/PASS requires/,/N\/A requires/])assert.ok(r.errors.some(x=>re.test(x)));
+});
+test('migration requires composition, typography, interaction and execution rows; scoped feature can exclude unrelated shortcuts',()=>{
+ const p=completePlan();const row=p.criteria.find(x=>x.id==='UI-10');row.status='N/A';row.reason='No shortcut changed or affected';
+ assert.equal(reviewAcceptance(p).status,'recorded');
+ p.scope='migration';p.criteria.find(x=>x.id==='UI-03').status='N/A';p.criteria.find(x=>x.id==='UI-03').reason='none';
+ assert.equal(reviewAcceptance(p).status,'invalid');
+});
+test('browser evidence and unresolved failures cannot be silently accepted',()=>{
+ const p=completePlan();delete p.criteria.find(x=>x.id==='UI-11').evidence[0].viewport;
+ assert.equal(reviewAcceptance(p).status,'invalid');
+ const q=completePlan();q.criteria[6].status='NOT_VERIFIED';q.criteria[6].reason='Browser unavailable';
+ assert.equal(reviewAcceptance(q).status,'incomplete');
+ assert.equal(reviewAcceptance(q).visualReview,'DECLARED_ONLY');
+});
+test('plan and review CLI work without git or project dependencies',()=>fixture(root=>{
+ const script=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const p=spawnSync(process.execPath,[script,'plan','--task','Adjust card','--target','/cards'],{encoding:'utf8'});
+ assert.equal(p.status,0,p.stderr);
+ const plan=JSON.parse(p.stdout);file(root,'receipt.json',JSON.stringify(plan));
+ const r=spawnSync(process.execPath,[script,'review','--receipt',join(root,'receipt.json')],{encoding:'utf8'});
+ assert.equal(r.status,1,r.stderr);assert.equal(JSON.parse(r.stdout).status,'incomplete');
+}));
+test('inspect reports declared and installed versions and supports explicit arbitrary package path',()=>fixture(root=>{
+ react(root);const pkg=JSON.parse(readFileSync(join(root,'app/package.json'),'utf8'));
+ file(root,'nested/product/package.json',JSON.stringify(pkg));
+ file(root,'nested/product/src/App.jsx','import {ScrollRegion} from "@vanya/ui"; import "@vanya/ui/tokens.css";');
+ file(root,'nested/product/node_modules/@vanya/ui/package.json',JSON.stringify({name:'@vanya/ui',version:'0.0.1'}));
+ const info=inspectProject({project:root,packageDir:'nested/product'});
+ assert.equal(info.installedVersion,'0.0.1');assert.equal(info.dependencySpec,'file:../ui');assert.equal(info.hasTokensImport,true);
+ assert.ok(checkProject(info).warnings.some(x=>x.includes('differs from local guides')));
+}));
+test('acceptance canonical documents exist locally',()=>{for(const c of criteria)assert.ok(readFileSync(new URL('../'+c.canonical,import.meta.url),'utf8').length>0,c.canonical)});

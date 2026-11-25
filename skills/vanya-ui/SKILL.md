@@ -16,7 +16,18 @@ For any UI feature, layout, component, form, navigation, loading/empty/error sta
 3. Read the returned local `DESIGN.md`, `src/index.ts`, `src/tokens.css`, relevant `src/components/*`, `docs/patterns/*` and research. Verify actual component exports and props in source.
 4. If the consuming project lacks an agent entrypoint, run `node PATH_TO_VANYA_UI/scripts/bootstrap-ui-pipeline.mjs --project PATH_TO_PROJECT` once. It creates local pointers only. **No GitHub workflow, dependency or token is installed.**
 
-## Phase 1 — model the task before coding
+## Phase 1 — scope and acceptance before coding
+
+**Scope the requested work.** Use `feature` for one component/interaction/change, `screen` for one screen or coherent flow, `migration` only for an explicit design-system adoption/upgrade across named routes. Keep unaffected surfaces stable. Never treat a small UI task as authorization to migrate the entire product or upgrade its dependency. Record the task, affected route/component/states and unchanged surfaces. For each criterion use the canonical file linked in the receipt; read relevant sections before implementing.
+
+```sh
+node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs plan --scope feature --task "Describe the requested change" --target "/affected-route" > ui-receipt.json
+```
+
+Use a task-local ignored or otherwise approved evidence file. Every stable UI-01–UI-14 row must be assessed. Applicable rows remain PENDING until verified; unrelated rows use N/A with a concrete task-specific reason. Core scope/components/visual/privacy rows always apply. Migration additionally requires composition, typography, interaction and execution. Do not use N/A to hide an untested applicable rule. On screen/migration scope review the affected complete composition and adjacent/shared surfaces; on feature scope verify the changed behavior and immediate regressions. See [acceptance protocol](../../docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt).
+
+**Version alignment:** inspect reports local guide version, declared dependency and detected installed package version. If they differ or install cannot be located, use actual installed exports and props for API decisions; upgrade only with explicit task scope. Check global CSS wiring, Tailwind source scanning and loaded font weights. A matching version string alone cannot prove identical source SHA.
+
 
 **Typography:** follow [semantic type roles and tracking](../../docs/patterns/typography.md). Manrope for ordinary actions, compact mono action tracking .03em via the shared token, separate short metadata role, Spectral for optional Russian/English editorial prose, quotes and titles via ui-type-editorial-heading/body; applications load used weights and italics separately. Verify rendered glyphs, not only CSS family declarations. Verify actual loaded fonts and Russian/English labels.
 
@@ -69,6 +80,15 @@ Automated tests are necessary but **do not prove visual quality**. In a real loc
 Record screenshot or a concrete reproducible observation. If interactive browser access is impossible, report **NOT VERIFIED**; a green build or Playwright run does not substitute for reviewing the rendered interface.
 
 ## Phase 5 — close the whole loop
+
+Fill every receipt row with `PASS`, `FAIL`, `N/A` or `NOT_VERIFIED` and a specific reason where required. A PASS records method, target and actual observation; browser evidence also records viewport and theme, command evidence includes the executed command. Link screenshots/logs locally where available. Compare measured/observed result with the acceptance text; rerun affected checks after final fixes. Run:
+
+```sh
+node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs review --receipt ui-receipt.json
+```
+
+Exit 0 (`recorded`) means the receipt is structurally complete; it cannot authenticate claims or judge aesthetics. Inspect actual evidence before marking UI_VERIFIED/READY. Nonzero (`invalid`/`incomplete`) means repair missing evidence, failures or unresolved checks; report blockers. For static artifacts without executable tooling, justify UI-13 N/A only when genuinely inapplicable and obtain real visual evidence. Never fabricate PASS. Summarize applicable rows, justified exclusions and unresolved checks in the handoff; keep private artifacts out of public commits.
+
 
 Check final diff and privacy constraints, fix failures, repeat machine checks and affected browser scenarios, then report the actual evidence. The handoff needs: components reused, commands executed, automated result, observed UI result, remaining blockers and deployment readback (if relevant). Never declare READY for an untested behavior.
 

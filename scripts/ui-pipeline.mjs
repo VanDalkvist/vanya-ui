@@ -9,6 +9,7 @@ import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
 import {resolve,relative,join,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
+import {createAcceptancePlan,reviewAcceptance,criteria} from './ui-acceptance.mjs';
 
 const libraryRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const sourceExtensions=new Set(['.tsx','.jsx','.ts','.js','.mjs','.css','.scss','.html','.svg','.vue','.svelte']);
@@ -69,7 +70,7 @@ function selectPackage(root,packages,requested,mode){
  if(requested){
   const dir=resolve(root,requested);
   if(!contained(root,dir))throw Error('--package must be inside --project');
-  const match=packages.find(p=>p.dir===dir);
+  const match=packages.find(p=>p.dir===dir)||(()=>{const data=json(join(dir,'package.json'));return data?{id:relative(root,dir)||'.',dir,data}:null})();
   if(!match)throw Error('package.json not found in --package '+requested);
   return match;
  }
@@ -93,19 +94,23 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
  const relevantSources=files.filter(f=>/\.(tsx|jsx|ts|js|mjs|css|scss|vue|svelte|html)$/.test(f))
   .slice(0,1200).map(f=>read(f).slice(0,120000)).join('\n');
  const scripts=chosen?.data.scripts||{};
+ const libraryVersion=json(join(libraryRoot,'package.json'))?.version||null;
+ const installed=chosen?[chosen.dir,root].map(dir=>json(join(dir,'node_modules','@vanya','ui','package.json'))).find(p=>p?.name==='@vanya/ui'):null;
  return {
   project:root,package:chosen?.id||null,packageRoot:scanRoot,
   mode:finalMode,sourceFiles:files.length,visualFiles:visualFiles.length,
-  library:libraryRoot,hasPolicy:/\bvanya\s*(?:[-/]\s*)?(?:arc\s*)?(?:[-/]\s*)?ui\b|@vanya\/ui/i.test(policy),
+  library:libraryRoot,libraryVersion,dependencySpec:chosen?vanyaSpec(chosen.data):null,installedVersion:installed?.version||null,
+  hasPolicy:/\bvanya\s*(?:[-/]\s*)?(?:arc\s*)?(?:[-/]\s*)?ui\b|@vanya\/ui/i.test(policy),
   hasDependency:chosen?hasVanya(chosen.data):false,
   pinnedDependency:chosen?pinned(vanyaSpec(chosen.data)):false,
   hasImport:/(?:from\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"]|@import\s*['"]@vanya\/ui(?:\/[^'"]*)?['"])/.test(relevantSources),
+  hasTokensImport:/(?:@import\s*|import\s*)['"]@vanya\/ui\/tokens\.css['"]/.test(relevantSources),
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
   buildScript:Boolean(scripts.build),
   scripts,manager:chosen?detectManager(chosen.dir,root):null,
   documents:['skills/vanya-ui/SKILL.md','DESIGN.md','src/index.ts','src/tokens.css',
    'docs/patterns/list-detail-composition.md','docs/research/workspace-scroll-composition-2026-11-21.md',
-   'docs/patterns/browser-navigation.md'].map(name=>join(libraryRoot,name))
+   'docs/patterns/browser-navigation.md',...criteria.map(c=>c.canonical)].filter((name,i,all)=>all.indexOf(name)===i).map(name=>join(libraryRoot,name))
  };
 }
 export function checkProject(info){
@@ -116,6 +121,9 @@ export function checkProject(info){
   if(!info.package)problems.push('React UI needs a selected package.json; use --package');
   if(!info.hasDependency)problems.push('React UI must use a pinned @vanya/ui package dependency');
   else if(!info.pinnedDependency)problems.push('Pin @vanya/ui to a verified immutable version/commit or local file/workspace dependency');
+  if(info.hasDependency&&!info.installedVersion)warnings.push('Installed @vanya/ui version not detected; inspect actual installed package before coding');
+  if(info.installedVersion&&info.libraryVersion&&info.installedVersion!==info.libraryVersion)warnings.push('Installed @vanya/ui '+info.installedVersion+' differs from local guides '+info.libraryVersion+'; check installed APIs or explicitly upgrade');
+  if(info.hasImport&&!info.hasTokensImport)warnings.push('No direct tokens.css import detected in scanned sources; verify actual global CSS wiring');
   if(!info.hasImport)problems.push('Import real @vanya/ui components or @vanya/ui/tokens.css in project source');
   if(!info.buildScript)problems.push('Add a reproducible build script to the UI package');
   if(!info.browserScript)problems.push('Add a runnable test:e2e, test:browser or test:ui script');
@@ -160,14 +168,14 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
 }
 function parseArgs(argv){
  const [command,...tail]=argv;
- if(!['inspect','check','verify','help'].includes(command||'help'))throw Error('Unknown command '+command);
+ if(!['inspect','check','verify','plan','review','help'].includes(command||'help'))throw Error('Unknown command '+command);
  const options={};
  const boolean=new Set(['json','dry-run']);
  for(let i=0;i<tail.length;i++){
   const arg=tail[i];if(!arg.startsWith('--'))throw Error('Unexpected argument '+arg);
   const key=arg.slice(2);
   if(boolean.has(key)){options[key]=true;continue}
-  if(!['project','package','mode','manager','build-script','browser-script','unit-script'].includes(key))throw Error('Unknown option --'+key);
+  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt'].includes(key))throw Error('Unknown option --'+key);
   const value=tail[++i];
   if(!value||value.startsWith('--'))throw Error('Missing value for --'+key);
   options[key]=value;
@@ -188,6 +196,8 @@ function output(obj,asJson){
   if(obj.visualReview)console.log('Visual/interaction review: '+obj.visualReview+' (agent must verify independently)');
   if(obj.hasPolicy!==undefined)console.log('Canonical policy: '+(obj.hasPolicy?'found':'missing'));
   if(obj.browserScript)console.log('Browser test: '+obj.browserScript);
+  if(obj.libraryVersion)console.log('Local guide version: '+obj.libraryVersion);
+  if(obj.dependencySpec)console.log('Declared dependency: '+obj.dependencySpec+' / installed: '+(obj.installedVersion||'unknown'));
  }
 }
 export function runCli(argv){
@@ -196,8 +206,19 @@ export function runCli(argv){
   console.log('Vanya UI portable agent pipeline (Node >=20; offline; no GitHub)\n'
    +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
    +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
+   +'Plan: plan --task <description> --target <route/component> [--scope feature|screen|migration] > receipt.json\n'
+   +'Review: review --receipt receipt.json [--json] (checks recorded evidence only)\n'
    +'For repeatable agent steps read <vanya-ui>/skills/vanya-ui/SKILL.md.');
   return 0;
+ }
+ if(command==='plan'){
+  console.log(JSON.stringify(createAcceptancePlan({task:options.task,target:options.target,scope:options.scope||'feature',libraryVersion:json(join(libraryRoot,'package.json'))?.version||null}),null,2));return 0;
+ }
+ if(command==='review'){
+  if(!options.receipt)throw Error('review requires --receipt <path>');
+  const receipt=JSON.parse(readFileSync(resolve(options.receipt),'utf8'));
+  const review=reviewAcceptance(receipt);
+  console.log(JSON.stringify(review,null,2));return review.status==='recorded'?0:1;
  }
  const info=inspectProject({project:options.project||'.',mode:options.mode||'auto',packageDir:options.package});
  if(command==='inspect'){output(info,options.json);return 0}

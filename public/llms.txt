@@ -6,7 +6,7 @@
 - [Stable geometry and composition](https://ui.vanya-arc.dev/reference/composition.md): Protected elements, changing data and responsive layout.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Keep private data and internal evidence out of public output.
 - [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.
-- [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → check → verify locally on any machine, without GitHub, CI, tokens or fixed paths.
+- [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → plan → check → verify → review locally on any machine, without GitHub, CI, tokens or fixed paths.
 - [List–detail composition](https://ui.vanya-arc.dev/reference/list-detail.md): Normative layout, scroll owners, navigation and responsive acceptance.
 - [Release/version policy](https://ui.vanya-arc.dev/reference/versioning.md): SemVer, immutable SHA pins, verification and manual Git tags.
 - [Actual component exports](https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts): Consult the exact source and installed version for API signatures.

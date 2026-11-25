@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-11-25
+
+### Added — portable task acceptance
+- Scope UI work to a feature, screen or explicit migration; plan stable UI criteria with canonical references and review structured evidence. Existing CLI commands remain compatible; review validates declared evidence structure only.
+- Inspect reports local guide version, dependency spec, installed version and CSS wiring warnings; explicit package selection supports nested paths. Agent skill, bootstrap and documentation use the scoped acceptance loop.
+
 ## [0.4.1] - 2026-11-25
 
 ### Fixed — browser QA

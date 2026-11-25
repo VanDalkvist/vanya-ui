@@ -25,7 +25,7 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 - Public data boundary: https://ui.vanya-arc.dev/reference/publication-safety.md
 - Install and source package constraints: https://ui.vanya-arc.dev/reference/installation.md
 - Portable agent skill: https://ui.vanya-arc.dev/reference/agent-skill.md
-- Local inspect/check/verify workflow: https://ui.vanya-arc.dev/reference/ui-pipeline.md
+- Local inspect/plan/check/verify/review workflow (task-scoped evidence): https://ui.vanya-arc.dev/reference/ui-pipeline.md
 - List-detail layout and scroll acceptance: https://ui.vanya-arc.dev/reference/list-detail.md
 - Package versioning and SHA pinning: https://ui.vanya-arc.dev/reference/versioning.md
 - Hover, focus and selection patterns: https://ui.vanya-arc.dev/reference/interaction-states.md

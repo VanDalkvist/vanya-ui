@@ -8,7 +8,7 @@
 - [Безопасность публикации](https://ui.vanya-arc.dev/reference/publication-safety.md) — границы публичных материалов.
 
 - [Канонический скилл Vanya UI](https://ui.vanya-arc.dev/reference/agent-skill.md) — полный переносимый рабочий цикл без GitHub.
-- [Локальный пайплайн](https://ui.vanya-arc.dev/reference/ui-pipeline.md) — команды `inspect`, `check`, `verify` и проверка в браузере.
+- [Локальный пайплайн](https://ui.vanya-arc.dev/reference/ui-pipeline.md) — команды `inspect`, `plan`, `check`, `verify`, `review` и приёмка конкретной задачи в браузере.
 - [Композиция list–detail](https://ui.vanya-arc.dev/reference/list-detail.md) — прокрутка, breadcrumbs, размеры областей и критерии приёмки.
 - [Версии и обновления](https://ui.vanya-arc.dev/reference/versioning.md) — SemVer, теги, SHA и как отличать релиз от деплоя сайта.
 - [Исходные экспорты компонентов](https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts) — проверять по версии проекта, не выдумывать API.

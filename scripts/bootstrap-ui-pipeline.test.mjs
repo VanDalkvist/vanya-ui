@@ -11,6 +11,8 @@ test('local agent bootstrap works with no git and does not alter CI',()=>{
   assert.equal(first.created.length,2);
   const skill=readFileSync(join(root,'.agents/skills/vanya-ui/SKILL.md'),'utf8');
   assert.match(skill,/ui-pipeline\.mjs/);
+  assert.match(readFileSync(join(root,'UI_CONTRACT.md'),'utf8'),/plan --task/);
+  assert.match(readFileSync(join(root,'UI_CONTRACT.md'),'utf8'),/review --receipt/);
   assert.doesNotMatch(skill,/github\.com/);
   assert.match(readFileSync(join(root,'UI_CONTRACT.md'),'utf8'),/check --project/);
   assert.match(readFileSync(join(root,'UI_CONTRACT.md'),'utf8'),/node \"[^\"]+ui-pipeline\.mjs\" check/);

@@ -19,6 +19,8 @@ node /path/to/vanya-ui/scripts/ui-pipeline.mjs check --project /path/to/app
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/app --package app
 ```
 
+Для каждой UI-задачи: `plan --scope feature --task "Описание задачи" --target "/route" > ui-receipt.json`, затем реализация, `check`, `verify`, браузерная приёмка и `review --receipt ui-receipt.json`. [Протокол приёмки](docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt) задаёт критерии и доказательства; review проверяет структуру отчёта. Массовая миграция требует явной задачи. Для существующих проектов достаточно актуального локального скилла; bootstrap сохраняет пользовательские инструкции.
+
 Самопроверка переносимого инструмента: `npm run test:agent` либо `node --test scripts/ui-pipeline.test.mjs scripts/bootstrap-ui-pipeline.test.mjs` (работает без GitHub). Bootstrap создаёт только локальные указатели для агентов, а не GitHub workflow. `verify` вызывает **существующие локальные** build/browser скрипты приложения; предварительная установка зависимостей/браузера — отдельная задача приложения. Вывод `--json` пригоден для агента. Пройти тесты недостаточно: скилл требует визуальную проверку поведения в браузере. GitHub workflow остаётся необязательной ручной обёрткой.
 
 ### Ссылки на автора и исходники
