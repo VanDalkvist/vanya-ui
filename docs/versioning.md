@@ -2,7 +2,7 @@
 
 Пакет исходников — `@vanya/ui`; [ui.vanya-arc.dev](https://ui.vanya-arc.dev/) — обновляемая документация. **Деплой сайта из main не равен релизу пакета.** Релиз считается опубликованным только при наличии проверенного коммита и тега `vX.Y.Z`. GitHub Releases и npm-публикации пока не настроены.
 
-## SemVer до 1.0
+## SemVer
 
 - `MAJOR.MINOR.PATCH`. Пока API имеет версию `0.x`, несовместимые изменения поднимают MINOR; совместимые исправления — PATCH. Совместимые новые возможности могут повышать MINOR. После 1.0 несовместимость означает MAJOR.
 - Номер меняется намеренно, вместе с [CHANGELOG](../CHANGELOG.md). Тег указывает только на коммит, прошедший проверку; не передвигайте опубликованные теги.
@@ -87,4 +87,8 @@ The last verified tag listed above is a pre-harness release. Candidate 0.5.0 is 
 **0.5.0 / BUILD_VERIFIED / UNTAGGED** — [`3d344042218c6a5323e2c51da0e7582bdca1d30a`](https://github.com/VanDalkvist/vanya-ui/commit/3d344042218c6a5323e2c51da0e7582bdca1d30a), 2026-11-25. Cloudflare CI: 125 Vitest, 37 Node, 3 harness E2E; реальные npm/React 18 и Bun/React 19 consumer smoke, включая отрицательные тесты линтинга и compiled CSS, прошли. Этот неизменяемый SHA доступен для явно согласованного пилотного внедрения. UI_VERIFIED и релизный тег открыты; текущий опубликованный релиз остаётся 0.4.1. Установка кандидата через `https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/3d344042218c6a5323e2c51da0e7582bdca1d30a` с lockfile. Существующие продукты сохраняют закреплённые версии до отдельного решения.
 
 ## Identity-capable candidate
-The 0.5.0 verified harness pin above predates `productMark` and contributor mode. The 0.6.0 source candidate adds them; do not advertise it as verified until exact revision tests and distribution checks pass. Existing lockup defaults remain compatible. New identity work selects an approved mark explicitly; older pins use available APIs and existing approved assets. No automatic upgrades.
+The 0.5.0 verified harness pin above predates `productMark` and contributor mode. The 0.6.0 candidate [`260a680c0fecb0491d3ccad3d176af11a090ca76`](https://github.com/VanDalkvist/vanya-ui/commit/260a680c0fecb0491d3ccad3d176af11a090ca76) passed Cloudflare CI: 131 Vitest, 46 Node, zero new design-lint findings, negative fixtures and both React/npm/Bun consumer combinations. Existing lockup defaults remain compatible. New identity work selects an approved mark explicitly; older pins use available APIs and existing approved assets. No automatic upgrades.
+
+## 1.0.0 — first stable major
+
+Owner approved merge and major promotion on 2026-11-25 based on the preceding green CI. Follow-up independent architecture/product review, visual regression review and live agent exercise are explicitly deferred. The 1.0.0 change is release metadata/documentation; the tested component and CLI implementation and dependency pin are preserved. Record fresh successful Cloudflare build and immutable tag separately; until then PACKAGE_VERSION is 1.0.0 and TAGGED is unconfirmed. The owner accepts the outstanding visual/agent risks for this release only. Product upgrades remain separate.
