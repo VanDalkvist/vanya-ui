@@ -8,7 +8,7 @@ const block=[
  start,'## Vanya UI design-system harness',
  'Read the installed canonical skill before every UI task. From this package directory resolve it with:',
  '    node -p "require(\'node:path\').resolve(require.resolve(\'@vanya/ui/tokens.css\'), \'../../skills/vanya-ui/SKILL.md\')"',
- 'Use real @vanya/ui components and tokens. Run the canonical lint:design package script and include it in existing CI before deploy.',
+ 'Use real @vanya/ui components and tokens. Run the canonical lint:design package script locally. In existing CI before deploy invoke the installed package directly: node --input-type=module -e "import \'@vanya/ui/lint\'".',
  'Source scope is declared in vanya-ui.config.json. Use the installed UI pipeline check/verify and retain actual browser acceptance evidence.',
  end
 ].join('\n');

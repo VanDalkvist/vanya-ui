@@ -9,7 +9,9 @@ import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
 import {resolve,relative,join,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
-import {runConsumerLint,inspectHarness} from './design-harness.mjs';
+import {authoredInventory,componentUsage} from './design-source-inventory.mjs';
+import {checkProject} from './ui-contract.mjs';
+import {runConsumerLint,inspectHarness,verificationFingerprint} from './design-harness.mjs';
 import {adoptConsumer} from './adopt-ui-harness.mjs';
 import {captureConsumerBaseline} from './capture-ui-baseline.mjs';
 import {createAcceptancePlan,reviewAcceptance,criteria} from './ui-acceptance.mjs';
@@ -106,6 +108,10 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
  const hasTailwindSource=scanned.some(({path,source})=>/\.(css|scss)$/.test(path)&&/@source\s+['"][^'"]*@vanya\/ui\/src\/?['"]/.test(source.replace(/\/\*[\s\S]*?\*\//g,'')));
  const scripts=chosen?.data.scripts||{};
  const libraryVersion=json(join(libraryRoot,'package.json'))?.version||null;
+ const designHarness=finalMode==='react'&&chosen?inspectHarness(scanRoot,scripts):null;
+ const usage=finalMode==='react'&&chosen?componentUsage(authoredInventory(scanRoot)):[];
+ let fingerprint=null;
+ if(designHarness?.status==='ready')try{fingerprint=verificationFingerprint(scanRoot,root)}catch(e){designHarness.status='invalid';designHarness.problems.push(e.message)}
  const installed=chosen?[chosen.dir,root].map(dir=>json(join(dir,'node_modules','@vanya','ui','package.json'))).find(p=>p?.name==='@vanya/ui'):null;
  return {
   project:root,package:chosen?.id||null,packageRoot:scanRoot,
@@ -119,34 +125,13 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
   buildScript:Boolean(scripts.build),
   scripts,manager:chosen?detectManager(chosen.dir,root):null,
-  designHarness:finalMode==='react'&&chosen?inspectHarness(scanRoot,scripts):null,
+  designHarness,componentUsage:usage,verificationFingerprint:fingerprint,
   documents:['skills/vanya-ui/SKILL.md','DESIGN.md','src/index.ts','src/tokens.css',
    'docs/patterns/list-detail-composition.md','docs/research/workspace-scroll-composition-2026-11-21.md',
    'docs/patterns/browser-navigation.md',...criteria.map(c=>c.canonical)].filter((name,i,all)=>all.indexOf(name)===i).map(name=>join(libraryRoot,name))
  };
 }
-export function checkProject(info){
- const problems=[],warnings=[];
- if(info.mode==='none')return {status:'skip',problems,warnings:['No UI surface detected; pass --mode visual/react if this is a new UI feature']};
- if(!info.hasPolicy)problems.push('Create UI_CONTRACT.md referencing the canonical Vanya UI skill (see bootstrap-ui-pipeline.mjs)');
- if(info.mode==='react'){
-  if(!info.package)problems.push('React UI needs a selected package.json; use --package');
-  if(!info.hasDependency)problems.push('React UI must use a pinned @vanya/ui package dependency');
-  else if(!info.pinnedDependency)problems.push('Pin @vanya/ui to a verified immutable version/commit or local file/workspace dependency');
-  if(info.hasDependency&&!info.installedVersion)warnings.push('Installed @vanya/ui version not detected; inspect actual installed package before coding');
-  if(info.installedVersion&&info.libraryVersion&&info.installedVersion!==info.libraryVersion)warnings.push('Installed @vanya/ui '+info.installedVersion+' differs from local guides '+info.libraryVersion+'; check installed APIs or explicitly upgrade');
-  if(!info.hasTokensImport)problems.push('Import @vanya/ui/tokens.css in the global CSS entry or a side-effect JS/TS import (literal source check)');
-  if(info.hasTokensImport&&!info.hasTailwindSource)warnings.push('No explicit @source path to @vanya/ui/src detected; confirm Tailwind 4 scans the installed sources or equivalent configuration');
-  if(!info.hasImport)problems.push('Import real @vanya/ui components or @vanya/ui/tokens.css in project source');
-  if(!info.buildScript)problems.push('Add a reproducible build script to the UI package');
-  if(!info.browserScript)problems.push('Add a runnable test:e2e, test:browser or test:ui script');
-  if(info.designHarness?.status!=='ready')problems.push(...(info.designHarness?.problems||['Adopt the canonical Vanya UI design harness']));
- }else{
-  if(!info.visualFiles)warnings.push('No existing visual source yet; write the UI then rerun');
-  if(!info.browserScript)warnings.push('No browser script; visual acceptance must be recorded separately');
- }
- return {status:problems.length?'fail':'pass',problems,warnings};
-}
+export {checkProject};
 function runScript(info,manager,name,asJson=false){
  const dir=info.packageRoot;
  const args=manager==='yarn'?[name]:['run',name];
@@ -158,7 +143,7 @@ function runScript(info,manager,name,asJson=false){
 }
 export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={},executeLint=runConsumerLint){
  const checked=checkProject(info);
- const result={project:info.project,package:info.package,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked'};
+ const result={project:info.project,package:info.package,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked',verificationFingerprint:info.verificationFingerprint};
  if(checked.status==='skip'){result.status='skipped';return result}
  if(checked.status==='fail'){result.issues=checked.problems;return result}
  if(!info.package){result.issues=['No executable package.json. Visual review required; cannot certify automatically'];return result}
@@ -170,7 +155,10 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
  if(info.mode==='react'&&!browser){result.issues=['No browser-test script'];return result}
  const tasks=[...(unitScript?[unitScript]:[]),build,...(browser?[browser]:[])];
  const requiresLint=info.mode==='react';
- if(requiresLint)result.lintScript='lint:design';
+ if(requiresLint){
+  result.lintScript='lint:design';
+  if(build!=='build'||browser!==info.browserScript){result.issues=['React verification must run canonical build and selected browser script'];return result}
+ }
  for(const name of tasks)if(!info.scripts[name]){result.issues=['Missing script '+name];return result}
  if(dryRun){result.status='planned';result.checks=[...(requiresLint?['lint:design']:[]),...tasks].map(script=>({script,status:'NOT_RUN'}));return result}
  if(requiresLint){
@@ -185,6 +173,7 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
   result.checks.push(item);
   if(item.status!=='passed'){result.status='failed';return result}
  }
+ if(requiresLint&&verificationFingerprint(info.packageRoot,info.project)!==info.verificationFingerprint){result.status='failed';result.issues=['Source or design policy changed during verification; rerun after final edits'];return result}
  result.status='passed';
  // Browser tests have executed, but real visual exploration, keyboard and theme
  // evidence must be collected by the agent. Never declare these verified by build.

@@ -18,7 +18,7 @@ function react(root,opts={}){
  mkdirSync(join(root,'app/node_modules/@vanya'),{recursive:true});
  symlinkSync(new URL('../',import.meta.url).pathname,join(root,'app/node_modules/@vanya/ui'),'junction');
  if(opts.tokens!==false)file(root,'app/src/style.css','@import "@vanya/ui/tokens.css";\n@source "../node_modules/@vanya/ui/src";');
- file(root,'app/src/App.jsx',opts.import===false?'export const App=()=>null;':'import {ScrollRegion} from "@vanya/ui"; export const App=()=>ScrollRegion;');
+ file(root,'app/src/App.jsx',opts.import===false?'export const App=()=>null;':'import {ScrollRegion} from "@vanya/ui"; export const App=()=> <ScrollRegion/>;');
  file(root,'app/build.mjs','console.log("built");');
  file(root,'app/browser.mjs','console.log("browser-ok");');
 }
