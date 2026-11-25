@@ -64,3 +64,6 @@ Avoid two registries or duplicate acceptance schemas. Keep matcher pure and adap
 
 ## Execution clarification
 Use a single contributor command, three explicit phases, no consumer acceptance schema changes. CI source checks tracked checkout; owner preflight scans outgoing commits, index and current tracked/nonignored candidate files with the external policy. Binary content is explicitly manual. Scope limits fail closed; no automatic private policy injection. Add tests before implementation in the change set; do not claim observed RED unless executed. Preserve existing components.
+
+## Owner clarification — scope of cleanup
+Explicitly approved historical and technical references may remain. Keep the public canon independent and preserve legitimate source attribution; remove obsolete references specifically selected by the owner. No further broad provenance rewrite or runtime changes. The private policy contains disallowed identifiers only, with precise terms to avoid flagging approved references.

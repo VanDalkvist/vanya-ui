@@ -8,7 +8,7 @@ Read DESIGN.md, actual exports and relevant canonical patterns. Inspect the cand
 
 ## 2. Generalize within the originating project
 
-Prepare a bounded candidate with portable inputs and outputs, existing tokens and components, synthetic examples, applicable states and accessible interactions. Verify rights to contribute the code or rule. Keep originating-service names, repository paths, URLs, commit IDs, screenshots, adoption records and data outside the public library, even if independently public. Keep origin evidence locally or in its owning project. Do not change unrelated exports or consumer pins. Use the existing source, licensing and publication rules.
+Prepare a bounded candidate with portable inputs and outputs, existing tokens and components, synthetic examples, applicable states and accessible interactions. Verify rights to contribute the code or rule. Keep unapproved originating-service identities, screenshots, adoption records and data outside the public library. Explicitly approved public technical references and historical attribution may remain. Keep private origin evidence locally or in its owning project; reusable contracts must remain independent. Do not change unrelated exports or consumer pins. Use the existing source, licensing and publication rules.
 
 ## 3. Verify and review
 

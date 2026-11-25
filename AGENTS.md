@@ -18,7 +18,7 @@ GitHub Actions, if present, are optional **manual-only** adapters. Never add pus
 
 For a new official Vanya Arc service or an identity change, read [identity integration](docs/identity/brand.md) and the canonical brand procedure. Propose an individual wave-derived mark and matching favicon, obtain owner approval, and use the installed `productMark` slot when supported; older pins retain existing behavior and use explicit text-only or existing approved assets; parent/UI retain V→A. Record UI-12 evidence and pending approval. Preserve existing approved product marks.
 
-For explicit contributions to the library, follow [the contributor workflow](docs/patterns/contributing.md). Run private preflight before public push, generic source/build gates in the existing CI, and review the actual publication candidate. Preserve existing components and generic presets; never include actual consuming-service identities or provenance in public artifacts.
+For explicit contributions to the library, follow [the contributor workflow](docs/patterns/contributing.md). Run private preflight before public push, generic source/build gates in the existing CI, and review the actual publication candidate. Preserve existing components and generic presets; keep unapproved consumer identities and private provenance out of public artifacts; retain explicitly approved technical references when relevant.
 
 Respect `DESIGN.md`, all license/source/publication policies and actual component source; never leak private project data into this public repo.
 

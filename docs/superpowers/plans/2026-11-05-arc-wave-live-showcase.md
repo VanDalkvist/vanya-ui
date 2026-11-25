@@ -5,7 +5,7 @@
 **Goal:** Replace the handwritten catalog with real package components, restore Manrope UI hierarchy, and demonstrate open-space composition with contextual detail.
 **Architecture:** Both existing HTML URLs mount the same React showcase. `src/showcase` owns demo state/content/layout; exported primitives remain domain-independent. CSS tokens own shared spacing, readable colors and overlay elevation. Agent documentation reads actual CSS values rather than a parallel palette.
 **Tech Stack:** Existing React 19, Vite 6, Tailwind 4, Vitest/testing-library; no new runtime dependencies.
-**Spec:** User's three remaining findings in BB thread thr_iqfqpdagcr; research artifact and light reference captures in that thread. hearth-taste was deleted at user's request and must not be recreated. Third-party skills are read-only.
+**Spec:** User's three remaining findings in BB thread thr_iqfqpdagcr; research artifact and light reference captures in that thread. Third-party skills are read-only.
 
 ## Architecture context / constraints
 - Existing `src/index.ts` exports are the public contract; preserve props and both catalog URLs.
