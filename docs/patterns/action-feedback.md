@@ -46,7 +46,7 @@ Do not display a success check before a response. If a route changes instantly, 
 
 ### 3. Genuine input and keyboard semantics
 
-- A real clickable area must have an action. `CraftCard` without `onClick` no longer receives a pointer cursor and fake interaction. With `onClick`, keyboard Enter/Space must activate. Avoid placing nested inputs inside a click-to-activate div; instead choose an explicit button outside.
+- `CraftCard` is passive without a real `onClick` or when `isInteractive={false}`. With `onClick` and omitted/true `isInteractive`, it exposes a card action and Enter/Space activation. A supplied onKeyDown may cancel the library activation with preventDefault. Nested interactive controls own their clicks; the card action ignores bubbled clicks from them. For content with independent links, buttons or inputs, prefer a passive card with explicit native actions: nested controls inside a role=button can impair accessibility. Caller-supplied role, tabIndex, classes and custom handlers remain the caller's responsibility. [Migration](../versioning.md).
 - `DeskSlotCard` uses **one actual overlay native button** to open the card and an *independent* park button; do not make the wrapper `onClick` mouse-only or put a button inside a button.
 - `Minimap` exposes a focusable seek `role=slider` with `aria-valuenow`; Home/End/arrow/Page keys must seek just like pointer clicks. The consumer owns the updated position (controlled from/to).
 - The same interaction-feedback contract applies to dismissed overlays, search clear, menu items and expressive timeline actions; large motion is not required to acknowledge a press.

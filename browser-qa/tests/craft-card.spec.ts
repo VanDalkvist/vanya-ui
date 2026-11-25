@@ -1,0 +1,23 @@
+import {expect,test} from "@playwright/test";
+test("card activation, passive controls and explicit opt-out",async({page})=>{
+ await page.goto("/#craft-card");
+ const section=page.locator("#craft-card");
+ const action=section.getByRole("button",{name:"Открыть карточку"});
+ const count=section.getByText("Открытий: 0",{exact:true});
+ await expect(count).toBeVisible();
+ await action.click();
+ await expect(section.getByText("Открытий: 1",{exact:true})).toBeVisible();
+ await action.focus();
+ await action.press("Enter");
+ await expect(section.getByText("Открытий: 2",{exact:true})).toBeVisible();
+ await action.press("Space");
+ await expect(section.getByText("Открытий: 3",{exact:true})).toBeVisible();
+ await expect(action).toBeFocused();
+ const passive=section.getByText("Карточка без действия",{exact:true});
+ await expect(passive).not.toHaveAttribute("role","button");
+ await expect(passive).not.toHaveAttribute("tabindex","0");
+ await passive.click();
+ await section.getByRole("button",{name:"Обновить заметку"}).click();
+ await expect(section.getByText("Заметка: 1",{exact:true})).toBeVisible();
+ await expect(section.getByText("Открытий: 3",{exact:true})).toBeVisible();
+});

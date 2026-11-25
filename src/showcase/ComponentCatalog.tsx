@@ -43,6 +43,8 @@ export function ComponentCatalog() {
   const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
   const [interactionScope,setInteractionScope] = useState("all");
   const [interactionClicks,setInteractionClicks] = useState(0);
+  const [craftCardClicks,setCraftCardClicks]=useState(0);
+  const [craftChildClicks,setCraftChildClicks]=useState(0);
   const [requestDemo,setRequestDemo] = useState<"idle"|"pending"|"success"|"error">("idle");
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
   const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
@@ -243,7 +245,14 @@ export function ComponentCatalog() {
     <CatalogSection id="timeline-event" title="TimelineEvent" description="Точка и карточка с общим hover, фокусом и одним действием.">
       <TimelineEvent date="Пример" title="Открыть описание события" weight={3} onClick={() => setOverlay("sheet")} /><TimelineEvent date="Пример" title="Событие без действия" weight={2} future />
     </CatalogSection>
-    <CatalogSection id="craft-card" title="CraftCard" description="Контейнер для связанных элементов."><CraftCard><p>Содержимое карточки.</p></CraftCard></CatalogSection>
+    <CatalogSection id="craft-card" title="CraftCard" description="Поверхность для связанного содержимого. Действие всей карточки включается обработчиком onClick; isInteractive=false отключает его.">
+      <div className="flex flex-col gap-3">
+        <CraftCard><p>Информационная карточка</p><ActionButton onClick={()=>setCraftChildClicks(n=>n+1)}>Обновить заметку</ActionButton><p role="status">Заметка: {craftChildClicks}</p></CraftCard>
+        <CraftCard onClick={()=>setCraftCardClicks(n=>n+1)}>Открыть карточку</CraftCard>
+        <CraftCard isInteractive={false} onClick={()=>setCraftCardClicks(n=>n+100)}>Карточка без действия</CraftCard>
+        <p role="status">Открытий: {craftCardClicks}</p>
+      </div>
+    </CatalogSection>
     <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
       <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
     </CatalogSection>

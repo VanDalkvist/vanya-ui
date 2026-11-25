@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-25
+
+### Breaking
+- CraftCard honors explicit isInteractive=false even with an onClick handler. Omitted/true with a real handler retains card activation. Independent nested controls no longer trigger the parent card action through bubbled clicks.
+
+### Added
+- Live passive/actionable/opt-out card examples and pointer/keyboard regression scenarios; migration notes.
+
 ## [0.3.29] - 2026-11-25
 
 ### Fixed
