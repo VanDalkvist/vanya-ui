@@ -1,0 +1,10 @@
+import React from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import "../tokens.css";
+import "./showcase.css";
+import "./agent-page.css";
+import { AgentPage } from "./AgentPage";
+const root=document.getElementById("root");
+if(!root)throw new Error("Agent page mount point #root is missing");
+if(root.hasChildNodes())hydrateRoot(root,<AgentPage/>);
+else createRoot(root).render(<AgentPage/>);

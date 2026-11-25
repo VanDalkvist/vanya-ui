@@ -4,7 +4,7 @@
 
 ## Агентам и LLM
 
-[Раздел «Агентам»](https://ui.vanya-arc.dev/#agents) объединяет стартовый промпт, документацию, CLI и границы проверки. Для исполнения требуется локальная копия библиотеки.
+[Agent Mode](https://ui.vanya-arc.dev/agents/) показывает харнесс, два сценария подключения и границы проверки. [Quickstart](https://ui.vanya-arc.dev/reference/design-harness-quickstart.md) содержит команды. Для исполнения требуется локальная копия библиотеки.
 
 - [Стабильная геометрия и композиция](https://ui.vanya-arc.dev/reference/composition.md) — измеримые правила для динамических данных.
 - [Безопасность публикации](https://ui.vanya-arc.dev/reference/publication-safety.md) — границы публичных материалов.

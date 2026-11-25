@@ -11,6 +11,7 @@ const repository='https://github.com/VanDalkvist/vanya-ui/blob/main/';
 const published={
  'skills/vanya-ui/SKILL.md':'reference/agent-skill.md',
  'docs/patterns/ui-feature-pipeline.md':'reference/ui-pipeline.md',
+ 'docs/patterns/design-harness-quickstart.md':'reference/design-harness-quickstart.md',
  'docs/patterns/list-detail-composition.md':'reference/list-detail.md',
  'docs/patterns/interaction-states.md':'reference/interaction-states.md',
  'docs/patterns/action-feedback.md':'reference/action-feedback.md',

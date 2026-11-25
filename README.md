@@ -8,7 +8,7 @@ React-компоненты и интерфейсные токены для пр�
 
 ## Агентам: один переносимый UI-пайплайн
 
-**[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
+**[Agent Mode](https://ui.vanya-arc.dev/agents/)** · **[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
 
 Скопируй папку Vanya UI на любую машину с Node.js 20+, дай агенту путь к ней и к приложению. Git, GitHub, Actions, учётные данные и интернет **не нужны для самого пайплайна**:
 

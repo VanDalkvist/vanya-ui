@@ -81,3 +81,7 @@ npm run test:consumer -- FULL_40_CHAR_SHA --harness
 
 ## Harness-capable release
 The last verified tag listed above is a pre-harness release. Candidate 0.5.0 is not a release until the new exact SHA, source/compiled consumer tests and visual acceptance are verified and explicitly published. Use the [harness quickstart](patterns/design-harness-quickstart.md) for the compatible pin. Existing products keep their current pin unless explicitly migrated. No implicit use of moving main.
+
+### Проверенный кандидат для явного пилотного подключения
+
+**0.5.0 / BUILD_VERIFIED / UNTAGGED** — [`3d344042218c6a5323e2c51da0e7582bdca1d30a`](https://github.com/VanDalkvist/vanya-ui/commit/3d344042218c6a5323e2c51da0e7582bdca1d30a), 2026-11-25. Cloudflare CI: 125 Vitest, 37 Node, 3 harness E2E; реальные npm/React 18 и Bun/React 19 consumer smoke, включая отрицательные тесты линтинга и compiled CSS, прошли. Этот неизменяемый SHA доступен для явно согласованного пилотного внедрения. UI_VERIFIED и релизный тег открыты; текущий опубликованный релиз остаётся 0.4.1. Установка кандидата через `https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/3d344042218c6a5323e2c51da0e7582bdca1d30a` с lockfile. Существующие продукты сохраняют закреплённые версии до отдельного решения.

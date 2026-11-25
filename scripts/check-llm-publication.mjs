@@ -11,7 +11,7 @@ import {publicMarkdown} from './markdown-publication.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const required=[
  'llms.txt','llms-full.txt','index.md',
- 'reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md',
+ 'reference/agent-skill.md','reference/design-harness-quickstart.md','reference/ui-pipeline.md','reference/list-detail.md',
  'reference/versioning.md',
  'reference/interaction-states.md',
  'reference/action-feedback.md',
@@ -41,6 +41,7 @@ export function validatePublication(root=base){
  const canonical=[
   ['reference/agent-skill.md','skills/vanya-ui/SKILL.md'],
   ['reference/ui-pipeline.md','docs/patterns/ui-feature-pipeline.md'],
+  ['reference/design-harness-quickstart.md','docs/patterns/design-harness-quickstart.md'],
   ['reference/list-detail.md','docs/patterns/list-detail-composition.md'],
   ['reference/versioning.md','docs/versioning.md'],
   ['reference/interaction-states.md','docs/patterns/interaction-states.md'],
@@ -67,15 +68,17 @@ export function validatePublication(root=base){
   if(/\\n(?:#{1,6}\s|[-*]\s)/.test(body))errors.push(name+' contains literal escaped newline before Markdown heading/list');
   if(body.length<200)errors.push(name+' unexpectedly short');
  }
- const requiredLinks=['reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
+ const requiredLinks=['reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
  for(const path of requiredLinks){
   const url=site+'/'+path;
   if(!llms.includes(url))errors.push('Missing primary llms.txt link: '+url);
   if(!overview.includes(url))errors.push('Missing human/Markdown overview link: '+url);
   if(!full.includes(url))errors.push('Missing extended LLM reference link: '+url);
  }
+ if(!existsSync(join(root,'agents','index.html')))errors.push('Missing Agent Mode HTML entry');
  const urls=new Set();
  for(const match of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g))urls.add(match[1]);
+ if(!urls.has(site+'/agents/'))errors.push('Missing sitemap URL: '+site+'/agents/');
  for(const path of required){
   const url=site+'/'+path;
   if(!urls.has(url))errors.push('Missing sitemap URL: '+url);
@@ -85,6 +88,7 @@ export function validatePublication(root=base){
    const url=match[1].split('#')[0];
    if(!url.startsWith(site+'/'))continue;
    const path=url.slice(site.length+1);
+   if(path==='agents/'&&existsSync(join(root,'agents','index.html')))continue;
    if(path==='licenses.txt')continue; // Vite emits bundle licenses at build time
    if(path&& !existsSync(join(root,'public',path)))errors.push(name+' links missing public document: '+path);
   }

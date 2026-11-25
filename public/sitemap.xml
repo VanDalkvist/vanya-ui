@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ui.vanya-arc.dev/</loc></url>
   <url><loc>https://ui.vanya-arc.dev/index.md</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/agents/</loc></url>
+  <url><loc>https://ui.vanya-arc.dev/reference/design-harness-quickstart.md</loc></url>
   <url><loc>https://ui.vanya-arc.dev/reference/components.md</loc></url>
   <url><loc>https://ui.vanya-arc.dev/reference/third-party.md</loc></url>
   <url><loc>https://ui.vanya-arc.dev/reference/licensing.md</loc></url>
