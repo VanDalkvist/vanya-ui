@@ -25,10 +25,10 @@ Date: 2026-11-25. Approved design: portable existing CLI, mandatory deterministi
 - [x] GREEN (Cloudflare a78b3432-f6e0-4267-adf9-8833bafde97a, actual test 1/1): actual CLI happy path, invalid source and missing package; same production code, actual frozen tools, no mocks. Gate no secrets in logs. Record runtime result. 
 ### Slice 1 — adoption and execution
 - [x] RED test written: bootstrap/adopt on real package writes persistent project lint script and config without overwriting unrelated scripts/instructions. Check flags missing/changed binding. verify executes canonical lint even if user-authored script falsely returns success; failure blocks build/browser, receipt cannot accept removed lint result.
-- [ ] Implement explicit command mutation, preserve package lock and dependency pin; idempotent; no provider changes. Expose package executable for CI, same underlying runner. Agent skill and README guide cold-start and existing-product flow. Make scope explicit: strict new; existing adoption only after explicit debt capture (slice 2).
-- [ ] GREEN real process test and package tarball consumer-smoke. Provider-specific CI appends canonical command before deploy; no GitHub Actions triggers.
+- [x] Implement explicit command mutation, preserve package lock and dependency pin; idempotent; no provider changes. Expose package executable for CI, same underlying runner. Agent skill and README guide cold-start and existing-product flow. Make scope explicit: strict new; existing adoption only after explicit debt capture (slice 2).
+- [x] GREEN real process test: Cloudflare b5878c88-fd36-4044-92c9-9761f17a5365, 2/2 harness E2E; packed consumer smoke remains pending. Provider-specific CI appends canonical command before deploy; no GitHub Actions triggers.
 ### Slice 2 — existing debt
-- [ ] RED: capture explicit versioned source-based baseline, same findings pass, new/duplicated/modified finding blocks, invalid/removed baseline fails; no automatic rebaseline. Cover CSS and JSX, operational errors fail.
+- [x] RED test authored: capture explicit versioned source-based baseline, same findings pass, new/duplicated/modified finding blocks, invalid/removed baseline fails; no automatic rebaseline. Cover CSS and JSX, operational errors fail.
 - [ ] Implement explicit baseline operation and review; product-owned debt, canonical rule IDs, no blanket disables.
 - [ ] GREEN on isolated existing consumer; preserve unrelated source.
 ### S9 / S10 / S11

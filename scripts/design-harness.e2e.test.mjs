@@ -85,3 +85,30 @@ test('adopt persists the canonical check; verify executes it before build and re
   assert.equal(existsSync(join(project,'build-ran')),false);
  }finally{rmSync(project,{recursive:true,force:true})}
 });
+
+test('existing consumer explicitly captures CSS and JSX debt, rejects regression and missing baseline',()=>{
+ const project=mkdtempSync(join(tmpdir(),'vanya-harness-baseline-'));
+ try{
+  mkdirSync(join(project,'src'));mkdirSync(join(project,'node_modules/@vanya'),{recursive:true});
+  symlinkSync(library,join(project,'node_modules/@vanya/ui'),'junction');
+  writeFileSync(join(project,'package.json'),JSON.stringify({name:'legacy-consumer',type:'module',dependencies:{react:'19','@vanya/ui':'file:'+library}}));
+  const jsx=join(project,'src/App.tsx'),css=join(project,'src/style.css');
+  const badJsx='import {ActionButton} from "@vanya/ui"; export const App=()=> <ActionButton className="bg-pink-500 text-[19px]">Save</ActionButton>;\n';
+  const badCss='@import "@vanya/ui/tokens.css";\n.bad { color:#f123ab; font-size:19px; }\n';
+  writeFileSync(jsx,badJsx);writeFileSync(css,badCss);
+  const run=(command,...rest)=>spawnSync(process.execPath,[cli,command,'--project',project,...rest],{cwd:tmpdir(),encoding:'utf8',timeout:240000,maxBuffer:8*1024*1024});
+  assert.equal(run('adopt','--sources','src').status,0);
+  const capture=run('baseline');assert.equal(capture.status,0,capture.stderr+capture.stdout);
+  const config=JSON.parse(readFileSync(join(project,'vanya-ui.config.json'),'utf8'));assert.equal(config.mode,'baseline');
+  const baseline=join(project,'vanya-ui.baseline.json');
+  const original=readFileSync(baseline,'utf8'),data=JSON.parse(original);
+  assert.equal(data.schemaVersion,1);assert.ok(data.entries.some(e=>e.file==='src/App.tsx'&&e.rule.includes('no-raw-colors')));assert.ok(data.entries.some(e=>e.file==='src/style.css'&&e.message.includes('#f123ab')));
+  const same=run('lint');assert.equal(same.status,0,same.stderr+same.stdout);
+  const recapture=run('baseline');assert.equal(recapture.status,1);assert.equal(readFileSync(baseline,'utf8'),original);
+  writeFileSync(css,badCss+'.new {color:#f123ab;}\n');
+  const cssFail=run('lint');assert.equal(cssFail.status,1,cssFail.stdout+cssFail.stderr);assert.match(cssFail.stdout+cssFail.stderr,/new=1/);
+  writeFileSync(css,badCss);writeFileSync(jsx,badJsx+'export const New=()=> <div className="bg-pink-500 text-[19px]"/>;\n');
+  const jsxFail=run('lint');assert.equal(jsxFail.status,1,jsxFail.stdout+jsxFail.stderr);assert.match(jsxFail.stdout+jsxFail.stderr,/no-raw-colors/);
+  rmSync(baseline);const missing=run('lint');assert.equal(missing.status,1);assert.match(missing.stderr+missing.stdout,/baseline/i);
+ }finally{rmSync(project,{recursive:true,force:true})}
+});

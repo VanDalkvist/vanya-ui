@@ -8,11 +8,14 @@ The **canonical executable procedure** is [Vanya UI agent skill](../../skills/va
 # UI library and target may live anywhere on disk:
 node /path/to/vanya-ui/scripts/bootstrap-ui-pipeline.mjs --project /path/to/project
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs inspect --project /path/to/project
+# After installing a verified harness-capable pin:
+node /path/to/vanya-ui/scripts/ui-pipeline.mjs adopt --project /path/to/project --sources src
+node /path/to/vanya-ui/scripts/ui-pipeline.mjs lint --project /path/to/project
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs check --project /path/to/project
 node /path/to/vanya-ui/scripts/ui-pipeline.mjs verify --project /path/to/project --package app
 ```
 
-The CLI reads files, not git diffs. `inspect` returns source/library files to read and available local scripts. `check` verifies the base policy/dependency/import/script contract and requires a literal canonical tokens.css import in React source and reports matching paths, version and explicit Tailwind @source warnings. The bounded scan is a source precondition; confirm the actual global entry and built CSS separately. See [static enforcement research](../arch-improvement/static-design-enforcement.md). It does not certify component selection or layout. `verify` executes build and browser scripts **locally** with npm/pnpm/yarn/bun; it never installs packages, uses secrets, deploys or assumes internet. In new React UI use `--mode react`; in monorepos specify `--package`. `--json` provides machine-readable status, `--dry-run` reports planned commands as NOT_RUN.
+The CLI reads files, not git diffs. `inspect` returns source/library files to read and available local scripts. `check` verifies the base policy/dependency/import/script contract and requires a literal canonical tokens.css import in React source and reports matching paths, version and explicit Tailwind @source warnings. The bounded scan is a source precondition; confirm the actual global entry and built CSS separately. See [static enforcement research](../arch-improvement/static-design-enforcement.md). It does not certify component selection or layout. `verify` executes the installed canonical React design lint before build and browser scripts **locally** with npm/pnpm/yarn/bun. The isolated frozen lint toolchain may require npm registry; verify never installs or upgrades application dependencies, uses deployment secrets or deploys. In new React UI use `--mode react`; in monorepos specify `--package`. `--json` provides machine-readable status, `--dry-run` reports planned commands as NOT_RUN.
 
 ## Agent lifecycle
 
@@ -47,7 +50,7 @@ Each row starts PENDING. For PASS, record evidence as e.g. `{"method":"browser",
 2. Use the requested stack, or a minimal TSX-capable React 18/19 + Tailwind 4 setup if the stack is open. For a non-React visual artifact use visual mode and the canonical tokens without forcing React. Preserve any existing project configuration.
 3. Choose a verified immutable release from [versioning](../versioning.md), install its source distribution and commit the actual lockfile according to project policy. For a new React app prefer the verified source tarball. Inspect installed exports; align the component API with the chosen version. The local guide may be newer than the installed package.
 4. In the global CSS entry import `@vanya/ui/tokens.css` and register the installed source directory with Tailwind `@source` relative to that CSS file. Wire the theme through the real package/brand contract; load only the font families/weights used, including Manrope and optional JetBrains Mono/Spectral. Confirm rendered fonts and active theme. Use [typography](typography.md) and actual tokens, not guessed CSS.
-5. Run bootstrap once to create missing local agent pointers. Preserve existing AGENTS.md and user policy; add a canonical skill pointer when necessary. Bootstrap does not install the package or change CI. If the library moves, update existing pointers manually; rerunning bootstrap preserves them.
+5. Run bootstrap once to create missing local agent pointers. Preserve existing AGENTS.md and user policy; add a canonical skill pointer when necessary. Bootstrap does not install the package or change CI. After the package is installed and source roots exist, use `adopt` to persist strict lint configuration and the `lint:design` script. Add that exact script to existing CI before deploy. Preserve CI provider and other commands. If the library moves, update existing pointers manually; rerunning bootstrap preserves them.
 6. Implement the requested complete initial surface with actual exports and truthful loading/empty/error states where applicable. Add runnable production build and meaningful browser tests (user action and observable result; no placeholder success script). Execute check, verify, browser observation and receipt review. No deploy or remote provider setup unless requested.
 
 ## Reference routing
