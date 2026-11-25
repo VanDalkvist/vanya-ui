@@ -74,6 +74,20 @@ test('adopt persists the canonical check; verify executes it before build and re
   assert.equal(review().status,0);
   writeFileSync(join(project,'verification.json'),JSON.stringify({...evidence,checks:evidence.checks.filter(c=>c.script!=='lint:design')}));
   const noLint=review();assert.equal(noLint.status,1,noLint.stderr+noLint.stdout);assert.match(noLint.stdout,/UI-13/);
+  writeFileSync(join(project,'verification.json'),clean.stdout);
+  writeFileSync(css,valid+'\n/* changed after verify */\n');
+  const stale=review();assert.equal(stale.status,1,stale.stdout+stale.stderr);assert.match(stale.stdout,/fingerprint|changed/i);
+  writeFileSync(css,valid);
+  writeFileSync(join(project,'src/App.tsx'),'export const App=()=> <button>Save</button>;');
+  const tokenOnly=run('check','--json');assert.equal(tokenOnly.status,1,tokenOnly.stdout+tokenOnly.stderr);assert.match(tokenOnly.stdout,/component/i);
+  writeFileSync(join(project,'src/App.tsx'),'import {ActionButton} from "@vanya/ui"; export const App=()=> <ActionButton>Save</ActionButton>;');
+  mkdirSync(join(project,'components'));writeFileSync(join(project,'components/Outside.tsx'),'export const Outside=()=> <div className="bg-pink-500"/>;');
+  const outside=run('lint');assert.equal(outside.status,1,outside.stdout+outside.stderr);assert.match(outside.stdout+outside.stderr,/components\/Outside.tsx/);
+  rmSync(join(project,'components'),{recursive:true});
+  writeFileSync(css,valid+'\n/* stylelint-disable */\n.bad {color:#f123ab;}\n');
+  const suppressed=run('lint');assert.equal(suppressed.status,1,suppressed.stdout+suppressed.stderr);
+  assert.match(suppressed.stdout+suppressed.stderr,/suppression|#f123ab/i);
+  writeFileSync(css,valid);
   rmSync(join(project,'build-ran'));rmSync(join(project,'browser-ran'));
   writeFileSync(css,valid+'.bad {color:#f123ab;font-size:19px;}\n');
   const failed=run('verify','--json');assert.equal(failed.status,1,failed.stderr+failed.stdout);
@@ -82,6 +96,7 @@ test('adopt persists the canonical check; verify executes it before build and re
   pkg.scripts['lint:design']='echo fake';writeFileSync(manifest,JSON.stringify(pkg));
   const fake=run('verify','--json');assert.equal(fake.status,1,fake.stderr+fake.stdout);
   assert.match(fake.stdout+fake.stderr,/lint:design/);
+  const ci=spawnSync(process.execPath,[join(library,'scripts/design-harness-bin.mjs')],{cwd:project,encoding:'utf8',timeout:240000});assert.equal(ci.status,1,ci.stdout+ci.stderr);assert.match(ci.stdout+ci.stderr,/lint:design/);
   assert.equal(existsSync(join(project,'build-ran')),false);
  }finally{rmSync(project,{recursive:true,force:true})}
 });

@@ -214,3 +214,14 @@ test('token hookup is mandatory for React; comments do not satisfy it',()=>fixtu
  assert.equal(inspect().hasTokensImport,true);
  assert.ok(checkProject(inspect()).warnings.some(x=>x.includes('@source')));
 }));
+
+test('new receipt requires strict and current execution evidence',()=>fixture(root=>{
+ react(root);const info=inspectProject({project:root});
+ const p=completePlan('new');p.targetProject={project:root,package:'app',mode:'react'};
+ const executed=verifyWithLint(info);
+ assert.equal(reviewAcceptance(p,{projectInfo:info,verification:executed}).status,'recorded');
+ const baseline={...info,designHarness:{...info.designHarness,config:{...info.designHarness.config,mode:'baseline'}}};
+ assert.equal(reviewAcceptance(p,{projectInfo:baseline,verification:executed}).status,'invalid');
+ const stale={...info,hasTokensImport:false,pinnedDependency:false};
+ assert.equal(reviewAcceptance(p,{projectInfo:stale,verification:executed}).status,'invalid');
+}));
