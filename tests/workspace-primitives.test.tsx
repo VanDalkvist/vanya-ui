@@ -92,7 +92,7 @@ describe("Workspace primitives", () => {
     expect(region).toHaveAttribute("data-gutter","auto");
   });
 
-  it("keeps the Farm count and controls semantic", () => {
+  it("keeps the count and controls semantic", () => {
     const click = vi.fn();
     render(<SectionToolbar title="Полка проектов" count={4} total={17} actions={<button onClick={click}>Обновить</button>}/>);
     expect(screen.getByRole("heading", {name:"Полка проектов",level:2})).toBeInTheDocument();

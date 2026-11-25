@@ -226,7 +226,7 @@ export function ComponentCatalog() {
     <CatalogSection id="minimap" title="Minimap" description="События на шкале времени. Нажми на шкалу, чтобы переместить выделенную область.">
       <div className="demo-column"><Minimap min={2016} max={2028} from={mapFocus} to={mapFocus + 2} ticks={eventTicks} onSeek={(value) => setMapFocus(Math.min(2026, Math.max(2016, value - 1)))} labels={[{ value: 2016, text: "2016" }, { value: 2020, text: "2020" }, { value: 2024, text: "2024" }, { value: 2028, text: "2028" }]} /><span className="demo-label">Примеры событий: прошлые, текущие и будущие.</span></div>
     </CatalogSection>
-    <CatalogSection id="categories" title="CategoryBadge" description="Иконки и палитра типов харнессов из Фермы.">
+    <CatalogSection id="categories" title="CategoryBadge" description="Общие иконки и палитра типов харнессов.">
       <Sizes>{(size) => HARNESS_TYPES.map((harness) => <CategoryBadge key={harness.id} size={size} category={harness.id} />)}</Sizes>
     </CatalogSection>
     <CatalogSection id="status" title="MeshStatusBadge" description="Статусы сервисов без действий по нажатию.">

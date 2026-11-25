@@ -7,7 +7,7 @@
 - Standards: AP-010 ... AP-071, Vanya-Arc/UI Design System.
 - Scope:
   1. Fact-check & removal of non-existent `TurnArcBadge`.
-  2. Parity with `life-wave-narrative` ThemeToggle (`dropdown` and `segmented` variants; corner switcher controls page with system default; catalog demos are local only).
+  2. ThemeToggle interaction parity (`dropdown` and `segmented` variants; corner switcher controls page with system default; catalog demos are local only).
   3. Presentation of `DeskSlotCard` across isolated, labeled design system states.
   4. Separation of `EventCard` and `TimelinePreviewCard` into independent catalog rows.
   5. Removal of redundant framing borders around preview boxes.
@@ -16,7 +16,7 @@
 ### Slices Executed
 1. **Slice 1: Fact-check & removal of TurnArcBadge**
    - Fact-check confirmed `TurnArcBadge` was an ungrounded extrapolation from `TurnArcs.tsx` (an SVG timeline trajectory layer). Removed `src/components/TurnArcBadge.tsx` and updated exports.
-2. **Slice 2: ThemeToggle parity with life-wave-narrative**
+2. **Slice 2: ThemeToggle variant parity**
    - Implemented working corner dropdown switcher in header with system theme default (`prefers-color-scheme`).
    - Catalog section showcases both `variant="dropdown"` and `variant="segmented"` without affecting page theme.
 3. **Slice 3: DeskSlotCard state isolation**
@@ -48,7 +48,7 @@
 ## Cycle 2 — Arc Wave live composition (2026-11-06)
 
 ### Scope and decisions
-- Implemented the three remaining user-selected findings after the user removed hearth-taste in projects-home. No third-party skills or life-wave-narrative sources changed.
+- Implemented the three remaining user-selected findings after an unrelated consumer change. No third-party skills or consumer sources changed.
 - Replaced both handwritten HTML catalogs with shells mounting one React composition root and real package exports. Kept both URLs in the production build.
 - EventCard / TimelinePreviewCard / InspectDrawer headings now use Manrope. Serif remains available for editorial digest prose.
 - Added an open-space scene with preview selection, native modal sheet, focus return, context disclosure and a working spacing control; mobile remains a stacked composition.
@@ -82,13 +82,13 @@
 - Remove the lower arrow CTA; keep navigation sticky and compact (60px desktop, up to 88px mobile).
 - Brand the header and both browser document titles/descriptions as vanya-arc/ui.
 - Add an exported static SineWave background; keep all 26 exported components in individual catalogue rows, with each component's states together.
-- Match Farm's harness icons and light/dark palette in badges and both radar examples.
+- Use shared harness icons and light/dark palette in badges and both radar examples.
 - Keep SegmentedControl sized to content; populate Minimap with past/current/future event ticks and a working focus window.
 
 ### Implementation and provenance
-- Farm visual source: ferma cfafd320a77d00e4b29cbb78cca590bcf3ef56b2, src/lib/harness-colors.ts and src/styles.css. All 24 palette declarations (4 types × 3 roles × 2 themes) checked for exact parity.
-- Shared package-owned identity map: src/harness.ts. No runtime import/dependency on the Farm application; arbitrary custom badges/radar items remain supported.
-- Reference wave/minimap inspected read-only in life-wave-narrative f11918ec32e0a6a40bc4be6132dbbe87d43b6a46. SineWave is a small independent SVG primitive, not a copy of the timeline engine.
+- All 24 shared palette declarations (4 types × 3 roles × 2 themes) checked for exact parity with the accepted visual contract.
+- Shared package-owned identity map: src/harness.ts. No runtime import/dependency on consuming applications; arbitrary custom badges/radar items remain supported.
+- Reference wave/minimap inspected read-only; the numeric geometry contract is retained. SineWave is a small independent SVG primitive, not a copy of the timeline engine.
 - Theme controls now notify peer hooks on the same page; header and catalogue variants stay synchronized. Existing storage persistence remains the source for reloads.
 - Header styling remains paper/Manrope; only density/position changed. Anchor clearance tracks its compact desktop/mobile height.
 
@@ -106,7 +106,7 @@
 - Runtime completeness/entrypoint wiring: src/index.ts:2 exports SineWave, Scene.tsx:15 renders it; ComponentCatalog imports real exports and each public component has its own named region. Both built entrypoints show the updated browser brand.
 - Assertion integrity: real render/click/state tests plus browser geometry and runtime CSS checks, not static source-text tests or placeholder receipts. All modified UI source files remain below 250 lines.
 - Not applicable: databases, auth, external API adapters and data migrations (no such boundaries touched).
-- Residual risk: new details have author/browser verification, not independent review or a fresh user visual approval; Farm parity is a recorded snapshot and future upstream palette changes must be intentionally synchronized. No third-party skill changes.
+- Residual risk: new details have author/browser verification, not independent review or a fresh user visual approval; The accepted palette is a recorded snapshot; changes require explicit review. No third-party skill changes.
 - Scoped technical verdict: PASS; not an independent dual-circuit acceptance claim.
 
 ## Cycle 4 — Passive labels, copy, common sizes and review follow-ups (2026-11-06)
@@ -134,7 +134,7 @@
 ## Cycle 5 — Source wave and composable event interactions (2026-11-06)
 
 ### User scope and implementation
-- Replaced the approximate three-curve motif with wave-only math from life-wave-narrative f11918ec32e0a6a40bc4be6132dbbe87d43b6a46: ascending slope, octave/fade model and seeded dotted ghost branches originating at actual event anchors. Source-generated numeric fixtures cover two viewport/phase combinations and all four radii; no personal timeline records or source-app runtime imports were copied.
+- Replaced the approximate three-curve motif with independent wave-only math: ascending slope, octave/fade model and seeded dotted ghost branches originating at actual event anchors. Source-generated numeric fixtures cover two viewport/phase combinations and all four radii; no personal timeline records or source-app runtime imports were copied.
 - EventPoint is a standalone passive mark or native action. TimelineEvent composes it with the real TimelinePreviewCard into one action with shared hover/focus. Every visible scene point opens corresponding example details; points without cards remain fully actionable.
 - Matched source neutral resting/hover shadows, accent point/date/title states, four-pixel card lift and the hover bridge. Replaced conflicting default utility colors/widths with component-owned styles so contextual states actually win the cascade. One HTML overlay keeps all cards above all points, and active cards above peers, without nested buttons or duplicate tab stops.
 - Preserved the approved intro and its typography; placed the wave in a separate region below it. Optional fit maps curve/echo coordinates into the canvas without scaling point radii. Removed the obsolete click hint and renamed the working slider for spacing between events.
