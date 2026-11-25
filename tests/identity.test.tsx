@@ -22,9 +22,32 @@ describe("Vanya Arc identity",()=>{
  });
  it("exposes product hierarchy, palette and a native Markdown link in the longread",()=>{
   render(<IdentitySection/>);
-  expect(screen.getByRole("heading",{name:"Один знак для всех продуктов."})).toBeInTheDocument();
+  expect(screen.getByRole("heading",{name:"Семейство знаков. Единая пластика волны."})).toBeInTheDocument();
   expect(document.querySelector("#identity")).toBeInTheDocument();
   expect(screen.getByRole("link",{name:/Правила и примеры для агентов/})).toHaveAttribute("href","/reference/identity.md");
   expect(screen.getByText("--accent")).toBeInTheDocument();
+  expect(screen.getByText(/знаки не утверждены/)).toBeVisible();
+  expect(screen.getByRole("img",{name:"Vanya Arc / Signal"}).querySelector(".vanya-arc-product-mark svg")).toBeInTheDocument();
+  expect(screen.getByRole("img",{name:"Vanya Arc / Flow"}).querySelector(".vanya-arc-product-mark svg")).toBeInTheDocument();
+ });
+});
+
+describe("product-specific marks",()=>{
+ const Custom=({monochrome}:{monochrome:boolean})=><svg viewBox="0 0 16 16" data-testid="custom-mark" data-mono={String(monochrome)}/>;
+ it("keeps the exact official parent and UI marks even if custom artwork is supplied",()=>{
+  render(<><VanyaArcLockup productMark={Custom}/><VanyaArcLockup product="UI" productMark={Custom}/></>);
+  for(const label of ["Vanya Arc","Vanya Arc / UI"]){expect(screen.getByRole("img",{name:label}).querySelector("path")).toHaveAttribute("d",VANYA_ARC_MARK_PATH)}
+  expect(screen.queryByTestId("custom-mark")).not.toBeInTheDocument();
+ });
+ it("renders custom product marks with monochrome and a single accessible name",()=>{
+  render(<VanyaArcLockup product="Example" productMark={Custom} monochrome/>);
+  const lockup=screen.getByRole("img",{name:"Vanya Arc / Example"});
+  expect(lockup.querySelector(".vanya-arc-product-mark")).toHaveAttribute("aria-hidden","true");
+  expect(screen.getByTestId("custom-mark")).toHaveAttribute("data-mono","true");
+  expect(lockup.querySelector(".vanya-arc-mark")).toBeNull();
+ });
+ it("uses text-only until a service mark is approved, and respects showMark",()=>{
+  render(<><VanyaArcLockup product="Example"/><VanyaArcLockup product="Other" productMark={Custom} showMark={false}/></>);
+  for(const name of ["Example","Other"])expect(screen.getByRole("img",{name:"Vanya Arc / "+name}).querySelector("svg")).toBeNull();
  });
 });

@@ -16,6 +16,8 @@ For consumer project setup use `node scripts/bootstrap-ui-pipeline.mjs --project
 
 GitHub Actions, if present, are optional **manual-only** adapters. Never add push/PR/schedule triggers to UI contract workflows, and never require CI to execute the agent workflow.
 
+For a new official Vanya Arc service or an identity change, read [identity integration](docs/identity/brand.md) and the canonical brand procedure. Propose an individual wave-derived mark and matching favicon, obtain owner approval, and use the `productMark` slot; parent/UI retain V→A. Record UI-12 evidence and pending approval. Preserve existing approved product marks.
+
 Respect `DESIGN.md`, all license/source/publication policies and actual component source; never leak private project data into this public repo.
 
 For any package-version change, follow [release policy](docs/versioning.md). Update changelog, run `node scripts/check-release.mjs` and full tests. Do not treat a Cloudflare site deploy as a released package; consumers remain pinned to verified SHA. Tags are manual, not Actions.

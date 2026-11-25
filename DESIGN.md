@@ -35,7 +35,7 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 ## Mixed-license scopes — required
 
-MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
+MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/70c7a6ff839355a45d11bd9d51a888aeaa4cac43/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
 
 ## Licensing and third-party rights — required
 
@@ -57,7 +57,8 @@ This requirement applies to humans and agents, including automated updates and d
 
 - **Parent brand:** `Vanya Arc`. Keep the owner's precise asymmetric double-crest V → A sign: dark small left crest seamlessly transitions to warm large right crest.
 - **Design-system product:** `Vanya Arc / UI`. Only `UI` is accented; the slash is subordinate and the parent wordmark stays ink-colored.
-- Use `VanyaArcMark` / `VanyaArcLockup`, not locally redrawn logo paths or arbitrary product-specific palettes.
+- **Product family:** the wave/sinusoid is the generative identity principle. Every other official service has an individually approved wave-derived symbol expressing its purpose and matching favicon. Shared stroke character, palette, Manrope and `Vanya Arc / Product` naming bind the family.
+- Use `VanyaArcMark` for the parent and UI. For other services use `VanyaArcLockup productMark={ProductMark}` with their own approved symbol; the temporary fallback is text-only. Preserve existing approved artwork. Follow the [brand product identity procedure](https://github.com/VanDalkvist/vanya-arc-brand/blob/70c7a6ff839355a45d11bd9d51a888aeaa4cac43/docs/product-identity.md).
 - Manrope-based wordmark lettering may have tailored tracking/weight; do not change functional UI typography or include proprietary font files.
 - Follow [the brand identity guide](docs/identity/brand.md). Published section: [/#identity](https://ui.vanya-arc.dev/#identity).
 

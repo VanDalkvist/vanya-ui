@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-25
+
+### Changed
+- Brand architecture: individual wave-based marks and matching favicons for official services. Parent and UI retain the original V→A. Re-export `productMark`; non-UI services without a supplied mark render a temporary wordmark. Candidate until verification; existing consumer pins remain unchanged.
+
 ## [0.5.0] - 2026-11-25
 
 ### Added

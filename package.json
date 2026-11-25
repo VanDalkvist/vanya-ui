@@ -1,6 +1,6 @@
 {
   "name": "@vanya/ui",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
   "license": "SEE LICENSE IN LICENSING.md",
@@ -38,7 +38,7 @@
     "test:harness:consumer": "node scripts/consumer-smoke.mjs"
   },
   "dependencies": {
-    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#c3aa7ce7672bb06932dda333ba8bc98e8290f5ae",
+    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#70c7a6ff839355a45d11bd9d51a888aeaa4cac43",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "tailwind-merge": "^3.0.2"
