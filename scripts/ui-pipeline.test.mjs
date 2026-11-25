@@ -137,3 +137,46 @@ test('inspect reports declared and installed versions and supports explicit arbi
  assert.ok(checkProject(info).warnings.some(x=>x.includes('differs from local guides')));
 }));
 test('acceptance canonical documents exist locally',()=>{for(const c of criteria)assert.ok(readFileSync(new URL('../'+c.canonical,import.meta.url),'utf8').length>0,c.canonical)});
+
+test('new scope plans an empty directory in explicit React mode',()=>fixture(root=>{
+ const script=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const r=spawnSync(process.execPath,[script,'plan','--project',root,'--scope','new','--task','Create product','--target','/'],{encoding:'utf8'});
+ assert.equal(r.status,0,r.stderr);const p=JSON.parse(r.stdout);
+ assert.equal(p.scope,'new');assert.equal(p.targetProject.mode,'react');assert.equal(p.targetProject.project,root);
+ const empty=inspectProject({project:root,mode:'react'});assert.equal(empty.mode,'react');assert.equal(checkProject(empty).status,'fail');
+ p.criteria.find(x=>x.id==='UI-03').status='N/A';p.criteria.find(x=>x.id==='UI-03').reason='skip';
+ assert.ok(reviewAcceptance(p,{projectInfo:empty}).errors.some(x=>x.includes('UI-03')));
+}));
+test('project-bound React feature cannot exclude execution; actual verify result required',()=>fixture(root=>{
+ react(root);const info=inspectProject({project:root});
+ const p=completePlan();p.targetProject={project:root,package:'app',mode:'react'};
+ const row=p.criteria.find(x=>x.id==='UI-13');row.status='N/A';row.reason='skip build';
+ assert.ok(reviewAcceptance(p,{projectInfo:info}).errors.some(x=>x.includes('UI-13')));
+ row.status='PASS';
+ assert.equal(reviewAcceptance(p,{projectInfo:info}).status,'invalid');
+ const planned=verifyProject(info,{dryRun:true});
+ assert.equal(reviewAcceptance(p,{projectInfo:info,verification:planned}).status,'invalid');
+ const executed=verifyProject(info);
+ assert.equal(reviewAcceptance(p,{projectInfo:info,verification:executed}).status,'recorded');
+ assert.equal(reviewAcceptance(p,{projectInfo:info,verification:{...executed,project:'/wrong'}}).status,'invalid');
+ assert.equal(reviewAcceptance(p,{projectInfo:info,verification:{...executed,checks:executed.checks.slice(0,1)}}).status,'invalid');
+ assert.equal(reviewAcceptance(p).status,'invalid');
+}));
+test('project-bound static visual artifact may exclude non-executable build',()=>fixture(root=>{
+ file(root,'UI_CONTRACT.md','Vanya UI');file(root,'image.svg','<svg/>');
+ const info=inspectProject({project:root,mode:'visual'});
+ const p=completePlan();p.targetProject={project:root,mode:'visual',package:null};
+ const row=p.criteria.find(x=>x.id==='UI-13');row.status='N/A';row.reason='Static SVG, no package or build';
+ const r=reviewAcceptance(p,{projectInfo:info});assert.equal(r.status,'recorded');assert.equal(r.projectBinding,'CHECKED');
+}));
+test('new product CLI review consumes actual verify JSON and rejects a planned result',()=>fixture(root=>{
+ react(root);const script=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const p=completePlan('new');p.targetProject={project:root,mode:'react',package:'app'};
+ file(root,'receipt.json',JSON.stringify(p));
+ const args=[script,'verify','--project',root,'--mode','react','--package','app','--json'];
+ const v=spawnSync(process.execPath,args,{encoding:'utf8'});assert.equal(v.status,0,v.stderr);file(root,'verify.json',v.stdout);
+ const review=[script,'review','--receipt',join(root,'receipt.json'),'--verification',join(root,'verify.json')];
+ const good=spawnSync(process.execPath,review,{encoding:'utf8'});assert.equal(good.status,0,good.stderr+good.stdout);
+ const dry=spawnSync(process.execPath,[...args,'--dry-run'],{encoding:'utf8'});file(root,'verify.json',dry.stdout);
+ const bad=spawnSync(process.execPath,review,{encoding:'utf8'});assert.equal(bad.status,1,bad.stderr);assert.equal(JSON.parse(bad.stdout).status,'invalid');
+}));

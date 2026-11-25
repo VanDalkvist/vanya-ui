@@ -1,101 +1,67 @@
 ---
 name: vanya-ui
-description: Repeatable offline Vanya Arc / UI workflow for any coding agent implementing a visible interface or visual artifact.
+description: Create, redesign, migrate, implement and review products, screens, components and visual artifacts using the Vanya Arc design system. Use for UI tasks in Vanya UI projects or when Vanya UI is requested, including new apps, layout, typography, navigation, interaction, accessibility and design audits. Skip backend-only, CLI-only and infrastructure tasks.
+compatibility: Requires a local Vanya UI source tree, a target project folder and Node.js 20+. Browser verification requires the target toolchain and browser access. Package installation may require network access.
 ---
 
-# Vanya Arc / UI — portable agent skill
+# Vanya UI
 
-**This is the canonical workflow.** It depends on local source files and Node.js ≥20, not Git, GitHub Actions, a specific agent harness, hosting platform or network. A local copy of this library may come from a zip, shared drive, clone or package archive.
+Deliver the requested visual change, using the actual installed component API and canonical design rules. Keep unrelated surfaces and pinned dependencies unchanged unless the task explicitly covers them.
 
-## Trigger
+## 1. Locate and scope
 
-For any UI feature, layout, component, form, navigation, loading/empty/error state, interface refactor, HTML page, interactive visual, SVG or visual report:
+Find the full local Vanya UI source tree through the project pointer or user-provided path. It must contain this skill, DESIGN.md, src, docs and scripts. A copied skill alone is insufficient; locate the source tree or report BLOCKED. Do not invent unavailable API or instructions. No fixed paths, git checkout, CI or hosting provider are required.
 
-1. Locate the Vanya UI folder locally, using the current project agent pointer or the path supplied by the user. **Never assume** a fixed home directory, GitHub repository URL, git checkout, cloud computer or CI environment.
-2. Run `node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs inspect --project PATH_TO_PROJECT`; add `--package app` for monorepos.
-3. Read the returned local `DESIGN.md`, `src/index.ts`, `src/tokens.css`, relevant `src/components/*`, `docs/patterns/*` and research. Verify actual component exports and props in source.
-4. If the consuming project lacks an agent entrypoint, run `node PATH_TO_VANYA_UI/scripts/bootstrap-ui-pipeline.mjs --project PATH_TO_PROJECT` once. It creates local pointers only. **No GitHub workflow, dependency or token is installed.**
+Choose one scope:
 
-## Phase 1 — scope and acceptance before coding
+| Scope | Use when |
+| --- | --- |
+| new | Create a new product or app from scratch. |
+| feature | Make one focused UI change or audit a component. Default. |
+| screen | Create, redesign or audit a named screen/flow. |
+| migration | Explicitly adopt or upgrade Vanya UI across named existing surfaces. |
 
-**Scope the requested work.** Use `feature` for one component/interaction/change, `screen` for one screen or coherent flow, `migration` only for an explicit design-system adoption/upgrade across named routes. Keep unaffected surfaces stable. Never treat a small UI task as authorization to migrate the entire product or upgrade its dependency. Record the task, affected route/component/states and unchanged surfaces. For each criterion use the canonical file linked in the receipt; read relevant sections before implementing.
+Identify the primary user action, affected routes/components/states, requested result and preserved boundaries. For an audit-only request, inspect and report; implement fixes only if requested. Backend-only work skips this skill.
 
-```sh
-node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs plan --scope feature --task "Describe the requested change" --target "/affected-route" > ui-receipt.json
-```
+Run the following commands with actual absolute paths; for monorepos specify the target package with `--package`. Set MODE=react for React apps (including an empty new repo), MODE=visual for non-React visual artifacts and for the library's own showcase; use auto for established targets. Create the empty target directory if necessary. Keep receipts in a task-local ignored directory.
 
-Use a task-local ignored or otherwise approved evidence file. Every stable UI-01–UI-14 row must be assessed. Applicable rows remain PENDING until verified; unrelated rows use N/A with a concrete task-specific reason. Core scope/components/visual/privacy rows always apply. Migration additionally requires composition, typography, interaction and execution. Do not use N/A to hide an untested applicable rule. On screen/migration scope review the affected complete composition and adjacent/shared surfaces; on feature scope verify the changed behavior and immediate regressions. See [acceptance protocol](../../docs/patterns/ui-feature-pipeline.md#task-acceptance-receipt).
+~~~sh
+UI="/actual/path/to/vanya-ui"
+APP="/actual/path/to/project"
+MODE=react
+node "$UI/scripts/ui-pipeline.mjs" inspect --project "$APP" --mode "$MODE"
+node "$UI/scripts/ui-pipeline.mjs" plan --project "$APP" --mode "$MODE" --scope feature --task "Requested result" --target "/affected-route" > ui-receipt.json
+~~~
 
-**Version alignment:** inspect reports local guide version, declared dependency and detected installed package version. If they differ or install cannot be located, use actual installed exports and props for API decisions; upgrade only with explicit task scope. Check global CSS wiring, Tailwind source scanning and loaded font weights. A matching version string alone cannot prove identical source SHA.
+For new products use `--scope new` and follow [new product setup](../../docs/patterns/ui-feature-pipeline.md#new-product-setup) before implementation. For existing projects inspect declared pin, installed version, real exports and CSS wiring. Follow [versioning](../../docs/versioning.md); upgrade only within explicit scope. Use bootstrap to create missing discovery pointers; it preserves existing instructions and installs nothing.
 
+## 2. Select the applicable canon
 
-**Typography:** follow [semantic type roles and tracking](../../docs/patterns/typography.md). Manrope for ordinary actions, compact mono action tracking .03em via the shared token, separate short metadata role, Spectral for optional Russian/English editorial prose, quotes and titles via ui-type-editorial-heading/body; applications load used weights and italics separately. Verify rendered glyphs, not only CSS family declarations. Verify actual loaded fonts and Russian/English labels.
+Read [DESIGN.md](../../DESIGN.md), the receipt's applicable canonical references and the relevant installed component source/props. The [routing table](../../docs/patterns/ui-feature-pipeline.md#reference-routing) maps task characteristics to detailed patterns. Read only relevant sections. Use the receipt's stable UI-01–UI-14 rows to plan concrete checks before editing. Mark genuinely unrelated rows N/A with a task-specific reason; leave applicable checks pending. Core scope, components/tokens, visual review and privacy always apply; new/migration additionally require composition, typography, interaction and execution. Executable projects require UI-13 even for focused changes.
 
-Identify: primary user action, screen/route, source of truth, required components, layout hierarchy, each vertical scroll owner, active context/breadcrumbs, Back/Forward, typography, breakpoints, loading/empty/error, keyboard focus, dark/light, source/legal links.
+## 3. Implement
 
-**Mandatory interaction state pass:** inspect [the canonical hover/focus/pressed/selected contract](../../docs/patterns/interaction-states.md) before changing icon buttons, theme pickers, links, navigation, filtering or cards. Do not add app-specific hover animations when role styles already exist. Check state persistence, pointer fine/coarse, focus, disabled, light/dark and reduced motion. The public gallery has a [real interactive specimen](https://ui.vanya-arc.dev/#interaction-states).
+Build the requested surface with real shared components and tokens. Keep product state, domain behavior and routes in the product. Preserve unrelated geometry/scroll/focus and avoid invented APIs, unnecessary local lookalikes or mass redesign. For a missing reusable primitive, propose or implement a focused library change within the task's authorization, with example and tests.
 
-**Header hierarchy pass:** compare default visual weight of nav labels, author/source links, icon-only utility actions and theme controls. Scope `--ui-feedback-icon-ink` to the utility group to match muted navigation text, instead of dimming every icon globally or changing active/hover colors. Don't add profile avatars to author attribution unless it serves a clear identification job. [Source research](../../docs/research/header-identity-hierarchy-loop-2026-11-22.md).
+## 4. Verify and observe
 
-**APG and browser verification:** defaults and semantics matter: `SegmentedControl` filter choices are `aria-pressed` group buttons; actual `semantics="tabs"` requires `tabId/panelId` with panel DOM. Keep controlled selection and panel aligned during item changes; an enabled tablist requests the first available tab once per invalid value/fallback pair when the selected item becomes unavailable. Filters never auto-select; all-disabled tablists remain inert. Theme menu Tab/Shift+Tab must leave composite focus. For Vanya UI itself run [portable browser-qa](../../browser-qa/README.md) and inspect 320/390/1024/1440 px screenshots in both themes, geometry/hit targets, keyboard, zoom and history. `UI_VERIFIED` is NOT_VERIFIED without real evidence.
+After the final code edit run the local machine checks. Use the same project, mode and package selection as the receipt.
 
-**CraftCard:** omit isInteractive (or use true) with a real onClick to enable the card action; false explicitly disables it in 0.4.0+. Use a passive card with separate native actions when content has links, inputs or buttons. Do not duplicate keyboard activation; nested controls own their click events. See [migration](../../docs/versioning.md#миграция-craftcard-в-040).
+~~~sh
+node "$UI/scripts/ui-pipeline.mjs" check --project "$APP" --mode "$MODE"
+node "$UI/scripts/ui-pipeline.mjs" verify --project "$APP" --mode "$MODE" --json > ui-verification.json
+~~~
 
-**Mandatory press-to-result pass:** read [action feedback contract](../../docs/patterns/action-feedback.md) when implementing any action. Test pointer-down, Space/Enter, onClick, pending/double-click protection, actual success/error, focus and mobile. Use caller-controlled `ActionButton.actionState` for async work; do not fabricate success or add auto-toast for every click. Check the [working demo](https://ui.vanya-arc.dev/#action-feedback).
+Check real execution results and fix failures. The CLI runs existing build/browser scripts on the current machine; install dependencies/browser only through the project's permitted setup. No automatic Actions, deployment or dependency upgrade. For static artifacts without runnable build, justify UI-13 N/A only when genuinely inapplicable. For the library itself use [browser-qa](../../browser-qa/README.md).
 
-**Divider ownership pass:** read [composition rules](../../docs/composition/working-surfaces.md#divider-ownership-and-visual-grouping). Prefer whitespace for editorial blocks; choose one boundary owner, internal row separators only where useful, preserve functional/control/focus borders. Inspect adjacent groups together at narrow and wide viewports in both themes.
+Open the actual result in a browser/renderer. Exercise the requested action and applicable states, check narrow/wide and supported themes, and inspect surrounding regressions. Use the receipt and [reference routing](../../docs/patterns/ui-feature-pipeline.md#reference-routing) for concrete checks; measure relevant computed styles and geometry, verify real fonts/data and keyboard behavior. New/screen/migration review the entire named surface; feature review the changed behavior and adjacent shared boundaries. Do not force master/detail, editor fonts, shortcuts or unrelated states onto a task. Record route, actual dimensions/theme, action and observation; retain screenshots/logs locally when available.
 
-**Stable geometry pass:** for dynamic workspaces, test unaffected control/plot/list anchors across loading, filtering, 0/1/many results, disclosures and refresh. Follow the [workspace geometry contract](../../docs/composition/working-surfaces.md#11-stable-geometry-during-ordinary-workspace-interaction); CLS alone does not cover interaction-induced shifts.
+## 5. Close with evidence
 
-For multi-view workspaces, explicitly compare the **same global topbar geometry across home/overview/modules/catalogue**. Use `WorkspaceContextHeader` in that existing bar (including `breadcrumbSize="large"` when a 16px/14px reading scale is needed), never a detached duplicate. If the same project identity is relevant across many modules, keep a compact identity **outside** the reader scroll as its flex sibling; do not add another sticky toolbar. [Canonical recipe](../../docs/patterns/list-detail-composition.md#продолжительная-идентичность-fixed-context--masterdetail). Explain changes concisely in the work log/handoff.
+Complete every receipt row: PASS, FAIL, N/A or NOT_VERIFIED. PASS requires a concrete observation with the prescribed method; browser rows include viewport/theme, command rows include the executed command. Explain exclusions and failures. For UI-13 of executable projects supply the actual `verify --json` output; skipped, planned or failed results cannot satisfy it.
 
-Use `WorkspaceSplit`, `ScrollRegion`, `WorkspaceContextHeader`, `Skeleton`, semantic controls, and actual exports where applicable. Never invent library APIs. For versioned Vanya UI packages, pin a verified immutable source commit SHA and lockfile, never moving `main`. [Release policy](../../docs/versioning.md). For React UI use pinned `@vanya/ui` and `@vanya/ui/tokens.css`. For non-React SVG or host visuals apply tokens/rules without injecting React or global app CSS. Non-UI API/CLI/data changes skip the UI steps.
+~~~sh
+node "$UI/scripts/ui-pipeline.mjs" review --receipt ui-receipt.json --verification ui-verification.json
+~~~
 
-## Phase 2 — implement one complete feature
-
-Make focused changes in the consuming project. For a missing generic primitive, improve Vanya UI in its own codebase with component test/example; do not create unnecessary lookalike components in each product. No automatic GitHub Actions, background jobs, repository secrets or remote runners are required.
-
-## Phase 3 — run portable machine verification
-
-```sh
-node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs check --project PATH_TO_PROJECT [--package app]
-node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs verify --project PATH_TO_PROJECT [--package app]
-```
-
-`check` validates actual files: local canonical policy, React dependency/imports and browser-test script. `verify` runs the target package's build and browser tests on **the current machine** via npm/pnpm/yarn/bun; it does not install packages, deploy, or query GitHub. Use `--mode react` if creating a new React UI, `--manager` to override auto-detection, `--json` for machine consumption and `--dry-run` to inspect commands without claiming they ran. In a monorepo use `--package RELATIVE_PACKAGE_PATH` rather than guessing.
-
-Missing packages or browser binaries are explicit blockers. Do not hide them by running a remote GitHub job. Use the consuming project's installation instructions and obtain approval before any sensitive external access. Re-run both checks after the **last** code change.
-
-## Phase 4 — inspect the rendered result
-
-Automated tests are necessary but **do not prove visual quality**. In a real local browser/preview, record route, viewport, steps and evidence for:
-
-- 1440×900: main hierarchy, adequate reader width, visible active context and breadcrumbs, correct independent scroll owners.
-- Home → overview → module → catalogue: compare topbar bounding geometry; between modules compare project identity bounding geometry. Only the lower reader changes, including its scroll offset. Do not treat a build as visual proof.
-- Long navigation plus long document: independently scroll, change item, confirm reader starts at its heading and list remains usable.
-- Direct URL, reload, 3 selections, browser Back/Forward, keyboard focus, reduced motion.
-- 1024×768, 390×844, 320×568 and 200% zoom: no overlapped controls or page horizontal overflow.
-- Loading, empty, error, theme, typography, copy and third-party/source references.
-
-Record screenshot or a concrete reproducible observation. If interactive browser access is impossible, report **NOT VERIFIED**; a green build or Playwright run does not substitute for reviewing the rendered interface.
-
-## Phase 5 — close the whole loop
-
-Fill every receipt row with `PASS`, `FAIL`, `N/A` or `NOT_VERIFIED` and a specific reason where required. A PASS records method, target and actual observation; browser evidence also records viewport and theme, command evidence includes the executed command. Link screenshots/logs locally where available. Compare measured/observed result with the acceptance text; rerun affected checks after final fixes. Run:
-
-```sh
-node PATH_TO_VANYA_UI/scripts/ui-pipeline.mjs review --receipt ui-receipt.json
-```
-
-Exit 0 (`recorded`) means the receipt is structurally complete; it cannot authenticate claims or judge aesthetics. Inspect actual evidence before marking UI_VERIFIED/READY. Nonzero (`invalid`/`incomplete`) means repair missing evidence, failures or unresolved checks; report blockers. For static artifacts without executable tooling, justify UI-13 N/A only when genuinely inapplicable and obtain real visual evidence. Never fabricate PASS. Summarize applicable rows, justified exclusions and unresolved checks in the handoff; keep private artifacts out of public commits.
-
-
-Check final diff and privacy constraints, fix failures, repeat machine checks and affected browser scenarios, then report the actual evidence. The handoff needs: components reused, commands executed, automated result, observed UI result, remaining blockers and deployment readback (if relevant). Never declare READY for an untested behavior.
-
-## Portable operating contract
-
-**Required:** local Vanya UI source folder, local target project folder, Node.js 20+. For automated UI browser tests also the project's installed toolchain and browser. Git is optional, a remote provider is optional, and no fixed absolute paths are needed. Copy folders to another machine and run the same CLI with new paths.
-
-**Optional adapters:** `.github/actions/ui-contract` and `workflow_dispatch` are only wrappers; do not enable push/PR/schedule. GitHub checks cannot be the source of truth for execution or completion.
-
-**Status language:** local contract PASS, build PASS and automated browser PASS are separate from visual review PASS. Final READY requires both automated and observed UI evidence. If either was not executed, say BLOCKED / NOT VERIFIED and explain why.
+For a genuinely non-executable artifact omit the verification argument and justify UI-13 N/A. For blocked checks report FAIL or NOT_VERIFIED; never fabricate results. The validator checks recorded evidence and machine-result consistency, with visual truth assessed through actual observation. Review the final diff and publication boundary, including relevant built output. Fix applicable failures and repeat affected checks after edits. Report scope, reused components, executed commands, concrete observations, justified exclusions and blockers; if deploying was requested, report live readback separately. READY requires all applicable checks passed, observed rendering and actual user outcome verified. A dry run, build-only pass or structurally complete receipt is insufficient on its own.

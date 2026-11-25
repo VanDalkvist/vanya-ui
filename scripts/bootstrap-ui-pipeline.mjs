@@ -21,12 +21,12 @@ export function bootstrap(project,library=defaultLibrary){
   'For UI and visual features read the canonical local skill:',link+'/skills/vanya-ui/SKILL.md','',
   'Portable commands (Node >=20; no Git or remote CI):','',
   '    node '+cli+' inspect --project .',
-  '    node '+cli+' plan --task "Describe one requested UI change" --target "/affected-route" > ui-receipt.json',
+  '    node '+cli+' plan --project . --task "Describe one requested UI change" --target "/affected-route" > ui-receipt.json',
   '    node '+cli+' check --project .',
-  '    node '+cli+' verify --project .',
-  '    node '+cli+' review --receipt ui-receipt.json','',
+  '    node '+cli+' verify --project . --json > ui-verification.json',
+  '    node '+cli+' review --receipt ui-receipt.json --verification ui-verification.json','',
   'Actual browser/visual acceptance remains required; machine checks alone are not proof.',
-  'If the library moves, rerun bootstrap from the new local path or update this pointer.',
+  'If the library moves, update existing pointers manually; bootstrap preserves them.',
   'GitHub Actions are NOT required, and must stay manual-only if used.',''
  ].join('\n');
  const agent=[

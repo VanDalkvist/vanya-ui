@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.4.3] - 2026-11-25
+
+### Changed — agent skill and acceptance
+- Compact skill with precise trigger/compatibility, explicit new-product mode and conditional canonical reference routing. Existing commands and detached receipt format preserved.
+- Project-bound receipts re-inspect the target and require actual successful verify JSON for executable projects. New/migration have mandatory layout, typography, interaction and execution gates. Bootstrap pointers preserve existing policy. No product UI/API changes or automatic upgrades.
+
 ## [0.4.2] - 2026-11-25
 
 ### Added — portable task acceptance

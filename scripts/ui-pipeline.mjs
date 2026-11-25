@@ -144,13 +144,14 @@ function runScript(info,manager,name,asJson=false){
 }
 export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={}){
  const checked=checkProject(info);
- const result={project:info.project,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked'};
+ const result={project:info.project,package:info.package,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked'};
  if(checked.status==='skip'){result.status='skipped';return result}
  if(checked.status==='fail'){result.issues=checked.problems;return result}
  if(!info.package){result.issues=['No executable package.json. Visual review required; cannot certify automatically'];return result}
  const runtime=manager||info.manager||'npm';
  if(!managers.includes(runtime))throw Error('Unknown package manager '+runtime);
  const build=buildScript||'build',browser=browserScript||info.browserScript;
+ result.buildScript=build;result.browserScript=browser||null;
  if(!info.scripts[build]){result.issues=['Missing build script '+build];return result}
  if(info.mode==='react'&&!browser){result.issues=['No browser-test script'];return result}
  const tasks=[...(unitScript?[unitScript]:[]),build,...(browser?[browser]:[])];
@@ -175,7 +176,7 @@ function parseArgs(argv){
   const arg=tail[i];if(!arg.startsWith('--'))throw Error('Unexpected argument '+arg);
   const key=arg.slice(2);
   if(boolean.has(key)){options[key]=true;continue}
-  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt'].includes(key))throw Error('Unknown option --'+key);
+  if(!['project','package','mode','manager','build-script','browser-script','unit-script','task','target','scope','receipt','verification'].includes(key))throw Error('Unknown option --'+key);
   const value=tail[++i];
   if(!value||value.startsWith('--'))throw Error('Missing value for --'+key);
   options[key]=value;
@@ -206,18 +207,28 @@ export function runCli(argv){
   console.log('Vanya UI portable agent pipeline (Node >=20; offline; no GitHub)\n'
    +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
    +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
-   +'Plan: plan --task <description> --target <route/component> [--scope feature|screen|migration] > receipt.json\n'
-   +'Review: review --receipt receipt.json [--json] (checks recorded evidence only)\n'
+   +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
+   +'Review: review --receipt receipt.json [--verification verify.json] (checks recorded evidence and supplied machine results)\n'
    +'For repeatable agent steps read <vanya-ui>/skills/vanya-ui/SKILL.md.');
   return 0;
  }
  if(command==='plan'){
-  console.log(JSON.stringify(createAcceptancePlan({task:options.task,target:options.target,scope:options.scope||'feature',libraryVersion:json(join(libraryRoot,'package.json'))?.version||null}),null,2));return 0;
+  const scope=options.scope||'feature';
+  const mode=options.mode||(scope==='new'?'react':'auto');
+  if(!modes.includes(mode)||mode==='none')throw Error('plan needs a UI mode');
+  if(scope==='new'&&!options.project)throw Error('new scope requires --project');
+  const targetProject=options.project?{project:resolve(options.project),package:options.package||null,mode}:null;
+  if(targetProject&&(!existsSync(targetProject.project)||!statSync(targetProject.project).isDirectory()))throw Error('Create target directory before planning');
+  console.log(JSON.stringify(createAcceptancePlan({task:options.task,target:options.target,scope,libraryVersion:json(join(libraryRoot,'package.json'))?.version||null,targetProject}),null,2));return 0;
  }
  if(command==='review'){
   if(!options.receipt)throw Error('review requires --receipt <path>');
   const receipt=JSON.parse(readFileSync(resolve(options.receipt),'utf8'));
-  const review=reviewAcceptance(receipt);
+  const binding=receipt?.targetProject;
+  const project=options.project||binding?.project;
+  const projectInfo=project?inspectProject({project,mode:options.mode||binding?.mode||'auto',packageDir:options.package||binding?.package||undefined}):undefined;
+  const verification=options.verification?JSON.parse(readFileSync(resolve(options.verification),'utf8')):undefined;
+  const review=reviewAcceptance(receipt,{projectInfo,verification});
   console.log(JSON.stringify(review,null,2));return review.status==='recorded'?0:1;
  }
  const info=inspectProject({project:options.project||'.',mode:options.mode||'auto',packageDir:options.package});

@@ -16,21 +16,26 @@ export const criteria=[
  criterion("UI-13","Build and regression execution","docs/patterns/ui-feature-pipeline.md","Run target build and affected browser/unit scripts; record actual command/results. For static artifacts with no runnable build, record why and use observed rendering for UI-11.","command"),
  criterion("UI-14","Privacy and publication boundary","docs/patterns/publication-safety.md","Review the changed files and relevant built output for secrets/private data; if deploying, record destination and live readback separately.","source",true),
 ];
-export const scopes=["feature","screen","migration"];
+export const scopes=["new","feature","screen","migration"];
 const statuses=["PENDING","PASS","FAIL","N/A","NOT_VERIFIED"];
 const nonempty=x=>typeof x==="string"&&x.trim().length>0;
 const allowedMethods=["source","browser","command"];
-export function createAcceptancePlan({task,target,scope="feature",libraryVersion=null}={}){
+export function createAcceptancePlan({task,target,scope="feature",libraryVersion=null,targetProject=null}={}){
  if(!nonempty(task)||!nonempty(target))throw Error("plan requires --task and --target (affected route, component or artifact)");
  if(!scopes.includes(scope))throw Error("Unknown task scope: "+scope);
- return {schemaVersion:1,libraryVersion,task,target,scope,criteria:criteria.map(c=>({...c,status:"PENDING",reason:"",evidence:[]}))};
+ return {schemaVersion:1,libraryVersion,task,target,scope,...(targetProject?{targetProject}:{}),criteria:criteria.map(c=>({...c,status:"PENDING",reason:"",evidence:[]}))};
 }
-export function reviewAcceptance(receipt){
+export function reviewAcceptance(receipt,{projectInfo,verification}={}){
  const errors=[],unresolved=[];
  if(!receipt||receipt.schemaVersion!==1||!nonempty(receipt.task)||!nonempty(receipt.target)||!scopes.includes(receipt.scope)){
   return {status:"invalid",errors:["Expected schemaVersion 1, task, target and valid scope"],unresolved,visualReview:"DECLARED_ONLY"};
  }
  if(!Array.isArray(receipt.criteria))return {status:"invalid",errors:["Missing criteria array"],unresolved,visualReview:"DECLARED_ONLY"};
+ const bound=receipt.targetProject;
+ const executable=!!projectInfo&&(projectInfo.mode==="react"||!!projectInfo.buildScript||!!projectInfo.browserScript);
+ if(bound&&(!projectInfo||bound.project!==projectInfo.project||(bound.package&&bound.package!==projectInfo.package)||(bound.mode!=="auto"&&bound.mode!==projectInfo.mode)))errors.push("Receipt project/mode/package does not match inspected target");
+ if(projectInfo?.mode==="none")errors.push("No UI surface detected; inspect with explicit react/visual mode for intended UI work");
+ if(receipt.scope==="new"&&!bound)errors.push("New product receipt must bind a project");
  const byId=new Map();
  for(const row of receipt.criteria){
   if(!row||!criteria.some(c=>c.id===row.id)){errors.push("Unknown criterion: "+String(row?.id));continue}
@@ -42,7 +47,7 @@ export function reviewAcceptance(receipt){
   if(!r){errors.push("Missing criterion: "+c.id);continue}
   if(!statuses.includes(r.status)){errors.push(c.id+": invalid status");continue}
   if(r.status==="N/A"){
-   if(c.required||(receipt.scope==="migration"&&["UI-03","UI-04","UI-06","UI-13"].includes(c.id)))errors.push(c.id+": cannot be N/A for this scope");
+   if(c.required||(["new","migration"].includes(receipt.scope)&&["UI-03","UI-04","UI-06","UI-13"].includes(c.id))||(c.id==="UI-13"&&executable))errors.push(c.id+": cannot be N/A for this scope");
    if(!nonempty(r.reason))errors.push(c.id+": N/A requires task-specific reason");
    continue;
   }
@@ -55,5 +60,12 @@ export function reviewAcceptance(receipt){
   if(!ev.length||ev.some(x=>!x||!allowedMethods.includes(x.method)||!nonempty(x.target)||!nonempty(x.observation)))errors.push(c.id+": PASS requires method, target and concrete observation");
   if(!ev.some(x=>x?.method===c.method&&(c.method!=="browser"||(nonempty(x.viewport)&&nonempty(x.theme)))&&(c.method!=="command"||nonempty(x.command))))errors.push(c.id+": PASS requires "+c.method+" evidence"+(c.method==="browser"?" with viewport and theme":c.method==="command"?" with executed command":""));
  }
- return {status:errors.length?"invalid":unresolved.length?"incomplete":"recorded",errors,unresolved,visualReview:"DECLARED_ONLY",note:"Structure only: inspect actual evidence before accepting UI; this command does not execute or authenticate observations."};
+ if(projectInfo&&(executable||["new","migration"].includes(receipt.scope))&&byId.get("UI-13")?.status==="PASS"){
+  const v=verification;
+  const passed=Array.isArray(v?.checks)?v.checks:[];
+  const ran=script=>typeof script==="string"&&!!projectInfo.scripts?.[script]&&passed.some(x=>x.script===script&&x.status==="passed"&&x.exitCode===0);
+  if(!v||v.project!==projectInfo.project||v.package!==projectInfo.package||v.mode!==projectInfo.mode||v.contract!=="pass"||v.status!=="passed"||!passed.length||passed.some(x=>x.status!=="passed"||x.exitCode!==0)||!ran(v.buildScript)||(projectInfo.mode==="react"&&!ran(v.browserScript))||(projectInfo.browserScript&&!ran(v.browserScript)))errors.push("UI-13 requires matching successful executed verify JSON (build and applicable browser scripts)");
+ }
+ const projectBinding=projectInfo?"CHECKED":"DETACHED";
+ return {status:errors.length?"invalid":unresolved.length?"incomplete":"recorded",errors,unresolved,projectBinding,visualReview:"DECLARED_ONLY",note:"Recorded evidence and supplied machine-result consistency only; inspect actual observations and rerun after edits. Detached receipts do not establish project-specific acceptance."};
 }
