@@ -40,7 +40,7 @@
 - [Official artwork license](https://ui.vanya-arc.dev/reference/brand-artwork-license.txt): exact LicenseRef-VanyaArc-Brand terms from the pinned brand package.
 - [Canonical brand source](https://github.com/VanDalkvist/vanya-arc-brand): V→A artwork, SVG and React lockups, colors, typography and research.
 - [UI brand integration compatibility reference](https://ui.vanya-arc.dev/reference/brand.md): pointer to canonical brand repo.
-- [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/70c7a6ff839355a45d11bd9d51a888aeaa4cac43/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
+- [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
 - [Vanya UI MIT license](https://ui.vanya-arc.dev/LICENSE.txt): Copyright 2026 Vanya Afanasov.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 

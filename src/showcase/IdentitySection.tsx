@@ -34,6 +34,6 @@ export function IdentitySection() {
     <div><span className="identity-swatch" style={{background:"var(--ink)"}}/><strong>Чернила</strong><code>--ink</code></div>
     <div><span className="identity-swatch" style={{background:"var(--accent)"}}/><strong>Терракота</strong><code>--accent</code></div>
   </div>
-  <p className="catalog-intro">Для родителя и UI используй <code>VanyaArcMark</code>. Для другого сервиса передай утверждённый компонент в <code>VanyaArcLockup productMark</code>. До утверждения допустим временный текстовый lockup. <a href="/reference/identity.md">Правила и примеры для агентов (Markdown)</a>. <a href="https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md" target="_blank" rel="noopener noreferrer">Правила бренда</a>.</p>
+  <p className="catalog-intro">Для родителя и UI используй <code>VanyaArcMark</code>. Для другого сервиса передай утверждённый компонент в <code>VanyaArcLockup productMark</code>. До утверждения допустим временный текстовый lockup с <code>showMark=false</code>. <a href="/reference/identity.md">Правила и примеры для агентов (Markdown)</a>. <a href="https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md" target="_blank" rel="noopener noreferrer">Правила бренда</a>.</p>
  </section>;
 }

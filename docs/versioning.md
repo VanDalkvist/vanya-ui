@@ -85,3 +85,6 @@ The last verified tag listed above is a pre-harness release. Candidate 0.5.0 is 
 ### Проверенный кандидат для явного пилотного подключения
 
 **0.5.0 / BUILD_VERIFIED / UNTAGGED** — [`3d344042218c6a5323e2c51da0e7582bdca1d30a`](https://github.com/VanDalkvist/vanya-ui/commit/3d344042218c6a5323e2c51da0e7582bdca1d30a), 2026-11-25. Cloudflare CI: 125 Vitest, 37 Node, 3 harness E2E; реальные npm/React 18 и Bun/React 19 consumer smoke, включая отрицательные тесты линтинга и compiled CSS, прошли. Этот неизменяемый SHA доступен для явно согласованного пилотного внедрения. UI_VERIFIED и релизный тег открыты; текущий опубликованный релиз остаётся 0.4.1. Установка кандидата через `https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/3d344042218c6a5323e2c51da0e7582bdca1d30a` с lockfile. Существующие продукты сохраняют закреплённые версии до отдельного решения.
+
+## Identity-capable candidate
+The 0.5.0 verified harness pin above predates `productMark` and contributor mode. The 0.6.0 source candidate adds them; do not advertise it as verified until exact revision tests and distribution checks pass. Existing lockup defaults remain compatible. New identity work selects an approved mark explicitly; older pins use available APIs and existing approved assets. No automatic upgrades.

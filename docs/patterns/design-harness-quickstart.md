@@ -3,7 +3,7 @@
 This is the canonical short path. Read [the skill](../../skills/vanya-ui/SKILL.md) and applicable [DESIGN.md](../../DESIGN.md) for design choices and visual acceptance.
 
 ## New React project
-1. Select a **verified harness-capable immutable SHA** from [versioning](../versioning.md); install and lock `@vanya/ui`. A 0.4.x pin predates the harness. The versioning guide lists a build-verified, untagged 0.5.0 candidate for an explicitly approved pilot. If no compatible release or approved candidate is available, report BLOCKED; do not silently install a moving main.
+1. Select a **verified harness-capable immutable SHA** from [versioning](../versioning.md); install and lock `@vanya/ui`. A 0.4.x pin predates the harness. The versioning guide lists a build-verified, untagged 0.5.0 candidate for an explicitly approved pilot. The verified 0.5.0 candidate covers the consumer harness only; it predates the new productMark and contributor operation. Check the installed API and the local guide revision for the required capability. If no compatible release or approved candidate is available, report BLOCKED; do not silently install a moving main.
 2. Set up global CSS with `@import "@vanya/ui/tokens.css";` and Tailwind `@source` relative to the stylesheet. Use actual exported components; set up theme and fonts. Choose the full set of authored UI roots, not just an example folder.
 3. From a local guide checkout, run:
 ~~~sh

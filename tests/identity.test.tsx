@@ -44,8 +44,9 @@ describe("product-specific marks",()=>{
   expect(screen.getByTestId("custom-mark")).toHaveAttribute("data-mono","true");
   expect(lockup.querySelector(".vanya-arc-mark")).toBeNull();
  });
- it("uses text-only until a service mark is approved, and respects showMark",()=>{
-  render(<><VanyaArcLockup product="Example"/><VanyaArcLockup product="Other" productMark={Custom} showMark={false}/></>);
-  for(const name of ["Example","Other"])expect(screen.getByRole("img",{name:"Vanya Arc / "+name}).querySelector("svg")).toBeNull();
+ it("preserves existing default and respects explicit text-only lockups",()=>{
+  render(<><VanyaArcLockup product="Example"/><VanyaArcLockup product="Other" productMark={Custom} showMark={false}/><VanyaArcLockup product="Temporary" showMark={false}/></>);
+  expect(screen.getByRole("img",{name:"Vanya Arc / Example"}).querySelector("path")).toHaveAttribute("d",VANYA_ARC_MARK_PATH);
+  for(const name of ["Other","Temporary"])expect(screen.getByRole("img",{name:"Vanya Arc / "+name}).querySelector("svg")).toBeNull();
  });
 });

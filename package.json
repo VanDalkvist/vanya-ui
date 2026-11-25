@@ -38,7 +38,7 @@
     "test:harness:consumer": "node scripts/consumer-smoke.mjs"
   },
   "dependencies": {
-    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#70c7a6ff839355a45d11bd9d51a888aeaa4cac43",
+    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "tailwind-merge": "^3.0.2"

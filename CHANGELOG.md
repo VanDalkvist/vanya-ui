@@ -10,7 +10,7 @@
 - Contributor operation in the portable UI pipeline: explicit private preflight, source and compiled publication checks in existing build, generic contribution guidance and fixture tests.
 
 ### Changed
-- Brand architecture: individual wave-based marks and matching favicons for official services. Parent and UI retain the original V→A. Re-export `productMark`; non-UI services without a supplied mark render a temporary wordmark. Candidate until verification; existing consumer pins remain unchanged.
+- Brand architecture: individual wave-based marks and matching favicons for official services. Parent and UI retain the original V→A. Re-export `productMark`; existing calls retain their default, and temporary wordmarks are explicitly requested with `showMark={false}`. Candidate until verification; existing consumer pins remain unchanged.
 
 ## [0.5.0] - 2026-11-25
 
