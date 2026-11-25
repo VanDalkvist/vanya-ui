@@ -7,12 +7,13 @@ import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import {normalizeWarning,compareBaseline,assertDebtBaseline,isCssRule,isJsxRule} from './design-lint-baseline.mjs';
 import {fileURLToPath} from 'node:url';
+import {lintInventory} from './design-source-inventory.mjs';
 const library=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2);
 const project=resolve(args.find(a=>a.startsWith('--project='))?.slice(10)||library);
 const targets=args.filter(a=>!a.startsWith('--'));
 const sourceTargets=targets.length?targets:[project===library?'src/showcase':'src'];
-const cssTargets=sourceTargets.map(t=>t.endsWith('.css')?t:t+'/**/*.css');
+
 const isLibrary=project===library;
 const debtPath=args.find(a=>a.startsWith('--baseline='))?.slice(11);
 const capturePath=args.find(a=>a.startsWith('--capture-baseline='))?.slice(19);
@@ -66,20 +67,22 @@ try{
  fixture('stylelint good (including geometry)',css([f('good.css')],library),0);
  fixture('stylelint bad',css([f('bad.css')],library),2,['no-unknown-custom-properties','value-type-custom-property-required-list','declaration-property-value-disallowed-list','19px','17px','#f123ab']);
  fixture('Impeccable gradient text',imp([f('impeccable.css')],dir),2,['gradient-text']);
- const jsxResult=run(bin('oxlint'),['--config',ox,'--format','json',...sourceTargets]);
+ const inventory=lintInventory(project,sourceTargets,{requireCoverage:!isLibrary});
+ if(!inventory.js.length||!inventory.css.length)throw Error('Expected authored JS/TS and CSS in lint scope');
+ const jsxResult=run(bin('oxlint'),['--config',ox,'--format','json',...inventory.js]);
  if(!valid(jsxResult,[0,1])){show(jsxResult);throw Error('shadcn execution failed: '+jsxResult.status)}
  const jsxReport=[jsxResult.stdout,jsxResult.stderr].map(out=>{try{return JSON.parse(out)}catch{return null}}).find(v=>Array.isArray(v?.diagnostics));
- if(!jsxReport||!Number.isInteger(jsxReport.number_of_files)||jsxReport.number_of_files<1||jsxReport.number_of_rules<2)throw Error('Invalid or empty shadcn report');
+ if(!jsxReport||!Number.isInteger(jsxReport.number_of_files)||jsxReport.number_of_files!==inventory.js.length||jsxReport.number_of_rules<2)throw Error('Invalid or empty shadcn report');
  const jsxWarnings=jsxReport.diagnostics.map(d=>{
   if(!isJsxRule(d.code)||typeof d.filename!=='string'||typeof d.message!=='string'||!Number.isInteger(d.labels?.[0]?.span?.line))throw Error('Unexpected shadcn diagnostic: '+String(d.code));
   const absolute=resolve(project,d.filename);
   return normalizeWarning(relative(project,absolute).split(sep).join('/'),{rule:d.code,text:d.message,line:d.labels[0].span.line},readFileSync(absolute,'utf8'));
  });
  if(jsxResult.status!==0&&!jsxWarnings.length)throw Error('shadcn failed without rule findings');
- const cssResult=run(bin('stylelint'),['--config',style,'--formatter','json',...cssTargets]);
+ const cssResult=run(bin('stylelint'),['--config',style,'--formatter','json',...inventory.css]);
  if(!valid(cssResult,[0,2])){show(cssResult);throw Error('Stylelint execution failed: '+cssResult.status)}
  const report=[cssResult.stdout,cssResult.stderr].map(out=>{try{return JSON.parse(out)}catch{return null}}).find(Array.isArray);
- if(!report||!report.length||report.some(f=>!Array.isArray(f.warnings)||f.invalidOptionWarnings?.length||f.parseErrors?.length))throw Error('Stylelint report missing or invalid');
+ if(!report||report.length!==inventory.css.length||report.some(f=>!Array.isArray(f.warnings)||f.ignored||f.invalidOptionWarnings?.length||f.parseErrors?.length)||JSON.stringify(report.map(f=>relative(project,resolve(project,f.source)).split(sep).join('/')).sort())!==JSON.stringify(inventory.css.slice().sort()))throw Error('Stylelint report missing, ignored or incomplete');
  const warnings=report.flatMap(f=>f.warnings.map(w=>{
   if(!isCssRule(w.rule))throw Error('Unexpected Stylelint diagnostic: '+w.rule);
   const absolute=resolve(project,f.source);

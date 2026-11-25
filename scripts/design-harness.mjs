@@ -3,6 +3,8 @@ import {existsSync,readFileSync,realpathSync,statSync} from 'node:fs';
 import {dirname,join,relative,resolve,isAbsolute,sep} from 'node:path';
 import {createRequire} from 'node:module';
 import {spawnSync} from 'node:child_process';
+import {authoredInventory,lintInventory,hashInputs} from './design-source-inventory.mjs';
+import {createHash} from 'node:crypto';
 import {assertDebtBaseline} from './design-lint-baseline.mjs';
 
 export const CANONICAL_LINT_SCRIPT='vanya-ui-lint';
@@ -20,7 +22,7 @@ export function resolveInstalledHarness(project){
  const runner=join(library,'scripts/design-lint-pilot.mjs');
  if(pkg.name!=='@vanya/ui'||!existsSync(runner)||!existsSync(join(library,'design-lint/package-lock.json'))||pkg.bin?.['vanya-ui-lint']!=='./scripts/design-harness-bin.mjs'||!existsSync(join(library,pkg.bin['vanya-ui-lint'])))
   throw Error('Installed @vanya/ui does not provide the frozen design harness; select a verified harness-capable pin');
- return {runner,version:pkg.version};
+ return {runner,version:pkg.version,library};
 }
 
 export function validateSources(project,sources){
@@ -54,7 +56,7 @@ export function readHarnessConfig(project){
 
 export function inspectHarness(project,scripts={}){
  const problems=[];let config=null,version=null;
- try{config=readHarnessConfig(project)}catch(e){problems.push(e.message)}
+ try{config=readHarnessConfig(project);lintInventory(project,config.sources)}catch(e){problems.push(e.message)}
  try{version=resolveInstalledHarness(project).version}catch(e){problems.push(e.message)}
  if(scripts['lint:design']!==CANONICAL_LINT_SCRIPT)problems.push('lint:design must be the canonical '+CANONICAL_LINT_SCRIPT+' script; run adopt');
  return {status:problems.length?'invalid':'ready',problems,config,version};
@@ -65,6 +67,7 @@ export function runConsumerLint({project,sources,asJson=false,captureFile}){
  const {runner,version}=resolveInstalledHarness(root);
  const config=sources?{sources:validateSources(root,sources),mode:'strict'}:readHarnessConfig(root);
  const targets=config.sources;
+ lintInventory(root,targets);
  if(captureFile&&(sources||config.mode!=='strict'))throw Error('Baseline capture requires the adopted strict source scope');
  const policy=captureFile?'--capture-baseline='+captureFile:config.mode==='baseline'?'--baseline='+join(root,HARNESS_BASELINE):'--strict';
  const result=spawnSync(process.execPath,[runner,'--project='+root,policy,...targets],{
@@ -72,4 +75,21 @@ export function runConsumerLint({project,sources,asJson=false,captureFile}){
  });
  if(result.error)return {script:'lint:design',status:'failed',reason:result.error.message,version,sources:targets};
  return {script:'lint:design',status:result.status===0?'passed':'failed',exitCode:result.status,signal:result.signal||undefined,version,sources:targets};
+}
+
+export function verificationFingerprint(project,workspace=project){
+ const {library}=resolveInstalledHarness(project);
+ const files=authoredInventory(project);
+ const extra=['package.json','vanya-ui.config.json','vanya-ui.baseline.json','tsconfig.json','package-lock.json','bun.lock','bun.lockb','pnpm-lock.yaml','yarn.lock','AGENTS.md','UI_CONTRACT.md'];
+ const hash=createHash('sha256').update(hashInputs(project,files,extra.slice()));
+ if(workspace!==project)hash.update(hashInputs(workspace,[],['package.json','package-lock.json','bun.lock','bun.lockb','pnpm-lock.yaml','yarn.lock','AGENTS.md','UI_CONTRACT.md']));
+ for(const f of ['package.json','design-lint/package-lock.json','scripts/design-lint-pilot.mjs','scripts/design-lint-baseline.mjs','scripts/design-harness.mjs','scripts/design-source-inventory.mjs','src/tokens.css','src/index.ts'])hash.update(readFileSync(join(library,f)));
+ hash.update(readFileSync(createRequire(join(library,'package.json')).resolve('@vanya/brand/tokens.css')));
+ return hash.digest('hex');
+}
+export function runCanonicalCi({project,asJson=false}){
+ const pkg=JSON.parse(readFileSync(join(project,'package.json'),'utf8'));
+ const binding=inspectHarness(project,pkg.scripts||{});
+ if(binding.status!=='ready')throw Error(binding.problems.join('; '));
+ return runConsumerLint({project,asJson});
 }

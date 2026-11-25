@@ -16,7 +16,8 @@
       "types": "./src/index.ts",
       "import": "./src/index.ts"
     },
-    "./tokens.css": "./src/tokens.css"
+    "./tokens.css": "./src/tokens.css",
+    "./lint": "./scripts/design-harness-bin.mjs"
   },
   "scripts": {
     "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",

@@ -109,7 +109,7 @@ async function main() {
         if(harness){
           phase="harness-adopt";
           run(cwd,process.execPath,[join(cwd,"node_modules/@vanya/ui/scripts/ui-pipeline.mjs"),"adopt","--project",cwd,"--sources","src"]);
-          phase="harness-lint";run(cwd,row.manager,["run","lint:design"]);receipt.checks.harnessLint="PASS";
+          phase="harness-lint";run(cwd,row.manager,["run","lint:design"]);run(cwd,process.execPath,["--input-type=module","-e","import '@vanya/ui/lint'"]);receipt.checks.harnessLint="PASS";
           phase="harness-negative";
           const cssPath=join(cwd,"src/style.css"),before=readFileSync(cssPath,"utf8");
           try{
