@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.4.6] - 2026-11-25
+
+### Fixed
+- Reserve the hero wave space and reveal the first measured SVG after fonts and header geometry settle. Prevent a visible prerender fallback frame while preserving no-script markup, public SineWave API and responsive behavior. Add delayed-hydration browser regression.
+
 ## [0.4.5] - 2026-11-25
 
 ### Fixed

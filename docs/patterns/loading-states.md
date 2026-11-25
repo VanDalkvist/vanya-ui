@@ -56,3 +56,7 @@ import {Skeleton, SkeletonText, LoadingRegion, MediaCardSkeleton} from "@vanya/u
 - Используются общие компоненты и токены; доменное приложение не копирует CSS skeleton.
 
 Исследовательская база: [Loading states, 2026-11-22](../research/loading-states-2026-11-22.md). Ссылка не переносит права на внешний текст.
+
+## Initial measurement of responsive visuals
+
+For a server-prerendered visual whose final geometry requires browser measurements, reserve its intended layout from the first frame. In scripting-enabled browsers keep provisional geometry and its interactive targets hidden until actual dimensions are available and stable. Keep surrounding text and navigation visible. Do not use an arbitrary timeout or animation to conceal an invalid frame. Preserve a useful static fallback when JavaScript is disabled. Test a cold load with intentionally delayed hydration, compare the first visible geometry against measured bounds, and exercise the final control. Existing post-load resize/interaction rules still apply.

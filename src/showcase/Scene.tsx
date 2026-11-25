@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useInitialWaveReady } from "./useInitialWaveReady";
 import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
 import { ArrowDownRight } from "lucide-react";
 
@@ -17,6 +18,8 @@ const pointMoments = [
 export function Scene() {
   const [moment, setSelected] = useState<typeof moments[number] | null>(null);
   const [distance, setDistance] = useState(64);
+  const waveRef = useRef<SVGSVGElement>(null);
+  const waveReady = useInitialWaveReady(waveRef);
   return (
     <section id="composition" className="scene" aria-labelledby="scene-title">
       <div className="scene-intro">
@@ -25,7 +28,7 @@ export function Scene() {
           <a href="/#catalog" className="scene-catalog-link">Перейти к компонентам <ArrowDownRight size={14} aria-hidden="true"/></a>
         </div>
       </div>
-      <div className="scene-wave"><SineWave className="scene-background" fit origin={590} events={[
+      <div className="scene-wave" data-wave-ready={waveReady}><SineWave ref={waveRef} className="scene-background" fit origin={590} events={[
         { id: "early", position: 0.1, weight: 1, label: pointMoments[0].title, onClick: () => setSelected(pointMoments[0]) },
         ...moments.map((item, index): SineWaveEvent => ({ id: item.date, position: 0.5 + (index === 0 ? -1 : 1) * distance / 320, weight: index === 0 ? 2 : 4, preview: { date: item.date, title: item.title }, onClick: () => setSelected(item) })),
         { id: "middle", position: 0.5, weight: 3, label: pointMoments[1].title, onClick: () => setSelected(pointMoments[1]) },

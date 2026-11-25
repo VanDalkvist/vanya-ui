@@ -397,3 +397,9 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .agents-resource-link svg { flex:none; }
 .agents-resource-list p { margin-top:2px; }
 @media(max-width:700px){ .agents-columns { grid-template-columns:minmax(0,1fr); gap:36px; } .agents-copy-row { align-items:flex-start; flex-direction:column; } }
+
+/* SSR preserves the complete wave markup for no-script readers. On a scripting
+   browser, reserve the same space while the client measures the real viewport. */
+@media (scripting: enabled) {
+  .scene-wave[data-wave-ready="false"] { visibility:hidden; opacity:0; pointer-events:none; }
+}
