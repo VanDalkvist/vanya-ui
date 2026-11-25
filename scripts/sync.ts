@@ -23,6 +23,7 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 ## Agent instructions (canonical public entrypoints)
 - Canonical composition and stable geometry: https://ui.vanya-arc.dev/reference/composition.md
 - Public data boundary: https://ui.vanya-arc.dev/reference/publication-safety.md
+- Contributor mode: https://ui.vanya-arc.dev/reference/contributing.md
 - Install and source package constraints: https://ui.vanya-arc.dev/reference/installation.md
 - Agent harness quickstart: https://ui.vanya-arc.dev/reference/design-harness-quickstart.md
 - Agent mode: https://ui.vanya-arc.dev/agents/
@@ -117,6 +118,7 @@ const docs=[
  ["docs/patterns/action-feedback.md","action-feedback.md"],
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
+ ["docs/patterns/contributing.md","contributing.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
  ["docs/research/workspace-scroll-composition-2026-11-21.md","workspaces.md"],
  ["docs/deployment.md","deployment.md"],

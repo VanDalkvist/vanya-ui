@@ -235,3 +235,6 @@ Previous head 3d344042218c6a5323e2c51da0e7582bdca1d30a: Cloudflare validation SU
 
 ### Product identity architecture clarification (2026-11-25)
 Owner clarified umbrella architecture: preserve exact V→A for parent/UI; each official service has a distinct purpose-derived wave symbol and matching favicon. Brand source candidate 70c7a6ff839355a45d11bd9d51a888aeaa4cac43 (brand PR #1). UI integration uses exact pin, removes contradictory wording and adds actual re-export runtime tests for original geometry, custom slot, monochrome and text-only fallback. Public Markdown and skill route UI-12 to the procedure. Owner requested knowledge only: no conceptual service logos on the showcase, no new product assets, no product migration. CI and visual QA pending.
+
+### Contributor mode — implementation in progress
+Owner authorized the bounded contributor design. Existing portable CLI routes explicit phases to policy and local inventory modules; tests exercise real Git fixtures and negative paths. Generalized inherited provenance and preserved runtime category presets, component APIs and styling. Added contributor guide, existing skill routing, public doc drift checks and template. Private owner policy and actual binary/semantic review remain outside generic CI. No consumer modifications. Exact-head CI and independent verification pending.

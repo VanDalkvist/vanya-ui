@@ -51,7 +51,7 @@ This repository and `https://ui.vanya-arc.dev` are **public**. All committed fil
 
 **Before committing or deploying:** review the *complete diff* and built `dist/` for credentials, tokens, cookies, private keys, `.env` files, internal endpoints, non-public URLs, real user records, analytics exports, logs, screenshots and private project details. Only publish intentionally public, independently approved examples; use fabricated examples for code or demos. Never rely on GitHub repository visibility or Cloudflare Access as a substitute for this review. Cloudflare secrets stay in environment bindings, never in Vite frontend code or `VITE_*` variables. If in doubt, exclude the data, do not sanitize-and-guess.
 
-This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
+The library is independent of actual consuming-service names, links, data and provenance. Reusable extracted components and generic examples remain valid. Follow the [contributor workflow](docs/patterns/contributing.md). This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
 
 ## Identity — required
 

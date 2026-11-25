@@ -7,6 +7,7 @@
 [Agent Mode](https://ui.vanya-arc.dev/agents/) показывает харнесс, два сценария подключения и границы проверки. [Quickstart](https://ui.vanya-arc.dev/reference/design-harness-quickstart.md) содержит команды. Для исполнения требуется локальная копия библиотеки.
 
 - [Стабильная геометрия и композиция](https://ui.vanya-arc.dev/reference/composition.md) — измеримые правила для динамических данных.
+- [Контрибуция](https://ui.vanya-arc.dev/reference/contributing.md) — перенос универсальных решений и проверка границы публичности.
 - [Безопасность публикации](https://ui.vanya-arc.dev/reference/publication-safety.md) — границы публичных материалов.
 
 - [Канонический скилл Vanya UI](https://ui.vanya-arc.dev/reference/agent-skill.md) — полный переносимый рабочий цикл без GitHub.

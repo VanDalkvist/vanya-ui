@@ -3,6 +3,7 @@
 > Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
 ## Agent instructions (start here)
+- [Contributor workflow](https://ui.vanya-arc.dev/reference/contributing.md): Generalize reusable contributions, verify rights and run publication preflight.
 - [Product identity procedure](https://ui.vanya-arc.dev/reference/identity.md): Distinct approved wave symbol for each official service; parent/UI retain the original V→A.
 - [Agent mode](https://ui.vanya-arc.dev/agents/): Visual harness, new/existing prompts, CI gates and version evidence.
 - [Harness quickstart](https://ui.vanya-arc.dev/reference/design-harness-quickstart.md): Install, adopt, lint, build and compiled CSS gates.

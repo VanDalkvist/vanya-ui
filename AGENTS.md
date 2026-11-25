@@ -18,6 +18,8 @@ GitHub Actions, if present, are optional **manual-only** adapters. Never add pus
 
 For a new official Vanya Arc service or an identity change, read [identity integration](docs/identity/brand.md) and the canonical brand procedure. Propose an individual wave-derived mark and matching favicon, obtain owner approval, and use the `productMark` slot; parent/UI retain V→A. Record UI-12 evidence and pending approval. Preserve existing approved product marks.
 
+For explicit contributions to the library, follow [the contributor workflow](docs/patterns/contributing.md). Run private preflight before public push, generic source/build gates in the existing CI, and review the actual publication candidate. Preserve existing components and generic presets; never include actual consuming-service identities or provenance in public artifacts.
+
 Respect `DESIGN.md`, all license/source/publication policies and actual component source; never leak private project data into this public repo.
 
 For any package-version change, follow [release policy](docs/versioning.md). Update changelog, run `node scripts/check-release.mjs` and full tests. Do not treat a Cloudflare site deploy as a released package; consumers remain pinned to verified SHA. Tags are manual, not Actions.
