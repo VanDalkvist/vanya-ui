@@ -1,6 +1,6 @@
 // Explicit CI diagnostics. Install only isolated, frozen tooling; never skills/hooks.
 import {spawnSync} from 'node:child_process';
-import {mkdtempSync,writeFileSync,readFileSync,existsSync,rmSync,copyFileSync} from 'node:fs';
+import {mkdtempSync,writeFileSync,readFileSync,existsSync,rmSync,copyFileSync,mkdirSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname,relative,sep} from 'node:path';
 import {createRequire} from 'node:module';
@@ -12,7 +12,9 @@ const library=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2);
 const project=resolve(args.find(a=>a.startsWith('--project='))?.slice(10)||library);
 const targets=args.filter(a=>!a.startsWith('--'));
-const sourceTargets=targets.length?targets:[project===library?'src/showcase':'src'];
+// The library owns token definitions; inspect all authored component and showcase files.
+const librarySources=['src/showcase','src/components'];
+const sourceTargets=targets.length?targets:project===library?librarySources:['src'];
 
 const isLibrary=project===library;
 const debtPath=args.find(a=>a.startsWith('--baseline='))?.slice(11);
@@ -68,7 +70,20 @@ try{
  fixture('stylelint good (including geometry)',css([f('good.css')],library),0);
  fixture('stylelint bad',css([f('bad.css')],library),2,['no-unknown-custom-properties','value-type-custom-property-required-list','declaration-property-value-disallowed-list','19px','17px','#f123ab']);
  fixture('Impeccable gradient text',imp([f('impeccable.css')],dir),2,['gradient-text']);
+ // Exercise the actual default library scope and both frozen tools on a component-path negative fixture.
+ if(isLibrary&&!targets.length){
+  const probe=join(dir,'component-scope-probe');
+  const componentDir=join(probe,'src/components');
+  mkdirSync(componentDir,{recursive:true});
+  copyFileSync(f('bad.tsx'),join(componentDir,'bad.tsx'));
+  copyFileSync(f('bad.css'),join(componentDir,'bad.css'));
+  const selected=lintInventory(probe,sourceTargets,{requireCoverage:false});
+  if(selected.js.length!==1||selected.css.length!==1)throw Error('Component lint scope omits negative fixture');
+  fixture('shared component JSX',jsx(selected.js,probe),1,['no-raw-colors','no-arbitrary-values']);
+  fixture('shared component CSS',css(selected.css,probe),2,['value-type-custom-property-required-list','#f123ab']);
+ }
  const inventory=lintInventory(project,sourceTargets,{requireCoverage:!isLibrary});
+ console.log('[design-lint] scope='+sourceTargets.join(',')+' js='+inventory.js.length+' css='+inventory.css.length);
  if(!inventory.js.length||!inventory.css.length)throw Error('Expected authored JS/TS and CSS in lint scope');
  const jsxResult=run(bin('oxlint'),['--config',ox,'--format','json',...inventory.js]);
  if(!valid(jsxResult,[0,1])){show(jsxResult);throw Error('shadcn execution failed: '+jsxResult.status)}

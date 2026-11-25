@@ -225,3 +225,129 @@ test('new receipt requires strict and current execution evidence',()=>fixture(ro
  const stale={...info,hasTokensImport:false,pinnedDependency:false};
  assert.equal(reviewAcceptance(p,{projectInfo:stale,verification:executed}).status,'invalid');
 }));
+
+function contributorFixture(root,{fail,missing,name='@vanya/ui'}={}){
+ const steps=['test','typecheck','build','lint:design:pilot'];
+ file(root,'package.json',JSON.stringify({name,type:'module',scripts:Object.fromEntries(steps.filter(s=>s!==missing).map(s=>[s,'node step.mjs '+s]))}));
+ file(root,'step.mjs',"import {appendFileSync} from 'node:fs';const step=process.argv[2];appendFileSync('executed.txt',step+'\\n');if(step==="+JSON.stringify(fail??null)+")process.exit(7);");
+ const invoke=(...args)=>spawnSync(process.execPath,[new URL('./ui-pipeline.mjs',import.meta.url).pathname,'contribute','--project',root,'--json',...args],{encoding:'utf8',cwd:tmpdir()});
+ return {invoke,steps};
+}
+test('contributor executes existing library verification scripts in a portable directory without Git',()=>fixture(root=>{
+ const {invoke,steps}=contributorFixture(root);
+ const result=invoke();
+ assert.equal(result.status,0,result.stderr);
+ assert.deepEqual(readFileSync(join(root,'executed.txt'),'utf8').trim().split('\n'),steps);
+ const report=JSON.parse(result.stdout);
+ assert.equal(report.status,'passed');
+ assert.deepEqual(report.checks.map(x=>x.script),steps);
+ assert.equal(report.visualReview,'NOT_VERIFIED');
+}));
+test('contributor stops on real failed script and dry-run does not execute',()=>fixture(root=>{
+ const {invoke,steps}=contributorFixture(root,{fail:'typecheck'});
+ const dry=invoke('--dry-run');
+ assert.equal(dry.status,0,dry.stderr);
+ assert.equal(JSON.parse(dry.stdout).status,'planned');
+ assert.deepEqual(JSON.parse(dry.stdout).checks.map(x=>x.script),steps);
+ assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
+ const result=invoke();
+ assert.notEqual(result.status,0);
+ assert.deepEqual(readFileSync(join(root,'executed.txt'),'utf8').trim().split('\n'),['test','typecheck']);
+ assert.equal(JSON.parse(result.stdout).checks.at(-1).exitCode,7);
+}));
+test('contributor rejects consumer packages and incomplete library scripts before execution',()=>fixture(root=>{
+ const {invoke}=contributorFixture(root,{name:'consumer'});
+ assert.notEqual(invoke().status,0);
+ assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
+ contributorFixture(root,{missing:'build'});
+ const result=invoke();
+ assert.notEqual(result.status,0);
+ assert.equal(JSON.parse(result.stdout).status,'blocked');
+ assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
+}));
+
+test('CLI names share one executable and installed symlink aliases run help and commands',()=>fixture(root=>{
+ const manifest=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
+ const target=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ for(const name of ['vanya-arc-ui','vui']){
+  assert.equal(manifest.bin[name],'./scripts/ui-pipeline.mjs');
+  const alias=join(root,name);
+  symlinkSync(target,alias,'file');
+  const run=(...args)=>spawnSync(process.execPath,[alias,...args],{encoding:'utf8',cwd:root});
+  const help=run('--help');assert.equal(help.status,0,help.stderr);assert.match(help.stdout,/Consumer commands:/);assert.match(help.stdout,/Contributor command:/);
+  const sub=run('contribute','--help');assert.equal(sub.status,0,sub.stderr);assert.match(sub.stdout,/Usage: vui contribute/);
+  assert.equal(run('--version').stdout.trim(),manifest.version);
+  const check=run('inspect','--project',root,'--json');assert.equal(check.status,0,check.stderr);assert.equal(JSON.parse(check.stdout).project,root);
+  assert.notEqual(run('not-a-command','--help').status,0);
+ }
+}));
+
+test('invalid mutation options are rejected before modifying a project',()=>fixture(root=>{
+ react(root);
+ const app=join(root,'app'), manifest=join(app,'package.json'), config=join(app,'vanya-ui.config.json'), agents=join(app,'AGENTS.md');
+ const before=[manifest,config].map(p=>readFileSync(p,'utf8'));
+ const cli=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const run=(...args)=>spawnSync(process.execPath,[cli,...args],{cwd:root,encoding:'utf8'});
+ for(const args of [
+  ['adopt','--project',root,'--sources','src','--dry-run'],
+  ['baseline','--project',root,'--dry-run'],
+  ['adopt','--project',root,'--project',root,'--sources','src'],
+  ['inspect','--project',root,'--scope','new']
+ ]){
+  const result=run(...args);
+  assert.equal(result.status,1,result.stdout+result.stderr);
+  assert.match(result.stderr,/Unsupported option|Duplicate option/);
+  assert.deepEqual([manifest,config].map(p=>readFileSync(p,'utf8')),before);
+  assert.throws(()=>readFileSync(agents,'utf8'),/ENOENT/);
+ }
+}));
+test('new product requires an explicit identity applicability observation',()=>fixture(root=>{
+ react(root);
+ const info=inspectProject({project:root});
+ const receipt=completePlan('new');receipt.targetProject={project:root,package:'app',mode:'react'};
+ const verified=verifyWithLint(info);
+ const identity=receipt.criteria.find(row=>row.id==='UI-12');
+ identity.status='N/A';identity.reason='Skipped';
+ assert.ok(reviewAcceptance(receipt,{projectInfo:info,verification:verified}).errors.some(e=>e.includes('UI-12')));
+ identity.status='PASS';identity.evidence=[{method:'source',target:'src/App.jsx',observation:'Independent application; own identity and source rights reviewed'}];
+ assert.equal(reviewAcceptance(receipt,{projectInfo:info,verification:verified}).status,'recorded');
+ receipt.scope='feature';identity.status='N/A';identity.reason='No branding changes';
+ assert.equal(reviewAcceptance(receipt,{projectInfo:info,verification:verified}).status,'recorded');
+}));
+test('CLI help exposes actual canonical resource paths and workflow commands',()=>fixture(root=>{
+ const result=spawnSync(process.execPath,[new URL('./ui-pipeline.mjs',import.meta.url).pathname,'--help'],{cwd:root,encoding:'utf8'});
+ assert.equal(result.status,0,result.stderr);
+ assert.match(result.stdout,/inspect.*plan.*verify.*review/);
+ assert.match(result.stdout,/contribute.*--project/);
+ const sub=spawnSync(process.execPath,[new URL('./ui-pipeline.mjs',import.meta.url).pathname,'contribute','--project',root,'--help'],{cwd:root,encoding:'utf8'});
+ assert.equal(sub.status,0,sub.stderr);assert.match(sub.stdout,/Contributor guide: /);
+ const skill=result.stdout.split('\n').find(line=>line.startsWith('Skill: '))?.slice(7);
+ assert.ok(skill);assert.ok(readFileSync(skill,'utf8').includes('name: vanya-ui'));
+}));
+
+test('linked JSON data does not block React inspection, contract checks or verify planning',()=>fixture(root=>{
+ react(root);
+ file(root,'shared/registry.json','{"id":"shared"}');
+ const data=join(root,'app/src/registry.json');
+ symlinkSync(join(root,'shared/registry.json'),data,'file');
+ const cli=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
+ const run=(...args)=>spawnSync(process.execPath,[cli,...args,'--project',root,'--json'],{cwd:root,encoding:'utf8'});
+ const inspected=run('inspect');
+ assert.equal(inspected.status,0,inspected.stderr+inspected.stdout);
+ const info=JSON.parse(inspected.stdout);
+ assert.equal(info.mode,'react');assert.equal(info.package,'app');assert.equal(info.hasTokensImport,true);
+ const checked=run('check');assert.equal(checked.status,0,checked.stderr+checked.stdout);
+ const planned=run('verify','--dry-run');assert.equal(planned.status,0,planned.stderr+planned.stdout);
+ assert.equal(JSON.parse(planned.stdout).status,'planned');
+ assert.equal(readFileSync(data,'utf8'),'{"id":"shared"}');
+}));
+test('authored source and directory symlinks remain blocked',()=>fixture(root=>{
+ react(root);
+ file(root,'shared/Outside.jsx','export const Outside=()=>null;');
+ const linked=join(root,'app/src/Outside.jsx');
+ symlinkSync(join(root,'shared/Outside.jsx'),linked,'file');
+ assert.throws(()=>inspectProject({project:root}),/Unsupported authored symlink: src\/Outside\.jsx/);
+ rmSync(linked);
+ symlinkSync(join(root,'shared'),join(root,'app/src/data.json'),'junction');
+ assert.throws(()=>inspectProject({project:root}),/Unsupported authored symlink: src\/data\.json/);
+}));

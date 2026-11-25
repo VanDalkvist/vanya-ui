@@ -16,7 +16,14 @@ export function authoredInventory(root,{includeTests=false}={}){
   for(const ent of readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){
    const file=join(dir,ent.name);
    if((excluded.has(ent.name)&&!(includeTests&&['tests','test','__tests__','fixtures'].includes(ent.name)))||ent.name.startsWith('.'))continue;
-   if(ent.isSymbolicLink())throw Error('Unsupported authored symlink: '+norm(relative(root,file)));
+   if(ent.isSymbolicLink()){
+    const name=norm(relative(root,file));
+    const authored=js.test(name)||css.test(name)||unsupported.test(name)||name.endsWith('.html');
+    // Ignore regular-file asset/data links outside the authored-source inventory.
+    // Source and directory links still fail closed; never traverse linked directories.
+    if(!authored&&statSync(file,{throwIfNoEntry:false})?.isFile())continue;
+    throw Error('Unsupported authored symlink: '+name);
+   }
    if(ent.isDirectory()){if(existsSync(join(file,'package.json')))continue;pending.push(file);continue}
    if(!ent.isFile()||(!includeTests&&testFile.test(ent.name)))continue;
    const name=norm(relative(root,file));

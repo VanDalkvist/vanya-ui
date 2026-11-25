@@ -4,6 +4,28 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-25
+
+First stable major version of Vanya Arc / UI, including the source component library, design canon, individual product identity extension, and portable agent harness. Includes the 0.5.0 and 0.6.0 capabilities below.
+
+### Fixed
+- Validate CLI options before side effects and expose canonical guides in help.
+- Ignore regular-file data symlinks outside authored UI sources while rejecting authored source and directory links.
+- Normalize shared component tokens and enforce design lint on the component library without expanding the legacy baseline.
+
+### Compatibility and release scope
+- React 18/19 and Tailwind 4 source-package contract; existing `@vanya/brand` immutable dependency remains unchanged. Consumer applications retain their pins until explicitly upgraded.
+- Owner approved promotion after successful 0.6.0 exact-head CI; independent follow-up reviews, visual regression and live agent eval deferred. Verify 1.0.0 build and tag separately.
+
+## [0.6.0] - 2026-11-25
+
+### Added
+- CLI entrypoints `vanya-arc-ui` and `vui` alias the same portable pipeline; standard help, per-command help and version output. Existing lint and direct script entrypoints retained.
+- Contributor operation in the portable UI pipeline: discover and generalize reusable UI knowledge, run existing library test/typecheck/build/design-lint scripts, and record applicable UI review. Portable folders supported; no Git or new publication scanner.
+
+### Changed
+- Brand architecture: individual wave-based marks and matching favicons for official services. Parent and UI retain the original V→A. Re-export `productMark`; existing calls retain their default, and temporary wordmarks are explicitly requested with `showMark={false}`. Candidate until verification; existing consumer pins remain unchanged.
+
 ## [0.5.0] - 2026-11-25
 
 ### Added

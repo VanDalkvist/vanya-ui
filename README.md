@@ -6,7 +6,21 @@ React-компоненты и интерфейсные токены для пр�
 
 На главной — рабочая волна с событиями. Ниже — каталог компонентов, типографика и правила интерфейсов.
 
+## CLI — Vanya Arc / UI
+
+Установленная версия пакета с CLI предоставляет два эквивалентных имени: `vanya-arc-ui` и `vui`. В проекте с установленным пакетом используйте локальный бинарник:
+
+~~~sh
+./node_modules/.bin/vui --help
+./node_modules/.bin/vui inspect --project .
+./node_modules/.bin/vui verify --project . --json
+~~~
+
+В исходниках библиотеки без установки CLI: `node scripts/ui-pipeline.mjs --help`. Для разработки самой дизайн-системы: `vui contribute --project /path/to/vanya-ui --dry-run`, затем повторить без `--dry-run` при установленном toolchain. Существующий `vanya-ui-lint` остаётся отдельным CI-совместимым entrypoint. Проверяйте доступность CLI в закреплённой версии пакета.
+
 ## Агентам: один переносимый UI-пайплайн
+
+[Контрибуция в дизайн-систему](docs/patterns/contributing.md) — отдельный сценарий существующего харнесса. Команда `node scripts/ui-pipeline.mjs contribute --project .` запускает тесты, typecheck, сборку и дизайн-линтеры библиотеки. Для контрибуции достаточно локальной папки исходников и обычного toolchain.
 
 **[Agent Mode](https://ui.vanya-arc.dev/agents/)** · **[Канонический скилл агента](skills/vanya-ui/SKILL.md)** · [полный рабочий цикл](docs/patterns/ui-feature-pipeline.md) · [CLI](scripts/ui-pipeline.mjs).
 
@@ -49,7 +63,7 @@ Portable local browser verification: see [browser-qa](browser-qa/README.md), run
 
 ## Айдентика Vanya Arc
 
-**Vanya Arc** — родительский бренд, а **Vanya Arc / UI** — дизайн-система. Отдельный публичный [vanya-arc-brand](https://github.com/VanDalkvist/vanya-arc-brand) хранит знак, React-локапы, SVG, палитру, брендбук, права и исследования. UI использует его как закреплённую GitHub-зависимость. Визуальная подпись состоит из исходного асимметричного знака (маленький тёмный гребень перетекает в большой терракотовый) и вордмарка на основе Manrope. Слова `Vanya Arc` цельные, продуктовый суффикс `UI` акцентный. Это разные уровни бренда, а не два независимых логотипа.
+**Vanya Arc** — зонтичный бренд с индивидуальными знаками сервисов. Исходный асимметричный V→A принадлежит родителю и UI. Синусоида задаёт генеративный принцип: каждый другой официальный сервис получает собственную утверждённую форму и favicon. Родство держится на пластике, цветовых ролях, Manrope и структуре Vanya Arc / Product. [vanya-arc-brand](https://github.com/VanDalkvist/vanya-arc-brand) владеет общим контрактом; продукт владеет собственными утверждёнными активами. Используй `VanyaArcLockup productMark` для индивидуального знака.
 
 [Живой раздел «Айдентика»](https://ui.vanya-arc.dev/#identity) · [Официальный брендбук](https://github.com/VanDalkvist/vanya-arc-brand/blob/main/docs/brand-guidelines.md) · [как бренд подключён к UI](docs/identity/brand.md). Из `@vanya/ui` доступны `VanyaArcMark` и `VanyaArcLockup`.
 
@@ -203,7 +217,7 @@ bun run build     # production-сборка витрины в dist/
 
 При копировании и распространении кода или его существенных частей сохраняются имя автора, copyright и текст лицензии. Отдельная обязательная ссылка в интерфейсе в MIT не добавлена.
 
-**Название и знак:** для новых версий действуют [правила официального бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/BRAND.md) и отдельная область действия в [LICENSING.md](LICENSING.md). Они не отменяют разрешения, полученные с историческими MIT-версиями, и не являются подтверждением регистрации товарного знака.
+**Название и знак:** для новых версий действуют [правила официального бренда](https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/BRAND.md) и отдельная область действия в [LICENSING.md](LICENSING.md). Они не отменяют разрешения, полученные с историческими MIT-версиями, и не являются подтверждением регистрации товарного знака.
 
 ### Media catalogues
 

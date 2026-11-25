@@ -7,7 +7,7 @@
 - Standards: AP-010 ... AP-071, Vanya-Arc/UI Design System.
 - Scope:
   1. Fact-check & removal of non-existent `TurnArcBadge`.
-  2. Parity with `life-wave-narrative` ThemeToggle (`dropdown` and `segmented` variants; corner switcher controls page with system default; catalog demos are local only).
+  2. ThemeToggle interaction parity (`dropdown` and `segmented` variants; corner switcher controls page with system default; catalog demos are local only).
   3. Presentation of `DeskSlotCard` across isolated, labeled design system states.
   4. Separation of `EventCard` and `TimelinePreviewCard` into independent catalog rows.
   5. Removal of redundant framing borders around preview boxes.
@@ -16,7 +16,7 @@
 ### Slices Executed
 1. **Slice 1: Fact-check & removal of TurnArcBadge**
    - Fact-check confirmed `TurnArcBadge` was an ungrounded extrapolation from `TurnArcs.tsx` (an SVG timeline trajectory layer). Removed `src/components/TurnArcBadge.tsx` and updated exports.
-2. **Slice 2: ThemeToggle parity with life-wave-narrative**
+2. **Slice 2: ThemeToggle variant parity**
    - Implemented working corner dropdown switcher in header with system theme default (`prefers-color-scheme`).
    - Catalog section showcases both `variant="dropdown"` and `variant="segmented"` without affecting page theme.
 3. **Slice 3: DeskSlotCard state isolation**
@@ -48,7 +48,7 @@
 ## Cycle 2 — Arc Wave live composition (2026-11-06)
 
 ### Scope and decisions
-- Implemented the three remaining user-selected findings after the user removed hearth-taste in projects-home. No third-party skills or life-wave-narrative sources changed.
+- Implemented the three remaining user-selected findings after an unrelated consumer change. No third-party skills or consumer sources changed.
 - Replaced both handwritten HTML catalogs with shells mounting one React composition root and real package exports. Kept both URLs in the production build.
 - EventCard / TimelinePreviewCard / InspectDrawer headings now use Manrope. Serif remains available for editorial digest prose.
 - Added an open-space scene with preview selection, native modal sheet, focus return, context disclosure and a working spacing control; mobile remains a stacked composition.
@@ -82,13 +82,13 @@
 - Remove the lower arrow CTA; keep navigation sticky and compact (60px desktop, up to 88px mobile).
 - Brand the header and both browser document titles/descriptions as vanya-arc/ui.
 - Add an exported static SineWave background; keep all 26 exported components in individual catalogue rows, with each component's states together.
-- Match Farm's harness icons and light/dark palette in badges and both radar examples.
+- Use shared harness icons and light/dark palette in badges and both radar examples.
 - Keep SegmentedControl sized to content; populate Minimap with past/current/future event ticks and a working focus window.
 
 ### Implementation and provenance
-- Farm visual source: ferma cfafd320a77d00e4b29cbb78cca590bcf3ef56b2, src/lib/harness-colors.ts and src/styles.css. All 24 palette declarations (4 types × 3 roles × 2 themes) checked for exact parity.
-- Shared package-owned identity map: src/harness.ts. No runtime import/dependency on the Farm application; arbitrary custom badges/radar items remain supported.
-- Reference wave/minimap inspected read-only in life-wave-narrative f11918ec32e0a6a40bc4be6132dbbe87d43b6a46. SineWave is a small independent SVG primitive, not a copy of the timeline engine.
+- All 24 shared palette declarations (4 types × 3 roles × 2 themes) checked for exact parity with the accepted visual contract.
+- Shared package-owned identity map: src/harness.ts. No runtime import/dependency on consuming applications; arbitrary custom badges/radar items remain supported.
+- Reference wave/minimap inspected read-only; the numeric geometry contract is retained. SineWave is a small independent SVG primitive, not a copy of the timeline engine.
 - Theme controls now notify peer hooks on the same page; header and catalogue variants stay synchronized. Existing storage persistence remains the source for reloads.
 - Header styling remains paper/Manrope; only density/position changed. Anchor clearance tracks its compact desktop/mobile height.
 
@@ -106,7 +106,7 @@
 - Runtime completeness/entrypoint wiring: src/index.ts:2 exports SineWave, Scene.tsx:15 renders it; ComponentCatalog imports real exports and each public component has its own named region. Both built entrypoints show the updated browser brand.
 - Assertion integrity: real render/click/state tests plus browser geometry and runtime CSS checks, not static source-text tests or placeholder receipts. All modified UI source files remain below 250 lines.
 - Not applicable: databases, auth, external API adapters and data migrations (no such boundaries touched).
-- Residual risk: new details have author/browser verification, not independent review or a fresh user visual approval; Farm parity is a recorded snapshot and future upstream palette changes must be intentionally synchronized. No third-party skill changes.
+- Residual risk: new details have author/browser verification, not independent review or a fresh user visual approval; The accepted palette is a recorded snapshot; changes require explicit review. No third-party skill changes.
 - Scoped technical verdict: PASS; not an independent dual-circuit acceptance claim.
 
 ## Cycle 4 — Passive labels, copy, common sizes and review follow-ups (2026-11-06)
@@ -134,7 +134,7 @@
 ## Cycle 5 — Source wave and composable event interactions (2026-11-06)
 
 ### User scope and implementation
-- Replaced the approximate three-curve motif with wave-only math from life-wave-narrative f11918ec32e0a6a40bc4be6132dbbe87d43b6a46: ascending slope, octave/fade model and seeded dotted ghost branches originating at actual event anchors. Source-generated numeric fixtures cover two viewport/phase combinations and all four radii; no personal timeline records or source-app runtime imports were copied.
+- Replaced the approximate three-curve motif with independent wave-only math: ascending slope, octave/fade model and seeded dotted ghost branches originating at actual event anchors. Source-generated numeric fixtures cover two viewport/phase combinations and all four radii; no personal timeline records or source-app runtime imports were copied.
 - EventPoint is a standalone passive mark or native action. TimelineEvent composes it with the real TimelinePreviewCard into one action with shared hover/focus. Every visible scene point opens corresponding example details; points without cards remain fully actionable.
 - Matched source neutral resting/hover shadows, accent point/date/title states, four-pixel card lift and the hover bridge. Replaced conflicting default utility colors/widths with component-owned styles so contextual states actually win the cascade. One HTML overlay keeps all cards above all points, and active cards above peers, without nested buttons or duplicate tab stops.
 - Preserved the approved intro and its typography; placed the wave in a separate region below it. Optional fit maps curve/echo coordinates into the canvas without scaling point radii. Removed the obsolete click hint and renamed the working slider for spacing between events.
@@ -232,3 +232,31 @@
 
 ### Cycle 8 — Agent experience slice
 Previous head 3d344042218c6a5323e2c51da0e7582bdca1d30a: Cloudflare validation SUCCESS (125 Vitest, 37 Node, 3 harness E2E; both npm/React18 and Bun/React19 install/lint/negative lint/types/client/compiled CSS/negative CSS/SSR). Browser/independent agent evals deferred by user; UI_VERIFIED/TAGGED open. Add /agents/ as independent static Vite entry + SSR + native link, shared prompt model, explicit candidate evidence, quickstart publication and drift tests. Reference inspiration: Aura homepage (https://auradesignsystem.com/), Impeccable (https://impeccable.style/) and Base Design System (https://bds.base.org/docs); reference-only; original local composition, no copied assets. Scope: no new runtime or tools, no production deploy. New page visual QA pending.
+
+### Product identity architecture clarification (2026-11-25)
+Owner clarified umbrella architecture: preserve exact V→A for parent/UI; each official service has a distinct purpose-derived wave symbol and matching favicon. Brand source candidate 70c7a6ff839355a45d11bd9d51a888aeaa4cac43 (brand PR #1). UI integration uses exact pin, removes contradictory wording and adds actual re-export runtime tests for original geometry, custom slot, monochrome and text-only fallback. Public Markdown and skill route UI-12 to the procedure. Owner requested knowledge only: no conceptual service logos on the showcase, no new product assets, no product migration. CI and visual QA pending.
+
+### Contributor mode — implementation in progress
+Owner authorized the bounded contributor design. Existing portable CLI routes explicit phases to policy and local inventory modules; tests exercise real Git fixtures and negative paths. Generalized inherited provenance and preserved runtime category presets, component APIs and styling. Added contributor guide, existing skill routing, public doc drift checks and template. Private owner policy and actual binary/semantic review remain outside generic CI. No consumer modifications. Exact-head CI and independent verification pending.
+
+Identity review repair: brand candidate 83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9 preserves legacy default lockup, explicit productMark and showMark=false; original artwork unchanged. UI exact pin and behavioral regression synchronized. Documentation distinguishes consumer harness 0.5.0 from identity/contributor candidate 0.6.0. Source references remain generic. CI pending; no package release or consumer update.
+
+Owner narrowed the cleanup: preserve approved historical and technical references; remove the specifically obsolete reference from the remaining plan. Updated contributor policy to distinguish approved references from unapproved consumer coupling. No component or runtime changes in this slice. CI pending.
+
+### Contributor mode — owner-approved simplification
+The publication-specific scanner, Git/history traversal, private policy contract and extra build gates are removed. The contributor route now reuses existing library verification scripts (test, typecheck, build, lint:design:pilot) and the same CLI runner. The skill delegates UI-focused discovery, generalization, applicable acceptance and evidence to one guide. Existing publication/rights policy and ordinary build remain in place. Regression fixtures target real no-Git execution, failure, dry-run and invalid input. No consumer/runtime or identity changes. Prior scanner CI success applies to historical revisions only; current CI pending. Independent reviewer and live skill evals remain NOT_VERIFIED/NOT_RUN.
+
+### CLI discovery
+Owner selected `vanya-arc-ui` / `vui` as aliases of the existing pipeline, with standard help and version. Preserve direct Node and existing CI lint entrypoints; symlink dispatch and both installed aliases covered by regression/consumer smoke cases. No additional runtime dependencies or command framework. CI pending.
+
+### VUI review repair — implementation
+Owner approved the bounded fixes in review 6059464700. CLI option validation derives from the command usage contract, rejects unsupported/duplicate options before side effects; inspection and verification extracted into cohesive modules with existing exports retained. Help exposes resolved local resources and both workflows. New-scope UI-12 requires an explicit source observation. Existing design lint pilot expanded to shared components and showcase, with actual component-path negative fixtures; original debt baseline unchanged. Tests for invalid mutation options, identity and help added. No additional runtime dependencies or product migration. Exact-head CI, actual expanded lint findings and independent S9/live agent evidence remain pending. Plan: docs/superpowers/plans/2026-11-25-vui-review-repair.md.
+
+### Consumer smoke feedback — linked data
+The owner's local Ferma smoke test on 02bde866 found `src/data/registry.json` prevented inspect/check/verify before dependency diagnostics. Root cause: authoredInventory rejected every symlink before extension filtering. Narrow repair skips regular-file links whose names are outside the authored-source formats; authored source links, directory links and unresolved links retain existing failure behavior. Regression uses real linked JSON, CLI inspection/check/dry-run and negative source/directory links. No consumer changes or baseline updates. CI pending.
+
+### Shared component lint remediation
+Exact-head dea3cad9 CI reported 32 shadcn diagnostics (31 arbitrary-value usages, 1 unknown color) with unchanged Stylelint baseline (69 existing, 0 new). Owner approved bounded repair. Use canonical size/radius utilities; 13px controls use existing size token via text-control, normalize nearby noncanonical font sizes and 3px radii, Kbd uses documented 2px. Narrative/eyebrow tracking and ThemeToggle elevations preserved via named theme tokens; timeline transition property list retained via utility. OfferCard selected border uses existing accent/30. No lint exemptions or baseline expansion. Consumer source/API unchanged. Exact-head CI and rendered browser review pending; typography utility line heights and small size/radius changes require visual verification. Plan: docs/superpowers/plans/2026-11-25-vui-review-repair.md.
+
+### 1.0.0 promotion — owner decision
+2026-11-25: exact candidate `260a680c0fecb0491d3ccad3d176af11a090ca76` passed Cloudflare build `46279ece-7549-4f2d-b53d-1bd423af77cd`: 131 Vitest, 46 Node, 0 new Shadcn/Stylelint violations, negative fixtures and both installed consumer matrices. Owner explicitly chose to stop further refinement and requested merge and 1.0.0 release; independent S9 follow-up, visual regression review and live agent eval deferred (NOT_VERIFIED/NOT_RUN), no fabricated passes. Promote version and release notes only; preserve runtime source, lint baseline and immutable brand dependency. Fresh 1.0.0/main CI and tag readback pending; consumer pins untouched.

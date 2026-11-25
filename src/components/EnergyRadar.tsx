@@ -25,8 +25,7 @@ export interface EnergyRadarProps {
 }
 
 /**
- * Обобщенный радар распределения энергии/внимания (из Фермы).
- * Лишен специфичной проектной терминологии, принимает произвольные категории и метрики.
+ * Радар распределения энергии/внимания. Принимает произвольные категории и метрики.
  */
 export const EnergyRadar: React.FC<EnergyRadarProps> = ({
   title = "Радар распределения",
@@ -50,7 +49,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
       ].join(" ")}
     >
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-ink-soft">
+        <span className="font-mono text-meta uppercase tracking-wider text-ink-soft">
           {title}
         </span>
 
@@ -83,7 +82,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
       </div>
 
       {/* Легенда */}
-      <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 pt-1 text-[11px]">
+      <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 pt-1 text-meta">
         <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2">
           {resolvedItems.map((it) => (
             <div key={it.id} className="flex items-center gap-1.5 whitespace-nowrap font-sans">
@@ -100,7 +99,7 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
         </div>
 
         {totalCount !== undefined && (
-          <div className="ml-auto shrink-0 whitespace-nowrap font-mono text-[11px] text-ink-soft">
+          <div className="ml-auto shrink-0 whitespace-nowrap font-mono text-meta text-ink-soft">
             <span className="text-ink font-semibold">{totalCount}</span>{" "}
             <span className="text-ink-faint">{totalLabel}</span>
           </div>

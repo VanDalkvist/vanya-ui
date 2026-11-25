@@ -57,11 +57,11 @@ export function Minimap({min,max,from,to,ticks=[],labels=[],onSeek,className}:Mi
      {ticks.map(t=><span key={t.id} aria-hidden="true"
        className={clsx("absolute top-2.5 block h-2 w-px",t.current?"bg-accent":t.future?"bg-ink/15":"bg-ink/30")}
        style={{left:`${pct(t.value)}%`}}/>)}
-     <div aria-hidden="true" className="ui-minimap-window absolute top-1 h-6 rounded-[2px] border border-accent/45 bg-accent/10 transition-colors duration-200"
+     <div aria-hidden="true" className="ui-minimap-window absolute top-1 h-6 rounded-xs border border-accent/45 bg-accent/10 transition-colors duration-200"
        style={{left:`${left}%`,width:`${width}%`}}/>
    </div>
    {labels.length>0&&<div className="relative h-3" aria-hidden="true">
-     {labels.map((item,i)=><span key={i} className="absolute -translate-x-1/2 font-mono text-meta tracking-[0.1em] text-ink-faint"
+     {labels.map((item,i)=><span key={i} className="absolute -translate-x-1/2 font-mono text-meta tracking-widest text-ink-faint"
        style={{left:`${pct(item.value)}%`}}>{item.text}</span>)}
    </div>}
  </div>;

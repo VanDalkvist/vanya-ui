@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 interface ExtractedPattern {
   tag: string;
@@ -81,6 +82,11 @@ export function extractControlsFromRepo(targetDir: string) {
   return sorted;
 }
 
-// Run CLI if called directly
-const target = process.argv[2] || path.resolve(__dirname, "../../life-wave-narrative/src");
-extractControlsFromRepo(target);
+// Local discovery only. Output may identify source files; never publish raw reports.
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const target = process.argv[2];
+  if (!target || !fs.existsSync(target) || !fs.statSync(target).isDirectory()) {
+    console.error("Usage: extract-from-repo <explicit-source-directory> (local-only output)");
+    process.exitCode = 1;
+  } else extractControlsFromRepo(path.resolve(target));
+}

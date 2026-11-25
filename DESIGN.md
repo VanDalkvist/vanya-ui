@@ -35,7 +35,7 @@ Every meaningful page and shareable view has a stable, directly openable URL. Br
 
 ## Mixed-license scopes — required
 
-MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
+MIT covers original program code and ordinary guides; the research documents explicitly marked in REUSE.toml are licensed under CC BY 4.0 within their stated scope. Official artwork and renderers are supplied by the external `@vanya/brand` package and follow its [separate rights map](https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/LICENSING.md). Historical MIT grants are not revoked. See [LICENSING.md](LICENSING.md) and [primary-source validation](docs/legal/licensing-implementation-2026-11-22.md). Do not present trademark use rules as evidence of a registration.
 
 ## Licensing and third-party rights — required
 
@@ -51,13 +51,14 @@ This repository and `https://ui.vanya-arc.dev` are **public**. All committed fil
 
 **Before committing or deploying:** review the *complete diff* and built `dist/` for credentials, tokens, cookies, private keys, `.env` files, internal endpoints, non-public URLs, real user records, analytics exports, logs, screenshots and private project details. Only publish intentionally public, independently approved examples; use fabricated examples for code or demos. Never rely on GitHub repository visibility or Cloudflare Access as a substitute for this review. Cloudflare secrets stay in environment bindings, never in Vite frontend code or `VITE_*` variables. If in doubt, exclude the data, do not sanitize-and-guess.
 
-This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
+The library's contracts are independent of consuming-service identities and data. Explicitly approved public technical references and historical attribution may remain. Reusable extracted components and generic examples remain valid. Follow the [contributor workflow](docs/patterns/contributing.md). This requirement applies to humans and agents, including automated updates and deployment workflows; see [docs/patterns/publication-safety.md](docs/patterns/publication-safety.md).
 
 ## Identity — required
 
 - **Parent brand:** `Vanya Arc`. Keep the owner's precise asymmetric double-crest V → A sign: dark small left crest seamlessly transitions to warm large right crest.
 - **Design-system product:** `Vanya Arc / UI`. Only `UI` is accented; the slash is subordinate and the parent wordmark stays ink-colored.
-- Use `VanyaArcMark` / `VanyaArcLockup`, not locally redrawn logo paths or arbitrary product-specific palettes.
+- **Product family:** the wave/sinusoid is the generative identity principle. Every other official service has an individually approved wave-derived symbol expressing its purpose and matching favicon. Shared stroke character, palette, Manrope and `Vanya Arc / Product` naming bind the family.
+- Use `VanyaArcMark` for the parent and UI. For other services use `VanyaArcLockup productMark={ProductMark}` with their own approved symbol; use explicit `showMark={false}` for a temporary text-only lockup. Preserve the existing default for compatibility; new identities select their mark explicitly. Preserve existing approved artwork. Follow the [brand product identity procedure](https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/docs/product-identity.md).
 - Manrope-based wordmark lettering may have tailored tracking/weight; do not change functional UI typography or include proprietary font files.
 - Follow [the brand identity guide](docs/identity/brand.md). Published section: [/#identity](https://ui.vanya-arc.dev/#identity).
 
@@ -89,7 +90,7 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 - Preview: short title and context, with a real button when interactive.
 - Detail: a right-hand sheet retaining the page as a subdued backdrop. A directional shadow communicates separation; the edge may also have a hairline.
 - Reference: one named row per active component, with its states and variants together; never a second set of HTML lookalikes. OfferCard is temporarily omitted at the operator’s request; its public export is retained for compatibility.
-- Harness identity: CategoryBadge and both radar examples use Farm's Sparkles / HeartHandshake / Briefcase / Cpu and its exact light/dark harness palette. The package owns a small shared definition, with no runtime dependency on the Farm application.
+- Harness identity: CategoryBadge and both radar examples use the shared Sparkles / HeartHandshake / Briefcase / Cpu icons and light/dark harness palette. The package owns the reusable definition and supports caller-provided category data where documented.
 - Dense working views can use rows and compact spacing; spaciousness does not require hiding primary actions or making text faint.
 
 `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
@@ -102,7 +103,7 @@ Canonical heights are 24px and 32px. SegmentedControl still accepts `xs` as a le
 
 ## Wave and event composition
 
-SineWave adapts the wave-only math, dotted branches and optical styling from life-wave-narrative f11918ec. Numeric fixtures come from that source; no personal event records or camera/router engine are imported. Events use normalized horizontal positions, source weight 1–4, optional previews and callbacks. The optional `fit` renderer maps the wave and echoes into the canvas while keeping event radii pixel-sized.
+SineWave uses wave-only math, dotted branches and optical styling. Numeric fixtures verify the independent geometry; no personal event records or camera/router engine are imported. Events use normalized horizontal positions, source weight 1–4, optional previews and callbacks. The optional `fit` renderer maps the wave and echoes into the canvas while keeping event radii pixel-sized.
 
 EventPoint is passive unless it receives an action; its sm/md hit areas use the common grid while weight controls the visible source-derived radius. TimelineEvent composes the same point and real TimelinePreviewCard into one native button, sharing accent hover/focus, source shadow and a hover bridge. The wave uses one HTML overlay for predictable stacking: previews are above all points, active previews above their peers. Modern inline SVG/foreignObject support is required for interactive wave events.
 

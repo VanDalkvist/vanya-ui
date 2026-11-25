@@ -1,7 +1,7 @@
 ---
 name: vanya-ui
-description: Create, redesign, migrate, implement and review products, screens, components and visual artifacts using the Vanya Arc design system. Use for UI tasks in Vanya UI projects or when Vanya UI is requested, including new apps, layout, typography, navigation, interaction, accessibility and design audits. Skip backend-only, CLI-only and infrastructure tasks.
-compatibility: Requires a local Vanya UI source tree, a target project folder and Node.js 20+. Browser verification requires the target toolchain and browser access. Package installation may require network access.
+description: Create, redesign, migrate, implement and review products, screens, components and visual artifacts using the Vanya Arc design system. Use for UI tasks in Vanya UI projects or when Vanya UI is requested, including new apps, layout, typography, navigation, interaction, accessibility, design audits and explicit contributions of reusable components or rules to Vanya UI. Skip backend-only, CLI-only and infrastructure tasks.
+compatibility: Requires a local Vanya UI source tree, a target project folder and Node.js 20+. Browser verification requires the target toolchain and browser access. Package installation may require network access. Contributor verification requires the library's existing development toolchain.
 ---
 
 # Vanya UI
@@ -12,7 +12,11 @@ Deliver the requested visual change, using the actual installed component API an
 
 Find the full local Vanya UI source tree through the project pointer or user-provided path. It must contain this skill, DESIGN.md, src, docs and scripts. A copied skill alone is insufficient; locate the source tree or report BLOCKED. Do not invent unavailable API or instructions. No fixed paths, git checkout, CI or hosting provider are required.
 
-Choose one scope:
+If the task explicitly brings reusable code, rules or tests into Vanya UI, use the [contributor workflow](../../docs/patterns/contributing.md) within this same harness. Read it and follow the contributor path instead of consumer adoption. Otherwise keep consumer work local. Both paths work with an ordinary source directory; use existing project scripts for verification.
+
+CLI discovery: `vui --help`, `vui <command> --help`, `vui --version` (equivalent installed name: `vanya-arc-ui`). Use the executable from the selected immutable package revision, e.g. `./node_modules/.bin/vui`; check that it supports the requested operation. The direct `node "$UI/scripts/ui-pipeline.mjs"` form below works with a matching ordinary source folder and is the portable fallback. For contributors, read the contributor guide and run `vui contribute --project <library> --dry-run` then execute the real checks; follow the contributor guide through submission and stop there.
+
+Choose one scope for consumer work:
 
 | Scope | Use when |
 | --- | --- |
@@ -37,7 +41,9 @@ For new products follow the [harness quickstart](../../docs/patterns/design-harn
 
 ## 2. Select the applicable canon
 
-Read [DESIGN.md](../../DESIGN.md), the receipt's applicable canonical references and the relevant installed component source/props. The [routing table](../../docs/patterns/ui-feature-pipeline.md#reference-routing) maps task characteristics to detailed patterns. Read only relevant sections. Use the receipt's stable UI-01–UI-14 rows to plan concrete checks before editing. Mark genuinely unrelated rows N/A with a task-specific reason; leave applicable checks pending. Core scope, components/tokens, visual review and privacy always apply; new/migration additionally require composition, typography, interaction and execution. Executable projects require UI-13 even for focused changes.
+Read [DESIGN.md](../../DESIGN.md), the receipt's applicable canonical references and the relevant installed component source/props. The [routing table](../../docs/patterns/ui-feature-pipeline.md#reference-routing) maps task characteristics to detailed patterns. Read only relevant sections. Use the receipt's stable UI-01–UI-14 rows to plan concrete checks before editing. Mark genuinely unrelated rows N/A with a task-specific reason; leave applicable checks pending. Core scope, components/tokens, visual review and privacy always apply; new/migration additionally require composition, typography, interaction and execution. New apps also require UI-12 source evidence for identity applicability (official identity or independent/unbranded with source/rights observation). Executable projects require UI-13 even for focused changes.
+
+For a new official Vanya Arc service or a branding task, read [brand identity integration](../../docs/identity/brand.md) and its pinned brand procedure. The wave is the generative principle; every service has a distinct purpose-derived mark and matching favicon. Parent/UI retain the approved V→A. Inspect existing identity, propose directions for owner approval, save approved product assets outside the public library and use the installed `productMark` slot only if the pinned version supports it. Until approval use `showMark={false}` for an explicitly temporary text-only lockup and report UI-12 pending; preserve other services. Check the actual logo and favicon in both themes, monochrome and at 16/24/32 px. Respect package pin and licensing.
 
 ## 3. Implement
 

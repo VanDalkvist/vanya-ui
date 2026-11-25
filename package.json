@@ -1,6 +1,6 @@
 {
   "name": "@vanya/ui",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
   "license": "SEE LICENSE IN LICENSING.md",
@@ -35,10 +35,11 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "test:consumer": "node scripts/consumer-smoke.mjs",
     "test:harness": "node --test scripts/design-harness.e2e.test.mjs",
-    "test:harness:consumer": "node scripts/consumer-smoke.mjs"
+    "test:harness:consumer": "node scripts/consumer-smoke.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.build.json"
   },
   "dependencies": {
-    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#c3aa7ce7672bb06932dda333ba8bc98e8290f5ae",
+    "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "tailwind-merge": "^3.0.2"
@@ -62,6 +63,8 @@
     "vitest": "5.1.0"
   },
   "bin": {
+    "vanya-arc-ui": "./scripts/ui-pipeline.mjs",
+    "vui": "./scripts/ui-pipeline.mjs",
     "vanya-ui-lint": "./scripts/design-harness-bin.mjs"
   }
 }

@@ -1,6 +1,6 @@
 import { Sparkles, HeartHandshake, Briefcase, Cpu } from "lucide-react";
 
-/** Visual contract from ferma/src/lib/harness-colors.ts and ferma/src/styles.css. */
+/** Shared category presets and semantic palette. */
 export const HARNESS_TYPES = [
   { id: "creative_harness", name: "creative", label: "Creative", icon: Sparkles },
   { id: "life_harness", name: "life", label: "Life", icon: HeartHandshake },

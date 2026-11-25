@@ -5,10 +5,10 @@ import {join,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {validatePublication} from './check-llm-publication.mjs';
 const paths=[
- 'llms.txt','llms-full.txt','index.md','reference/agent-skill.md',
+ 'llms.txt','llms-full.txt','index.md','reference/identity.md','reference/agent-skill.md',
  'reference/ui-pipeline.md','reference/design-harness-quickstart.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/components.md',
  'reference/workspaces.md','reference/installation.md',
- 'reference/brand-artwork-license.txt','reference/composition.md','reference/publication-safety.md','reference/tokens.md','reference/typography.md'
+ 'reference/brand-artwork-license.txt','reference/composition.md','reference/publication-safety.md','reference/contributing.md','reference/tokens.md','reference/typography.md'
 ];
 const site='https://ui.vanya-arc.dev/';
 function put(root,path,body){
@@ -17,7 +17,7 @@ function put(root,path,body){
 test('public agent references must be present and canonical',()=>{
  const root=mkdtempSync(join(tmpdir(),'ui-crawler-'));
  try{
-  const links=['reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'].map(p=>'- ['+p+']('+site+p+')');
+  const links=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'].map(p=>'- ['+p+']('+site+p+')');
   const body='# Vanya UI agent references\n\n'+links.join('\n')+'\n\nThis is a public document for crawler and LLM discovery.\n';
   for(const p of paths){
    const text=p==='reference/installation.md'?'# Installation\n\nbun add "github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>"\n':body;
@@ -28,6 +28,7 @@ test('public agent references must be present and canonical',()=>{
   put(root,'agents/index.html','<html></html>');
   put(root,'public/sitemap.xml','<urlset>'+[...paths,'agents/'].map(p=>'<url><loc>'+site+p+'</loc></url>').join('')+'</urlset>');
   put(root,'skills/vanya-ui/SKILL.md',body);
+  put(root,'docs/identity/brand.md',body);
   put(root,'docs/patterns/ui-feature-pipeline.md',body);
   put(root,'docs/patterns/design-harness-quickstart.md',body);
   put(root,'docs/patterns/list-detail-composition.md',body);
@@ -37,6 +38,7 @@ test('public agent references must be present and canonical',()=>{
   put(root,'docs/composition/working-surfaces.md',body);
   put(root,'docs/patterns/typography.md',body);
   put(root,'docs/patterns/publication-safety.md',body);
+  put(root,'docs/patterns/contributing.md',body);
   put(root,'src/index.ts','export {Skeleton, LoadingRegion, type SkeletonProps} from "./components/Skeleton";');
   const exports='- Skeleton (value): ./components/Skeleton\n- LoadingRegion (value): ./components/Skeleton\n- SkeletonProps (type): ./components/Skeleton';
   put(root,'public/reference/components.md',body+exports);

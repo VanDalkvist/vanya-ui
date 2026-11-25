@@ -13,7 +13,7 @@ export const criteria=[
  criterion("UI-09","Dynamic state and geometry","docs/composition/working-surfaces.md","Compare affected loading/empty/error/partial/ready states, actual result content and unaffected geometry across transitions.","browser"),
  criterion("UI-10","Keyboard shortcuts","docs/patterns/keyboard-shortcuts.md","Verify visible alternative, shortcut help, input/IME exclusion, focus and disable mechanism for character shortcuts as applicable.","browser"),
  criterion("UI-11","Responsive and theme review","DESIGN.md","Review affected rendered surface at representative narrow/wide sizes and supported themes; check overflow, hit targets and zoom when applicable. Record actual dimensions and themes.","browser",true),
- criterion("UI-12","Identity and external sources","docs/identity/brand.md","Check actual approved brand assets and relevant external sources/rights; no invented provenance or copied assets without rights.","source"),
+ criterion("UI-12","Identity and external sources","docs/identity/brand.md","Check approved brand assets and rights. New official Vanya Arc services require individual wave-derived mark, matching favicon and owner approval; V→A is reserved for parent/UI. Pending approval or visual checks remain NOT_VERIFIED. For a new independent/unbranded application, record identity applicability and source/rights observation. Record provenance.","source"),
  criterion("UI-13","Build and regression execution","docs/patterns/ui-feature-pipeline.md","Run target build and affected browser/unit scripts; record actual command/results. For static artifacts with no runnable build, record why and use observed rendering for UI-11.","command"),
  criterion("UI-14","Privacy and publication boundary","docs/patterns/publication-safety.md","Review the changed files and relevant built output for secrets/private data; if deploying, record destination and live readback separately.","source",true),
 ];
@@ -48,7 +48,7 @@ export function reviewAcceptance(receipt,{projectInfo,verification}={}){
   if(!r){errors.push("Missing criterion: "+c.id);continue}
   if(!statuses.includes(r.status)){errors.push(c.id+": invalid status");continue}
   if(r.status==="N/A"){
-   if(c.required||(["new","migration"].includes(receipt.scope)&&["UI-03","UI-04","UI-06","UI-13"].includes(c.id))||(c.id==="UI-13"&&executable))errors.push(c.id+": cannot be N/A for this scope");
+   if(c.required||(receipt.scope==="new"&&c.id==="UI-12")||(["new","migration"].includes(receipt.scope)&&["UI-03","UI-04","UI-06","UI-13"].includes(c.id))||(c.id==="UI-13"&&executable))errors.push(c.id+": cannot be N/A for this scope");
    if(!nonempty(r.reason))errors.push(c.id+": N/A requires task-specific reason");
    continue;
   }

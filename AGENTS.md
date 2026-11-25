@@ -2,7 +2,7 @@
 
 **For any UI/visual feature in this or another project:** read [the canonical portable skill](skills/vanya-ui/SKILL.md) first, then inspect actual exports in `src/index.ts` and patterns in `DESIGN.md`.
 
-Provider-independent local commands (Node.js 20+, no Git or GitHub):
+CLI names: `vanya-arc-ui` and `vui` when installed. Run `vui --help`, `vui <command> --help` or `vui --version`. Both names call the same portable script. With a source folder or an older package pin, use the direct Node entrypoint below (Node.js 20+, no Git or GitHub):
 
 ```sh
 node scripts/ui-pipeline.mjs inspect --project .
@@ -15,6 +15,10 @@ For changes to Vanya UI component behavior/scroll/keyboard, run the **manual rea
 For consumer project setup use `node scripts/bootstrap-ui-pipeline.mjs --project /path/to/consumer`. This installs local agent pointers. After installing the verified harness-capable package and creating authored source roots, run `node scripts/ui-pipeline.mjs adopt --project /path/to/consumer --sources src` (select all authored directories, use --package for a monorepo). The strict consumer contract requires canonical lint:design and configuration; follow [consumer quickstart](docs/patterns/design-harness-quickstart.md) for direct installed-package CI gates before and after build. All visual changes require browser observation beyond automated tests; report NOT VERIFIED if unable to inspect.
 
 GitHub Actions, if present, are optional **manual-only** adapters. Never add push/PR/schedule triggers to UI contract workflows, and never require CI to execute the agent workflow.
+
+For a new official Vanya Arc service or an identity change, read [identity integration](docs/identity/brand.md) and the canonical brand procedure. Propose an individual wave-derived mark and matching favicon, obtain owner approval, and use the installed `productMark` slot when supported; older pins retain existing behavior and use explicit text-only or existing approved assets; parent/UI retain V→A. Record UI-12 evidence and pending approval. Preserve existing approved product marks.
+
+For explicit contributions to the library, follow [the contributor workflow](docs/patterns/contributing.md). Run the existing library verification via `node scripts/ui-pipeline.mjs contribute --project .`; inspect applicable rendered states and review the actual contribution. Preserve existing components and generic presets; keep unapproved consumer identities and private provenance out of public artifacts; retain explicitly approved technical references when relevant.
 
 Respect `DESIGN.md`, all license/source/publication policies and actual component source; never leak private project data into this public repo.
 

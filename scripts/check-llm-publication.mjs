@@ -11,12 +11,12 @@ import {publicMarkdown} from './markdown-publication.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const required=[
  'llms.txt','llms-full.txt','index.md',
- 'reference/agent-skill.md','reference/design-harness-quickstart.md','reference/ui-pipeline.md','reference/list-detail.md',
+ 'reference/identity.md','reference/agent-skill.md','reference/design-harness-quickstart.md','reference/ui-pipeline.md','reference/list-detail.md',
  'reference/versioning.md',
  'reference/interaction-states.md',
  'reference/action-feedback.md',
  'reference/brand-artwork-license.txt',
- 'reference/components.md','reference/workspaces.md','reference/installation.md','reference/composition.md','reference/publication-safety.md','reference/tokens.md','reference/typography.md'
+ 'reference/components.md','reference/workspaces.md','reference/installation.md','reference/composition.md','reference/publication-safety.md','reference/contributing.md','reference/tokens.md','reference/typography.md'
 ];
 const site='https://ui.vanya-arc.dev';
 const read=(root,path)=>readFileSync(join(root,'public',path),'utf8');
@@ -39,6 +39,7 @@ export function validatePublication(root=base){
  if(existsSync(brandTerms)&&existsSync(publishedBrand)&&readFileSync(brandTerms,'utf8')!==readFileSync(publishedBrand,'utf8'))
   errors.push('Published brand artwork license differs from pinned package');
  const canonical=[
+  ['reference/identity.md','docs/identity/brand.md'],
   ['reference/agent-skill.md','skills/vanya-ui/SKILL.md'],
   ['reference/ui-pipeline.md','docs/patterns/ui-feature-pipeline.md'],
   ['reference/design-harness-quickstart.md','docs/patterns/design-harness-quickstart.md'],
@@ -48,7 +49,8 @@ export function validatePublication(root=base){
   ['reference/action-feedback.md','docs/patterns/action-feedback.md'],
   ['reference/composition.md','docs/composition/working-surfaces.md'],
   ['reference/typography.md','docs/patterns/typography.md'],
-  ['reference/publication-safety.md','docs/patterns/publication-safety.md']
+  ['reference/publication-safety.md','docs/patterns/publication-safety.md'],
+  ['reference/contributing.md','docs/patterns/contributing.md']
  ];
  for(const [published,source] of canonical){
   const pub=join(root,'public',published),src=join(root,source);
@@ -68,7 +70,7 @@ export function validatePublication(root=base){
   if(/\\n(?:#{1,6}\s|[-*]\s)/.test(body))errors.push(name+' contains literal escaped newline before Markdown heading/list');
   if(body.length<200)errors.push(name+' unexpectedly short');
  }
- const requiredLinks=['reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
+ const requiredLinks=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
  for(const path of requiredLinks){
   const url=site+'/'+path;
   if(!llms.includes(url))errors.push('Missing primary llms.txt link: '+url);

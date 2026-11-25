@@ -23,6 +23,7 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 ## Agent instructions (canonical public entrypoints)
 - Canonical composition and stable geometry: https://ui.vanya-arc.dev/reference/composition.md
 - Public data boundary: https://ui.vanya-arc.dev/reference/publication-safety.md
+- Contributor mode: https://ui.vanya-arc.dev/reference/contributing.md
 - Install and source package constraints: https://ui.vanya-arc.dev/reference/installation.md
 - Agent harness quickstart: https://ui.vanya-arc.dev/reference/design-harness-quickstart.md
 - Agent mode: https://ui.vanya-arc.dev/agents/
@@ -52,7 +53,7 @@ Use ui-type-display, ui-type-heading, ui-type-subheading, ui-type-body, ui-type-
 Project-specific voice and verified product facts are in .agents/redpolitika.md. For editorial methods, use source links and fetch originals only when the task requires them: Ilyakhov and Sarycheva, the book https://bureau.ru/books/pishi/190 (not CC BY); Sarycheva and Arkhipov, original redaktura-skills https://github.com/N1arko/redaktura-skills (CC BY 4.0). Never represent our local rules as their copied or official method. Do not vendor upstream SKILL.md text, or invent source content when offline. Full source routing: docs/patterns/writing-and-editorial.md; live /#writing.
 
 ## Identity (normative)
-Vanya Arc is the parent brand; UI is the design-system product. The approved V → A sign, React lockups and CSS palette are provided exclusively by the public GitHub dependency @vanya/brand. VanyaArcMark and VanyaArcLockup are re-exported by @vanya/ui. Only UI is highlighted. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/docs/brand-guidelines.md; UI integration docs/identity/brand.md; live /#identity.
+Vanya Arc is an umbrella brand with individual wave-derived product marks. The original V→A is reserved for the parent and UI. Other official services require an approved purpose-derived mark and matching favicon. Shared stroke character, palette, Manrope and Vanya Arc / Product naming establish the family. VanyaArcLockup productMark accepts the service's approved React mark; the existing renderer default is preserved; use explicit showMark=false for temporary text-only identity. Check the installed version before selecting productMark. VanyaArcMark and VanyaArcLockup are re-exported from @vanya/brand. Normative source: https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/docs/brand-guidelines.md; procedure: https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/docs/product-identity.md; UI integration https://ui.vanya-arc.dev/reference/identity.md; live /#identity.
 
 ## Keyboard shortcuts (normative)
 Shortcuts are optional accelerators, not replacements for commands. Avoid browser/OS collisions; do not run inside text inputs, IME or unrelated dialogs. Character-only shortcuts must be switchable off (WCAG 2.1.4). Use Kbd and ShortcutKeys for semantic accessible hints, follow the token palette, and keep a single source of truth for actual bindings. Full guidance: docs/patterns/keyboard-shortcuts.md, live section /#keyboard-shortcuts.
@@ -68,7 +69,7 @@ Software stays MIT. Only explicitly marked original research uses CC BY 4.0. Off
 Every external claim needs its true primary author/organization, title, direct URL, the specific supported assertion and a rights status (reference-only, explicit license, permitted quotation or written permission). Distinguish citations, protected quotations, licensed adaptations and independently created commentary. A link is NOT a copyright license. Ilyakhov and Sarycheva's book is linked for commentary; redaktura-skills is CC BY 4.0 with its own named authors. For CC BY adaptations include author/title/source/license/changes; for MIT code preserve notices; for images/diagrams obtain permission or verify terms before reproduction. Refer to docs/patterns/sources-and-attribution.md and /reference/sources.md. Do not assert legal clearance merely because a source is public.
 
 ## Licenses and third-party attribution (mandatory)
-This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Spectral, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/c3aa7ce7672bb06932dda333ba8bc98e8290f5ae/BRAND.md; older MIT grants persist.
+This UI package's authored code is MIT (LICENSE, Copyright 2026 Vanya Afanasov). Third-party licenses are separate; never relicense other people's code or images as yours. Lucide includes ISC and Feather MIT notices; Manrope, Spectral, JetBrains Mono use OFL-1.1; the Sarycheva/Arkhipov redaktura-skills source is CC BY 4.0 and is referenced with credit, not vendored. Read THIRD_PARTY_NOTICES.md and docs/legal/license-audit-2026-11-22.md. Live site: /reference/third-party.md, /LICENSE.txt, /licenses.txt (generated bundle dependency licenses). For brand usage read https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/BRAND.md; older MIT grants persist.
 
 ## Public publication safety (mandatory)
 The GitHub repository and https://ui.vanya-arc.dev are public. Never include private user/account/project data, secrets, private URLs, internal infrastructure, real records, logs or analytics in source, docs, demos or build output. Use synthetic examples. Review the full diff and built dist/ before committing or deploying. Never expose Cloudflare secrets or credentials in browser code. See docs/patterns/publication-safety.md.
@@ -117,6 +118,7 @@ const docs=[
  ["docs/patterns/action-feedback.md","action-feedback.md"],
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
+ ["docs/patterns/contributing.md","contributing.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
  ["docs/research/workspace-scroll-composition-2026-11-21.md","workspaces.md"],
  ["docs/deployment.md","deployment.md"],

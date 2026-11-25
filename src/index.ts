@@ -112,7 +112,7 @@ export { WorkspaceSplit, type WorkspaceSplitProps } from "./components/Workspace
 export { StickyContextBar, type StickyContextBarProps } from "./components/StickyContextBar";
 
 export { WorkspaceContextHeader, type WorkspaceContextHeaderProps, type WorkspaceContextCrumb } from "./components/WorkspaceContextHeader";
-export { VanyaArcMark, VANYA_ARC_MARK_PATH, VANYA_ARC_MARK_VIEWBOX, type VanyaArcMarkProps, VanyaArcLockup, type VanyaArcLockupProps } from "@vanya/brand";
+export { VanyaArcMark, VANYA_ARC_MARK_PATH, VANYA_ARC_MARK_VIEWBOX, type VanyaArcMarkProps, VanyaArcLockup, type VanyaArcLockupProps, type VanyaArcProductMarkProps } from "@vanya/brand";
 export { ShortcutKeys, type ShortcutKeysProps } from "./components/ShortcutKeys";
 
 export {MediaCard, type MediaCardProps} from "./components/MediaCard";

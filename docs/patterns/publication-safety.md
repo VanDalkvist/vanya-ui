@@ -8,17 +8,22 @@ Both the repository `VanDalkvist/vanya-ui` and the deployed website `https://ui.
 
 - Credentials of any kind: API keys, tokens, session/cookie values, passwords, private keys, signing secrets or `.env` files. Even if a token has expired, it does not belong in git history.
 - Non-public personal or third-party data, messages, calendars, user records, business details, account IDs, email dumps, usage exports, analytics, private notes, internal screenshots or production logs.
-- Details obtained from private repositories, conversations, connected apps, private files or other projects unless explicitly approved for public disclosure.
+- Unapproved consuming-service identities, source-specific provenance, product marks, screenshots, adoption records and data. Explicitly approved public references and historical technical attribution may be retained when relevant. Generic components and reusable rules may be contributed after rights and boundary review; canonical contracts must remain independent of consuming services.
+- Details obtained from private repositories, conversations, connected apps or files unless explicitly approved for public disclosure within this boundary.
 - Private services' internal hostnames, access URLs, infrastructure configurations, database connection strings, deployment secrets or Cloudflare account metadata.
 - Test/demo data that accidentally contains real user information. Do not assume a screenshot, code snippet or generated `llms.txt` is safe merely because it came from a tool.
 
 ## Allowed
 
 - Published UI components, styles, public design principles, general code examples and synthetic fixture data.
-- Public references and deliberately shared project URLs, with no secret query parameters or authorization context.
+- Relevant public third-party references with verified rights and attribution, and links to this library or its canonical brand package. Explicitly approved public historical and technical references are allowed; they must not establish product-specific requirements or dependencies.
 - Sanitized examples **only after verifying** that no private detail, identifying metadata or embedded credential remains.
 
 Public verification receipts may include the public commit SHA, public URL, test counts and asset filenames. Keep provider account/build IDs, dashboard URLs, private session references, raw logs and comment edit history out of public reports. Review PR and issue descriptions and comments as well as Git diffs.
+
+## Contributions
+
+Follow the [contributor guide](contributing.md). Apply these existing publication and rights rules when preparing a contribution. Keep reusable contracts independent of consuming services and preserve explicitly approved references. Review public text, images and generated output as applicable; library verification does not certify privacy.
 
 ## Mandatory release checklist
 

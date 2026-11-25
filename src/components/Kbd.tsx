@@ -16,7 +16,7 @@ export function Kbd({ children, lit = false, size = "sm", className, ...props }:
       data-size={size}
       className={twMerge(
         clsx(
-          "ui-size inline-grid place-items-center rounded-[3px] border font-mono transition-all duration-200 select-none",
+          "ui-size inline-grid place-items-center rounded-xs border font-mono transition-all duration-200 select-none",
           lit
             ? "border-accent/60 bg-accent/12 text-ink"
             : "border-border bg-surface-raised/70 text-ink-soft",

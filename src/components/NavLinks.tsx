@@ -40,7 +40,7 @@ export function NavLinks({
       <div data-ui-nav-items="" className="flex items-center gap-x-3.5 sm:gap-x-4">
         {items.map((item) => {
           const classes = clsx(
-            "ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-[13px] sm:text-[13px] tracking-normal cursor-pointer",
+            "ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-control tracking-normal cursor-pointer",
             item.isActive
               ? "text-accent font-semibold"
               : "text-ink-soft/80 font-medium"
@@ -71,7 +71,7 @@ export function NavLinks({
           <button
             type="button"
             onClick={onNowClick}
-            className="ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-[12.5px] font-medium tracking-normal text-ink-soft/75 cursor-pointer"
+            className="ui-feedback-nav appearance-none border-0 bg-transparent p-0 font-sans text-control font-medium tracking-normal text-ink-soft/75 cursor-pointer"
           >
             {nowLabel}
           </button>
