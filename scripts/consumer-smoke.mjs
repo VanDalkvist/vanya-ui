@@ -68,7 +68,7 @@ export function assertConsumerCss(css) {
 function run(cwd, cmd, args) {
   const result=spawnSync(cmd,args,{cwd,encoding:"utf8",shell:process.platform==="win32",timeout:240000,maxBuffer:8*1024*1024});
   const output=(result.stdout??"")+(result.stderr??"");
-  writeFileSync(join(cwd,cmd+"-"+args.join("-").replace(/[^a-zA-Z0-9-]/g,"")+".log"),output);
+  writeFileSync(join(cwd,cmd.replace(/[^a-zA-Z0-9-]/g,"")+"-"+args.join("-").replace(/[^a-zA-Z0-9-]/g,"")+".log"),output);
   if(result.stdout)process.stdout.write(result.stdout);
   if(result.stderr)process.stderr.write(result.stderr);
   if(result.error) throw result.error;
@@ -79,11 +79,11 @@ function run(cwd, cmd, args) {
 async function main() {
   const args=process.argv.slice(2);
   const sha=args[0];
-  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>a!=="--prepare-only")) {
-    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only]");
+  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>!["--prepare-only","--harness"].includes(a))) {
+    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only] [--harness]");
     process.exitCode=2;return;
   }
-  const prepare=args.includes("--prepare-only");
+  const prepare=args.includes("--prepare-only"), harness=args.includes("--harness");
   const root=mkdtempSync(join(tmpdir(),"vanya-ui-consumer-"));
   console.log("Isolated fixture directory: "+root);
   const results=[];
@@ -106,6 +106,21 @@ async function main() {
         if(installed.name!=="@vanya/ui")throw new Error("Wrong installed package");
         receipt.packageVersion=installed.version;
         receipt.checks.install="PASS";
+        if(harness){
+          phase="harness-adopt";
+          run(cwd,process.execPath,[join(cwd,"node_modules/@vanya/ui/scripts/ui-pipeline.mjs"),"adopt","--project",cwd,"--sources","src"]);
+          phase="harness-lint";run(cwd,row.manager,["run","lint:design"]);receipt.checks.harnessLint="PASS";
+          phase="harness-negative";
+          const cssPath=join(cwd,"src/style.css"),before=readFileSync(cssPath,"utf8");
+          try{
+            writeFileSync(cssPath,before+"\n.probe { color: #f123ab; font-size: 19px; }\n");
+            const bad=spawnSync(row.manager,["run","lint:design"],{cwd,encoding:"utf8",shell:process.platform==="win32",timeout:480000,maxBuffer:8*1024*1024});
+            const output=(bad.stdout??"")+(bad.stderr??"");
+            writeFileSync(join(cwd,"harness-negative.log"),output);
+            if(bad.error||bad.status!==1||!output.includes("#f123ab")||!output.includes("new=2"))throw Error("Expected actual design violations to block package lint");
+            receipt.checks.harnessNegative="PASS";
+          }finally{writeFileSync(cssPath,before)}
+        }
         phase="types";run(cwd,row.manager,["run","types"]);receipt.checks.types="PASS";
         phase="client";run(cwd,row.manager,["run","build"]);
         const css=readdirSync(join(cwd,"dist","assets")).filter(x=>x.endsWith(".css")).map(x=>readFileSync(join(cwd,"dist","assets",x),"utf8")).join("\n");

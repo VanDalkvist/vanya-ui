@@ -29,7 +29,7 @@ Date: 2026-11-25. Approved design: portable existing CLI, mandatory deterministi
 - [x] GREEN real process test: Cloudflare b5878c88-fd36-4044-92c9-9761f17a5365, 2/2 harness E2E; packed consumer smoke remains pending. Provider-specific CI appends canonical command before deploy; no GitHub Actions triggers.
 ### Slice 2 — existing debt
 - [x] RED test authored: capture explicit versioned source-based baseline, same findings pass, new/duplicated/modified finding blocks, invalid/removed baseline fails; no automatic rebaseline. Cover CSS and JSX, operational errors fail.
-- [ ] Implement explicit baseline operation and review; product-owned debt, canonical rule IDs, no blanket disables.
+- [x] Implement explicit baseline operation and review; product-owned debt, canonical rule IDs, no blanket disables.
 - [ ] GREEN on isolated existing consumer; preserve unrelated source.
 ### S9 / S10 / S11
 - [ ] Architecture semantic probes (traceability, runtime completeness, entrypoint, anti-gaming), diff review and targeted/full test evidence.

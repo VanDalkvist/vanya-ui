@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-25
+
+### Added
+- Consumer design-system harness: adopt, canonical package lint, required verification, explicit legacy baseline. Strict project-bound checks require the new harness-capable pin; existing pins are unchanged. Candidate until release verification.
+
 ## [0.4.7] - 2026-11-25
 
 ### Added

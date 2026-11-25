@@ -1,6 +1,6 @@
 {
   "name": "@vanya/ui",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
   "license": "SEE LICENSE IN LICENSING.md",
@@ -32,7 +32,8 @@
     "test:browser": "npm --prefix browser-qa run test",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "test:consumer": "node scripts/consumer-smoke.mjs",
-    "test:harness": "node --test scripts/design-harness.e2e.test.mjs"
+    "test:harness": "node --test scripts/design-harness.e2e.test.mjs",
+    "test:harness:consumer": "node scripts/consumer-smoke.mjs"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#c3aa7ce7672bb06932dda333ba8bc98e8290f5ae",
