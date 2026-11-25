@@ -221,6 +221,6 @@
 ### Execution evidence
 - Slice 0: RED 474b24e5-c692-4214-b355-c2d2169cc4a0 (unknown lint command); GREEN a78b3432-f6e0-4267-adf9-8833bafde97a, real lint E2E 1/1 and successful full validation.
 - Slice 1: RED bcb0f862-d891-4c8e-8e3a-00a955224f56 (unknown adopt command); GREEN b5878c88-fd36-4044-92c9-9761f17a5365, E2E 2/2, 125 Vitest and 36 Node tests, full validation success.
-- Slice 2: RED 794de941-f05a-4692-b7a6-4854f433ed50 (unknown baseline command, earlier tests passed); implementation a8c56048b9e7247ec336ded07c89b78dca4e755d, build df1d41ef-4bd6-417f-8819-00c2998c485b. GREEN pending at time of this record.
+- Slice 2: RED 794de941-f05a-4692-b7a6-4854f433ed50 (unknown baseline command, earlier tests passed); implementation a8c56048b9e7247ec336ded07c89b78dca4e755d, build df1d41ef-4bd6-417f-8819-00c2998c485b. GREEN confirmed: E2E 3/3, 125 Vitest, 36 Node tests, 4 baseline tests, all five external rule fixtures, TypeScript/build and compiled CSS PASS; showcase CSS debt 69 existing, 0 new.
 - Distribution gate: candidate 0.5.0, non-production Workers Builds trigger extends validation with exact-SHA npm/React18 and Bun/React19 smoke when test:harness:consumer exists; deploy command remains validation-only. Production trigger untouched. Final result pending.
-- S9a author probes completed with residual risks, independent review NOT_RUN. S9b earlier executable linked-package journeys PASS, final baseline and package smoke pending, blind-agent/browser review NOT_RUN. Overall Arch Loop NOT_VERIFIED; draft PR only.
+- S9a author probes completed with residual risks, independent review NOT_RUN. S9b all three executable linked-package journeys PASS, package smoke pending, blind-agent/browser review NOT_RUN. Overall Arch Loop NOT_VERIFIED; draft PR only.

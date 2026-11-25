@@ -30,11 +30,11 @@ Date: 2026-11-25. Approved design: portable existing CLI, mandatory deterministi
 ### Slice 2 — existing debt
 - [x] RED test authored: capture explicit versioned source-based baseline, same findings pass, new/duplicated/modified finding blocks, invalid/removed baseline fails; no automatic rebaseline. Cover CSS and JSX, operational errors fail.
 - [x] Implement explicit baseline operation and review; product-owned debt, canonical rule IDs, no blanket disables.
-- [ ] GREEN on isolated existing consumer; preserve unrelated source.
+- [x] GREEN on isolated existing consumer: Cloudflare df1d41ef-4bd6-417f-8819-00c2998c485b, all three E2E cases PASS, real lint and full build succeeded.
 ### S9 / S10 / S11
-- [ ] Architecture semantic probes (traceability, runtime completeness, entrypoint, anti-gaming), diff review and targeted/full test evidence.
+- [x] Author architecture semantic probes (traceability, runtime completeness, entrypoint, anti-gaming), diff review and targeted/full test evidence.
 - [ ] Separate product review via public CLI: happy, cold-start, error, negative control, real built consumer. Independent reviewer availability must be reported; no invented verdict. Blind agent test and real browser test remain distinct from CLI fixture. 
-- [ ] Ledger and durable lessons; no merge until scoped gates pass. Do not claim full harness before all slices.
+- [x] Ledger and durable lessons recorded; no merge until scoped gates pass. Do not claim full harness before all slices.
 
 Slice 1 RED confirmed in Cloudflare bcb0f862-d891-4c8e-8e3a-00a955224f56: slice 0 passed, adoption failed exactly `Unknown command adopt`. Implementation follows the approved slice. The portable unit orchestration uses an explicit lint port; actual tool execution is tested independently through the public CLI.
 
