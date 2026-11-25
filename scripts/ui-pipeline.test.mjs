@@ -225,3 +225,43 @@ test('new receipt requires strict and current execution evidence',()=>fixture(ro
  const stale={...info,hasTokensImport:false,pinnedDependency:false};
  assert.equal(reviewAcceptance(p,{projectInfo:stale,verification:executed}).status,'invalid');
 }));
+
+function contributorFixture(root,{fail,missing,name='@vanya/ui'}={}){
+ const steps=['test','typecheck','build','lint:design:pilot'];
+ file(root,'package.json',JSON.stringify({name,type:'module',scripts:Object.fromEntries(steps.filter(s=>s!==missing).map(s=>[s,'node step.mjs '+s]))}));
+ file(root,'step.mjs',"import {appendFileSync} from 'node:fs';const step=process.argv[2];appendFileSync('executed.txt',step+'\\n');if(step==="+JSON.stringify(fail??null)+")process.exit(7);");
+ const invoke=(...args)=>spawnSync(process.execPath,[new URL('./ui-pipeline.mjs',import.meta.url).pathname,'contribute','--project',root,'--json',...args],{encoding:'utf8',cwd:tmpdir()});
+ return {invoke,steps};
+}
+test('contributor executes existing library verification scripts in a portable directory without Git',()=>fixture(root=>{
+ const {invoke,steps}=contributorFixture(root);
+ const result=invoke();
+ assert.equal(result.status,0,result.stderr);
+ assert.deepEqual(readFileSync(join(root,'executed.txt'),'utf8').trim().split('\n'),steps);
+ const report=JSON.parse(result.stdout);
+ assert.equal(report.status,'passed');
+ assert.deepEqual(report.checks.map(x=>x.script),steps);
+ assert.equal(report.visualReview,'NOT_VERIFIED');
+}));
+test('contributor stops on real failed script and dry-run does not execute',()=>fixture(root=>{
+ const {invoke,steps}=contributorFixture(root,{fail:'typecheck'});
+ const dry=invoke('--dry-run');
+ assert.equal(dry.status,0,dry.stderr);
+ assert.equal(JSON.parse(dry.stdout).status,'planned');
+ assert.deepEqual(JSON.parse(dry.stdout).checks.map(x=>x.script),steps);
+ assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
+ const result=invoke();
+ assert.notEqual(result.status,0);
+ assert.deepEqual(readFileSync(join(root,'executed.txt'),'utf8').trim().split('\n'),['test','typecheck']);
+ assert.equal(JSON.parse(result.stdout).checks.at(-1).exitCode,7);
+}));
+test('contributor rejects consumer packages and incomplete library scripts before execution',()=>fixture(root=>{
+ const {invoke}=contributorFixture(root,{name:'consumer'});
+ assert.notEqual(invoke().status,0);
+ assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
+ contributorFixture(root,{missing:'build'});
+ const result=invoke();
+ assert.notEqual(result.status,0);
+ assert.equal(JSON.parse(result.stdout).status,'blocked');
+ assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
+}));
