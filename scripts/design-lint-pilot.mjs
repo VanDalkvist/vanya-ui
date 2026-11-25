@@ -4,6 +4,7 @@ import {mkdtempSync,writeFileSync,readFileSync,existsSync,rmSync,copyFileSync} f
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname,relative,sep} from 'node:path';
 import {createRequire} from 'node:module';
+import {normalizeWarning,compareBaseline} from './design-lint-baseline.mjs';
 import {fileURLToPath} from 'node:url';
 const library=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2);
@@ -25,6 +26,7 @@ const fixture=(name,r,code,markers=[])=>{
  console.log('[design-lint] FIXTURE PASS '+name);
 };
 try{
+ checked('baseline unit tests',run(process.execPath,['--test',join(library,'scripts/design-lint-baseline.test.mjs')],library),[0]);
  copyFileSync(join(tools,'package.json'),join(dir,'package.json'));
  const lock=join(tools,'package-lock.json');
  if(args.includes('--bootstrap-lock')){
@@ -65,13 +67,12 @@ try{
  if(!report||!report.length||report.some(f=>!Array.isArray(f.warnings)||f.invalidOptionWarnings?.length||f.parseErrors?.length))throw Error('Stylelint report missing or invalid');
  const warnings=report.flatMap(f=>f.warnings.map(w=>{
   const absolute=resolve(project,f.source);
-  return {file:relative(project,absolute).split(sep).join('/'),rule:w.rule,message:w.text.replace(/ \\([^)]+\\)$/,''),source:readFileSync(absolute,'utf8').split(/\\r?\\n/)[w.line-1]?.trim()||''};
+  return normalizeWarning(relative(project,absolute).split(sep).join('/'),w,readFileSync(absolute,'utf8'));
  }));
  if(cssResult.status===2&&!warnings.length)throw Error('Stylelint reported failure without rule findings');
  const baseline=isLibrary&&!args.includes('--strict')?JSON.parse(readFileSync(join(tools,'showcase-baseline.json'),'utf8')):[];
- const available=baseline.map(e=>JSON.stringify(e));
- const newFindings=warnings.filter(w=>{const i=available.indexOf(JSON.stringify(w));if(i<0)return true;available.splice(i,1);return false;});
- console.log('[design-lint] Stylelint total='+warnings.length+' existing='+(warnings.length-newFindings.length)+' new='+newFindings.length+' resolved='+available.length);
+ const {newFindings,resolved}=compareBaseline(warnings,baseline);
+ console.log('[design-lint] Stylelint total='+warnings.length+' existing='+(warnings.length-newFindings.length)+' new='+newFindings.length+' resolved='+resolved.length);
  if(newFindings.length)console.error(JSON.stringify(newFindings,null,2));
  const impResult=imp(sourceTargets);
  checked('Impeccable',impResult,[0,2]);
