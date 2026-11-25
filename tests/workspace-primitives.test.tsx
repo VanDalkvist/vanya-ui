@@ -96,7 +96,7 @@ describe("Workspace primitives", () => {
     const click = vi.fn();
     render(<SectionToolbar title="Полка проектов" count={4} total={17} actions={<button onClick={click}>Обновить</button>}/>);
     expect(screen.getByRole("heading", {name:"Полка проектов",level:2})).toBeInTheDocument();
-    expect(screen.getByLabelText("Показано 4 из 17")).toBeInTheDocument();
+    expect(screen.getByRole("status", { name: "Показано 4 из 17" })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button",{name:"Обновить"}));
     expect(click).toHaveBeenCalledOnce();
   });

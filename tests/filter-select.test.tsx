@@ -8,8 +8,9 @@ describe("FilterSelect custom popup",()=>{
  it("renders a controlled trigger, opens a Vanya UI listbox portal and selects",()=>{
   const onValueChange=vi.fn();
   render(<FilterSelect label="Жанр" value="drama" options={options} onValueChange={onValueChange}/>);
-  const trigger=screen.getByRole("button",{name:"Жанр: Драма"});
+  const trigger=screen.getByRole("button",{name:"Жанр Драма"});
   expect(trigger).toHaveAttribute("aria-expanded","false");
+  expect(trigger).toHaveAccessibleName(trigger.textContent!.trim());
   fireEvent.click(trigger);
   expect(trigger).toHaveAttribute("aria-expanded","true");
   expect(document.querySelector(".ui-filter-select-panel")).toBeInTheDocument();
@@ -20,7 +21,7 @@ describe("FilterSelect custom popup",()=>{
  it("filters a long tag list with an input and preserves the empty option",()=>{
   const onValueChange=vi.fn();
   render(<FilterSelect label="ML тег" value="" searchable options={options} onValueChange={onValueChange}/>);
-  fireEvent.click(screen.getByRole("button",{name:"ML тег: Все"}));
+  fireEvent.click(screen.getByRole("button",{name:"ML тег Все"}));
   const search=screen.getByRole("searchbox",{name:"Поиск по вариантам: ML тег"});
   fireEvent.change(search,{target:{value:"фантастика"}});
   expect(screen.getByRole("option",{name:"Научная фантастика"})).toBeInTheDocument();
@@ -31,7 +32,7 @@ describe("FilterSelect custom popup",()=>{
  it("supports keyboard selection and Escape",()=>{
   const onValueChange=vi.fn();
   render(<FilterSelect label="Тип" value="drama" options={options} onValueChange={onValueChange}/>);
-  const trigger=screen.getByRole("button",{name:"Тип: Драма"});
+  const trigger=screen.getByRole("button",{name:"Тип Драма"});
   fireEvent.keyDown(trigger,{key:"ArrowDown"});
   const listbox=screen.getByRole("listbox",{name:"Тип"});
   fireEvent.keyDown(listbox,{key:"ArrowDown"});
@@ -43,7 +44,7 @@ describe("FilterSelect custom popup",()=>{
  });
  it("uses portal and preserves native SelectField as a separate component",()=>{
   render(<div data-testid="wrap"><FilterSelect label="Порядок" value="" options={options} onValueChange={()=>{}}/></div>);
-  fireEvent.click(screen.getByRole("button",{name:"Порядок: Все"}));
+  fireEvent.click(screen.getByRole("button",{name:"Порядок Все"}));
   expect(document.querySelector(".ui-filter-select-panel")?.parentElement).toBe(document.body);
   expect(document.querySelector(".ui-filter-select-panel select")).toBeNull();
  });

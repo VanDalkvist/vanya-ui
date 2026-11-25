@@ -18,7 +18,7 @@ export function SectionToolbar({title,count,total,description,actions,children,h
   return <header {...props} className={clsx("ui-section-toolbar",className)}>
     <div className="ui-section-toolbar-heading">
       <Heading className={clsx("ui-section-toolbar-title",variant==="section"&&"ui-type-subheading")}>{title}</Heading>
-      {counter!==null&&<span className="ui-section-toolbar-count" aria-label={"Показано "+counter}>{counter}</span>}
+      {counter!==null&&<span role="status" className="ui-section-toolbar-count" aria-label={"Показано "+counter}>{counter}</span>}
       {description&&<p className="ui-section-toolbar-description">{description}</p>}
     </div>
     {(children||actions)&&<div className="ui-section-toolbar-actions">{children}{actions}</div>}

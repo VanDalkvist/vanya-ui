@@ -10,10 +10,11 @@ export default defineConfig({
   retries: 0,
   workers: 1,
   outputDir: "./artifacts/test-results",
-  reporter: [["list"], ["html", { outputFolder: "./artifacts/report", open: "never" }]],
+  reporter: [["list"], ["html", { outputFolder: "./artifacts/report", open: "never" }], ["json", { outputFile: "./artifacts/results.json" }]],
   use: {
     baseURL: url,
     browserName: "chromium",
+    channel: "chromium",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "off",

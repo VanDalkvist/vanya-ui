@@ -99,11 +99,13 @@ export function FilterSelect({
   else if(event.key==="Tab"){close()}
  };
  useLayoutEffect(()=>{
-  if(!open)return;
-  updatePosition();
+  if(open)updatePosition();
+ },[open,doSearch]);
+ useLayoutEffect(()=>{
+  if(!open||position.visibility!=="visible")return;
   if(doSearch)searchRef.current?.focus();
   else listRef.current?.focus();
- },[open,doSearch]);
+ },[open,doSearch,position.visibility]);
  useEffect(()=>{
   if(!open)return;
   const outside=(e:PointerEvent)=>{
@@ -129,7 +131,7 @@ export function FilterSelect({
  useEffect(()=>{setActive(Math.max(0,capped.findIndex(o=>o.value===value&&!o.disabled)))},[query,open,value]);
  return <div className={clsx("ui-filter-select",className)} data-expanded={open||undefined}>
   <button ref={triggerRef} id={triggerId} type="button" className="ui-filter-select-trigger"
-   disabled={disabled} aria-label={label+": "+selectedLabel}
+   disabled={disabled} aria-labelledby={triggerId+"-label "+triggerId+"-value"}
    aria-haspopup="listbox" aria-expanded={open} aria-controls={open?listId:undefined}
    onClick={()=>open?close():openMenu()}
    onKeyDown={e=>{
@@ -137,8 +139,8 @@ export function FilterSelect({
      e.preventDefault();openMenu(e.key==="ArrowUp"?-1:0);
     }
    }}>
-   <span className="ui-filter-select-label">{label}</span>
-   <span className={clsx("ui-filter-select-value",!value&&"ui-filter-select-empty")} title={selectedLabel}>{selectedLabel}</span>
+   <span id={triggerId+"-label"} className="ui-filter-select-label">{label}</span>{" "}
+   <span id={triggerId+"-value"} className={clsx("ui-filter-select-value",!value&&"ui-filter-select-empty")} title={selectedLabel}>{selectedLabel}</span>
    <ChevronDown size={15} className="ui-filter-select-chevron" aria-hidden="true"/>
   </button>
   {open&&createPortal(<div ref={panelRef} className="ui-filter-select-panel" style={position}

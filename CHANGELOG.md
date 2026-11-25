@@ -8,6 +8,10 @@
 
 ### Fixed — browser QA
 - Verify horizontal zero-value plots using the SVG stroke and marker geometry, with a hidden-series negative control; include CraftCard in scoped axe checks.
+- Derive FilterSelect's accessible name from its visible label and value; focus its searchable popup only after the portal becomes visible.
+- Preserve selected menu highlighting with sufficient dark-theme text contrast, including hover.
+- Give SectionToolbar's labelled result counter explicit status semantics; use the system text color for SVG labels in forced-colors mode.
+- Pin the browser QA dependency tree; cover native Chromium 200% zoom, forced-colors focus, SVG text contrast and real React tab disable/remove transitions. No dependent application is updated.
 
 ## [0.4.0] - 2026-11-25
 
