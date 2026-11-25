@@ -64,7 +64,7 @@ export function reviewAcceptance(receipt,{projectInfo,verification}={}){
   const v=verification;
   const passed=Array.isArray(v?.checks)?v.checks:[];
   const ran=script=>typeof script==="string"&&!!projectInfo.scripts?.[script]&&passed.some(x=>x.script===script&&x.status==="passed"&&x.exitCode===0);
-  if(!v||v.project!==projectInfo.project||v.package!==projectInfo.package||v.mode!==projectInfo.mode||v.contract!=="pass"||v.status!=="passed"||!passed.length||passed.some(x=>x.status!=="passed"||x.exitCode!==0)||!ran(v.buildScript)||(projectInfo.mode==="react"&&!ran(v.browserScript))||(projectInfo.browserScript&&!ran(v.browserScript)))errors.push("UI-13 requires matching successful executed verify JSON (build and applicable browser scripts)");
+  if(!v||v.project!==projectInfo.project||v.package!==projectInfo.package||v.mode!==projectInfo.mode||v.contract!=="pass"||v.status!=="passed"||!passed.length||passed.some(x=>x.status!=="passed"||x.exitCode!==0)||!ran(v.buildScript)||(projectInfo.mode==="react"&&(!ran(v.browserScript)||!ran('lint:design')||v.lintScript!=='lint:design'||projectInfo.designHarness?.status!=='ready'))||(projectInfo.browserScript&&!ran(v.browserScript)))errors.push("UI-13 requires matching successful executed verify JSON (canonical design lint, build and applicable browser scripts)");
  }
  const projectBinding=projectInfo?"CHECKED":"DETACHED";
  return {status:errors.length?"invalid":unresolved.length?"incomplete":"recorded",errors,unresolved,projectBinding,visualReview:"DECLARED_ONLY",note:"Recorded evidence and supplied machine-result consistency only; inspect actual observations and rerun after edits. Detached receipts do not establish project-specific acceptance."};

@@ -57,5 +57,8 @@
     "typescript": "^5.7.0",
     "vite": "8.3.6",
     "vitest": "5.1.0"
+  },
+  "bin": {
+    "vanya-ui-lint": "./scripts/design-harness-bin.mjs"
   }
 }

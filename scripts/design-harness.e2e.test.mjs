@@ -63,6 +63,17 @@ test('adopt persists the canonical check; verify executes it before build and re
   const evidence=JSON.parse(clean.stdout);
   assert.deepEqual(evidence.checks.map(c=>c.script),['lint:design','build','test:e2e']);
   assert.ok(existsSync(join(project,'build-ran')));assert.ok(existsSync(join(project,'browser-ran')));
+  const planned=run('plan','--scope','new','--task','Create demo','--target','/','--mode','react');
+  assert.equal(planned.status,0,planned.stderr);
+  const receipt=JSON.parse(planned.stdout);
+  // This tests the machine evidence validator, not actual browser visual truth.
+  for(const row of receipt.criteria){row.status='PASS';row.evidence=[{method:row.method,target:'/',observation:'validator fixture',command:'fixture',viewport:'390x844',theme:'light'}]}
+  writeFileSync(join(project,'receipt.json'),JSON.stringify(receipt));
+  writeFileSync(join(project,'verification.json'),clean.stdout);
+  const review=()=>run('review','--receipt',join(project,'receipt.json'),'--verification',join(project,'verification.json'));
+  assert.equal(review().status,0);
+  writeFileSync(join(project,'verification.json'),JSON.stringify({...evidence,checks:evidence.checks.filter(c=>c.script!=='lint:design')}));
+  const noLint=review();assert.equal(noLint.status,1,noLint.stderr+noLint.stdout);assert.match(noLint.stdout,/UI-13/);
   rmSync(join(project,'build-ran'));rmSync(join(project,'browser-ran'));
   writeFileSync(css,valid+'.bad {color:#f123ab;font-size:19px;}\n');
   const failed=run('verify','--json');assert.equal(failed.status,1,failed.stderr+failed.stdout);

@@ -9,7 +9,8 @@ import {readFileSync,existsSync,readdirSync,statSync} from 'node:fs';
 import {resolve,relative,join,dirname,extname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
-import {runConsumerLint} from './design-harness.mjs';
+import {runConsumerLint,inspectHarness} from './design-harness.mjs';
+import {adoptConsumer} from './adopt-ui-harness.mjs';
 import {createAcceptancePlan,reviewAcceptance,criteria} from './ui-acceptance.mjs';
 
 const libraryRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
@@ -117,6 +118,7 @@ export function inspectProject({project='.',mode='auto',packageDir}={}){
   browserScript:browserNames.find(name=>Boolean(scripts[name]))||null,
   buildScript:Boolean(scripts.build),
   scripts,manager:chosen?detectManager(chosen.dir,root):null,
+  designHarness:finalMode==='react'&&chosen?inspectHarness(scanRoot,scripts):null,
   documents:['skills/vanya-ui/SKILL.md','DESIGN.md','src/index.ts','src/tokens.css',
    'docs/patterns/list-detail-composition.md','docs/research/workspace-scroll-composition-2026-11-21.md',
    'docs/patterns/browser-navigation.md',...criteria.map(c=>c.canonical)].filter((name,i,all)=>all.indexOf(name)===i).map(name=>join(libraryRoot,name))
@@ -137,6 +139,7 @@ export function checkProject(info){
   if(!info.hasImport)problems.push('Import real @vanya/ui components or @vanya/ui/tokens.css in project source');
   if(!info.buildScript)problems.push('Add a reproducible build script to the UI package');
   if(!info.browserScript)problems.push('Add a runnable test:e2e, test:browser or test:ui script');
+  if(info.designHarness?.status!=='ready')problems.push(...(info.designHarness?.problems||['Adopt the canonical Vanya UI design harness']));
  }else{
   if(!info.visualFiles)warnings.push('No existing visual source yet; write the UI then rerun');
   if(!info.browserScript)warnings.push('No browser script; visual acceptance must be recorded separately');
@@ -152,7 +155,7 @@ function runScript(info,manager,name,asJson=false){
  if(call.error)return {script:name,status:'failed',reason:call.error.message};
  return {script:name,status:call.status===0?'passed':'failed',exitCode:call.status,signal:call.signal||undefined};
 }
-export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={}){
+export function verifyProject(info,{manager,buildScript,browserScript,unitScript,dryRun=false,asJson=false}={},executeLint=runConsumerLint){
  const checked=checkProject(info);
  const result={project:info.project,package:info.package,mode:info.mode,contract:checked.status,checks:[],visualReview:'NOT_VERIFIED',status:'blocked'};
  if(checked.status==='skip'){result.status='skipped';return result}
@@ -165,8 +168,17 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
  if(!info.scripts[build]){result.issues=['Missing build script '+build];return result}
  if(info.mode==='react'&&!browser){result.issues=['No browser-test script'];return result}
  const tasks=[...(unitScript?[unitScript]:[]),build,...(browser?[browser]:[])];
+ const requiresLint=info.mode==='react';
+ if(requiresLint)result.lintScript='lint:design';
  for(const name of tasks)if(!info.scripts[name]){result.issues=['Missing script '+name];return result}
- if(dryRun){result.status='planned';result.checks=tasks.map(script=>({script,status:'NOT_RUN'}));return result}
+ if(dryRun){result.status='planned';result.checks=[...(requiresLint?['lint:design']:[]),...tasks].map(script=>({script,status:'NOT_RUN'}));return result}
+ if(requiresLint){
+  let item;
+  try{item=executeLint({project:info.packageRoot,asJson})}
+  catch(e){item={script:'lint:design',status:'failed',reason:e.message}}
+  result.checks.push(item);
+  if(item.status!=='passed'||item.exitCode!==0){result.status='failed';return result}
+ }
  for(const name of tasks){
   const item=runScript(info,runtime,name,asJson);
   result.checks.push(item);
@@ -179,7 +191,7 @@ export function verifyProject(info,{manager,buildScript,browserScript,unitScript
 }
 function parseArgs(argv){
  const [command,...tail]=argv;
- if(!['inspect','check','verify','plan','review','lint','help'].includes(command||'help'))throw Error('Unknown command '+command);
+ if(!['inspect','check','verify','plan','review','lint','adopt','help'].includes(command||'help'))throw Error('Unknown command '+command);
  const options={};
  const boolean=new Set(['json','dry-run']);
  for(let i=0;i<tail.length;i++){
@@ -205,6 +217,8 @@ function output(obj,asJson){
   if(obj.warnings)for(const x of obj.warnings)console.log('  WARN: '+x);
   if(obj.checks)for(const x of obj.checks)console.log('  '+x.status+': '+x.script);
   if(obj.visualReview)console.log('Visual/interaction review: '+obj.visualReview+' (agent must verify independently)');
+  if(obj.changed)for(const path of obj.changed)console.log('  wrote '+path);
+  if(obj.designHarness)console.log('Design harness: '+obj.designHarness.status);
   if(obj.hasPolicy!==undefined)console.log('Canonical policy: '+(obj.hasPolicy?'found':'missing'));
   if(obj.browserScript)console.log('Browser test: '+obj.browserScript);
   if(obj.libraryVersion)console.log('Local guide version: '+obj.libraryVersion);
@@ -217,7 +231,8 @@ export function runCli(argv){
   console.log('Vanya UI portable agent pipeline (Node >=20; offline; no GitHub)\n'
    +'Usage: node <vanya-ui>/scripts/ui-pipeline.mjs inspect|check|verify --project <dir> [--package app] [--mode auto|react|visual|none]\n'
    +'Optional: --json --manager npm|pnpm|yarn|bun --build-script build --browser-script test:e2e --unit-script test:unit --dry-run\n'
-   +'Lint: lint --project <dir> --sources src,app [--package app] (requires installed @vanya/ui and frozen tools)\n'
+   +'Adopt: adopt --project <dir> --sources src,app [--package app] (explicit persistent setup)\n'
+   +'Lint: lint --project <dir> [--sources src,app] [--package app] (requires installed @vanya/ui and frozen tools)\n'
    +'Plan: plan --project <dir> --task <description> --target <route/component> [--scope new|feature|screen|migration] > receipt.json\n'
    +'Review: review --receipt receipt.json [--verification verify.json] (checks recorded evidence and supplied machine results)\n'
    +'For repeatable agent steps read <vanya-ui>/skills/vanya-ui/SKILL.md.');
@@ -243,6 +258,11 @@ export function runCli(argv){
   console.log(JSON.stringify(review,null,2));return review.status==='recorded'?0:1;
  }
  const info=inspectProject({project:options.project||'.',mode:options.mode||'auto',packageDir:options.package});
+ if(command==='adopt'){
+  if(info.mode!=='react'||!info.package||!info.pinnedDependency)throw Error('adopt requires a selected React package with a pinned @vanya/ui dependency');
+  const outcome=adoptConsumer({project:info.packageRoot,sources:options.sources?.split(',')});
+  output(outcome,options.json);return 0;
+ }
  if(command==='lint'){
   if(info.mode!=='react'||!info.package)throw Error('lint requires a React package; select it with --package');
   const item=runConsumerLint({project:info.packageRoot,sources:options.sources?.split(','),asJson:Boolean(options.json)});

@@ -35,3 +35,5 @@ Date: 2026-11-25. Approved design: portable existing CLI, mandatory deterministi
 - [ ] Architecture semantic probes (traceability, runtime completeness, entrypoint, anti-gaming), diff review and targeted/full test evidence.
 - [ ] Separate product review via public CLI: happy, cold-start, error, negative control, real built consumer. Independent reviewer availability must be reported; no invented verdict. Blind agent test and real browser test remain distinct from CLI fixture. 
 - [ ] Ledger and durable lessons; no merge until scoped gates pass. Do not claim full harness before all slices.
+
+Slice 1 RED confirmed in Cloudflare bcb0f862-d891-4c8e-8e3a-00a955224f56: slice 0 passed, adoption failed exactly `Unknown command adopt`. Implementation follows the approved slice. The portable unit orchestration uses an explicit lint port; actual tool execution is tested independently through the public CLI.
