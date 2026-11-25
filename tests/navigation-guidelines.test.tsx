@@ -12,8 +12,10 @@ describe("single longread navigation",()=>{
   expect(html).toContain('name="robots" content="noindex,follow"');
  });
  it("exposes native anchor navigation for all eight sections",()=>{
-  render(<Showcase/>);
-  const nav=within(screen.getByRole("banner")).getByRole("navigation",{name:"Навигация"});
+  const {container}=render(<Showcase/>);
+  const headers=container.querySelectorAll<HTMLElement>("header.showcase-header");
+  expect(headers).toHaveLength(1);
+  const nav=within(headers[0]).getByRole("navigation",{name:"Навигация"});
   expect(within(nav).getAllByRole("link")).toHaveLength(8);
   for(const [id,label] of [["composition","Композиция"],["identity","Айдентика"],["typography","Типографика"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"]]){
    expect(document.getElementById(id)).not.toBeNull();

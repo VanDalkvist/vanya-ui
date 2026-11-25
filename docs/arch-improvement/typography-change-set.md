@@ -34,3 +34,6 @@ Literata (screen reading, Cyrillic), Source Serif 4 (editorial versatility, opti
 
 ## Cycle 28 — 0.3.27 — navigation regression
 - Actual build RED on 0.3.26: navigation-guidelines.test.tsx searched for the previous typography label. Updated the independent expected label, scoped the oracle to actual header navigation, retained all eight fragment targets and checked the matching typography heading. No production UI, package entrypoint, or dependencies changed. Source review completed; final build and browser receipts pending.
+
+## Cycle 29 — 0.3.28 — navigation scope correction
+- Actual 0.3.27 build RED: 118/119 Vitest passed; the global banner query matched multiple landmarks. Narrow the test to exactly one showcase header and its named navigation. Preserve eight independent link labels and exact URLs, section targets and the typography heading. No production behavior or dependency changes. Build and browser acceptance remain pending.

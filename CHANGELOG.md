@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.3.28] - 2026-11-25
+
+### Fixed
+- Scope navigation regression to the unique showcase header; preserve independent labels, exact destinations and section heading assertions.
+
 ## [0.3.27] - 2026-11-25
 
 ### Fixed
