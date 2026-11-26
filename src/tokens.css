@@ -204,8 +204,8 @@
   .wave-event:is(:hover,:focus-visible) .timeline-event-card { z-index:40; }
   .wave-event::before { content:""; position:absolute; left:50%; bottom:100%; width:128px; height:24px; transform:translateX(-50%); }
   .ui-avatar { width:var(--ui-height); padding:0; }
-  .ui-segments { padding:2px; gap:2px; }
-  .ui-segments > button { height:calc(var(--ui-height) - 6px); padding:0 var(--ui-padding); gap:var(--ui-gap); font-size:inherit; line-height:inherit; }
+  .ui-segments { padding:0; gap:2px; }
+  .ui-segments > button { height:var(--ui-height); padding:0 var(--ui-padding); gap:var(--ui-gap); font-size:inherit; line-height:inherit; }
 }
 
 @layer base {
@@ -670,7 +670,7 @@
  }
  .ui-segments[data-density="toolbar"]>button{border-radius:var(--radius-xs);}
  .ui-segments[data-density="toolbar"]>button{
-  height:34px;
+  height:40px;
  }
 }
 @media (prefers-reduced-motion: reduce){
@@ -877,8 +877,16 @@
   .ui-feedback-source > span:nth-child(2) {
     color:inherit;
   }
-  .ui-action-link:active,.ui-action-button:not(:disabled):active {
+  .ui-action-link:active,.ui-action-button:not(:disabled):not([data-variant="prominent"]):not([data-variant="accent"]):not([aria-disabled="true"]):active {
     color:var(--ink);
+  }
+  .ui-action-button[data-variant="prominent"] {background:var(--ink);color:var(--ground);}
+  .ui-action-button[data-variant="prominent"]:not(:disabled):not([aria-disabled="true"]):active {background:color-mix(in oklab,var(--ink) 80%,var(--ground));}
+  .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]),.ui-action-button[aria-pressed="true"] {color:var(--accent);text-decoration:underline;text-underline-offset:4px;}
+  .ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):active {background:var(--ui-feedback-pressed-fill);}
+  @media (hover:hover) and (pointer:fine){
+    .ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):hover{background:var(--ui-feedback-hover-fill);}
+    .ui-action-button[data-variant="prominent"]:not(:disabled):not([aria-disabled="true"]):hover{background:color-mix(in oklab,var(--ink) 90%,var(--ground));}
   }
   .ui-action-link[data-variant="pill"]:active,
   .ui-action-button[data-variant="pill"]:not(:disabled):active,
@@ -968,9 +976,9 @@
     cursor:progress;
     opacity:.8;
   }
-  .ui-action-button[aria-disabled="true"]:active {background:transparent;}
+  .ui-action-button[aria-disabled="true"]:not([data-variant="prominent"]):active {background:transparent;}
   .ui-action-button[data-action-state="success"] .ui-action-indicator,
-  .ui-action-button[data-action-state="error"] .ui-action-indicator{color:var(--ink);}
+  .ui-action-button[data-action-state="error"] .ui-action-indicator{color:currentColor;}
   .ui-action-indicator{width:1em;height:1em;flex:none;margin-right:5px;}
   .ui-action-indicator-pending{animation:ui-action-spin .8s linear infinite;}
   @keyframes ui-action-spin{to{transform:rotate(360deg);}}
