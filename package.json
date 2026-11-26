@@ -1,6 +1,6 @@
 {
   "name": "@vanya/ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "React-компоненты и интерфейсные токены Vanya Arc / UI (айдентика — @vanya/brand)",
   "license": "SEE LICENSE IN LICENSING.md",
