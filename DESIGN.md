@@ -134,6 +134,16 @@ Known page content (header, page title, navigation) stays real while unknown dat
 For long data catalogues, keep one compact filter row below the app header on desktop, not a tall multirow form. Use Vanya UI `FilterSelect` (custom portal dropdown with optional searchable listbox), `SearchField density="toolbar"` and `SegmentedControl density="toolbar"` (40px aligned controls, visible inline labels and semantic tokens). Use native `SelectField` only in normal forms, not as a styled catalogue dropdown: macOS and other OSes paint `<select>` menus outside the app theme. Move overflowing or rare facets to a dismissible disclosure; do not silently drop filters. The app decides header offset, breakpoints and filter semantics; the package owns control presentation and accessibility. On mobile prioritize a compact search + filters action. See [composition rule](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) and [interactive specimen](https://ui.vanya-arc.dev/#compact-filter-toolbar).
 
 
+## Quiet — visual language of controls
+
+Quiet is the single Vanya UI visual canon. Search, inputs, select triggers, segments and ordinary commands use transparent resting surfaces. Typography, spacing, alignment and functional dividers define composition. Hover and press use the shared feedback tokens; focus, selection, errors and expanded state remain explicit.
+
+Prefer direct manipulation of properties and contextual actions. Neutral commands use text, Accent uses semantic accent text, and Prominent (`ActionButton variant="prominent"`) uses a high-contrast ink/ground surface for rare explicit commitments. Existing text/mono/pill/outline/accent props remain accepted; pill and outline now share the flat action appearance. Buttons retain native semantics and real hit targets. Use a visible label and a persistent underline cue for empty text entry; keep functional boundaries for popovers, dialogs and accessibility.
+
+`VersionLabel version={version}` displays caller-owned SemVer in the header utility group; it is passive metadata, not a status or verified deployment receipt. The documentation showcase reads the package version at build time.
+
+[Interaction states](docs/patterns/interaction-states.md) · [Composition](docs/composition/working-surfaces.md) · [Research](docs/research/quiet-actions-2026-11-26.md).
+
 ## Interaction feedback contract
 
 For new/modified UI **do not independently invent hovers** for each button, link and icon. Read [canonical state roles](docs/patterns/interaction-states.md): distinguish hover, keyboard focus, pressed, selected/expanded and disabled. Use existing semantic variables and `ui-feedback-*` classes in exports, pointer hover only when supported, reduced motion, visible keyboard focus and accessible labels. The live `#interaction-states` catalogue is a real component testbed. Rich narrative interactions need their own explicit justification, not uniform lift/shadow. [Research and criticism](docs/research/hover-research-loop-2026-11-22.md).
