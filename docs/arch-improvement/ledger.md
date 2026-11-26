@@ -297,3 +297,11 @@ Reviewed baseline a983bbf0c79159faf9f32791138f3271e1518805 through implementatio
 - Exact production Cloudflare build failed on registry synchronization, 135/136 Vitest. No deployment success, no package tag verified. Public site could not be retrieved in the review environment. New version visual evidence unavailable; all three black-box journeys NOT_RUN.
 - S9a ARCH: FAIL (one P1, open P2). S9b PRODUCT/DESIGN: NOT_VERIFIED / gate FAIL. Design contract source review completed; screenshot review blocked. No implementation repairs in this review-only turn.
 - Repair order: Q-R01, Q-R02/Q-R03/Q-R08, Q-R04/Q-R05, Q-R06 and public catalogue refinement. Keep the existing production gates and then perform browser review. No external product or migration work.
+
+### Quiet Loop — bounded repair batch, 2026-11-27
+
+- Q-R01: synchronized VersionLabel registry entry with existing generator format. No new registry mechanism.
+- Q-R02/Q-R03: removed legacy overlapping button hover/press rules; explicit actionState from idle reserves a stable indicator slot. Legacy public variants remain accepted. Updated tests and feedback contract.
+- Q-R04/Q-R05: isolated demo state; opted-in five-second synthetic refresh with cleanup, separate document draft and actual inspector property mutations; explicit confirmation remains reversible. Canonical action specimen now demonstrates the three semantic roles. VersionLabel specimen added.
+- Q-R06/Q-R08: added browser assertions for both headers, pre-hydration version, actual resolved themes, overlap, command geometry and forced-colors selection; added production URL option to existing Playwright runner. Preserved selected icon marker in high contrast.
+- Execution policy: implementation and tests prepared in main; local test runs deferred per owner. Production build requested on the exact repair commit; result pending. Browser/independent acceptance NOT_RUN. No package tag or external product migration.
