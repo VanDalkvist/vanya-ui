@@ -10,13 +10,15 @@ Cloudflare Dashboard: Workers & Pages → **vanya-ui** → Settings → Builds.
 
 Build command:
 ```sh
-bun install --frozen-lockfile && bun run test && bunx tsc --noEmit -p tsconfig.build.json && bun run build && bun run lint:design:pilot
+bun run test && bunx tsc --noEmit -p tsconfig.build.json && bun run build && bun run lint:design:pilot
 ```
 
 Deploy command:
 ```sh
 npx wrangler@4 deploy
 ```
+
+Cloudflare performs the frozen Bun installation from the committed `bun.lock` before the build command. The validation trigger includes non-production branches and excludes `main`; the production trigger is limited to `main`. Both retain their existing checks. Do not repeat the native install unless a build log proves it is needed.
 
 Repository root: `/`. Wrangler config: `wrangler.jsonc`. It names the existing Worker `vanya-ui` and publishes assets from `dist/`. The already-attached custom domain belongs to the Worker; do not recreate it.
 
