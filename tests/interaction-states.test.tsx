@@ -24,7 +24,7 @@ describe("interaction feedback contracts",()=>{
  });
  it("keeps outlined button and filter borders stable on hover; reserves strong border for focus",()=>{
   const css=read("src/tokens.css");
-  const outlined=css.match(/\.ui-action-button\[data-variant="outline"\]:not\(:disabled\):hover\s*\{([^}]+)\}/)?.[1];
+  const outlined=css.match(/\.ui-action-button:not\(\[data-variant="prominent"\]\):not\(:disabled\):not\(\[aria-disabled="true"\]\):hover\s*\{([^}]+)\}/)?.[1];
   const filter=css.match(/\.ui-filter-select-trigger:not\(:disabled\):hover\s*\{([^}]+)\}/)?.[1];
   expect(outlined).toContain("background:var(--ui-feedback-hover-fill)");
   expect(outlined).not.toContain("border-color");
