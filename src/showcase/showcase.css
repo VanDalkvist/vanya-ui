@@ -405,7 +405,7 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 }
 
 /* Quiet specimens: composition only; control appearance comes from library tokens. */
-.demo-quiet-results{list-style:none;padding:0;margin:12px 0;}
-.demo-quiet-results li{padding:10px 0;border-bottom:1px solid var(--border);}
-.demo-quiet-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;}
-.demo-quiet-editor{display:grid;gap:18px;max-width:420px;min-width:0;}
+.demo-quiet-results{list-style:none;padding:0;margin:var(--size-md-padding) 0;}
+.demo-quiet-results li{padding:var(--size-sm-padding) 0;border-bottom:1px solid var(--border);}
+.demo-quiet-actions{display:flex;align-items:center;flex-wrap:wrap;gap:var(--size-md-padding);}
+.demo-quiet-editor{display:grid;gap:var(--size-md-padding);max-width:420px;min-width:0;}
