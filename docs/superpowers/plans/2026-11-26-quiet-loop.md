@@ -8,7 +8,7 @@
 
 **Tech stack:** React 18/19, TypeScript, Tailwind 4, Vite, Vitest, Playwright, existing VUI harness.
 **Spec:** The design contract below; canonical sources listed in the context map.
-**Status:** PLANNED / S7 static plan review; execution and release pending maintainer approval. Date: 2026-11-26.
+**Status:** DESIGN_APPROVED / S7 static plan review; implementation not started; runtime verification and release approval pending. Date: 2026-11-26.
 
 ## S0–S3 — Scope, memory and architecture context
 
@@ -18,7 +18,7 @@
 - Stage: prod (public library and documentation). Baseline: https://github.com/ai-meatbags/arch-rules/blob/main/arch-rules.md (inspected blob 20b25e9d8fed1ea27eeb391ffe9e68d9663a7e70). Applicable AP-011, 025, 028, 046, 051, 054, 056, 057, 068, 069, 074, 075 (vertical slice discipline), 076. AP-020 applies to showcase wiring; public barrel is intentional package entrypoint. Database, auth, external transport and domain orchestration are outside this UI-only scope.
 - Source path: index.html -> src/showcase/main.tsx -> Showcase -> ComponentCatalog -> exported components and src/tokens.css. Package API: src/index.ts. Browser runner builds dist and serves it over HTTP via preview. Public reference generation: scripts/sync.ts and markdown-publication.mjs.
 - Verification: library contribute command, existing browser suite, review of compiled screenshots and actual outcomes, package compatibility checks and versioning policy.
-- Approved direction: Quiet as the single visual canon, direct redesign of existing controls, transparent controls, Linear as primary visual reference; Apple interaction principles and historical Material input cues as additional references. Concrete component choices below are proposals subject to visual evidence and maintainer acceptance.
+- Approved direction: Quiet as the single visual canon, direct redesign of existing controls, transparent controls, Linear as primary visual reference; Apple interaction principles and historical Material input cues as additional references. The maintainer approved the Quiet action concept on 2026-11-26: direct manipulation, transparent routine actions, and rare stronger emphasis for important decisions. Concrete API changes and rendered outcomes remain subject to verification and compatibility review.
 
 ## Design contract
 
@@ -50,8 +50,10 @@ Public repository and public showcase only. Synthetic examples only. No product-
 - MUI, Text Field: https://mui.com/material-ui/react-text-field/ — historical standard variant still supported; current Material guidance does not list it. Underline is an alternative to test.
 - W3C, WCAG 2.2 SC 1.4.11: https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast — boundaries required when no other visual identification exists; necessary indicators meet contrast requirements. Also SC 1.4.1, 1.4.3, 2.4.7, 2.4.11, 2.5.8 and labels/ARIA. Research notes must distinguish external observations, local hypotheses and verified outcomes.
 
-### Action hierarchy — proposed direction to validate within Quiet
+### Action hierarchy — approved concept; implementation to validate within Quiet
 
+- Action design starts with direct manipulation and removal of redundant commands. Keep explicit commitment when consequences or multi-field drafts require it; preserve actual feedback and recovery.
+- Three semantic emphasis levels: Neutral (transparent routine text), Accent (transparent significant text), Prominent (rare stronger emphasis when evidence supports a filled commitment). These are design roles within the single Quiet canon; they do not mandate three new API variants. See [action research](../../research/quiet-actions-2026-11-26.md).
 - Ordinary workspace commands: existing ActionButton, text or familiar icon + text, transparent rest, neutral ink, existing hover/pressed and visible keyboard focus. Avoid persistent outline/fill for routine commands. Icon-only utilities require accessible name and tooltip where appropriate.
 - Persistent binary state: a toggle with a stable accessible name and aria-pressed (or switch with aria-checked when setting semantics fit). Display state through a readable On/Off cue or a compact switch indicator; no reliance on color alone. For an inline toolbar state, prefer the lightweight toggle with explicit state. In settings, use a conventional switch where immediate on/off affordance helps. No decorative button boxes.
 - Primary command: one clearly identifiable action per local decision context, using accent text/weight by preference. A bounded filled accent treatment may be evaluated only where a high-priority decision, confirmation or discoverability requires it; no alternate quiet mode. Avoid color-only role distinction. Cancel stays subdued; destructive action has explicit label, semantic warning and confirmation when warranted.
@@ -128,4 +130,4 @@ Boundary: compiled public showcase, package exports and contributor harness; AP-
 
 Coverage: Q01 -> 0/1/2; Q02 -> 3; Q03 -> 1; Q04 -> 4; Q05 -> 0/1/2; Q06 -> all + 5; Q07 -> conditional decision 2; Q08 excluded; Q09 -> 3/4/5. No new subsystem; walking skeleton chosen to establish public behavior before broader CSS changes.
 Risks: CSS cascade across Tailwind utilities/component layer; selected-state weight layout shift; empty affordance; native select OS differences; focus clipping in sticky/overflow areas; changed policy fingerprint. Tests and visual comparisons address each. Actual exact filenames for additional tests must be confirmed from current inventory; existing browser suite path verified. Do not assume a source-only review proves rendering.
-**Stop:** plan saved; S8 not started. Execution requires owner acceptance of scope/default appearance and a runnable verification environment. Local runtime, browser, release and independent reviewer evidence are NOT_RUN. No code changes or release marker in this planning step.
+**Stop:** plan saved; S8 not started. The conceptual design is approved. Execution requires a runnable verification environment; release and any breaking API changes retain their separate approval gates. Local runtime, browser, release and independent reviewer evidence are NOT_RUN. No code changes or release marker in this planning step.
