@@ -24,14 +24,14 @@ export function Guide({onShowShortcuts}:{onShowShortcuts?:()=>void} = {}) {
         {rule.id==="browser-navigation" && <>
           <div className="guide-paths"><span>Страница <code>/projects/example</code></span><span>Фильтр <code>/items?sort=new</code></span><span>Раздел <code>/#browser-navigation</code></span></div>
           <p>При переходах внутри SPA обновляй историю браузера, заголовок страницы, фокус и прокрутку.</p>
-          <a className="guide-link" href="/reference/navigation.md">Правила навигации <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <a className="guide-link" href="/reference/navigation.md" target="_blank" rel="noopener noreferrer">Правила навигации <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
-        {rule.id==="composition-principle" && <><a className="guide-link" href="/reference/composition.md">Примеры композиции <ArrowUpRight size={14} aria-hidden="true"/></a><a className="guide-link" href="/#composition-reading-inspector">Панель чтения и стоимость запросов <ArrowUpRight size={14} aria-hidden="true"/></a></>}
-        {rule.id==="scroll-principle" && <a className="guide-link" href="/reference/workspaces.md">Правила прокрутки <ArrowUpRight size={14} aria-hidden="true"/></a>}
-        {rule.id==="components-principle" && <a className="guide-link" href="/reference/interaction-states.md">Состояния элементов <ArrowUpRight size={14} aria-hidden="true"/></a>}
+        {rule.id==="composition-principle" && <><a className="guide-link" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Примеры композиции <ArrowUpRight size={14} aria-hidden="true"/></a><a className="guide-link" href="/#composition-reading-inspector" target="_blank" rel="noopener noreferrer">Панель чтения и стоимость запросов <ArrowUpRight size={14} aria-hidden="true"/></a></>}
+        {rule.id==="scroll-principle" && <a className="guide-link" href="/reference/workspaces.md" target="_blank" rel="noopener noreferrer">Правила прокрутки <ArrowUpRight size={14} aria-hidden="true"/></a>}
+        {rule.id==="components-principle" && <a className="guide-link" href="/reference/interaction-states.md" target="_blank" rel="noopener noreferrer">Состояния элементов <ArrowUpRight size={14} aria-hidden="true"/></a>}
         {rule.id==="stable-workspace-geometry" && <>
-          <a className="guide-link" href="/#composition-stable-geometry">Интерактивный пример <ArrowUpRight size={14} aria-hidden="true"/></a>
-          <a className="guide-link" href="/reference/composition.md">Правила стабильного интерфейса <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <a className="guide-link" href="/#composition-stable-geometry" target="_blank" rel="noopener noreferrer">Интерактивный пример <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <a className="guide-link" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
         {rule.id==="keyboard-shortcuts" && <>
           <div className="shortcut-guide-example" aria-label="Примеры сочетаний">
@@ -40,7 +40,7 @@ export function Guide({onShowShortcuts}:{onShowShortcuts?:()=>void} = {}) {
             <span>Закрыть панель <ShortcutKeys keys={["Esc"]}/></span>
           </div>
           <p>Это работающие клавиши витрины. Команды с одной буквой можно отключить в справке. Ссылки в шапке работают и без них.</p>
-          <a className="guide-link" href="/reference/keyboard-shortcuts.md">Полные правила и чек-лист <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <a className="guide-link" href="/reference/keyboard-shortcuts.md" target="_blank" rel="noopener noreferrer">Полные правила и чек-лист <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
       </div>
     </article>)}</div>
