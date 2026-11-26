@@ -14,6 +14,11 @@ function Sizes({ children }: { children: (size: "sm" | "md") => React.ReactNode 
   return <div className="demo-column">{(["md", "sm"] as const).map((size) => <div key={size} className="size-examples"><span className="demo-label size-label">{size}</span>{children(size)}</div>)}</div>;
 }
 
+const quietCollection = [
+  {title:"Тихий берег",genre:"drama",mine:true},
+  {title:"Маяк на холме",genre:"comedy",mine:false},
+  {title:"Следы в лесу",genre:"fantasy",mine:true},
+];
 const horizons = [{ id: "day", label: "День" }, { id: "week", label: "Неделя" }, { id: "month", label: "Месяц" }];
 const counts = { day: [4, 2, 1, 3], week: [10, 3, 4, 3], month: [14, 8, 10, 8] };
 const eventTicks = [
@@ -40,6 +45,16 @@ export function ComponentCatalog() {
   const [toolbarQuery,setToolbarQuery]=useState("");
   const [toolbarScope,setToolbarScope]=useState("all");
   const [toolbarGenre,setToolbarGenre]=useState("");
+  const [autoRefresh,setAutoRefresh]=useState(true);
+  const [refreshCount,setRefreshCount]=useState(0);
+  const [savedTitle,setSavedTitle]=useState("Тихий берег");
+  const [draftTitle,setDraftTitle]=useState("Тихий берег");
+  const [draftGenre,setDraftGenre]=useState("drama");
+  const [savedGenre,setSavedGenre]=useState("drama");
+  const [titleError,setTitleError]=useState("");
+  const toolbarResults=quietCollection.filter(item=>
+    item.title.toLocaleLowerCase("ru").includes(toolbarQuery.trim().toLocaleLowerCase("ru")) &&
+    (toolbarScope==="all"||item.mine) && (!toolbarGenre||item.genre===toolbarGenre));
   const [loadingDemo,setLoadingDemo]=useState<"loading"|"ready"|"error">("loading");
   const [interactionScope,setInteractionScope] = useState("all");
   const [interactionClicks,setInteractionClicks] = useState(0);
@@ -147,7 +162,11 @@ export function ComponentCatalog() {
         <FilterSelect label="Жанр" value={toolbarGenre} onValueChange={setToolbarGenre}
          searchable options={[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}]}/>
       </div>
-      <p className="ui-type-caption">Данные примера вымышлены. В приложении панель закрепляется под шапкой; лишние фильтры переходят в раскрываемый блок, а не создают второй ряд.</p>
+      <ul aria-label="Результаты поиска" className="demo-quiet-results">
+        {toolbarResults.map(item=><li key={item.title}>{item.title}</li>)}
+      </ul>
+      {toolbarResults.length===0&&<p role="status" className="ui-type-caption text-ink-soft">Ничего не найдено</p>}
+      <p className="ui-type-caption">Данные примера вымышлены. Поиск и фильтры изменяют видимую коллекцию.</p>
     </CatalogSection>
     <CatalogSection id="media-catalogue" title="MediaCard / SearchField / TextField" description="Композиция для фильмотек, книг и других коллекций: настоящие ссылки, поиск, метаданные и формы на общих токенах.">
      <div className="demo-media-catalogue">
@@ -167,6 +186,34 @@ export function ComponentCatalog() {
       <div className="demo-media-form"><TextField label="Название новой подборки" value={sampleTitle}
        onChange={e=>setSampleTitle(e.target.value)} hint="Пример общего поля формы; данные никуда не отправляются."/></div>
      </div>
+    </CatalogSection>
+    <CatalogSection id="quiet-actions" title="Контекстные действия" description="Команда, переключатель и состояние результата в одной свободной плоскости.">
+      <div className="demo-quiet-actions">
+        <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
+        <ActionButton size="md" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
+          Автообновление · {autoRefresh?"Вкл":"Выкл"}
+        </ActionButton>
+      </div>
+      <p role="status" className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</p>
+    </CatalogSection>
+    <CatalogSection id="quiet-editor" title="Документ и свойства" description="Прямое редактирование, явное сохранение и обратимая отмена.">
+      <form className="demo-quiet-editor" onSubmit={e=>{
+        e.preventDefault();
+        if(!draftTitle.trim()){setTitleError("Введите название");return;}
+        setSavedTitle(draftTitle.trim());setSavedGenre(draftGenre);setTitleError("");
+      }}>
+        <TextField label="Название" placeholder="Введите название" value={draftTitle} required
+          error={titleError||undefined} onChange={e=>{setDraftTitle(e.target.value);setTitleError("");}}/>
+        <SelectField label="Жанр" value={draftGenre} onChange={e=>setDraftGenre(e.target.value)} allowEmpty={false}
+          options={[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}]}/>
+        <div className="demo-quiet-actions">
+          <ActionButton size="md" onClick={()=>{setDraftTitle(savedTitle);setDraftGenre(savedGenre);setTitleError("");}}>Отменить</ActionButton>
+          <ActionButton size="md" type="submit" variant="accent">Сохранить</ActionButton>
+        </div>
+        <output className="ui-type-caption text-ink-soft">Сохранено: {savedTitle} · {savedGenre==="drama"?"Драма":savedGenre==="comedy"?"Комедия":"Фантастика"}</output>
+      </form>
+      <p className="ui-type-caption text-ink-soft">Сильный акцент уместен при явном подтверждении решения.</p>
+      <ActionButton variant="prominent" size="md" onClick={()=>setOverlay("sheet")}>Открыть подтверждение</ActionButton>
     </CatalogSection>
     <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
       <SineWave className="h-60" fit origin={590} events={[
