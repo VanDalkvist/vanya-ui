@@ -15,14 +15,16 @@ export function LinkChip({
   size = "sm",
   label = "источник",
   className,
+  target = "_blank",
+  rel,
   ...props
 }: LinkChipProps) {
   return (
     <a
       data-size={size}
       href={url}
-      target="_blank"
-      rel="noreferrer"
+      target={target}
+      rel={target === "_blank" ? [rel, "noopener", "noreferrer"].filter(Boolean).join(" ") : rel}
       className={twMerge(
         clsx(
           "ui-size ui-feedback-source inline-flex items-center font-sans text-ink-soft underline-offset-4 select-none",
@@ -37,7 +39,7 @@ export function LinkChip({
       <span className="min-w-0 truncate max-w-[280px] font-mono">
         {url}
       </span>
-      <span className="leading-none opacity-60" style={{ fontSize: "var(--ui-icon)" }} aria-hidden="true">↗</span>
+      {target === "_blank" && <span className="leading-none opacity-60" style={{ fontSize: "var(--ui-icon)" }} aria-hidden="true">↗</span>}
     </a>
   );
 }
