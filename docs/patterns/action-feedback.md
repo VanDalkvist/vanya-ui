@@ -57,3 +57,5 @@ Do not display a success check before a response. If a route changes instantly, 
 For **each changed action**, test (a) pointer-down/release computed styles, (b) Tab + Space/Enter, (c) correct click count, (d) held pending plus repeated click, (e) actual success/error, (f) mobile touch, (g) focus return/retention, (h) reduced motion and both themes. The automated suite tests DOM, states and source CSS; **real browser screenshots/interactions are a separate requirement**.
 
 For external product consumers pinned to immutable SHA, opt into the updated component version only after local build and interaction review. This policy does **not** initiate dependency updates or GitHub Actions.
+
+For actions with asynchronous feedback, pass `actionState="idle"` from the first render and keep passing the current state. The indicator slot is reserved throughout that lifecycle. Ordinary commands without an explicit `actionState` have no slot. Pending and aria-disabled actions retain focus and do not acquire hover/pressed feedback. Selection stays independent of execution.
