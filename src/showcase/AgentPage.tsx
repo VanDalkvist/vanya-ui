@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { ArrowUpRight, ArrowRight, Check, Copy, FileText, Terminal, CircleAlert } from "lucide-react";
-import { ActionButton, ActionLink, GitHubIcon, SegmentedControl, SineWave, ThemeToggle, VanyaArcLockup, type ActionButtonState } from "../index";
+import { ActionButton, ActionLink, GitHubIcon, SegmentedControl, SineWave, ThemeToggle, VanyaArcLockup, VersionLabel, type ActionButtonState } from "../index";
+import { version } from "../../package.json";
 import { ShowcaseFooter } from "./ShowcaseFooter";
 import { agentPrompts, harnessTools, verifiedHarness } from "./agent-harness-data";
 type Mode = keyof typeof agentPrompts;
@@ -48,6 +49,7 @@ export function AgentPage(){
       <div className="agent-header-utilities">
         <a className="showcase-github ui-feedback-icon" href="https://github.com/VanDalkvist/vanya-ui" aria-label="Исходники Vanya UI"><GitHubIcon size={16}/></a>
         <ThemeToggle/>
+        <VersionLabel version={version}/>
       </div>
     </header>
     <main id="agent-main" className="agent-page">
