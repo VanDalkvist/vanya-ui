@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { ArrowUpRight, ArrowRight, Check, Copy, FileText, Terminal, CircleAlert } from "lucide-react";
+import { ArrowRight, Check, Copy, FileText, Terminal, CircleAlert } from "lucide-react";
 import { ActionButton, ActionLink, GitHubIcon, SegmentedControl, SineWave, ThemeToggle, VanyaArcLockup, VersionLabel, type ActionButtonState } from "../index";
 import { version } from "../../package.json";
 import { ShowcaseFooter } from "./ShowcaseFooter";
@@ -60,7 +60,7 @@ export function AgentPage(){
           <p className="ui-type-body agent-muted">Контекст, компоненты и правила качества в одном пакете. Агент подключает Vanya UI, собирает интерфейс и запускает проверки в CI.</p>
           <div className="agent-hero-actions">
             <ActionLink href="#agent-start" variant="accent" size="md">Начать работу <ArrowRight size={16} aria-hidden="true"/></ActionLink>
-            <ActionLink href="/reference/design-harness-quickstart.md" size="md" target="_blank">Quickstart <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+            <ActionLink href="/reference/design-harness-quickstart.md" size="md" target="_blank">Quickstart</ActionLink>
           </div>
         </div>
         <figure className="agent-context" aria-labelledby="agent-context-label">
@@ -113,12 +113,12 @@ export function AgentPage(){
         </div>
       </section>
       <section className="agent-band agent-evidence" aria-labelledby="agent-evidence-title">
-        <div className="agent-band-heading"><p className="ui-type-metadata agent-eyebrow">04 / Доказательства</p><h2 id="agent-evidence-title" className="ui-type-heading">Проверено на конкретной версии</h2><p className="ui-type-body agent-muted">Снимок успешной CI-проверки {verifiedHarness.date}. Версия {verifiedHarness.version} · кандидат без релизного тега. Визуальная приёмка и evals агентов остаются открытыми.</p><ActionLink href={`https://github.com/VanDalkvist/vanya-ui/commit/${verifiedHarness.sha}`} size="md" target="_blank">SHA {verifiedHarness.sha.slice(0,8)} <ArrowUpRight size={14} aria-hidden="true"/></ActionLink></div>
+        <div className="agent-band-heading"><p className="ui-type-metadata agent-eyebrow">04 / Доказательства</p><h2 id="agent-evidence-title" className="ui-type-heading">Проверено на конкретной версии</h2><p className="ui-type-body agent-muted">Снимок успешной CI-проверки {verifiedHarness.date}. Версия {verifiedHarness.version} · кандидат без релизного тега. Визуальная приёмка и evals агентов остаются открытыми.</p><ActionLink href={`https://github.com/VanDalkvist/vanya-ui/commit/${verifiedHarness.sha}`} size="md" target="_blank">SHA {verifiedHarness.sha.slice(0,8)}</ActionLink></div>
         <dl className="agent-evidence-grid">{verifiedHarness.tests.map(test=><div key={test.name}><dt className="ui-type-compact">{test.name}</dt><dd className="ui-type-display agent-evidence-value">{test.result}</dd><p className="ui-type-caption agent-muted">{test.description}</p></div>)}</dl>
         <p className="ui-type-caption agent-muted">Impeccable: CLEAN (advisory) · Stylelint: 69 существующих замечаний витрины, 0 новых · shadcn: 0. Данные относятся к указанному SHA.</p>
       </section>
       <section id="agent-start" className="agent-band agent-start" aria-labelledby="agent-start-title">
-        <div className="agent-band-heading"><p className="ui-type-metadata agent-eyebrow">05 / Подключение</p><h2 id="agent-start-title" className="ui-type-heading">Передай агенту задачу</h2><p className="ui-type-body agent-muted">Выбери сценарий и добавь описание продукта. Для существующих проектов изменение зависимостей и baseline требует согласования.</p><ActionLink href="/reference/versioning.md" size="md" target="_blank">Проверенный SHA и условия установки <ArrowUpRight size={14} aria-hidden="true"/></ActionLink></div>
+        <div className="agent-band-heading"><p className="ui-type-metadata agent-eyebrow">05 / Подключение</p><h2 id="agent-start-title" className="ui-type-heading">Передай агенту задачу</h2><p className="ui-type-body agent-muted">Выбери сценарий и добавь описание продукта. Для существующих проектов изменение зависимостей и baseline требует согласования.</p><ActionLink href="/reference/versioning.md" size="md" target="_blank">Проверенный SHA и условия установки</ActionLink></div>
         <div className="agent-prompt-panel">
           <SegmentedControl<Mode> aria-label="Сценарий подключения" items={[{id:"new",label:"Новый продукт"},{id:"existing",label:"Существующий"}]} value={mode} disabled={copyState==="pending"} onChange={value=>{setMode(value);setCopyState("idle")}}/>
           <pre className="ui-type-code"><code>{agentPrompts[mode]}</code></pre>
@@ -127,7 +127,7 @@ export function AgentPage(){
       </section>
       <section className="agent-band" aria-labelledby="agent-resources-title">
         <div className="agent-band-heading"><p className="ui-type-metadata agent-eyebrow">06 / Источники</p><h2 id="agent-resources-title" className="ui-type-heading">Вся документация из одного репозитория</h2></div>
-        <ul className="agent-resources-grid">{resources.map(resource=><li key={resource.href}><ActionLink href={resource.href} size="md" variant="accent" target="_blank">{resource.title} <ArrowUpRight size={14} aria-hidden="true"/></ActionLink><p className="ui-type-compact agent-muted">{resource.detail}</p></li>)}</ul>
+        <ul className="agent-resources-grid">{resources.map(resource=><li key={resource.href}><ActionLink href={resource.href} size="md" variant="accent" target="_blank">{resource.title}</ActionLink><p className="ui-type-compact agent-muted">{resource.detail}</p></li>)}</ul>
       </section>
     </main>
     <ShowcaseFooter/>
