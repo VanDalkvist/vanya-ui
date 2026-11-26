@@ -96,8 +96,7 @@ export function SegmentedControl<T extends string = string>(props: SegmentedCont
       data-size={size === "xs" ? "sm" : size}
       data-density={density}
       className={twMerge(clsx(
-        "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center border border-border bg-surface-raised/60 font-sans select-none backdrop-blur-xs",
-        density === "toolbar" ? "" : "rounded-full",
+        "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center font-sans select-none",
         className
       ))}
     >
@@ -120,11 +119,10 @@ export function SegmentedControl<T extends string = string>(props: SegmentedCont
             onKeyDown={(event) => handleTabKeyDown(event, item.id)}
             onClick={() => { if (!unavailable) onChange(item.id); }}
             className={clsx(
-              "ui-feedback-segment inline-flex items-center border-0 bg-transparent",
-              density === "toolbar" ? "" : "rounded-full",
+              "ui-feedback-segment inline-flex items-center border-0 bg-transparent rounded-sm font-medium",
               unavailable ? "cursor-default opacity-35" : "cursor-pointer",
               isSelected
-                ? "bg-surface text-accent font-medium shadow-xs"
+                ? "text-accent"
                 : "text-ink-soft"
             )}
           >
@@ -132,8 +130,8 @@ export function SegmentedControl<T extends string = string>(props: SegmentedCont
             <span>{item.label}</span>
             {item.count !== undefined && (
               <span className={clsx(
-                "rounded-full px-1.5 font-mono",
-                isSelected ? "bg-accent/15 text-accent" : "bg-ground/60 text-ink-faint"
+                "px-1.5 font-mono tabular-nums",
+                isSelected ? "text-accent" : "text-ink-soft"
               )}>
                 {item.count}
               </span>
