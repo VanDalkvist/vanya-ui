@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Copy, ArrowUpRight } from "lucide-react";
+import { Copy } from "lucide-react";
 import { ActionButton, ActionLink, type ActionButtonState } from "../index";
 
 import { agentPrompts } from "./agent-harness-data";
@@ -29,7 +29,7 @@ export function AgentSection() {
     <p className="guide-eyebrow">Агентам / 09</p>
     <h2 id="agents-title" className="catalog-title">Дизайн-система для агентов</h2>
     <p className="catalog-intro">Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере.</p>
-    <ActionLink href="/agents/" variant="accent" size="md" target="_blank">Открыть Agent Mode <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+    <ActionLink href="/agents/" variant="accent" size="md" target="_blank">Открыть Agent Mode</ActionLink>
     <div className="agents-columns">
       <div className="agents-start">
         <h3 className="ui-type-subheading">Начать работу</h3>
@@ -45,15 +45,15 @@ export function AgentSection() {
           <h3 className="ui-type-subheading">Что доступно</h3>
           <p className="ui-type-body">Открытые исходники, локальный CLI и 14 критериев приёмки. Для исполнения нужна копия библиотеки, Node.js 20+ и браузер для визуальной проверки.</p>
           <p className="ui-type-compact agents-note">Поведенческие evals Codex и Claude Code пока не подтверждены.</p>
-          <ActionLink size="md" href="/reference/versioning.md" className="agents-resource-link" target="_blank">Проверенный релиз и SHA <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
-          <ActionLink size="md" href="/reference/installation.md" className="agents-resource-link" target="_blank">Подключение пакета <ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+          <ActionLink size="md" href="/reference/versioning.md" className="agents-resource-link" target="_blank">Проверенный релиз и SHA</ActionLink>
+          <ActionLink size="md" href="/reference/installation.md" className="agents-resource-link" target="_blank">Подключение пакета</ActionLink>
         </div>
       </div>
       <div className="agents-resources">
         <h3 className="ui-type-subheading">Документация и инструменты</h3>
         <ul className="agents-resource-list">
           {resources.map(resource=><li key={resource.href}>
-            <ActionLink size="md" href={resource.href} className="agents-resource-link" target="_blank">{resource.label}<ArrowUpRight size={14} aria-hidden="true"/></ActionLink>
+            <ActionLink size="md" href={resource.href} className="agents-resource-link" target="_blank">{resource.label}</ActionLink>
             <p className="ui-type-compact agents-note">{resource.description}</p>
           </li>)}
         </ul>
