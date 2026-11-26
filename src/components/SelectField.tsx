@@ -19,7 +19,7 @@ export function SelectField({label,options,emptyLabel="Все",allowEmpty=true,d
  return (
   <label htmlFor={controlId} data-density={density} className={twMerge(clsx("ui-select-field flex min-w-0",density==="toolbar"?"flex-row items-center gap-0":"flex-col",className))}>
    <span className="ui-select-field-label ui-type-caption font-sans text-ink-soft">{label}</span>
-   <select id={controlId} {...props} className={clsx("ui-select-field-select min-w-0 font-sans text-control text-ink outline-none",density==="toolbar"?"h-full rounded-none border-0 bg-transparent pl-1 pr-5 focus-visible:outline-none":"h-10 rounded-none border-0 bg-transparent",props.disabled&&"opacity-45")}>
+   <select id={controlId} {...props} className={clsx("ui-select-field-select min-w-0",density==="toolbar"?"h-full rounded-none border-0 bg-transparent pl-1 pr-5 focus-visible:outline-none":"bg-transparent",props.disabled&&"opacity-45")}>
     {allowEmpty&&<option value="">{emptyLabel}</option>}
     {options.map(option=><option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
    </select>
