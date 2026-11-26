@@ -888,11 +888,10 @@
   .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){border-bottom-color:var(--accent);}
   .ui-action-button[data-variant="prominent"][aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--accent);}
   .ui-action-button:focus-visible,.ui-feedback-segment:focus-visible{outline-offset:1px;}
-  .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]):not(:has(>svg:only-child)){box-shadow:inset 0 0 0 1px var(--ui-feedback-hover-border);}
   .ui-feedback-segment:not(:disabled):active{background:var(--ui-feedback-pressed-fill);}
   .ui-tag-marker{color:var(--ink-soft);}
   .ui-tag:not(button)[data-size="md"]{font-size:var(--size-md-font);}
-  .ui-new-tab-marker{flex-shrink:0;}
+  .ui-new-tab-marker{flex-shrink:0;width:1em;height:1em;}
   .ui-inline-new-tab-marker{white-space:nowrap;}
   .ui-action-toggle-state{display:inline-grid;min-width:3em;text-align:right;font-size:var(--size-sm-font);font-variant-numeric:tabular-nums;}
   @media (hover:hover) and (pointer:fine){
