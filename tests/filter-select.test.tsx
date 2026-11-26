@@ -10,7 +10,9 @@ describe("FilterSelect custom popup",()=>{
   render(<FilterSelect label="Жанр" value="drama" options={options} onValueChange={onValueChange}/>);
   const trigger=screen.getByRole("button",{name:"Жанр Драма"});
   expect(trigger).toHaveAttribute("aria-expanded","false");
-  expect(trigger).toHaveAccessibleName(trigger.textContent!.trim());
+  expect(trigger).toHaveAccessibleName("Жанр Драма");
+  expect(trigger.textContent).toContain("Жанр: Драма");
+  expect(trigger.querySelector(".ui-filter-select-label [aria-hidden=true]")).toHaveTextContent(":");
   fireEvent.click(trigger);
   expect(trigger).toHaveAttribute("aria-expanded","true");
   expect(document.querySelector(".ui-filter-select-panel")).toBeInTheDocument();
