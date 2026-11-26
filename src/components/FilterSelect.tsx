@@ -139,7 +139,7 @@ export function FilterSelect({
      e.preventDefault();openMenu(e.key==="ArrowUp"?-1:0);
     }
    }}>
-   <span id={triggerId+"-label"} className="ui-filter-select-label">{label}</span>{" "}
+   <span id={triggerId+"-label"} className="ui-filter-select-label">{label}<span aria-hidden="true">:</span></span>{" "}
    <span id={triggerId+"-value"} className={clsx("ui-filter-select-value",!value&&"ui-filter-select-empty")} title={selectedLabel}>{selectedLabel}</span>
    <ChevronDown size={15} className="ui-filter-select-chevron" aria-hidden="true"/>
   </button>
