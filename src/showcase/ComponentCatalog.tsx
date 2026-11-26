@@ -134,7 +134,7 @@ export function ComponentCatalog() {
       <div className="demo-interaction-specimen">
         <div className="demo-interaction-sample">
           <span className="demo-label">Текстовая ссылка</span>
-          <ActionLink href="/reference/interaction-states.md" variant="text" size="md">Правила состояний ↗</ActionLink>
+          <ActionLink href="/reference/interaction-states.md" variant="text" size="md" target="_blank">Правила состояний ↗</ActionLink>
           <span className="ui-type-caption">Цвет + подчёркивание при наведении; focus — отдельный контур</span>
         </div>
         <div className="demo-interaction-sample">
@@ -181,7 +181,7 @@ export function ComponentCatalog() {
         <output className="ui-type-caption" role="status" aria-live="polite">
           {requestDemo==="idle"?"Действие ещё не запускали.":requestDemo==="pending"?"Приложение выполняет действие; повторный клик заблокирован.":requestDemo==="success"?"Тестовый результат: выполнено.": "Тестовый результат: ошибка. Можно повторить."}
         </output>
-        <a href="/reference/action-feedback.md" className="guide-link">Почему press ≠ успешный результат ↗</a>
+        <a href="/reference/action-feedback.md" className="guide-link" target="_blank" rel="noopener noreferrer">Почему press ≠ успешный результат ↗</a>
       </div>
     </CatalogSection>
     <CatalogSection id="loading-states" title="Skeleton / LoadingRegion" description="Начальная загрузка, готовые данные и ошибка. Ровно одна подпись для скринридера, никаких кликабельных заглушек.">
