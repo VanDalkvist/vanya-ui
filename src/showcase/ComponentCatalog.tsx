@@ -134,7 +134,7 @@ export function ComponentCatalog() {
       <div className="demo-interaction-specimen">
         <div className="demo-interaction-sample">
           <span className="demo-label">Текстовая ссылка</span>
-          <ActionLink href="/reference/interaction-states.md" variant="text" size="md" target="_blank">Правила состояний ↗</ActionLink>
+          <ActionLink href="/reference/interaction-states.md" variant="text" size="md" target="_blank">Правила состояний</ActionLink>
           <span className="ui-type-caption">Цвет + подчёркивание при наведении; focus — отдельный контур</span>
         </div>
         <div className="demo-interaction-sample">
@@ -206,7 +206,7 @@ export function ComponentCatalog() {
           description="Проверьте соединение и повторите запрос."
           action={<ActionButton size="md" variant="accent" onClick={()=>setLoadingDemo("loading")}>Повторить</ActionButton>}/>}
        </div>
-       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md">Правила загрузки</a></p>
+       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md" target="_blank" rel="noopener noreferrer">Правила загрузки<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a></p>
       </div>
     </CatalogSection>
     <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Компактный поиск и переключатель дополнены собственным выпадающим списком FilterSelect: единая высота 40 px, подписи и темы. Системное меню macOS не используется.">
