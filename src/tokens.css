@@ -1011,6 +1011,8 @@
     svg text{fill:CanvasText;}
     :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible{outline:2px solid Highlight;}
     .ui-feedback-row[aria-checked="true"],.ui-feedback-icon[aria-expanded="true"]{outline:1px solid Highlight;}
-    .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){border-bottom-color:Highlight;}
+    .ui-feedback-segment:has(>svg:only-child){forced-color-adjust:none;color:ButtonText;border-bottom-color:Canvas;}
+    .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){color:Highlight;border-bottom-color:Highlight;}
+    .ui-feedback-segment:has(>svg:only-child):focus-visible{outline-color:Highlight;}
   }
 }
