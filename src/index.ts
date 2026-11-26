@@ -130,3 +130,4 @@ export {WorkflowStrip,type WorkflowStripProps} from "./components/WorkflowStrip"
 export {InspectorMeta,type InspectorMetaProps} from "./components/InspectorMeta";
 export type {InspectorCompactContext} from "./components/InspectDrawer";
 export {CostIndicator,type CostIndicatorProps,type CostCertainty} from "./components/CostIndicator";
+export { VersionLabel, type VersionLabelProps } from "./components/VersionLabel";
