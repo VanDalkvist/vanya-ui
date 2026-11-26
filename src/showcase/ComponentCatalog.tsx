@@ -52,6 +52,7 @@ export function ComponentCatalog() {
   const [draftGenre,setDraftGenre]=useState("drama");
   const [savedGenre,setSavedGenre]=useState("drama");
   const [titleError,setTitleError]=useState("");
+  const [publishedExample,setPublishedExample]=useState(false);
   const toolbarResults=quietCollection.filter(item=>
     item.title.toLocaleLowerCase("ru").includes(toolbarQuery.trim().toLocaleLowerCase("ru")) &&
     (toolbarScope==="all"||item.mine) && (!toolbarGenre||item.genre===toolbarGenre));
@@ -190,14 +191,14 @@ export function ComponentCatalog() {
     <CatalogSection id="quiet-actions" title="Контекстные действия" description="Команда, переключатель и состояние результата в одной свободной плоскости.">
       <div className="demo-quiet-actions">
         <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
-        <ActionButton size="md" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
+        <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
           Автообновление · {autoRefresh?"Вкл":"Выкл"}
         </ActionButton>
       </div>
       <p role="status" className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</p>
     </CatalogSection>
     <CatalogSection id="quiet-editor" title="Документ и свойства" description="Прямое редактирование, явное сохранение и обратимая отмена.">
-      <form className="demo-quiet-editor" onSubmit={e=>{
+      <form className="demo-quiet-editor" noValidate onSubmit={e=>{
         e.preventDefault();
         if(!draftTitle.trim()){setTitleError("Введите название");return;}
         setSavedTitle(draftTitle.trim());setSavedGenre(draftGenre);setTitleError("");
@@ -213,7 +214,11 @@ export function ComponentCatalog() {
         <output className="ui-type-caption text-ink-soft">Сохранено: {savedTitle} · {savedGenre==="drama"?"Драма":savedGenre==="comedy"?"Комедия":"Фантастика"}</output>
       </form>
       <p className="ui-type-caption text-ink-soft">Сильный акцент уместен при явном подтверждении решения.</p>
-      <ActionButton variant="prominent" size="md" onClick={()=>setOverlay("sheet")}>Открыть подтверждение</ActionButton>
+      <div className="demo-quiet-actions">
+        <ActionButton variant="prominent" size="md" disabled={publishedExample} onClick={()=>setPublishedExample(true)}>Подтвердить</ActionButton>
+        {publishedExample&&<ActionButton size="md" onClick={()=>setPublishedExample(false)}>Отменить подтверждение</ActionButton>}
+        <span role="status" className="ui-type-caption text-ink-soft">{publishedExample?"Пример подтверждён":"Ожидает подтверждения"}</span>
+      </div>
     </CatalogSection>
     <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
       <SineWave className="h-60" fit origin={590} events={[
