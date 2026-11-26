@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActionButton, ActionLink, GitHubIcon, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
-  SurfaceHeader, WorkflowStrip, InspectorMeta, CostIndicator,
+  SurfaceHeader, WorkflowStrip, InspectorMeta, CostIndicator, VersionLabel,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -30,6 +30,68 @@ const eventTicks = [
   { id: "future", value: 2027.1, future: true }, { id: "later", value: 2027.6, future: true },
 ];
 
+function QuietActionsDemo(){
+  const [autoRefresh,setAutoRefresh]=useState(false);
+  const [refreshCount,setRefreshCount]=useState(0);
+  useEffect(()=>{
+    if(!autoRefresh)return;
+    const timer=window.setInterval(()=>setRefreshCount(n=>n+1),5000);
+    return ()=>window.clearInterval(timer);
+  },[autoRefresh]);
+  return <CatalogSection id="quiet-actions" title="Контекстные действия" description="Локальная демонстрация обновления: вручную или каждые пять секунд при включённом автообновлении.">
+    <div className="demo-quiet-actions">
+      <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
+      <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
+        Автообновление · {autoRefresh?"Вкл":"Выкл"}
+      </ActionButton>
+    </div>
+    <output className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</output>
+  </CatalogSection>;
+}
+const genreOptions=[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}];
+function QuietDocumentDemo(){
+  const [saved,setSaved]=useState({title:"Тихий берег",genre:"drama"});
+  const [draft,setDraft]=useState(saved);
+  const [error,setError]=useState("");
+  return <CatalogSection id="quiet-editor" title="Редактирование документа" description="Локальный черновик, валидация, явное сохранение и отмена.">
+    <form className="demo-quiet-editor" noValidate onSubmit={e=>{
+      e.preventDefault();
+      if(!draft.title.trim()){setError("Введите название");return;}
+      const next={...draft,title:draft.title.trim()};setSaved(next);setDraft(next);setError("");
+    }}>
+      <TextField label="Название" placeholder="Введите название" value={draft.title} required
+        error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
+      <SelectField label="Жанр" value={draft.genre} onChange={e=>setDraft(d=>({...d,genre:e.target.value}))} allowEmpty={false} options={genreOptions}/>
+      <div className="demo-quiet-actions">
+        <ActionButton size="md" onClick={()=>{setDraft(saved);setError("");}}>Отменить</ActionButton>
+        <ActionButton size="md" type="submit" variant="accent">Сохранить</ActionButton>
+      </div>
+      <output className="ui-type-caption text-ink-soft">Сохранено: {saved.title} · {genreOptions.find(g=>g.value===saved.genre)?.label}</output>
+    </form>
+  </CatalogSection>;
+}
+const statusOptions=[{value:"active",label:"В работе"},{value:"done",label:"Завершено"},{value:"planned",label:"Запланировано"}];
+const priorityOptions=[{value:"normal",label:"Обычный"},{value:"high",label:"Высокий"},{value:"low",label:"Низкий"}];
+function QuietInspectorDemo(){
+  const [record,setRecord]=useState({status:"active",priority:"normal"});
+  return <CatalogSection id="quiet-inspector" title="Инспектор свойств" description="Значения редактируются непосредственно, без отдельного сохранения. Пример хранится в памяти страницы.">
+    <div className="demo-quiet-inspector">
+      <FilterSelect label="Статус" value={record.status} onValueChange={status=>setRecord(r=>({...r,status}))} options={statusOptions} allowEmpty={false}/>
+      <FilterSelect label="Приоритет" value={record.priority} onValueChange={priority=>setRecord(r=>({...r,priority}))} options={priorityOptions} allowEmpty={false}/>
+    </div>
+    <output className="ui-type-caption text-ink-soft">Документ: {statusOptions.find(s=>s.value===record.status)?.label} · {priorityOptions.find(p=>p.value===record.priority)?.label}</output>
+  </CatalogSection>;
+}
+function QuietConfirmationDemo(){
+  const [confirmed,setConfirmed]=useState(false);
+  return <CatalogSection id="quiet-confirmation" title="Явное подтверждение" description="Prominent применяется к значимому решению; остальные команды остаются на общей плоскости.">
+    <div className="demo-quiet-actions">
+      <ActionButton variant="prominent" size="md" disabled={confirmed} onClick={()=>setConfirmed(true)}>Подтвердить</ActionButton>
+      <ActionButton size="md" disabled={!confirmed} onClick={()=>setConfirmed(false)}>Отменить подтверждение</ActionButton>
+    </div>
+    <output className="ui-type-caption text-ink-soft">{confirmed?"Пример подтверждён":"Ожидает подтверждения"}</output>
+  </CatalogSection>;
+}
 export function ComponentCatalog() {
   const [horizon, setHorizon] = useState<keyof typeof counts>("day");
   const [tabMode, setTabMode] = useState<"read"|"explore">("read");
@@ -45,14 +107,6 @@ export function ComponentCatalog() {
   const [toolbarQuery,setToolbarQuery]=useState("");
   const [toolbarScope,setToolbarScope]=useState("all");
   const [toolbarGenre,setToolbarGenre]=useState("");
-  const [autoRefresh,setAutoRefresh]=useState(true);
-  const [refreshCount,setRefreshCount]=useState(0);
-  const [savedTitle,setSavedTitle]=useState("Тихий берег");
-  const [draftTitle,setDraftTitle]=useState("Тихий берег");
-  const [draftGenre,setDraftGenre]=useState("drama");
-  const [savedGenre,setSavedGenre]=useState("drama");
-  const [titleError,setTitleError]=useState("");
-  const [publishedExample,setPublishedExample]=useState(false);
   const toolbarResults=quietCollection.filter(item=>
     item.title.toLocaleLowerCase("ru").includes(toolbarQuery.trim().toLocaleLowerCase("ru")) &&
     (toolbarScope==="all"||item.mine) && (!toolbarGenre||item.genre===toolbarGenre));
@@ -188,37 +242,12 @@ export function ComponentCatalog() {
        onChange={e=>setSampleTitle(e.target.value)} hint="Пример общего поля формы; данные никуда не отправляются."/></div>
      </div>
     </CatalogSection>
-    <CatalogSection id="quiet-actions" title="Контекстные действия" description="Команда, переключатель и состояние результата в одной свободной плоскости.">
-      <div className="demo-quiet-actions">
-        <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
-        <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
-          Автообновление · {autoRefresh?"Вкл":"Выкл"}
-        </ActionButton>
-      </div>
-      <p role="status" className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</p>
-    </CatalogSection>
-    <CatalogSection id="quiet-editor" title="Документ и свойства" description="Прямое редактирование, явное сохранение и обратимая отмена.">
-      <form className="demo-quiet-editor" noValidate onSubmit={e=>{
-        e.preventDefault();
-        if(!draftTitle.trim()){setTitleError("Введите название");return;}
-        setSavedTitle(draftTitle.trim());setSavedGenre(draftGenre);setTitleError("");
-      }}>
-        <TextField label="Название" placeholder="Введите название" value={draftTitle} required
-          error={titleError||undefined} onChange={e=>{setDraftTitle(e.target.value);setTitleError("");}}/>
-        <SelectField label="Жанр" value={draftGenre} onChange={e=>setDraftGenre(e.target.value)} allowEmpty={false}
-          options={[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}]}/>
-        <div className="demo-quiet-actions">
-          <ActionButton size="md" onClick={()=>{setDraftTitle(savedTitle);setDraftGenre(savedGenre);setTitleError("");}}>Отменить</ActionButton>
-          <ActionButton size="md" type="submit" variant="accent">Сохранить</ActionButton>
-        </div>
-        <output className="ui-type-caption text-ink-soft">Сохранено: {savedTitle} · {savedGenre==="drama"?"Драма":savedGenre==="comedy"?"Комедия":"Фантастика"}</output>
-      </form>
-      <p className="ui-type-caption text-ink-soft">Сильный акцент уместен при явном подтверждении решения.</p>
-      <div className="demo-quiet-actions">
-        <ActionButton variant="prominent" size="md" disabled={publishedExample} onClick={()=>setPublishedExample(true)}>Подтвердить</ActionButton>
-        {publishedExample&&<ActionButton size="md" onClick={()=>setPublishedExample(false)}>Отменить подтверждение</ActionButton>}
-        <span role="status" className="ui-type-caption text-ink-soft">{publishedExample?"Пример подтверждён":"Ожидает подтверждения"}</span>
-      </div>
+    <QuietActionsDemo/>
+    <QuietDocumentDemo/>
+    <QuietInspectorDemo/>
+    <QuietConfirmationDemo/>
+    <CatalogSection id="version-label" title="VersionLabel" description="Пассивная версия сборки. Значение передаёт приложение.">
+      <VersionLabel version="1.2.3"/>
     </CatalogSection>
     <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
       <SineWave className="h-60" fit origin={590} events={[
@@ -230,12 +259,11 @@ export function ComponentCatalog() {
     <CatalogSection id="theme" title="ThemeToggle" description="Меню и сегментированный переключатель. Оба меняют общую тему страницы.">
       <ThemeToggle /><ThemeToggle variant="segmented" />
     </CatalogSection>
-    <CatalogSection id="actions" title="ActionButton" description="Варианты кнопки и недоступное состояние.">
+    <CatalogSection id="actions" title="ActionButton" description="Neutral, Accent и Prominent — три семантических уровня команды в Quiet.">
       <Sizes>{(size) => <>
         <ActionButton size={size} onClick={() => setOverlay("sheet")}>Открыть панель</ActionButton>
-        <ActionButton size={size} variant="mono" onClick={() => setOverlay("sheet")}>Подробнее</ActionButton>
         <ActionButton size={size} variant="accent" onClick={() => setOverlay("digest")}>Открыть итоги</ActionButton>
-        <ActionButton size={size} variant="pill" onClick={() => setOverlay("sheet")}>Посмотреть</ActionButton>
+        <ActionButton size={size} variant="prominent" onClick={() => setOverlay("sheet")}>Открыть подтверждение</ActionButton>
         <ActionButton size={size} disabled>Недоступно</ActionButton>
       </>}</Sizes>
     </CatalogSection>
