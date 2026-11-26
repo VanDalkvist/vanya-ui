@@ -22,7 +22,7 @@ describe("interaction feedback contracts",()=>{
   expect(css).toContain("@media (prefers-reduced-motion: reduce)");
   expect(css).toContain(".ui-feedback-row[aria-checked=\"true\"]");
  });
- it("keeps outlined button and filter borders stable on hover; reserves strong border for focus",()=>{
+ it("keeps button and filter borders stable on hover; reserves outline for keyboard focus",()=>{
   const css=read("src/tokens.css");
   const outlined=css.match(/\.ui-action-button:not\(\[data-variant="prominent"\]\):not\(:disabled\):not\(\[aria-disabled="true"\]\):hover\s*\{([^}]+)\}/)?.[1];
   const filter=css.match(/\.ui-filter-select-trigger:not\(:disabled\):hover\s*\{([^}]+)\}/)?.[1];
@@ -30,8 +30,11 @@ describe("interaction feedback contracts",()=>{
   expect(outlined).not.toContain("border-color");
   expect(filter).toContain("background:var(--ui-feedback-hover-fill)");
   expect(filter).not.toContain("border-color");
-  expect(css).toContain(".ui-filter-select-trigger:focus-visible");
-  expect(css).toContain("border-color:var(--accent)");
+  const focus=css.match(/\.ui-filter-select-trigger:focus-visible\s*\{([^}]+)\}/)?.[1];
+  expect(focus).toContain("outline:2px solid var(--accent)");
+  expect(focus).not.toContain("border-color");
+  const expanded=css.match(/\.ui-filter-select\[data-expanded\] \.ui-filter-select-trigger\s*\{([^}]+)\}/)?.[1];
+  expect(expanded).toContain("background:var(--ui-feedback-hover-fill)");
  });
  it("preserves real link and button behavior, disabled actions do not fire",()=>{
   const handle=vi.fn();
