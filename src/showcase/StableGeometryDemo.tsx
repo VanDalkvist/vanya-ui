@@ -49,7 +49,7 @@ export function StableGeometryDemo() {
                 {values.map((value, i) => <circle key={i} cx={24 + i * 46} cy={102 - value * 4} r="3" fill="var(--accent)"><title>{"День " + (i + 1) + ": " + value}</title></circle>)}
               </svg> : <div className="stable-geometry-plot-message">{plotLabel}</div>}
             </div>
-            <ActionLink href="/reference/composition.md">Правила стабильного интерфейса</ActionLink>
+            <ActionLink href="/reference/composition.md" target="_blank">Правила стабильного интерфейса</ActionLink>
             <details className="stable-geometry-details">
               <summary>Значения графика</summary>
               <p>{values ? plotLabel : "Значения пока недоступны."}</p>
