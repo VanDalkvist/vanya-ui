@@ -1,7 +1,7 @@
 import React from "react";
 import {describe,it,expect,vi} from "vitest";
 import {render,screen,fireEvent,cleanup} from "@testing-library/react";
-import {ActionButton,SearchField,TextField,SelectField,VersionLabel} from "../src/index";
+import {ActionButton,SearchField,TextField,SelectField,VersionLabel,Tag,ActionLink} from "../src/index";
 import {afterEach} from "vitest";
 
 afterEach(cleanup);
@@ -45,6 +45,21 @@ describe("Quiet control behavior",()=>{
   expect(screen.getByRole("button",{name:/Выполнить/}).querySelector(".ui-action-indicator-slot")).toBe(slot);
   rerender(<ActionButton>Выполнить</ActionButton>);
   expect(screen.getByRole("button",{name:"Выполнить"}).querySelector(".ui-action-indicator-slot")).toBeNull();
+ });
+ it("keeps passive tags as metadata and interactive tags as real buttons",()=>{
+  const click=vi.fn();
+  render(<><Tag>наблюдение</Tag><Tag isActive onClick={click}>Фильтр</Tag></>);
+  const passive=screen.getByText("наблюдение");
+  expect(passive.tagName).toBe("SPAN");
+  expect(passive).not.toHaveClass("ui-size");
+  expect(passive.querySelector(".ui-tag-marker")).toHaveAttribute("aria-hidden","true");
+  const active=screen.getByRole("button",{name:"Фильтр"});
+  expect(active).toHaveAttribute("aria-pressed","true");fireEvent.click(active);expect(click).toHaveBeenCalledOnce();
+ });
+ it("derives exactly one new-tab indicator from the actual target",()=>{
+  render(<><ActionLink href="/reference/navigation.md" target="_blank">Правила</ActionLink><ActionLink href="/#catalog">Каталог</ActionLink></>);
+  expect(screen.getByRole("link",{name:"Правила"}).querySelectorAll(".ui-new-tab-marker")).toHaveLength(1);
+  expect(screen.getByRole("link",{name:"Каталог"}).querySelector(".ui-new-tab-marker")).toBeNull();
  });
  it("renders passive caller-owned full SemVer",()=>{
   render(<VersionLabel version="1.2.3-beta.1+build.42"/>);
