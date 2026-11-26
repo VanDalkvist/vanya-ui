@@ -14,7 +14,7 @@ Hover означает *наведение доступным указателе
 | Ссылка в навигации | muted текст | текст становится выразительнее, **без изменения размера** | 2px outline | нет смещения | accent + `aria-current` / `aria-pressed`, остаётся видим |
 | Текстовая ссылка | понятное название + контекст | изменение цвета + подчёркивание | 2px outline | различимый ответ без layout shift | не применимо к обычной ссылке |
 | Пункт меню / списка | читаемая строка | мягкая заливка строки | 2px outline | плотнее заливка | accent и маркер через `aria-checked` |
-| Tabs / фильтры | невыбранное на нейтральном фоне | лёгкая заливка | 2px outline | обратная связь нажатия | выбранное фон/акцент сохраняются при hover другого |
+| Tabs / фильтры | невыбранное на нейтральном фоне | лёгкая заливка | 2px outline | обратная связь нажатия | акцент и подчёркивание остаются при hover другого |
 | Карточка медиа / сюжетное событие | собственный смысловой образ | допускается *одна* дополнительная глубина или акцент, только если помогает различать действие | должен быть явный фокус | без обязательного движения | данные/статус принадлежат продукту |
 | Disabled | менее выразительно, но различимо | **нет** | исключён из tab order для нативных disabled controls | **нет** | не активируется |
 
@@ -22,7 +22,7 @@ Hover означает *наведение доступным указателе
 
 **Не существует универсального запрета менять border на hover.** Apple описывает hover/pressed/focus как разные состояния и предлагает выбирать эффект по роли; у [Carbon Button](https://www.carbondesignsystem.com/building-blocks/core/components/button/specifications) и [Atlassian Color](https://atlassian.design/foundations/color/) могут быть разные механики для отдельных типов компонентов. [Atlassian Elevation](https://atlassian.design/foundations/elevation/) показывает **обычную bordered surface со стабильным border и отдельными цветами фона hovered/pressed**.
 
-Для **Vanya UI в dense workspaces**: стандартный `ActionButton variant="outline"` и `FilterSelect` при *mouse hover* меняют **только мягкий фон**, не насыщенность границы. Это локальное дизайн-решение, не требование WCAG или Apple. Граница — структурная: остаётся постоянной; сильная акцентная обводка принадлежит **keyboard focus** и открытому/невалидному состоянию, когда она несёт отдельный смысл. Обратную связь pressed сохраняем. Кнопки иных ролей (особенно без фонового контейнера) могут менять текст/иконку.
+Quiet — единый визуальный канон Vanya UI. SearchField, TextField, SelectField, FilterSelect, SegmentedControl и обычные ActionButton имеют прозрачную поверхность в покое. Hover добавляет мягкое заполнение, pressed — более плотное; фокус имеет явный контур. Пустое текстовое поле сохраняет нижнюю линию как подсказку, невалидное состояние — видимый контур и сообщение. Границы popup и других функциональных поверхностей сохраняются. Для выбора используйте акцент и устойчивый маркер, для команды — ясный глагол. Neutral, Accent и Prominent обозначают семантическую силу действия. Prominent допускает высококонтрастную заливку для редкого явного подтверждения. Существующие pill/outline сохраняют API и получают плоское оформление.
 
 **Тот же принцип для меню навигации:** обычный `hover` остаётся нейтральным (`var(--ink)`); `aria-current` или `aria-pressed=true` сохраняет акцент после ухода указателя. Однако это не «никогда не использовать accent при hover»: активное CTA, error/destructive и специальные выразительные interactions могут иметь отдельный смысловой цвет. **Приоритет семантики выше однообразия.** У Apple [Focus and selection](https://developer.apple.com/design/human-interface-guidelines/focus-and-selection/) акцентное выделение также зависит от типа списка и активности окна; это подтверждает *контекстность*, а не догму «серый всегда на hover».
 
@@ -46,11 +46,11 @@ Hover, focus, press and selected are different; a visible `:active` alone is not
 
 Используйте **существующие компоненты**, а не копируйте Tailwind классы в продукты:
 
-- `ActionLink` и `ActionButton` теперь используют `ui-feedback-text` и `data-variant`, сохраняя исходные `text/mono/accent/pill/outline` API. Нейтральные действия меняют цвет, акцентные текстовые ссылки подчёркиваются, pill/outline мягко реагируют фоном.
+- `ActionLink` и `ActionButton` теперь используют `ui-feedback-text` и `data-variant`, сохраняя исходные `text/mono/accent/pill/outline` API. Кнопки text/mono/pill/outline используют прозрачное состояние покоя, accent выделяется текстом, prominent — контрастной поверхностью. Ссылки сохраняют семантику навигации.
 - `NavLinks` использует `ui-feedback-nav` и семантические `aria-current`/`aria-pressed`. Hover не подменяет выделение активного раздела.
 - Для отдельного icon-only действия используйте `ui-feedback-icon`, **но отдельно задайте размер и форму hit target**, семантическую ссылку/кнопку, `aria-label` и destination/action. На витрине `GitHubIcon` — 14px внутри 32px кликабельной окружности; на `pointer:coarse` область можно увеличить до 44px, **не увеличивая сам рисунок**.
 - `ThemeToggle` применяет `ui-feedback-icon`, `ui-feedback-row`, `ui-feedback-segment`. Выбранная тема — `role="menuitemradio"`, `aria-checked`; стрелки перемещают фокус, Escape закрывает меню и возвращает фокус.
-- `SegmentedControl` использует `ui-feedback-segment` и свою существующую выбранную форму; `FilterSelect` оставляет keyboard-active строку и применяет hover лишь когда устройство умеет наводить.
+- `SegmentedControl` использует `ui-feedback-segment` и плоский устойчивый маркер выбранного состояния; `FilterSelect` оставляет keyboard-active строку и применяет hover лишь когда устройство умеет наводить.
 - `AvatarLink` использует `ui-feedback-avatar`: **без увеличения картинки** и рваной тени. `LinkChip` использует `ui-feedback-source`: вся ссылка реагирует целиком, а не только URL внутри неё.
 
 Семантические переменные в `src/tokens.css`: `--ui-feedback-hover-fill`, `--ui-feedback-pressed-fill`, `--ui-feedback-hover-border`, `--ui-feedback-duration`. Используйте токены, а не отдельные `rgba(0,0,0,0.1)` для каждого экрана. Они рассчитываются от `--ink` и одинаково применимы к светлой и тёмной теме. Вдохновляющий ориентир Material 3 — [state layers](https://m3.material.io/foundations/interaction/states/state-layers); **не копируем их 8% как безусловное правило**, потому что наши поверхности и контраст другие.
