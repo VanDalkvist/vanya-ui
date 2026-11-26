@@ -34,6 +34,18 @@ describe("Quiet control behavior",()=>{
   fireEvent.click(screen.getByRole("button",{name:"Подтвердить"}));
   expect(click).toHaveBeenCalledTimes(1);
  });
+ it("reserves a stable indicator slot only for actions declaring execution state",()=>{
+  const {rerender}=render(<ActionButton actionState="idle">Выполнить</ActionButton>);
+  const slot=screen.getByRole("button",{name:"Выполнить"}).querySelector(".ui-action-indicator-slot");
+  expect(slot).not.toBeNull();
+  rerender(<ActionButton actionState="pending">Выполнить</ActionButton>);
+  expect(screen.getByRole("button",{name:/Выполнить/}).querySelector(".ui-action-indicator-slot")).toBe(slot);
+  expect(slot?.querySelector(".ui-action-indicator-pending")).not.toBeNull();
+  rerender(<ActionButton actionState="success">Выполнить</ActionButton>);
+  expect(screen.getByRole("button",{name:/Выполнить/}).querySelector(".ui-action-indicator-slot")).toBe(slot);
+  rerender(<ActionButton>Выполнить</ActionButton>);
+  expect(screen.getByRole("button",{name:"Выполнить"}).querySelector(".ui-action-indicator-slot")).toBeNull();
+ });
  it("renders passive caller-owned full SemVer",()=>{
   render(<VersionLabel version="1.2.3-beta.1+build.42"/>);
   const version=screen.getByText("v1.2.3-beta.1+build.42");
