@@ -38,6 +38,12 @@ describe("diagonal arrow matches new-tab navigation",()=>{
     expect(link,link.getAttribute("href")||"").toHaveAttribute("target","_blank");
     expect(link.getAttribute("rel")?.split(/\s+/)).toEqual(expect.arrayContaining(["noopener","noreferrer"]));
    }
+   for(const link of Array.from(container.querySelectorAll('a[target="_blank"]')).filter(a=>a.textContent?.trim())){
+    expect(link.textContent?.includes("↗")||!!link.querySelector(".lucide-arrow-up-right"),link.getAttribute("href")||"").toBe(true);
+   }
+   for(const link of Array.from(container.querySelectorAll('a[href^="/reference/"],a[href="/llms.txt"]'))){
+    expect(link).toHaveAttribute("target","_blank");
+   }
    cleanup();
   });
  }
