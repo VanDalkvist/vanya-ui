@@ -14,8 +14,8 @@ describe("press feedback and genuine action semantics",()=>{
   const s=css();
   expect(s).toContain("--ui-feedback-pressed-fill");
   expect(s).toContain("transition-duration:0ms");
-  expect(s).toContain('.ui-action-button:not(:disabled):not([aria-disabled="true"]):is([data-variant="text"],[data-variant="mono"],[data-variant="accent"]):active');
-  expect(s).toContain('.ui-action-button:not(:disabled):not([aria-disabled="true"]):is([data-variant="pill"],[data-variant="outline"]):active');
+  expect(s).toContain('.ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):active');
+  expect(s).toContain('.ui-action-button[data-variant="prominent"]:not(:disabled):not([aria-disabled="true"]):active');
   expect(s).toContain(".ui-feedback-nav:not([aria-disabled=\"true\"]):active");
   expect(s).toContain(".ui-search-field-clear:active");
   expect(s).toContain(".ui-filter-select-trigger:not(:disabled):active");
