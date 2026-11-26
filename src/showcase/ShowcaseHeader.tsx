@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { ActionLink, GitHubIcon, NavLinks, ThemeToggle, VanyaArcLockup } from "../index";
+import { ActionLink, GitHubIcon, NavLinks, ThemeToggle, VanyaArcLockup, VersionLabel } from "../index";
+import { version } from "../../package.json";
 import { useActiveShowcaseSection } from "./useActiveShowcaseSection";
 
 export const longreadSections = [
@@ -47,6 +48,7 @@ export function ShowcaseHeader() {
        </ActionLink>
       <a className="showcase-github ui-feedback-icon" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer" aria-label="GitHub — исходники Vanya UI (новая вкладка)" title="GitHub — исходники"><GitHubIcon size={14} /></a>
       <ThemeToggle />
+      <VersionLabel version={version}/>
     </div>
   </header>;
 }
