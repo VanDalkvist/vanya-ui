@@ -132,3 +132,41 @@ test("selected theme remains distinguishable in forced colors",async({page})=>{
  const color=await selected.evaluate(el=>getComputedStyle(el).borderBottomColor);
  expect(color).not.toBe(await unselected.evaluate(el=>getComputedStyle(el).borderBottomColor));
 });
+
+test("document fields align and keep geometry from edit through validation and save",async({page})=>{
+ await page.goto("/#quiet-editor");
+ const section=page.locator("#quiet-editor"),title=section.getByLabel("Название"),genre=section.getByRole("combobox",{name:"Жанр"}),save=section.getByRole("button",{name:"Сохранить"});
+ const before=await genre.boundingBox(),saveBefore=await save.boundingBox();
+ const style=()=>title.evaluate(el=>{const s=getComputedStyle(el);return {height:el.getBoundingClientRect().height,padding:s.paddingLeft,bottom:s.borderBottomWidth};});
+ expect(await style()).toEqual({height:40,padding:"0px",bottom:"1px"});
+ expect(await genre.evaluate(el=>getComputedStyle(el).borderBottomWidth)).toBe("1px");
+ await title.fill("");await save.click();
+ await expect(title).toHaveAttribute("aria-invalid","true");
+ expect(await style()).toEqual({height:40,padding:"0px",bottom:"1px"});
+ expect((await genre.boundingBox())!.y).toBeCloseTo(before!.y,0);
+ expect((await save.boundingBox())!.y).toBeCloseTo(saveBefore!.y,0);
+ await title.fill("Новое название");await save.click();
+ expect((await genre.boundingBox())!.y).toBeCloseTo(before!.y,0);
+ expect((await save.boundingBox())!.y).toBeCloseTo(saveBefore!.y,0);
+});
+test("selected states have a visible surface without underlining and retain keyboard focus",async({page})=>{
+ await page.goto("/#quiet-actions");
+ const toggle=page.locator("#quiet-actions").getByRole("button",{name:"Автообновление"});
+ await toggle.click();
+ await page.mouse.move(0,0);
+ await expect(toggle).toHaveCSS("text-decoration-line","none");
+ await expect.poll(()=>toggle.evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
+ const selectedWidth=(await toggle.boundingBox())!.width;
+ await toggle.click();await expect(toggle).toHaveAttribute("aria-pressed","false");
+ expect((await toggle.boundingBox())!.width).toBeCloseTo(selectedWidth,0);
+ await toggle.focus();await page.keyboard.press("Tab");await page.keyboard.press("Shift+Tab");
+ await expect(toggle).toBeFocused();await expect(toggle).toHaveCSS("outline-width","2px");
+ const segment=page.locator("#compact-filter-toolbar").getByRole("button",{name:"Все",exact:true});
+ await expect(segment).toHaveCSS("text-decoration-line","none");
+});
+test("passive tags have no button surface",async({page})=>{
+ await page.goto("/#tag");
+ const tag=page.locator("#tag span.ui-tag").first();
+ await expect(tag).toBeVisible();await expect(tag).toHaveCSS("background-color","rgba(0, 0, 0, 0)");
+ await expect(tag).toHaveCSS("cursor","default");await expect(tag).not.toHaveAttribute("tabindex");
+});
