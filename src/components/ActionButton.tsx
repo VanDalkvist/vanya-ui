@@ -30,11 +30,12 @@ export function ActionButton({
   variant="text",
   className,
   disabled,
-  actionState="idle",
+  actionState:reportedState,
   statusLabel,
   onClick,
   ...props
 }: ActionButtonProps) {
+  const actionState=reportedState??"idle";
   const pending=actionState==="pending";
   const variantStyles={
     text:"rounded-sm font-sans font-medium tracking-normal text-ink-soft",
@@ -68,9 +69,11 @@ export function ActionButton({
       className
     ))}
   >
-    {actionState==="pending" && <LoaderCircle className="ui-action-indicator ui-action-indicator-pending" aria-hidden="true"/>}
-    {actionState==="success" && <Check className="ui-action-indicator" aria-hidden="true"/>}
-    {actionState==="error" && <CircleAlert className="ui-action-indicator" aria-hidden="true"/>}
+    {reportedState!==undefined && <span className="ui-action-indicator-slot" aria-hidden="true">
+      {actionState==="pending" && <LoaderCircle className="ui-action-indicator ui-action-indicator-pending"/>}
+      {actionState==="success" && <Check className="ui-action-indicator"/>}
+      {actionState==="error" && <CircleAlert className="ui-action-indicator"/>}
+    </span>}
     {children}
     {actionState!=="idle" && <span className="sr-only" role="status">{statusLabel??defaultStatus[actionState]}</span>}
   </button>;
