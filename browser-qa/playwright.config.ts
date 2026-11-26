@@ -1,7 +1,8 @@
 import { defineConfig } from "@playwright/test";
 import { resolve } from "node:path";
 
-const url = "http://127.0.0.1:4173";
+const remote = process.env.VANYA_UI_QA_URL;
+const url = remote || "http://127.0.0.1:4173";
 
 export default defineConfig({
   testDir: "./tests",
@@ -20,7 +21,7 @@ export default defineConfig({
     video: "off",
     locale: "ru-RU",
   },
-  webServer: {
+  webServer: remote ? undefined : {
     command: "bun run build && bun run preview",
     cwd: resolve(import.meta.dirname, ".."),
     url,
