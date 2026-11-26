@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { ActionLink, GitHubIcon, NavLinks, ThemeToggle, VanyaArcLockup, VersionLabel } from "../index";
 import { version } from "../../package.json";
 import { useActiveShowcaseSection } from "./useActiveShowcaseSection";
@@ -44,7 +43,6 @@ export function ShowcaseHeader() {
          aria-label="Автор: Ваня Афанасов — личный сайт (новая вкладка)" size="sm" variant="text">
          <span className="showcase-author-full">Ваня Афанасов</span>
          <span className="showcase-author-compact">Автор</span>
-         <ArrowUpRight size={13} aria-hidden="true" />
        </ActionLink>
       <a className="showcase-github ui-feedback-icon" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer" aria-label="GitHub — исходники Vanya UI (новая вкладка)" title="GitHub — исходники"><GitHubIcon size={14} /></a>
       <ThemeToggle />
