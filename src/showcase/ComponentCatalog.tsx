@@ -60,7 +60,7 @@ function QuietDocumentDemo(){
       const next={...draft,title:draft.title.trim()};setSaved(next);setDraft(next);setError("");
     }}>
       <TextField label="Название" placeholder="Введите название" value={draft.title} required
-        hint="Название документа" error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
+        hint="Обязательное поле" error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
       <SelectField label="Жанр" value={draft.genre} onChange={e=>setDraft(d=>({...d,genre:e.target.value}))} allowEmpty={false} options={genreOptions}/>
       <div className="demo-quiet-actions">
         <ActionButton size="md" onClick={()=>{setDraft(saved);setError("");}}>Отменить</ActionButton>
