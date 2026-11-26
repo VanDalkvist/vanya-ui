@@ -18,15 +18,13 @@
 - Stage: prod (public library and documentation). Baseline: https://github.com/ai-meatbags/arch-rules/blob/main/arch-rules.md (inspected blob 20b25e9d8fed1ea27eeb391ffe9e68d9663a7e70). Applicable AP-011, 025, 028, 046, 051, 054, 056, 057, 068, 069, 074, 075 (vertical slice discipline), 076. AP-020 applies to showcase wiring; public barrel is intentional package entrypoint. Database, auth, external transport and domain orchestration are outside this UI-only scope.
 - Source path: index.html -> src/showcase/main.tsx -> Showcase -> ComponentCatalog -> exported components and src/tokens.css. Package API: src/index.ts. Browser runner builds dist and serves it over HTTP via preview. Public reference generation: scripts/sync.ts and markdown-publication.mjs.
 - Verification: library contribute command, existing browser suite, review of compiled screenshots and actual outcomes, package compatibility checks and versioning policy.
-- Approved direction: Quiet by default, transparent controls, Linear as primary visual reference; Apple interaction principles and historical Material input cues as additional references. Concrete component choices below are proposals subject to visual evidence and maintainer acceptance.
+- Approved direction: Quiet as the single visual canon, direct redesign of existing controls, transparent controls, Linear as primary visual reference; Apple interaction principles and historical Material input cues as additional references. Concrete component choices below are proposals subject to visual evidence and maintainer acceptance.
 
 ## Design contract
 
 ### Intent and approaches
 
-1. Change existing defaults with a single semantic appearance contract (selected candidate; lowest ongoing API and maintenance cost).
-2. Add quiet variant to every control (reserve for proven compatibility or affordance need; increases decision surface).
-3. Introduce a second theme or parallel component family (excluded; duplicates the visual system).
+The owner clarified on 2026-11-26: Quiet is the single visual canon of Vanya UI. Redesign existing components in place. No quiet mode, variant, flag, parallel styling family or alternate appearance preset. Light/dark remain palette themes. Semantic roles and interaction states are part of one visual grammar. Existing public presentation variants must be reviewed for actual semantic purpose; preserve the public contract until explicit compatibility approval for any removal or signature change.
 
 Use flat resting controls, typography, aligned text, whitespace and purposeful dividers. Preserve identity, Manrope, palettes, existing semantic scales and interaction feedback. Three compositions: a compact workspace toolbar, a stacked document form and an aligned property inspector. Use the existing primitives in all three; layout belongs to the composition.
 
@@ -42,7 +40,7 @@ Use flat resting controls, typography, aligned text, whitespace and purposeful d
 
 ### Global constraints
 
-Public repository and public showcase only. Synthetic examples only. No product-specific references, adoption plans, screenshots, private data, identifiers or integrations. No dependencies, new theme, new form engine, global CSS reset, arbitrary color values, new CLI or automatic workflow by default. Preserve exported props, controlled state, native semantics, refs/IDs and current keyboard behavior. Keep existing component variants that have explicit semantic uses; additional variant/API requires demonstrated need and approval. Document compatibility implications of changed appearance; if a breaking default is established, apply AP-046 and obtain explicit release approval. No tag/deploy during planning. Use existing verification and publication routes.
+Public repository and public showcase only. Synthetic examples only. No product-specific references, adoption plans, screenshots, private data, identifiers or integrations. No dependencies, new theme, new form engine, global CSS reset, arbitrary color values, new CLI or automatic workflow by default. Preserve exported props, controlled state, native semantics, refs/IDs and current keyboard behavior. Review existing component variants for semantic necessity. Do not introduce a quiet variant or an alternate appearance mode. Additional semantic API requires demonstrated need and approval. Document compatibility implications of changed appearance; if a breaking default is established, apply AP-046 and obtain explicit release approval. No tag/deploy during planning. Use existing verification and publication routes.
 
 ### Reference research (reference-only, no copied assets)
 
@@ -51,6 +49,15 @@ Public repository and public showcase only. Synthetic examples only. No product-
 - Apple, Toolbars and Text fields: https://developer.apple.com/design/human-interface-guidelines/toolbars and https://developer.apple.com/design/human-interface-guidelines/text-fields — grouping, discoverability, logical focus order.
 - MUI, Text Field: https://mui.com/material-ui/react-text-field/ — historical standard variant still supported; current Material guidance does not list it. Underline is an alternative to test.
 - W3C, WCAG 2.2 SC 1.4.11: https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast — boundaries required when no other visual identification exists; necessary indicators meet contrast requirements. Also SC 1.4.1, 1.4.3, 2.4.7, 2.4.11, 2.5.8 and labels/ARIA. Research notes must distinguish external observations, local hypotheses and verified outcomes.
+
+### Action hierarchy — proposed direction to validate within Quiet
+
+- Ordinary workspace commands: existing ActionButton, text or familiar icon + text, transparent rest, neutral ink, existing hover/pressed and visible keyboard focus. Avoid persistent outline/fill for routine commands. Icon-only utilities require accessible name and tooltip where appropriate.
+- Persistent binary state: a toggle with a stable accessible name and aria-pressed (or switch with aria-checked when setting semantics fit). Display state through a readable On/Off cue or a compact switch indicator; no reliance on color alone. For an inline toolbar state, prefer the lightweight toggle with explicit state. In settings, use a conventional switch where immediate on/off affordance helps. No decorative button boxes.
+- Primary command: one clearly identifiable action per local decision context, using accent text/weight by preference. A bounded filled accent treatment may be evaluated only where a high-priority decision, confirmation or discoverability requires it; no alternate quiet mode. Avoid color-only role distinction. Cancel stays subdued; destructive action has explicit label, semantic warning and confirmation when warranted.
+- Review the existing ActionButton variants text/mono/accent/pill/outline and actual showcase instances. Determine which roles require a persistent surface, which can be consolidated visually, and whether existing props suffice. Document semantic role and compatibility; do not introduce a new role prop or Toggle primitive without proving a gap. Explicit outline uses must be evaluated, not automatically retained as the preferred toolbar look.
+- Preserve real caller-owned pending/success/error feedback; a command result and a persistent on/off state are independently represented. Do not overload actionState for selection. Keep button geometry stable during toggling and asynchronous execution.
+- Reference-only: Charlie Aufmann and Maxime Heckel, Linear, [A calmer interface for a product in motion](https://linear.app/now/behind-the-latest-design-refresh), March 12, 2026 (attention hierarchy, consistent headers, fewer/softer separators). Apple, [Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons) (semantic roles, press feedback, hit targets, limited prominent actions), [Toggles](https://developer.apple.com/design/human-interface-guidelines/toggles) (persistent state and appropriate cues). Local visual proposal is independent of both references.
 
 ## S4–S5 — findings and triage
 
@@ -62,6 +69,7 @@ Public repository and public showcase only. Synthetic examples only. No product-
 - Q06 [P2, verification risk]: empty/filled field affordance, focus and invalid/read-only/disabled states, contrast, touch, long text and narrow viewport require browser proof. No observed failures asserted yet.
 - Q07 [P2, conditional]: TextField has input-only API; no exported Textarea. Add a focused multiline primitive only if generic document editing needs it and existing native/shared styling cannot meet contract; avoid a generic form framework. Separate proposal and tests if an API addition is needed.
 - Q08 [P3, log-only]: unrelated components, visual polish, density redesign and cleanup without a demonstrated contract issue.
+- Q09 [P2, fix-now]: action hierarchy is not yet aligned with the revised control canon. ActionButton.tsx exposes five presentation variants; outline uses permanent border/surface. Review actual public showcase callsites and document which action semantics need visual emphasis. Persistent toggle and asynchronous command states need independent behavior. This is a design-contract finding, not a claim of an observed runtime defect.
 
 Review Focus: (a) empty label and field discovered without hover (Slice 2); (b) long filter value, no results and disabled option (Slice 1); (c) selected tab while another is hovered, disabled or removed (Slice 3); (d) touch, forced colors, keyboard focus and clipping (all slices, Slice 5); (e) duplicate IDs and stale/cancelled form edits (Slice 2). Add the tests to their owning slices. No open P0/P1 established from static inspection.
 
@@ -95,8 +103,8 @@ Files: src/components/TextField.tsx, src/tokens.css, src/showcase/ComponentCatal
 ### Slice 3 — Segments and action hierarchy
 Boundary: SegmentedControl existing filters/tabs modes and ActionButton; AP-046, 068, 069.
 Files: src/components/SegmentedControl.tsx, src/tokens.css, src/showcase/ComponentCatalog.tsx, browser-qa/tests/ui-contract.spec.ts.
-- [ ] Red: verify actual filtered rows, real tabpanel changes via arrows/Home/End, disabled skip, selected persistence under neighboring hover, invalid controlled tab recovery, stable count slots/geometry. Existing action pending/success/error test remains green.
-- [ ] Remove quiet segment container fill/border/blur and selected elevation; use stable selected marker. Preserve size/density, count, icons, group/tab semantics, recovery and disabled behavior. Review ActionButton text/accent/outline, ThemeToggle, NavLinks, RangeSlider, DisclosurePill, icon actions and focus; only modify directly conflicting verified cases, with tests and bounded triage. Explicit outline remains meaningful.
+- [ ] Red: verify actual filtered rows, real tabpanel changes via arrows/Home/End, disabled skip, selected persistence under neighboring hover, invalid controlled tab recovery, stable count slots/geometry. Add actual action outcome tests: a routine command updates a visible counter/result, a persistent toggle changes the visible on/off state and aria-pressed with stable label, a disabled action does nothing, and pending prevents duplicate activation. Verify focus, geometry, hover/pressed, and a primary action with explicit priority. Existing action pending/success/error test remains green.
+- [ ] Remove quiet segment container fill/border/blur and selected elevation; use stable selected marker. Preserve size/density, count, icons, group/tab semantics, recovery and disabled behavior. Directly redesign ActionButton appearances in the same grammar and audit text/mono/accent/pill/outline callsites; retain meaningful API compatibility until separately approved. Add a generic synthetic toolbar command/toggle specimen and a form action hierarchy to the real showcase, reusing public components. Evaluate transparent normal and selected states, accent-text primary and bounded stronger prominence where necessary. Review ThemeToggle, NavLinks, RangeSlider, DisclosurePill, icon actions and focus; modify only verified conflicting cases with tests and bounded triage. No quiet variant, no parallel style implementation.
 - [ ] Green: targeted tests, browser input and visual state matrix; no unrelated scene changes. Commit.
 
 ### Slice 4 — Canon, publication and design harness
@@ -118,6 +126,6 @@ Boundary: compiled public showcase, package exports and contributor harness; AP-
 
 ## S7 — critical plan review
 
-Coverage: Q01 -> 0/1/2; Q02 -> 3; Q03 -> 1; Q04 -> 4; Q05 -> 0/1/2; Q06 -> all + 5; Q07 -> conditional decision 2; Q08 excluded. No new subsystem; walking skeleton chosen to establish public behavior before broader CSS changes.
+Coverage: Q01 -> 0/1/2; Q02 -> 3; Q03 -> 1; Q04 -> 4; Q05 -> 0/1/2; Q06 -> all + 5; Q07 -> conditional decision 2; Q08 excluded; Q09 -> 3/4/5. No new subsystem; walking skeleton chosen to establish public behavior before broader CSS changes.
 Risks: CSS cascade across Tailwind utilities/component layer; selected-state weight layout shift; empty affordance; native select OS differences; focus clipping in sticky/overflow areas; changed policy fingerprint. Tests and visual comparisons address each. Actual exact filenames for additional tests must be confirmed from current inventory; existing browser suite path verified. Do not assume a source-only review proves rendering.
 **Stop:** plan saved; S8 not started. Execution requires owner acceptance of scope/default appearance and a runnable verification environment. Local runtime, browser, release and independent reviewer evidence are NOT_RUN. No code changes or release marker in this planning step.
