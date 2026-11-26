@@ -52,7 +52,7 @@ For application routing choose a framework router/server strategy that handles d
 
 ## New-tab indicator
 
-The diagonal arrow ↗ (ArrowUpRight) announces that ordinary activation opens a new browser tab/window. Every anchor bearing it must have `target="_blank"` and `rel="noopener noreferrer"` (preserve any other relation tokens). This applies to internal documentation and external destinations alike. Use ordinary links or a horizontal arrow for same-tab navigation; do not add a diagonal arrow as decoration. Use `ActionLink target="_blank"` for textual commands that navigate; LinkChip derives its arrow from its actual target. Keep the accessible link name meaningful, and announce a new tab when needed. No JavaScript window-opening handler is needed.
+The diagonal arrow ↗ (ArrowUpRight) announces that ordinary activation opens a new browser tab/window. Every anchor bearing it must have `target="_blank"` and `rel="noopener noreferrer"` (preserve any other relation tokens). This applies to internal documentation and external destinations alike. Use ordinary links or a horizontal arrow for same-tab navigation; do not add a diagonal arrow as decoration. Use `ActionLink target="_blank"` for textual commands that navigate: it renders its own arrow from target (omit manually supplied arrows). LinkChip also derives its arrow from its actual target. Independent reference documents open in a new tab with the visible marker; inline prose anchors keep native text styling and an explicit marker. Recognizable icon-only utility links are exempt. Keep the accessible link name meaningful, and announce a new tab when needed. No JavaScript window-opening handler is needed.
 
 ## Current section in a longread
 
