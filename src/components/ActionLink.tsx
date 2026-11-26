@@ -1,4 +1,5 @@
 import React from "react";
+import {ArrowUpRight} from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ComponentSize } from "../sizes";
@@ -24,5 +25,5 @@ export function ActionLink({href,children,size="sm",variant="text",className,tar
   data-variant={variant}
   className={twMerge(clsx("ui-size ui-action-link ui-feedback-text inline-flex items-center appearance-none border-0 bg-transparent cursor-pointer select-none",variantStyles,className))}
   {...props}
- >{children}</a>;
+ >{children}{target==="_blank"&&<ArrowUpRight className="ui-new-tab-marker" aria-hidden="true"/>}</a>;
 }
