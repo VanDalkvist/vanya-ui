@@ -42,7 +42,7 @@ function QuietActionsDemo(){
     <div className="demo-quiet-actions">
       <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
       <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
-        Автообновление · {autoRefresh?"Вкл":"Выкл"}
+        Автообновление <span className="ui-action-toggle-state">{autoRefresh?"Вкл":"Выкл"}</span>
       </ActionButton>
     </div>
     <output className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</output>
@@ -60,7 +60,7 @@ function QuietDocumentDemo(){
       const next={...draft,title:draft.title.trim()};setSaved(next);setDraft(next);setError("");
     }}>
       <TextField label="Название" placeholder="Введите название" value={draft.title} required
-        error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
+        hint="Название документа" error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
       <SelectField label="Жанр" value={draft.genre} onChange={e=>setDraft(d=>({...d,genre:e.target.value}))} allowEmpty={false} options={genreOptions}/>
       <div className="demo-quiet-actions">
         <ActionButton size="md" onClick={()=>{setDraft(saved);setError("");}}>Отменить</ActionButton>
@@ -169,7 +169,7 @@ export function ComponentCatalog() {
       description="Нажатие должно откликаться сразу. Дальше состояние сообщает приложение: ожидание не считается успехом, а результат не появляется без явного события. Ниже — управляемая демонстрация, без сети и искусственных таймеров.">
       <div className="demo-action-feedback">
         <div className="demo-interaction-pair">
-          <ActionButton size="md" variant="outline" actionState={requestDemo}
+          <ActionButton size="md" variant="prominent" actionState={requestDemo}
             statusLabel={requestDemo==="pending"?"Тестовое действие ожидает результата":undefined}
             onClick={()=>setRequestDemo("pending")}>Отправить тестовое действие</ActionButton>
           <ActionButton size="md" variant="text" disabled={requestDemo!=="pending"}
@@ -312,7 +312,7 @@ export function ComponentCatalog() {
     <CatalogSection id="status" title="MeshStatusBadge" description="Статусы сервисов без действий по нажатию.">
       <Sizes>{(size) => <><MeshStatusBadge size={size} status="online" label="доступен" /><MeshStatusBadge size={size} status="standby" label="ожидание" /><MeshStatusBadge size={size} status="warning" label="внимание" /><MeshStatusBadge size={size} status="offline" label="недоступен" /></>}</Sizes>
     </CatalogSection>
-    <CatalogSection id="tag" title="Tag" description="Текстовая метка без действий по нажатию."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
+    <CatalogSection id="tag" title="Tag" description="Пассивные текстовые метки с маркером категории."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
     <CatalogSection id="disclosure" title="DisclosurePill" description="Дополнительный текст, который можно раскрыть."><DisclosurePill title="Показать пояснение"><p>Здесь можно разместить пояснение, которое не нужно показывать сразу.</p></DisclosurePill></CatalogSection>
     <CatalogSection id="link" title="LinkChip" description="Подписанная ссылка с адресом."><Sizes>{(size) => <LinkChip size={size} url="https://vanya-arc.dev" label="Синусоида" />}</Sizes></CatalogSection>
     <CatalogSection id="event" title="EventCard" description="Карточка с датой, описанием и ссылками.">
