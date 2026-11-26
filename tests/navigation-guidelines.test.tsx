@@ -42,7 +42,7 @@ describe("diagonal arrow matches new-tab navigation",()=>{
     expect(link.textContent?.includes("↗")||!!link.querySelector(".lucide-arrow-up-right"),link.getAttribute("href")||"").toBe(true);
    }
    for(const link of Array.from(container.querySelectorAll('a[href^="/reference/"],a[href="/llms.txt"]'))){
-    expect(link).toHaveAttribute("target","_blank");
+    expect(link,link.getAttribute("href")||"").toHaveAttribute("target","_blank");
    }
    cleanup();
   });
