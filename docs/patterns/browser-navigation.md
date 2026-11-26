@@ -50,6 +50,10 @@ import { Link } from "react-router";
 
 For application routing choose a framework router/server strategy that handles direct requests. Don't implement `pushState` without handling `popstate`, initial state, titles, focus, scroll and server fallback. `NavLinks` from `@vanya/ui` renders native anchors for items with `href`; `onSelect` is reserved for local button-style state where no URL is supplied. `ActionLink` renders a native anchor; `ActionButton` is an action, not navigation.
 
+## New-tab indicator
+
+The diagonal arrow ↗ (ArrowUpRight) announces that ordinary activation opens a new browser tab/window. Every anchor bearing it must have `target="_blank"` and `rel="noopener noreferrer"` (preserve any other relation tokens). This applies to internal documentation and external destinations alike. Use ordinary links or a horizontal arrow for same-tab navigation; do not add a diagonal arrow as decoration. Use `ActionLink target="_blank"` for textual commands that navigate; LinkChip derives its arrow from its actual target. Keep the accessible link name meaningful, and announce a new tab when needed. No JavaScript window-opening handler is needed.
+
 ## Current section in a longread
 
 When the primary navigation links to real in-page sections (`/#identity`, `/#catalog`, `/#workspace`), mark the **currently visible** section with `aria-current="location"`. This is neither an accent hover nor the section last clicked. In the showcase, `useActiveShowcaseSection` observes the viewport relative to the real sticky-header bottom; `hashchange`/`popstate` support deep links and browser history, and scroll does not rewrite history. Avoid additional sticky navigation. Verify reload, Back/Forward and nested fragment targets in a browser.
