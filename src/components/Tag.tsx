@@ -22,15 +22,17 @@ export function Tag({ children, isActive, size = "sm", disabled = false, onClick
       aria-pressed={onClick ? isActive : undefined}
       className={twMerge(
         clsx(
-          "ui-size inline-flex items-center rounded-xs border border-border bg-surface-raised/60 font-mono text-ink-soft select-none transition-colors duration-150",
-          isActive && "border-accent/60 bg-accent/10 text-accent font-medium",
-          onClick && !disabled ? "cursor-pointer hover:bg-surface-raised hover:text-ink" : "cursor-default",
+          "ui-tag inline-flex items-center gap-1 font-mono text-meta text-ink-soft",
+          isActive && "text-accent",
+          onClick ? "ui-size ui-feedback-segment rounded-sm border-0 bg-transparent select-none" : "cursor-default",
+          onClick && !disabled && "cursor-pointer",
           onClick && disabled && "opacity-35",
           className
         )
       )}
       {...props}
     >
+      {!onClick&&<span aria-hidden="true" className="ui-tag-marker">#</span>}
       {children}
     </Element>
   );
