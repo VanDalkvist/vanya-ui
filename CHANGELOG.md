@@ -4,6 +4,17 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-26
+
+### Changed
+- Quiet control canon: transparent search, fields, select/filter triggers, segmented controls and routine commands; shared feedback and explicit selection/focus.
+- Existing ActionButton pill/outline props retain their signatures with flat presentation; prominent adds a high-contrast semantic commitment treatment.
+- Public showcase includes interactive catalogue, document and action examples.
+
+### Added
+- Passive VersionLabel component; actual build package version in the documentation header.
+- Unit and compiled-browser regression coverage. Batch verification and release tag remain pending.
+
 ## [1.0.0] - 2026-11-25
 
 First stable major version of Vanya Arc / UI, including the source component library, design canon, individual product identity extension, and portable agent harness. Includes the 0.5.0 and 0.6.0 capabilities below.
