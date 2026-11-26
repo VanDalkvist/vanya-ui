@@ -95,7 +95,7 @@ export function ThemeToggle({
         aria-label="Переключение темы оформления"
         className={twMerge(
           clsx(
-            "pointer-events-auto inline-flex items-center rounded-full border border-border bg-surface-raised/60 p-0.5 backdrop-blur-xs transition-colors",
+            "pointer-events-auto inline-flex items-center gap-1 transition-colors",
             className
           )
         )}
@@ -112,9 +112,9 @@ export function ThemeToggle({
               aria-pressed={isSelected}
               title={opt.label}
               className={clsx(
-                "ui-feedback-segment grid size-6 place-items-center rounded-full border-0 bg-transparent cursor-pointer",
+                "ui-feedback-segment grid size-6 place-items-center rounded-sm border-0 bg-transparent cursor-pointer",
                 isSelected
-                  ? "bg-surface text-accent shadow-control-selected"
+                  ? "text-accent"
                   : "text-ink-soft/70"
               )}
             >
