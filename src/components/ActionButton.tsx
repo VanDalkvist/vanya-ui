@@ -10,7 +10,7 @@ export type ActionButtonState = "idle" | "pending" | "success" | "error";
 export interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: ComponentSize;
-  variant?: "text" | "mono" | "accent" | "pill" | "outline";
+  variant?: "text" | "mono" | "accent" | "pill" | "outline" | "prominent";
   className?: string;
   /** Caller-owned execution/result state; pending prevents duplicate activation without losing focus. */
   actionState?: ActionButtonState;
@@ -37,11 +37,12 @@ export function ActionButton({
 }: ActionButtonProps) {
   const pending=actionState==="pending";
   const variantStyles={
-    text:"px-0 font-sans font-medium tracking-normal text-ink-soft/80",
-    mono:"px-0 font-mono tracking-[var(--type-tracking-action-mono)] uppercase text-ink-soft",
-    accent:"px-0 font-sans font-medium text-accent underline-offset-4",
-    pill:"rounded-full font-sans text-ink-soft",
-    outline:"rounded-sm border border-border bg-surface font-sans font-medium text-ink",
+    text:"rounded-sm font-sans font-medium tracking-normal text-ink-soft",
+    mono:"rounded-sm font-mono tracking-[var(--type-tracking-action-mono)] uppercase text-ink-soft",
+    accent:"rounded-sm font-sans font-medium text-accent underline-offset-4",
+    pill:"rounded-sm font-sans font-medium text-ink-soft",
+    outline:"rounded-sm font-sans font-medium text-ink",
+    prominent:"rounded-sm font-sans font-medium",
   }[variant];
   return <button
     {...props}
@@ -50,10 +51,10 @@ export function ActionButton({
     data-variant={variant}
     data-action-state={actionState}
     disabled={disabled}
-    aria-disabled={pending || undefined}
+    aria-disabled={pending || props["aria-disabled"] || undefined}
     aria-busy={pending || undefined}
     onClick={event=>{
-      if(pending){
+      if(pending || props["aria-disabled"]===true || props["aria-disabled"]==="true"){
         event.preventDefault();
         event.stopPropagation();
         return;
