@@ -877,24 +877,23 @@
   .ui-feedback-source > span:nth-child(2) {
     color:inherit;
   }
-  .ui-action-link:active,.ui-action-button:not(:disabled):not([data-variant="prominent"]):not([data-variant="accent"]):not([aria-disabled="true"]):active {
-    color:var(--ink);
-  }
+  .ui-action-link:active {color:var(--ink);}
+  .ui-action-link[data-variant="pill"]:active {background:var(--ui-feedback-pressed-fill);}
+  /* One owner for command presentation; legacy variants share the same feedback. */
   .ui-action-button[data-variant="prominent"] {background:var(--ink);color:var(--ground);}
-  .ui-action-button[data-variant="prominent"]:not(:disabled):not([aria-disabled="true"]):active {background:color-mix(in oklab,var(--ink) 80%,var(--ground));}
-  .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]),.ui-action-button[aria-pressed="true"]:not([data-variant="prominent"]) {color:var(--accent);text-decoration:underline;text-underline-offset:4px;}
-  .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){box-shadow:inset 0 -2px 0 var(--accent);}
+  .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]),
+  .ui-action-button[aria-pressed="true"]:not([data-variant="prominent"]) {color:var(--accent);text-decoration:underline;text-underline-offset:4px;}
+  .ui-feedback-segment:has(>svg:only-child){border-bottom:2px solid transparent;}
+  .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){border-bottom-color:var(--accent);}
   .ui-action-button[data-variant="prominent"][aria-pressed="true"]{text-decoration:underline;text-underline-offset:4px;}
-  .ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):active {background:var(--ui-feedback-pressed-fill);}
   @media (hover:hover) and (pointer:fine){
     .ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):hover{background:var(--ui-feedback-hover-fill);}
+    .ui-action-button:not(:disabled):not([aria-disabled="true"]):not([aria-pressed="true"]):not([data-variant="prominent"]):not([data-variant="accent"]):hover{color:var(--ink);}
+    .ui-action-button[data-variant="accent"]:not(:disabled):not([aria-disabled="true"]):hover{text-decoration:underline;text-underline-offset:4px;}
     .ui-action-button[data-variant="prominent"]:not(:disabled):not([aria-disabled="true"]):hover{background:color-mix(in oklab,var(--ink) 90%,var(--ground));}
   }
-  .ui-action-link[data-variant="pill"]:active,
-  .ui-action-button[data-variant="pill"]:not(:disabled):active,
-  .ui-action-button[data-variant="outline"]:not(:disabled):active {
-    background:var(--ui-feedback-pressed-fill);
-  }
+  .ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):active {background:var(--ui-feedback-pressed-fill);}
+  .ui-action-button[data-variant="prominent"]:not(:disabled):not([aria-disabled="true"]):active {background:color-mix(in oklab,var(--ink) 80%,var(--ground));}
   :is(.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):not(:disabled):active {
     background:var(--ui-feedback-pressed-fill);
   }
@@ -916,14 +915,9 @@
     .ui-feedback-avatar:hover { border-color:var(--ui-feedback-hover-border); }
     .ui-feedback-source:hover { color:var(--ink);text-decoration:underline;text-underline-offset:3px; }
     .ui-action-link[data-variant="text"]:hover { color:var(--ink);text-decoration:underline;text-underline-offset:3px; }
-    .ui-action-link[data-variant="mono"]:hover,
-    .ui-action-button[data-variant="mono"]:not(:disabled):hover { color:var(--ink); }
-    .ui-action-link[data-variant="accent"]:hover,
-    .ui-action-button[data-variant="accent"]:not(:disabled):hover { text-decoration:underline;text-underline-offset:4px; }
-    .ui-action-link[data-variant="pill"]:hover,
-    .ui-action-button[data-variant="pill"]:not(:disabled):hover { color:var(--ink);background:var(--ui-feedback-hover-fill); }
-    .ui-action-button[data-variant="text"]:not(:disabled):hover {color:var(--ink);}
-    .ui-action-button[data-variant="outline"]:not(:disabled):hover {background:var(--ui-feedback-hover-fill);}
+    .ui-action-link[data-variant="mono"]:hover { color:var(--ink); }
+    .ui-action-link[data-variant="accent"]:hover { text-decoration:underline;text-underline-offset:4px; }
+    .ui-action-link[data-variant="pill"]:hover { color:var(--ink);background:var(--ui-feedback-hover-fill); }
   }
   /* A card is clickable only when it has a real action; native card buttons
      carry feedback, while separate card actions remain independent. */
@@ -961,13 +955,11 @@
   :is(.ui-feedback-text,.ui-feedback-nav,.ui-feedback-source,.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):active {
     transition-duration:0ms;
   }
-  .ui-action-button:not(:disabled):not([aria-disabled="true"]):is([data-variant="text"],[data-variant="mono"],[data-variant="accent"]):active,
   .ui-action-link:is([data-variant="text"],[data-variant="mono"],[data-variant="accent"]):active,
   .ui-feedback-nav:not([aria-disabled="true"]):active,
   .ui-feedback-source:active {
     opacity:.68;
   }
-  .ui-action-button:not(:disabled):not([aria-disabled="true"]):is([data-variant="pill"],[data-variant="outline"]):active,
   .ui-action-link[data-variant="pill"]:active,
   .ui-feedback-icon:not([aria-disabled="true"]):active,
   .ui-feedback-row:not([aria-disabled="true"]):active,
@@ -979,7 +971,8 @@
   .ui-action-button[aria-disabled="true"]:not([data-variant="prominent"]):active {background:transparent;}
   .ui-action-button[data-action-state="success"] .ui-action-indicator,
   .ui-action-button[data-action-state="error"] .ui-action-indicator{color:currentColor;}
-  .ui-action-indicator{width:1em;height:1em;flex:none;margin-right:5px;}
+  .ui-action-indicator-slot{display:inline-grid;place-items:center;width:1em;height:1em;flex:none;}
+  .ui-action-indicator{width:1em;height:1em;}
   .ui-action-indicator-pending{animation:ui-action-spin .8s linear infinite;}
   @keyframes ui-action-spin{to{transform:rotate(360deg);}}
   @media(prefers-reduced-motion:reduce){
@@ -1018,5 +1011,6 @@
     svg text{fill:CanvasText;}
     :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible{outline:2px solid Highlight;}
     .ui-feedback-row[aria-checked="true"],.ui-feedback-icon[aria-expanded="true"]{outline:1px solid Highlight;}
+    .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){border-bottom-color:Highlight;}
   }
 }
