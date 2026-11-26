@@ -58,4 +58,4 @@ For **each changed action**, test (a) pointer-down/release computed styles, (b) 
 
 For external product consumers pinned to immutable SHA, opt into the updated component version only after local build and interaction review. This policy does **not** initiate dependency updates or GitHub Actions.
 
-For actions with asynchronous feedback, pass `actionState="idle"` from the first render and keep passing the current state. The indicator slot is reserved throughout that lifecycle. Ordinary commands without an explicit `actionState` have no slot. Pending and aria-disabled actions retain focus and do not acquire hover/pressed feedback. Selection stays independent of execution.
+For actions with asynchronous feedback, pass `actionState="idle"` from the first render and keep passing the current state. The trailing indicator slot is reserved throughout that lifecycle. Prominent commands balance both sides so the text is centered. Ordinary commands without an explicit `actionState` have no slot. Pending and aria-disabled actions retain focus and do not acquire hover/pressed feedback. Selection stays independent of execution.
