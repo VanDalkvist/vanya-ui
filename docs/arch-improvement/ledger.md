@@ -305,3 +305,9 @@ Reviewed baseline a983bbf0c79159faf9f32791138f3271e1518805 through implementatio
 - Q-R04/Q-R05: isolated demo state; opted-in five-second synthetic refresh with cleanup, separate document draft and actual inspector property mutations; explicit confirmation remains reversible. Canonical action specimen now demonstrates the three semantic roles. VersionLabel specimen added.
 - Q-R06/Q-R08: added browser assertions for both headers, pre-hydration version, actual resolved themes, overlap, command geometry and forced-colors selection; added production URL option to existing Playwright runner. Preserved selected icon marker in high contrast.
 - Execution policy: implementation and tests prepared in main; local test runs deferred per owner. Production build requested on the exact repair commit; result pending. Browser/independent acceptance NOT_RUN. No package tag or external product migration.
+
+### Quiet Loop — new-tab navigation correction, 2026-11-27
+
+- Previous repair candidate df88fab10dcbd275fb2a6d0bbec8725f91cb543e: Cloudflare production build reported success. Browser acceptance remains open.
+- [P2] Diagonal arrow link affordance disagreed with actual navigation in Guide, AgentSection, AgentPage and ComponentCatalog. Added explicit native target and safe rel; existing ActionLink supplies rel automatically. LinkChip now renders the arrow only for its actual new-tab target and preserves caller relation tokens. Primary navigation and ordinary links unchanged.
+- Canon updated in docs/patterns/browser-navigation.md; rendered-DOM regression scans both public pages; browser regression opens actual tabs and checks original URL remains. Local runs deferred per owner. New production checkpoint pending, browser result NOT_RUN.
