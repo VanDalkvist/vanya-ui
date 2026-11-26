@@ -26,7 +26,7 @@ export function Tag({ children, isActive, size = "sm", disabled = false, onClick
           isActive && "text-accent",
           onClick ? "ui-size ui-feedback-segment rounded-sm border-0 bg-transparent select-none" : "cursor-default",
           onClick && !disabled && "cursor-pointer",
-          onClick && disabled && "opacity-35",
+          onClick && disabled && "opacity-35 cursor-default",
           className
         )
       )}
