@@ -574,8 +574,7 @@
  .ui-text-field,.ui-select-field[data-density="default"]{display:flex;flex-direction:column;gap:7px;min-width:0;}
  .ui-text-field-label,.ui-select-field[data-density="default"] .ui-select-field-label{font:500 13px/1.5 var(--font-sans);color:var(--ink-soft);}
  .ui-text-field-input{
-  width:100%;min-width:0;height:40px;border:1px solid transparent;
-  border-bottom-color:var(--ink-soft);border-radius:0;background:transparent;color:var(--ink);
+  width:100%;min-width:0;height:40px;border:0;border-bottom:1px solid var(--ink-soft);border-radius:0;background:transparent;color:var(--ink);
   padding:0;outline:none;font:500 14px/1.45 var(--font-sans);
  }
  .ui-text-field-input::placeholder{color:var(--ink-soft);opacity:.75;}
@@ -583,7 +582,8 @@
  .ui-text-field-input:is(:disabled,[readonly]){border-bottom-color:transparent;}
  .ui-text-field-input:disabled{opacity:.45;cursor:not-allowed;}
  @media(hover:hover) and (pointer:fine){.ui-text-field-input:not(:disabled):not([readonly]):hover{background:var(--ui-feedback-hover-fill);}}
- .ui-text-field-input[aria-invalid="true"]{border-color:var(--accent);}
+ .ui-text-field-input[aria-invalid="true"]{border-bottom-color:var(--accent);}
+ .ui-text-field-input[aria-invalid="true"]:not(:focus){outline:1px solid var(--accent);outline-offset:1px;}
  .ui-text-field-note{margin:0;font:400 12px/1.6 var(--font-sans);color:var(--ink-soft);}
  .ui-text-field-error{color:var(--accent);}
 }
@@ -642,7 +642,7 @@
   transition:background-color var(--ui-feedback-duration) ease;
  }
  .ui-select-field[data-density="toolbar"]:has(select:focus-visible){outline:2px solid var(--accent);outline-offset:1px;}
- .ui-select-field[data-density="default"] .ui-select-field-select{height:40px;border-bottom:1px solid var(--ink-soft);padding:0;font:500 14px/1.45 var(--font-sans);}
+ .ui-select-field[data-density="default"] .ui-select-field-select{height:40px;border:0;border-bottom:1px solid var(--ink-soft);padding:0;border-radius:0;color:var(--ink);font:500 14px/1.45 var(--font-sans);}
  .ui-select-field[data-density="default"] .ui-select-field-select:disabled{border-bottom-color:transparent;}
  .ui-select-field[data-density="default"] .ui-select-field-select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
  @media(hover:hover) and (pointer:fine){
@@ -888,7 +888,12 @@
   .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){border-bottom-color:var(--accent);}
   .ui-action-button[data-variant="prominent"][aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--accent);}
   .ui-action-button:focus-visible,.ui-feedback-segment:focus-visible{outline-offset:1px;}
+  .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]):not(:has(>svg:only-child)){box-shadow:inset 0 0 0 1px var(--ui-feedback-hover-border);}
+  .ui-feedback-segment:not(:disabled):active{background:var(--ui-feedback-pressed-fill);}
   .ui-tag-marker{color:var(--ink-soft);}
+  .ui-tag:not(button)[data-size="md"]{font-size:var(--size-md-font);}
+  .ui-new-tab-marker{flex-shrink:0;}
+  .ui-inline-new-tab-marker{white-space:nowrap;}
   .ui-action-toggle-state{display:inline-grid;min-width:3em;text-align:right;font-size:var(--size-sm-font);font-variant-numeric:tabular-nums;}
   @media (hover:hover) and (pointer:fine){
     .ui-action-button:not([data-variant="prominent"]):not(:disabled):not([aria-disabled="true"]):hover{background:var(--ui-feedback-hover-fill);}
@@ -978,6 +983,9 @@
   .ui-action-button[data-action-state="success"] .ui-action-indicator,
   .ui-action-button[data-action-state="error"] .ui-action-indicator{color:currentColor;}
   .ui-action-indicator-slot{display:inline-grid;place-items:center;width:1em;height:1em;flex:none;}
+  .ui-action-button[data-variant="prominent"]:has(>.ui-action-indicator-slot){position:relative;justify-content:center;padding-inline:calc(var(--ui-padding) + var(--ui-gap) + 1em);}
+  .ui-action-button[data-variant="prominent"]>.ui-action-indicator-slot{position:absolute;inset-inline-end:var(--ui-padding);}
+  .ui-action-button:active{transition-duration:0ms;}
   .ui-action-indicator{width:1em;height:1em;}
   .ui-action-indicator-pending{animation:ui-action-spin .8s linear infinite;}
   @keyframes ui-action-spin{to{transform:rotate(360deg);}}
