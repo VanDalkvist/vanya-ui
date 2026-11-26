@@ -8,7 +8,7 @@
 
 **Tech stack:** React 18/19, TypeScript, Tailwind 4, Vite, Vitest, Playwright, existing VUI harness.
 **Spec:** The design contract below; canonical sources listed in the context map.
-**Status:** DESIGN_APPROVED / S7 static plan review; implementation not started; runtime verification and release approval pending. Date: 2026-11-26.
+**Status:** IMPLEMENTED_CANDIDATE / batch runtime verification pending. Date: 2026-11-26.
 
 ## S0–S3 — Scope, memory and architecture context
 
@@ -139,4 +139,5 @@ Boundary: compiled public showcase, package exports and contributor harness; AP-
 
 Coverage: Q01 -> 0/1/2; Q02 -> 3; Q03 -> 1; Q04 -> 4; Q05 -> 0/1/2; Q06 -> all + 5; Q07 -> conditional decision 2; Q08 excluded; Q09 -> 3/4/5; header version -> 3a/4/5. No new subsystem; walking skeleton chosen to establish public behavior before broader CSS changes.
 Risks: CSS cascade across Tailwind utilities/component layer; selected-state weight layout shift; empty affordance; native select OS differences; focus clipping in sticky/overflow areas; changed policy fingerprint. Tests and visual comparisons address each. Actual exact filenames for additional tests must be confirmed from current inventory; existing browser suite path verified. Do not assume a source-only review proves rendering.
-**Stop:** plan saved; S8 not started. The conceptual design is approved. Execution requires a runnable verification environment; release and any breaking API changes retain their separate approval gates. Local runtime, browser, release and independent reviewer evidence are NOT_RUN. Owner requested batch execution with a full review between batches; added Slice 3a for header version metadata on 2026-11-26. No code changes or release marker in this planning step.
+**Execution ruling (owner, 2026-11-26):** implement in batches on main, write tests, perform source review, defer intermediate test runs and combine verification at the production Cloudflare checkpoint. No test gate is represented as PASS without evidence. Package tag and independent browser acceptance remain separate.
+**Status:** production code and new tests written; local test/build/browser execution NOT_RUN. See architecture ledger for actual deployment outcome.
