@@ -509,6 +509,18 @@
       ]
     },
     {
+      "name": "version-label",
+      "type": "registry:ui",
+      "title": "VersionLabel",
+      "description": "React UI component VersionLabel from @vanya/ui",
+      "files": [
+        {
+          "path": "src/components/VersionLabel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "voice-wave-indicator",
       "type": "registry:ui",
       "title": "VoiceWaveIndicator",
