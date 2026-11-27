@@ -4,7 +4,11 @@
 
 ## [Unreleased]
 
-## [1.3.0] - 2026-11-27
+## [2.0.0] - 2026-11-27
+
+### Breaking
+- Remove obsolete ActionButton mono/pill/outline and ActionLink mono/pill variants; use the canonical semantic variants. Remove duplicate source-link feedback class; LinkChip delegates feedback to ActionLink.
+- Action and result specimens share a compact leading-axis group. Migrate all in-repository callers and current guidance. The unpublished 1.3.0 candidate is superseded by this checkpoint.
 
 ### Added
 - ActionLink `prose` variant inherits reading typography and owns the shared new-tab marker.
