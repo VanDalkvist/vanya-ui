@@ -86,3 +86,7 @@ Hover, focus, press and selected are different; a visible `:active` alone is not
 ### Listbox selection and keyboard position
 
 FilterSelect selected options show a check and accent with a transparent resting surface. Pointer opening does not paint the selected row merely because it is the current value. Keyboard opening and arrow movement reveal the keyboard-active layer independently of selection; pointer hover is transient. Keep aria-selected and aria-activedescendant accurate and preserve focus return on commit or Escape.
+
+### Link, field and result alignment
+
+ActionLink owns the textual link contract. Use `prose` for neutral underlined reading links (inherited typography), `text` for quiet utility/command destinations and `accent` for a deliberately emphasized destination; current navigation remains separate. All textual new-tab links use one target-derived SVG, compact .25em attachment and visible hover/focus. LinkChip delegates to ActionLink. Group independent links with a larger wrapping gap. The resting edit-field line uses a restrained mix of ink-soft and ground, strengthens on pointer hover, and preserves accent focus/invalid cues and constant height. In simple stacked forms align fields, action group and result on one leading axis. Keep feedback next to its command or action group, use stable note space and avoid competing decorative status surfaces. References and rationale in the link-field-feedback plan.
