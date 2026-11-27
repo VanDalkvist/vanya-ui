@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-27
+
+### Added
+- ActionLink `prose` variant inherits reading typography and owns the shared new-tab marker.
+
+### Fixed
+- Unify textual link presentation, target-derived arrow, hover and focus across showcase and LinkChip; use role-based emphasis and separate neighboring links.
+- Reduce resting edit-field line weight while preserving hover, focus and invalid cues; align form actions and result along the same leading axis.
+- Add shared-link, geometry and feedback regression coverage.
+
 ## [1.2.3] - 2026-11-27
 
 ### Fixed
