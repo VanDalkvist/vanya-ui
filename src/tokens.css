@@ -801,7 +801,7 @@
   /* One owner for command presentation. */
   .ui-action-button[data-variant="prominent"] {background:var(--ink);color:var(--ground);}
   .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]),
-  .ui-action-button[aria-pressed="true"]:not([data-variant="prominent"]) {color:var(--accent);background:color-mix(in oklab,var(--ui-feedback-pressed-fill) 40%,var(--ui-feedback-hover-fill));text-decoration:none;}
+  .ui-action-button[aria-pressed="true"]:not([data-variant="prominent"]) {color:color-mix(in oklab,var(--accent) 80%,var(--ink));background:color-mix(in oklab,var(--ui-feedback-pressed-fill) 40%,var(--ui-feedback-hover-fill));text-decoration:none;}
   .ui-feedback-segment:has(>svg:only-child){border-bottom:2px solid transparent;}
   .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){border-bottom-color:var(--accent);}
   .ui-action-button[data-variant="prominent"][aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--accent);}
