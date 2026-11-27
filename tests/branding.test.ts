@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { publishedDocuments } from "../scripts/markdown-publication.mjs";
 const read=(path:string)=>readFileSync(resolve(import.meta.dirname,"..",path),"utf8");
 const brand="Vanya Arc / UI";
 describe("master brand and product identity",()=>{
@@ -14,12 +15,12 @@ describe("master brand and product identity",()=>{
      expect(read(file)).toContain('href="/vanya-arc-mark.svg"');
    }
  });
- it("keeps curated and generated LLM references aligned",()=>{
-   for(const file of ["llms.txt","public/llms.txt"]){
-     expect(read(file).split("\n")[0]).toBe("# @vanya/ui — "+brand);
-     expect(read(file)).toContain("/reference/identity.md");
-   }
-   expect(read("scripts/sync.ts")).toContain("# @vanya/ui — "+brand);
-   expect(read("scripts/sync.ts")).toContain("docs/identity/brand.md");
+ it("routes the canonical LLM index to the authored identity guide",()=>{
+   const index=read("llms.txt");
+   expect(index.split("\n")[0]).toBe("# @vanya/ui — "+brand);
+   expect(index).toContain("/reference/identity.md");
+   expect(publishedDocuments["docs/identity/brand.md"]).toBe("reference/identity.md");
+   expect(read("docs/identity/brand.md").trim()).not.toBe("");
+   // Generated index/corpus equality is checked by check-llm-publication after sync.
  });
 });
