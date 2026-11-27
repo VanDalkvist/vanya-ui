@@ -158,7 +158,7 @@ export function ComponentCatalog() {
         <div className="demo-interaction-sample">
           <span className="demo-label">Иконки и тема</span>
           <div className="demo-interaction-pair">
-            <a href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer"
+            <ActionLink variant="prose" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer"
               aria-label="GitHub — исходники Vanya UI, новая вкладка" className="ui-feedback-icon demo-interaction-icon">
               <GitHubIcon size={14}/>
             </a>
@@ -184,7 +184,7 @@ export function ComponentCatalog() {
         <output className="ui-type-caption" role="status" aria-live="polite">
           {requestDemo==="idle"?"Действие ещё не запускали.":requestDemo==="pending"?"Приложение выполняет действие; повторный клик заблокирован.":requestDemo==="success"?"Тестовый результат: выполнено.": "Тестовый результат: ошибка. Можно повторить."}
         </output>
-        <a href="/reference/action-feedback.md" className="guide-link" target="_blank" rel="noopener noreferrer">Почему press ≠ успешный результат ↗</a>
+        <div><ActionLink variant="prose" href="/reference/action-feedback.md" target="_blank">Правила обратной связи</ActionLink></div>
       </div>
     </CatalogSection>
     <CatalogSection id="loading-states" title="Skeleton / LoadingRegion" description="Начальная загрузка, готовые данные и ошибка. Ровно одна подпись для скринридера, никаких кликабельных заглушек.">
@@ -209,7 +209,7 @@ export function ComponentCatalog() {
           description="Проверьте соединение и повторите запрос."
           action={<ActionButton size="md" variant="accent" onClick={()=>setLoadingDemo("loading")}>Повторить</ActionButton>}/>}
        </div>
-       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md" target="_blank" rel="noopener noreferrer">Правила загрузки<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a></p>
+       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md" target="_blank" rel="noopener noreferrer">Правила загрузки</ActionLink></p>
       </div>
     </CatalogSection>
     <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Поиск, переключатель и FilterSelect фильтруют одну коллекцию. Высота контролов — 40 px.">
