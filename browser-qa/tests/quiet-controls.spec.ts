@@ -218,11 +218,14 @@ test("chapter headers share typography and independent rules have no decorative 
    return {font:s.fontSize,weight:s.fontWeight,leading:s.lineHeight,alignment:p.left-t.left,gap:p.top-t.bottom};
   }));
   for(const metric of metrics)expect(metric).toEqual(metrics[0]);
-  const row=page.locator("#browser-navigation"),body=row.locator(":scope > div");
+  const row=page.locator("#browser-navigation"),body=row.locator(":scope > .catalog-examples"),title=row.locator(":scope > header");
   await expect(page.locator(".guide-number,.guide-eyebrow")).toHaveCount(0);
   const a=await row.boundingBox(),b=await body.boundingBox();
   expect(a).not.toBeNull();expect(b).not.toBeNull();
-  expect(Math.abs(b!.x-a!.x)).toBeLessThan(2);
+  const t=await title.boundingBox();expect(t).not.toBeNull();
+  expect(Math.abs(t!.x-a!.x)).toBeLessThan(2);
+  if(width<=390)expect(Math.abs(b!.x-a!.x)).toBeLessThan(2);
+  else expect(b!.x).toBeGreaterThan(t!.x+t!.width);
   expect(await row.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
  }
 });
