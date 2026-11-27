@@ -47,7 +47,8 @@ export function FilterSelect({
   const q=query.trim().toLocaleLowerCase("ru").replaceAll("ё","е");
   return !q?allOptions:allOptions.filter(o=>o.label.toLocaleLowerCase("ru").replaceAll("ё","е").includes(q));
  },[allOptions,query]);
- const capped=filtered.slice(0,150);
+ const capped=useMemo(()=>filtered.slice(0,150),[filtered]);
+ const enabledIndices=useMemo(()=>capped.flatMap((o,i)=>o.disabled?[]:[i]),[capped]);
  const selected=allOptions.find(o=>o.value===value);
  const selectedLabel=selected?.label||value||emptyLabel;
  const optionId=(i:number)=>listId+"-"+i;
@@ -71,14 +72,15 @@ export function FilterSelect({
  };
  const openMenu=(direction=0,keyboard=false)=>{
   if(disabled)return;
-  const selectedIndex=allOptions.findIndex(o=>o.value===value&&!o.disabled);
-  const first=allOptions.findIndex(o=>!o.disabled);
+  const visible=allOptions.slice(0,150);
+  const selectedIndex=visible.findIndex(o=>o.value===value&&!o.disabled);
+  const first=visible.findIndex(o=>!o.disabled);
   const start=selectedIndex>=0?selectedIndex:first;
   let next=start;
   if(direction!==0&&start>=0){
-   for(let i=1;i<=allOptions.length;i++){
-    const candidate=(start+direction*i+allOptions.length)%allOptions.length;
-    if(!allOptions[candidate].disabled){next=candidate;break;}
+   for(let i=1;i<=visible.length;i++){
+    const candidate=(start+direction*i+visible.length)%visible.length;
+    if(!visible[candidate].disabled){next=candidate;break;}
    }
   }
   setActive(next);setKeyboardActive(keyboard);setQuery("");setOpen(true);
@@ -99,17 +101,26 @@ export function FilterSelect({
    return current;
   });
  };
+ const movePage=(direction:number)=>{
+  setActive(current=>{
+   if(!enabledIndices.length)return -1;
+   const offset=enabledIndices.indexOf(current);
+   return enabledIndices[Math.max(0,Math.min(enabledIndices.length-1,(offset<0?0:offset)+direction*8))];
+  });
+ };
  const onMenuKey=(event:React.KeyboardEvent)=>{
+  if(event.nativeEvent.isComposing)return;
+  if(event.target===searchRef.current&&(event.key==="Home"||event.key==="End"))return;
   if(["ArrowDown","ArrowUp","Home","End","PageDown","PageUp"].includes(event.key))setKeyboardActive(true);
   if(event.key==="ArrowDown"){event.preventDefault();moveActive(1)}
   else if(event.key==="ArrowUp"){event.preventDefault();moveActive(-1)}
-  else if(event.key==="Home"){event.preventDefault();setActive(0)}
-  else if(event.key==="End"){event.preventDefault();setActive(capped.length-1)}
-  else if(event.key==="PageDown"){event.preventDefault();setActive(Math.min(capped.length-1,active+8))}
-  else if(event.key==="PageUp"){event.preventDefault();setActive(Math.max(0,active-8))}
+  else if(event.key==="Home"){event.preventDefault();setActive(enabledIndices[0]??-1)}
+  else if(event.key==="End"){event.preventDefault();setActive(enabledIndices[enabledIndices.length-1]??-1)}
+  else if(event.key==="PageDown"){event.preventDefault();movePage(1)}
+  else if(event.key==="PageUp"){event.preventDefault();movePage(-1)}
   else if(event.key==="Enter"&&!event.nativeEvent.isComposing){event.preventDefault();const o=capped[active];if(o)pick(o)}
   else if(event.key==="Escape"){event.preventDefault();event.stopPropagation();close(true)}
-  else if(event.key==="Tab"){close()}
+  else if(event.key==="Tab"){close(true)}
  };
  useLayoutEffect(()=>{
   if(open)updatePosition();
@@ -145,6 +156,17 @@ export function FilterSelect({
   const selectedIndex=capped.findIndex(o=>o.value===value&&!o.disabled);
   setActive(selectedIndex>=0?selectedIndex:capped.findIndex(o=>!o.disabled));
  },[query,value]);
+ useEffect(()=>{
+  setActive(current=>enabledIndices.includes(current)?current:(enabledIndices[0]??-1));
+ },[enabledIndices]);
+ useLayoutEffect(()=>{
+  if(!open||!keyboardActive||!capped[active]||capped[active].disabled)return;
+  const list=listRef.current,row=document.getElementById(optionId(active));
+  if(!list||!row||!list.contains(row))return;
+  const bounds=list.getBoundingClientRect(),item=row.getBoundingClientRect();
+  if(item.top<bounds.top)list.scrollTop+=item.top-bounds.top;
+  else if(item.bottom>bounds.bottom)list.scrollTop+=item.bottom-bounds.bottom;
+ },[open,keyboardActive,active,capped,position.visibility]);
  return <div className={clsx("ui-filter-select",className)} data-expanded={open||undefined} data-purpose={purpose}>
   <button ref={triggerRef} id={triggerId} type="button" className="ui-filter-select-trigger"
    disabled={disabled} aria-labelledby={triggerId+"-label "+triggerId+"-value"}
@@ -165,10 +187,10 @@ export function FilterSelect({
     <Search size={16} aria-hidden="true"/>
     <input ref={searchRef} type="search" className="ui-filter-select-search"
      aria-label={"Поиск по вариантам: "+label} value={query} onChange={e=>{setKeyboardActive(true);setQuery(e.target.value);}}
-     onKeyDown={onMenuKey} aria-controls={listId} aria-activedescendant={capped[active]?optionId(active):undefined}/>
+     onKeyDown={onMenuKey} aria-controls={listId} aria-activedescendant={capped[active]&&!capped[active].disabled?optionId(active):undefined}/>
    </div>}
    <div ref={listRef} role="listbox" id={listId} aria-label={label} tabIndex={doSearch?-1:0}
-    aria-activedescendant={capped[active]?optionId(active):undefined}
+    aria-activedescendant={capped[active]&&!capped[active].disabled?optionId(active):undefined}
     onKeyDown={doSearch?undefined:onMenuKey} className="ui-filter-select-options">
     {capped.map((option,i)=><div key={option.value||"empty"} id={optionId(i)}
       role="option" aria-selected={option.value===value} aria-disabled={option.disabled||undefined}
