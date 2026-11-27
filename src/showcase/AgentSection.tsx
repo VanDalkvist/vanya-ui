@@ -27,7 +27,7 @@ export function AgentSection() {
     }
   }
   return <section id="agents" className="catalog agents-section" aria-labelledby="agents-title">
-    <ChapterHeader id="agents" title="Дизайн-система для агентов" description="Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере." index="09"/>
+    <ChapterHeader id="agents" title="Дизайн-система для агентов" description="Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере."/>
     <ActionLink href="/agents/" variant="accent" size="md" target="_blank">Открыть Agent Mode</ActionLink>
     <div className="agents-columns">
       <div className="agents-start">
