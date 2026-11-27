@@ -27,8 +27,7 @@ export function Guide() {
         {rule.id==="scroll-principle" && <div className="guide-links"><ActionLink variant="prose" href="/reference/workspaces.md" target="_blank" rel="noopener noreferrer">Правила прокрутки</ActionLink></div>}
         {rule.id==="components-principle" && <div className="guide-links"><ActionLink variant="prose" href="/reference/interaction-states.md" target="_blank" rel="noopener noreferrer">Состояния элементов</ActionLink></div>}
         {rule.id==="stable-workspace-geometry" && <>
-          <div className="guide-links"><ActionLink variant="prose" href="/#composition-stable-geometry" target="_blank" rel="noopener noreferrer">Интерактивный пример</ActionLink></div>
-          <div className="guide-links"><ActionLink variant="prose" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса</ActionLink></div>
+          <div className="guide-links"><ActionLink variant="prose" href="/#composition-stable-geometry" target="_blank" rel="noopener noreferrer">Интерактивный пример</ActionLink><ActionLink variant="prose" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса</ActionLink></div>
         </>}
         {rule.id==="keyboard-shortcuts" && <>
           <p>Витрина использует обычные ссылки. Дополнительные сочетания стоит вводить, если они экономят время в повторяемых задачах.</p>
