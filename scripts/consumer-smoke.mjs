@@ -88,7 +88,7 @@ async function main() {
     const git=(argv)=>spawnSync("git",argv,{cwd:checkout,encoding:"utf8",timeout:15000});
     const head=git(["rev-parse","--verify","HEAD^{commit}"]);
     const dirty=git(["status","--porcelain","--untracked-files=no"]);
-    if(head.error||head.status!==0||!/[a-f0-9]{40}$/.test(head.stdout?.trim()||"")||dirty.error||dirty.status!==0||dirty.stdout?.trim()){
+    if(head.error||head.status!==0||!/^[a-f0-9]{40}$/.test(head.stdout?.trim()||"")||dirty.error||dirty.status!==0||dirty.stdout?.trim()){
       console.error("[consumer-smoke] --head requires a Git checkout with no modified tracked files; use FULL_SHA for an explicit remote candidate.");
       process.exitCode=2;return;
     }
