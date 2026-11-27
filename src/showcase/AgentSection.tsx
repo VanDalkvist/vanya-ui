@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ChapterHeader } from "./ChapterHeader";
 import { Copy } from "lucide-react";
 import { ActionButton, ActionLink, type ActionButtonState } from "../index";
 
@@ -26,9 +27,7 @@ export function AgentSection() {
     }
   }
   return <section id="agents" className="catalog agents-section" aria-labelledby="agents-title">
-    <p className="guide-eyebrow">Агентам / 09</p>
-    <h2 id="agents-title" className="catalog-title">Дизайн-система для агентов</h2>
-    <p className="catalog-intro">Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере.</p>
+    <ChapterHeader id="agents" title="Дизайн-система для агентов" description="Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере." index="09"/>
     <ActionLink href="/agents/" variant="accent" size="md" target="_blank">Открыть Agent Mode</ActionLink>
     <div className="agents-columns">
       <div className="agents-start">
