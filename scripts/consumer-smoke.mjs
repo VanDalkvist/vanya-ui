@@ -78,11 +78,23 @@ function run(cwd, cmd, args) {
 
 async function main() {
   const args=process.argv.slice(2);
-  const sha=args[0];
-  if(!sha||!/^[a-f0-9]{40}$/.test(sha)||args.slice(1).some(a=>!["--prepare-only","--harness","--browser"].includes(a))) {
-    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA [--prepare-only] [--harness] [--browser]");
+  let sha=args[0];
+  if(!sha||(sha!=="--head"&&!/^[a-f0-9]{40}$/.test(sha))||args.slice(1).some(a=>!["--prepare-only","--harness","--browser"].includes(a))) {
+    console.error("Usage: node scripts/consumer-smoke.mjs FULL_SHA|--head [--prepare-only] [--harness] [--browser]");
     process.exitCode=2;return;
   }
+  if(sha==="--head"){
+    const checkout=fileURLToPath(new URL("../",import.meta.url));
+    const git=(argv)=>spawnSync("git",argv,{cwd:checkout,encoding:"utf8",timeout:15000});
+    const head=git(["rev-parse","--verify","HEAD^{commit}"]);
+    const dirty=git(["status","--porcelain","--untracked-files=no"]);
+    if(head.error||head.status!==0||!/[a-f0-9]{40}$/.test(head.stdout?.trim()||"")||dirty.error||dirty.status!==0||dirty.stdout?.trim()){
+      console.error("[consumer-smoke] --head requires a Git checkout with no modified tracked files; use FULL_SHA for an explicit remote candidate.");
+      process.exitCode=2;return;
+    }
+    sha=head.stdout.trim();
+  }
+  console.log("[consumer-smoke] Exact source SHA: "+sha);
   const prepare=args.includes("--prepare-only"), harness=args.includes("--harness"), browser=args.includes("--browser");
   if(browser&&!harness)throw Error("--browser requires --harness");
   const root=mkdtempSync(join(tmpdir(),"vanya-ui-consumer-"));
