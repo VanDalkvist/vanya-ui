@@ -40,8 +40,8 @@ describe("interaction feedback contracts",()=>{
   const handle=vi.fn();
   render(<>
    <ActionLink href="/reference/interaction-states.md" variant="text">Правила</ActionLink>
-   <ActionButton variant="outline" onClick={handle}>Сохранить</ActionButton>
-   <ActionButton variant="outline" onClick={handle} disabled>Недоступно</ActionButton>
+   <ActionButton variant="text" onClick={handle}>Сохранить</ActionButton>
+   <ActionButton variant="text" onClick={handle} disabled>Недоступно</ActionButton>
    <LinkChip url="https://example.com" label="Источник"/>
   </>);
   const link=screen.getByRole("link",{name:"Правила"});
@@ -49,12 +49,12 @@ describe("interaction feedback contracts",()=>{
   expect(link).toHaveAttribute("data-variant","text");
   const save=screen.getByRole("button",{name:"Сохранить"});
   expect(save).toHaveClass("ui-feedback-text");
-  expect(save).toHaveAttribute("data-variant","outline");
+  expect(save).toHaveAttribute("data-variant","text");
   fireEvent.click(save);
   fireEvent.click(screen.getByRole("button",{name:"Недоступно"}));
   expect(handle).toHaveBeenCalledTimes(1);
   const source=screen.getByRole("link",{name:/Источник/});
-  expect(source).toHaveClass("ui-feedback-source");
+  expect(source).toHaveClass("ui-link-source");
   expect(source.querySelector("span:nth-child(2)")).not.toHaveClass("hover:text-ink");
  });
  it("preserves selected navigation and filters independently of hover",()=>{
