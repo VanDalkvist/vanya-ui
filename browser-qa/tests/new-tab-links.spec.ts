@@ -51,3 +51,16 @@ test("form field border is quiet at rest and status follows the common leading a
  await expect(input).toHaveAttribute("aria-invalid","true");await expect(input).toBeFocused();
  expect((await input.boundingBox())!.height).toBe(box!.height);
 });
+
+test("confirmation result stays grouped below its action and follows real state",async({page})=>{
+ await page.goto("/#quiet-confirmation");
+ const section=page.locator("#quiet-confirmation"),actions=section.locator(".demo-quiet-actions"),status=section.locator("output");
+ await expect(status).toHaveText("Ожидает подтверждения");
+ const a=await actions.boundingBox(),s=await status.boundingBox();
+ expect(Math.abs(a!.x-s!.x)).toBeLessThan(2);
+ expect(s!.y).toBeGreaterThanOrEqual(a!.y+a!.height);
+ await section.getByRole("button",{name:"Подтвердить",exact:true}).click();
+ await expect(status).toHaveText("Пример подтверждён");
+ await section.getByRole("button",{name:"Отменить подтверждение"}).click();
+ await expect(status).toHaveText("Ожидает подтверждения");
+});
