@@ -79,11 +79,11 @@ const priorityOptions=[{value:"normal",label:"Обычный"},{value:"high",lab
 function QuietInspectorDemo(){
   const [record,setRecord]=useState({status:"active",priority:"normal"});
   return <CatalogSection id="quiet-inspector" title="Инспектор свойств" description="Значения редактируются непосредственно, без отдельного сохранения. Пример хранится в памяти страницы.">
-    <div className="demo-quiet-inspector">
+    <div className="demo-quiet-feedback"><div className="demo-quiet-inspector">
       <FilterSelect purpose="property" label="Статус" value={record.status} onValueChange={status=>setRecord(r=>({...r,status}))} options={statusOptions} allowEmpty={false}/>
       <FilterSelect purpose="property" label="Приоритет" value={record.priority} onValueChange={priority=>setRecord(r=>({...r,priority}))} options={priorityOptions} allowEmpty={false}/>
     </div>
-    <output className="ui-type-caption text-ink-soft">Документ: {statusOptions.find(s=>s.value===record.status)?.label} · {priorityOptions.find(p=>p.value===record.priority)?.label}</output>
+    <output className="ui-type-caption text-ink-soft">Документ: {statusOptions.find(s=>s.value===record.status)?.label} · {priorityOptions.find(p=>p.value===record.priority)?.label}</output></div>
   </CatalogSection>;
 }
 function QuietConfirmationDemo(){
