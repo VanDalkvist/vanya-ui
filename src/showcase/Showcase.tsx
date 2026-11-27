@@ -1,6 +1,7 @@
 import React from "react";
 import { ActionLink } from "../index";
 import { ChapterHeader } from "./ChapterHeader";
+import { CatalogSection } from "./CatalogSection";
 import { Scene } from "./Scene";
 import { Guide } from "./Guide";
 import { IdentitySection } from "./IdentitySection";
@@ -23,8 +24,12 @@ export function Showcase(){
    <ComponentCatalog/>
    <section id="setup" className="catalog setup" aria-labelledby="setup-title">
     <ChapterHeader id="setup" description="Установка React-пакета по проверенному SHA или из локальной копии. Подключение токенов и компонентов."/>
+    <CatalogSection id="setup-package" title="Установка пакета" description="Закрепи проверенный коммит, затем подключи токены.">
     <pre><code>{`bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n\nimport { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";`}</code></pre>
-    <p className="catalog-intro">Для агентов: <ActionLink variant="prose" href="/reference/agent-skill.md" target="_blank" rel="noopener noreferrer">канонический UI-скилл</ActionLink>, <ActionLink variant="prose" href="/reference/ui-pipeline.md" target="_blank" rel="noopener noreferrer">локальный пайплайн</ActionLink>, <ActionLink variant="prose" href="/llms.txt" target="_blank" rel="noopener noreferrer">LLM-навигация</ActionLink> и <ActionLink variant="prose" href="/reference/components.md" target="_blank" rel="noopener noreferrer">компоненты</ActionLink>.</p>
+    </CatalogSection>
+    <CatalogSection id="setup-references" title="Документация">
+    <p className="ui-type-body">Для агентов: <ActionLink variant="prose" href="/reference/agent-skill.md" target="_blank" rel="noopener noreferrer">канонический UI-скилл</ActionLink>, <ActionLink variant="prose" href="/reference/ui-pipeline.md" target="_blank" rel="noopener noreferrer">локальный пайплайн</ActionLink>, <ActionLink variant="prose" href="/llms.txt" target="_blank" rel="noopener noreferrer">LLM-навигация</ActionLink> и <ActionLink variant="prose" href="/reference/components.md" target="_blank" rel="noopener noreferrer">компоненты</ActionLink>.</p>
+    </CatalogSection>
    </section>
    <AgentSection/>
   </main>
