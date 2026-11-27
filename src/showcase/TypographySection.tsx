@@ -34,12 +34,12 @@ export function TypographySection() {
         </div>
       </div>
       <div className="type-specimen">
-        <div className="type-specimen-meta"><span>Моноширинное действие</span><code>--type-tracking-action-mono</code></div>
+        <div className="type-specimen-meta"><span>Действия и переходы</span><code>ActionButton / ActionLink</code></div>
         <div className="type-action-pair">
-          <ActionButton variant="mono" onClick={()=>setLastAction("Подробнее")}>Подробнее</ActionButton>
-          <ActionButton variant="mono" lang="en" onClick={()=>setLastAction("Details")}>Details</ActionButton>
-          <ActionLink variant="mono" href="#type-reading-title">К чтению</ActionLink>
-          <ActionLink variant="mono" lang="en" href="#type-reading-title">Read on</ActionLink>
+          <ActionButton variant="text" onClick={()=>setLastAction("Подробнее")}>Подробнее</ActionButton>
+          <ActionButton variant="text" lang="en" onClick={()=>setLastAction("Details")}>Details</ActionButton>
+          <ActionLink variant="text" href="#type-reading-title">К чтению</ActionLink>
+          <ActionLink variant="text" lang="en" href="#type-reading-title">Read on</ActionLink>
         </div>
       </div>
       <div className="type-specimen">
