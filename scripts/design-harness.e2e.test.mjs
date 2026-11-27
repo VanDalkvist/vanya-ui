@@ -8,9 +8,15 @@ import {spawnSync} from 'node:child_process';
 const library=fileURLToPath(new URL('../',import.meta.url));
 const cli=join(library,'scripts/ui-pipeline.mjs');
 test('public consumer lint runs actual installed design tools, detects bad CSS and fails closed without installation',()=>{
- const project=mkdtempSync(join(tmpdir(),'vanya-harness-consumer-'));
+ const fixture=mkdtempSync(join(tmpdir(),'vanya-harness-consumer-'));
+ // Explicitly exercise a symlinked ancestor (also reproduces macOS /var alias on Linux).
+ const physical=join(fixture,'physical');
+ const alias=join(fixture,'alias');
+ mkdirSync(physical);
+ symlinkSync(physical,alias,'junction');
+ const project=join(alias,'consumer');
  try{
-  mkdirSync(join(project,'src'));
+  mkdirSync(join(project,'src'),{recursive:true});
   mkdirSync(join(project,'node_modules/@vanya'),{recursive:true});
   symlinkSync(library,join(project,'node_modules/@vanya/ui'),'junction');
   writeFileSync(join(project,'package.json'),JSON.stringify({name:'harness-consumer',type:'module',dependencies:{react:'19','@vanya/ui':'file:'+library}}));
@@ -32,7 +38,7 @@ test('public consumer lint runs actual installed design tools, detects bad CSS a
   const missing=run();
   assert.equal(missing.status,1,missing.stderr+missing.stdout);
   assert.match(missing.stderr+missing.stdout,/installed @vanya\/ui/i);
- }finally{rmSync(project,{recursive:true,force:true})}
+ }finally{rmSync(fixture,{recursive:true,force:true})}
 });
 
 test('adopt persists the canonical check; verify executes it before build and rejects a missing or fake gate',()=>{
