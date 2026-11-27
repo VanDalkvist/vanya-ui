@@ -1,7 +1,7 @@
 import React from "react";
 import {describe,it,expect,vi} from "vitest";
 import {render,screen,fireEvent,cleanup} from "@testing-library/react";
-import {ActionButton,SearchField,TextField,SelectField,VersionLabel,Tag,ActionLink} from "../src/index";
+import {ActionButton,SearchField,TextField,SelectField,VersionLabel,Tag,ActionLink,FilterSelect} from "../src/index";
 import {afterEach} from "vitest";
 
 afterEach(cleanup);
@@ -60,6 +60,40 @@ describe("Quiet control behavior",()=>{
   render(<><ActionLink href="/reference/navigation.md" target="_blank">Правила</ActionLink><ActionLink href="/#catalog">Каталог</ActionLink></>);
   expect(screen.getByRole("link",{name:"Правила"}).querySelectorAll(".ui-new-tab-marker")).toHaveLength(1);
   expect(screen.getByRole("link",{name:"Каталог"}).querySelector(".ui-new-tab-marker")).toBeNull();
+ });
+ it("derives visible toggle labels from caller-owned pressed state and preserves accessible name",()=>{
+  function Demo(){const [on,setOn]=React.useState(false);return <ActionButton aria-pressed={on} pressedLabels={{on:"Вкл",off:"Выкл"}} onClick={()=>setOn(v=>!v)}>Автообновление</ActionButton>}
+  render(<Demo/>);
+  const button=screen.getByRole("button",{name:"Автообновление"});
+  const slot=button.querySelector(".ui-action-toggle-state")!;
+  expect(slot).toHaveAttribute("aria-hidden","true");
+  expect(slot.querySelector('[data-current="true"]')).toHaveTextContent("Выкл");
+  fireEvent.click(button);
+  expect(button).toHaveAttribute("aria-pressed","true");
+  expect(slot.querySelector('[data-current="true"]')).toHaveTextContent("Вкл");
+  expect(slot.querySelector('[data-current="false"]')).toHaveTextContent("Выкл");
+  expect(screen.getByRole("button",{name:"Автообновление"})).toBe(button);
+ });
+ it("reserves validation geometry without announcing an empty description",()=>{
+  const {rerender,container}=render(<TextField label="Название" reserveNote/>);
+  const input=screen.getByLabelText("Название"),note=container.querySelector(".ui-text-field-note-reserved");
+  expect(note).not.toBeNull();expect(input).not.toHaveAttribute("aria-describedby");
+  rerender(<TextField label="Название" reserveNote error="Введите название"/>);
+  expect(container.querySelector(".ui-text-field-note-reserved")).toBe(note);
+  expect(input).toHaveAccessibleDescription("Введите название");
+  rerender(<TextField label="Название" reserveNote/>);
+  expect(input).not.toHaveAttribute("aria-describedby");
+  expect(container.querySelector(".ui-text-field-note-reserved")).toBe(note);
+ });
+ it("keeps property selection functional with independent presentation semantics",()=>{
+  function Demo(){const [value,setValue]=React.useState("a");return <><FilterSelect purpose="property" label="Статус" value={value} allowEmpty={false} onValueChange={setValue} options={[{value:"a",label:"В работе"},{value:"b",label:"Готово"}]}/><output>{value}</output></>}
+  const {container}=render(<Demo/>);
+  const button=screen.getByRole("button",{name:"Статус В работе"});
+  expect(button.closest(".ui-filter-select")).toHaveAttribute("data-purpose","property");
+  fireEvent.click(button);fireEvent.click(screen.getByRole("option",{name:"Готово"}));
+  expect(container.querySelector("output")).toHaveTextContent("b");
+  expect(screen.getByRole("button",{name:"Статус Готово"})).toBe(button);
+  expect(button).toHaveFocus();
  });
  it("renders passive caller-owned full SemVer",()=>{
   render(<VersionLabel version="1.2.3-beta.1+build.42"/>);
