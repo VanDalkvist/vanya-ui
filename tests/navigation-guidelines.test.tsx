@@ -25,6 +25,7 @@ describe("single longread navigation",()=>{
   }
   expect(within(document.getElementById("typography")!).getByRole("heading",{name:"Типографика",level:2})).toBeInTheDocument();
   expect(screen.getByRole("heading",{name:"У каждой страницы — свой адрес"})).toBeInTheDocument();
+  expect(container.querySelector(".guide-eyebrow,.guide-number")).toBeNull();
   for(const id of ["identity","typography","writing","principles","catalog","workspace","setup","agents"]){
    const section=document.getElementById(id)!;
    const header=section.querySelector(":scope > .chapter-header");
