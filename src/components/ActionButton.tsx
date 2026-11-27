@@ -10,7 +10,7 @@ export type ActionButtonState = "idle" | "pending" | "success" | "error";
 export interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: ComponentSize;
-  variant?: "text" | "mono" | "accent" | "pill" | "outline" | "prominent";
+  variant?: "text" | "accent" | "prominent";
   className?: string;
   /** Caller-owned execution/result state; pending prevents duplicate activation without losing focus. */
   actionState?: ActionButtonState;
@@ -45,10 +45,7 @@ export function ActionButton({
   const isPressed=pressed===true||pressed==="true";
   const variantStyles={
     text:"rounded-sm font-sans font-medium tracking-normal text-ink-soft",
-    mono:"rounded-sm font-mono tracking-[var(--type-tracking-action-mono)] uppercase text-ink-soft",
     accent:"rounded-sm font-sans font-medium text-accent underline-offset-4",
-    pill:"rounded-sm font-sans font-medium text-ink-soft",
-    outline:"rounded-sm font-sans font-medium text-ink",
     prominent:"rounded-sm font-sans font-medium",
   }[variant];
   return <button
