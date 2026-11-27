@@ -7,15 +7,13 @@ import type { ComponentSize } from "../sizes";
 export interface ActionLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   size?: ComponentSize;
-  variant?: "text" | "mono" | "accent" | "pill" | "prose";
+  variant?: "text" | "accent" | "prose";
 }
 /** Real browser link matching ActionButton; supports open-in-new-tab, copy address, history, keyboard. */
 export function ActionLink({href,children,size="sm",variant="text",className,target,rel,...props}:ActionLinkProps) {
  const variantStyles={
   text:"px-0 font-sans font-medium tracking-normal text-ink-soft/80",
-  mono:"px-0 font-mono tracking-[var(--type-tracking-action-mono)] uppercase text-ink-soft",
   accent:"px-0 font-sans font-medium text-accent underline-offset-4",
-  pill:"rounded-full font-sans text-ink-soft",
   prose:"",
  }[variant];
  const marker=target==="_blank"?<ArrowUpRight className="ui-new-tab-marker" aria-hidden="true"/>:null;
