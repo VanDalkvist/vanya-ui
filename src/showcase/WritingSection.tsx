@@ -10,7 +10,7 @@ const skillItems = [
 
 export function WritingSection() {
   return <section id="writing" className="catalog writing-section" aria-labelledby="writing-title">
-    <ChapterHeader id="writing" title="Тексты интерфейса" description="В Vanya UI кнопки называют действия, ошибки объясняют следующий шаг. На первом экране сами компоненты показывают, как работают."/>
+    <ChapterHeader id="writing" description="Примеры подписей кнопок, сообщений об ошибках и текстов для первого экрана."/>
     <div className="writing-example">
       <div><span className="type-demo-label">Лишнее</span><p>«Нажми на точку… Подвинь ползунок…»</p><small>Инструкция к демонстрации повторяет то, что уже видно на экране.</small></div>
       <div><span className="type-demo-label">На первом экране</span><p>Готовые компоненты для рабочих интерфейсов.</p><small>Волна работает прямо здесь. Другие компоненты — в каталоге.</small></div>
@@ -18,10 +18,10 @@ export function WritingSection() {
     <div className="writing-principles">
       <article><h3>Кнопки</h3><p>«Открыть детали» действительно открывает панель. Название действия проверяем в компоненте.</p></article>
       <article><h3>Ошибки</h3><p>Если действие не удалось, показываем причину, когда она известна, и следующий шаг.</p></article>
-      <article><h3>Функции</h3><p>Описываем только проверенное в коде и тестах. Оценки и обещания не придумываем.</p></article>
-      <article><h3>Подсказки</h3><p>Сочетания клавиш объясняет справка. Очевидные действия не повторяем в шапке.</p></article>
+      <article><h3>Функции</h3><p>Описываем функции, которые уже работают. Результаты проверок привязываем к конкретной версии.</p></article>
+      <article><h3>Подсказки</h3><p>Если в продукте есть горячие клавиши, показываем их рядом с соответствующими командами.</p></article>
     </div>
-    <h3 className="writing-subtitle">Методики — у авторов</h3>
+    <h3 className="writing-subtitle">Редакторские методики</h3>
     <p className="ui-type-body">Для работы с текстами можно открыть <a href="https://bureau.ru/books/pishi/190" target="_blank" rel="noopener noreferrer">оригинальный раздел книги Максима Ильяхова и Людмилы Сарычевой<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>. Для UX-текстов, промостраниц и редактуры — <a href="https://github.com/N1arko/redaktura-skills" target="_blank" rel="noopener noreferrer">оригинальные скиллы<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a> Людмилы Сарычевой и Никиты Архипова.</p>
     <p className="ui-type-body"><a href="/reference/writing.md" target="_blank" rel="noopener noreferrer">Редполитика для агентов<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a> содержит ссылки на конкретные главы и скиллы.</p>
     <div className="writing-skill-list">{skillItems.map(item=><div key={item.name}>
