@@ -31,9 +31,10 @@ The existing Ferma tool installation and varc Eval plugin are reused. No install
   test -f "$EVAL_ROOT/promptfoo-hook.cjs"
   ln -s "$EVAL_ROOT/promptfoo-hook.cjs" "$RUN/promptfoo-hook.cjs"
   printf 'Evidence directory: %s\nSource SHA: %s\n' "$RUN" "$REV"
-  cd "$RUN"
+  # Stay in the actual source checkout for the existing Eval publisher.
+  git remote get-url origin >/dev/null
   # Native zero-model preflight: same prompt file, exact returned text, no hook.
-  cat > echo.yaml <<'YAML'
+  cat > "$RUN/echo.yaml" <<'YAML'
 description: E1 literal prompt preflight
 sharing: false
 prompts:
@@ -49,7 +50,7 @@ YAML
   env -i PATH="$PATH" HOME="$HOME" \
     TMPDIR="${TMPDIR:-/tmp}" PROMPTFOO_CONFIG_DIR="$RUN/echo-db" \
     PROMPTFOO_SELF_HOSTED=1 PROMPTFOO_DISABLE_TELEMETRY=1 PROMPTFOO_DISABLE_UPDATE=1 \
-    "$PF" eval -c echo.yaml --no-cache --max-concurrency 1 --no-share -o "$RUN/echo.json"
+    "$PF" eval -c "$RUN/echo.yaml" --no-cache --max-concurrency 1 --no-share -o "$RUN/echo.json"
   node -e 'const r=require(process.argv[1]).results;const s=r.stats;const expected=require("node:fs").readFileSync(process.argv[2],"utf8").trim();if(s.successes!==1||s.failures!==0||s.errors!==0||r.results.length!==1||r.results[0].response.output!==expected)process.exit(1)' "$RUN/echo.json" "$RUN/task.txt"
   env -i PATH="$PATH" HOME="$HOME" CODEX_HOME="$CODEX_HOME" \
     TMPDIR="${TMPDIR:-/tmp}" \
@@ -57,7 +58,7 @@ YAML
     PROMPTFOO_CONFIG_DIR="$RUN/db" PROMPTFOO_SELF_HOSTED=1 \
     PROMPTFOO_DISABLE_TEMPLATE_ENV_VARS=false \
     PROMPTFOO_DISABLE_TELEMETRY=1 PROMPTFOO_DISABLE_UPDATE=1 \
-    "$PF" eval -c promptfooconfig.yaml --no-cache --max-concurrency 1 --no-share -o "$RUN/result.json"
+    "$PF" eval -c "$RUN/promptfooconfig.yaml" --no-cache --max-concurrency 1 --no-share -o "$RUN/result.json"
 )
 ```
 
@@ -72,3 +73,7 @@ First owner-host run stopped in readPrompts before dispatch: `There are no promp
 ### Incident 2 — single-line JavaScript assertion
 
 Owner run `eval-AhL-2026-11-27T19:52:54`: native echo executed one row, 0 pass / 1 fail / 0 errors; live model not reached. Pinned [JavaScript assertion implementation](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/assertions/javascript.ts) trims trailing newlines and prepends `return` to a single-line expression; the authored single-line `return ...` compiles as `return return ...`, a syntax error. This is a confirmed source defect in our config; exact grading reason from the owner export was not inspected. Remove the redundant `return`, keep identical assertion semantics and separate exact-byte equality on the native exported response. Multi-line live assertions remain statement bodies. Native owner rerun pending; no model retry occurred.
+
+### E1 actual owner-host result — 2026-11-27
+
+Native echo `eval-AhL-2026-11-27T20:06:10`: 1/1 pass, zero errors; exact-byte postcheck passed (live row started). Native Sol Low `eval-JYN-2026-11-27T20:06:11`: 0/1 pass, 1 failed, 0 errors, 36 s; reported 89,811 total tokens (89,308 prompt, 503 completion, 53,632 cached). Visible output names WorkspaceContextHeader and actions but adds prose to both string fields; the exact-match assertion rejects that output. Other component assertions, actual skill routing, command reads and semantic correctness remain unverified until local result inspection. No rerun requested; original grading stays immutable. Publication hook completed native export but archive-auto returned nonzero. Confirmed runbook defect: it launched Promptfoo in the disposable run directory, whereas shared Eval [native.mjs](https://github.com/VanDalkvist/vanya-os/blob/main/modules/eval-integrations/native.mjs) requires the actual source checkout origin. Exact underlying archive error still needs readback (size, scan and other gates may also fail). [Git remote reference](https://git-scm.com/docs/git-remote), [Promptfoo result format](https://www.promptfoo.dev/docs/configuration/outputs/). Keep future CLI CWD in source checkout, absolute config paths and isolated agent working_dir unchanged. Recover existing native export via documented `varc eval archive-auto` from vanya-ui root. No source or model changes, no relaxation of scanner/size/identity checks, no new infrastructure. First inspect stored per-assertion reason, actual recommendation, trace and native file size; no live rerun. Current fix is source readback only.
