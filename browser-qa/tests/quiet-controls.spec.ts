@@ -17,17 +17,24 @@ test("quiet catalogue facets change actual rows",async({page})=>{
 test("quiet document validation, save and cancel have visible outcomes",async({page})=>{
  await page.goto("/#quiet-editor");
  const section=page.locator("#quiet-editor"),title=section.getByLabel("Название");
+ await expect(section.getByRole("button",{name:"Сохранить"})).toBeDisabled();
+ await expect(section.getByRole("button",{name:"Отменить",exact:true})).toBeDisabled();
+ await expect(section.locator("output")).toHaveText("Нет изменений");
  await title.fill(" ");
+ await expect(section.locator("output")).toHaveText("Есть несохранённые изменения");
  await section.getByRole("button",{name:"Сохранить"}).click();
  await expect(title).toHaveAttribute("aria-invalid","true");
+ await expect(title).toBeFocused();
  await expect(section.getByText("Введите название",{exact:true})).toBeVisible();
  await title.fill("Новый документ");
  await section.getByRole("combobox",{name:"Жанр"}).selectOption("fantasy");
  await section.getByRole("button",{name:"Сохранить"}).click();
  await expect(section.locator("output")).toHaveText("Сохранено: Новый документ · Фантастика");
+ await expect(section.getByRole("button",{name:"Сохранить"})).toBeDisabled();
  await title.fill("Несохранённое");
  await section.getByRole("button",{name:"Отменить",exact:true}).click();
  await expect(title).toHaveValue("Новый документ");
+ await expect(section.getByRole("button",{name:"Отменить",exact:true})).toBeDisabled();
 });
 test("inspector applies property edits immediately and confirmation is reversible",async({page})=>{
  await page.goto("/#quiet-inspector");
@@ -59,7 +66,9 @@ test("ordinary action and persistent toggle report actual state",async({page})=>
  await page.clock.runFor(10000);
  await expect(section.getByRole("status")).toHaveText("Обновлений: 2");
  await expect(toggle).toHaveAttribute("aria-pressed","false");
- await expect(toggle).toContainText("Выкл");
+ await expect(toggle.locator('[data-current="true"]')).toHaveText("Выкл");
+ await expect(toggle.locator('[data-current="true"]')).toBeVisible();
+ await expect(toggle.locator('[data-current="false"]')).toBeHidden();
 });
 for(const width of [1440,1024,390,320]) for(const theme of ["light","dark"] as const){
  test("both headers expose exact version without overlap "+width+" "+theme,async({page})=>{
@@ -169,4 +178,30 @@ test("passive tags have no button surface",async({page})=>{
  const tag=page.locator("#tag span.ui-tag").first();
  await expect(tag).toBeVisible();await expect(tag).toHaveCSS("background-color","rgba(0, 0, 0, 0)");
  await expect(tag).toHaveCSS("cursor","default");await expect(tag).not.toHaveAttribute("tabindex");
+});
+
+test("persistent selection has a distinct surface from adjacent hover",async({page})=>{
+ await page.goto("/#compact-filter-toolbar");
+ const section=page.locator("#compact-filter-toolbar"),selected=section.getByRole("button",{name:"Все",exact:true}),neighbor=section.getByRole("button",{name:"Мои",exact:true});
+ await neighbor.scrollIntoViewIfNeeded();await page.mouse.move(0,0);
+ const bg=async(el:typeof selected)=>el.evaluate(e=>getComputedStyle(e).backgroundColor);
+ const rest=await bg(selected);
+ await neighbor.hover();
+ await expect.poll(()=>bg(neighbor)).not.toBe("rgba(0, 0, 0, 0)");
+ await expect.poll(()=>bg(neighbor)).not.toBe(rest);
+ await expect(selected).toHaveAttribute("aria-pressed","true");
+ await expect(selected).toHaveCSS("text-decoration-line","none");
+ await neighbor.click();
+ await expect(section.getByRole("listitem")).toHaveText(["Тихий берег","Следы в лесу"]);
+});
+test("applied filters and ordinary properties use different semantic ink",async({page})=>{
+ await page.goto("/#compact-filter-toolbar");
+ const filter=page.locator("#compact-filter-toolbar .ui-filter-select");
+ await filter.getByRole("button",{name:"Жанр Все"}).click();
+ await page.getByRole("option",{name:"Драма",exact:true}).click();
+ const property=page.locator("#quiet-inspector .ui-filter-select").first();
+ const style=async(el:typeof filter)=>el.locator(".ui-filter-select-value").evaluate(e=>{const s=getComputedStyle(e);return {color:s.color,font:s.fontSize,line:s.lineHeight};});
+ const f=await style(filter),p=await style(property);
+ expect(f.color).not.toBe(p.color);expect(f.font).toBe(p.font);expect(f.line).toBe(p.line);
+ await expect(page.locator("#compact-filter-toolbar").getByRole("listitem")).toHaveText(["Тихий берег"]);
 });
