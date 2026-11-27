@@ -40,3 +40,7 @@ Commit and push coherent work freely. Production Cloudflare Builds on `main` wat
 ## Editorial consistency gate
 
 For user-facing Russian copy, read `.agents/redpolitika.md` and the relevant original Sarycheva/Arkhipov editorial skill when required. Keep navigation labels and destination H2s derived from the same private section vocabulary; first-screen overview H1 names the product purpose. Verify rendered DOM label/heading parity and actual action/result semantics. When removing functionality, audit related copy and documentation. Avoid arbitrary decorative numbers and machine-generated abstract slogans; preserve verified facts and attribution.
+
+## Canonical action and link API (owner decision, 2026-11-27)
+
+For the Quiet visual action/link contract, backward compatibility with redundant styling variants is not required. Delete obsolete variants, duplicate feedback selectors and manual link markers when the canonical primitive covers their purpose. Migrate all in-repository specimens, tests, registry and current normative documentation in the same batch. ActionButton: text/accent/prominent. ActionLink: text/prose/accent. LinkChip composes ActionLink; no duplicate link feedback. Record incompatible API changes under a MAJOR SemVer. This scope does not authorize changes to consumer repositories or unrelated compatibility contracts.
