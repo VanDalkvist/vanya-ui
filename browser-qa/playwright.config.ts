@@ -17,7 +17,7 @@ export default defineConfig({
   workers: 1,
   outputDir: resolve(evidenceDir,"test-results"),
   ...(visualMode&&baselineDir?{snapshotPathTemplate:resolve(baselineDir,"{arg}{ext}"),globalSetup:"./visual-baseline.mjs"}:{}),
-  reporter: [["list"], ["html", { outputFolder: resolve(evidenceDir,"report"), open: "never" }], ["json", { outputFile: resolve(evidenceDir,"results.json") }]],
+  reporter: [[process.env.VANYA_UI_CLOUD_QA === "1" ? "line" : "list"], ["html", { outputFolder: resolve(evidenceDir,"report"), open: "never" }], ["json", { outputFile: resolve(evidenceDir,"results.json") }]],
   use: {
     baseURL: url,
     browserName: "chromium",
