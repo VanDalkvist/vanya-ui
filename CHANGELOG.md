@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-11-27
+
+### Fixed
+- Unify documentation chapter heading anatomy and rule composition; compact the index gutter and simplify passive navigation examples while retaining stable anchors.
+- Separate FilterSelect selected check from pointer hover and keyboard-active highlight; preserve real keyboard selection and focus.
+- Record Linear, Apple HIG and shadcn/ui as mandatory design references, with functional numbering guidance. Existing numbering and mnemonic shortcuts remain pending the numbering decision.
+
 ## [1.2.0] - 2026-11-27
 
 ### Added
