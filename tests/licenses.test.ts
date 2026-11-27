@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { publishedDocuments } from "../scripts/markdown-publication.mjs";
 const read=(p:string)=>readFileSync(resolve(import.meta.dirname,"..",p),"utf8");
 describe("license compliance and published notices",()=>{
  it("keeps owner's MIT license intact and consistent with package metadata",()=>{
@@ -46,7 +47,7 @@ describe("license compliance and published notices",()=>{
   expect(read("package.json")).toContain('scripts/finalize-published-licenses.mjs');
   expect(read("scripts/finalize-published-licenses.mjs")).toContain('not granted under MIT');
   expect(sync).toContain('"public/LICENSE.txt"');
-  expect(sync).toContain('["THIRD_PARTY_NOTICES.md","third-party.md"]');
+  expect(publishedDocuments["THIRD_PARTY_NOTICES.md"]).toBe("reference/third-party.md");
   expect(read("src/showcase/ShowcaseFooter.tsx")).toContain('href="/reference/licensing.md"');
   expect(read("src/showcase/ShowcaseFooter.tsx")).toContain('https://github.com/VanDalkvist/vanya-arc-brand');
   expect(read("src/showcase/Showcase.tsx")).toContain("<ShowcaseFooter />");
