@@ -8,6 +8,10 @@ compatibility: Requires a local Vanya UI source tree, a target project folder an
 
 Deliver the requested visual change, using the actual installed component API and canonical design rules. Keep unrelated surfaces and pinned dependencies unchanged unless the task explicitly covers them.
 
+## Primary design references
+
+Linear and Apple HIG are the primary product/visual design references; shadcn/ui is the primary design-system engineering reference. Read the [reference canon](../../docs/research/design-reference-canon-2026-11-27.md) for source routing and context-sensitive selection/composition principles before substantive UI design or review. Consult the relevant original documentation, record the local decision, and retain Vanya UI's own identity and accessible behavior. Treat unobserved visual claims as unverified.
+
 ## 1. Locate and scope
 
 Find the full local Vanya UI source tree through the project pointer or user-provided path. It must contain this skill, DESIGN.md, src, docs and scripts. A copied skill alone is insufficient; locate the source tree or report BLOCKED. Do not invent unavailable API or instructions. No fixed paths, git checkout, CI or hosting provider are required.
