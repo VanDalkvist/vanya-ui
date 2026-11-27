@@ -19,10 +19,11 @@ describe("single longread navigation",()=>{
   expect(headers).toHaveLength(1);
   const nav=within(headers[0]).getByRole("navigation",{name:"Навигация"});
   expect(within(nav).getAllByRole("link")).toHaveLength(9);
-  for(const [id,label] of [["composition","Композиция"],["identity","Айдентика"],["typography","Типографика"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"],["agents","Агентам"]]){
+  for(const [id,label] of [["composition","Обзор"],["identity","Айдентика"],["typography","Типографика"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"],["agents","Агентам"]]){
    expect(document.getElementById(id)).not.toBeNull();
    expect(within(nav).getByRole("link",{name:label,exact:true})).toHaveAttribute("href","/#"+id);
   }
+  expect(within(document.getElementById("composition")!).getByRole("heading",{level:1})).toHaveTextContent("Готовые компоненты для рабочих интерфейсов.");
   expect(within(document.getElementById("typography")!).getByRole("heading",{name:"Типографика",level:2})).toBeInTheDocument();
   expect(screen.getByRole("heading",{name:"У каждой страницы — свой адрес"})).toBeInTheDocument();
   expect(container.querySelector(".guide-eyebrow,.guide-number")).toBeNull();
@@ -32,6 +33,8 @@ describe("single longread navigation",()=>{
    expect(header,id).not.toBeNull();
    expect(section).toHaveAttribute("aria-labelledby",id+"-title");
    expect(header?.querySelector("h2")).toHaveAttribute("id",id+"-title");
+   const link=nav.querySelector(`a[href="/#${id}"]`);
+   expect(header?.querySelector("h2")?.textContent).toBe(link?.textContent);
    expect(header?.querySelector(".catalog-intro")).toBeInTheDocument();
   }
  });
