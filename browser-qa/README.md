@@ -30,3 +30,8 @@ To refresh artifacts safely, delete `browser-qa/artifacts/` locally; no deployme
 
 ## Consumer harness workspace specimen (#36)
 Use existing pinned browser setup, then `node scripts/consumer-smoke.mjs FULL_SHA --harness --browser`. The npm/React18 fixture becomes a real WorkspaceSplit/SurfaceHeader/SegmentedControl/ActionButton consumer, built with Vite. A local HTTP server serves dist; Chromium checks wide/narrow, light/dark, real state and keyboard outcome, body typography, available width and deliberately constrained-width negative control. Captures and actual measurements stay in the temp consumer. Review screenshots separately; this is not a blind-agent result. No automatic browser installation in production CI.
+
+
+## Composition regression and visual comparison
+
+See [Regression Gate](../docs/patterns/regression-gate.md) for exact baseline/compare commands and acceptance. `composition-regression.spec.ts` probes every visible textual ActionLink in both themes and real filter results, plus guide/catalog alignment. `composition-visual.spec.ts` is opt-in and requires exact version/SHA metadata, explicit baseline directory and snapshot policy; it covers chapters and critical controls at four widths in both themes. The baseline and candidate reports are isolated by VANYA_UI_EVIDENCE_DIR. Keep raw images local, review intentional diffs explicitly. The visual baseline is not automatically regenerated or marked accepted.
