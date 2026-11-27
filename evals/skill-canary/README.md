@@ -44,13 +44,13 @@ tests:
   - assert:
       - type: javascript
         value: |-
-          return output === require('node:fs').readFileSync('task.txt', 'utf8').trim();
+          return output === context.prompt && output.includes('/projects/demo') && output.includes('/guides/overview');
 YAML
   env -i PATH="$PATH" HOME="$HOME" \
     TMPDIR="${TMPDIR:-/tmp}" PROMPTFOO_CONFIG_DIR="$RUN/echo-db" \
     PROMPTFOO_SELF_HOSTED=1 PROMPTFOO_DISABLE_TELEMETRY=1 PROMPTFOO_DISABLE_UPDATE=1 \
     "$PF" eval -c echo.yaml --no-cache --max-concurrency 1 --no-share -o "$RUN/echo.json"
-  node -e 'const s=require(process.argv[1]).results.stats;if(s.successes!==1||s.failures!==0||s.errors!==0)process.exit(1)' "$RUN/echo.json"
+  node -e 'const r=require(process.argv[1]).results;const s=r.stats;const expected=require("node:fs").readFileSync(process.argv[2],"utf8").trim();if(s.successes!==1||s.failures!==0||s.errors!==0||r.results.length!==1||r.results[0].response.output!==expected)process.exit(1)' "$RUN/echo.json" "$RUN/task.txt"
   env -i PATH="$PATH" HOME="$HOME" CODEX_HOME="$CODEX_HOME" \
     TMPDIR="${TMPDIR:-/tmp}" \
     EVAL_CONFIG_PATH="${EVAL_CONFIG_PATH:-$HOME/.config/vanya-arc/eval.json}" \
