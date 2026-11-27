@@ -40,13 +40,13 @@ function QuietActionsDemo(){
     return ()=>window.clearInterval(timer);
   },[autoRefresh]);
   return <CatalogSection id="quiet-actions" title="Контекстные действия" description="Локальная демонстрация обновления: вручную или каждые пять секунд при включённом автообновлении.">
-    <div className="demo-quiet-actions">
+    <div className="demo-quiet-feedback"><div className="demo-quiet-actions">
       <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
       <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} pressedLabels={{on:"Вкл",off:"Выкл"}} onClick={()=>setAutoRefresh(v=>!v)}>
         Автообновление
       </ActionButton>
     </div>
-    <output className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</output>
+    <output className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</output></div>
   </CatalogSection>;
 }
 const genreOptions=[{value:"drama",label:"Драма"},{value:"comedy",label:"Комедия"},{value:"fantasy",label:"Фантастика"}];
@@ -89,11 +89,11 @@ function QuietInspectorDemo(){
 function QuietConfirmationDemo(){
   const [confirmed,setConfirmed]=useState(false);
   return <CatalogSection id="quiet-confirmation" title="Явное подтверждение" description="Контрастная кнопка выделяет основное действие.">
-    <div className="demo-quiet-actions">
+    <div className="demo-quiet-feedback"><div className="demo-quiet-actions">
       <ActionButton variant="prominent" size="md" disabled={confirmed} onClick={()=>setConfirmed(true)}>Подтвердить</ActionButton>
       <ActionButton size="md" disabled={!confirmed} onClick={()=>setConfirmed(false)}>Отменить подтверждение</ActionButton>
     </div>
-    <output className="ui-type-caption text-ink-soft">{confirmed?"Пример подтверждён":"Ожидает подтверждения"}</output>
+    <output className="ui-type-caption text-ink-soft">{confirmed?"Пример подтверждён":"Ожидает подтверждения"}</output></div>
   </CatalogSection>;
 }
 export function ComponentCatalog() {
@@ -143,8 +143,8 @@ export function ComponentCatalog() {
         <div className="demo-interaction-sample">
           <span className="demo-label">Действие / disabled</span>
           <div className="demo-interaction-pair">
-            <ActionButton variant="outline" size="md" actionState={interactionClicks>0?"success":"idle"} onClick={()=>setInteractionClicks(n=>n+1)}>Проверить действие</ActionButton>
-            <ActionButton variant="outline" size="md" disabled>Недоступно</ActionButton>
+            <ActionButton variant="text" size="md" actionState={interactionClicks>0?"success":"idle"} onClick={()=>setInteractionClicks(n=>n+1)}>Проверить действие</ActionButton>
+            <ActionButton variant="text" size="md" disabled>Недоступно</ActionButton>
           </div>
           <output role="status" className="ui-type-caption">{interactionClicks>0?`Нажатие принято · ${interactionClicks}`:"Нажми, чтобы увидеть подтверждение"}</output>
         </div>
