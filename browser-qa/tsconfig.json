@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true
+  },
+  "include": [
+    "playwright.config.ts",
+    "tests/**/*.ts",
+    "fixtures/**/*.ts",
+    "fixtures/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "artifacts"
+  ]
+}
