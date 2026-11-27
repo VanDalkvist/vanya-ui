@@ -390,6 +390,8 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .demo-quiet-results{list-style:none;padding:0;margin:var(--size-md-padding) 0;}
 .demo-quiet-results li{padding:var(--size-sm-padding) 0;border-bottom:1px solid var(--border);}
 .demo-quiet-actions{display:flex;align-items:center;flex-wrap:wrap;gap:var(--size-md-padding);}
+.demo-quiet-feedback{display:grid;gap:var(--size-sm-padding);min-width:0;}
+.demo-quiet-feedback>output{margin:0;}
 .demo-quiet-editor .demo-quiet-actions{justify-content:flex-start;}
 .demo-quiet-editor{display:grid;gap:var(--size-md-padding);max-width:420px;min-width:0;}
 
