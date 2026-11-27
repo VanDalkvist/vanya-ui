@@ -409,7 +409,6 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .demo-quiet-results li{padding:var(--size-sm-padding) 0;border-bottom:1px solid var(--border);}
 .demo-quiet-actions{display:flex;align-items:center;flex-wrap:wrap;gap:var(--size-md-padding);}
 .demo-quiet-editor .demo-quiet-actions{justify-content:flex-end;}
-.demo-quiet-editor .ui-text-field-note{min-height:1.6em;}
 .demo-quiet-editor{display:grid;gap:var(--size-md-padding);max-width:420px;min-width:0;}
 
 .demo-quiet-inspector{display:grid;max-width:420px;min-width:0;}
