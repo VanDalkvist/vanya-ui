@@ -12,6 +12,8 @@ export interface FilterSelectProps {
  className?:string;
  emptyLabel?:string;
  allowEmpty?:boolean;
+ /** Property editing keeps the current value neutral; a facet highlights applied filtering. */
+ purpose?:"filter"|"property";
  searchable?:boolean;
  disabled?:boolean;
  id?:string;
@@ -25,7 +27,7 @@ export interface FilterSelectProps {
  */
 export function FilterSelect({
  label,value,onValueChange,options,className,emptyLabel="Все",allowEmpty=true,
- searchable,disabled=false,id,menuWidth=290
+ searchable,disabled=false,id,menuWidth=290,purpose="filter"
 }:FilterSelectProps){
  const generated=useId().replace(/:/g,"");
  const triggerId=id||"ui-filter-"+generated;
@@ -129,7 +131,7 @@ export function FilterSelect({
   };
  },[open]);
  useEffect(()=>{setActive(Math.max(0,capped.findIndex(o=>o.value===value&&!o.disabled)))},[query,open,value]);
- return <div className={clsx("ui-filter-select",className)} data-expanded={open||undefined}>
+ return <div className={clsx("ui-filter-select",className)} data-expanded={open||undefined} data-purpose={purpose}>
   <button ref={triggerRef} id={triggerId} type="button" className="ui-filter-select-trigger"
    disabled={disabled} aria-labelledby={triggerId+"-label "+triggerId+"-value"}
    aria-haspopup="listbox" aria-expanded={open} aria-controls={open?listId:undefined}
