@@ -60,10 +60,7 @@ export {
   type MinimapProps,
   type MinimapTick,
 } from "./components/Minimap";
-export {
-  DisclosurePill,
-  type DisclosurePillProps,
-} from "./components/DisclosurePill";
+export {Disclosure,type DisclosureProps} from "./components/Disclosure";
 export { Divider, type DividerProps } from "./components/Divider";
 export { AvatarLink, type AvatarLinkProps } from "./components/AvatarLink";
 export { LinkChip, type LinkChipProps } from "./components/LinkChip";
@@ -127,7 +124,6 @@ export {FilterSelect, type FilterSelectProps, type FilterSelectOption} from "./c
 
 export {SurfaceHeader,type SurfaceHeaderProps} from "./components/SurfaceHeader";
 export {WorkflowStrip,type WorkflowStripProps} from "./components/WorkflowStrip";
-export {InspectorMeta,type InspectorMetaProps} from "./components/InspectorMeta";
 export type {InspectorCompactContext} from "./components/InspectDrawer";
 export {CostIndicator,type CostIndicatorProps,type CostCertainty} from "./components/CostIndicator";
 export { VersionLabel, type VersionLabelProps } from "./components/VersionLabel";

@@ -10,7 +10,6 @@ import { RangeSlider } from "../src/components/RangeSlider";
 import { HearthPulse } from "../src/components/HearthPulse";
 import { NavLinks } from "../src/components/NavLinks";
 import { Minimap } from "../src/components/Minimap";
-import { DisclosurePill } from "../src/components/DisclosurePill";
 import { Divider } from "../src/components/Divider";
 import { AvatarLink } from "../src/components/AvatarLink";
 import { LinkChip } from "../src/components/LinkChip";

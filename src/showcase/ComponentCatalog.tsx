@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ChapterHeader } from "./ChapterHeader";
 import {
-  ActionButton, ActionLink, GitHubIcon, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
+  ActionButton, ActionLink, GitHubIcon, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, Disclosure,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
-  SurfaceHeader, WorkflowStrip, InspectorMeta, CostIndicator, VersionLabel,
+  SurfaceHeader, WorkflowStrip, CostIndicator, VersionLabel,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
 } from "../index";
 import { CatalogSection } from "./CatalogSection";
@@ -318,7 +318,7 @@ export function ComponentCatalog() {
       <Sizes>{(size) => <><MeshStatusBadge size={size} status="online" label="доступен" /><MeshStatusBadge size={size} status="standby" label="ожидание" /><MeshStatusBadge size={size} status="warning" label="внимание" /><MeshStatusBadge size={size} status="offline" label="недоступен" /></>}</Sizes>
     </CatalogSection>
     <CatalogSection id="tag" title="Tag" description="Текстовые метки для категорий и тем."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
-    <CatalogSection id="disclosure" title="DisclosurePill" description="Дополнительный текст, который можно раскрыть."><DisclosurePill title="Показать пояснение"><p>Здесь можно разместить пояснение, которое не нужно показывать сразу.</p></DisclosurePill></CatalogSection>
+    <CatalogSection id="disclosure" title="Disclosure" description="Дополнительный текст, который можно раскрыть."><Disclosure summary="Показать пояснение"><p>Здесь можно разместить пояснение, которое не нужно показывать сразу.</p></Disclosure></CatalogSection>
     <CatalogSection id="link" title="LinkChip" description="Подписанная ссылка с адресом."><Sizes>{(size) => <LinkChip size={size} url="https://vanya-arc.dev" label="Синусоида" />}</Sizes></CatalogSection>
     <CatalogSection id="event" title="EventCard" description="Карточка с датой, описанием и ссылками.">
       {sampleVisible ? <EventCard date="5 ноября 2026" title="Пример проекта" description="Описание проекта со ссылкой и тегом." links={[{ url: "https://vanya-arc.dev", label: "референс" }]} tags={["демо"]} onClose={() => setSampleVisible(false)} /> : <ActionButton onClick={() => setSampleVisible(true)}>Показать EventCard снова</ActionButton>}
@@ -359,9 +359,9 @@ export function ComponentCatalog() {
         actions={<button type="button" onClick={()=>setOverlay(null)}>Открыть сайт · пример</button>}/>
       <WorkflowStrip label="Перевод · ревью · исправление" status="2 / 15"
         progress={{value:2,max:15}} actions={<button onClick={()=>setOverlay(null)}>Пауза</button>}/>
-      <InspectorMeta summary="Exa · 9 988 символов · Кеш">
+      <Disclosure summary="Exa · 9 988 символов · Кеш">
         <p>Информация о происхождении и полноте доступна здесь, но не выталкивает статью ниже экрана.</p>
-      </InspectorMeta>
+      </Disclosure>
       <div style={{maxWidth:"70ch",marginInline:"auto",fontFamily:"var(--font-serif)",fontSize:18,lineHeight:1.8}}>
         {Array.from({length:18},(_,i)=><p key={i} style={{marginBottom:22}}>Every six months, the way to build an AI agent changes. A clear, compact header leaves space for reading rather than making the reader scroll through controls and disclaimers.</p>)}
       </div>
@@ -429,10 +429,10 @@ export function ComponentCatalog() {
           <CostIndicator label="Exa" certainty="unknown" usd={null}/>
           <CostIndicator label="Перевод (free)" certainty="free" usd={0}/>
         </div>
-        <InspectorMeta summary="Exa · 9 988 символов · Кеш">
+        <Disclosure summary="Exa · 9 988 символов · Кеш">
           <p>Исходный текст может быть неполным. Для точных цитат сверяй оригинальную страницу.</p>
           <p>Получено: 22.11.2026 · Подробности источника доступны без нагрузки на первый экран.</p>
-        </InspectorMeta>
+        </Disclosure>
         <p style={{fontFamily:"var(--font-serif)",fontSize:18,lineHeight:1.75,maxWidth:"70ch",margin:0}}>Every six months, the right way to build an AI agent changes. В примере тело статьи начинается сразу после короткой рабочей панели.</p>
         <ActionButton size="sm" variant="accent" onClick={()=>setOverlay("composition")}>Открыть пример в дровере</ActionButton>
       </div>

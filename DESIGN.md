@@ -111,6 +111,8 @@ EnergyRadar uses the actual SegmentedControl for period selection, with the same
 
 ## Interaction
 
+Use `Disclosure` for supplementary explanations and provenance. One native `details`/`summary` contract with shared row feedback. Supply a concise summary and keep nested interactive controls in the revealed content. The browser owns the expanded state; `open` initializes the native attribute and a changed prop updates it, while `onToggle` observes native changes. Preserve keyboard activation and the user's choice on unrelated rerenders. See [reader composition](docs/composition/reading-inspectors.md).
+
 Controls must work in the demonstrated composition. Detail sheets and centered modal dialogs share the native modal lifecycle for focus containment, Escape dismissal and focus return; each owns its visual layout and content. The page theme controls share persistent theme selection, synchronized between the sticky header and their own catalogue row; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.
 
 ## Modes

@@ -778,7 +778,6 @@
  .inspect-sheet__compact-tools{display:flex;align-items:center;gap:10px;flex:0 0 auto;min-width:0;}
  .inspect-sheet__compact-status{font:10px/1.4 var(--font-mono);color:var(--ink-soft);white-space:nowrap;}
  .inspect-sheet__compact-actions{display:flex;align-items:center;gap:6px;white-space:nowrap;}
- .ui-inspector-meta summary:hover{color:var(--ink);}
  @media(max-width:650px){
   .ui-surface-header-identity{flex-basis:100%;}
   .ui-surface-header-actions{width:100%;}
@@ -821,11 +820,10 @@
  .ui-workflow-strip-progress{flex:1 1 80px;max-width:140px;min-width:50px;height:3px;background:var(--surface-inset);overflow:hidden;}
  .ui-workflow-strip-progress>span{display:block;height:100%;background:var(--accent);transition:width .15s ease-out;}
  .ui-workflow-strip-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
- .ui-inspector-meta{color:var(--ink-soft);font:11px/1.5 var(--font-sans);min-width:0;}
- .ui-inspector-meta summary{display:list-item;cursor:pointer;list-style-position:inside;outline-offset:3px;}
- .ui-inspector-meta summary:focus-visible{outline:2px solid var(--accent);}
- .ui-inspector-meta-content{display:flex;flex-direction:column;gap:8px;margin-top:8px;padding:8px 12px;border-left:1px solid var(--border);font:11px/1.6 var(--font-sans);}
- .ui-inspector-meta-content p{margin:0;}
+ .ui-disclosure{color:var(--ink-soft);font:11px/1.5 var(--font-sans);min-width:0;}
+ .ui-disclosure summary{display:list-item;cursor:pointer;list-style-position:inside;outline-offset:3px;}
+ .ui-disclosure-content{display:flex;flex-direction:column;gap:8px;margin-top:8px;padding:8px 12px;border-left:1px solid var(--border);font:11px/1.6 var(--font-sans);}
+ .ui-disclosure-content p{margin:0;}
  .ui-workspace-context-crumbs{display:flex;align-items:center;gap:8px;min-width:0;}
  .ui-workspace-context-crumbs ol{flex:0 1 auto;}
  .ui-workspace-context-breadcrumb-accessory{display:inline-flex;align-items:center;flex:0 0 auto;gap:5px;padding-left:8px;border-left:1px solid var(--border);font:500 11px/1.4 var(--font-sans);}

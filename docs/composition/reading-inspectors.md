@@ -11,7 +11,7 @@
 1. **Inspector chrome.** Уже существующий `InspectDrawer` с названием действия и Close. Он единственный не прокручивается на обычной высоте. До 600 px по высоте сам `dialog` становится прокруткой, а chrome sticky **внутри него**, без второго scroll owner.
 2. **SurfaceHeader** в потоке. `eyebrow/title/subtitle/actions`, компактный многострочный перенос. `collapseAnchor` — метка источника видимости для родительского `InspectDrawer` (никаких глобальных обработчиков `window.scroll`).
 3. **WorkflowStrip** в потоке. Одна строка: процесс, текущая стадия, реальный прогресс, пауза/продолжение или переключение языка. Если не помещается, перенос **внутри одного блока**, не отдельная длинная шапка.
-4. **InspectorMeta** — нативный `details`: источник, дата, кеш, ограничения извлечения, диагностика. Короткая строка видна всегда, полный текст раскрывается явно. **Ничего не удалено.**
+4. **Disclosure** — нативный `details`: источник, дата, кеш, ограничения извлечения, диагностика. Короткая строка видна всегда, полный текст раскрывается явно. **Ничего не удалено.**
 
 Затем **сразу тело статьи**: предел строки 65–75ch, размер для чтения, отдельные стили для ссылок, цитат, кодовых блоков и таблиц. Не добавлять объяснений или вторичных CTA между состоянием и началом контента.
 
@@ -25,9 +25,9 @@
 
 ## Варианты применения
 
-- **Source Reader:** `SurfaceHeader` содержит publisher/title/links, `WorkflowStrip` — перевод + стадии, `InspectorMeta` — Exa/retrieval/provenance.
-- **Evidence Inspector:** `SurfaceHeader` — факт/происхождение, `WorkflowStrip` — проверка, `InspectorMeta` — источники/качество.
-- **Publish Inspector:** `SurfaceHeader` — канал/пост, `WorkflowStrip` — статус доставки, `InspectorMeta` — attempt IDs, provenance, timestamps.
+- **Source Reader:** `SurfaceHeader` содержит publisher/title/links, `WorkflowStrip` — перевод + стадии, `Disclosure` — Exa/retrieval/provenance.
+- **Evidence Inspector:** `SurfaceHeader` — факт/происхождение, `WorkflowStrip` — проверка, `Disclosure` — источники/качество.
+- **Publish Inspector:** `SurfaceHeader` — канал/пост, `WorkflowStrip` — статус доставки, `Disclosure` — attempt IDs, provenance, timestamps.
 
 Эти компоненты не привязаны к D1, Exa, OpenRouter, Factory, конкретным endpoint или юридическим текстам. Продукт контролирует данные и actions.
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useInitialWaveReady } from "./useInitialWaveReady";
-import { DisclosurePill, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
+import { Disclosure, InspectDrawer, RangeSlider, SineWave, type SineWaveEvent } from "../index";
 import { ArrowDownRight } from "lucide-react";
 
 const moments = [
@@ -42,9 +42,9 @@ export function Scene() {
         {moment && <>
           <p className="text-base leading-relaxed text-ink">{moment.description}</p>
           <p>{moment.detail}</p>
-          <DisclosurePill title="Компоненты этого примера">
-            <p>SineWave, TimelineEvent, EventPoint, InspectDrawer, RangeSlider и DisclosurePill доступны в пакете @vanya/ui.</p>
-          </DisclosurePill>
+          <Disclosure summary="Компоненты этого примера">
+            <p>SineWave, TimelineEvent, EventPoint, InspectDrawer, RangeSlider и Disclosure доступны в пакете @vanya/ui.</p>
+          </Disclosure>
         </>}
       </InspectDrawer>
     </section>

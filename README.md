@@ -156,7 +156,8 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 - **Графики и индикаторы:** `EnergyRadar`, `SpiderRadar`, `VoiceWaveIndicator`, `HearthPulse`.
 - **Горячие клавиши:** `Kbd`, `ShortcutKeys`.
 - **Айдентика:** `VanyaArcMark`, `VanyaArcLockup`.
-- **Навигация и ссылки:** `NavLinks`, `AvatarLink`, `LinkChip`, `DisclosurePill`, `Divider`.
+- **Навигация и ссылки:** `NavLinks`, `AvatarLink`, `LinkChip`, `Divider`.
+- **Раскрытие подробностей:** `Disclosure` с `summary`, содержимым и нативными `open` / `onToggle`.
 - **Тема:** `useTheme`, `applyTheme`; режимы `light`, `dark`, `system`.
 
 Полный публичный API и типы находятся в [`src/index.ts`](src/index.ts). `OfferCard` сохранён как экспорт для совместимости, но временно убран из каталога.

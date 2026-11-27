@@ -103,6 +103,15 @@ test("native disclosure opens and closes by keyboard and preserves actual conten
  const content=details.getByText("Здесь можно разместить пояснение, которое не нужно показывать сразу.");
  await expect(content).toBeHidden();await summary.focus();await page.keyboard.press("Enter");
  await expect(content).toBeVisible();await expect(summary).toBeFocused();
+ // A real update to catalogue-owned React state must not reset the open disclosure.
+ const card=page.locator("#event");
+ await card.getByRole("button",{name:"Закрыть"}).click();
+ await expect(card.getByRole("button",{name:"Показать EventCard снова"})).toBeVisible();
+ await expect(content).toBeVisible();
+ await card.getByRole("button",{name:"Показать EventCard снова"}).click();
+ await expect(card.getByRole("button",{name:"Закрыть"})).toBeVisible();
+ await expect(content).toBeVisible();
+ await summary.focus();
  await page.keyboard.press("Space");await expect(content).toBeHidden();
 });
 

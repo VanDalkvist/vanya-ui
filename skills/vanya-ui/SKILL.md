@@ -51,6 +51,8 @@ For a new official Vanya Arc service or a branding task, read [brand identity in
 
 ## 3. Implement
 
+For supplementary content, use the pinned package's canonical `Disclosure` (`summary`, children, native `open` and `onToggle`). Keep interactive controls inside the revealed content; preserve native keyboard behavior and user-expanded state. When adopting a new major library version, follow its migration guide in the changelog and verify the actual exports.
+
 Build the requested surface with real shared components and tokens. Keep product state, domain behavior and routes in the product. Preserve unrelated geometry/scroll/focus and avoid invented APIs, unnecessary local lookalikes or mass redesign. For a missing reusable primitive, propose or implement a focused library change within the task's authorization, with example and tests.
 
 ## 4. Verify and observe

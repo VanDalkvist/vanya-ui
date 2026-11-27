@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader, SurfaceHeader, WorkflowStrip, InspectorMeta, CostIndicator } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader, SurfaceHeader, WorkflowStrip, Disclosure, CostIndicator } from "../src/index";
 
 describe("Workspace primitives", () => {
 
@@ -33,7 +33,7 @@ describe("Workspace primitives", () => {
     render(<>
       <SurfaceHeader title="Агенты" eyebrow="Exa" collapseAnchor/>
       <WorkflowStrip label="Перевод" status="2/15" progress={{value:2,max:15}}/>
-      <InspectorMeta summary="Происхождение">Получено из Exa</InspectorMeta>
+      <Disclosure summary="Происхождение">Получено из Exa</Disclosure>
     </>);
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow","2");
     expect(screen.getByText("Происхождение").closest("details")).toBeInTheDocument();

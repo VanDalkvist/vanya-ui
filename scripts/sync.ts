@@ -41,6 +41,7 @@ Manrope is the default UI/display family; Spectral remains available for deliber
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
 ## Interaction API (source contract)
+Disclosure uses native details/summary with summary, children, open and onToggle; browser user toggles survive unrelated rerenders. Use one component for supplementary explanations and provenance.
 SegmentedControl defaults to filters (aria-pressed). Explicit tabs require tabId/panelId and matching panels. For unavailable controlled tabs, onChange requests the first enabled tab; the owner updates selection and panel together. ThemeToggle delegates sequential Tab focus to the browser. For stable geometry, name protected elements and verify their rendered coordinates across states. See https://ui.vanya-arc.dev/reference/composition.md and https://ui.vanya-arc.dev/reference/agent-skill.md.
 
 ## Loading states (normative)

@@ -3,7 +3,7 @@ import {afterEach,describe,expect,it,vi} from "vitest";
 import {cleanup,fireEvent,render,screen,within} from "@testing-library/react";
 import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
-import {ActionButton,ActionLink,AvatarLink,DisclosurePill,InspectorMeta,EventCard,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
+import {ActionButton,ActionLink,AvatarLink,Disclosure,EventCard,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
 import {ShowcaseHeader} from "../src/showcase/ShowcaseHeader";
 
 const read=(file:string)=>readFileSync(resolve(import.meta.dirname,"..",file),"utf8");
@@ -81,7 +81,7 @@ describe("interaction feedback contracts",()=>{
  });
  it("uses the shared feedback on disclosure and close actions",()=>{
   render(<>
-   <DisclosurePill title="Детали">Дополнительно</DisclosurePill>
+   <Disclosure summary="Детали">Дополнительно</Disclosure>
    <EventCard date="2026" title="Тест" description="Пример" links={[]} tags={[]} onClose={()=>{}}/>
   </>);
   const summary=screen.getByText("Детали").closest("summary");
@@ -90,16 +90,30 @@ describe("interaction feedback contracts",()=>{
   expect(close).toHaveClass("ui-feedback-nav");
  });
  it("uses one native disclosure anatomy for explanation and provenance",()=>{
-  render(<><DisclosurePill title="Пояснение" defaultOpen><p>Текст пояснения</p></DisclosurePill><InspectorMeta summary="Источник"><p>Текст источника</p></InspectorMeta></>);
+  render(<><Disclosure summary="Пояснение" open><p>Текст пояснения</p></Disclosure><Disclosure summary="Источник"><p>Текст источника</p></Disclosure></>);
   const first=screen.getByText("Пояснение").closest("details")!;
   const second=screen.getByText("Источник").closest("details")!;
   for(const details of [first,second]){
-   expect(details).toHaveClass("ui-inspector-meta");
+   expect(details).toHaveClass("ui-disclosure");
    expect(details.querySelector(":scope > summary")).toHaveClass("ui-feedback-row");
-   expect(details.querySelector(":scope > .ui-inspector-meta-content")).not.toBeNull();
+   expect(details.querySelector(":scope > .ui-disclosure-content")).not.toBeNull();
   }
   expect(first.open).toBe(true);expect(second.open).toBe(false);
   expect(first).toHaveTextContent("Текст пояснения");expect(second).toHaveTextContent("Текст источника");
+ });
+ it("retains native disclosure state across rerenders and applies an explicitly changed open attribute",()=>{
+  const view=render(<Disclosure summary="Детали" open={false}>Первый текст</Disclosure>);
+  const details=screen.getByText("Детали").closest("details")!;
+  expect(details.open).toBe(false);
+  details.open=true; // Native user toggle is exercised in the compiled-browser suite.
+  view.rerender(<Disclosure summary="Детали" open={false}>Новый текст</Disclosure>);
+  expect(details.open).toBe(true);
+  expect(details).toHaveTextContent("Новый текст");
+  view.rerender(<Disclosure summary="Детали" open>Новый текст</Disclosure>);
+  view.rerender(<Disclosure summary="Детали" open={false}>Новый текст</Disclosure>);
+  expect(details.open).toBe(false);
+  view.rerender(<Disclosure summary="Детали" open>Новый текст</Disclosure>);
+  expect(details.open).toBe(true);
  });
  it("keeps GitHub glyph smaller than its stable hit target",()=>{
   render(<ShowcaseHeader/>);

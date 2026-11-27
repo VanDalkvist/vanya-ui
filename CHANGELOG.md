@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### Breaking — Composition
+- Replace `DisclosurePill` and `InspectorMeta` with one `Disclosure` export and `DisclosureProps` type. For `DisclosurePill`, change `title` to `summary` and `defaultOpen` to `open`; for `InspectorMeta`, retain `summary`, children and native details props. Use the native `onToggle` event to observe user changes. The browser owns user toggles; a changed `open` prop updates the attribute. Registry item is now `disclosure`; CSS selectors are `ui-disclosure` and `ui-disclosure-content`. Existing pinned versions remain unchanged. This is a major-version migration; each consumer upgrades separately.
+
+### Changed
+- Reuse the canonical row feedback for disclosure, removing redundant local hover/focus rules; preserve the native marker, content geometry and stable catalogue fragment.
+
 ## [2.0.0] - 2026-11-27
 
 ### Breaking

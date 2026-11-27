@@ -89,13 +89,13 @@
       ]
     },
     {
-      "name": "disclosure-pill",
+      "name": "disclosure",
       "type": "registry:ui",
-      "title": "DisclosurePill",
-      "description": "React UI component DisclosurePill from @vanya/ui",
+      "title": "Disclosure",
+      "description": "React UI component Disclosure from @vanya/ui",
       "files": [
         {
-          "path": "src/components/DisclosurePill.tsx",
+          "path": "src/components/Disclosure.tsx",
           "type": "registry:ui"
         }
       ]
@@ -192,18 +192,6 @@
       "files": [
         {
           "path": "src/components/InspectDrawer.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "inspector-meta",
-      "type": "registry:ui",
-      "title": "InspectorMeta",
-      "description": "React UI component InspectorMeta from @vanya/ui",
-      "files": [
-        {
-          "path": "src/components/InspectorMeta.tsx",
           "type": "registry:ui"
         }
       ]
