@@ -39,6 +39,7 @@ export function FilterSelect({
  const [open,setOpen]=useState(false);
  const [query,setQuery]=useState("");
  const [active,setActive]=useState(0);
+ const [keyboardActive,setKeyboardActive]=useState(false);
  const [position,setPosition]=useState<React.CSSProperties>({position:"fixed",top:0,left:0,width:260,visibility:"hidden"});
  const allOptions=useMemo(()=>allowEmpty?[{value:"",label:emptyLabel},...options]:options,[allowEmpty,emptyLabel,options]);
  const doSearch=searchable??allOptions.length>12;
@@ -65,14 +66,22 @@ export function FilterSelect({
   });
  };
  const close=(restoreFocus=false)=>{
-  setOpen(false);setQuery("");
+  setOpen(false);setQuery("");setKeyboardActive(false);
   if(restoreFocus)triggerRef.current?.focus();
  };
- const openMenu=(direction=0)=>{
+ const openMenu=(direction=0,keyboard=false)=>{
   if(disabled)return;
-  const selectedIndex=Math.max(0,allOptions.findIndex(o=>o.value===value&&!o.disabled));
-  setActive(direction===1?Math.min(selectedIndex+1,allOptions.length-1):direction===-1?Math.max(0,selectedIndex-1):selectedIndex);
-  setQuery("");setOpen(true);
+  const selectedIndex=allOptions.findIndex(o=>o.value===value&&!o.disabled);
+  const first=allOptions.findIndex(o=>!o.disabled);
+  const start=selectedIndex>=0?selectedIndex:first;
+  let next=start;
+  if(direction!==0&&start>=0){
+   for(let i=1;i<=allOptions.length;i++){
+    const candidate=(start+direction*i+allOptions.length)%allOptions.length;
+    if(!allOptions[candidate].disabled){next=candidate;break;}
+   }
+  }
+  setActive(next);setKeyboardActive(keyboard);setQuery("");setOpen(true);
  };
  const pick=(option:FilterSelectOption)=>{
   if(option.disabled)return;
@@ -83,13 +92,15 @@ export function FilterSelect({
   if(!capped.length)return;
   setActive(current=>{
    for(let i=1;i<=capped.length;i++){
-    const next=(current+step*i+capped.length*2)%capped.length;
+    const start=current<0?(step>0?-1:0):current;
+    const next=(start+step*i+capped.length*2)%capped.length;
     if(!capped[next].disabled)return next;
    }
    return current;
   });
  };
  const onMenuKey=(event:React.KeyboardEvent)=>{
+  if(["ArrowDown","ArrowUp","Home","End","PageDown","PageUp"].includes(event.key))setKeyboardActive(true);
   if(event.key==="ArrowDown"){event.preventDefault();moveActive(1)}
   else if(event.key==="ArrowUp"){event.preventDefault();moveActive(-1)}
   else if(event.key==="Home"){event.preventDefault();setActive(0)}
@@ -130,15 +141,18 @@ export function FilterSelect({
    window.removeEventListener("resize",reposition);
   };
  },[open]);
- useEffect(()=>{setActive(Math.max(0,capped.findIndex(o=>o.value===value&&!o.disabled)))},[query,open,value]);
+ useEffect(()=>{
+  const selectedIndex=capped.findIndex(o=>o.value===value&&!o.disabled);
+  setActive(selectedIndex>=0?selectedIndex:capped.findIndex(o=>!o.disabled));
+ },[query,value]);
  return <div className={clsx("ui-filter-select",className)} data-expanded={open||undefined} data-purpose={purpose}>
   <button ref={triggerRef} id={triggerId} type="button" className="ui-filter-select-trigger"
    disabled={disabled} aria-labelledby={triggerId+"-label "+triggerId+"-value"}
    aria-haspopup="listbox" aria-expanded={open} aria-controls={open?listId:undefined}
-   onClick={()=>open?close():openMenu()}
+   onClick={e=>open?close():openMenu(0,e.detail===0)}
    onKeyDown={e=>{
     if(!open&&(e.key==="ArrowDown"||e.key==="ArrowUp"||e.key===" ")){
-     e.preventDefault();openMenu(e.key==="ArrowUp"?-1:0);
+     e.preventDefault();openMenu(e.key==="ArrowUp"?-1:0,true);
     }
    }}>
    <span id={triggerId+"-label"} className="ui-filter-select-label">{label}<span aria-hidden="true">:</span></span>{" "}
@@ -150,7 +164,7 @@ export function FilterSelect({
    {doSearch&&<div className="ui-filter-select-search-wrap">
     <Search size={16} aria-hidden="true"/>
     <input ref={searchRef} type="search" className="ui-filter-select-search"
-     aria-label={"Поиск по вариантам: "+label} value={query} onChange={e=>setQuery(e.target.value)}
+     aria-label={"Поиск по вариантам: "+label} value={query} onChange={e=>{setKeyboardActive(true);setQuery(e.target.value);}}
      onKeyDown={onMenuKey} aria-controls={listId} aria-activedescendant={capped[active]?optionId(active):undefined}/>
    </div>}
    <div ref={listRef} role="listbox" id={listId} aria-label={label} tabIndex={doSearch?-1:0}
@@ -158,8 +172,8 @@ export function FilterSelect({
     onKeyDown={doSearch?undefined:onMenuKey} className="ui-filter-select-options">
     {capped.map((option,i)=><div key={option.value||"empty"} id={optionId(i)}
       role="option" aria-selected={option.value===value} aria-disabled={option.disabled||undefined}
-      data-active={i===active||undefined} className="ui-filter-select-option"
-      onMouseEnter={()=>setActive(i)} onClick={()=>pick(option)}>
+      data-active={keyboardActive&&i===active||undefined} className="ui-filter-select-option"
+      onMouseEnter={()=>{if(!option.disabled){setActive(i);setKeyboardActive(false);}}} onClick={()=>pick(option)}>
       <span className="ui-filter-select-option-text">{option.label}</span>
       {option.value===value&&<Check size={15} aria-hidden="true"/>}
      </div>)}
