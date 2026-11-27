@@ -36,3 +36,7 @@ Update `CHANGELOG.md` in the same batch with the dated version and all substanti
 ## Intentional site release checkpoint (2026-11-26)
 
 Commit and push coherent work freely. Production Cloudflare Builds on `main` watches `release/vanya-ui.trigger`. Create or update it with a short release description at an intentional release checkpoint after relevant verification and required approval, or explicitly start the existing trigger for the approved exact main SHA. First marker creation requests a build. Confirm terminal build outcome and active version separately. Native path filters may be bypassed for empty pushes, 20+ commits or 3000+ changed files. The site checkpoint preserves the package version/tag policy; non-main validation, consumer smoke, public artifact and licensing checks remain unchanged.
+
+## Editorial consistency gate
+
+For user-facing Russian copy, read `.agents/redpolitika.md` and the relevant original Sarycheva/Arkhipov editorial skill when required. Keep navigation labels and destination H2s derived from the same private section vocabulary; first-screen overview H1 names the product purpose. Verify rendered DOM label/heading parity and actual action/result semantics. When removing functionality, audit related copy and documentation. Avoid arbitrary decorative numbers and machine-generated abstract slogans; preserve verified facts and attribution.
