@@ -68,6 +68,7 @@
   --ui-feedback-pressed-fill: color-mix(in oklab,var(--ink) 11%,transparent);
   --ui-feedback-hover-border: color-mix(in oklab,var(--ink) 25%,var(--border));
   --ui-feedback-duration: 140ms;
+  --ui-field-boundary: color-mix(in oklab,var(--ink-soft) 62%,var(--ground));
   --event-card-radius: 8px;
   --event-card-shadow: 0 4px 16px -2px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
   --event-card-hover-shadow: 0 16px 36px -6px rgba(0,0,0,.12), 0 4px 12px -2px rgba(0,0,0,.06);
@@ -574,14 +575,15 @@
  .ui-text-field,.ui-select-field[data-density="default"]{display:flex;flex-direction:column;gap:7px;min-width:0;}
  .ui-text-field-label,.ui-select-field[data-density="default"] .ui-select-field-label{font:500 13px/1.5 var(--font-sans);color:var(--ink-soft);}
  .ui-text-field-input{
-  width:100%;min-width:0;height:40px;border:0;border-bottom:1px solid color-mix(in oklab,var(--ink-soft) 62%,var(--ground));border-radius:0;background:transparent;color:var(--ink);
+  width:100%;min-width:0;height:40px;border:0;border-bottom:1px solid var(--ui-field-boundary);border-radius:0;background:transparent;color:var(--ink);
   padding:0;outline:none;font:500 14px/1.45 var(--font-sans);
  }
  .ui-text-field-input::placeholder{color:var(--ink-soft);opacity:.75;}
  .ui-text-field-input:focus{outline:2px solid var(--accent);outline-offset:1px;}
  .ui-text-field-input:is(:disabled,[readonly]){border-bottom-color:transparent;}
  .ui-text-field-input:disabled{opacity:.45;cursor:not-allowed;}
- @media(hover:hover) and (pointer:fine){.ui-text-field-input:not(:disabled):not([readonly]):hover{background:var(--ui-feedback-hover-fill);border-bottom-color:var(--ink-soft);}}
+ @media(hover:hover) and (pointer:fine){.ui-text-field-input:not(:disabled):not([readonly]):hover{background:var(--ui-feedback-hover-fill);}
+ .ui-text-field-input:not(:disabled):not([readonly]):not([aria-invalid="true"]):hover{border-bottom-color:var(--ink-soft);}}
  .ui-text-field-input[aria-invalid="true"]{border-bottom-color:var(--accent);}
  .ui-text-field-input[aria-invalid="true"]:not(:focus){outline:1px solid var(--accent);outline-offset:1px;}
  .ui-text-field-note{margin:0;font:400 12px/1.6 var(--font-sans);color:var(--ink-soft);}
@@ -643,7 +645,7 @@
   transition:background-color var(--ui-feedback-duration) ease;
  }
  .ui-select-field[data-density="toolbar"]:has(select:focus-visible){outline:2px solid var(--accent);outline-offset:1px;}
- .ui-select-field[data-density="default"] .ui-select-field-select{height:40px;border:0;border-bottom:1px solid color-mix(in oklab,var(--ink-soft) 62%,var(--ground));padding:0;border-radius:0;background:transparent;color:var(--ink);font:500 14px/1.45 var(--font-sans);}
+ .ui-select-field[data-density="default"] .ui-select-field-select{height:40px;border:0;border-bottom:1px solid var(--ui-field-boundary);padding:0;border-radius:0;background:transparent;color:var(--ink);font:500 14px/1.45 var(--font-sans);}
  .ui-select-field[data-density="default"] .ui-select-field-select:disabled{border-bottom-color:transparent;}
  .ui-select-field[data-density="default"] .ui-select-field-select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
  @media(hover:hover) and (pointer:fine){
@@ -861,10 +863,10 @@
     color:var(--ui-feedback-icon-ink,var(--ink-soft)); background:transparent;
     transition:color var(--ui-feedback-duration) ease,background-color var(--ui-feedback-duration) ease;
   }
-  .ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source {
+  .ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar {
     transition:color var(--ui-feedback-duration) ease,background-color var(--ui-feedback-duration) ease,border-color var(--ui-feedback-duration) ease;
   }
-  :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible {
+  :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar):focus-visible {
     outline:2px solid var(--accent);outline-offset:2px;
   }
   .ui-feedback-icon[aria-expanded="true"] {
@@ -877,12 +879,8 @@
   .ui-feedback-row[aria-checked="true"] {
     background:color-mix(in oklab,var(--accent-soft) 60%,var(--ground));
   }
-  .ui-feedback-source > span:nth-child(2) {
-    color:inherit;
-  }
   .ui-action-link:active {color:var(--ink);}
-  .ui-action-link[data-variant="pill"]:active {background:var(--ui-feedback-pressed-fill);}
-  /* One owner for command presentation; legacy variants share the same feedback. */
+  /* One owner for command presentation. */
   .ui-action-button[data-variant="prominent"] {background:var(--ink);color:var(--ground);}
   .ui-feedback-segment:is([aria-pressed="true"],[aria-selected="true"]),
   .ui-action-button[aria-pressed="true"]:not([data-variant="prominent"]) {color:var(--accent);background:color-mix(in oklab,var(--ui-feedback-pressed-fill) 40%,var(--ui-feedback-hover-fill));text-decoration:none;}
@@ -900,8 +898,8 @@
   .ui-action-link .ui-new-tab-marker{display:inline-block;flex-shrink:0;width:.9em;height:.9em;vertical-align:-.08em;color:inherit;}
   .ui-action-link[data-variant="prose"] .ui-new-tab-marker{margin-inline-start:.25em;}
   .ui-action-link[data-variant="prose"]:focus-visible{outline-offset:2px;}
-  .ui-action-link.ui-feedback-source{padding-inline:var(--ui-padding);}
-  .ui-action-link.ui-feedback-source>span:first-child{margin-inline-end:var(--ui-gap);}
+  .ui-action-link.ui-link-source{padding-inline:var(--ui-padding);}
+  .ui-action-link.ui-link-source>span:first-child{margin-inline-end:var(--ui-gap);}
   .ui-action-toggle-state{display:inline-grid;min-width:3em;text-align:right;font-size:var(--size-sm-font);font-variant-numeric:tabular-nums;}
   .ui-action-toggle-state>span{grid-area:1/1;}
   .ui-action-toggle-state>span[data-current="false"]{visibility:hidden;}
@@ -934,10 +932,8 @@
       color:var(--ink);background:var(--ui-feedback-hover-fill);
     }
     .ui-feedback-avatar:hover { border-color:var(--ui-feedback-hover-border); }
-    .ui-feedback-source:hover { color:var(--ink);text-decoration:underline;text-underline-offset:3px; }
-    .ui-action-link:is([data-variant="text"],[data-variant="mono"],[data-variant="prose"]):hover { color:var(--accent);text-decoration:underline;text-decoration-color:currentColor;text-underline-offset:.18em; }
+    .ui-action-link:is([data-variant="text"],[data-variant="prose"]):hover { color:var(--accent);text-decoration:underline;text-decoration-color:currentColor;text-underline-offset:.18em; }
     .ui-action-link[data-variant="accent"]:hover { color:var(--ink);text-decoration-color:currentColor; }
-    .ui-action-link[data-variant="pill"]:hover { color:var(--ink);background:var(--ui-feedback-hover-fill); }
   }
   /* A card is clickable only when it has a real action; native card buttons
      carry feedback, while separate card actions remain independent. */
@@ -972,15 +968,13 @@
   }
   /* Press must be visibly distinct from hover and must react immediately.
      :active is momentary; pending/success/error are consumer-owned durable feedback. */
-  :is(.ui-feedback-text,.ui-feedback-nav,.ui-feedback-source,.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):active {
+  :is(.ui-feedback-text,.ui-feedback-nav,.ui-feedback-icon,.ui-feedback-row,.ui-feedback-segment):active {
     transition-duration:0ms;
   }
-  .ui-action-link:is([data-variant="text"],[data-variant="mono"],[data-variant="accent"],[data-variant="prose"]):active,
-  .ui-feedback-nav:not([aria-disabled="true"]):active,
-  .ui-feedback-source:active {
+  .ui-action-link:is([data-variant="text"],[data-variant="accent"],[data-variant="prose"]):active,
+  .ui-feedback-nav:not([aria-disabled="true"]):active {
     opacity:.68;
   }
-  .ui-action-link[data-variant="pill"]:active,
   .ui-feedback-icon:not([aria-disabled="true"]):active,
   .ui-feedback-row:not([aria-disabled="true"]):active,
   .ui-feedback-segment:not(:disabled):active {
@@ -1032,7 +1026,7 @@
   .ui-media-card-artwork:active {filter:brightness(.88);}
   @media(forced-colors:active){
     svg text{fill:CanvasText;}
-    :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar,.ui-feedback-source):focus-visible{outline:2px solid Highlight;}
+    :is(.ui-feedback-icon,.ui-feedback-text,.ui-feedback-nav,.ui-feedback-row,.ui-feedback-segment,.ui-feedback-avatar):focus-visible{outline:2px solid Highlight;}
     .ui-feedback-row[aria-checked="true"],.ui-feedback-icon[aria-expanded="true"]{outline:1px solid Highlight;}
     .ui-feedback-segment:has(>svg:only-child){forced-color-adjust:none;color:ButtonText;border-bottom-color:Canvas;}
     .ui-feedback-segment[aria-pressed="true"]:has(>svg:only-child){color:Highlight;border-bottom-color:Highlight;}
