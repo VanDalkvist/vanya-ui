@@ -93,6 +93,19 @@ describe("FilterSelect custom popup",()=>{
   fireEvent.keyDown(screen.getByRole("listbox"),{key:"Enter"});
   expect(onValueChange).toHaveBeenCalledWith("c");
  });
+ it("scrolls the menu itself when keyboard movement reaches an offscreen enabled row",()=>{
+  const options=Array.from({length:30},(_,i)=>({value:String(i),label:"Option "+i}));
+  render(<FilterSelect label="Тип" value="0" allowEmpty={false} searchable={false} options={options} onValueChange={()=>{}}/>);
+  fireEvent.keyDown(screen.getByRole("button",{name:"Тип Option 0"}),{key:"ArrowDown"});
+  const list=screen.getByRole("listbox");
+  const last=screen.getByRole("option",{name:"Option 29"});
+  const rect=(top:number,bottom:number)=>({top,bottom,left:0,right:100,x:0,y:top,width:100,height:bottom-top,toJSON:()=>({})});
+  vi.spyOn(list,"getBoundingClientRect").mockReturnValue(rect(0,100));
+  vi.spyOn(last,"getBoundingClientRect").mockReturnValue(rect(500,536));
+  fireEvent.keyDown(list,{key:"End"});
+  expect(last).toHaveAttribute("data-active","true");
+  expect(list.scrollTop).toBe(436);
+ });
  it("uses portal and preserves native SelectField as a separate component",()=>{
   render(<div data-testid="wrap"><FilterSelect label="Порядок" value="" options={options} onValueChange={()=>{}}/></div>);
   fireEvent.click(screen.getByRole("button",{name:"Порядок Все"}));
