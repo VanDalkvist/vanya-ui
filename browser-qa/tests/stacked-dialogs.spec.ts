@@ -23,8 +23,8 @@ for (const outerFirst of [false, true]) {
     await page.evaluate(() => { document.body.style.overflow = "auto"; });
     const scope = page.locator("#qa-stacked-dialogs");
     const opener = scope.getByRole("button", {name: "Открыть внешний QA диалог"});
-    const outer = scope.locator("dialog").filter({hasText: "Внешний QA диалог"});
-    const inner = scope.locator("dialog").filter({hasText: "Внутренний QA диалог"});
+    const outer = scope.locator("dialog").filter({has: page.locator("h2").filter({hasText: /^Внешний QA диалог$/})});
+    const inner = scope.locator("dialog").filter({has: page.locator("h3").filter({hasText: /^Внутренний QA диалог$/})});
     const openInner = outer.getByRole("button", {name: "Открыть внутренний QA диалог"});
     const closeInner = inner.getByRole("button", {name: "Закрыть окно"});
     const overflow = () => page.evaluate(() => document.body.style.overflow);
@@ -41,7 +41,7 @@ for (const outerFirst of [false, true]) {
     await expect.poll(overflow).toBe("hidden");
 
     // A real top-layer modal prevents focus from escaping to its inert opener.
-    await openInner.evaluate(el => (el as HTMLElement).focus());
+    await outer.locator("button").filter({hasText: /^Открыть внутренний QA диалог$/}).evaluate(el => (el as HTMLElement).focus());
     await expect(closeInner).toBeFocused();
 
     if (outerFirst) {
