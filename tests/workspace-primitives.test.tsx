@@ -154,16 +154,16 @@ describe("Workspace primitives", () => {
       const opener=screen.getByRole("button",{name:"Исходное действие"});
       try{
         opener.focus();view.rerender(<Example outer inner={false}/>);
-        expect(screen.getByRole("button",{name:"Закрыть инспектор"})).toBeFocused();
+        expect(screen.getByRole("button",{name:"Закрыть инспектор"})).toHaveFocus();
         view.rerender(<Example outer inner/>);
         expect(document.body.style.overflow).toBe("hidden");
-        expect(screen.getByRole("button",{name:"Закрыть окно"})).toBeFocused();
+        expect(screen.getByRole("button",{name:"Закрыть окно"})).toHaveFocus();
         view.rerender(<Example outer={!outerFirst} inner={outerFirst}/>);
         expect(document.body.style.overflow).toBe("hidden");
-        expect(screen.getByRole("button",{name:outerFirst?"Закрыть окно":"Закрыть инспектор"})).toBeFocused();
+        expect(screen.getByRole("button",{name:outerFirst?"Закрыть окно":"Закрыть инспектор"})).toHaveFocus();
         view.rerender(<Example outer={false} inner={false}/>);
         expect(document.body.style.overflow).toBe("auto");
-        expect(opener).toBeFocused();
+        expect(opener).toHaveFocus();
       }finally{view.unmount();document.body.style.overflow=original;}
     });
   }
