@@ -167,3 +167,6 @@ R12 verification: existing Node markdown-publication tests executed locally on e
 
 ## Final S9 execution checkpoint — pending
 On a permitted real checkout with network and existing dependencies: follow contributor guide (node scripts/ui-pipeline.mjs contribute --project . --json), consumer smoke (npm run test:consumer), browser-qa README and regression-gate.md (immutable 176-scene baseline capture, comparison against compiled candidate, full functional suite). First record exact baseline and candidate SHA/version, toolchain, and actual deployment provenance. Review visual differences and independent architecture/product outcomes. Fix failures and rerun affected checks, then version 3.0.0/changelog, rerun applicable checks on exact versioned candidate and publish only at intentional checkpoint. Current local blocker is DNS/Bun/dependency availability; no automatic workflow or new runner. Overall acceptance NOT_VERIFIED.
+
+## R13 — skill authoring and publication audit
+[Research, findings and plan](../../research/skill-publication-audit-2026-11-27.md). S1–S3 fix now; S4 live/runtime verification remains open; S5 standalone packaging log-only. Existing production unchanged.
