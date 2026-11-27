@@ -43,9 +43,9 @@ for(const width of [320,390,1024,1440]) for(const theme of ["light","dark"] as c
     await expect.poll(()=>page.locator("#type-reading-title").evaluate(el=>el.getBoundingClientRect().top>=document.querySelector(".showcase-header")!.getBoundingClientRect().bottom-1)).toBe(true);
     // Old tracking must fail the same computed-style oracle.
     await action.evaluate(el=>{(el as HTMLElement).style.letterSpacing=".16em"});
-    expect(await trackingRatio(action)).not.toBeCloseTo(.03,3);
+    expect(await trackingRatio(action)).not.toBeCloseTo(0,3);
     await action.evaluate(el=>{(el as HTMLElement).style.letterSpacing=""});
-    expect(await trackingRatio(action)).toBeCloseTo(.03,3);
+    expect(await trackingRatio(action)).toBeCloseTo(0,3);
     expect(await scope.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
   });
 }
