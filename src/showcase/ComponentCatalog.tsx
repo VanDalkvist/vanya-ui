@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ChapterHeader } from "./ChapterHeader";
 import {
   ActionButton, ActionLink, GitHubIcon, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, DisclosurePill,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
@@ -127,8 +128,7 @@ export function ComponentCatalog() {
 
   return <>
     <section id="catalog" className="catalog" aria-labelledby="catalog-title">
-    <h2 id="catalog-title" className="catalog-title">Компоненты</h2>
-    <p className="catalog-intro">Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные.</p>
+    <ChapterHeader id="catalog" title="Компоненты" description="Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные."/>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
     </CatalogSection>
@@ -367,8 +367,7 @@ export function ComponentCatalog() {
     <ReceiptDigestModal isOpen={overlay === "digest"} title="Пример итогов" narrative="Обновили витрину компонентов." receipts={["Добавили фон первого экрана", "Обновили примеры компонентов"]} onClose={() => setOverlay(null)} />
   </section>
   <section id="workspace" className="catalog" aria-labelledby="workspace-title">
-    <h2 id="workspace-title" className="catalog-title">Рабочие поверхности</h2>
-    <p className="catalog-intro">Композиции для работы с контекстом: список и детали, области прокрутки, заголовки и панели действий.</p>
+    <ChapterHeader id="workspace" title="Рабочие поверхности" description="Композиции для работы с контекстом: список и детали, области прокрутки, заголовки и панели действий."/>
     <CatalogSection id="workspace-overview" title="Рабочие поверхности: композиция"
       description="Нейтральная композиция: заголовок списка, счётчик, пустое состояние, один скролл на область и футер действий.">
       <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
