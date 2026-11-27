@@ -2,7 +2,7 @@
 
 This is the canonical short path. Read [the skill](../../skills/vanya-ui/SKILL.md) and applicable [DESIGN.md](../../DESIGN.md) for design choices and visual acceptance.
 
-CLI discovery: `vui --help` or `vanya-arc-ui --help` in a project with a compatible installed package. Use `./node_modules/.bin/vui` to select the pinned local executable. For older pins or a source folder, use the direct Node commands below. `vui <command> --help` describes command options.
+CLI discovery: `vui --help` in a project with a compatible installed package. Use `./node_modules/.bin/vui` to select the pinned local executable. For older pins or a source folder, use the direct Node commands below. `vui <command> --help` describes command options.
 
 ## New React project
 1. Select a **verified harness-capable immutable SHA** from [versioning](../versioning.md); install and lock `@vanya/ui`. A 0.4.x pin predates the harness. The versioning guide records the 1.0.0 source version, exact consumer-smoke SHA `a7c5a86356980e3319326d1a98e28f9f0b9a1d8b`, production build evidence and separate tag status. It includes productMark and contributor mode. Check the installed API and the local guide revision for the required capability. If no compatible release or approved candidate is available, report BLOCKED; do not silently install a moving main.

@@ -110,13 +110,11 @@ async function main() {
         assertConsumerLock(lock,row.manager,sha);
         if(harness){
           phase="cli-entrypoint";
-          for(const name of ["vanya-arc-ui","vui"]){
-            const executable=join(cwd,"node_modules/.bin",name);
-            const help=run(cwd,executable,["--help"]);
-            if(!help.includes("Contributor command:")||!help.includes("Consumer commands:"))throw Error("Missing CLI help for "+name);
-            const sub=run(cwd,executable,["contribute","--help"]);
-            if(!sub.includes("Usage: vui contribute"))throw Error("Missing subcommand help for "+name);
-          }
+          const executable=join(cwd,"node_modules/.bin","vui");
+          const help=run(cwd,executable,["--help"]);
+          if(!help.includes("Contributor command:")||!help.includes("Consumer commands:"))throw Error("Missing CLI help for vui");
+          const sub=run(cwd,executable,["contribute","--help"]);
+          if(!sub.includes("Usage: vui contribute"))throw Error("Missing subcommand help for vui");
           receipt.checks.cliEntrypoint="PASS";
         }
         const installed=JSON.parse(readFileSync(join(cwd,"node_modules","@vanya","ui","package.json"),"utf8"));

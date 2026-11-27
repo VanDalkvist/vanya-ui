@@ -71,7 +71,7 @@ function printHelp(command){
   if(command==='contribute')console.log('Verify library contributions: test, typecheck, build, lint:design:pilot. Visual acceptance is separate.\nContributor guide: '+join(libraryRoot,'docs/patterns/contributing.md'));
   return;
  }
- console.log('Vanya Arc / UI — vanya-arc-ui (vui)\nNode >=20; portable source-tree entrypoint: node scripts/ui-pipeline.mjs\n\nConsumer commands:');
+ console.log('Vanya Arc / UI — vui\nNode >=20; portable source-tree entrypoint: node scripts/ui-pipeline.mjs\n\nConsumer commands:');
  for(const name of ['inspect','adopt','plan','check','verify','review','lint','baseline'])console.log('  vui '+commandHelp[name]);
  console.log('\nContributor command:\n  vui '+commandHelp.contribute+'\n\nOptions: --help, --version. Use vui <command> --help for details.');
  console.log('Consumer workflow: inspect → plan → implement → verify → review');

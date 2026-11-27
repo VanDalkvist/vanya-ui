@@ -148,3 +148,5 @@ R10a candidate: direct active inventory 185 paths completed; two color consumers
 - [ ] Static readback manifest, exact callsites and docs; native CLI tests via existing scripts when real checkout available. Previous DNS failure reproduced, dependencies absent. No test PASS without execution. No release marker. Remaining final agent/reference sync and verification gate.
 
 Plan review: package API cleanup only; same executable, same smoke implementation and verified installed name. Existing independent lint entrypoint and useful subset suites stay. No new wrapper, command or migration of other services.
+
+R10b candidate: removed duplicate vanya-arc-ui binary and test:harness:consumer script. Existing vui/portable Node/lint entrypoints retained; symlink and installed smoke tests keep real command outcomes and older compatible pins. README/AGENTS/skill/contributor/quickstart/help/changelog synchronized. No new dependencies or release marker. Runtime checks pending actual checkout. Next final reference/agent documentation review and full regression gate.

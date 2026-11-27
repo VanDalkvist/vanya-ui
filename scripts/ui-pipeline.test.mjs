@@ -266,20 +266,20 @@ test('contributor rejects consumer packages and incomplete library scripts befor
  assert.throws(()=>readFileSync(join(root,'executed.txt')),/ENOENT/);
 }));
 
-test('CLI names share one executable and installed symlink aliases run help and commands',()=>fixture(root=>{
+test('canonical installed CLI symlink runs help, version and actual commands',()=>fixture(root=>{
  const manifest=JSON.parse(readFileSync(new URL('../package.json',import.meta.url),'utf8'));
+ assert.deepEqual(manifest.bin,{vui:'./scripts/ui-pipeline.mjs','vanya-ui-lint':'./scripts/design-harness-bin.mjs'});
+ assert.equal(manifest.scripts['test:consumer'],'node scripts/consumer-smoke.mjs');
+ assert.equal(manifest.scripts['test:harness:consumer'],undefined);
  const target=new URL('./ui-pipeline.mjs',import.meta.url).pathname;
- for(const name of ['vanya-arc-ui','vui']){
-  assert.equal(manifest.bin[name],'./scripts/ui-pipeline.mjs');
-  const alias=join(root,name);
-  symlinkSync(target,alias,'file');
-  const run=(...args)=>spawnSync(process.execPath,[alias,...args],{encoding:'utf8',cwd:root});
-  const help=run('--help');assert.equal(help.status,0,help.stderr);assert.match(help.stdout,/Consumer commands:/);assert.match(help.stdout,/Contributor command:/);
-  const sub=run('contribute','--help');assert.equal(sub.status,0,sub.stderr);assert.match(sub.stdout,/Usage: vui contribute/);
-  assert.equal(run('--version').stdout.trim(),manifest.version);
-  const check=run('inspect','--project',root,'--json');assert.equal(check.status,0,check.stderr);assert.equal(JSON.parse(check.stdout).project,root);
-  assert.notEqual(run('not-a-command','--help').status,0);
- }
+ const executable=join(root,'vui');
+ symlinkSync(target,executable,'file');
+ const run=(...args)=>spawnSync(process.execPath,[executable,...args],{encoding:'utf8',cwd:root});
+ const help=run('--help');assert.equal(help.status,0,help.stderr);assert.match(help.stdout,/Consumer commands:/);assert.match(help.stdout,/Contributor command:/);
+ const sub=run('contribute','--help');assert.equal(sub.status,0,sub.stderr);assert.match(sub.stdout,/Usage: vui contribute/);
+ assert.equal(run('--version').stdout.trim(),manifest.version);
+ const check=run('inspect','--project',root,'--json');assert.equal(check.status,0,check.stderr);assert.equal(JSON.parse(check.stdout).project,root);
+ assert.notEqual(run('not-a-command','--help').status,0);
 }));
 
 test('invalid mutation options are rejected before modifying a project',()=>fixture(root=>{
