@@ -21,7 +21,7 @@ describe("showcase header: product, navigation and utility hierarchy",()=>{
  it("uses a single muted text tier across default section links and both right-side glyphs",()=>{
   const {container}=render(<ShowcaseHeader/>);
   const header=container.querySelector("header")!;
-  const current=within(header).getByRole("link",{name:"Композиция"});
+  const current=within(header).getByRole("link",{name:"Обзор"});
   const other=within(header).getByRole("link",{name:"Айдентика"});
   // Active location is deliberately accented; ordinary links remain in the
   // muted tier, just like the GitHub/theme icon links at rest.
