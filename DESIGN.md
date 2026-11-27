@@ -159,3 +159,7 @@ Any new or changed local action must have immediate **pressed** feedback, then e
 
 
 **Dividers:** use spacing and headings for content grouping; assign each visible boundary one owner. Repeated scan rows may use internal separators; keep functional surface/control/focus borders. See [divider ownership](docs/composition/working-surfaces.md#divider-ownership-and-visual-grouping).
+
+### Textual destinations and edit feedback
+
+Use ActionLink for textual destinations: prose for neutral underlined reading links, text for quiet utilities, accent for a deliberate primary destination. LinkChip composes ActionLink. New-tab arrows are derived from target, close to their own label, with larger spacing between adjacent links. Every link has distinct hover and keyboard focus. Keep resting form boundaries restrained and strengthen them on interaction; align simple form controls, action group and result on one leading axis. See [browser navigation](docs/patterns/browser-navigation.md) and [interaction states](docs/patterns/interaction-states.md).
