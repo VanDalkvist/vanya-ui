@@ -21,7 +21,7 @@
     "./check-built": "./scripts/consumer-built-css-bin.mjs"
   },
   "scripts": {
-    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs browser-qa/visual-baseline.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",
+    "test": "npm run typecheck:tests && vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs browser-qa/visual-baseline.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",
     "test:watch": "vitest",
     "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && node scripts/finalize-published-licenses.mjs && bun run scripts/prerender.tsx && node scripts/check-built-ui.mjs",
     "lint:design:pilot": "node scripts/design-lint-pilot.mjs",
@@ -37,7 +37,7 @@
     "test:harness": "node --test scripts/design-harness.e2e.test.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "typecheck:tests": "tsc --noEmit -p tsconfig.json --allowJs --pretty false",
-    "verify:local": "npm run typecheck:tests && node scripts/ui-pipeline.mjs contribute --project . --json && npm run test:consumer -- --head"
+    "verify:local": "node scripts/ui-pipeline.mjs contribute --project . --json && npm run test:consumer -- --head"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9",
