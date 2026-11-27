@@ -26,3 +26,9 @@
 - A checkout-only linter and a product-authored success script leave the real agent execution path unproven.
 - Use next time: resolve policy and frozen toolchain from the installed immutable dependency; require canonical binding and execute before build/browser; exercise a deliberate invalid source change and observe actual nonzero exit. Prove separate distribution installs before release. Legacy baselines require explicit capture and policy fingerprint; never auto-refresh during feature work.
 - Evidence: cycle 8 plan, design-harness.e2e.test.mjs, successful builds a78b3432-f6e0-4267-adf9-8833bafde97a and b5878c88-fd36-4044-92c9-9761f17a5365.
+
+## 2026-11-27 — Golden baseline guard and truthful responsive examples
+- Context: Composition checkpoint re-review.
+- Symptom: visual mode baseline accepts updateSnapshots=all against any supplied directory; compact workspace example forces keep-columns while its prose promises mobile stacking, confirmed in actual 390px production capture.
+- Use next time: enforce immutable baseline capture with explicit source/environment identity and refusal to overwrite; inspect actual example props against documented behavior at narrow widths before generalizing a component. An observed production baseline defect is a repair target, never evidence of candidate regression.
+- Evidence: [checkpoint review R1/R2](../research/composition-checkpoint-review-2026-11-27.md).

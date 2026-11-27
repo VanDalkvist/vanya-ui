@@ -51,3 +51,7 @@ Next source checkpoint 8f3d8b761fc538ede531e968998d7bb6f0d05df0: removed 23 earl
 - Plan review: reuse existing native modal implementation; reject a flag-heavy universal visual dialog. Preserve explicit Escape key handling for existing unit contract, native cancel for platform dismissal, and prevent duplicate callback from one Escape by preventing default. Backdrop click outside bounding rectangle only. Verify actual focus and visibility via Playwright, not a jsdom simulation alone. 
 
 Source checkpoint: implemented private modal lifecycle and both callsites; authored unit and browser tests, updated design canon. Execution/visual/independent review pending final regression. Preserve current production and existing public signatures.
+
+
+## Checkpoint re-review — ordered continuation
+See [architecture and design checkpoint review](../../research/composition-checkpoint-review-2026-11-27.md). Prioritize R1/R5 regression oracle and R11 actual executable checkpoint, then R2 responsive workspace and R6/R9 dialog/disclosure, then R3/R4 metadata/domain ownership, then R7/R8/R10 inventory-driven cleanup. Keep full final regression in Phase 5. Source review complete; candidate runtime and independent gates remain pending. No production release or consumer changes.
