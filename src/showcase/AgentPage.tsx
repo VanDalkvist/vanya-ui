@@ -108,7 +108,7 @@ export function AgentPage(){
           <div className="agent-compare-panel">
             <p className="ui-type-metadata agent-compare-label"><Check size={17} aria-hidden="true"/> Допустимо · пример</p>
             <pre className="ui-type-code"><code>{".save {\n  color: var(--accent);\n}"}</code></pre>
-            <div className="agent-demo-action"><ActionButton variant="outline" size="md" actionState={demoState} onClick={()=>setDemoState("success")}>Сохранить пример</ActionButton><p className="ui-type-caption agent-muted" aria-live="polite">{demoState==="success"?"Состояние примера: сохранено":"ActionButton · реальный компонент"}</p></div>
+            <div className="agent-demo-action"><ActionButton variant="text" size="md" actionState={demoState} onClick={()=>setDemoState("success")}>Сохранить пример</ActionButton><p className="ui-type-caption agent-muted" aria-live="polite">{demoState==="success"?"Состояние примера: сохранено":"ActionButton · реальный компонент"}</p></div>
           </div>
         </div>
       </section>
@@ -122,7 +122,7 @@ export function AgentPage(){
         <div className="agent-prompt-panel">
           <SegmentedControl<Mode> aria-label="Сценарий подключения" items={[{id:"new",label:"Новый продукт"},{id:"existing",label:"Существующий"}]} value={mode} disabled={copyState==="pending"} onChange={value=>{setMode(value);setCopyState("idle")}}/>
           <pre className="ui-type-code"><code>{agentPrompts[mode]}</code></pre>
-          <div className="agent-copy-actions"><ActionButton size="md" variant="outline" actionState={copyState} onClick={copyPrompt}><Copy size={16} aria-hidden="true"/>Скопировать промпт</ActionButton><span className="ui-type-caption agent-muted" aria-live="polite">{copyState==="success"?"Промпт скопирован":copyState==="error"?"Выдели и скопируй текст вручную.":""}</span></div>
+          <div className="agent-copy-actions"><ActionButton size="md" variant="text" actionState={copyState} onClick={copyPrompt}><Copy size={16} aria-hidden="true"/>Скопировать промпт</ActionButton><span className="ui-type-caption agent-muted" aria-live="polite">{copyState==="success"?"Промпт скопирован":copyState==="error"?"Выдели и скопируй текст вручную.":""}</span></div>
         </div>
       </section>
       <section className="agent-band" aria-labelledby="agent-resources-title">
