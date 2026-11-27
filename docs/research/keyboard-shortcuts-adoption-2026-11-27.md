@@ -20,3 +20,6 @@ Remove arbitrary chapter numbers and global G+letter navigation from the documen
 
 ## Lightweight future validation
 Observe a representative real session: which actions repeat, how users reach them, why the existing path is sufficient or slow. For a justified command, compare success, time, errors, discovery and voluntary reuse after practice against the ordinary UI. No telemetry added by default, no keystroke capture; use explicit task observation or opt-in aggregated command activation if a measurement need is established. The user observation and reference research support a deletion hypothesis, not a numerical causal estimate.
+
+## Accepted follow-up
+The owner directed execution of remaining review findings. Remove the showcase-specific global letter bindings and help/settings, decorative numbers and unused runtime files. Preserve native navigation, anchors, standard keyboard accessibility and reusable keycap notation. No numeric shortcuts or command palette introduced. This decision follows the observed low value in this documentation context; no general conclusion about shortcut usage in other products.
