@@ -72,3 +72,36 @@ test("guide and component examples align on the shared content axis",async({page
   await expect(guide.getByRole("link",{name:"Правила навигации"})).toBeVisible();
  }
 });
+
+test("all chapters share a content axis and preserve named wide specimens",async({page})=>{
+ for(const width of [1440,1024,390,320]){
+  await page.setViewportSize({width,height:900});
+  await page.goto("/");
+  await page.evaluate(()=>document.fonts.ready);
+  const chapters=["identity","typography","writing","principles","catalog","workspace","setup","agents"];
+  const rows=page.locator(chapters.map(id=>"#"+id+" > .catalog-section").join(","));
+  expect(await rows.count()).toBeGreaterThan(8);
+  const geometry=await rows.evaluateAll(nodes=>nodes.map(row=>{
+   const a=row.getBoundingClientRect(),h=row.querySelector(":scope > header")!.getBoundingClientRect(),b=row.querySelector(":scope > .catalog-examples")!.getBoundingClientRect();
+   return {id:row.id,layout:row.getAttribute("data-layout"),left:a.left,right:a.right,headingX:h.left,headingBottom:h.bottom,bodyX:b.left,bodyRight:b.right,bodyY:b.top,overflow:row.scrollWidth>row.clientWidth+1};
+  }));
+  const reference=geometry.find(r=>r.id==="compact-filter-toolbar")!;
+  for(const r of geometry){
+   expect(Math.abs(r.headingX-reference.headingX),r.id).toBeLessThan(2);
+   expect(r.bodyRight,r.id).toBeLessThanOrEqual(r.right+1);
+   if(r.layout==="wide"||width<=390){
+    expect(Math.abs(r.bodyX-r.left),r.id).toBeLessThan(2);
+    expect(r.bodyY,r.id).toBeGreaterThanOrEqual(r.headingBottom-1);
+   }else expect(Math.abs(r.bodyX-reference.bodyX),r.id).toBeLessThan(2);
+  }
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+ }
+});
+test("native disclosure opens and closes by keyboard and preserves actual content",async({page})=>{
+ await page.goto("/#disclosure");
+ const details=page.locator("#disclosure details"),summary=details.locator("summary");
+ const content=details.getByText("Здесь можно разместить пояснение, которое не нужно показывать сразу.");
+ await expect(content).toBeHidden();await summary.focus();await page.keyboard.press("Enter");
+ await expect(content).toBeVisible();await expect(summary).toBeFocused();
+ await page.keyboard.press("Space");await expect(content).toBeHidden();
+});
