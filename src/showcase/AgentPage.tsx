@@ -127,7 +127,7 @@ export function AgentPage(){
       </section>
       <section className="agent-band" aria-labelledby="agent-resources-title">
         <div className="agent-band-heading"><p className="ui-type-metadata agent-eyebrow">Источники</p><h2 id="agent-resources-title" className="ui-type-heading">Документация</h2></div>
-        <ul className="agent-resources-grid">{resources.map(resource=><li key={resource.href}><ActionLink href={resource.href} size="md" variant="accent" target="_blank">{resource.title}</ActionLink><p className="ui-type-compact agent-muted">{resource.detail}</p></li>)}</ul>
+        <ul className="agent-resources-grid">{resources.map(resource=><li key={resource.href}><ActionLink href={resource.href} size="md" variant="text" target="_blank">{resource.title}</ActionLink><p className="ui-type-compact agent-muted">{resource.detail}</p></li>)}</ul>
       </section>
     </main>
     <ShowcaseFooter/>
