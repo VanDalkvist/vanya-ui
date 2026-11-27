@@ -206,7 +206,7 @@ test("applied filters and ordinary properties use different semantic ink",async(
  await expect(page.locator("#compact-filter-toolbar").getByRole("listitem")).toHaveText(["Тихий берег"]);
 });
 
-test("chapter headers share typography and the rule index has a compact gutter",async({page})=>{
+test("chapter headers share typography and independent rules have no decorative gutter",async({page})=>{
  for(const width of [1440,1024,390,320]){
   await page.setViewportSize({width,height:900});
   await page.goto("/#principles");
@@ -218,10 +218,11 @@ test("chapter headers share typography and the rule index has a compact gutter",
    return {font:s.fontSize,weight:s.fontWeight,leading:s.lineHeight,alignment:p.left-t.left,gap:p.top-t.bottom};
   }));
   for(const metric of metrics)expect(metric).toEqual(metrics[0]);
-  const row=page.locator("#browser-navigation"),index=row.locator(".guide-number"),body=row.locator(":scope > div");
-  const a=await index.boundingBox(),b=await body.boundingBox();
+  const row=page.locator("#browser-navigation"),body=row.locator(":scope > div");
+  await expect(page.locator(".guide-number,.guide-eyebrow")).toHaveCount(0);
+  const a=await row.boundingBox(),b=await body.boundingBox();
   expect(a).not.toBeNull();expect(b).not.toBeNull();
-  expect(b!.x-a!.x).toBeLessThan(80);
+  expect(Math.abs(b!.x-a!.x)).toBeLessThan(2);
   expect(await row.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
  }
 });
@@ -246,4 +247,19 @@ test("pointer-open selection has a check without a resting fill; keyboard moveme
  await search.press("Enter");
  await expect(section.getByRole("button",{name:"Жанр Комедия"})).toBeFocused();
  await expect(section.getByRole("listitem")).toHaveText(["Маяк на холме"]);
+});
+
+test("all nine destinations are visible and reachable without a horizontal scroll strip",async({page})=>{
+ for(const width of [1440,1200,1024,768,390,320]){
+  await page.setViewportSize({width,height:900});
+  await page.goto("/");
+  const links=page.locator(".showcase-nav a");
+  await expect(links).toHaveCount(9);
+  const geometry=await links.evaluateAll(nodes=>nodes.map(el=>{
+   const r=el.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width};
+  }));
+  for(const r of geometry){expect(r.width).toBeGreaterThan(0);expect(r.left).toBeGreaterThanOrEqual(0);expect(r.right).toBeLessThanOrEqual(width+1);}
+  await links.last().click();await expect(page).toHaveURL(/#agents$/);
+  await expect(links.last()).toHaveAttribute("aria-current","location");
+ }
 });
