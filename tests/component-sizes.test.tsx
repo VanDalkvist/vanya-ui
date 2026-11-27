@@ -1,6 +1,6 @@
 import React from "react";
 import { afterEach, expect, it } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { Badge, SegmentedControl } from "../src";
 
 afterEach(cleanup);
@@ -12,7 +12,16 @@ it("accepts both canonical Badge sizes without losing identity", () => {
   expect(labels[1].parentElement).toHaveAttribute("data-size", "md");
 });
 
-it("normalizes the old xs segmented size to the shared compact size", () => {
-  render(<SegmentedControl items={[{ id: "one", label: "Первый" }]} value="one" onChange={() => {}} size="xs" />);
-  expect(screen.getByRole("group")).toHaveAttribute("data-size", "sm");
-});
+for(const size of ["sm","md"] as const){
+  it("selects a segment at canonical size "+size,()=>{
+    function Example(){
+      const [value,setValue]=React.useState("one");
+      return <><SegmentedControl items={[{id:"one",label:"Первый"},{id:"two",label:"Второй"}]} value={value} onChange={setValue} size={size}/><output>{value}</output></>;
+    }
+    render(<Example/>);
+    expect(screen.getByRole("group")).toHaveAttribute("data-size",size);
+    fireEvent.click(screen.getByRole("button",{name:"Второй"}));
+    expect(screen.getByRole("button",{name:"Второй"})).toHaveAttribute("aria-pressed","true");
+    expect(screen.getByText("two",{exact:true})).toBeVisible();
+  });
+}

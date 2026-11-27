@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { renderTokenReference } from "../scripts/token-reference";
 
 describe("CSS-derived agent reference", () => {
@@ -20,6 +21,14 @@ describe("CSS-derived agent reference", () => {
     expect(output).toContain("--ink: #2a241f");
     expect(output).toContain("--surface: white");
     expect(output).toContain("--surface: black");
+  });
+  it("publishes only canonical color roles from the actual library CSS",()=>{
+    const css=readFileSync(new URL("../src/tokens.css",import.meta.url),"utf8");
+    const output=renderTokenReference(css);
+    for(const role of ["ground","surface","accent","border","border-strong"])
+      expect(output).toContain(`--color-${role}: var(--${role});`);
+    for(const removed of ["paper","paper-raised","amber","hairline","hairline-active"])
+      expect(output).not.toContain(`--color-${removed}:`);
   });
   it("rejects absent theme declarations instead of inventing defaults", () => {
     expect(() => renderTokenReference(":root { --ground: white; }")).toThrow(/theme/i);

@@ -31,7 +31,7 @@ export function RangeSlider({
         step={step}
         value={value}
         onChange={onChange}
-        className="h-px w-full appearance-none bg-hairline-active accent-amber outline-none cursor-pointer focus-visible:ring-1 focus-visible:ring-amber"
+        className="h-px w-full appearance-none bg-border-strong accent-accent outline-none cursor-pointer focus-visible:ring-1 focus-visible:ring-accent"
         {...props}
       />
     </div>

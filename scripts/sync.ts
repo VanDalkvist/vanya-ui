@@ -41,6 +41,7 @@ Manrope is the default UI/display family; Spectral remains available for deliber
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
 ## Interaction API (source contract)
+Shared control sizes are sm (24px) and md (32px), including SegmentedControl. Use the actual canonical color roles ground/surface/accent/border/border-strong; token reference is generated from their declarations.
 Compose project-specific cards from CraftCard, Badge, ActionButton/ActionLink and WorkspaceEmptyState. Category identities belong to the caller: pass icon and color/textColor explicitly to EnergyRadar, icon/textColor to SpiderRadar axes, and icon/style to Badge.
 Tag is passive inline metadata; Badge uses caller-supplied label, optional icon or status tone and detail. Use explicit ActionButton/SegmentedControl for commands and selection. Status labels remain readable independently of color.
 Disclosure uses native details/summary with summary, children, open and onToggle; browser user toggles survive unrelated rerenders. Use one component for supplementary explanations and provenance.

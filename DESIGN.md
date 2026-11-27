@@ -93,13 +93,13 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 - Category identity: the showcase owns its sample category data and palette. Badge and both radars receive explicit caller-supplied icons and colors. Labels and IDs are data, and no product taxonomy or palette is exported by the UI package.
 - Dense working views can use rows and compact spacing; spaciousness does not require hiding primary actions or making text faint.
 
-`--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
+Use the canonical color roles `ground`, `surface`, `surface-raised`, `surface-inset`, `ink`, `accent`, `border`, and `border-strong`. Use their existing semantic values in both themes. `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
 
 ## Inline size grid
 
 `ComponentSize` is `sm | md`. Badge, ActionButton, Kbd, LinkChip, AvatarLink and SegmentedControl share the `.ui-size` foundation in `src/tokens.css`. Tag uses the compact inline metadata typography. Its `--size-{sm,md}-*` tokens control outer height, font, line height, inline padding, gap and icon size; avatars use the outer height as their width. Segmented controls fit their buttons inside the same outer height rather than adding a second size scale. Text-only actions keep their unboxed horizontal spacing.
 
-Canonical heights are 24px and 32px. SegmentedControl still accepts `xs` as a legacy alias for canonical `sm`; callers wanting its larger appearance should use `md`. Size names, not old incidental padding values, are the stable convention. Explicit consumer classes/styles may override the foundation.
+Canonical heights are 24px (`sm`) and 32px (`md`). SegmentedControl uses the same size contract. Explicit consumer classes/styles may override the foundation.
 
 ## Wave and event composition
 

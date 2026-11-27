@@ -21,8 +21,7 @@ interface SegmentedControlCommonProps<T extends string> {
   value: T;
   onChange: (value: T) => void;
   className?: string;
-  /** xs remains a legacy alias for sm. */
-  size?: ComponentSize | "xs";
+  size?: ComponentSize;
   /** Matches compact filter toolbar form controls rather than standalone tabs. */
   density?: "default" | "toolbar";
   disabled?: boolean;
@@ -93,7 +92,7 @@ export function SegmentedControl<T extends string = string>(props: SegmentedCont
       aria-label={ariaLabel}
       aria-orientation={tabs ? "horizontal" : undefined}
       aria-disabled={disabled || undefined}
-      data-size={size === "xs" ? "sm" : size}
+      data-size={size}
       data-density={density}
       className={twMerge(clsx(
         "ui-size ui-segments inline-flex w-fit max-w-full self-start shrink-0 items-center font-sans select-none",

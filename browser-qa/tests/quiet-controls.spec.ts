@@ -299,3 +299,30 @@ test("all nine destinations are visible and reachable without a horizontal scrol
   await expect(links.last()).toHaveAttribute("aria-current","location");
  }
 });
+
+for(const theme of ["light","dark"] as const){
+ test("range and pulse use the canonical palette and range changes the actual output "+theme,async({page})=>{
+  await page.addInitScript(value=>localStorage.setItem("vanya_theme",value),theme);
+  await page.goto("/#range");
+  await expect(page.locator("html")).toHaveAttribute("data-theme",theme);
+  const slider=page.getByRole("slider",{name:"Дистанция в примере"});
+  const pulse=page.locator("#pulse .catalog-examples > span").first();
+  const roles=await slider.evaluate(el=>{
+    const probe=document.createElement("span");el.parentElement!.appendChild(probe);
+    try{
+      probe.style.color="var(--accent)";
+      probe.style.backgroundColor="var(--border-strong)";
+      const actual=getComputedStyle(el),expected=getComputedStyle(probe);
+      return {track:actual.backgroundColor,strong:expected.backgroundColor,accent:actual.accentColor,expectedAccent:expected.color};
+    }finally{probe.remove();}
+  });
+  expect(roles.track).toBe(roles.strong);expect(roles.accent).toBe(roles.expectedAccent);
+  expect(roles.track).not.toBe("rgba(0, 0, 0, 0)");
+  await expect(pulse).toHaveCSS("color",roles.expectedAccent);
+  const old=Number(await slider.inputValue());
+  await slider.focus();await slider.press(old===80?"ArrowLeft":"ArrowRight");
+  const next=Number(await slider.inputValue());
+  expect(next).not.toBe(old);
+  await expect(page.locator("#range output")).toHaveText(String(next));
+ });
+}
