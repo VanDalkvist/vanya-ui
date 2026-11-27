@@ -16,12 +16,12 @@ for(const width of [320,390,1024,1440]) for(const theme of ["light","dark"] as c
     await page.evaluate(async()=>{await document.fonts.ready;});
     await expect(page.locator("html")).toHaveAttribute("data-theme",theme);
     const scope=page.locator("#typography-tracking");
-    const mono=scope.locator('[data-variant="mono"]');
-    await expect(mono).toHaveCount(4);
-    for(const control of await mono.all()){
+    const actions=scope.locator(".type-action-pair").nth(1).getByRole("button").or(scope.locator(".type-action-pair").nth(1).getByRole("link"));
+    await expect(actions).toHaveCount(4);
+    for(const control of await actions.all()){
       await expect(control).toBeVisible();
-      expect(await trackingRatio(control)).toBeCloseTo(.03,3);
-      expect(await control.evaluate(el=>getComputedStyle(el).fontFamily)).toContain("JetBrains Mono");
+      expect(await trackingRatio(control)).toBeCloseTo(0,3);
+      expect(await control.evaluate(el=>getComputedStyle(el).fontFamily)).toContain("Manrope");
       expect(await control.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
     }
     const normal=scope.getByRole("button",{name:"Открыть проект"});
@@ -29,7 +29,10 @@ for(const width of [320,390,1024,1440]) for(const theme of ["light","dark"] as c
     expect(await normal.evaluate(el=>getComputedStyle(el).fontFamily)).toContain("Manrope");
     const meta=scope.locator(".ui-type-metadata");
     await expect(meta).toHaveCount(2);
-    for(const item of await meta.all())expect(await trackingRatio(item)).toBeCloseTo(.06,3);
+    for(const item of await meta.all()){
+      expect(await trackingRatio(item)).toBeCloseTo(.06,3);
+      expect(await item.evaluate(el=>getComputedStyle(el).fontFamily)).toContain("JetBrains Mono");
+    }
     const action=scope.getByRole("button",{name:"Подробнее"});
     await action.click();
     await expect(scope.getByRole("status")).toHaveText("Выбрано: Подробнее");
