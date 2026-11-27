@@ -68,6 +68,31 @@ describe("FilterSelect custom popup",()=>{
   fireEvent.keyDown(screen.getByRole("listbox",{name:"Тип"}),{key:"Escape"});
   expect(trigger).toHaveAttribute("aria-expanded","false");
  });
+ it("skips disabled options for Home, End and page movement and commits an enabled value",()=>{
+  const onValueChange=vi.fn();
+  render(<FilterSelect label="Тип" value="b" allowEmpty={false} searchable={false} options={[
+   {value:"a",label:"A",disabled:true},{value:"b",label:"B"},
+   {value:"c",label:"C",disabled:true},{value:"d",label:"D"},
+   {value:"e",label:"E",disabled:true}
+  ]} onValueChange={onValueChange}/>);
+  fireEvent.keyDown(screen.getByRole("button",{name:"Тип B"}),{key:"ArrowDown"});
+  const list=screen.getByRole("listbox");
+  fireEvent.keyDown(list,{key:"Home"});expect(screen.getByRole("option",{name:"B"})).toHaveAttribute("data-active","true");
+  fireEvent.keyDown(list,{key:"End"});expect(screen.getByRole("option",{name:"D"})).toHaveAttribute("data-active","true");
+  fireEvent.keyDown(list,{key:"PageUp"});expect(screen.getByRole("option",{name:"B"})).toHaveAttribute("data-active","true");
+  fireEvent.keyDown(list,{key:"PageDown"});expect(screen.getByRole("option",{name:"D"})).toHaveAttribute("data-active","true");
+  fireEvent.keyDown(list,{key:"Enter"});expect(onValueChange).toHaveBeenCalledWith("d");
+ });
+ it("recovers a valid enabled active option when options change",()=>{
+  const onValueChange=vi.fn();
+  const {rerender}=render(<FilterSelect label="Тип" value="b" allowEmpty={false} searchable={false} options={[{value:"b",label:"B"},{value:"d",label:"D"}]} onValueChange={onValueChange}/>);
+  fireEvent.keyDown(screen.getByRole("button",{name:"Тип B"}),{key:"ArrowDown"});
+  fireEvent.keyDown(screen.getByRole("listbox"),{key:"End"});
+  rerender(<FilterSelect label="Тип" value="b" allowEmpty={false} searchable={false} options={[{value:"b",label:"B",disabled:true},{value:"c",label:"C"}]} onValueChange={onValueChange}/>);
+  expect(screen.getByRole("option",{name:"C"})).toHaveAttribute("data-active","true");
+  fireEvent.keyDown(screen.getByRole("listbox"),{key:"Enter"});
+  expect(onValueChange).toHaveBeenCalledWith("c");
+ });
  it("uses portal and preserves native SelectField as a separate component",()=>{
   render(<div data-testid="wrap"><FilterSelect label="Порядок" value="" options={options} onValueChange={()=>{}}/></div>);
   fireEvent.click(screen.getByRole("button",{name:"Порядок Все"}));
