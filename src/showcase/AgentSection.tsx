@@ -7,12 +7,12 @@ import { agentPrompts } from "./agent-harness-data";
 export const agentPrompt = agentPrompts.new;
 
 const resources = [
-  { label:"Agent Skill", description:"Канонический сценарий работы агента.", href:"/reference/agent-skill.md" },
+  { label:"Agent Skill", description:"Инструкция по работе с библиотекой.", href:"/reference/agent-skill.md" },
   { label:"CLI и приёмка", description:"Adopt, lint, verify, review. Критерии и доказательства.", href:"/reference/ui-pipeline.md" },
-  { label:"Компоненты", description:"Реальные экспорты и ссылки на исходники.", href:"/reference/components.md" },
+  { label:"Компоненты", description:"Список экспортируемых компонентов и исходники.", href:"/reference/components.md" },
   { label:"Токены", description:"Палитра, типографика и размеры.", href:"/reference/tokens.md" },
   { label:"LLM-индекс", description:"Короткий путеводитель по документации.", href:"/llms.txt" },
-  { label:"Полная LLM-справка", description:"Каноны, токены и экспортируемые API.", href:"/llms-full.txt" },
+  { label:"Полная LLM-справка", description:"Правила, токены и публичный API.", href:"/llms-full.txt" },
 ] as const;
 
 export function AgentSection() {
@@ -27,12 +27,12 @@ export function AgentSection() {
     }
   }
   return <section id="agents" className="catalog agents-section" aria-labelledby="agents-title">
-    <ChapterHeader id="agents" title="Дизайн-система для агентов" description="Передай агенту задачу и скилл Vanya UI. Он сможет выбрать компоненты, применить каноны и проверить результат в браузере."/>
+    <ChapterHeader id="agents" description="Инструкции, промпты и инструменты проверок для разработки с агентом."/>
     <ActionLink href="/agents/" variant="accent" size="md" target="_blank">Открыть Agent Mode</ActionLink>
     <div className="agents-columns">
       <div className="agents-start">
         <h3 className="ui-type-subheading">Начать работу</h3>
-        <p className="ui-type-body">Промпт для нового продукта. Добавь описание задачи и передай его coding-агенту.</p>
+        <p className="ui-type-body">Добавь описание продукта к промпту и передай агенту.</p>
         <pre className="agents-prompt ui-type-code"><code>{agentPrompt}</code></pre>
         <div className="agents-copy-row">
           <ActionButton size="md" variant="outline" actionState={copyState}
