@@ -15,15 +15,15 @@ for (const width of [1440,1024,390,320]) {
     await expect.poll(visibleInStrip).toBe(true);
     const targetCleared = (id:string) => page.locator("#"+id).evaluate(el=>{
       const r=el.getBoundingClientRect(),header=document.querySelector(".showcase-header")!.getBoundingClientRect();
-      return r.top>=header.bottom-1&&r.top<innerHeight;
+      return {cleared:r.top>=header.bottom-1&&r.top<innerHeight,top:Math.round(r.top),headerBottom:Math.round(header.bottom),margin:getComputedStyle(el).scrollMarginTop,scrollY:Math.round(window.scrollY)};
     });
-    await expect.poll(()=>targetCleared("typography")).toBe(true);
+    await expect.poll(()=>targetCleared("typography")).toMatchObject({cleared:true});
     for (const [id,label] of [["writing","Тексты"],["workspace","Рабочие поверхности"],["setup","Подключение"],["agents","Агентам"]]) {
       await page.locator("#"+id).evaluate(el=>el.scrollIntoView({block:"start",behavior:"instant"}));
       await expect(current).toHaveText(label);
       await expect(current).toHaveCount(1);
       await expect.poll(visibleInStrip).toBe(true);
-      await expect.poll(()=>targetCleared(id)).toBe(true);
+      await expect.poll(()=>targetCleared(id)).toMatchObject({cleared:true});
     }
     await page.goto("/#agents");
     await expect(current).toHaveText("Агентам");
