@@ -16,7 +16,7 @@ const sizes = [
 export function TypographySection() {
   const [lastAction,setLastAction]=useState("");
   return <section id="typography" className="catalog typography-section" aria-labelledby="typography-title">
-    <ChapterHeader id="typography" title="Типографика" description="Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты."/>
+    <ChapterHeader id="typography" description="Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты."/>
     <h3 className="ui-type-subheading type-section-title">Размеры текста</h3>
     <div className="type-specimens" id="typography-scale">
       {sizes.map(item => <div className="type-specimen" key={item.token}>
