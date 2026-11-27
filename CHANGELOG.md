@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-11-27
+
+### Fixed
+- Remove decorative chapter/rule numbering and unused showcase-only global letter navigation, help and preference; retain native anchors, keyboard accessibility and reusable public keycap components.
+- Keep all nine named navigation destinations visible through responsive wrapping instead of an unmarked horizontal overflow strip.
+- FilterSelect keyboard navigation skips disabled options, maintains a valid active position, scrolls the active item into view and returns focus to the trigger before native Tab traversal.
+- Update canonical keyboard and functional composition guidance and regression tests.
+
 ## [1.2.1] - 2026-11-27
 
 ### Fixed
