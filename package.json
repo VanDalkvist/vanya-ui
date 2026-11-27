@@ -21,7 +21,7 @@
     "./check-built": "./scripts/consumer-built-css-bin.mjs"
   },
   "scripts": {
-    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",
+    "test": "vitest run && node --test scripts/ui-pipeline.test.mjs scripts/check-built-ui.test.mjs scripts/bootstrap-ui-pipeline.test.mjs scripts/install-ui-contract.test.mjs scripts/check-llm-publication.test.mjs .github/actions/ui-contract/check.test.mjs scripts/markdown-publication.test.mjs scripts/finalize-published-licenses.test.mjs scripts/check-release.test.mjs browser-qa/visual-baseline.test.mjs && node scripts/check-release.mjs && node --test scripts/design-harness.e2e.test.mjs",
     "test:watch": "vitest",
     "build": "bun run sync && node scripts/check-llm-publication.mjs && vite build && node scripts/finalize-published-licenses.mjs && bun run scripts/prerender.tsx && node scripts/check-built-ui.mjs",
     "lint:design:pilot": "node scripts/design-lint-pilot.mjs",

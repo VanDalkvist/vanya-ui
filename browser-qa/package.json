@@ -6,7 +6,8 @@
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
-    "test:list": "playwright test --list"
+    "test:list": "playwright test --list",
+    "test:baseline": "node --test visual-baseline.test.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.65.1",

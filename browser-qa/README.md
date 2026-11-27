@@ -35,3 +35,6 @@ Use existing pinned browser setup, then `node scripts/consumer-smoke.mjs FULL_SH
 ## Composition regression and visual comparison
 
 See [Regression Gate](../docs/patterns/regression-gate.md) for exact baseline/compare commands and acceptance. `composition-regression.spec.ts` probes every visible textual ActionLink in both themes and real filter results, plus guide/catalog alignment. `composition-visual.spec.ts` is opt-in and requires exact version/SHA metadata, explicit baseline directory and snapshot policy; it covers chapters and critical controls at four widths in both themes. The baseline and candidate reports are isolated by VANYA_UI_EVIDENCE_DIR. Keep raw images local, review intentional diffs explicitly. The visual baseline is not automatically regenerated or marked accepted.
+
+
+**Composition golden integrity:** `npm --prefix browser-qa run test:baseline` runs the dependency-free filesystem tests. Visual mode uses the existing Playwright runner and the explicit capture/compare commands in [Regression Gate](../docs/patterns/regression-gate.md). Keep the sealed golden directory outside the disposable run report directory; never delete approved golden data while cleaning reports. No visual acceptance follows from the Node tests alone.

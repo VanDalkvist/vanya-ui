@@ -19,14 +19,21 @@ export VANYA_UI_EVIDENCE_SHA=6ae7c4ed06bb4905ba350ecd69009ff6f3c366dd
 export VANYA_UI_EVIDENCE_DIR="$PWD/browser-qa/artifacts/baseline-run"
 # Only for the verified baseline, in an empty directory:
 VANYA_UI_VISUAL_MODE=baseline npm --prefix browser-qa run test -- composition-visual.spec.ts --update-snapshots=all
-# Review captures, retain them unchanged. Then select the verified candidate URL (or unset QA_URL for compiled local candidate), actual version and exact SHA.
+# Review captures, retain them unchanged. Set the expected golden identity separately.
+export VANYA_UI_BASELINE_SHA="$VANYA_UI_EVIDENCE_SHA"
+export VANYA_UI_BASELINE_VERSION="$VANYA_UI_EXPECT_VERSION"
+# For the compiled local candidate, first confirm the exact clean checkout, then:
+unset VANYA_UI_QA_URL
+export VANYA_UI_EVIDENCE_SHA="$(git rev-parse HEAD)"
+export VANYA_UI_EXPECT_VERSION="$(node -p 'require("./package.json").version')"
 export VANYA_UI_EVIDENCE_DIR="$PWD/browser-qa/artifacts/candidate-run"
 VANYA_UI_VISUAL_MODE=compare npm --prefix browser-qa run test -- composition-visual.spec.ts --update-snapshots=none
 # Full functional regression, including new Composition tests and existing interaction, native zoom and accessibility tests:
+unset VANYA_UI_VISUAL_MODE VANYA_UI_VISUAL_BASELINE_DIR
 npm run test:browser
 ~~~
 
-Use baseline links/interaction checks before implementation; candidate-only geometry assertions may expose a known baseline defect. For the current Composition loop the baseline is 2.0.0; if that version no longer serves the public URL, use a compiled checkout of its exact SHA instead. For future loops replace all baseline metadata. Never use a different environment to manufacture an easier comparison. Snapshot comparison is strict (0 differing pixels after version mask); intended changes will fail the visual comparison until reviewed. Review all soft diff results in HTML report, label each intended vs unintended; do not auto-accept. A new approved reference is a distinct reviewed checkpoint; do not overwrite the original before arch/product acceptance. Browser engine differences and font rendering are investigated rather than hidden with blanket tolerance.
+Use baseline links/interaction checks before implementation; candidate-only geometry assertions may expose a known baseline defect. For the current Composition loop the baseline is 2.0.0; if that version no longer serves the public URL, use a compiled checkout of its exact SHA instead. For future loops replace all baseline metadata. The runner reserves the empty golden directory exclusively, records completed theme/viewport contexts, and seals manifest.json only after all 96 snapshots exist with SHA-256 hashes. Compare requires the explicit baseline identity and verifies the file hashes and recorded browser/OS/font evidence; it cannot repair missing images. Partial captures and existing golden directories are rejected for recapture; use a new sibling directory. Keep reports outside the golden directory. The source SHA is operator-supplied provenance from a verified deployment receipt or exact clean checkout, not an attestation by the remote server. The actual served version is checked by Playwright. The manifest establishes capture completeness, not design approval. Verify the filesystem guard with `npm --prefix browser-qa run test:baseline`. Never use a different environment to manufacture an easier comparison. Snapshot comparison is strict (0 differing pixels after version mask); intended changes will fail the visual comparison until reviewed. Review all soft diff results in HTML report, label each intended vs unintended; do not auto-accept. A new approved reference is a distinct reviewed checkpoint; do not overwrite the original before arch/product acceptance. Browser engine differences and font rendering are investigated rather than hidden with blanket tolerance.
 
 ## Protected journeys
 | Area | Behavioral evidence |
