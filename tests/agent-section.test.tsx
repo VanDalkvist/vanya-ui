@@ -13,7 +13,7 @@ const clipboard=(writeText:ReturnType<typeof vi.fn>)=>Object.defineProperty(navi
 describe("agent-facing section",()=>{
  it("renders the canonical references and honest readiness boundary",()=>{
   render(<AgentSection/>);
-  const section=screen.getByRole("region",{name:"Дизайн-система для агентов"});
+  const section=screen.getByRole("region",{name:"Агентам"});
   for(const [name,href] of [["Agent Skill","/reference/agent-skill.md"],["CLI и приёмка","/reference/ui-pipeline.md"],["Компоненты","/reference/components.md"],["Токены","/reference/tokens.md"],["LLM-индекс","/llms.txt"],["Полная LLM-справка","/llms-full.txt"],["Проверенный релиз и SHA","/reference/versioning.md"],["Подключение пакета","/reference/installation.md"]])expect(within(section).getByRole("link",{name})).toHaveAttribute("href",href);
   expect(within(section).getByText(/evals Codex и Claude Code пока не подтверждены/)).toBeInTheDocument();
  });
