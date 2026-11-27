@@ -1,6 +1,6 @@
 // Explicit CI diagnostics. Install only isolated, frozen tooling; never skills/hooks.
 import {spawnSync} from 'node:child_process';
-import {mkdtempSync,writeFileSync,readFileSync,existsSync,rmSync,copyFileSync,mkdirSync} from 'node:fs';
+import {mkdtempSync,writeFileSync,readFileSync,existsSync,rmSync,copyFileSync,mkdirSync,realpathSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname,relative,sep} from 'node:path';
 import {createRequire} from 'node:module';
@@ -20,7 +20,9 @@ const isLibrary=project===library;
 const debtPath=args.find(a=>a.startsWith('--baseline='))?.slice(11);
 const capturePath=args.find(a=>a.startsWith('--capture-baseline='))?.slice(19);
 const tools=join(library,'design-lint');
-const dir=mkdtempSync(join(tmpdir(),'vanya-design-lint-'));
+// npm's virtual and ideal inventories must use the same physical project path.
+// macOS TMPDIR commonly passes through /var -> /private/var.
+const dir=mkdtempSync(join(realpathSync(tmpdir()),'vanya-design-lint-'));
 const env=Object.fromEntries(Object.entries(process.env).filter(([key])=>['PATH','HOME','TMPDIR','TEMP','TMP','LANG','LC_ALL','CI','SSL_CERT_FILE','SSL_CERT_DIR','NODE_EXTRA_CA_CERTS','SystemRoot','ComSpec'].includes(key)));
 const run=(command,argv,cwd=project)=>spawnSync(command,argv,{cwd,env,encoding:'utf8',timeout:180000,maxBuffer:16*1024*1024});
 const show=r=>{if(r.stdout)process.stdout.write(r.stdout);if(r.stderr)process.stderr.write(r.stderr);if(r.error)console.error(r.error.message);};
@@ -37,7 +39,7 @@ try{
  copyFileSync(join(tools,'package.json'),join(dir,'package.json'));
  const lock=join(tools,'package-lock.json');
  if(args.includes('--bootstrap-lock')){
-  const install=run('npm',['install','--prefix',dir,'--ignore-scripts','--no-audit','--no-fund'],library);
+  const install=run('npm',['install','--ignore-scripts','--no-audit','--no-fund'],dir);
   checked('lock generation',install,[0]);
   const encoded=Buffer.from(JSON.stringify(JSON.parse(readFileSync(join(dir,'package-lock.json'),'utf8'))),'utf8').toString('hex');
   for(let i=0;i<encoded.length;i+=600)console.log('DESIGN_LOCK_HEX '+String(i/600).padStart(4,'0')+' '+encoded.slice(i,i+600));
@@ -45,7 +47,12 @@ try{
  }else{
   if(!existsSync(lock))throw Error('Missing committed design-lint/package-lock.json');
   copyFileSync(lock,join(dir,'package-lock.json'));
-  checked('npm ci',run('npm',['ci','--prefix',dir,'--ignore-scripts','--no-audit','--no-fund'],library),[0]);
+  const install=run('npm',['ci','--ignore-scripts','--no-audit','--no-fund'],dir);
+  if(!valid(install,[0])){
+   const version=run('npm',['--version'],dir);
+   console.error('[design-lint] install context: node='+process.version+' npm='+(version.stdout?.trim()||'unknown')+' platform='+process.platform+' arch='+process.arch+' cwd='+dir);
+  }
+  checked('npm ci',install,[0]);
  }
  const bin=name=>join(dir,'node_modules','.bin',name);
  const ox=join(dir,'oxlintrc.json');
