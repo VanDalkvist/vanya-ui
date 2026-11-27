@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [1.2.3] - 2026-11-27
+
+### Fixed
+- Use one section vocabulary for navigation and chapter headings; retain stable fragment URLs and the product-purpose H1 on the overview.
+- Edit chapter introductions, identity labels, guidance, catalogue descriptions and agent page copy for concrete meaning and current behavior. Remove decorative identity and agent chapter numbers; preserve ordered workflow steps.
+- Document and test the editorial consistency contract.
+
 ## [1.2.2] - 2026-11-27
 
 ### Fixed
