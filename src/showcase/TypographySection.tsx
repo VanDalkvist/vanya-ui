@@ -69,7 +69,7 @@ export function TypographySection() {
           <p className="ui-type-editorial-body"><em>Every discovery has its own rhythm.</em></p>
         </article>
       </div>
-      <p className="ui-type-caption">Spectral 400 — текст и курсив; 600 — заголовок. <a href="/reference/typography.md" target="_blank" rel="noopener noreferrer">Правила подключения и примеры кода<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a></p>
+      <p className="ui-type-caption">Spectral 400 — текст и курсив; 600 — заголовок. <ActionLink variant="prose" href="/reference/typography.md" target="_blank" rel="noopener noreferrer">Правила подключения и примеры кода</ActionLink></p>
     </section>
     <div className="type-reading-demo">
       <div>
@@ -82,7 +82,7 @@ export function TypographySection() {
         <h3>Правила</h3>
         <p>Основной текст — 16 px с межстрочным интервалом 1,65. Плотные элементы — 14 px. Подписи — 13 px, только для короткого текста.</p>
         <p>Длина строки — до 66ch. Используй rem и сохраняй возможность масштабирования. Плотные интервалы логотипа предназначены для вордмарка.</p>
-        <a href="/reference/typography.md" target="_blank" rel="noopener noreferrer">Токены, примеры и требования доступности<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>
+        <ActionLink variant="prose" href="/reference/typography.md" target="_blank" rel="noopener noreferrer">Токены, примеры и требования доступности</ActionLink>
       </div>
     </div>
   </section>;
