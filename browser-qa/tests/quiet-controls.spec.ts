@@ -8,7 +8,7 @@ test("quiet catalogue facets change actual rows",async({page})=>{
  await section.getByRole("button",{name:"Мои",exact:true}).click();
  await expect(rows).toHaveText(["Тихий берег","Следы в лесу"]);
  await section.getByRole("button",{name:"Жанр Все"}).click();
- await page.getByRole("option",{name:"Фантастика"}).click();
+ await page.getByRole("listbox",{name:"Жанр",exact:true}).getByRole("option",{name:"Фантастика",exact:true}).click();
  await expect(rows).toHaveText(["Следы в лесу"]);
  await section.getByRole("button",{name:"Жанр Фантастика"}).click();
  await page.getByRole("searchbox",{name:"Поиск по вариантам: Жанр"}).press("Escape");
@@ -231,7 +231,7 @@ test("applied filters and ordinary properties use different semantic ink",async(
  await page.goto("/#compact-filter-toolbar");
  const filter=page.locator("#compact-filter-toolbar .ui-filter-select");
  await filter.getByRole("button",{name:"Жанр Все"}).click();
- await page.getByRole("option",{name:"Драма",exact:true}).click();
+ await page.getByRole("listbox",{name:"Жанр",exact:true}).getByRole("option",{name:"Драма",exact:true}).click();
  const property=page.locator("#quiet-inspector .ui-filter-select").first();
  const style=async(el:typeof filter)=>el.locator(".ui-filter-select-value").evaluate(e=>{const s=getComputedStyle(e);return {color:s.color,font:s.fontSize,line:s.lineHeight};});
  const f=await style(filter),p=await style(property);
@@ -266,11 +266,11 @@ test("pointer-open selection has a check without a resting fill; keyboard moveme
  await page.goto("/#compact-filter-toolbar");
  const section=page.locator("#compact-filter-toolbar");
  await section.getByRole("button",{name:"Жанр Все"}).click();
- await page.getByRole("option",{name:"Драма",exact:true}).click();
+ await page.getByRole("listbox",{name:"Жанр",exact:true}).getByRole("option",{name:"Драма",exact:true}).click();
  await section.getByRole("button",{name:"Жанр Драма"}).click();
  await page.mouse.move(0,0);
- const selected=page.getByRole("option",{name:"Драма",exact:true});
- const next=page.getByRole("option",{name:"Комедия",exact:true});
+ const selected=page.getByRole("listbox",{name:"Жанр",exact:true}).getByRole("option",{name:"Драма",exact:true});
+ const next=page.getByRole("listbox",{name:"Жанр",exact:true}).getByRole("option",{name:"Комедия",exact:true});
  await expect(selected).toHaveAttribute("aria-selected","true");
  await expect(selected.locator("svg")).toBeVisible();
  await expect(selected).not.toHaveAttribute("data-active","true");
