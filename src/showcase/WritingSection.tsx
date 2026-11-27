@@ -10,7 +10,7 @@ const skillItems = [
 
 export function WritingSection() {
   return <section id="writing" className="catalog writing-section" aria-labelledby="writing-title">
-    <ChapterHeader id="writing" title="Тексты интерфейса" description="В Vanya UI кнопки называют действия, ошибки объясняют следующий шаг. На первом экране сами компоненты показывают, как работают." index="04"/>
+    <ChapterHeader id="writing" title="Тексты интерфейса" description="В Vanya UI кнопки называют действия, ошибки объясняют следующий шаг. На первом экране сами компоненты показывают, как работают."/>
     <div className="writing-example">
       <div><span className="type-demo-label">Лишнее</span><p>«Нажми на точку… Подвинь ползунок…»</p><small>Инструкция к демонстрации повторяет то, что уже видно на экране.</small></div>
       <div><span className="type-demo-label">На первом экране</span><p>Готовые компоненты для рабочих интерфейсов.</p><small>Волна работает прямо здесь. Другие компоненты — в каталоге.</small></div>
