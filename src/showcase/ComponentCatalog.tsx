@@ -158,7 +158,7 @@ export function ComponentCatalog() {
         <div className="demo-interaction-sample">
           <span className="demo-label">Иконки и тема</span>
           <div className="demo-interaction-pair">
-            <ActionLink variant="prose" href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/VanDalkvist/vanya-ui" target="_blank" rel="noopener noreferrer"
               aria-label="GitHub — исходники Vanya UI, новая вкладка" className="ui-feedback-icon demo-interaction-icon">
               <GitHubIcon size={14}/>
             </a>
@@ -209,7 +209,7 @@ export function ComponentCatalog() {
           description="Проверьте соединение и повторите запрос."
           action={<ActionButton size="md" variant="accent" onClick={()=>setLoadingDemo("loading")}>Повторить</ActionButton>}/>}
        </div>
-       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md" target="_blank" rel="noopener noreferrer">Правила загрузки</ActionLink></p>
+       <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <ActionLink variant="prose" href="/reference/loading.md" target="_blank">Правила загрузки</ActionLink></p>
       </div>
     </CatalogSection>
     <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Поиск, переключатель и FilterSelect фильтруют одну коллекцию. Высота контролов — 40 px.">
