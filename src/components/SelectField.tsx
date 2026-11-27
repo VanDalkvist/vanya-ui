@@ -17,9 +17,9 @@ export function SelectField({label,options,emptyLabel="Все",allowEmpty=true,d
  const internalId=React.useId();
  const controlId=id||internalId;
  return (
-  <label htmlFor={controlId} data-density={density} className={twMerge(clsx("ui-select-field flex min-w-0",density==="toolbar"?"flex-row items-center gap-0":"flex-col",className))}>
-   <span className="ui-select-field-label ui-type-caption font-sans text-ink-soft">{label}</span>
-   <select id={controlId} {...props} className={clsx("ui-select-field-select min-w-0",density==="toolbar"?"h-full rounded-none border-0 bg-transparent pl-1 pr-5 focus-visible:outline-none":"bg-transparent",props.disabled&&"opacity-45")}>
+  <label htmlFor={controlId} data-density={density} className={twMerge(clsx("ui-select-field min-w-0",className))}>
+   <span className="ui-select-field-label">{label}{density==="toolbar"&&<span aria-hidden="true">:</span>}</span>
+   <select id={controlId} {...props} className={clsx("ui-select-field-select min-w-0",props.disabled&&"opacity-45")}>
     {allowEmpty&&<option value="">{emptyLabel}</option>}
     {options.map(option=><option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
    </select>
