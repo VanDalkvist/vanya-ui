@@ -271,7 +271,7 @@ describe("#15: current section reflects viewport/history, not last clicked item"
     window.history.replaceState(null,"","/#identity");
     fireEvent(window,new Event("hashchange"));
     expect(screen.getByRole("link",{name:"Айдентика"})).toHaveAttribute("aria-current","location");
-    expect(screen.getByRole("link",{name:"Композиция"})).not.toHaveAttribute("aria-current");
+    expect(screen.getByRole("link",{name:"Обзор"})).not.toHaveAttribute("aria-current");
     window.history.replaceState(null,"","/#writing");
     fireEvent(window,new Event("popstate"));
     expect(screen.getByRole("link",{name:"Тексты"})).toHaveAttribute("aria-current","location");
