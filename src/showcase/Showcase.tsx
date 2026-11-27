@@ -21,7 +21,7 @@ export function Showcase(){
    <Guide/>
    <ComponentCatalog/>
    <section id="setup" className="catalog setup" aria-labelledby="setup-title">
-    <ChapterHeader id="setup" title="Подключить библиотеку" description="Используй локальную копию библиотеки или закрепи конкретный коммит при установке. Подключи токены и импортируй нужные компоненты."/>
+    <ChapterHeader id="setup" description="Установка React-пакета по проверенному SHA или из локальной копии. Подключение токенов и компонентов."/>
     <pre><code>{`bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n\nimport { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";`}</code></pre>
     <p className="catalog-intro">Для агентов: <a href="/reference/agent-skill.md" target="_blank" rel="noopener noreferrer">канонический UI-скилл<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>, <a href="/reference/ui-pipeline.md" target="_blank" rel="noopener noreferrer">локальный пайплайн<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>, <a href="/llms.txt" target="_blank" rel="noopener noreferrer">LLM-навигация<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a> и <a href="/reference/components.md" target="_blank" rel="noopener noreferrer">компоненты<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>.</p>
    </section>
