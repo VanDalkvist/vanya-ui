@@ -335,6 +335,8 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
  .showcase-nav [data-ui-nav-items]{flex:1 1 100%;padding:3px 2px}
 }
 @media(max-width:360px){
+ /* Three-row cold-start header includes wrapping navigation and utilities. */
+ :root{--showcase-header-height:220px;}
  .showcase-header{grid-template-columns:minmax(0,1fr);grid-template-areas:"brand" "navigation" "utilities";padding-inline:12px}
  .showcase-utilities{justify-content:flex-end;min-height:32px}
 }
