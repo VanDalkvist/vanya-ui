@@ -151,7 +151,7 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 - **Действия:** `ActionButton`, `SegmentedControl`, `RangeSlider`, `ThemeToggle`.
 - **Метки:** `Tag` для тем, `Badge` для категорий и статусов, `Kbd` для клавиш. У `Badge` видимая подпись обязательна; приложение задаёт иконку и цвет категории или семантический `tone` статуса. Для выбора используются `SegmentedControl` и `ActionButton` с `aria-pressed`.
 - **Рабочие поверхности:** `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceContextHeader`, `StickyContextBar`, `WorkspaceActionBar`, `WorkspaceEmptyState`.
-- **Карточки и детали:** `CraftCard`, `DeskSlotCard`, `EventCard`, `TimelinePreviewCard`, `InspectDrawer`, `ReceiptDigestModal`.
+- **Карточки и детали:** `CraftCard`, `EventCard`, `TimelinePreviewCard`, `InspectDrawer`, `ReceiptDigestModal`.
 - **Волна и события:** `SineWave`, `EventPoint`, `TimelineEvent`, `Minimap`.
 - **Графики и индикаторы:** `EnergyRadar`, `SpiderRadar`, `VoiceWaveIndicator`, `HearthPulse`.
 - **Горячие клавиши:** `Kbd`, `ShortcutKeys`.
@@ -160,7 +160,7 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 - **Раскрытие подробностей:** `Disclosure` с `summary`, содержимым и нативными `open` / `onToggle`.
 - **Тема:** `useTheme`, `applyTheme`; режимы `light`, `dark`, `system`.
 
-Полный публичный API и типы находятся в [`src/index.ts`](src/index.ts). `OfferCard` сохранён как экспорт для совместимости, но временно убран из каталога.
+Полный публичный API и типы находятся в [`src/index.ts`](src/index.ts). Карточки проектов и мотивационные блоки собираются из общих примитивов; приложение владеет данными и действиями. Цвета и иконки категорий передаются явно в Badge и радары.
 
 ## Размеры и состояния
 

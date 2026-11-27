@@ -3,7 +3,7 @@ import {afterEach,describe,expect,it,vi} from "vitest";
 import {cleanup,fireEvent,render,screen} from "@testing-library/react";
 import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
-import {ActionButton,CraftCard,DeskSlotCard,Minimap} from "../src";
+import {ActionButton,CraftCard,Minimap} from "../src";
 import {ComponentCatalog} from "../src/showcase/ComponentCatalog";
 
 const css=()=>readFileSync(resolve(import.meta.dirname,"../src/tokens.css"),"utf8");
@@ -65,17 +65,14 @@ describe("press feedback and genuine action semantics",()=>{
   fireEvent.click(card);
   expect(handle).toHaveBeenCalledTimes(3);
  });
- it("uses one native hit area for DeskSlotCard and an independent park control",()=>{
+ it("composes a passive card with independent native actions",()=>{
   const open=vi.fn(),park=vi.fn();
-  render(<DeskSlotCard title="Новый проект" oneLiner="Исследование" onClick={open} onPark={park}/>);
-  const link=screen.getByRole("button",{name:"Открыть Новый проект"});
-  expect(link).toHaveClass("ui-desk-slot-hit");
-  expect(link.closest(".ui-desk-slot-card")).toHaveClass("ui-desk-slot-actionable");
-  fireEvent.click(link);
+  render(<CraftCard><h3>Новый проект</h3><ActionButton onClick={open}>Открыть проект</ActionButton><ActionButton onClick={park}>Запарковать</ActionButton></CraftCard>);
+  expect(screen.getAllByRole("button")).toHaveLength(2);
+  fireEvent.click(screen.getByRole("button",{name:"Открыть проект"}));
   expect(open).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole("button",{name:"запарковать"}));
-  expect(park).toHaveBeenCalledTimes(1);
-  expect(open).toHaveBeenCalledTimes(1);
+  fireEvent.click(screen.getByRole("button",{name:"Запарковать"}));
+  expect(park).toHaveBeenCalledTimes(1);expect(open).toHaveBeenCalledTimes(1);
  });
  it("makes Minimap seek available by keyboard rather than relying on pointer-only clicks",()=>{
   const seek=vi.fn();

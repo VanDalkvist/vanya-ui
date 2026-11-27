@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Sparkles, HeartHandshake, Briefcase, Cpu } from "lucide-react";
 import { ChapterHeader } from "./ChapterHeader";
 import {
-  ActionButton, ActionLink, GitHubIcon, AvatarLink, Badge, CraftCard, DeskSlotCard, Disclosure,
-  Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
+  ActionButton, ActionLink, GitHubIcon, AvatarLink, Badge, CraftCard, Disclosure,
+  Divider, EnergyRadar, EventCard, EventPoint, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
   FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SurfaceHeader, WorkflowStrip, CostIndicator, VersionLabel,
@@ -20,6 +21,13 @@ const quietCollection = [
   {title:"Маяк на холме",genre:"comedy",mine:false},
   {title:"Следы в лесу",genre:"fantasy",mine:true},
 ];
+// Private specimen data; product categories and their colors belong to the caller.
+const sampleCategories = [
+  {id:"creative",label:"Creative",icon:Sparkles},
+  {id:"life",label:"Life",icon:HeartHandshake},
+  {id:"product",label:"Product",icon:Briefcase},
+  {id:"infra",label:"Infra",icon:Cpu},
+].map(category=>({...category,color:`var(--demo-category-${category.id})`,textColor:`var(--demo-category-${category.id}-fg)`,backgroundColor:`var(--demo-category-${category.id}-bg)`}));
 const horizons = [{ id: "day", label: "День" }, { id: "week", label: "Неделя" }, { id: "month", label: "Месяц" }];
 const counts = { day: [4, 2, 1, 3], week: [10, 3, 4, 3], month: [14, 8, 10, 8] };
 const eventTicks = [
@@ -121,7 +129,7 @@ export function ComponentCatalog() {
   const [craftChildClicks,setCraftChildClicks]=useState(0);
   const [requestDemo,setRequestDemo] = useState<"idle"|"pending"|"success"|"error">("idle");
   const total = counts[horizon].reduce((sum, value) => sum + value, 0);
-  const items = HARNESS_TYPES.map((harness, index) => ({ id: harness.id, label: harness.label, count: counts[horizon][index], percentage: counts[horizon][index] / total * 100 }));
+  const items = sampleCategories.map((category,index)=>({...category,count:counts[horizon][index],percentage:counts[horizon][index]/total*100}));
   const changeHorizon = (value: string) => {
     if (value === "day" || value === "week" || value === "month") setHorizon(value);
   };
@@ -312,7 +320,7 @@ export function ComponentCatalog() {
       <div className="demo-column"><Minimap min={2016} max={2028} from={mapFocus} to={mapFocus + 2} ticks={eventTicks} onSeek={(value) => setMapFocus(Math.min(2026, Math.max(2016, value - 1)))} labels={[{ value: 2016, text: "2016" }, { value: 2020, text: "2020" }, { value: 2024, text: "2024" }, { value: 2028, text: "2028" }]} /><span className="demo-label">Примеры событий: прошлые, текущие и будущие.</span></div>
     </CatalogSection>
     <CatalogSection id="categories" title="Badge" description="Метка категории с иконкой и цветом, заданными приложением.">
-      <Sizes>{(size) => HARNESS_TYPES.map((harness) => <Badge key={harness.id} size={size} label={harness.label} icon={harness.icon} style={{color:harness.textColor,backgroundColor:harness.backgroundColor}} />)}</Sizes>
+      <Sizes>{(size) => sampleCategories.map(category=><Badge key={category.id} size={size} label={category.label} icon={category.icon} style={{color:category.textColor,backgroundColor:category.backgroundColor}} />)}</Sizes>
     </CatalogSection>
     <CatalogSection id="status" title="Статусы" description="Badge с цветовой точкой и читаемым названием состояния.">
       <Sizes>{(size) => <><Badge size={size} tone="success" label="доступен" /><Badge size={size} tone="pending" label="ожидание" /><Badge size={size} tone="warning" label="внимание" /><Badge size={size} tone="error" label="недоступен" /></>}</Sizes>
@@ -338,13 +346,30 @@ export function ComponentCatalog() {
         <p role="status">Открытий: {craftCardClicks}</p>
       </div>
     </CatalogSection>
-    <CatalogSection id="desk" title="DeskSlotCard" description="Карточка проекта: активное, отложенное и пустое состояния.">
-      <div className="demo-column"><span className="demo-label">{slotActive ? "Активный проект" : "Проект отложен"}</span>{slotActive ? <DeskSlotCard title="Пример проекта" oneLiner="Описание проекта." category="Creative" actionsCount={12} onPark={() => setSlotActive(false)} /> : <ActionButton onClick={() => setSlotActive(true)}>Вернуть пример</ActionButton>}<span className="demo-label">Пустое состояние</span><DeskSlotCard isEmpty emptyLabel="Выбрать проект" onClick={() => setOverlay("sheet")} /></div>
+    <CatalogSection id="desk" title="Карточка проекта" description="Пример композиции карточки, статуса, действий и пустого состояния.">
+      <div className="demo-column">
+        <CraftCard className="flex flex-col gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h4 className="ui-type-subheading">Пример проекта</h4>
+            <Badge label={slotActive?"На столе":"Отложен"} tone={slotActive?"success":"pending"} size="sm"/>
+          </div>
+          <p className="ui-type-compact">Описание проекта.</p>
+          <p className="ui-type-metadata" role="status">{slotActive?"Активный проект":"Проект отложен"}</p>
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
+            <span className="ui-type-metadata">12 действий</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <ActionButton onClick={()=>setOverlay("sheet")}>Открыть проект</ActionButton>
+              <ActionButton onClick={()=>setSlotActive(active=>!active)}>{slotActive?"Запарковать":"Вернуть пример"}</ActionButton>
+            </div>
+          </div>
+        </CraftCard>
+        <WorkspaceEmptyState title="Пустое состояние" action={<ActionButton onClick={()=>setOverlay("sheet")}>Выбрать проект</ActionButton>}/>
+      </div>
     </CatalogSection>
     <CatalogSection layout="wide" id="energy" title="EnergyRadar" description="Доля действий по типам проектов. Переключатель меняет период.">
       <EnergyRadar items={items} horizons={horizons} activeHorizon={horizon} onHorizonChange={changeHorizon} totalCount={total} totalLabel="действий" />
     </CatalogSection>
-    <CatalogSection id="spider" title="SpiderRadar" description="Те же данные на четырёх осях."><SpiderRadar size={240} axes={items.map((item) => ({ label: item.label, value: item.percentage }))} /></CatalogSection>
+    <CatalogSection id="spider" title="SpiderRadar" description="Те же данные на четырёх осях."><SpiderRadar size={240} axes={items.map((item) => ({ label: item.label, value: item.percentage, icon:item.icon, textColor:item.textColor }))} /></CatalogSection>
     <CatalogSection id="pulse" title="HearthPulse" description="Индикатор активности. Учитывает настройку уменьшения анимации."><HearthPulse /></CatalogSection>
     <CatalogSection id="voice" title="VoiceWaveIndicator" description="Состояния индикатора речи."><VoiceWaveIndicator isSpeaking={speaking} level={0.7} /><ActionButton onClick={() => setSpeaking(!speaking)}>{speaking ? "Выключить пример" : "Включить пример"}</ActionButton></CatalogSection>
     <CatalogSection id="inspector" title="InspectDrawer" description="Боковая панель с подробностями."><ActionButton onClick={() => setOverlay("sheet")}>Открыть InspectDrawer</ActionButton></CatalogSection>

@@ -215,3 +215,27 @@ for(const theme of themes)for(const width of [1440,1024,390,320]){
   await expect(action).toBeFocused();
  });
 }
+
+for(const width of [1440,390]){
+ test("project composition preserves park, restore and independent open actions "+width,async({page})=>{
+  await page.setViewportSize({width,height:900});
+  await page.goto("/#desk");
+  const section=page.locator("#desk");
+  const status=section.getByRole("status");
+  const park=section.getByRole("button",{name:"Запарковать"});
+  await expect(status).toHaveText("Активный проект");
+  await park.focus();await page.keyboard.press("Enter");
+  await expect(status).toHaveText("Проект отложен");
+  const restore=section.getByRole("button",{name:"Вернуть пример"});
+  await expect(restore).toBeFocused();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.keyboard.press("Space");await expect(status).toHaveText("Активный проект");
+  await expect(park).toBeFocused();
+  const open=section.getByRole("button",{name:"Открыть проект",exact:true});
+  await open.click();
+  const dialog=page.getByRole("dialog",{name:"Описание проекта"});
+  await expect(dialog).toBeVisible();await page.keyboard.press("Escape");await expect(open).toBeFocused();
+  const choose=section.getByRole("button",{name:"Выбрать проект"});
+  await choose.click();await expect(dialog).toBeVisible();await page.keyboard.press("Escape");await expect(choose).toBeFocused();
+ });
+}

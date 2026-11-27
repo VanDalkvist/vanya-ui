@@ -89,8 +89,8 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 - Open field: content first, navigation near the edge, no permanent secondary panel. The approved intro is retained; the wave gets its own area below it, so neither lines nor preview controls intersect the heading.
 - Preview: short title and context, with a real button when interactive.
 - Detail: a right-hand sheet retaining the page as a subdued backdrop. A directional shadow communicates separation; the edge may also have a hairline.
-- Reference: one named row per active component, with its states and variants together; never a second set of HTML lookalikes. OfferCard is temporarily omitted at the operator’s request; its public export is retained for compatibility.
-- Harness identity: the showcase composes Badge with the shared Sparkles / HeartHandshake / Briefcase / Cpu icons and light/dark harness palette, also used by both radar examples. Badge itself accepts caller-supplied visual data; it performs no harness lookup. Ownership of the remaining domain presets is reviewed separately.
+- Reference: one named row per active component, with its states and variants together; never a second set of HTML lookalikes. Product-specific specimens are compositions of the shared primitives, with caller-owned data, copy and actions.
+- Category identity: the showcase owns its sample category data and palette. Badge and both radars receive explicit caller-supplied icons and colors. Labels and IDs are data, and no product taxonomy or palette is exported by the UI package.
 - Dense working views can use rows and compact spacing; spaciousness does not require hiding primary actions or making text faint.
 
 `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
@@ -107,7 +107,7 @@ SineWave uses wave-only math, dotted branches and optical styling. Numeric fixtu
 
 EventPoint is passive unless it receives an action; its sm/md hit areas use the common grid while weight controls the visible source-derived radius. TimelineEvent composes the same point and real TimelinePreviewCard into one native button, sharing accent hover/focus, source shadow and a hover bridge. The wave uses one HTML overlay for predictable stacking: previews are above all points, active previews above their peers. Modern inline SVG/foreignObject support is required for interactive wave events.
 
-EnergyRadar uses the actual SegmentedControl for period selection, with the same compact sizing and disabled semantics rather than a parallel button implementation.
+EnergyRadar uses SegmentedControl for period selection, with the same compact sizing and disabled semantics. EnergyRadar accepts caller-provided color/textColor/icon; SpiderRadar accepts axis textColor/icon. Unspecified visual values use the existing generic accent and ink. Use passive CraftCard with explicit native ActionButton/ActionLink controls and WorkspaceEmptyState for product-specific card and empty-state journeys.
 
 ## Interaction
 

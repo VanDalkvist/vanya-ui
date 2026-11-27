@@ -4,8 +4,6 @@ export { SineWave, type SineWaveProps, type SineWaveEvent } from "./components/S
 export { EventPoint, type EventPointProps } from "./components/EventPoint";
 export { TimelineEvent, type TimelineEventProps } from "./components/TimelineEvent";
 export type { EventWeight, PointAppearance } from "./wave-geometry";
-export { HARNESS_TYPES, getHarnessType } from "./harness";
-export { OfferCard, type OfferCardProps } from "./components/OfferCard";
 export {Badge,type BadgeProps,type BadgeTone} from "./components/Badge";
 export {
   ActionButton,
@@ -75,10 +73,6 @@ export {
   type SpiderRadarProps,
   type SpiderAxis,
 } from "./components/SpiderRadar";
-export {
-  DeskSlotCard,
-  type DeskSlotCardProps,
-} from "./components/DeskSlotCard";
 export {
   VoiceWaveIndicator,
   type VoiceWaveIndicatorProps,

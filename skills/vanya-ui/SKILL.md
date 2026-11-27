@@ -51,6 +51,8 @@ For a new official Vanya Arc service or a branding task, read [brand identity in
 
 ## 3. Implement
 
+Compose domain cards from passive `CraftCard`, `Badge`, explicit `ActionButton` / `ActionLink`, and `WorkspaceEmptyState`. The application owns category IDs, labels, colors, icons, metrics and project actions. Supply explicit category data to `Badge`, `EnergyRadar` and `SpiderRadar`; use their generic visual defaults when no identity is supplied.
+
 Use passive `Tag` for inline topics and `Badge` for categories/statuses. Supply a visible `label`; category icon/style belongs to the caller and status `tone` provides a decorative cue. Use `ActionButton` with `aria-pressed` for independent selection, `SegmentedControl` for grouped selection and `ActionButton` for commands. Follow the actual pinned package exports; never infer actions from passive metadata.
 
 For supplementary content, use the pinned package's canonical `Disclosure` (`summary`, children, native `open` and `onToggle`). Keep interactive controls inside the revealed content; preserve native keyboard behavior and user-expanded state. When adopting a new major library version, follow its migration guide in the changelog and verify the actual exports.

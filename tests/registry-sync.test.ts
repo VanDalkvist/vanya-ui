@@ -8,6 +8,9 @@ describe("component registry is derived from public exports",()=>{
   const actual=readdirSync(resolve(root,"src/components")).filter(file=>file.endsWith(".tsx")&&exported.includes('./components/'+file.slice(0,-4)+'"')).map(file=>file.slice(0,-4)).sort();
   const registry=JSON.parse(readFileSync(resolve(root,"registry.json"),"utf8")).items.map((entry:{title:string})=>entry.title).sort();
   expect(registry).toEqual(actual);
+  expect(registry).not.toContain("OfferCard");
+  expect(registry).not.toContain("DeskSlotCard");
+  expect(exported).not.toMatch(/\b(?:OfferCard|DeskSlotCard|HARNESS_TYPES|getHarnessType)\b/);
   expect(registry.filter((name:string)=>name==="Disclosure")).toHaveLength(1);
   expect(registry).not.toContain("DisclosurePill");
   expect(registry).not.toContain("InspectorMeta");

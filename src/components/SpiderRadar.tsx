@@ -1,10 +1,12 @@
 import React from "react";
-import { getHarnessType } from "../harness";
+import type { LucideIcon } from "lucide-react";
 
 export interface SpiderAxis {
   label: string;
   value: number; // 0 to 100
   target?: number; // optional target value 0 to 100
+  icon?: LucideIcon;
+  textColor?: string;
 }
 
 export interface SpiderRadarProps {
@@ -141,18 +143,17 @@ export const SpiderRadar: React.FC<SpiderRadarProps> = ({
           const textR = radius + 22;
           const tx = center + textR * Math.cos(angle);
           const ty = center + textR * Math.sin(angle);
-          const harness = getHarnessType(axis.label);
-          const Icon = harness?.icon;
+          const Icon = axis.icon;
           return (
             <g key={i}>
-            {Icon && <Icon x={tx - 6} y={ty - 23} width={12} height={12} style={{ color: harness.textColor }} aria-hidden="true" />}
+            {Icon && <Icon x={tx - 6} y={ty - 23} width={12} height={12} style={{ color: axis.textColor }} aria-hidden="true" />}
             <text
               x={tx}
               y={ty}
               textAnchor="middle"
               dominantBaseline="central"
               className="fill-ink-soft text-meta font-mono tracking-wider uppercase"
-              style={{ fill: harness?.textColor }}
+              style={{ fill: axis.textColor }}
             >
               {axis.label} ({axis.value}%)
             </text>

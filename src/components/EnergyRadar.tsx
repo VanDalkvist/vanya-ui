@@ -1,6 +1,5 @@
 import React from "react";
 import type { LucideIcon } from "lucide-react";
-import { getHarnessType } from "../harness";
 import { SegmentedControl } from "./SegmentedControl";
 
 export interface EnergyDistributionItem {
@@ -8,7 +7,7 @@ export interface EnergyDistributionItem {
   label: string;
   count: number;
   percentage: number;
-  color?: string; // CSS color; overrides the harness default
+  color?: string; // Caller-owned CSS color; defaults to the accent
   textColor?: string;
   icon?: LucideIcon;
 }
@@ -37,14 +36,11 @@ export const EnergyRadar: React.FC<EnergyRadarProps> = ({
   totalLabel = "всего",
   className = "",
 }) => {
-  const resolvedItems = items.map((item) => {
-    const harness = getHarnessType(item.id) ?? getHarnessType(item.label);
-    return { ...item, color: item.color ?? harness?.color ?? "var(--accent)", textColor: item.textColor ?? harness?.textColor, icon: item.icon ?? harness?.icon };
-  });
+  const resolvedItems = items.map(item=>({...item,color:item.color??"var(--accent)"}));
   return (
     <div
       className={[
-        "flex w-full min-w-0 flex-col gap-3 p-4 rounded-[4px] bg-paper-raised border border-border text-xs text-ink",
+        "flex w-full min-w-0 flex-col gap-3 p-4 rounded-[4px] bg-surface border border-border text-xs text-ink",
         className,
       ].join(" ")}
     >

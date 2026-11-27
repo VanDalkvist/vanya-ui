@@ -41,6 +41,7 @@ Manrope is the default UI/display family; Spectral remains available for deliber
 The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
 
 ## Interaction API (source contract)
+Compose project-specific cards from CraftCard, Badge, ActionButton/ActionLink and WorkspaceEmptyState. Category identities belong to the caller: pass icon and color/textColor explicitly to EnergyRadar, icon/textColor to SpiderRadar axes, and icon/style to Badge.
 Tag is passive inline metadata; Badge uses caller-supplied label, optional icon or status tone and detail. Use explicit ActionButton/SegmentedControl for commands and selection. Status labels remain readable independently of color.
 Disclosure uses native details/summary with summary, children, open and onToggle; browser user toggles survive unrelated rerenders. Use one component for supplementary explanations and provenance.
 SegmentedControl defaults to filters (aria-pressed). Explicit tabs require tabId/panelId and matching panels. For unavailable controlled tabs, onChange requests the first enabled tab; the owner updates selection and panel together. ThemeToggle delegates sequential Tab focus to the browser. For stable geometry, name protected elements and verify their rendered coordinates across states. See https://ui.vanya-arc.dev/reference/composition.md and https://ui.vanya-arc.dev/reference/agent-skill.md.

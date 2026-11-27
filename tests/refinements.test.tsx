@@ -1,30 +1,35 @@
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { Badge, EnergyRadar, SegmentedControl, useTheme, HARNESS_TYPES } from "../src";
+import { Badge, EnergyRadar, SpiderRadar, SegmentedControl, useTheme } from "../src";
+import { Sparkles, HeartHandshake } from "lucide-react";
 import { ComponentCatalog } from "../src/showcase/ComponentCatalog";
 
 afterEach(cleanup);
 
 describe("approved showcase refinements", () => {
-  it("renders Farm's canonical harness identity rather than a raw ID and hash", () => {
-    const creative=HARNESS_TYPES.find(item=>item.id==="creative_harness")!;
-    const { container } = render(<Badge label={creative.label} icon={creative.icon} style={{color:creative.textColor,backgroundColor:creative.backgroundColor}} />);
+  it("renders caller-provided category identity", () => {
+    const { container } = render(<Badge label="Creative" icon={Sparkles} style={{color:"#654321",backgroundColor:"#eeeeee"}} />);
     expect(screen.getByText("Creative")).toBeVisible();
     expect(container.querySelector("svg.lucide-sparkles")).not.toBeNull();
     expect(screen.queryByText("#")).not.toBeInTheDocument();
   });
 
-  it("uses Farm icons/colors in radar while preserving custom item color", () => {
-    const { container } = render(<EnergyRadar items={[
-      { id: "life_harness", label: "Life", count: 2, percentage: 40 },
-      { id: "custom", label: "Custom", count: 3, percentage: 60, color: "#123456" },
-    ]} />);
-    expect(container.querySelector("svg.lucide-heart-handshake")).not.toBeNull();
-    const life = container.querySelector('[title="Life: 40% (2)"]') as HTMLElement;
-    expect(life.style.backgroundColor).toBe("var(--harness-life)");
-    const custom = container.querySelector('[title="Custom: 60% (3)"]') as HTMLElement;
+  it("renders only explicit radar identity and gives arbitrary categories the same fallback", () => {
+    const {container,rerender}=render(<EnergyRadar items={[
+      {id:"life_harness",label:"Life",count:2,percentage:40},
+      {id:"custom",label:"Custom",count:3,percentage:60,color:"#123456",icon:HeartHandshake},
+    ]}/>);
+    const life=container.querySelector('[title="Life: 40% (2)"]') as HTMLElement;
+    expect(life.style.backgroundColor).toBe("var(--accent)");
+    expect(container.querySelectorAll("svg.lucide-heart-handshake")).toHaveLength(1);
+    const custom=container.querySelector('[title="Custom: 60% (3)"]') as HTMLElement;
     expect(custom.style.backgroundColor).toBe("rgb(18, 52, 86)");
+    rerender(<SpiderRadar axes={[{label:"Life",value:40},{label:"Custom",value:60,icon:HeartHandshake,textColor:"#123456"},{label:"Third",value:25}]}/>);
+    expect(container.querySelectorAll("svg.lucide-heart-handshake")).toHaveLength(1);
+    expect(screen.getByText("Life (40%)")).not.toHaveAttribute("style");
+    expect(screen.getByText("Custom (60%)")).toHaveStyle({fill:"#123456"});
+    expect(screen.getByText("Third (25%)")).toBeInTheDocument();
   });
 
   it("keeps selection working through the last segment", () => {
@@ -57,7 +62,7 @@ describe("approved showcase refinements", () => {
 
   it("gives every component its own catalogue row and keeps badge states together", () => {
     render(<ComponentCatalog />);
-    for (const name of ["WorkspaceSplit", "ScrollRegion", "SectionToolbar", "WorkspaceActionBar", "WorkspaceEmptyState", "ActionButton", "Kbd", "ShortcutKeys", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "Badge", "Статусы", "Tag", "Disclosure", "LinkChip", "CraftCard", "DeskSlotCard", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
+    for (const name of ["WorkspaceSplit", "ScrollRegion", "SectionToolbar", "WorkspaceActionBar", "WorkspaceEmptyState", "ActionButton", "Kbd", "ShortcutKeys", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "Badge", "Статусы", "Tag", "Disclosure", "LinkChip", "CraftCard", "Карточка проекта", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
       expect(screen.getByRole("region", { name })).toBeInTheDocument();
     }
     const badges = screen.getByRole("region", { name: "Badge" });

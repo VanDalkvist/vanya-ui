@@ -77,18 +77,6 @@
       ]
     },
     {
-      "name": "desk-slot-card",
-      "type": "registry:ui",
-      "title": "DeskSlotCard",
-      "description": "React UI component DeskSlotCard from @vanya/ui",
-      "files": [
-        {
-          "path": "src/components/DeskSlotCard.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "disclosure",
       "type": "registry:ui",
       "title": "Disclosure",
@@ -252,18 +240,6 @@
       "files": [
         {
           "path": "src/components/NavLinks.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "offer-card",
-      "type": "registry:ui",
-      "title": "OfferCard",
-      "description": "React UI component OfferCard from @vanya/ui",
-      "files": [
-        {
-          "path": "src/components/OfferCard.tsx",
           "type": "registry:ui"
         }
       ]
