@@ -44,7 +44,7 @@ describe("typography and editor guidance",()=>{
  });
  it("credits both original authors, source and skills",()=>{
   render(<WritingSection/>);
-  expect(screen.getByRole("heading",{name:"Тексты интерфейса"})).toBeInTheDocument();
+  expect(screen.getByRole("heading",{name:"Тексты"})).toBeInTheDocument();
   expect(screen.getByRole("link",{name:"Людмила Сарычева"})).toHaveAttribute("href","https://gladlax.ru");
   expect(screen.getByRole("link",{name:"Никита Архипов"})).toHaveAttribute("href","https://niar42.com");
   expect(screen.getByRole("link",{name:"Оригинальный репозиторий"})).toHaveAttribute("href","https://github.com/N1arko/redaktura-skills");
