@@ -37,7 +37,7 @@
     "test:harness": "node --test scripts/design-harness.e2e.test.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "typecheck:tests": "tsc --noEmit -p tsconfig.json --pretty false",
-    "verify:local": "node scripts/ui-pipeline.mjs contribute --project . --json && npm run test:consumer && npm run typecheck:tests"
+    "verify:local": "node scripts/ui-pipeline.mjs contribute --project . --json && npm run test:consumer -- --head && npm run typecheck:tests"
   },
   "dependencies": {
     "@vanya/brand": "github:VanDalkvist/vanya-arc-brand#83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9",
