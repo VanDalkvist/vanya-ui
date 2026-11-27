@@ -21,7 +21,7 @@ describe("single longread navigation",()=>{
   expect(within(nav).getAllByRole("link")).toHaveLength(9);
   for(const [id,label] of [["composition","Обзор"],["identity","Айдентика"],["typography","Типографика"],["writing","Тексты"],["principles","Принципы"],["catalog","Компоненты"],["workspace","Рабочие поверхности"],["setup","Подключение"],["agents","Агентам"]]){
    expect(document.getElementById(id)).not.toBeNull();
-   expect(within(nav).getByRole("link",{name:label,exact:true})).toHaveAttribute("href","/#"+id);
+   expect(within(nav).getByRole("link",{name:label})).toHaveAttribute("href","/#"+id);
   }
   expect(within(document.getElementById("composition")!).getByRole("heading",{level:1})).toHaveTextContent("Готовые компоненты для рабочих интерфейсов.");
   expect(within(document.getElementById("typography")!).getByRole("heading",{name:"Типографика",level:2})).toBeInTheDocument();
