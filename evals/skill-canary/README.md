@@ -44,7 +44,7 @@ tests:
   - assert:
       - type: javascript
         value: |-
-          return output === context.prompt && output.includes('/projects/demo') && output.includes('/guides/overview');
+          output === context.prompt && output.includes('/projects/demo') && output.includes('/guides/overview')
 YAML
   env -i PATH="$PATH" HOME="$HOME" \
     TMPDIR="${TMPDIR:-/tmp}" PROMPTFOO_CONFIG_DIR="$RUN/echo-db" \
@@ -68,3 +68,7 @@ The existing Eval hook publishes native output to the approved private archive; 
 ## Incident — Promptfoo 0.126.0 literal routes
 
 First owner-host run stopped in readPrompts before dispatch: `There are no prompts in ...`. Pinned [maybeFilePath](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/prompts/utils.ts) classifies a single-line string containing `/` as a file candidate; [processPrompt](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/prompts/index.ts) then returns no prompts for the nonexistent non-glob path. Native [text-file processor](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/prompts/processors/text.ts) reads the literal text and trims it. Use `file://task.txt`, preserving the exact original task. A separate native echo row in a fresh local DB checks literal prompt output and must succeed before the live row; it has no publication extension. No model request was reached in the failed attempt. Keep its evidence directory. Source inspection and Git readback only; actual corrected native run remains pending.
+
+### Incident 2 — single-line JavaScript assertion
+
+Owner run `eval-AhL-2026-11-27T19:52:54`: native echo executed one row, 0 pass / 1 fail / 0 errors; live model not reached. Pinned [JavaScript assertion implementation](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/assertions/javascript.ts) trims trailing newlines and prepends `return` to a single-line expression; the authored single-line `return ...` compiles as `return return ...`, a syntax error. This is a confirmed source defect in our config; exact grading reason from the owner export was not inspected. Remove the redundant `return`, keep identical assertion semantics and separate exact-byte equality on the native exported response. Multi-line live assertions remain statement bodies. Native owner rerun pending; no model retry occurred.
