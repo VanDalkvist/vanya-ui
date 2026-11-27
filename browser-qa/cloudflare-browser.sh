@@ -12,7 +12,18 @@ cd browser-qa
 npm exec -- playwright install chromium --no-shell
 scratch=$(mktemp -d)
 trap 'rm -rf "$scratch"' EXIT
-mkdir -p "$scratch/debs" "$scratch/libs"
+mkdir -p "$scratch/debs" "$scratch/libs" "$scratch/lists/partial" "$scratch/cache/archives/partial"
+# Keep apt indexes and cache inside this build's own writable directory.
+# Retain the image's configured signed Ubuntu repositories and verification.
+export APT_CONFIG="$scratch/apt.conf"
+cat > "$APT_CONFIG" <<EOF
+Dir::State::lists "$scratch/lists";
+Dir::Cache "$scratch/cache";
+APT::Get::List-Cleanup "false";
+#clear APT::Update::Post-Invoke;
+#clear APT::Update::Post-Invoke-Success;
+EOF
+apt-get update
 set +e
 report=$(npm exec -- playwright install-deps chromium --dry-run 2>&1)
 status=$?
