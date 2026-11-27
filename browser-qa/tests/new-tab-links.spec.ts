@@ -14,3 +14,40 @@ for(const [route,label] of [["/","Правила навигации"],["/agents/
   finally{await tab.close();}
  });
 }
+
+for(const theme of ["light","dark"] as const){
+ test("reference links and utilities show hover without moving arrow or neighbor "+theme,async({page})=>{
+  await page.addInitScript(mode=>localStorage.setItem("vanya_theme",mode),theme);
+  await page.goto("/#composition-principle");
+  const links=page.locator("#composition-principle .guide-links a"),first=links.first(),second=links.last();
+  await expect(links).toHaveCount(2);
+  await first.scrollIntoViewIfNeeded();await page.mouse.move(0,0);
+  const color=await first.evaluate(e=>getComputedStyle(e).color);
+  const a=await first.boundingBox(),b=await second.boundingBox(),arrow=await first.locator(".ui-new-tab-marker").boundingBox();
+  expect(a).not.toBeNull();expect(b).not.toBeNull();expect(arrow).not.toBeNull();
+  if(Math.abs(a!.y-b!.y)<5)expect(b!.x-arrow!.x-arrow!.width).toBeGreaterThan(8);
+  const gap=await first.locator(".ui-new-tab-marker").evaluate(e=>parseFloat(getComputedStyle(e).marginInlineStart));
+  expect(gap).toBeGreaterThan(0);expect(gap).toBeLessThanOrEqual(6);
+  await first.hover();await expect.poll(()=>first.evaluate(e=>getComputedStyle(e).color)).not.toBe(color);
+  expect(await first.boundingBox()).toEqual(a);expect(await second.boundingBox()).toEqual(b);
+  const utility=page.locator(".showcase-author-link");
+  await page.mouse.move(0,0);const rest=await utility.evaluate(e=>getComputedStyle(e).color);
+  await utility.hover();await expect.poll(()=>utility.evaluate(e=>getComputedStyle(e).color)).not.toBe(rest);
+  await page.keyboard.press("Tab");await page.keyboard.press("Shift+Tab");
+  await expect(utility).toBeFocused();await expect(utility).toHaveCSS("outline-width","2px");
+ });
+}
+test("form field border is quiet at rest and status follows the common leading axis",async({page})=>{
+ await page.goto("/#quiet-editor");
+ const section=page.locator("#quiet-editor"),input=section.getByLabel("Название"),select=section.getByRole("combobox",{name:"Жанр"});
+ const status=section.locator("output"),actions=section.locator(".demo-quiet-actions");
+ const box=await input.boundingBox(),a=await actions.boundingBox(),s=await status.boundingBox();
+ expect(Math.abs(box!.x-a!.x)).toBeLessThan(2);expect(Math.abs(a!.x-s!.x)).toBeLessThan(2);
+ await page.mouse.move(0,0);
+ const border=await input.evaluate(e=>getComputedStyle(e).borderBottomColor);
+ expect(await select.evaluate(e=>getComputedStyle(e).borderBottomColor)).toBe(border);
+ await input.hover();await expect.poll(()=>input.evaluate(e=>getComputedStyle(e).borderBottomColor)).not.toBe(border);
+ await input.fill("");await section.getByRole("button",{name:"Сохранить"}).click();
+ await expect(input).toHaveAttribute("aria-invalid","true");await expect(input).toBeFocused();
+ expect((await input.boundingBox())!.height).toBe(box!.height);
+});
