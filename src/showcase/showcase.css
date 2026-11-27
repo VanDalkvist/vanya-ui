@@ -31,11 +31,13 @@
 .scene-distance input::-webkit-slider-runnable-track { height:1px; background:var(--border-strong); }
 .scene-distance input::-webkit-slider-thumb { margin-top:-6px; }
 .catalog { padding:var(--spacing-focus) var(--spacing-scene); max-width:1280px; margin:auto; }
-.catalog-title { font-size:28px; font-weight:500; letter-spacing:-.02em; }
+.chapter-header { display:flex; flex-direction:column; align-items:flex-start; gap:8px; min-width:0; }
+.chapter-header > :is(h2,p) { margin:0; }
+.chapter-header > .catalog-intro { margin:4px 0 0; }
 .catalog-intro { margin-top:12px; max-width:65ch; font-size:14px; line-height:1.8; color:var(--ink-soft); }
 .catalog-section { display:grid; grid-template-columns:minmax(180px, 1fr) minmax(0, 2fr); gap:var(--spacing-scene); margin-top:64px; padding-top:32px; border-top:1px solid var(--border); scroll-margin-top:calc(var(--showcase-header-height) + 24px); }
-.catalog-section h3 { font-family:var(--font-sans); font-size:16px; font-weight:500; }
-.catalog-section header p { margin-top:10px; font-size:13px; line-height:1.7; color:var(--ink-soft); max-width:35ch; }
+.catalog-section>header h3 { font-family:var(--font-sans); }
+.catalog-section>header p { margin-top:8px; font-size:13px; line-height:1.7; color:var(--ink-soft); max-width:35ch; }
 .catalog-examples { display:flex; align-items:flex-start; flex-wrap:wrap; gap:24px; min-width:0; }
 .catalog-examples > * { max-width:100%; }
 .catalog-examples .demo-column { display:flex; flex-direction:column; gap:16px; width:100%; }
@@ -120,18 +122,21 @@ p { text-wrap:pretty; }
 
 /* Longread with one natural page scroll and addressable sections. */
 :where(#composition,#principles,#catalog,#workspace,#setup,.guide-article,.catalog-section){scroll-margin-top:calc(var(--showcase-header-height) + 36px);}
-.guide .catalog-title{margin-top:12px;}
 .guide-articles{margin-top:38px;border-top:1px solid var(--border);}
-.guide-article{display:grid;grid-template-columns:minmax(160px,1fr) minmax(0,2fr);gap:var(--spacing-scene);padding:42px 0;border-bottom:1px solid var(--border);}
-.guide-article h3{font:500 clamp(19px,2vw,27px)/1.3 var(--font-sans);letter-spacing:-.025em;}
+.guide-article{display:grid;grid-template-columns:3ch minmax(0,1fr);gap:20px;padding:32px 0;border-bottom:1px solid var(--border);}
+.guide-article>div{min-width:0;max-width:var(--type-reading-measure);}
+.guide-article>.guide-number{padding-top:3px;}
+.guide-article h3{font:600 var(--type-subheading-size)/var(--type-subheading-leading) var(--font-sans);letter-spacing:-.025em;}
 .guide-article p{font:400 14px/1.85 var(--font-sans);color:var(--ink-soft);max-width:66ch;margin-top:15px;}
 .guide-article code,.guide-paths code{font:12px/1.8 var(--font-mono);color:var(--ink);}
-.guide-paths{display:flex;flex-direction:column;gap:10px;padding:24px;margin:22px 0;background:var(--surface-inset);}
+.guide-paths{display:flex;flex-direction:column;gap:0;margin:20px 0;}
+.guide-paths>span{padding:10px 0;}
+.guide-paths>span+span{border-top:1px solid var(--border);}
 .guide-paths span{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--ink-soft);}
 .guide-link{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--accent);margin-top:22px;text-decoration:underline;text-underline-offset:4px;}
 @media(max-width:700px){
  :root{--showcase-header-height:124px;}
- .guide-article{grid-template-columns:1fr;gap:14px;padding:30px 0;}
+ .guide-article{grid-template-columns:3ch minmax(0,1fr);gap:12px;padding:24px 0;}
  .showcase-nav{flex-wrap:wrap;}
  .showcase-name{font-size:17px;}
 }
@@ -150,9 +155,10 @@ p { text-wrap:pretty; }
 .identity-dark-panel { background:var(--ground); color:var(--ink); border:1px solid var(--border); }
 .identity-dark-panel .vanya-arc-lockup, .identity-panel .vanya-arc-lockup { max-width:100%; }
 .identity-rules { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:var(--spacing-scene); row-gap:0; margin-top:36px; }
-.identity-rules article { padding:26px 0 30px; border-top:1px solid var(--border); }
+.identity-rules article { padding:24px 0; border-top:1px solid var(--border); }
+.identity-rules article,.writing-principles article { min-width:0; }
 .identity-rules h3 { font:600 15px/1.5 var(--font-sans); }
-.identity-rules p { margin-top:9px; max-width:55ch; color:var(--ink-soft); font:13px/1.75 var(--font-sans); }
+.identity-rules p { margin-top:8px; max-width:var(--type-reading-measure); color:var(--ink-soft); }
 .identity-palette { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:28px 0; gap:18px; }
 .identity-palette>div { display:flex; flex-wrap:wrap; align-items:center; gap:10px; font-size:12px; }
 .identity-palette strong { font-weight:500; }
@@ -222,8 +228,9 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .catalog-title { font-size:var(--type-heading-size); line-height:var(--type-heading-leading); font-weight:600; letter-spacing:-.025em; }
 .guide-article h3 { font-size:var(--type-subheading-size); line-height:var(--type-subheading-leading); font-weight:600; }
 .guide-article p { font-size:var(--type-body-size); line-height:var(--type-body-leading); max-width:var(--type-reading-measure); }
-.catalog-section header p, .identity-panel p, .identity-rules p { font-size:var(--type-compact-size); line-height:var(--type-compact-leading); }
-.catalog-section h3, .identity-rules h3 { font-size:var(--type-subheading-size); line-height:var(--type-subheading-leading); }
+.catalog-section>header p, .identity-panel p { font-size:var(--type-compact-size); line-height:var(--type-compact-leading); }
+.identity-rules p,.writing-principles p { font:var(--type-body-size)/var(--type-body-leading) var(--font-sans); }
+.catalog-section>header h3,.identity-rules h3,.writing-principles h3 { font-size:var(--type-subheading-size); line-height:var(--type-subheading-leading); font-weight:600; }
 .guide-eyebrow,.guide-number,.identity-panel-label,.type-demo-label { font-size:var(--type-caption-size); line-height:var(--type-caption-leading); }
 .scene-keys-hint, .demo-label, .identity-hero p { font-size:var(--type-caption-size); }
 .catalog pre, .catalog code, .type-specimen code { overflow-wrap:anywhere; }
