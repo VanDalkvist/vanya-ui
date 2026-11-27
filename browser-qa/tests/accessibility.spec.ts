@@ -1,6 +1,11 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
 import axe from "axe-core";
 
+// The pinned axe.source is injected into the browser by addScriptTag.
+declare global {
+  interface Window { axe: typeof import("axe-core"); }
+}
+
 const tags = ["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"];
 const controls = ["#segments","#range","#actions","#compact-filter-toolbar","#media-catalogue","#craft-card","#composition-stable-geometry","#agents",".showcase-header"];
 
