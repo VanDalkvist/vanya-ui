@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, StickyContextBar, WorkspaceContextHeader, SurfaceHeader, WorkflowStrip, Disclosure, CostIndicator } from "../src/index";
+import { ScrollRegion, SectionToolbar, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit, InspectDrawer, ReceiptDigestModal, StickyContextBar, WorkspaceContextHeader, SurfaceHeader, WorkflowStrip, Disclosure, CostIndicator } from "../src/index";
 
 describe("Workspace primitives", () => {
 
@@ -140,6 +140,33 @@ describe("Workspace primitives", () => {
     expect(close).toHaveBeenCalledOnce();
   });
 
+  for(const outerFirst of [true,false]){
+    it("retains body lock and restores focus with two modals, outer first="+outerFirst,()=>{
+      const original=document.body.style.overflow;
+      document.body.style.overflow="auto";
+      function Example({outer,inner}:{outer:boolean;inner:boolean}){
+        return <><button>Исходное действие</button>
+          <InspectDrawer isOpen={outer} title="Внешний" onClose={()=>{}}>Содержимое</InspectDrawer>
+          <ReceiptDigestModal isOpen={inner} title="Внутренний" narrative="Итоги" receipts={[]} onClose={()=>{}}/>
+        </>;
+      }
+      const view=render(<Example outer={false} inner={false}/>);
+      const opener=screen.getByRole("button",{name:"Исходное действие"});
+      try{
+        opener.focus();view.rerender(<Example outer inner={false}/>);
+        expect(screen.getByRole("button",{name:"Закрыть инспектор"})).toBeFocused();
+        view.rerender(<Example outer inner/>);
+        expect(document.body.style.overflow).toBe("hidden");
+        expect(screen.getByRole("button",{name:"Закрыть окно"})).toBeFocused();
+        view.rerender(<Example outer={!outerFirst} inner={outerFirst}/>);
+        expect(document.body.style.overflow).toBe("hidden");
+        expect(screen.getByRole("button",{name:outerFirst?"Закрыть окно":"Закрыть инспектор"})).toBeFocused();
+        view.rerender(<Example outer={false} inner={false}/>);
+        expect(document.body.style.overflow).toBe("auto");
+        expect(opener).toBeFocused();
+      }finally{view.unmount();document.body.style.overflow=original;}
+    });
+  }
   it("distinguishes a calm empty state from clickable decoration", () => {
     render(<WorkspaceEmptyState title="Стол чист" description="Пока нет активных проектов." action={<button>Добавить</button>}/>);
     expect(screen.getByRole("heading",{name:"Стол чист"})).toBeInTheDocument();

@@ -1,5 +1,5 @@
 import {expect,test} from "@playwright/test";
-for(const [route,label] of [["/","Правила навигации"],["/agents/","Quickstart"]] as const){
+for(const [route,label,heading] of [["/","Правила навигации","Browser navigation and addressable views"],["/agents/","Quickstart","Design-system harness — consumer quickstart"]] as const){
  test("diagonal link opens a real tab and preserves the original "+route,async({page})=>{
   await page.goto(route);
   const original=page.url();
@@ -9,8 +9,14 @@ for(const [route,label] of [["/","Правила навигации"],["/agents/
   for(const a of marked){expect(a.target,a.href||"").toBe("_blank");expect(a.rel?.split(/\s+/)).toEqual(expect.arrayContaining(["noopener","noreferrer"]));}
   const link=page.getByRole("link",{name:label,exact:true}).first();
   const destination=await link.evaluate(a=>(a as HTMLAnchorElement).href);
-  const [tab]=await Promise.all([page.waitForEvent("popup"),link.click()]);
-  try{await expect(tab).toHaveURL(destination);expect(page.url()).toBe(original);}
+  await page.keyboard.press("Tab");await link.focus();await expect(link).toBeFocused();
+  await expect(link).toHaveCSS("outline-width","2px");
+  const [tab]=await Promise.all([page.waitForEvent("popup"),page.keyboard.press("Enter")]);
+  try{
+   await expect(tab).toHaveURL(destination);
+   await expect(tab.locator("body")).toContainText(heading);
+   expect(page.url()).toBe(original);
+  }
   finally{await tab.close();}
  });
 }

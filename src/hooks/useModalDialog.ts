@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { openModal } from "./modalLifecycle";
 import type { KeyboardEvent, MouseEvent, SyntheticEvent } from "react";
 
 /** Private native modal lifecycle; visual layout and content belong to callers. */
@@ -7,16 +8,7 @@ export function useModalDialog(isOpen: boolean, onClose: () => void) {
   useEffect(() => {
     const dialog = ref.current;
     if (!isOpen || !dialog) return;
-    const opener = document.activeElement as HTMLElement | null;
-    const overflow = document.body.style.overflow;
-    dialog.showModal();
-    document.body.style.overflow = "hidden";
-    dialog.querySelector<HTMLButtonElement>("button")?.focus();
-    return () => {
-      dialog.close();
-      document.body.style.overflow = overflow;
-      if (opener?.isConnected) opener.focus();
-    };
+    return openModal(dialog);
   }, [isOpen]);
 
   return {

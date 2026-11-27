@@ -12,6 +12,7 @@
 - Replace `DisclosurePill` and `InspectorMeta` with one `Disclosure` export and `DisclosureProps` type. For `DisclosurePill`, change `title` to `summary` and `defaultOpen` to `open`; for `InspectorMeta`, retain `summary`, children and native details props. Use the native `onToggle` event to observe user changes. The browser owns user toggles; a changed `open` prop updates the attribute. Registry item is now `disclosure`; CSS selectors are `ui-disclosure` and `ui-disclosure-content`. Existing pinned versions remain unchanged. This is a major-version migration; each consumer upgrades separately.
 
 ### Changed
+- Use shared native modal lifetime ownership for concurrent dialogs; preserve scroll lock and opener across close order. Status dots use explicit role hues, and the project composition has one live status label.
 - Consolidate duplicated inspector and breadcrumb CSS; preserve all real ancestors at compact widths with wrapped labels and tools. The header specimen uses a full-width shell and a separate demonstration control.
 - Reuse the canonical row feedback for disclosure, removing redundant local hover/focus rules; preserve the native marker, content geometry and stable catalogue fragment.
 

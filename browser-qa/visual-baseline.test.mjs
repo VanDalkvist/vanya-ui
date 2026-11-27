@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { prepareVisualRun, recordCapture, verifyEnvironment, anchors, themes, widths } from './visual-baseline.mjs';
+import { prepareVisualRun, recordCapture, verifyEnvironment, snapshotScenes, themes, widths } from './visual-baseline.mjs';
 
 const sha = 'a'.repeat(40);
 const envInfo = { browser: 'Chromium test', platform: 'linux', arch: 'x64', fonts: ['Manrope:loaded'] };
@@ -19,7 +19,7 @@ function fixture(t) {
   return { dir, evidence, env, compare };
 }
 function capture(f, theme, width) {
-  for (const anchor of anchors) writeFileSync(join(f.dir, `${anchor}-${theme}-${width}.png`), `${anchor}:${theme}:${width}`);
+  for (const anchor of snapshotScenes) writeFileSync(join(f.dir, `${anchor}-${theme}-${width}.png`), `${anchor}:${theme}:${width}`);
   recordCapture(f.env, theme, width, envInfo);
 }
 function full(f) {
@@ -46,10 +46,12 @@ test('partial reservation cannot be recaptured or compared', t => {
   assert.throws(() => prepareVisualRun(f.env, f.evidence, 'all'), /empty/);
   assert.throws(() => prepareVisualRun(f.compare, f.evidence, 'none'), /sealed/);
 });
-test('complete 96-image matrix seals, compares and rejects identity/environment mismatch', t => {
+test('complete 176-image matrix seals, compares and rejects identity/environment mismatch', t => {
   const f = fixture(t); full(f);
   const m = JSON.parse(readFileSync(join(f.dir, 'manifest.json'), 'utf8'));
-  assert.equal(Object.keys(m.images).length, 96);
+  assert.equal(Object.keys(m.images).length, 176);
+  assert.ok(m.images["inspector-open-light-1440.png"]);
+  assert.ok(m.images["digest-open-dark-320.png"]);
   assert.equal(m.source.sha, sha);
   assert.doesNotThrow(() => prepareVisualRun(f.compare, f.evidence, 'none'));
   assert.doesNotThrow(() => verifyEnvironment(f.compare, 'light', 1440, envInfo));
@@ -59,7 +61,7 @@ test('complete 96-image matrix seals, compares and rejects identity/environment 
 });
 test('changed or missing golden bytes block comparison', t => {
   const f = fixture(t); full(f);
-  const file = join(f.dir, 'identity-light-1440.png');
+  const file = join(f.dir, 'inspector-open-light-1440.png');
   writeFileSync(file, 'tampered');
   assert.throws(() => prepareVisualRun(f.compare, f.evidence, 'none'), /snapshot integrity/);
   rmSync(file);

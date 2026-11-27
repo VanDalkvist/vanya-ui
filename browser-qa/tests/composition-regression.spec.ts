@@ -1,4 +1,4 @@
-import {expect,test} from "@playwright/test";
+import {expect,test,type Page} from "@playwright/test";
 
 const routes=["/","/agents/"] as const;
 const themes=["light","dark"] as const;
@@ -256,7 +256,7 @@ for(const width of [1440,1024,390,320]){
    await expect(link).toBeVisible();
    await expect(link).toHaveAttribute("href","/#"+fragment);
    await link.scrollIntoViewIfNeeded();
-   await link.focus();await expect(link).toBeFocused();
+   await page.keyboard.press("Tab");await link.focus();await expect(link).toBeFocused();
    await expect(link).toHaveCSS("outline-width","2px");
    const geometry=await link.evaluate(el=>{
     const box=el.getBoundingClientRect(),parent=el.closest(".ui-workspace-context")!.getBoundingClientRect();
@@ -281,3 +281,46 @@ for(const width of [1440,1024,390,320]){
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
  });
 }
+
+async function assertFragment(page:Page,hash:string){
+ const fragment=decodeURIComponent(hash.slice(1));
+ if(!fragment)return;
+ expect(await page.evaluate(id=>!!document.getElementById(id),fragment),"Missing local fragment: "+hash).toBe(true);
+}
+for(const route of routes){
+ test("all visible local links resolve to actual content "+route,async({page,context})=>{
+  test.setTimeout(120_000);
+  await page.goto(route);
+  const origin=new URL(page.url()).origin;
+  const urls=await page.locator("a[href]:visible").evaluateAll(nodes=>Array.from(new Set(nodes.map(node=>(node as HTMLAnchorElement).href))));
+  const local=urls.map(url=>new URL(url)).filter(url=>url.origin===origin&&/^https?:$/.test(url.protocol));
+  expect(local.length).toBeGreaterThan(0);
+  const checked=new Set<string>();
+  const destination=await context.newPage();
+  try{
+   for(const url of local){
+    const resource=url.origin+url.pathname+url.search;
+    if(!checked.has(resource)){
+     const response=await page.request.get(resource);
+     expect(response.ok(),resource+" returned "+response.status()).toBe(true);
+     if(/\.(?:md|txt)$/.test(url.pathname)){
+      const body=(await response.text()).trim();
+      expect(body.length,resource+" empty").toBeGreaterThan(0);
+      expect(body,resource+" served HTML fallback").not.toMatch(/^\s*<(?:!doctype\s+html|html\b)/i);
+     }
+     checked.add(resource);
+    }
+    if(url.hash&&!/\.(?:md|txt)$/.test(url.pathname)){
+     const current=new URL(page.url());
+     if(current.pathname===url.pathname&&current.search===url.search)await assertFragment(page,url.hash);
+     else{await destination.goto(resource);await assertFragment(destination,url.hash);}
+    }
+   }
+  }finally{await destination.close();}
+ });
+}
+test("link destination oracle rejects a real missing fragment",async({page})=>{
+ await page.goto("/#catalog");
+ await assertFragment(page,"#catalog");
+ await expect(assertFragment(page,"#composition-missing-negative-control")).rejects.toThrow("Missing local fragment");
+});

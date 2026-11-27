@@ -196,11 +196,20 @@ for(const theme of ["light","dark"] as const){
     expect((await badge.boundingBox())!.height).toBe(size==="sm"?24:32);
    }
   }
+  await expect(page.locator("html")).toHaveAttribute("data-theme",theme);
+  const colors=new Set<string>();
   for(const label of ["доступен","ожидание","внимание","недоступен"]){
    const matches=page.locator("#status .ui-badge").filter({hasText: new RegExp("^"+label+"$")});
    await expect(matches).toHaveCount(2);
-   for(const badge of await matches.all())await expect(badge.locator(".ui-badge-dot")).toHaveAttribute("aria-hidden","true");
+   for(const badge of await matches.all()){
+    const dot=badge.locator(".ui-badge-dot");
+    await expect(dot).toHaveAttribute("aria-hidden","true");
+    const color=await dot.evaluate(el=>getComputedStyle(el).backgroundColor);
+    expect(color).not.toBe("rgba(0, 0, 0, 0)");
+    colors.add(color);
+   }
   }
+  expect(colors.size).toBe(4);
  });
 }
 

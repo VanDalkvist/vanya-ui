@@ -2,11 +2,12 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 
-export const anchors = ['identity','typography','writing','principles','catalog','workspace','setup','agents','composition-principle','compact-filter-toolbar','quiet-editor','quiet-confirmation'];
+export const anchors = ['identity','typography','writing','principles','catalog','workspace','setup','agents','composition-principle','compact-filter-toolbar','quiet-editor','quiet-confirmation','categories','status','desk','energy','workspace-overview','workspace-context-header','disclosure','composition-reading-inspector'];
+export const snapshotScenes = [...anchors, 'inspector-open', 'digest-open'];
 export const themes = ['light','dark'];
 export const widths = [1440,1024,390,320];
 const contexts = themes.flatMap(theme => widths.map(width => `${theme}-${width}`));
-const imageNames = key => anchors.map(anchor => `${anchor}-${key}.png`);
+const imageNames = key => snapshotScenes.map(scene => `${scene}-${key}.png`);
 const read = path => JSON.parse(readFileSync(path, 'utf8'));
 const write = (path, value) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' });
 const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');

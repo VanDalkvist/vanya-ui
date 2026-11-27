@@ -351,10 +351,9 @@ export function ComponentCatalog() {
         <CraftCard className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h4 className="ui-type-subheading">Пример проекта</h4>
-            <Badge label={slotActive?"На столе":"Отложен"} tone={slotActive?"success":"pending"} size="sm"/>
+            <span role="status"><Badge label={slotActive?"Активный проект":"Проект отложен"} tone={slotActive?"success":"pending"} size="sm"/></span>
           </div>
           <p className="ui-type-compact">Описание проекта.</p>
-          <p className="ui-type-metadata" role="status">{slotActive?"Активный проект":"Проект отложен"}</p>
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
             <span className="ui-type-metadata">12 действий</span>
             <div className="flex flex-wrap items-center gap-2">

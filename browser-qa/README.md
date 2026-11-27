@@ -24,7 +24,7 @@ Playwright first runs the full production `bun run build` (including sync and pr
 
 **What is NOT proved by a passing script:** accessibility certification, a manual screen-reader session, Safari/WebKit, and human review of the saved screenshots. Before writing `UI_VERIFIED`, review screenshots manually in at least three viewports/two themes, test native 200% zoom and a keyboard-only path, and save the approved evidence under `docs/verification/<SHA>/` in a review commit. Never silently generate or approve golden baselines. A browser suite not run in the actual environment is `NOT_RUN`, **not** PASS.
 
-To refresh artifacts safely, delete `browser-qa/artifacts/` locally; no deployment is touched.
+To refresh artifacts safely, delete only disposable run report directories (test-results, report, results.json, traces) after checking their paths. Keep sealed golden directories intact, including any golden nested under browser-qa/artifacts.
 
 **Cold-load hero geometry:** `tests/hero-initial-frame.spec.ts` holds the compiled client script while the real prerendered page loads. It checks reserved layout, invisible provisional wave, a negative control that reveals mismatched fallback geometry, stable first visible SVG coordinates, actual slider behavior and the no-script fallback. Run `npm --prefix browser-qa run test -- hero-initial-frame.spec.ts`. This is a browser test; unit/build success is not evidence that the first visible frame passed.
 
@@ -34,7 +34,7 @@ Use existing pinned browser setup, then `node scripts/consumer-smoke.mjs FULL_SH
 
 ## Composition regression and visual comparison
 
-See [Regression Gate](../docs/patterns/regression-gate.md) for exact baseline/compare commands and acceptance. `composition-regression.spec.ts` probes every visible textual ActionLink in both themes and real filter results, plus guide/catalog alignment. `composition-visual.spec.ts` is opt-in and requires exact version/SHA metadata, explicit baseline directory and snapshot policy; it covers chapters and critical controls at four widths in both themes. The baseline and candidate reports are isolated by VANYA_UI_EVIDENCE_DIR. Keep raw images local, review intentional diffs explicitly. The visual baseline is not automatically regenerated or marked accepted.
+See [Regression Gate](../docs/patterns/regression-gate.md) for exact baseline/compare commands and acceptance. `composition-regression.spec.ts` probes every visible textual ActionLink in both themes and real filter results, plus guide/catalog alignment. `composition-visual.spec.ts` is opt-in and requires exact version/SHA metadata, explicit baseline directory and snapshot policy; it covers 20 stable anchors and two actually opened modal states at four widths in both themes (176 images). Local destination and real keyboard-popup assertions run in the existing regression and new-tab suites. The baseline and candidate reports are isolated by VANYA_UI_EVIDENCE_DIR. Keep raw images local, review intentional diffs explicitly. The visual baseline is not automatically regenerated or marked accepted.
 
 
 **Composition golden integrity:** `npm --prefix browser-qa run test:baseline` runs the dependency-free filesystem tests. Visual mode uses the existing Playwright runner and the explicit capture/compare commands in [Regression Gate](../docs/patterns/regression-gate.md). Keep the sealed golden directory outside the disposable run report directory; never delete approved golden data while cleaning reports. No visual acceptance follows from the Node tests alone.

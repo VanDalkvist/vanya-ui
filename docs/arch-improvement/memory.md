@@ -32,3 +32,9 @@
 - Symptom: visual mode baseline accepts updateSnapshots=all against any supplied directory; compact workspace example forces keep-columns while its prose promises mobile stacking, confirmed in actual 390px production capture.
 - Use next time: enforce immutable baseline capture with explicit source/environment identity and refusal to overwrite; inspect actual example props against documented behavior at narrow widths before generalizing a component. An observed production baseline defect is a repair target, never evidence of candidate regression.
 - Evidence: [checkpoint review R1/R2](../research/composition-checkpoint-review-2026-11-27.md).
+
+## 2026-11-27 — Shared resources need lifetime ownership and comparison needs real destinations
+- Context: Composition checkpoint RV2–RV4.
+- Symptom: separate modal mounts captured global body overflow independently; out-of-order cleanup could unlock too early or restore hidden forever. Visual matrix missed lower specimens and opened overlays, link checks could pass a broken local destination.
+- Use next time: document-level resources have one owner with idempotent releases and captured opener relationships. Actual local destination tests check HTTP, real fragments and returned reference content; matrix includes changed open states and closes them before moving to another hash. Guard tests establish manifest integrity only; full rendered acceptance stays separate.
+- Evidence: [review RV2–RV4](../research/composition-stage-review-2026-11-27.md), visual-baseline Node RED/GREEN; native browser attempt timed out, actual compiled gate remains open.
