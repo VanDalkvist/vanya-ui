@@ -4,6 +4,28 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-27
+
+### Added
+- Optional `ActionButton.pressedLabels` renders localized persistent on/off labels from caller-owned `aria-pressed`, reserving the larger label width.
+- Optional `FilterSelect purpose="property"` for neutral editable inspector values; default facet semantics are preserved.
+- Optional `TextField reserveNote` for a stable single-line validation area.
+- Interactive property inspector, reversible confirmation and actual timed auto-refresh specimens.
+
+### Fixed
+- Synchronize the public VersionLabel registry and generated reference contract.
+- Distinct hover, persistent selected, pressed, focus, pending and disabled states; preserve forced-colors selection cues and remove underlining from selected text controls.
+- Stable trailing async indicator and centered prominent command label; primary demo action has an explicit affordance.
+- Unify native/custom select typography and spacing; clarify filter label/value separation; keep text and select field height, leading alignment and editable bottom cues consistent.
+- Track pristine/dirty form state, guard no-op save/cancel, focus invalid input, preserve accessible descriptions, restore search focus on clear, and prevent clearing read-only/disabled search.
+- Present passive tags as metadata; retain interactive tag semantics.
+- Make diagonal new-tab arrows agree with real native anchor targets; preserve safe rel and same-tab section navigation. Include previously missed reference links.
+- Expand unit and compiled-browser regression coverage for actual filtering, editing, toggle outcomes, geometry, navigation and version display.
+
+### Release process
+- Require a SemVer increment and cumulative changelog at every substantive production checkpoint. The site version is independently verified from package tags and consumer upgrades.
+- Consolidates the repairs and refinements published under 1.1.0 and the latest optional APIs; package tag and visual acceptance remain separate.
+
 ## [1.1.0] - 2026-11-26
 
 ### Changed
