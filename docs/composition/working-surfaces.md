@@ -190,3 +190,7 @@ References (independent sources; no copied method or layout):
 ## Quiet document editing and contextual commands
 
 Expose editable properties directly where safe. For a multi-field draft use visible labels, validation, an explicit save and recoverable cancel. Use ActionButton for commands, ActionLink for navigation, and aria-pressed for a persistent toggle with a readable state cue. Neutral and accent text actions share the same transparent plane. Reserve prominent confirmation for meaningful decisions. Show VersionLabel with the actual caller-provided SemVer as passive header metadata, aligned to the right in the utilities group; keep it visible across responsive layouts.
+
+### Documentation chapter composition
+
+Use a consistent chapter header (heading and short description on one leading axis), optional meaningful metadata, and a bounded reading measure. Keep the first screen's H1 distinct. Rule rows use compact metadata gutters and aligned title/body/examples; passive key/value examples can use scan-row separators. Interactive specimens retain meaningful preview space. Assign visible numbers only to ordered steps, ranks, stable citations or actual shortcuts. For independent destinations, named links and existing mnemonic shortcuts are sufficient. Reference routing: [design canon](../research/design-reference-canon-2026-11-27.md).
