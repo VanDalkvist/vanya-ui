@@ -327,6 +327,8 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .showcase-nav{grid-area:navigation;min-width:0}
 .showcase-utilities{grid-area:utilities;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
 @media(max-width:1400px){
+ /* Reserve the two-row header before hydration and native fragment alignment. */
+ :root{--showcase-header-height:124px;}
  .showcase-header{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand utilities" "navigation navigation";gap:8px;padding-block:10px}
  .showcase-name{min-height:44px}
  .showcase-nav{justify-content:flex-start}
