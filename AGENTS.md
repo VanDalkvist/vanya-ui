@@ -22,6 +22,10 @@ For explicit contributions to the library, follow [the contributor workflow](doc
 
 Respect `DESIGN.md`, all license/source/publication policies and actual component source; never leak private project data into this public repo.
 
+## Primary design references (mandatory routing)
+
+For visual design and UI composition consult Linear and Apple Human Interface Guidelines first; for design-system engineering, component anatomy, accessible primitives, registry, CLI and documentation consult shadcn/ui. The [reference canon](docs/research/design-reference-canon-2026-11-27.md) contains primary URLs, roles, local interpretations and acceptance checks. For each substantive design decision record the relevant source and its application to Vanya UI; preserve local brand, tokens and accessibility. Use the live reference if available; disclose offline or visual-evidence limits. No upstream asset or code copying is implied.
+
 ## Mandatory SemVer at every substantive production checkpoint
 
 Before each intentional production deployment that changes shipped UI, behavior, public API, tokens, CLI, or published documentation, compare against the last successfully deployed commit and bump `package.json.version` using SemVer. This includes bug fixes, visual refinements and Arch Loop repair batches. PATCH = backward-compatible fixes and refinements; MINOR = backward-compatible public features or APIs; MAJOR = incompatible public contract changes. Use the highest required increment for the batch. Never deploy two distinct substantive successful checkpoints with the same version. Group intermediate commits into one version per checkpoint; a retry of a failed, unpublished candidate may retain its version if its release scope is unchanged. Ledger-only and internal test-only changes with no production impact do not require a bump.
