@@ -26,12 +26,31 @@ The existing Ferma tool installation and varc Eval plugin are reused. No install
   mkdir -p "$RUN/workspace/.agents/skills"
   ln -s ../../skills/vanya-ui "$RUN/workspace/.agents/skills/vanya-ui"
   test -f "$RUN/workspace/.agents/skills/vanya-ui/SKILL.md"
-  cp evals/skill-canary/promptfooconfig.yaml "$RUN/promptfooconfig.yaml"
+  cp evals/skill-canary/{promptfooconfig.yaml,task.txt} "$RUN/"
   EVAL_ROOT="$(varc plugins list | node -e 'const a=JSON.parse(require("node:fs").readFileSync(0,"utf8")); const p=a.find(x=>x.name==="eval"&&x.enabled===true); if(!p||!require("node:path").isAbsolute(p.root))process.exit(1); console.log(p.root)')"
   test -f "$EVAL_ROOT/promptfoo-hook.cjs"
   ln -s "$EVAL_ROOT/promptfoo-hook.cjs" "$RUN/promptfoo-hook.cjs"
   printf 'Evidence directory: %s\nSource SHA: %s\n' "$RUN" "$REV"
   cd "$RUN"
+  # Native zero-model preflight: same prompt file, exact returned text, no hook.
+  cat > echo.yaml <<'YAML'
+description: E1 literal prompt preflight
+sharing: false
+prompts:
+  - file://task.txt
+providers:
+  - echo
+tests:
+  - assert:
+      - type: javascript
+        value: |-
+          return output === require('node:fs').readFileSync('task.txt', 'utf8').trim();
+YAML
+  env -i PATH="$PATH" HOME="$HOME" \
+    TMPDIR="${TMPDIR:-/tmp}" PROMPTFOO_CONFIG_DIR="$RUN/echo-db" \
+    PROMPTFOO_SELF_HOSTED=1 PROMPTFOO_DISABLE_TELEMETRY=1 PROMPTFOO_DISABLE_UPDATE=1 \
+    "$PF" eval -c echo.yaml --no-cache --max-concurrency 1 --no-share -o "$RUN/echo.json"
+  node -e 'const s=require(process.argv[1]).results.stats;if(s.successes!==1||s.failures!==0||s.errors!==0)process.exit(1)' "$RUN/echo.json"
   env -i PATH="$PATH" HOME="$HOME" CODEX_HOME="$CODEX_HOME" \
     TMPDIR="${TMPDIR:-/tmp}" \
     EVAL_CONFIG_PATH="${EVAL_CONFIG_PATH:-$HOME/.config/vanya-arc/eval.json}" \
@@ -45,3 +64,7 @@ The existing Ferma tool installation and varc Eval plugin are reused. No install
 If login status fails, authenticate via native Codex login in that same dedicated home and repeat the preflight before any model call. One row may involve multiple internal model requests. No guaranteed quota amount; inspect native tokenUsage and provider errors. Review the actual command trace and native result; skill-used is a heuristic and canonical_reads is an independent conservative check of command text plus returned file content. A failed or missing trace is not a skill PASS. No automatic rerun.
 
 The existing Eval hook publishes native output to the approved private archive; look for EVAL_PUBLISHED and record URL, native eval ID, counts, token usage. Preserve the local directory and avoid sending credentials/raw private logs in chat. Full browser validation, editing, and ChatGPT plugin activation are out of scope. Native config execution and positive/negative assertion controls are pending; this is an authored first candidate, not a verified result.
+
+## Incident — Promptfoo 0.126.0 literal routes
+
+First owner-host run stopped in readPrompts before dispatch: `There are no prompts in ...`. Pinned [maybeFilePath](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/prompts/utils.ts) classifies a single-line string containing `/` as a file candidate; [processPrompt](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/prompts/index.ts) then returns no prompts for the nonexistent non-glob path. Native [text-file processor](https://github.com/promptfoo/promptfoo/blob/0.126.0/src/prompts/processors/text.ts) reads the literal text and trims it. Use `file://task.txt`, preserving the exact original task. A separate native echo row in a fresh local DB checks literal prompt output and must succeed before the live row; it has no publication extension. No model request was reached in the failed attempt. Keep its evidence directory. Source inspection and Git readback only; actual corrected native run remains pending.
