@@ -3,8 +3,8 @@ import { expect, test, type Locator } from "@playwright/test";
 async function edges(locator:Locator){
  return locator.evaluate(el=>{
   const s=getComputedStyle(el);
-  const edge=(side:"Top"|"Bottom")=>s["border"+side+"Style"]!=="none"&&parseFloat(s["border"+side+"Width"])>0;
-  return {top:edge("Top"),bottom:edge("Bottom")};
+  const edge=(side:"top"|"bottom")=>s.getPropertyValue("border-"+side+"-style")!=="none"&&parseFloat(s.getPropertyValue("border-"+side+"-width"))>0;
+  return {top:edge("top"),bottom:edge("bottom")};
  });
 }
 const open={top:false,bottom:false},internal={top:true,bottom:false};
