@@ -9,10 +9,7 @@ import { ComponentCatalog } from "./ComponentCatalog";
 import { ShowcaseHeader } from "./ShowcaseHeader";
 import { AgentSection } from "./AgentSection";
 import { ShowcaseFooter } from "./ShowcaseFooter";
-import { ShowcaseShortcutHelp } from "./ShowcaseShortcutHelp";
-import { useShowcaseShortcuts } from "./useShowcaseShortcuts";
 export function Showcase(){
- const shortcuts=useShowcaseShortcuts();
  return <>
   <a href="#principles" className="skip-link">К содержанию</a>
   <ShowcaseHeader />
@@ -21,17 +18,15 @@ export function Showcase(){
    <IdentitySection/>
    <TypographySection/>
    <WritingSection/>
-   <Guide onShowShortcuts={() => shortcuts.setHelpOpen(true)}/>
+   <Guide/>
    <ComponentCatalog/>
    <section id="setup" className="catalog setup" aria-labelledby="setup-title">
-    <ChapterHeader id="setup" title="Подключить библиотеку" description="Используй локальную копию библиотеки или закрепи конкретный коммит при установке. Подключи токены и импортируй нужные компоненты." index="08"/>
+    <ChapterHeader id="setup" title="Подключить библиотеку" description="Используй локальную копию библиотеки или закрепи конкретный коммит при установке. Подключи токены и импортируй нужные компоненты."/>
     <pre><code>{`bun add 'github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>'\n\nimport { EventCard, InspectDrawer } from "@vanya/ui";\nimport "@vanya/ui/tokens.css";`}</code></pre>
     <p className="catalog-intro">Для агентов: <a href="/reference/agent-skill.md" target="_blank" rel="noopener noreferrer">канонический UI-скилл<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>, <a href="/reference/ui-pipeline.md" target="_blank" rel="noopener noreferrer">локальный пайплайн<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>, <a href="/llms.txt" target="_blank" rel="noopener noreferrer">LLM-навигация<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a> и <a href="/reference/components.md" target="_blank" rel="noopener noreferrer">компоненты<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>.</p>
    </section>
    <AgentSection/>
   </main>
-  {shortcuts.awaitingDestination && <div className="shortcut-pending" role="status" aria-live="polite">G → <span>выберите раздел</span></div>}
-  <ShowcaseShortcutHelp open={shortcuts.helpOpen} onClose={() => shortcuts.setHelpOpen(false)} enabled={shortcuts.enabled} onEnabledChange={shortcuts.setEnabled}/>
   <ShowcaseFooter />
  </>;
 }
