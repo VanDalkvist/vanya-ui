@@ -3,7 +3,7 @@ import {afterEach,describe,expect,it,vi} from "vitest";
 import {cleanup,fireEvent,render,screen,within} from "@testing-library/react";
 import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
-import {ActionButton,ActionLink,AvatarLink,DisclosurePill,EventCard,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
+import {ActionButton,ActionLink,AvatarLink,DisclosurePill,InspectorMeta,EventCard,LinkChip,NavLinks,SegmentedControl,ThemeToggle} from "../src";
 import {ShowcaseHeader} from "../src/showcase/ShowcaseHeader";
 
 const read=(file:string)=>readFileSync(resolve(import.meta.dirname,"..",file),"utf8");
@@ -88,6 +88,18 @@ describe("interaction feedback contracts",()=>{
   expect(summary).toHaveClass("ui-feedback-row");
   const close=screen.getByRole("button",{name:"Закрыть"});
   expect(close).toHaveClass("ui-feedback-nav");
+ });
+ it("uses one native disclosure anatomy for explanation and provenance",()=>{
+  render(<><DisclosurePill title="Пояснение" defaultOpen><p>Текст пояснения</p></DisclosurePill><InspectorMeta summary="Источник"><p>Текст источника</p></InspectorMeta></>);
+  const first=screen.getByText("Пояснение").closest("details")!;
+  const second=screen.getByText("Источник").closest("details")!;
+  for(const details of [first,second]){
+   expect(details).toHaveClass("ui-inspector-meta");
+   expect(details.querySelector(":scope > summary")).toHaveClass("ui-feedback-row");
+   expect(details.querySelector(":scope > .ui-inspector-meta-content")).not.toBeNull();
+  }
+  expect(first.open).toBe(true);expect(second.open).toBe(false);
+  expect(first).toHaveTextContent("Текст пояснения");expect(second).toHaveTextContent("Текст источника");
  });
  it("keeps GitHub glyph smaller than its stable hit target",()=>{
   render(<ShowcaseHeader/>);
