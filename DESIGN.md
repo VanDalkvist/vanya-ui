@@ -134,6 +134,10 @@ Known page content (header, page title, navigation) stays real while unknown dat
 For long data catalogues, keep one compact filter row below the app header on desktop, not a tall multirow form. Use Vanya UI `FilterSelect` (custom portal dropdown with optional searchable listbox), `SearchField density="toolbar"` and `SegmentedControl density="toolbar"` (40px aligned controls, visible inline labels and semantic tokens). Use native `SelectField` only in normal forms, not as a styled catalogue dropdown: macOS and other OSes paint `<select>` menus outside the app theme. Move overflowing or rare facets to a dismissible disclosure; do not silently drop filters. The app decides header offset, breakpoints and filter semantics; the package owns control presentation and accessibility. On mobile prioritize a compact search + filters action. See [composition rule](docs/composition/working-surfaces.md#10-single-row-sticky-catalogue-filters) and [interactive specimen](https://ui.vanya-arc.dev/#compact-filter-toolbar).
 
 
+## Primary design references
+
+Linear and Apple HIG are primary references for visual hierarchy, composition, interaction, and accessibility. shadcn/ui is the primary reference for component anatomy, engineering, registry/CLI distribution and documentation. See [reference canon](docs/research/design-reference-canon-2026-11-27.md) for direct source links and application rules. Vanya UI retains its own design tokens and brand; assess the interaction role before selecting a treatment.
+
 ## Quiet — visual language of controls
 
 Quiet is the single Vanya UI visual canon. Search, inputs, select triggers, segments and ordinary commands use transparent resting surfaces. Typography, spacing, alignment and functional dividers define composition. Hover and press use the shared feedback tokens; focus, selection, errors and expanded state remain explicit.
