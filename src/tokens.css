@@ -731,7 +731,8 @@
  .ui-filter-select-option[data-active]{
   background:var(--surface-inset);color:var(--ink);
  }
- .ui-filter-select-option[aria-selected="true"]{color:var(--accent);font-weight:600;}
+ .ui-filter-select-option[aria-selected="true"]{color:var(--accent);}
+ /* The check conveys selection; data-active conveys keyboard position. */
  @media(hover:hover) and (pointer:fine){.ui-filter-select-option:not([aria-disabled="true"]):hover{background:var(--ui-feedback-hover-fill);}}
  .ui-filter-select-option[aria-disabled="true"]{opacity:.4;pointer-events:none;cursor:not-allowed;}
  .ui-filter-select-no-results,.ui-filter-select-more{
