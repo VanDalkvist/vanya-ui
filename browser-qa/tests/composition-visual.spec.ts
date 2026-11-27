@@ -26,7 +26,7 @@ for(const theme of ["light","dark"] as const)for(const width of [1440,1024,390,3
    // Use deterministic anchor top rather than a prior test's scroll history.
    await page.locator("#"+anchor).evaluate(e=>e.scrollIntoView({block:"start",behavior:"instant"}));
    await page.mouse.move(0,0);
-   await expect(page).toHaveScreenshot(anchor+"-"+theme+"-"+width+".png",{
+   await expect.soft(page).toHaveScreenshot(anchor+"-"+theme+"-"+width+".png",{
     animations:"disabled",caret:"hide",scale:"css",mask:[marker],maxDiffPixels:0,
    });
   }
