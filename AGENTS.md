@@ -22,7 +22,11 @@ For explicit contributions to the library, follow [the contributor workflow](doc
 
 Respect `DESIGN.md`, all license/source/publication policies and actual component source; never leak private project data into this public repo.
 
-For any package-version change, follow [release policy](docs/versioning.md). Update changelog, run `node scripts/check-release.mjs` and full tests. Do not treat a Cloudflare site deploy as a released package; consumers remain pinned to verified SHA. Tags are manual, not Actions.
+## Mandatory SemVer at every substantive production checkpoint
+
+Before each intentional production deployment that changes shipped UI, behavior, public API, tokens, CLI, or published documentation, compare against the last successfully deployed commit and bump `package.json.version` using SemVer. This includes bug fixes, visual refinements and Arch Loop repair batches. PATCH = backward-compatible fixes and refinements; MINOR = backward-compatible public features or APIs; MAJOR = incompatible public contract changes. Use the highest required increment for the batch. Never deploy two distinct substantive successful checkpoints with the same version. Group intermediate commits into one version per checkpoint; a retry of a failed, unpublished candidate may retain its version if its release scope is unchanged. Ledger-only and internal test-only changes with no production impact do not require a bump.
+
+Update `CHANGELOG.md` in the same batch with the dated version and all substantive changes since the last deployed version. The existing header VersionLabel must read the actual package version at build time. Run `node scripts/check-release.mjs` and the existing full build gates; verify the terminal Cloudflare outcome and active deployment, then report version and SHA. If deployment is unconfirmed, report candidate status explicitly. Follow [release policy](docs/versioning.md). Package tags remain manual, verified and separate; consumers remain pinned to verified SHA.
 
 
 ## Intentional site release checkpoint (2026-11-26)
