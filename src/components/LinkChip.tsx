@@ -28,7 +28,7 @@ export function LinkChip({
       rel={rel}
       className={twMerge(
         clsx(
-          "ui-size ui-feedback-source inline-flex items-center font-sans text-ink-soft underline-offset-4 select-none",
+          "ui-link-source",
           className
         )
       )}
