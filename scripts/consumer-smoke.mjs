@@ -21,6 +21,8 @@ export function consumerInstallArgs(manager, version) {
   return ["install"];
 }
 
+const readAppFixture = (name) => readFileSync(new URL(`../tests/fixtures/consumer-smoke/${name}.tsx`, import.meta.url), "utf8");
+
 export function fixture(sha, row) {
   if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error("Use the exact 40-character commit SHA");
   const manifest = {
@@ -42,7 +44,7 @@ export function fixture(sha, row) {
     "index.html": '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Consumer smoke</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>',
     "vite.config.mjs": 'import {defineConfig} from "vite";\nimport tailwindcss from "@tailwindcss/vite";\nexport default defineConfig({plugins:[tailwindcss()],ssr:{noExternal:["@vanya/ui","@vanya/brand"]}});\n',
     "src/style.css": '@import "@vanya/ui/tokens.css";\n@source "../node_modules/@vanya/ui/src";\n',
-    "src/App.tsx": 'import {ActionButton,SegmentedControl,type SegmentItem} from "@vanya/ui";\nimport {useState} from "react";\nconst items: SegmentItem<"a"|"b">[]=[{id:"a",label:"First"},{id:"b",label:"Second"}];\nexport function App(){const [value,setValue]=useState<"a"|"b">("a");return <main><ActionButton variant="text">Consumer action</ActionButton><SegmentedControl aria-label="Consumer filter" items={items} value={value} onChange={setValue}/></main>}\n',
+    "src/App.tsx": readAppFixture("BasicApp"),
     "src/main.tsx": 'import {createRoot} from "react-dom/client";\nimport {App} from "./App";\nimport "./style.css";\ncreateRoot(document.getElementById("root")!).render(<App/>);\n',
     "src/entry-server.tsx": 'import {renderToString} from "react-dom/server";\nimport {App} from "./App";\nexport const html=renderToString(<App/>);\n',
   };
@@ -115,7 +117,7 @@ async function main() {
     mkdirSync(join(cwd,"src"),{recursive:true});
     const files=fixture(sha,row);
     if(browser&&row.manager==="npm"){
-      files["src/App.tsx"]="import {ActionButton,SegmentedControl,WorkspaceSplit,SurfaceHeader,ThemeToggle,type SegmentItem} from \"@vanya/ui\";\nimport {useState} from \"react\";\nconst items: SegmentItem<\"a\"|\"b\">[]=[{id:\"a\",label:\"First\"},{id:\"b\",label:\"Second\"}];\nexport function App(){\n const [value,setValue]=useState<\"a\"|\"b\">(\"a\"),[count,setCount]=useState(0);\n return <main className=\"consumer-workspace\" data-testid=\"workspace\">\n  <SurfaceHeader headingLevel={2} title=\"Consumer workspace\" subtitle=\"Review and update projects\" actions={<ThemeToggle/>}/>\n  <WorkspaceSplit navigation={<section className=\"consumer-nav\" aria-label=\"Project filters\">\n   <SegmentedControl aria-label=\"Consumer filter\" items={items} value={value} onChange={setValue}/>\n   <p className=\"ui-type-body\" data-testid=\"filter-result\">{value===\"a\"?\"First project\":\"Second project\"}</p>\n  </section>} detail={<section className=\"consumer-detail\" aria-label=\"Project details\">\n   <h2 className=\"ui-type-heading\">Project details</h2>\n   <p className=\"ui-type-body\" data-testid=\"body-copy\">Review the current project and record an update.</p>\n   <ActionButton size=\"md\" variant=\"text\" actionState={count?\"success\":\"idle\"} onClick={()=>setCount(n=>n+1)}>Consumer action</ActionButton>\n   <p className=\"ui-type-body\" data-testid=\"result\" aria-live=\"polite\">Updates: {count}</p>\n  </section>}/>\n </main>;\n}\n";
+      files["src/App.tsx"]=readAppFixture("WorkspaceApp");
       files["src/style.css"]="@import \"@vanya/ui/tokens.css\";\n@source \"../node_modules/@vanya/ui/src\";\nbody { margin:0; background:var(--ground);color:var(--ink);font-family:var(--font-sans); }\n.consumer-workspace { width:100%;padding:var(--spacing-scene); }\n.consumer-nav,.consumer-detail {padding:var(--spacing-scene);min-width:0;}\n";
     }
     for(const [name,content] of Object.entries(files)) writeFileSync(join(cwd,name),content);
