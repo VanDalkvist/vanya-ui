@@ -121,3 +121,7 @@ Source review confirms redundant inspector compact, breadcrumb accessory and mob
 Plan review: bounded removal of shadowed CSS plus concrete responsive navigation defect. Preserve component responsibilities, native history, inspector collapse and public props. R5 broader link oracle remains separate.
 
 R8 source checkpoint: removed the earlier shadowed inspector/mobile and breadcrumb-accessory CSS blocks and empty layer; merged breadcrumb anatomy into its existing owner. Compact mode wraps every ancestor and context/action group, preserves default 12px/large 14px labels and visible inset focus. Wide specimen separates simulation toggle. Authored four viewport browser journeys for real href/history, keyboard focus, promoted context and modal action, plus unit identity retention. Public roles/props and scroll ownership preserved. Runtime/independent gate pending. Next R10 token/API aliases and R5 wider link oracle.
+
+
+## Review checkpoint — RV1–RV7
+See [review and fix plan](../../research/composition-stage-review-2026-11-27.md). Fix RV2–RV5 in current bounded slice, then R10; full runtime/independent acceptance RV1/RV7 remains blocked.
