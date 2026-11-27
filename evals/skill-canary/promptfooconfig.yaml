@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# One read-only canary. Copy this file next to the isolated workspace and existing Eval hook (README.md).
+description: Vanya UI E1 - header navigation skill canary
+sharing: false
+prompts:
+  - >-
+    A synthetic React app using the local Vanya UI library has an existing topbar
+    with native breadcrumb links to /projects and /projects/demo. Add a neutral
+    textual utility link named Guide to /guides/overview in the existing header.
+    Ordinary activation must open a new tab; all existing breadcrumb links must
+    stay functional at narrow widths. Inspect the local library and recommend
+    the precise exported components, header slot, link props and ownership of
+    the marker and safe rel. Do not edit files, install dependencies, or browse
+    the network. Return the structured implementation recommendation.
+providers:
+  - id: openai:codex-sdk:gpt-6.2-sol
+    label: Sol Low - Vanya UI E1
+    config:
+      model: gpt-6.2-sol
+      model_reasoning_effort: low
+      working_dir: ./workspace
+      skip_git_repo_check: true
+      sandbox_mode: read-only
+      approval_policy: never
+      network_access_enabled: false
+      web_search_mode: disabled
+      persist_threads: false
+      inherit_process_env: false
+      enable_streaming: true
+      maxRetries: 0
+      cli_env:
+        CODEX_HOME: '{{env.CODEX_HOME}}'
+      cli_config:
+        features:
+          apps: false
+          multi_agent: false
+          hooks: false
+          memories: false
+        mcp_servers: {}
+        skills:
+          bundled:
+            enabled: false
+        personality: none
+      output_schema: &recommendation
+        type: object
+        additionalProperties: false
+        required: [headerComponent, headerSlot, linkComponent, href, target, variant, breadcrumbs, markerOwner, relOwner]
+        properties:
+          headerComponent: {type: string}
+          headerSlot: {type: string}
+          linkComponent: {type: string}
+          href: {type: string}
+          target: {type: string}
+          variant: {type: string}
+          breadcrumbs:
+            type: array
+            items: {type: string}
+          markerOwner: {type: string}
+          relOwner: {type: string}
+tests:
+  - description: Existing workspace header with a new-tab utility link
+    assert:
+      - type: is-json
+        value: *recommendation
+      - type: skill-used
+        value: vanya-ui
+        metric: skill_routing
+      - type: javascript
+        metric: canonical_reads
+        value: |-
+          try {
+            const turn = JSON.parse(context.providerResponse.raw);
+            const reads = turn.items.filter(i => i.type === 'command_execution' &&
+              i.status === 'completed' && i.exit_code === 0 &&
+              typeof i.command === 'string' && typeof i.aggregated_output === 'string');
+            const saw = (path, marker) => reads.some(i => i.command.includes(path) && i.aggregated_output.includes(marker));
+            return saw('vanya-ui/SKILL.md', 'Read required sources before implementation') &&
+              saw('working-surfaces.md', 'WorkspaceContextHeader') &&
+              saw('browser-navigation.md', 'New-tab indicator') &&
+              saw('ActionLink.tsx', 'export function ActionLink') &&
+              saw('WorkspaceContextHeader.tsx', 'export function WorkspaceContextHeader');
+          } catch { return false; }
+      - type: javascript
+        metric: correct_recommendation
+        value: |-
+          try {
+            const x = JSON.parse(output);
+            return x.headerComponent === 'WorkspaceContextHeader' &&
+              x.headerSlot === 'actions' && x.linkComponent === 'ActionLink' &&
+              x.href === '/guides/overview' && x.target === '_blank' && x.variant === 'text' &&
+              JSON.stringify(x.breadcrumbs) === JSON.stringify(['/projects', '/projects/demo']) &&
+              x.markerOwner === 'ActionLink' && x.relOwner === 'ActionLink';
+          } catch { return false; }
+      - type: javascript
+        metric: read_only_trace
+        value: |-
+          try {
+            const turn = JSON.parse(context.providerResponse.raw);
+            return Array.isArray(turn.items) && turn.items.length > 0 &&
+              !turn.items.some(i => ['file_change', 'web_search', 'mcp_tool_call', 'error'].includes(i.type));
+          } catch { return false; }
+evaluateOptions:
+  cache: false
+  maxConcurrency: 1
+tags:
+  project: vanya-ui
+  experiment: E1-skill-canary
+extensions:
+  - file://promptfoo-hook.cjs:afterAll
