@@ -3,17 +3,8 @@ import { ActionLink, GitHubIcon, NavLinks, ThemeToggle, VanyaArcLockup, VersionL
 import { version } from "../../package.json";
 import { useActiveShowcaseSection } from "./useActiveShowcaseSection";
 
-export const longreadSections = [
-  ["composition", "Композиция"],
-  ["identity", "Айдентика"],
-  ["typography", "Типографика"],
-  ["writing", "Тексты"],
-  ["principles", "Принципы"],
-  ["catalog", "Компоненты"],
-  ["workspace", "Рабочие поверхности"],
-  ["setup", "Подключение"],
-  ["agents", "Агентам"],
-] as const;
+import { longreadSections } from "./showcase-sections";
+export { longreadSections } from "./showcase-sections";
 
 const SECTION_IDS = longreadSections.map(([id]) => id);
 
