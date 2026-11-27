@@ -19,7 +19,7 @@ export function ShowcaseFooter(){
       </nav>
     </div>
     <div className="showcase-footer-meta">
-      <span>© 2026 <ActionLink href="https://vanya-arc.dev" target="_blank" rel="noopener noreferrer">Ваня Афанасов</ActionLink></span>
+      <span>© 2026 <ActionLink variant="prose" href="https://vanya-arc.dev" target="_blank" rel="noopener noreferrer">Ваня Афанасов</ActionLink></span>
       <a className="showcase-footer-to-top" href="/#composition">Наверх <ArrowUp size={13} aria-hidden="true" /></a>
     </div>
   </footer>;
