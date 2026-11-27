@@ -3,6 +3,9 @@ import { resolve } from "node:path";
 
 const remote = process.env.VANYA_UI_QA_URL;
 const url = remote || "http://127.0.0.1:4173";
+const evidenceDir=resolve(process.env.VANYA_UI_EVIDENCE_DIR || resolve(import.meta.dirname,"artifacts"));
+const baselineDir=process.env.VANYA_UI_VISUAL_BASELINE_DIR;
+if(process.env.VANYA_UI_VISUAL_MODE&&!baselineDir)throw Error("Set VANYA_UI_VISUAL_BASELINE_DIR to an explicit stable baseline directory");
 
 export default defineConfig({
   testDir: "./tests",
@@ -10,8 +13,9 @@ export default defineConfig({
   expect: { timeout: 8_000 },
   retries: 0,
   workers: 1,
-  outputDir: "./artifacts/test-results",
-  reporter: [["list"], ["html", { outputFolder: "./artifacts/report", open: "never" }], ["json", { outputFile: "./artifacts/results.json" }]],
+  outputDir: resolve(evidenceDir,"test-results"),
+  ...(baselineDir?{snapshotPathTemplate:resolve(baselineDir,"{arg}{ext}")}:{}),
+  reporter: [["list"], ["html", { outputFolder: resolve(evidenceDir,"report"), open: "never" }], ["json", { outputFile: resolve(evidenceDir,"results.json") }]],
   use: {
     baseURL: url,
     browserName: "chromium",
