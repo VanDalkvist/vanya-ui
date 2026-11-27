@@ -14,13 +14,13 @@ export function IdentitySection() {
     <p>Логотип дизайн-системы</p>
   </div>
   </CatalogSection>
-  <CatalogSection id="identity-family" title="Единое семейство" description="Знаки объединяют форма волны, цвета, шрифт и написание Vanya Arc / Product.">
+  <CatalogSection id="identity-family" layout="wide" title="Единое семейство" description="Знаки объединяют форма волны, цвета, шрифт и написание Vanya Arc / Product.">
   <div className="identity-comparisons">
     <div className="identity-panel"><span className="identity-panel-label">Родительский бренд</span><VanyaArcLockup size="md"/><p>Утверждённый знак V→A.</p></div>
     <div className="identity-panel"><span className="identity-panel-label">Дизайн-система</span><VanyaArcLockup product="UI" size="md"/><p>К знаку и названию бренда добавляется UI акцентного цвета.</p></div>
   </div>
   </CatalogSection>
-  <CatalogSection id="identity-modes" title="Цветовые режимы" description="Логотип сохраняет форму в обеих темах и монохроме.">
+  <CatalogSection id="identity-modes" layout="wide" title="Цветовые режимы" description="Логотип сохраняет форму в обеих темах и монохроме.">
   <div className="identity-comparisons identity-modes">
     <div className="identity-panel identity-dark-panel dark"><span className="identity-panel-label">Тёмная тема</span><VanyaArcLockup product="UI" size="md"/><p>Цвета адаптируются к тёмному фону.</p></div>
     <div className="identity-panel"><span className="identity-panel-label">Один цвет</span><VanyaArcLockup product="UI" size="md" monochrome/><p>Для печати и поверхностей без цвета.</p></div>
