@@ -1,6 +1,6 @@
 import React from "react";
 import { ChapterHeader } from "./ChapterHeader";
-import { ArrowUpRight } from "lucide-react";
+import { ActionLink } from "../index";
 
 const rules = [
   {id:"browser-navigation", title:"У каждой страницы — свой адрес", description:"Страницу можно открыть по прямой ссылке, сохранить и пройти назад. Переход — ссылка. Действие на месте — кнопка."},
@@ -21,18 +21,18 @@ export function Guide() {
         {rule.id==="browser-navigation" && <>
           <div className="guide-paths"><span>Страница <code>/projects/example</code></span><span>Фильтр <code>/items?sort=new</code></span><span>Раздел <code>/#browser-navigation</code></span></div>
           <p>При переходах внутри SPA обновляй историю браузера, заголовок страницы, фокус и прокрутку.</p>
-          <a className="guide-link" href="/reference/navigation.md" target="_blank" rel="noopener noreferrer">Правила навигации <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <div className="guide-links"><ActionLink variant="prose" href="/reference/navigation.md" target="_blank" rel="noopener noreferrer">Правила навигации</ActionLink></div>
         </>}
-        {rule.id==="composition-principle" && <><a className="guide-link" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Примеры композиции <ArrowUpRight size={14} aria-hidden="true"/></a><a className="guide-link" href="/#composition-reading-inspector" target="_blank" rel="noopener noreferrer">Панель чтения и стоимость запросов <ArrowUpRight size={14} aria-hidden="true"/></a></>}
-        {rule.id==="scroll-principle" && <a className="guide-link" href="/reference/workspaces.md" target="_blank" rel="noopener noreferrer">Правила прокрутки <ArrowUpRight size={14} aria-hidden="true"/></a>}
-        {rule.id==="components-principle" && <a className="guide-link" href="/reference/interaction-states.md" target="_blank" rel="noopener noreferrer">Состояния элементов <ArrowUpRight size={14} aria-hidden="true"/></a>}
+        {rule.id==="composition-principle" && <><div className="guide-links"><ActionLink variant="prose" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Примеры композиции</ActionLink><ActionLink variant="prose" href="/#composition-reading-inspector" target="_blank" rel="noopener noreferrer">Панель чтения и стоимость запросов</ActionLink></div></>}
+        {rule.id==="scroll-principle" && <div className="guide-links"><ActionLink variant="prose" href="/reference/workspaces.md" target="_blank" rel="noopener noreferrer">Правила прокрутки</ActionLink></div>}
+        {rule.id==="components-principle" && <div className="guide-links"><ActionLink variant="prose" href="/reference/interaction-states.md" target="_blank" rel="noopener noreferrer">Состояния элементов</ActionLink></div>}
         {rule.id==="stable-workspace-geometry" && <>
-          <a className="guide-link" href="/#composition-stable-geometry" target="_blank" rel="noopener noreferrer">Интерактивный пример <ArrowUpRight size={14} aria-hidden="true"/></a>
-          <a className="guide-link" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <div className="guide-links"><ActionLink variant="prose" href="/#composition-stable-geometry" target="_blank" rel="noopener noreferrer">Интерактивный пример</ActionLink></div>
+          <div className="guide-links"><ActionLink variant="prose" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса</ActionLink></div>
         </>}
         {rule.id==="keyboard-shortcuts" && <>
           <p>Витрина использует обычные ссылки. Дополнительные сочетания стоит вводить, если они экономят время в повторяемых задачах.</p>
-          <a className="guide-link" href="/reference/keyboard-shortcuts.md" target="_blank" rel="noopener noreferrer">Полные правила и чек-лист <ArrowUpRight size={14} aria-hidden="true"/></a>
+          <div className="guide-links"><ActionLink variant="prose" href="/reference/keyboard-shortcuts.md" target="_blank" rel="noopener noreferrer">Полные правила и чек-лист</ActionLink></div>
         </>}
       </div>
     </article>)}</div>
