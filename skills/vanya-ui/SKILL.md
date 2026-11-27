@@ -55,6 +55,8 @@ Build the requested surface with real shared components and tokens. Keep product
 
 ## 4. Verify and observe
 
+For substantive layout or behavior changes use the [Regression Gate](../../docs/patterns/regression-gate.md): baseline affected and neighboring journeys, compare actual candidate, retain interaction and screenshot evidence, and review intentional differences. Missing browser proof remains NOT_VERIFIED.
+
 After the final code edit run the local machine checks. Use the same project, mode and package selection as the receipt.
 
 ~~~sh
