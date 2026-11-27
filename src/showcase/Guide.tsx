@@ -8,12 +8,12 @@ const rules = [
   {id:"scroll-principle", title:"Выбирай область прокрутки", description:"На широком экране соседние панели могут прокручиваться независимо. На телефоне используй прокрутку страницы. Избегай вложенных вертикальных областей."},
   {id:"components-principle", title:"Бери компоненты из библиотеки", description:"Цвета, размеры и поведение уже заданы токенами и компонентами. В продукте собирай из них нужный интерфейс, не копируй стили."},
   {id:"stable-workspace-geometry", title:"Сохраняй положение элементов", description:"При смене фильтра и обновлении данных кнопки и область графика остаются на своих местах. Длинный список может прокручиваться в своей области на широком экране. На узком он продолжает страницу."},
-  {id:"keyboard-shortcuts", title:"Клавиши должны помогать", description:"Добавляй сокращения для частых действий, показывай их рядом с командой и давай отключить. Не перехватывай сочетания браузера и ввод текста."},
+  {id:"keyboard-shortcuts", title:"Клавиатурное управление", description:"Сохраняй управление с клавиатуры и системные сочетания. Добавляй горячие клавиши для частых действий, показывай их рядом с командой и предусмотри отключение буквенных сочетаний."},
 ];
 
 export function Guide() {
   return <section id="principles" className="catalog guide" aria-labelledby="principles-title">
-    <ChapterHeader id="principles" title="Как устроен интерфейс" description="Правила, которые действуют в каждом продукте на Vanya UI."/>
+    <ChapterHeader id="principles" description="Навигация, расположение действий, прокрутка и поведение компонентов."/>
     <div className="guide-articles">{rules.map(rule => <article id={rule.id} className="guide-article" key={rule.id}>
       <div>
         <h3>{rule.title}</h3>
@@ -31,7 +31,7 @@ export function Guide() {
           <a className="guide-link" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
         {rule.id==="keyboard-shortcuts" && <>
-          <p>Витрина использует обычные ссылки и стандартную клавиатурную навигацию. Добавляй ускорители в рабочих приложениях, когда повторяемая задача оправдывает их стоимость.</p>
+          <p>Витрина использует обычные ссылки. Дополнительные сочетания стоит вводить, если они экономят время в повторяемых задачах.</p>
           <a className="guide-link" href="/reference/keyboard-shortcuts.md" target="_blank" rel="noopener noreferrer">Полные правила и чек-лист <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
       </div>
