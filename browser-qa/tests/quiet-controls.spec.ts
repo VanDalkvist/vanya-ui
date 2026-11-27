@@ -205,3 +205,45 @@ test("applied filters and ordinary properties use different semantic ink",async(
  expect(f.color).not.toBe(p.color);expect(f.font).toBe(p.font);expect(f.line).toBe(p.line);
  await expect(page.locator("#compact-filter-toolbar").getByRole("listitem")).toHaveText(["Тихий берег"]);
 });
+
+test("chapter headers share typography and the rule index has a compact gutter",async({page})=>{
+ for(const width of [1440,1024,390,320]){
+  await page.setViewportSize({width,height:900});
+  await page.goto("/#principles");
+  const headers=page.locator(".catalog > .chapter-header");
+  await expect(headers).toHaveCount(8);
+  const metrics=await headers.evaluateAll(nodes=>nodes.map(node=>{
+   const title=node.querySelector("h2")!,intro=node.querySelector(".catalog-intro")!;
+   const t=title.getBoundingClientRect(),p=intro.getBoundingClientRect(),s=getComputedStyle(title);
+   return {font:s.fontSize,weight:s.fontWeight,leading:s.lineHeight,alignment:p.left-t.left,gap:p.top-t.bottom};
+  }));
+  for(const metric of metrics)expect(metric).toEqual(metrics[0]);
+  const row=page.locator("#browser-navigation"),index=row.locator(".guide-number"),body=row.locator(":scope > div");
+  const a=await index.boundingBox(),b=await body.boundingBox();
+  expect(a).not.toBeNull();expect(b).not.toBeNull();
+  expect(b!.x-a!.x).toBeLessThan(80);
+  expect(await row.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
+ }
+});
+test("pointer-open selection has a check without a resting fill; keyboard movement is visible",async({page})=>{
+ await page.goto("/#compact-filter-toolbar");
+ const section=page.locator("#compact-filter-toolbar");
+ await section.getByRole("button",{name:"Жанр Все"}).click();
+ await page.getByRole("option",{name:"Драма",exact:true}).click();
+ await section.getByRole("button",{name:"Жанр Драма"}).click();
+ await page.mouse.move(0,0);
+ const selected=page.getByRole("option",{name:"Драма",exact:true});
+ const next=page.getByRole("option",{name:"Комедия",exact:true});
+ await expect(selected).toHaveAttribute("aria-selected","true");
+ await expect(selected.locator("svg")).toBeVisible();
+ await expect(selected).not.toHaveAttribute("data-active","true");
+ await expect(selected).toHaveCSS("background-color","rgba(0, 0, 0, 0)");
+ const search=page.getByRole("searchbox",{name:"Поиск по вариантам: Жанр"});
+ await search.press("ArrowDown");
+ await expect(next).toHaveAttribute("data-active","true");
+ await expect(next).not.toHaveCSS("background-color","rgba(0, 0, 0, 0)");
+ await expect(selected).toHaveAttribute("aria-selected","true");
+ await search.press("Enter");
+ await expect(section.getByRole("button",{name:"Жанр Комедия"})).toBeFocused();
+ await expect(section.getByRole("listitem")).toHaveText(["Маяк на холме"]);
+});
