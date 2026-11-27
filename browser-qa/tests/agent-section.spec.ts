@@ -34,7 +34,16 @@ test("agent menu navigation, clipboard and document links",async({page,context})
  for(const href of await section.getByRole("link").evaluateAll(links=>links.map(link=>(link as HTMLAnchorElement).href))){
   const response=await page.request.get(href);
   expect(response.ok(),href).toBe(true);
-  expect(await response.text(),href).not.toContain('<div id="root">');
+  const body=await response.text();
+  const pathname=new URL(href).pathname;
+  if(pathname==="/agents/"){
+   expect(response.headers()["content-type"],href).toMatch(/text\/html/i);
+   expect(body,href).toContain('<h1 id="agent-hero-title"');
+   expect(body,href).toContain('Дизайн-система для агентов');
+  } else {
+   expect(response.headers()["content-type"],href).toMatch(/text\/(markdown|plain)/i);
+   expect(body,href).not.toContain('<div id="root">');
+  }
  }
  await page.goBack();await expect(page).toHaveURL(/\/$/);
  await page.goForward();await expect(page).toHaveURL(/#agents$/);
