@@ -3,7 +3,7 @@ import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
 import {describe,it,expect} from "vitest";
 import {render,screen} from "@testing-library/react";
-import {ActionLink,GitHubIcon,LinkChip} from "../src";
+import {ActionButton,ActionLink,GitHubIcon,LinkChip} from "../src";
 
 describe("Shared destination links and the independent GitHub glyph",()=>{
  it("keeps genuine anchor semantics and author relation when opening a new tab",()=>{
@@ -26,6 +26,11 @@ describe("Shared destination links and the independent GitHub glyph",()=>{
   const source=screen.getByRole("link",{name:/Источник/});
   expect(source).toHaveClass("ui-action-link","ui-link-source");
   expect(source.querySelectorAll(".ui-new-tab-marker")).toHaveLength(1);
+ });
+ it("renders the canonical three roles for native buttons and links",()=>{
+  render(<>{(["text","accent","prominent"] as const).map(variant=><ActionButton key={variant} variant={variant}>{variant}</ActionButton>)}{(["text","accent","prose"] as const).map(variant=><ActionLink key={variant} variant={variant} href="/example">{variant}</ActionLink>)}</>);
+  for(const variant of ["text","accent","prominent"])expect(screen.getByRole("button",{name:variant})).toHaveAttribute("data-variant",variant);
+  for(const variant of ["text","accent","prose"])expect(screen.getByRole("link",{name:variant})).toHaveAttribute("data-variant",variant);
  });
  it("keeps the author link visible on compact screens instead of hiding the personal homepage",()=>{
   const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
