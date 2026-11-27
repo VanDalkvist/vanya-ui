@@ -316,7 +316,7 @@ test("07b pending must not turn into success without a deliberate result",async(
   await capture(page,info,"pending-explicit-result");
 });
 
-test("08 shortcuts and 200% CSS zoom approximation leave core controls reachable",async({page},info)=>{
+test("08 native navigation and 200% CSS zoom approximation leave core controls reachable",async({page},info)=>{
   await page.setViewportSize({width:390,height:844});
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("/");
@@ -325,8 +325,10 @@ test("08 shortcuts and 200% CSS zoom approximation leave core controls reachable
   const slider=page.getByRole("slider",{name:"Расстояние между событиями"});
   await assertUnobstructed(slider);
   await page.evaluate(()=>(document.activeElement as HTMLElement)?.blur());
-  await page.keyboard.press("Shift+/");
-  await expect(page.getByRole("dialog",{name:"Горячие клавиши"})).toBeVisible();
+  const original=page.url();
+  await page.keyboard.press("g");await page.keyboard.press("i");await page.keyboard.press("Shift+/");
+  expect(page.url()).toBe(original);
+  await expect(page.getByRole("dialog",{name:"Горячие клавиши"})).toHaveCount(0);
   await capture(page,info,"reduced-motion-css-zoom");
   // CSS zoom is an approximation: manual 200% browser zoom remains in the acceptance checklist.
 });
