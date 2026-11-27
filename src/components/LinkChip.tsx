@@ -28,13 +28,13 @@ export function LinkChip({
       rel={rel}
       className={twMerge(
         clsx(
-          "ui-size ui-feedback-source inline-flex items-center font-sans text-ink-soft underline-offset-4 select-none",
+          "ui-size ui-feedback-source inline-flex items-center px-[var(--ui-padding)] font-sans text-ink-soft underline-offset-4 select-none",
           className
         )
       )}
       {...props}
     >
-      <span className="font-mono tracking-eyebrow text-ink-soft uppercase shrink-0">
+      <span className="font-mono tracking-eyebrow uppercase shrink-0">
         {label}
       </span>
       <span className="min-w-0 truncate max-w-[280px] font-mono">
