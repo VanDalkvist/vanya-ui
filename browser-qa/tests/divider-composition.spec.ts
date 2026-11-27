@@ -14,18 +14,22 @@ for(const width of [320,390,1024,1440]) for(const theme of ["light","dark"]){
   await page.addInitScript(mode=>localStorage.setItem("vanya_theme",mode),theme);
   await page.goto("/#typography");
   await expect(page.locator("html")).toHaveAttribute("data-theme",theme);
-  for(const selector of ["#typography-scale","#typography-tracking",".type-editorial-pair",".type-reading-demo",".writing-example",".writing-skill-list",".demo-interaction-specimen"]){
+  for(const selector of ["#typography-scale","#typography-tracking","#typography-editorial","#typography-reading","#writing-first-screen","#writing-rules","#writing-methods"]){
+   expect(await edges(page.locator(selector)),selector).toEqual(internal);
+  }
+  for(const selector of ["#typography-scale .type-specimens","#typography-tracking .type-specimens",".type-editorial-pair",".type-reading-demo",".writing-example",".writing-skill-list",".demo-interaction-specimen"]){
    const group=page.locator(selector);
    await expect(group).toHaveCount(1);
-   expect(await edges(group)).toEqual(open);
+   expect(await edges(group),selector).toEqual(open);
   }
-  for(const selector of ["#typography-scale > .type-specimen","#typography-tracking > .type-specimen",".writing-skill-list > div"]){
+  for(const selector of ["#typography-scale .type-specimens > .type-specimen","#typography-tracking .type-specimens > .type-specimen",".writing-skill-list > div"]){
    const rows=await page.locator(selector).all();
    expect(rows.length).toBeGreaterThan(1);
-   for(const [i,row] of rows.entries())expect(await edges(row)).toEqual(i===0?open:internal);
+   for(const [i,row] of rows.entries())expect(await edges(row),selector+" row "+i).toEqual(i===0?open:internal);
   }
   const principles=page.locator(".writing-principles");
-  expect(await edges(principles)).toEqual(internal);
+  expect(await edges(page.locator("#writing-rules"))).toEqual(internal);
+  expect(await edges(principles)).toEqual(open);
   await expect(principles.locator("article")).toHaveCount(4);
   for(const article of await principles.locator("article").all())expect(await edges(article)).toEqual(open);
   const samples=await page.locator(".demo-interaction-sample").all();
