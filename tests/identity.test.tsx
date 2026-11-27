@@ -22,7 +22,7 @@ describe("Vanya Arc identity",()=>{
  });
  it("exposes product hierarchy, palette and a native Markdown link in the longread",()=>{
   render(<IdentitySection/>);
-  expect(screen.getByRole("heading",{name:"Семейство знаков. Единая пластика волны."})).toBeInTheDocument();
+  expect(screen.getByRole("heading",{name:"Айдентика"})).toBeInTheDocument();
   expect(document.querySelector("#identity")).toBeInTheDocument();
   expect(screen.getByRole("link",{name:/Правила и примеры для агентов/})).toHaveAttribute("href","/reference/identity.md");
   expect(screen.getByText("--accent")).toBeInTheDocument();
