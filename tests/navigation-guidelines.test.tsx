@@ -51,7 +51,9 @@ describe("diagonal arrow matches new-tab navigation",()=>{
     expect(link.getAttribute("rel")?.split(/\s+/)).toEqual(expect.arrayContaining(["noopener","noreferrer"]));
    }
    for(const link of Array.from(container.querySelectorAll('a[target="_blank"]')).filter(a=>a.textContent?.trim())){
-    expect(link.textContent?.includes("↗")||!!link.querySelector(".lucide-arrow-up-right"),link.getAttribute("href")||"").toBe(true);
+    expect(link,link.getAttribute("href")||"").toHaveClass("ui-action-link");
+    expect(link.querySelectorAll(".ui-new-tab-marker")).toHaveLength(1);
+    expect(link.textContent).not.toContain("↗");
    }
    for(const link of Array.from(container.querySelectorAll('a[href^="/reference/"],a[href="/llms.txt"]'))){
     expect(link,link.getAttribute("href")||"").toHaveAttribute("target","_blank");
