@@ -48,4 +48,4 @@ try {
 } finally { await browser.close(); }
 '
 cd ..
-npm run test:browser
+VANYA_UI_CLOUD_QA=1 npm run test:browser
