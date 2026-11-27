@@ -1,4 +1,5 @@
 import React from "react";
+import { ActionLink } from "../index";
 import { ChapterHeader } from "./ChapterHeader";
 import { VanyaArcLockup } from "../index";
 
@@ -33,6 +34,6 @@ export function IdentitySection() {
     <div><span className="identity-swatch" style={{background:"var(--ink)"}}/><strong>Чернила</strong><code>--ink</code></div>
     <div><span className="identity-swatch" style={{background:"var(--accent)"}}/><strong>Терракота</strong><code>--accent</code></div>
   </div>
-  <p className="catalog-intro">Для родителя и UI используй <code>VanyaArcMark</code>. Для другого сервиса передай утверждённый компонент в <code>VanyaArcLockup productMark</code>. До утверждения допустим временный текстовый lockup с <code>showMark=false</code>. <a href="/reference/identity.md" target="_blank" rel="noopener noreferrer">Правила и примеры для агентов (Markdown)<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>. <a href="https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md" target="_blank" rel="noopener noreferrer">Правила бренда<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a>.</p>
+  <p className="catalog-intro">Для родителя и UI используй <code>VanyaArcMark</code>. Для другого сервиса передай утверждённый компонент в <code>VanyaArcLockup productMark</code>. До утверждения допустим временный текстовый lockup с <code>showMark=false</code>. <ActionLink variant="prose" href="/reference/identity.md" target="_blank" rel="noopener noreferrer">Правила и примеры для агентов (Markdown)</ActionLink>. <ActionLink variant="prose" href="https://github.com/VanDalkvist/vanya-arc-brand/blob/main/BRAND.md" target="_blank" rel="noopener noreferrer">Правила бренда</ActionLink>.</p>
  </section>;
 }
