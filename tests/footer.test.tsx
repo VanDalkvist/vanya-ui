@@ -27,7 +27,7 @@ describe("longread footer",()=>{
     const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
     expect(css).toContain(".showcase-footer-main { display:flex;");
     expect(css).toContain(".showcase-footer-links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr));");
-    expect(css).toContain(".showcase-footer :is(a):focus-visible");
+    expect(css).toContain(".showcase-footer :is(a):not(.ui-action-link):focus-visible");
     expect(css).toContain("border-top:1px solid var(--border)");
   });
 });
