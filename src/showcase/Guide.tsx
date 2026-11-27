@@ -1,22 +1,20 @@
 import React from "react";
 import { ChapterHeader } from "./ChapterHeader";
 import { ArrowUpRight } from "lucide-react";
-import { ShortcutKeys } from "../index";
 
 const rules = [
-  {id:"browser-navigation", number:"01", title:"У каждой страницы — свой адрес", description:"Страницу можно открыть по прямой ссылке, сохранить и пройти назад. Переход — ссылка. Действие на месте — кнопка."},
-  {id:"composition-principle", number:"02", title:"Сначала действие", description:"Покажи основную задачу сразу. Большие заголовки пусть уходят со скроллом. Постоянная панель нужна только для того, что используют часто."},
-  {id:"scroll-principle", number:"03", title:"Выбирай область прокрутки", description:"На широком экране соседние панели могут прокручиваться независимо. На телефоне используй прокрутку страницы. Избегай вложенных вертикальных областей."},
-  {id:"components-principle", number:"04", title:"Бери компоненты из библиотеки", description:"Цвета, размеры и поведение уже заданы токенами и компонентами. В продукте собирай из них нужный интерфейс, не копируй стили."},
-  {id:"stable-workspace-geometry", number:"05", title:"Сохраняй положение элементов", description:"При смене фильтра и обновлении данных кнопки и область графика остаются на своих местах. Длинный список может прокручиваться в своей области на широком экране. На узком он продолжает страницу."},
-  {id:"keyboard-shortcuts", number:"06", title:"Клавиши должны помогать", description:"Добавляй сокращения для частых действий, показывай их рядом с командой и давай отключить. Не перехватывай сочетания браузера и ввод текста."},
+  {id:"browser-navigation", title:"У каждой страницы — свой адрес", description:"Страницу можно открыть по прямой ссылке, сохранить и пройти назад. Переход — ссылка. Действие на месте — кнопка."},
+  {id:"composition-principle", title:"Сначала действие", description:"Покажи основную задачу сразу. Большие заголовки пусть уходят со скроллом. Постоянная панель нужна только для того, что используют часто."},
+  {id:"scroll-principle", title:"Выбирай область прокрутки", description:"На широком экране соседние панели могут прокручиваться независимо. На телефоне используй прокрутку страницы. Избегай вложенных вертикальных областей."},
+  {id:"components-principle", title:"Бери компоненты из библиотеки", description:"Цвета, размеры и поведение уже заданы токенами и компонентами. В продукте собирай из них нужный интерфейс, не копируй стили."},
+  {id:"stable-workspace-geometry", title:"Сохраняй положение элементов", description:"При смене фильтра и обновлении данных кнопки и область графика остаются на своих местах. Длинный список может прокручиваться в своей области на широком экране. На узком он продолжает страницу."},
+  {id:"keyboard-shortcuts", title:"Клавиши должны помогать", description:"Добавляй сокращения для частых действий, показывай их рядом с командой и давай отключить. Не перехватывай сочетания браузера и ввод текста."},
 ];
 
-export function Guide({onShowShortcuts}:{onShowShortcuts?:()=>void} = {}) {
+export function Guide() {
   return <section id="principles" className="catalog guide" aria-labelledby="principles-title">
-    <ChapterHeader id="principles" title="Как устроен интерфейс" description="Правила, которые действуют в каждом продукте на Vanya UI." index="06"/>
+    <ChapterHeader id="principles" title="Как устроен интерфейс" description="Правила, которые действуют в каждом продукте на Vanya UI."/>
     <div className="guide-articles">{rules.map(rule => <article id={rule.id} className="guide-article" key={rule.id}>
-      <span className="guide-number">{rule.number}</span>
       <div>
         <h3>{rule.title}</h3>
         <p>{rule.description}</p>
@@ -33,12 +31,7 @@ export function Guide({onShowShortcuts}:{onShowShortcuts?:()=>void} = {}) {
           <a className="guide-link" href="/reference/composition.md" target="_blank" rel="noopener noreferrer">Правила стабильного интерфейса <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
         {rule.id==="keyboard-shortcuts" && <>
-          <div className="shortcut-guide-example" aria-label="Примеры сочетаний">
-            <span>Перейти к разделу <ShortcutKeys keys={["G","I"]}/></span>
-            {onShowShortcuts ? <button type="button" className="shortcut-guide-open ui-feedback-text" onClick={onShowShortcuts} aria-label="Настроить горячие клавиши">Справка <ShortcutKeys keys={["?"]}/></button> : <span>Справка <ShortcutKeys keys={["?"]}/></span>}
-            <span>Закрыть панель <ShortcutKeys keys={["Esc"]}/></span>
-          </div>
-          <p>Это работающие клавиши витрины. Команды с одной буквой можно отключить в справке. Ссылки в шапке работают и без них.</p>
+          <p>Витрина использует обычные ссылки и стандартную клавиатурную навигацию. Добавляй ускорители в рабочих приложениях, когда повторяемая задача оправдывает их стоимость.</p>
           <a className="guide-link" href="/reference/keyboard-shortcuts.md" target="_blank" rel="noopener noreferrer">Полные правила и чек-лист <ArrowUpRight size={14} aria-hidden="true"/></a>
         </>}
       </div>
