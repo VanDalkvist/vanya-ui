@@ -41,8 +41,8 @@ function QuietActionsDemo(){
   return <CatalogSection id="quiet-actions" title="Контекстные действия" description="Локальная демонстрация обновления: вручную или каждые пять секунд при включённом автообновлении.">
     <div className="demo-quiet-actions">
       <ActionButton size="md" onClick={()=>setRefreshCount(n=>n+1)}>Обновить</ActionButton>
-      <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} onClick={()=>setAutoRefresh(v=>!v)}>
-        Автообновление <span className="ui-action-toggle-state">{autoRefresh?"Вкл":"Выкл"}</span>
+      <ActionButton size="md" aria-label="Автообновление" aria-pressed={autoRefresh} pressedLabels={{on:"Вкл",off:"Выкл"}} onClick={()=>setAutoRefresh(v=>!v)}>
+        Автообновление
       </ActionButton>
     </div>
     <output className="ui-type-caption text-ink-soft">Обновлений: {refreshCount}</output>
@@ -53,20 +53,23 @@ function QuietDocumentDemo(){
   const [saved,setSaved]=useState({title:"Тихий берег",genre:"drama"});
   const [draft,setDraft]=useState(saved);
   const [error,setError]=useState("");
+  const [savedOnce,setSavedOnce]=useState(false);
+  const dirty=draft.title!==saved.title||draft.genre!==saved.genre;
   return <CatalogSection id="quiet-editor" title="Редактирование документа" description="Локальный черновик, валидация, явное сохранение и отмена.">
     <form className="demo-quiet-editor" noValidate onSubmit={e=>{
       e.preventDefault();
-      if(!draft.title.trim()){setError("Введите название");return;}
-      const next={...draft,title:draft.title.trim()};setSaved(next);setDraft(next);setError("");
+      if(!dirty)return;
+      if(!draft.title.trim()){setError("Введите название");(e.currentTarget.elements.namedItem("title") as HTMLInputElement|null)?.focus();return;}
+      const next={...draft,title:draft.title.trim()};setSaved(next);setDraft(next);setError("");setSavedOnce(true);
     }}>
-      <TextField label="Название" placeholder="Введите название" value={draft.title} required
-        hint="Обязательное поле" error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
+      <TextField name="title" label="Название" placeholder="Введите название" value={draft.title} required
+        reserveNote error={error||undefined} onChange={e=>{setDraft(d=>({...d,title:e.target.value}));setError("");}}/>
       <SelectField label="Жанр" value={draft.genre} onChange={e=>setDraft(d=>({...d,genre:e.target.value}))} allowEmpty={false} options={genreOptions}/>
       <div className="demo-quiet-actions">
-        <ActionButton size="md" onClick={()=>{setDraft(saved);setError("");}}>Отменить</ActionButton>
-        <ActionButton size="md" type="submit" variant="accent">Сохранить</ActionButton>
+        <ActionButton size="md" aria-disabled={!dirty} onClick={()=>{setDraft(saved);setError("");}}>Отменить</ActionButton>
+        <ActionButton size="md" type="submit" variant="accent" aria-disabled={!dirty}>Сохранить</ActionButton>
       </div>
-      <output className="ui-type-caption text-ink-soft">Сохранено: {saved.title} · {genreOptions.find(g=>g.value===saved.genre)?.label}</output>
+      <output className="ui-type-caption text-ink-soft">{dirty?"Есть несохранённые изменения":savedOnce?`Сохранено: ${saved.title} · ${genreOptions.find(g=>g.value===saved.genre)?.label}`:"Нет изменений"}</output>
     </form>
   </CatalogSection>;
 }
@@ -76,8 +79,8 @@ function QuietInspectorDemo(){
   const [record,setRecord]=useState({status:"active",priority:"normal"});
   return <CatalogSection id="quiet-inspector" title="Инспектор свойств" description="Значения редактируются непосредственно, без отдельного сохранения. Пример хранится в памяти страницы.">
     <div className="demo-quiet-inspector">
-      <FilterSelect label="Статус" value={record.status} onValueChange={status=>setRecord(r=>({...r,status}))} options={statusOptions} allowEmpty={false}/>
-      <FilterSelect label="Приоритет" value={record.priority} onValueChange={priority=>setRecord(r=>({...r,priority}))} options={priorityOptions} allowEmpty={false}/>
+      <FilterSelect purpose="property" label="Статус" value={record.status} onValueChange={status=>setRecord(r=>({...r,status}))} options={statusOptions} allowEmpty={false}/>
+      <FilterSelect purpose="property" label="Приоритет" value={record.priority} onValueChange={priority=>setRecord(r=>({...r,priority}))} options={priorityOptions} allowEmpty={false}/>
     </div>
     <output className="ui-type-caption text-ink-soft">Документ: {statusOptions.find(s=>s.value===record.status)?.label} · {priorityOptions.find(p=>p.value===record.priority)?.label}</output>
   </CatalogSection>;
