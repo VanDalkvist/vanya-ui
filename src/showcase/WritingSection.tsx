@@ -1,4 +1,5 @@
 import React from "react";
+import { ChapterHeader } from "./ChapterHeader";
 
 const skillItems = [
   { name: "promo", purpose: "Первый экран и объяснение продукта", link: "https://github.com/N1arko/redaktura-skills/tree/main/promo" },
@@ -9,9 +10,7 @@ const skillItems = [
 
 export function WritingSection() {
   return <section id="writing" className="catalog writing-section" aria-labelledby="writing-title">
-    <p className="guide-eyebrow">Тексты / 04</p>
-    <h2 id="writing-title" className="catalog-title">Тексты интерфейса</h2>
-    <p className="catalog-intro">В Vanya UI кнопки называют действия, ошибки объясняют следующий шаг. На первом экране сами компоненты показывают, как работают.</p>
+    <ChapterHeader id="writing" title="Тексты интерфейса" description="В Vanya UI кнопки называют действия, ошибки объясняют следующий шаг. На первом экране сами компоненты показывают, как работают." index="04"/>
     <div className="writing-example">
       <div><span className="type-demo-label">Лишнее</span><p>«Нажми на точку… Подвинь ползунок…»</p><small>Инструкция к демонстрации повторяет то, что уже видно на экране.</small></div>
       <div><span className="type-demo-label">На первом экране</span><p>Готовые компоненты для рабочих интерфейсов.</p><small>Волна работает прямо здесь. Другие компоненты — в каталоге.</small></div>
