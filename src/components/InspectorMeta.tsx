@@ -8,7 +8,7 @@ export interface InspectorMetaProps extends DetailsHTMLAttributes<HTMLDetailsEle
  * reader's first screen. Uses native details/summary for keyboard support. */
 export function InspectorMeta({summary,children,className,...props}:InspectorMetaProps){
  return <details {...props} className={clsx("ui-inspector-meta",className)}>
-  <summary>{summary}</summary>
+  <summary className="ui-feedback-row" onKeyDown={e=>{if(e.key==="Enter"||e.key===" ")e.stopPropagation();}}>{summary}</summary>
   <div className="ui-inspector-meta-content">{children}</div>
  </details>;
 }
