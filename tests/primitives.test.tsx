@@ -4,7 +4,7 @@ import React from "react";
 import { CraftCard } from "../src/components/CraftCard";
 import { ActionButton } from "../src/components/ActionButton";
 import { Kbd } from "../src/components/Kbd";
-import { CategoryBadge } from "../src/components/CategoryBadge";
+import { Badge } from "../src/components/Badge";
 import { SegmentedControl } from "../src/components/SegmentedControl";
 import { RangeSlider } from "../src/components/RangeSlider";
 import { HearthPulse } from "../src/components/HearthPulse";
@@ -24,7 +24,7 @@ describe("Base Primitives", () => {
       <CraftCard>
         <ActionButton onClick={handleClick}>Войти</ActionButton>
         <Kbd lit>Esc</Kbd>
-        <CategoryBadge category="Creative" />
+        <Badge label="Creative" />
         <Tag>#тег</Tag>
       </CraftCard>
     );

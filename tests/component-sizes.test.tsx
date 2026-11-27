@@ -1,12 +1,12 @@
 import React from "react";
 import { afterEach, expect, it } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
-import { CategoryBadge, SegmentedControl } from "../src";
+import { Badge, SegmentedControl } from "../src";
 
 afterEach(cleanup);
 
-it("accepts both canonical CategoryBadge sizes without losing identity", () => {
-  render(<><CategoryBadge category="life_harness" size="sm" /><CategoryBadge category="life_harness" size="md" /></>);
+it("accepts both canonical Badge sizes without losing identity", () => {
+  render(<><Badge label="Life" size="sm" /><Badge label="Life" size="md" /></>);
   const labels = screen.getAllByText("Life");
   expect(labels[0].parentElement).toHaveAttribute("data-size", "sm");
   expect(labels[1].parentElement).toHaveAttribute("data-size", "md");

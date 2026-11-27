@@ -121,12 +121,12 @@ bun add 'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/a7c5a86356980e3
 Путь `@source` задаётся относительно CSS-файла. Он нужен Tailwind для классов внутри библиотеки. `tokens.css` уже импортирует Tailwind; второй импорт `tailwindcss` рядом не требуется. Для точной типографики отдельно подключаются Manrope, Spectral и JetBrains Mono — файлы шрифтов в пакет не входят.
 
 ```tsx
-import { ActionButton, CategoryBadge, CraftCard } from "@vanya/ui";
+import { ActionButton, Badge, CraftCard } from "@vanya/ui";
 
 export function ProjectCard({ onOpen }: { onOpen: () => void }) {
   return (
     <CraftCard className="space-y-4">
-      <CategoryBadge category="Product" size="sm" />
+      <Badge label="Product" size="sm" />
       <h2 className="font-sans text-lg">Мой проект</h2>
       <ActionButton size="md" onClick={onOpen}>Открыть проект</ActionButton>
     </CraftCard>
@@ -149,7 +149,7 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 ## Что входит
 
 - **Действия:** `ActionButton`, `SegmentedControl`, `RangeSlider`, `ThemeToggle`.
-- **Метки:** `CategoryBadge`, `Tag`, `MeshStatusBadge`, `Kbd`.
+- **Метки:** `Tag` для тем, `Badge` для категорий и статусов, `Kbd` для клавиш. У `Badge` видимая подпись обязательна; приложение задаёт иконку и цвет категории или семантический `tone` статуса. Для выбора используются `SegmentedControl` и `ActionButton` с `aria-pressed`.
 - **Рабочие поверхности:** `WorkspaceSplit`, `ScrollRegion`, `SectionToolbar`, `WorkspaceContextHeader`, `StickyContextBar`, `WorkspaceActionBar`, `WorkspaceEmptyState`.
 - **Карточки и детали:** `CraftCard`, `DeskSlotCard`, `EventCard`, `TimelinePreviewCard`, `InspectDrawer`, `ReceiptDigestModal`.
 - **Волна и события:** `SineWave`, `EventPoint`, `TimelineEvent`, `Minimap`.
@@ -164,7 +164,7 @@ export function ProjectCard({ onOpen }: { onOpen: () => void }) {
 
 ## Размеры и состояния
 
-У восьми компактных семейств — кнопок, тегов, статусов, категорий, клавиш, ссылок, аватарок и сегментов — общая сетка: `sm` = 24 px, `md` = 32 px. Шрифт, иконки, интервалы и высота согласованы; старый `xs` у `SegmentedControl` остаётся алиасом `sm`.
+У компактных кнопок, бейджей, клавиш, ссылок, аватарок и сегментов общая сетка: `sm` = 24 px, `md` = 32 px. Плоский `Tag` использует соответствующий текстовый размер без фиксированной высоты. Шрифт, иконки, интервалы и высота согласованы; старый `xs` у `SegmentedControl` остаётся алиасом `sm`.
 
 У событий вес `1–4` задаёт видимый радиус точки, а `size` — область взаимодействия. `TimelineEvent` объединяет точку и карточку в одно нативное действие. Пассивные метки не изображают кнопки; действия поддерживают настоящие hover, focus и disabled-состояния.
 

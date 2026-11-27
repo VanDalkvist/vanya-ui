@@ -41,13 +41,13 @@
       ]
     },
     {
-      "name": "category-badge",
+      "name": "badge",
       "type": "registry:ui",
-      "title": "CategoryBadge",
-      "description": "React UI component CategoryBadge from @vanya/ui",
+      "title": "Badge",
+      "description": "React UI component Badge from @vanya/ui",
       "files": [
         {
-          "path": "src/components/CategoryBadge.tsx",
+          "path": "src/components/Badge.tsx",
           "type": "registry:ui"
         }
       ]
@@ -228,18 +228,6 @@
       "files": [
         {
           "path": "src/components/MediaCard.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "mesh-status-badge",
-      "type": "registry:ui",
-      "title": "MeshStatusBadge",
-      "description": "React UI component MeshStatusBadge from @vanya/ui",
-      "files": [
-        {
-          "path": "src/components/MeshStatusBadge.tsx",
           "type": "registry:ui"
         }
       ]

@@ -5,6 +5,8 @@
 ## [Unreleased]
 
 ### Breaking — Composition
+- Replace `CategoryBadge`, `MeshStatusBadge`, their props and domain-specific types with passive `Badge` (`label`, `size`, optional category `icon` and `style` or status `tone`, optional `detail`). Category data is resolved by the caller: use `getHarnessType` when retaining the current harness presets; supply its label, icon, textColor/backgroundColor through explicit props, or use your own category data. Status mapping: online → success, standby → pending, warning → warning, offline → error; `metricNote` becomes `detail`. Keep status meaning in the visible label. Registry items category-badge and mesh-status-badge become badge.
+- `Tag` is passive string metadata. Replace interactive Tag (`isActive`, `disabled`, `onClick`) with ActionButton (`aria-pressed`, `disabled`, `onClick`) or SegmentedControl for grouped selection. Move actions from MeshStatusBadge to an adjacent ActionButton or ActionLink for navigation. Existing pinned versions remain unchanged; adopt individually at the next major release.
 - Replace `DisclosurePill` and `InspectorMeta` with one `Disclosure` export and `DisclosureProps` type. For `DisclosurePill`, change `title` to `summary` and `defaultOpen` to `open`; for `InspectorMeta`, retain `summary`, children and native details props. Use the native `onToggle` event to observe user changes. The browser owns user toggles; a changed `open` prop updates the attribute. Registry item is now `disclosure`; CSS selectors are `ui-disclosure` and `ui-disclosure-content`. Existing pinned versions remain unchanged. This is a major-version migration; each consumer upgrades separately.
 
 ### Changed

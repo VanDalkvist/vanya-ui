@@ -90,14 +90,14 @@ Manrope is the normal interface and display face, including EventCard, TimelineP
 - Preview: short title and context, with a real button when interactive.
 - Detail: a right-hand sheet retaining the page as a subdued backdrop. A directional shadow communicates separation; the edge may also have a hairline.
 - Reference: one named row per active component, with its states and variants together; never a second set of HTML lookalikes. OfferCard is temporarily omitted at the operator’s request; its public export is retained for compatibility.
-- Harness identity: CategoryBadge and both radar examples use the shared Sparkles / HeartHandshake / Briefcase / Cpu icons and light/dark harness palette. The package owns the reusable definition and supports caller-provided category data where documented.
+- Harness identity: the showcase composes Badge with the shared Sparkles / HeartHandshake / Briefcase / Cpu icons and light/dark harness palette, also used by both radar examples. Badge itself accepts caller-supplied visual data; it performs no harness lookup. Ownership of the remaining domain presets is reviewed separately.
 - Dense working views can use rows and compact spacing; spaciousness does not require hiding primary actions or making text faint.
 
 `--spacing-scene` controls outer clearance; `--spacing-focus` separates focus areas. Use existing warm paper, ink and accent colors rather than introducing a new skin. Borders remain stable on hover; use surface change and subtle elevation where helpful.
 
 ## Inline size grid
 
-`ComponentSize` is `sm | md`. CategoryBadge, interactive Tag, MeshStatusBadge, ActionButton, Kbd, LinkChip, AvatarLink and SegmentedControl share the `.ui-size` foundation in `src/tokens.css`. Its `--size-{sm,md}-*` tokens control outer height, font, line height, inline padding, gap and icon size; avatars use the outer height as their width. Segmented controls fit their buttons inside the same outer height rather than adding a second size scale. Text-only actions keep their unboxed horizontal spacing.
+`ComponentSize` is `sm | md`. Badge, ActionButton, Kbd, LinkChip, AvatarLink and SegmentedControl share the `.ui-size` foundation in `src/tokens.css`. Tag uses the compact inline metadata typography. Its `--size-{sm,md}-*` tokens control outer height, font, line height, inline padding, gap and icon size; avatars use the outer height as their width. Segmented controls fit their buttons inside the same outer height rather than adding a second size scale. Text-only actions keep their unboxed horizontal spacing.
 
 Canonical heights are 24px and 32px. SegmentedControl still accepts `xs` as a legacy alias for canonical `sm`; callers wanting its larger appearance should use `md`. Size names, not old incidental padding values, are the stable convention. Explicit consumer classes/styles may override the foundation.
 
@@ -110,6 +110,8 @@ EventPoint is passive unless it receives an action; its sm/md hit areas use the 
 EnergyRadar uses the actual SegmentedControl for period selection, with the same compact sizing and disabled semantics rather than a parallel button implementation.
 
 ## Interaction
+
+Passive metadata uses `Tag` (flat text with a decorative hash) or `Badge` (compact category/status label with optional detail). `Badge` accepts an optional caller-owned category icon and style, or a status `tone` of success/pending/warning/error with a decorative dot. Provide a visible meaningful label; status meaning remains readable without color. Keep both primitives out of the tab order. Use `ActionButton` with `aria-pressed` for independent toggles, `SegmentedControl` for grouped selection and native action/link primitives for commands/navigation. Keep a command adjacent to its status when both are useful.
 
 Use `Disclosure` for supplementary explanations and provenance. One native `details`/`summary` contract with shared row feedback. Supply a concise summary and keep nested interactive controls in the revealed content. The browser owns the expanded state; `open` initializes the native attribute and a changed prop updates it, while `onToggle` observes native changes. Preserve keyboard activation and the user's choice on unrelated rerenders. See [reader composition](docs/composition/reading-inspectors.md).
 

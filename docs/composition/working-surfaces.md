@@ -13,7 +13,7 @@ Avoid oversized, repeated titles, hero paragraphs, and duplicate section heading
 - `NavLinks` names **primary destinations**, not every available capability. Aim for few stable destinations.
 - `SegmentedControl semantics="filters"` changes the **subset** within the current context, e.g., All / Mine / Shared. As a filter, it exposes a labeled `group` of pressed buttons to assistive technology.
 - `SegmentedControl` defaults to filters; specify `semantics="tabs"` for actual tab navigation. Supply `tabId` and `panelId` for each tab and render the associated `tabpanel`. Tabs use arrow keys, Home/End and roving focus. Keep the controlled value and visible panel aligned when changing items. If a selected tab is removed or individually disabled, the enabled tablist requests the first available tab through `onChange` once per invalid value/fallback pair. The owner must update value and panel together. If all tabs or the group are disabled, no recovery is requested. Filters never auto-select.
-- `Tag` is useful for small, immediately visible participant or category selections; convey pressed state and result count.
+- `Tag` and `Badge` display passive metadata. Use `Tag` for an inline topic, `Badge` for a compact category or readable status. Use `SegmentedControl` for a group of selectable categories, or `ActionButton` with `aria-pressed` for an independent toggle; convey selection and result count.
 - Prefer one common search input that searches the whole underlying collection, not a silently narrower derived subset.
 
 If a user must change sections just to complete an ordinary `find → select → compare` loop, the composition likely needs to change.

@@ -6,11 +6,7 @@ export { TimelineEvent, type TimelineEventProps } from "./components/TimelineEve
 export type { EventWeight, PointAppearance } from "./wave-geometry";
 export { HARNESS_TYPES, getHarnessType } from "./harness";
 export { OfferCard, type OfferCardProps } from "./components/OfferCard";
-export {
-  MeshStatusBadge,
-  type MeshStatusBadgeProps,
-  type MeshStatus,
-} from "./components/MeshStatusBadge";
+export {Badge,type BadgeProps,type BadgeTone} from "./components/Badge";
 export {
   ActionButton,
   type ActionButtonProps,
@@ -35,11 +31,6 @@ export {
   type ResolvedTheme,
 } from "./hooks/useTheme";
 export { Kbd, type KbdProps } from "./components/Kbd";
-export {
-  CategoryBadge,
-  type CategoryBadgeProps,
-  type CategoryType,
-} from "./components/CategoryBadge";
 export {
   SegmentedControl,
   type SegmentedControlProps,

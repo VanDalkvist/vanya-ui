@@ -180,6 +180,30 @@ test("passive tags have no button surface",async({page})=>{
  await expect(tag).toHaveCSS("cursor","default");await expect(tag).not.toHaveAttribute("tabindex");
 });
 
+for(const theme of ["light","dark"] as const){
+ test("passive badges retain text, geometry and decorative markers in "+theme,async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.addInitScript(value=>localStorage.setItem("vanya_theme",value),theme);
+  await page.goto("/#status");
+  const categories=page.locator("#categories .ui-badge"),statuses=page.locator("#status .ui-badge");
+  await expect(categories).toHaveCount(8);await expect(statuses).toHaveCount(8);
+  for(const group of [categories,statuses]){
+   for(const badge of await group.all()){
+    await expect(badge).toBeVisible();await expect(badge).toHaveCSS("cursor","default");
+    await expect(badge).not.toHaveAttribute("tabindex");
+    expect(await badge.evaluate(el=>el.tagName)).toBe("SPAN");
+    const size=await badge.getAttribute("data-size");
+    expect((await badge.boundingBox())!.height).toBe(size==="sm"?24:32);
+   }
+  }
+  for(const label of ["доступен","ожидание","внимание","недоступен"]){
+   const matches=page.locator("#status .ui-badge").filter({hasText: new RegExp("^"+label+"$")});
+   await expect(matches).toHaveCount(2);
+   for(const badge of await matches.all())await expect(badge.locator(".ui-badge-dot")).toHaveAttribute("aria-hidden","true");
+  }
+ });
+}
+
 test("persistent selection has a distinct surface from adjacent hover",async({page})=>{
  await page.goto("/#compact-filter-toolbar");
  const section=page.locator("#compact-filter-toolbar"),selected=section.getByRole("button",{name:"Все",exact:true}),neighbor=section.getByRole("button",{name:"Мои",exact:true});

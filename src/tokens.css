@@ -169,6 +169,14 @@
     --ui-icon: var(--size-md-icon);
   }
   .ui-size > svg, .ui-segments > button > svg { width:var(--ui-icon); height:var(--ui-icon); flex-shrink:0; }
+  .ui-badge { display:inline-flex; align-items:center; max-width:100%; min-height:var(--ui-height); height:auto; padding-block:2px; border-radius:999px; background:var(--surface-raised); color:var(--ink-soft); font-family:var(--font-mono); cursor:default; }
+  .ui-badge-label,.ui-badge-detail { min-width:0; overflow-wrap:anywhere; }
+  .ui-badge-detail { color:var(--ink-faint); border-inline-start:1px solid var(--border); padding-inline-start:var(--ui-gap); }
+  .ui-badge-dot { width:6px; height:6px; flex-shrink:0; border-radius:50%; background:var(--badge-dot,var(--ink-soft)); }
+  .ui-badge[data-tone="success"] { --badge-dot:var(--color-emerald-400); }
+  .ui-badge[data-tone="pending"] { --badge-dot:var(--color-amber-400); }
+  .ui-badge[data-tone="warning"] { --badge-dot:var(--color-orange-500); }
+  .ui-badge[data-tone="error"] { --badge-dot:var(--color-rose-500); }
   .event-point { --point-hit:var(--size-md-height); position:relative; display:inline-grid; place-items:center; width:var(--point-hit); height:var(--point-hit); padding:0; border:0; background:transparent; vertical-align:middle; }
   .event-point[data-size="sm"] { --point-hit:var(--size-sm-height); }
   .event-point > svg { display:block; width:var(--size-md-height); height:var(--size-md-height); overflow:visible; }
@@ -875,7 +883,7 @@
   .ui-action-button:focus-visible,.ui-feedback-segment:focus-visible{outline-offset:1px;}
   .ui-feedback-segment:not(:disabled):active{background:var(--ui-feedback-pressed-fill);}
   .ui-tag-marker{color:var(--ink-soft);}
-  .ui-tag:not(button)[data-size="md"]{font-size:var(--size-md-font);}
+  .ui-tag[data-size="md"]{font-size:var(--size-md-font);}
   .ui-action-link {gap:.25em;max-width:100%;}
   .ui-action-link[data-variant="prose"] {display:inline;color:var(--ink);font:inherit;text-decoration:underline;text-decoration-color:var(--ink-soft);text-underline-offset:.18em;}
   .ui-action-link[data-variant="accent"]{text-decoration:underline;text-decoration-color:currentColor;text-underline-offset:.18em;}

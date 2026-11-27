@@ -46,9 +46,9 @@ describe("Quiet control behavior",()=>{
   rerender(<ActionButton>Выполнить</ActionButton>);
   expect(screen.getByRole("button",{name:"Выполнить"}).querySelector(".ui-action-indicator-slot")).toBeNull();
  });
- it("keeps passive tags as metadata and interactive tags as real buttons",()=>{
+ it("keeps passive tags and explicit toggle buttons semantically separate",()=>{
   const click=vi.fn();
-  render(<><Tag>наблюдение</Tag><Tag isActive onClick={click}>Фильтр</Tag></>);
+  render(<><Tag>наблюдение</Tag><ActionButton aria-pressed onClick={click}>Фильтр</ActionButton></>);
   const passive=screen.getByText("наблюдение");
   expect(passive.tagName).toBe("SPAN");
   expect(passive).not.toHaveClass("ui-size");

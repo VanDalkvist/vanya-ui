@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ChapterHeader } from "./ChapterHeader";
 import {
-  ActionButton, ActionLink, GitHubIcon, AvatarLink, CategoryBadge, CraftCard, DeskSlotCard, Disclosure,
+  ActionButton, ActionLink, GitHubIcon, AvatarLink, Badge, CraftCard, DeskSlotCard, Disclosure,
   Divider, EnergyRadar, EventCard, EventPoint, HARNESS_TYPES, HearthPulse, InspectDrawer, Kbd, ShortcutKeys, LinkChip,
-  FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, MeshStatusBadge, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
+  FilterSelect, LoadingRegion, MediaCard, MediaCardSkeleton, Minimap, NavLinks, RangeSlider, ReceiptDigestModal, SearchField, SelectField, Skeleton, SkeletonText, TextField,
   ScrollRegion, SectionToolbar, StickyContextBar, WorkspaceContextHeader, WorkspaceActionBar, WorkspaceEmptyState, WorkspaceSplit,
   SurfaceHeader, WorkflowStrip, CostIndicator, VersionLabel,
   SegmentedControl, SineWave, SpiderRadar, Tag, TimelineEvent, ThemeToggle, TimelinePreviewCard, VoiceWaveIndicator,
@@ -311,11 +311,11 @@ export function ComponentCatalog() {
     <CatalogSection id="minimap" title="Minimap" description="События на шкале времени. Нажми на шкалу, чтобы переместить выделенную область.">
       <div className="demo-column"><Minimap min={2016} max={2028} from={mapFocus} to={mapFocus + 2} ticks={eventTicks} onSeek={(value) => setMapFocus(Math.min(2026, Math.max(2016, value - 1)))} labels={[{ value: 2016, text: "2016" }, { value: 2020, text: "2020" }, { value: 2024, text: "2024" }, { value: 2028, text: "2028" }]} /><span className="demo-label">Примеры событий: прошлые, текущие и будущие.</span></div>
     </CatalogSection>
-    <CatalogSection id="categories" title="CategoryBadge" description="Общие иконки и палитра типов харнессов.">
-      <Sizes>{(size) => HARNESS_TYPES.map((harness) => <CategoryBadge key={harness.id} size={size} category={harness.id} />)}</Sizes>
+    <CatalogSection id="categories" title="Badge" description="Метка категории с иконкой и цветом, заданными приложением.">
+      <Sizes>{(size) => HARNESS_TYPES.map((harness) => <Badge key={harness.id} size={size} label={harness.label} icon={harness.icon} style={{color:harness.textColor,backgroundColor:harness.backgroundColor}} />)}</Sizes>
     </CatalogSection>
-    <CatalogSection id="status" title="MeshStatusBadge" description="Статусы сервисов без действий по нажатию.">
-      <Sizes>{(size) => <><MeshStatusBadge size={size} status="online" label="доступен" /><MeshStatusBadge size={size} status="standby" label="ожидание" /><MeshStatusBadge size={size} status="warning" label="внимание" /><MeshStatusBadge size={size} status="offline" label="недоступен" /></>}</Sizes>
+    <CatalogSection id="status" title="Статусы" description="Badge с цветовой точкой и читаемым названием состояния.">
+      <Sizes>{(size) => <><Badge size={size} tone="success" label="доступен" /><Badge size={size} tone="pending" label="ожидание" /><Badge size={size} tone="warning" label="внимание" /><Badge size={size} tone="error" label="недоступен" /></>}</Sizes>
     </CatalogSection>
     <CatalogSection id="tag" title="Tag" description="Текстовые метки для категорий и тем."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
     <CatalogSection id="disclosure" title="Disclosure" description="Дополнительный текст, который можно раскрыть."><Disclosure summary="Показать пояснение"><p>Здесь можно разместить пояснение, которое не нужно показывать сразу.</p></Disclosure></CatalogSection>

@@ -1,14 +1,15 @@
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { CategoryBadge, EnergyRadar, SegmentedControl, useTheme } from "../src";
+import { Badge, EnergyRadar, SegmentedControl, useTheme, HARNESS_TYPES } from "../src";
 import { ComponentCatalog } from "../src/showcase/ComponentCatalog";
 
 afterEach(cleanup);
 
 describe("approved showcase refinements", () => {
   it("renders Farm's canonical harness identity rather than a raw ID and hash", () => {
-    const { container } = render(<CategoryBadge category="creative_harness" />);
+    const creative=HARNESS_TYPES.find(item=>item.id==="creative_harness")!;
+    const { container } = render(<Badge label={creative.label} icon={creative.icon} style={{color:creative.textColor,backgroundColor:creative.backgroundColor}} />);
     expect(screen.getByText("Creative")).toBeVisible();
     expect(container.querySelector("svg.lucide-sparkles")).not.toBeNull();
     expect(screen.queryByText("#")).not.toBeInTheDocument();
@@ -56,10 +57,10 @@ describe("approved showcase refinements", () => {
 
   it("gives every component its own catalogue row and keeps badge states together", () => {
     render(<ComponentCatalog />);
-    for (const name of ["WorkspaceSplit", "ScrollRegion", "SectionToolbar", "WorkspaceActionBar", "WorkspaceEmptyState", "ActionButton", "Kbd", "ShortcutKeys", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "CategoryBadge", "MeshStatusBadge", "Tag", "Disclosure", "LinkChip", "CraftCard", "DeskSlotCard", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
+    for (const name of ["WorkspaceSplit", "ScrollRegion", "SectionToolbar", "WorkspaceActionBar", "WorkspaceEmptyState", "ActionButton", "Kbd", "ShortcutKeys", "NavLinks", "Divider", "AvatarLink", "SegmentedControl", "RangeSlider", "Minimap", "Badge", "Статусы", "Tag", "Disclosure", "LinkChip", "CraftCard", "DeskSlotCard", "EnergyRadar", "SpiderRadar", "HearthPulse", "VoiceWaveIndicator", "InspectDrawer", "ReceiptDigestModal", "ThemeToggle", "SineWave"]) {
       expect(screen.getByRole("region", { name })).toBeInTheDocument();
     }
-    const badges = screen.getByRole("region", { name: "CategoryBadge" });
+    const badges = screen.getByRole("region", { name: "Badge" });
     for (const label of ["Creative", "Life", "Product", "Infra"]) expect(within(badges).getAllByText(label)).toHaveLength(2);
   });
 });

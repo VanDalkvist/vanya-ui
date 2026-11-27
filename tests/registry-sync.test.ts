@@ -11,6 +11,10 @@ describe("component registry is derived from public exports",()=>{
   expect(registry.filter((name:string)=>name==="Disclosure")).toHaveLength(1);
   expect(registry).not.toContain("DisclosurePill");
   expect(registry).not.toContain("InspectorMeta");
+  expect(registry.filter((name:string)=>name==="Badge")).toHaveLength(1);
+  expect(registry).not.toContain("CategoryBadge");
+  expect(registry).not.toContain("MeshStatusBadge");
+  expect(exported).not.toMatch(/\b(?:CategoryBadge|MeshStatusBadge)\b/);
   expect(exported).not.toMatch(/\b(?:DisclosurePill|InspectorMeta)\b/);
  });
 });
