@@ -1,4 +1,5 @@
 import React from "react";
+import { ChapterHeader } from "./ChapterHeader";
 import { ArrowUpRight } from "lucide-react";
 import { ShortcutKeys } from "../index";
 
@@ -13,9 +14,7 @@ const rules = [
 
 export function Guide({onShowShortcuts}:{onShowShortcuts?:()=>void} = {}) {
   return <section id="principles" className="catalog guide" aria-labelledby="principles-title">
-    <p className="guide-eyebrow">Принципы / 06</p>
-    <h2 id="principles-title" className="catalog-title">Как устроен интерфейс</h2>
-    <p className="catalog-intro">Правила, которые действуют в каждом продукте на Vanya UI.</p>
+    <ChapterHeader id="principles" title="Как устроен интерфейс" description="Правила, которые действуют в каждом продукте на Vanya UI." index="06"/>
     <div className="guide-articles">{rules.map(rule => <article id={rule.id} className="guide-article" key={rule.id}>
       <span className="guide-number">{rule.number}</span>
       <div>
