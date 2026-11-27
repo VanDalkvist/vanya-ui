@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ChapterHeader } from "./ChapterHeader";
 import { ActionButton, ActionLink } from "../index";
 
 /** Live specimens use published UI typography tokens. No parallel private type scale. */
@@ -15,9 +16,7 @@ const sizes = [
 export function TypographySection() {
   const [lastAction,setLastAction]=useState("");
   return <section id="typography" className="catalog typography-section" aria-labelledby="typography-title">
-    <p className="guide-eyebrow">03</p>
-    <h2 id="typography-title" className="catalog-title">Типографика</h2>
-    <p className="catalog-intro">Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты.</p>
+    <ChapterHeader id="typography" title="Типографика" description="Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты." index="03"/>
     <h3 className="ui-type-subheading type-section-title">Размеры текста</h3>
     <div className="type-specimens" id="typography-scale">
       {sizes.map(item => <div className="type-specimen" key={item.token}>
