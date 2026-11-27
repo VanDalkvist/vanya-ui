@@ -56,7 +56,7 @@ function QuietDocumentDemo(){
   const [error,setError]=useState("");
   const [savedOnce,setSavedOnce]=useState(false);
   const dirty=draft.title!==saved.title||draft.genre!==saved.genre;
-  return <CatalogSection id="quiet-editor" title="Редактирование документа" description="Локальный черновик, валидация, явное сохранение и отмена.">
+  return <CatalogSection id="quiet-editor" title="Редактирование документа" description="Измени название или жанр, сохрани черновик либо отмени изменения.">
     <form className="demo-quiet-editor" noValidate onSubmit={e=>{
       e.preventDefault();
       if(!dirty)return;
@@ -88,7 +88,7 @@ function QuietInspectorDemo(){
 }
 function QuietConfirmationDemo(){
   const [confirmed,setConfirmed]=useState(false);
-  return <CatalogSection id="quiet-confirmation" title="Явное подтверждение" description="Prominent применяется к значимому решению; остальные команды остаются на общей плоскости.">
+  return <CatalogSection id="quiet-confirmation" title="Явное подтверждение" description="Контрастная кнопка выделяет основное действие.">
     <div className="demo-quiet-actions">
       <ActionButton variant="prominent" size="md" disabled={confirmed} onClick={()=>setConfirmed(true)}>Подтвердить</ActionButton>
       <ActionButton size="md" disabled={!confirmed} onClick={()=>setConfirmed(false)}>Отменить подтверждение</ActionButton>
@@ -128,12 +128,12 @@ export function ComponentCatalog() {
 
   return <>
     <section id="catalog" className="catalog" aria-labelledby="catalog-title">
-    <ChapterHeader id="catalog" title="Компоненты" description="Настоящие компоненты в разных состояниях. Примеры используют вымышленные данные."/>
+    <ChapterHeader id="catalog" description="Интерактивные примеры React-компонентов на вымышленных данных."/>
     <CatalogSection id="tokens" title="Цвета" description="Палитра из tokens.css. Переключение темы работает во всех примерах.">
       {["ground", "surface", "surface-raised", "ink", "accent"].map((name) => <div key={name} className="token-sample"><span className="token-swatch" style={{ background: `var(--${name})` }} /><span>--{name}</span></div>)}
     </CatalogSection>
     <CatalogSection id="interaction-states" title="Hover / focus / selected"
-      description="Один контракт взаимодействия: наведи курсор, перейди Tab, нажми и сравни выбранное состояние. Цвета адаптируются к светлой и тёмной теме; на таче hover не требуется.">
+      description="Наведение, клавиатурный фокус, нажатие и выбор в светлой и тёмной темах.">
       <div className="demo-interaction-specimen">
         <div className="demo-interaction-sample">
           <span className="demo-label">Текстовая ссылка</span>
@@ -212,7 +212,7 @@ export function ComponentCatalog() {
        <p className="ui-type-caption demo-loading-note">Форма скелетона повторяет карточки, но не изображает реальные фильмы. <a href="/reference/loading.md" target="_blank" rel="noopener noreferrer">Правила загрузки<span aria-hidden="true" className="ui-inline-new-tab-marker"> ↗</span></a></p>
       </div>
     </CatalogSection>
-    <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Компактный поиск и переключатель дополнены собственным выпадающим списком FilterSelect: единая высота 40 px, подписи и темы. Системное меню macOS не используется.">
+    <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Поиск, переключатель и FilterSelect фильтруют одну коллекцию. Высота контролов — 40 px.">
       <div className="demo-compact-filter-strip">
         <div className="demo-compact-filter-search"><SearchField density="toolbar" label="Поиск по каталогу" placeholder="Найти" value={toolbarQuery} onValueChange={setToolbarQuery}/></div>
         <SegmentedControl density="toolbar" semantics="filters" aria-label="Чьи фильмы показывать" value={toolbarScope} onChange={setToolbarScope}
@@ -249,7 +249,7 @@ export function ComponentCatalog() {
     <QuietDocumentDemo/>
     <QuietInspectorDemo/>
     <QuietConfirmationDemo/>
-    <CatalogSection id="version-label" title="VersionLabel" description="Пассивная версия сборки. Значение передаёт приложение.">
+    <CatalogSection id="version-label" title="VersionLabel" description="Номер версии, который передаёт приложение.">
       <VersionLabel version="1.2.3"/>
     </CatalogSection>
     <CatalogSection id="sine-wave" title="SineWave" description="Наклонная линия и точечные ветки от событий. Геометрия из Синусоиды.">
@@ -262,7 +262,7 @@ export function ComponentCatalog() {
     <CatalogSection id="theme" title="ThemeToggle" description="Меню и сегментированный переключатель. Оба меняют общую тему страницы.">
       <ThemeToggle /><ThemeToggle variant="segmented" />
     </CatalogSection>
-    <CatalogSection id="actions" title="ActionButton" description="Neutral, Accent и Prominent — три семантических уровня команды в Quiet.">
+    <CatalogSection id="actions" title="ActionButton" description="Обычная команда, акцентное и основное действие.">
       <Sizes>{(size) => <>
         <ActionButton size={size} onClick={() => setOverlay("sheet")}>Открыть панель</ActionButton>
         <ActionButton size={size} variant="accent" onClick={() => setOverlay("digest")}>Открыть итоги</ActionButton>
@@ -315,7 +315,7 @@ export function ComponentCatalog() {
     <CatalogSection id="status" title="MeshStatusBadge" description="Статусы сервисов без действий по нажатию.">
       <Sizes>{(size) => <><MeshStatusBadge size={size} status="online" label="доступен" /><MeshStatusBadge size={size} status="standby" label="ожидание" /><MeshStatusBadge size={size} status="warning" label="внимание" /><MeshStatusBadge size={size} status="offline" label="недоступен" /></>}</Sizes>
     </CatalogSection>
-    <CatalogSection id="tag" title="Tag" description="Пассивные текстовые метки с маркером категории."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
+    <CatalogSection id="tag" title="Tag" description="Текстовые метки для категорий и тем."><Sizes>{(size) => <><Tag size={size}>наблюдение</Tag><Tag size={size}>демо</Tag></>}</Sizes></CatalogSection>
     <CatalogSection id="disclosure" title="DisclosurePill" description="Дополнительный текст, который можно раскрыть."><DisclosurePill title="Показать пояснение"><p>Здесь можно разместить пояснение, которое не нужно показывать сразу.</p></DisclosurePill></CatalogSection>
     <CatalogSection id="link" title="LinkChip" description="Подписанная ссылка с адресом."><Sizes>{(size) => <LinkChip size={size} url="https://vanya-arc.dev" label="Синусоида" />}</Sizes></CatalogSection>
     <CatalogSection id="event" title="EventCard" description="Карточка с датой, описанием и ссылками.">
@@ -367,9 +367,9 @@ export function ComponentCatalog() {
     <ReceiptDigestModal isOpen={overlay === "digest"} title="Пример итогов" narrative="Обновили витрину компонентов." receipts={["Добавили фон первого экрана", "Обновили примеры компонентов"]} onClose={() => setOverlay(null)} />
   </section>
   <section id="workspace" className="catalog" aria-labelledby="workspace-title">
-    <ChapterHeader id="workspace" title="Рабочие поверхности" description="Композиции для работы с контекстом: список и детали, области прокрутки, заголовки и панели действий."/>
+    <ChapterHeader id="workspace" description="Примеры списков, панелей деталей, редакторов и областей прокрутки."/>
     <CatalogSection id="workspace-overview" title="Рабочие поверхности: композиция"
-      description="Нейтральная композиция: заголовок списка, счётчик, пустое состояние, один скролл на область и футер действий.">
+      description="Список со счётчиком, пустым состоянием и панелью действий.">
       <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
         <SectionToolbar title="Полка исследований" count={7} total={22}
           actions={<ActionButton size="sm" onClick={() => setOverlay("sheet")}>Открыть детали</ActionButton>} />
@@ -391,11 +391,11 @@ export function ComponentCatalog() {
         <WorkspaceActionBar placement="footer" status="Изменений нет"
           actions={<ActionButton variant="accent" onClick={() => setOverlay("sheet")}>Следующий этап</ActionButton>} />
       </div>
-      <WorkspaceEmptyState title="Рабочий стол свободен" description="Когда материалов нет, показываем контекст, а не нулевую карточку."
+      <WorkspaceEmptyState title="Рабочий стол свободен" description="Добавь запись, чтобы начать работу."
         action={<ActionButton onClick={() => setOverlay("sheet")}>Добавить материал</ActionButton>} />
     </CatalogSection>
     <CatalogSection id="workspace-split" title="WorkspaceSplit"
-      description="Два соседних слота для списка и содержимого. В компактной компоновке складываются в один поток; не создаёт лишнего scroll owner.">
+      description="Список и содержимое рядом на широком экране, друг под другом на узком.">
       <div style={{width:"min(100%, 590px)",height:180}}>
         <WorkspaceSplit compact="keep-columns"
           navigation={<div style={{padding:12,fontSize:12}}><strong>Навигация</strong><p>Одна предметная очередь</p><p>Выбранный объект</p></div>}
@@ -403,7 +403,7 @@ export function ComponentCatalog() {
       </div>
     </CatalogSection>
     <CatalogSection id="scroll-region" title="ScrollRegion"
-      description="Явно именованная область прокрутки; фокусируемая клавишей Tab. Два соседних скролла допустимы, вложенные вертикальные — нет.">
+      description="Именованная область прокрутки, доступная через Tab. На широком экране соседние панели могут прокручиваться отдельно.">
       <ScrollRegion label="Пример длинного списка" style={{height:150,width:"min(100%, 360px)",border:"1px solid var(--border)",padding:12}}>
         {Array.from({length:12},(_,i)=><p key={i} style={{fontSize:12,marginBottom:10}}>Пункт {i+1}: отдельная запись</p>)}
       </ScrollRegion>
@@ -465,14 +465,14 @@ export function ComponentCatalog() {
       </div>
     </CatalogSection>
     <CatalogSection id="workspace-action-bar" title="WorkspaceActionBar"
-      description="Статус слева и действия справа. В редакторе это footer вне скролла текста, а не перекрытие поля.">
+      description="Статус слева, действия справа. Панель редактора находится за пределами области прокрутки текста.">
       <div style={{width:"min(100%, 520px)"}}>
         <WorkspaceActionBar placement="footer" status="Изменений нет"
           actions={<ActionButton size="md" variant="accent" onClick={()=>setOverlay("sheet")}>Продолжить</ActionButton>} />
       </div>
     </CatalogSection>
     <CatalogSection id="workspace-empty-state" title="WorkspaceEmptyState"
-      description="Честное пустое состояние без выдуманных карточек и неподконтрольной генерации данных.">
+      description="Сообщение об отсутствии записей и доступное действие.">
       <WorkspaceEmptyState title="Записей пока нет" description="Добавьте первую запись или поменяйте фильтр."
         action={<ActionButton onClick={()=>setOverlay("sheet")}>Новая запись</ActionButton>} />
     </CatalogSection>
