@@ -16,6 +16,8 @@ export interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButton
   actionState?: ActionButtonState;
   /** Accessible announcement for pending, success or error. */
   statusLabel?: string;
+  /** Localized persistent state labels; state is owned by aria-pressed. */
+  pressedLabels?: { on: string; off: string };
 }
 
 const defaultStatus: Record<Exclude<ActionButtonState,"idle">,string> = {
@@ -32,11 +34,15 @@ export function ActionButton({
   disabled,
   actionState:reportedState,
   statusLabel,
+  pressedLabels,
   onClick,
   ...props
 }: ActionButtonProps) {
   const actionState=reportedState??"idle";
   const pending=actionState==="pending";
+  const pressed=props["aria-pressed"];
+  const showPressedLabels=pressedLabels&&(pressed===true||pressed===false||pressed==="true"||pressed==="false");
+  const isPressed=pressed===true||pressed==="true";
   const variantStyles={
     text:"rounded-sm font-sans font-medium tracking-normal text-ink-soft",
     mono:"rounded-sm font-mono tracking-[var(--type-tracking-action-mono)] uppercase text-ink-soft",
@@ -70,6 +76,10 @@ export function ActionButton({
     ))}
   >
     {children}
+    {showPressedLabels&&<span className="ui-action-toggle-state" aria-hidden="true">
+      <span data-current={isPressed}>{pressedLabels.on}</span>
+      <span data-current={!isPressed}>{pressedLabels.off}</span>
+    </span>}
     {reportedState!==undefined && <span className="ui-action-indicator-slot" aria-hidden="true">
       {actionState==="pending" && <LoaderCircle className="ui-action-indicator ui-action-indicator-pending"/>}
       {actionState==="success" && <Check className="ui-action-indicator"/>}
