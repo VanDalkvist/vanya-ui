@@ -145,3 +145,64 @@ for(const theme of themes)for(const width of [1440,390]){
   }
  });
 }
+
+for(const theme of themes)for(const width of [1440,1024,390,320]){
+ test("workspace preserves readable layout and actual scroll ownership "+theme+" "+width,async({page})=>{
+  await page.setViewportSize({width,height:900});
+  await page.addInitScript(value=>localStorage.setItem("vanya_theme",value),theme);
+  await page.goto("/#workspace-overview");
+  await expect(page.locator("html")).toHaveAttribute("data-theme",theme);
+  await page.evaluate(()=>document.fonts.ready);
+  const specimen=page.locator("#workspace-overview");
+  const list=specimen.getByRole("region",{name:"Список исследований"});
+  const reader=specimen.getByRole("region",{name:"Читательская область"});
+  const simple=page.locator("#workspace-split .ui-workspace-split");
+  const bounds=async()=>({left:(await list.boundingBox())!,right:(await reader.boundingBox())!});
+  await expect(list).toBeVisible();await expect(reader).toBeVisible();
+  const {left,right}=await bounds();
+  const a=(await simple.locator(".ui-workspace-split-navigation").boundingBox())!;
+  const b=(await simple.locator(".ui-workspace-split-content").boundingBox())!;
+  if(width>=1024){
+   expect(right.x).toBeGreaterThanOrEqual(left.x+left.width-1);
+   expect(Math.abs(right.y-left.y)).toBeLessThan(2);
+   expect(right.width).toBeGreaterThan(240);
+   expect(b.x).toBeGreaterThanOrEqual(a.x+a.width-1);
+   await list.evaluate(el=>{el.scrollTop=el.scrollHeight;});
+   const position=await list.evaluate(el=>el.scrollTop);
+   expect(position).toBeGreaterThan(0);
+   expect(await reader.evaluate(el=>el.scrollTop)).toBe(0);
+   await reader.evaluate(el=>{el.scrollTop=el.scrollHeight;});
+   expect(await reader.evaluate(el=>el.scrollTop)).toBeGreaterThan(0);
+   expect(await list.evaluate(el=>el.scrollTop)).toBe(position);
+  }else{
+   expect(Math.abs(right.x-left.x)).toBeLessThan(2);
+   expect(Math.abs(right.width-left.width)).toBeLessThan(2);
+   expect(right.y).toBeGreaterThanOrEqual(left.y+left.height-1);
+   expect(b.y).toBeGreaterThanOrEqual(a.y+a.height-1);
+   for(const region of [list,reader]){
+    const geometry=await region.evaluate(el=>({height:el.clientHeight,scroll:el.scrollHeight,overflow:getComputedStyle(el).overflowY}));
+    expect(geometry.scroll).toBeLessThanOrEqual(geometry.height+1);
+    expect(geometry.overflow).toBe("visible");
+   }
+   const lastItem=list.getByText("Материал 14 · состояние, графы и пайплайны",{exact:true});
+   const lastFragment=reader.getByText(/Фрагмент 13\./);
+   const before=await page.evaluate(()=>scrollY);
+   await lastItem.scrollIntoViewIfNeeded();
+   await expect(lastItem).toBeInViewport();
+   await lastFragment.scrollIntoViewIfNeeded();
+   await expect(lastFragment).toBeInViewport();
+   expect(await page.evaluate(()=>scrollY)).toBeGreaterThan(before);
+   expect(await list.evaluate(el=>el.scrollTop)).toBe(0);
+   expect(await reader.evaluate(el=>el.scrollTop)).toBe(0);
+  }
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  const action=specimen.getByRole("button",{name:"Следующий этап"});
+  await action.click();
+  const dialog=page.getByRole("dialog",{name:"Описание проекта"});
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText("Здесь можно разместить описание, ссылки и другие подробности проекта.",{exact:true})).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
+  await expect(action).toBeFocused();
+ });
+}

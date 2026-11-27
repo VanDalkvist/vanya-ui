@@ -370,19 +370,19 @@ export function ComponentCatalog() {
   </section>
   <section id="workspace" className="catalog" aria-labelledby="workspace-title">
     <ChapterHeader id="workspace" description="Примеры списков, панелей деталей, редакторов и областей прокрутки."/>
-    <CatalogSection id="workspace-overview" title="Рабочие поверхности: композиция"
+    <CatalogSection id="workspace-overview" title="Рабочие поверхности: композиция" layout="wide"
       description="Список со счётчиком, пустым состоянием и панелью действий.">
-      <div className="demo-column" style={{ width: "min(100%, 700px)", border: "1px solid var(--border)", padding: 14 }}>
-        <SectionToolbar title="Полка исследований" count={7} total={22}
+      <div className="demo-column demo-workspace-frame">
+        <SectionToolbar title="Полка исследований" count={14} total={22}
           actions={<ActionButton size="sm" onClick={() => setOverlay("sheet")}>Открыть детали</ActionButton>} />
-        <div style={{ height: 195, minHeight: 0 }}>
-          <WorkspaceSplit compact="keep-columns"
-            navigation={<ScrollRegion label="Список исследований" style={{ height: "100%", paddingRight: 10 }}>
+        <div className="demo-workspace-panes">
+          <WorkspaceSplit
+            navigation={<ScrollRegion label="Список исследований" className="demo-workspace-pane ui-type-compact">
               {Array.from({length: 14}, (_, index) => (
-                <p key={index} style={{ margin: "0 0 10px", fontSize: 11 }}>Материал {index + 1} · состояние, графы и пайплайны</p>
+                <p key={index}>Материал {index + 1} · состояние, графы и пайплайны</p>
               ))}
             </ScrollRegion>}
-            detail={<ScrollRegion label="Читательская область" style={{ height: "100%", fontSize: 12, lineHeight: 1.7, paddingLeft: 10 }}>
+            detail={<ScrollRegion label="Читательская область" className="demo-workspace-pane ui-type-body">
               <strong>Восстанавливаемый workflow</strong>
               {Array.from({length: 13}, (_, index) => (
                 <p key={index}>Один предмет для чтения. Фрагмент {index + 1}. Список слева не меняет позицию, пока читаем эту статью.</p>
@@ -396,13 +396,11 @@ export function ComponentCatalog() {
       <WorkspaceEmptyState title="Рабочий стол свободен" description="Добавь запись, чтобы начать работу."
         action={<ActionButton onClick={() => setOverlay("sheet")}>Добавить материал</ActionButton>} />
     </CatalogSection>
-    <CatalogSection id="workspace-split" title="WorkspaceSplit"
+    <CatalogSection id="workspace-split" title="WorkspaceSplit" layout="wide"
       description="Список и содержимое рядом на широком экране, друг под другом на узком.">
-      <div style={{width:"min(100%, 590px)",height:180}}>
-        <WorkspaceSplit compact="keep-columns"
-          navigation={<div style={{padding:12,fontSize:12}}><strong>Навигация</strong><p>Одна предметная очередь</p><p>Выбранный объект</p></div>}
-          detail={<div style={{padding:12,fontSize:12}}><strong>Содержимое</strong><p>Центральная область меняется, а маршрут сохраняется.</p></div>} />
-      </div>
+      <WorkspaceSplit className="demo-workspace-split"
+        navigation={<div className="demo-workspace-pane ui-type-compact"><strong>Навигация</strong><p>Одна предметная очередь</p><p>Выбранный объект</p></div>}
+        detail={<div className="demo-workspace-pane ui-type-body"><strong>Содержимое</strong><p>Центральная область меняется, а маршрут сохраняется.</p></div>} />
     </CatalogSection>
     <CatalogSection id="scroll-region" title="ScrollRegion"
       description="Именованная область прокрутки, доступная через Tab. На широком экране соседние панели могут прокручиваться отдельно.">

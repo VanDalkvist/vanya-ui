@@ -243,6 +243,7 @@ test("05 drawer opens and closes without obscuring its trigger permanently",asyn
 });
 
 test("06 independent reader/list scroll owners do not move one another",async({page},info)=>{
+  await page.setViewportSize({width:1440,height:900});
   await page.goto("/#workspace");
   const left=page.getByRole("region",{name:"Список исследований"});
   const right=page.getByRole("region",{name:"Читательская область"});

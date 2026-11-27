@@ -22,7 +22,7 @@ If a user must change sections just to complete an ordinary `find → select →
 
 - Desktop: one compact persistent main header; optionally a **single contextual filter row** directly below, only if it truly helps in long lists.
 - Mobile: avoid stacking sticky global chrome and sticky filters when they compete with the content. Let the task filter strip scroll away if necessary.
-- Use a single document scroll; avoid nested vertical scroll areas by default.
+- Use a single document scroll; avoid nested vertical scroll areas by default. For a stacked `WorkspaceSplit`, release the parent height and the vertical `ScrollRegion` height/overflow at the compact breakpoint (850px in the current primitive). The caller owns this layout decision; stacking the columns alone does not release an explicitly bounded child. Preserve independent scroll ownership in wide, bounded workspaces. Give a list/detail specimen the full available width when the split documentation column would squeeze its reader.
 - Avoid hiding the first actionable item under sticky surfaces when using focus navigation or anchored links.
 - Use semantic DOM reading order matching visual order.
 

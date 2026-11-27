@@ -382,3 +382,22 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
 .demo-quiet-inspector{display:grid;max-width:420px;min-width:0;}
 .demo-quiet-inspector>.ui-filter-select{width:100%;}
 .demo-quiet-inspector .ui-filter-select-value{text-align:right;}
+
+/* The showcase owns the demo's height. On compact screens the page owns
+   vertical scrolling; WorkspaceSplit already owns the stacking breakpoint. */
+.catalog-examples .demo-workspace-frame {
+  width:min(100%,700px); border:1px solid var(--border); padding:14px;
+}
+.demo-workspace-panes { height:195px; min-height:0; }
+.demo-workspace-split { width:min(100%,590px); height:auto; }
+.demo-workspace-panes .demo-workspace-pane { height:100%; }
+.demo-workspace-pane { min-width:0; padding-inline:var(--size-md-padding); }
+.demo-workspace-pane > p + p,
+.demo-workspace-pane > strong + p { margin-top:var(--size-md-padding); }
+@media(max-width:850px) {
+  .demo-workspace-panes { height:auto; }
+  .demo-workspace-panes .demo-workspace-pane {
+    height:auto; overflow:visible; overscroll-behavior:auto; scrollbar-gutter:auto;
+  }
+  .demo-workspace-pane { padding-inline:0; padding-block:var(--size-md-padding); }
+}
