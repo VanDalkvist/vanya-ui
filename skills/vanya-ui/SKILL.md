@@ -51,6 +51,8 @@ For a new official Vanya Arc service or a branding task, read [brand identity in
 
 ## 3. Implement
 
+Choose the existing header by its role: SectionToolbar for list title/count/actions, SurfaceHeader for an in-flow document heading, WorkspaceContextHeader for the existing app shell, StickyContextBar for an autonomous reader. Preserve real breadcrumb destinations, visible focus, native history and compact wrapping. Keep the shell height and scroll ownership with the caller.
+
 Compose domain cards from passive `CraftCard`, `Badge`, explicit `ActionButton` / `ActionLink`, and `WorkspaceEmptyState`. The application owns category IDs, labels, colors, icons, metrics and project actions. Supply explicit category data to `Badge`, `EnergyRadar` and `SpiderRadar`; use their generic visual defaults when no identity is supplied.
 
 Use passive `Tag` for inline topics and `Badge` for categories/statuses. Supply a visible `label`; category icon/style belongs to the caller and status `tone` provides a decorative cue. Use `ActionButton` with `aria-pressed` for independent selection, `SegmentedControl` for grouped selection and `ActionButton` for commands. Follow the actual pinned package exports; never infer actions from passive metadata.

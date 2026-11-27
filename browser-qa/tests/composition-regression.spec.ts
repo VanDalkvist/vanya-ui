@@ -239,3 +239,45 @@ for(const width of [1440,390]){
   await choose.click();await expect(dialog).toBeVisible();await page.keyboard.press("Escape");await expect(choose).toBeFocused();
  });
 }
+
+for(const width of [1440,1024,390,320]){
+ test("workspace shell keeps both real ancestors and context action reachable "+width,async({page})=>{
+  await page.setViewportSize({width,height:900});
+  await page.goto("/#workspace-context-header");
+  const specimen=page.locator("#workspace-context-header");
+  const context=specimen.getByRole("group",{name:"Текущий документ"});
+  const nav=context.getByRole("navigation",{name:"Хлебные крошки"});
+  const title=context.getByText("Как восстановить долгую операцию после сбоя",{exact:true});
+  const toggle=specimen.getByRole("button",{name:"Заголовок документа ушёл при скролле"});
+  await expect(title).toHaveCount(0);
+  await toggle.click();await expect(title).toBeVisible();
+  for(const [label,fragment] of [["Библиотека","catalog"],["Рабочие поверхности","workspace"]] as const){
+   const link=nav.getByRole("link",{name:label,exact:true});
+   await expect(link).toBeVisible();
+   await expect(link).toHaveAttribute("href","/#"+fragment);
+   await link.scrollIntoViewIfNeeded();
+   await link.focus();await expect(link).toBeFocused();
+   await expect(link).toHaveCSS("outline-width","2px");
+   const geometry=await link.evaluate(el=>{
+    const box=el.getBoundingClientRect(),parent=el.closest(".ui-workspace-context")!.getBoundingClientRect();
+    return {left:box.left,right:box.right,parentLeft:parent.left,parentRight:parent.right,width:box.width};
+   });
+   expect(geometry.width).toBeGreaterThan(0);
+   expect(geometry.left).toBeGreaterThanOrEqual(geometry.parentLeft-1);
+   expect(geometry.right).toBeLessThanOrEqual(geometry.parentRight+1);
+   await page.keyboard.press("Enter");
+   await expect(page).toHaveURL(new RegExp("/#"+fragment+"$"));
+   await expect(page.locator("#"+fragment)).toBeVisible();
+   await page.goBack();
+   await expect(page).toHaveURL(/\/#workspace-context-header$/);
+   await expect(nav).toBeVisible();
+  }
+  const action=context.getByRole("button",{name:"Исследовать"});
+  await action.click();
+  const dialog=page.getByRole("dialog",{name:"Описание проекта"});
+  await expect(dialog).toBeVisible();await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);await expect(action).toBeFocused();
+  expect(await specimen.evaluate(el=>el.scrollWidth<=el.clientWidth+1)).toBe(true);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+ });
+}

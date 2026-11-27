@@ -431,3 +431,12 @@ body { font-family:var(--font-sans); font-size:var(--type-body-size); line-heigh
   --demo-category-infra-fg: oklch(0.82 0.07 245);
   --demo-category-infra-bg: oklch(0.27 0.03 245);
 }
+
+/* Full-width app shell specimen; the demonstration control is outside the shell. */
+.catalog-examples .demo-context-specimen { width:min(100%,900px); }
+.demo-context-shell { display:flex; align-items:center; gap:16px; min-height:78px; min-width:0; width:100%; padding:10px 14px; background:var(--surface); border:1px solid var(--border); }
+.demo-context-brand { flex:0 0 auto; font-size:var(--type-compact-size); }
+@media(max-width:650px){
+  .demo-context-shell { flex-wrap:wrap; gap:8px; }
+  .demo-context-shell > .ui-workspace-context { flex-basis:100%; }
+}

@@ -20,6 +20,16 @@ describe("Workspace primitives", () => {
     expect(nav.querySelectorAll("ol li")).toHaveLength(2);
     expect(screen.getByRole("link",{name:"Мастерская"})).toHaveAttribute("href","/");
   });
+  it("preserves both ancestor links when the caller promotes document context",()=>{
+    const breadcrumbs=[{id:"library",label:"Библиотека",href:"/#catalog"},{id:"workspace",label:"Рабочие поверхности",href:"/#workspace"}];
+    const view=render(<WorkspaceContextHeader breadcrumbs={breadcrumbs} title="Документ" showTitle={false}/>);
+    const first=screen.getByRole("link",{name:"Библиотека"}),second=screen.getByRole("link",{name:"Рабочие поверхности"});
+    expect(first).toHaveAttribute("href","/#catalog");expect(second).toHaveAttribute("href","/#workspace");
+    view.rerender(<WorkspaceContextHeader breadcrumbs={breadcrumbs} title="Документ" showTitle/>);
+    expect(screen.getByRole("link",{name:"Библиотека"})).toBe(first);
+    expect(screen.getByRole("link",{name:"Рабочие поверхности"})).toBe(second);
+    expect(screen.getByText("Документ")).toBeVisible();
+  });
   it("includes the contextual source action without changing real breadcrumbs",()=>{
     const onOpen=vi.fn();
     render(<WorkspaceContextHeader breadcrumbs={[{id:"library",label:"Библиотека",href:"/#catalog"}]}
