@@ -3,7 +3,7 @@ import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
 import {describe,it,expect} from "vitest";
 import {render,screen} from "@testing-library/react";
-import {ActionLink,GitHubIcon} from "../src";
+import {ActionLink,GitHubIcon,LinkChip} from "../src";
 
 describe("Shared destination links and the independent GitHub glyph",()=>{
  it("keeps genuine anchor semantics and author relation when opening a new tab",()=>{
@@ -15,6 +15,17 @@ describe("Shared destination links and the independent GitHub glyph",()=>{
   const styles=readFileSync(resolve(import.meta.dirname,"../src/tokens.css"),"utf8");
   expect(styles).toContain(".ui-feedback-source):focus-visible");
   expect(styles).toContain("outline:2px solid var(--accent)");
+ });
+ it("uses the same target-derived marker for prose, utility and source links",()=>{
+  render(<><ActionLink variant="prose" href="/reference/navigation.md" target="_blank">Правила навигации</ActionLink><ActionLink href="/internal">Раздел</ActionLink><LinkChip url="https://example.com" label="Источник"/></>);
+  const prose=screen.getByRole("link",{name:"Правила навигации"});
+  expect(prose).not.toHaveClass("ui-size");
+  expect(prose.querySelector(".ui-link-tail")).toHaveTextContent("навигации");
+  expect(prose.querySelector(".ui-link-tail .ui-new-tab-marker")).toHaveAttribute("aria-hidden","true");
+  expect(screen.getByRole("link",{name:"Раздел"}).querySelector(".ui-new-tab-marker")).toBeNull();
+  const source=screen.getByRole("link",{name:/Источник/});
+  expect(source).toHaveClass("ui-action-link","ui-feedback-source");
+  expect(source.querySelectorAll(".ui-new-tab-marker")).toHaveLength(1);
  });
  it("keeps the author link visible on compact screens instead of hiding the personal homepage",()=>{
   const css=readFileSync(resolve(import.meta.dirname,"../src/showcase/showcase.css"),"utf8");
