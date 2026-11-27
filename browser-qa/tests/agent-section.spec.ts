@@ -6,7 +6,7 @@ for (const width of [320,390,1024,1440]) for (const theme of ["light","dark"] as
   await page.addInitScript(mode=>localStorage.setItem("vanya_theme",mode),theme);
   await page.goto("/#agents");
   await page.evaluate(async()=>{await document.fonts.ready});
-  const section=page.getByRole("region",{name:"Дизайн-система для агентов"});
+  const section=page.getByRole("region",{name:"Агентам",exact:true});
   await expect(section).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("data-theme",theme);
   await expect(page.locator('.showcase-nav a[aria-current="location"]')).toHaveText("Агентам");
@@ -25,7 +25,7 @@ test("agent menu navigation, clipboard and document links",async({page,context})
  const menu=page.getByRole("navigation",{name:"Навигация"});
  await menu.getByRole("link",{name:"Агентам",exact:true}).click();
  await expect(page).toHaveURL(/#agents$/);
- const section=page.getByRole("region",{name:"Дизайн-система для агентов"});
+ const section=page.getByRole("region",{name:"Агентам",exact:true});
  const prompt=await section.locator("pre").innerText();
  const copy=section.getByRole("button",{name:"Скопировать промпт"});
  await copy.focus();await copy.press("Enter");
