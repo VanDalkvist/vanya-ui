@@ -111,7 +111,7 @@ test("01b falsification: a right-side blocker is detected by the SAME hit-test o
 
 test("02 native current-section navigation survives scroll and history",async({page},info)=>{
   await page.goto("/");
-  await expect(sectionLink(page,"Композиция")).toHaveAttribute("aria-current","location");
+  await expect(sectionLink(page,"Обзор")).toHaveAttribute("aria-current","location");
   await sectionLink(page,"Айдентика").click();
   await expect(page).toHaveURL(/#identity$/);
   await expect(sectionLink(page,"Айдентика")).toHaveAttribute("aria-current","location");
