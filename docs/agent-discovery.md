@@ -13,6 +13,12 @@ The site is intentionally **public**. These files must never include secrets, pr
 7. **Encoding:** `public/_headers` ensures text/markdown and text/plain responses declare UTF-8, including Cyrillic. Test the rendered characters, not only the file's presence.
 8. **Releases:** Cloudflare Workers Builds deploys main only after tests, typecheck and Vite + HTML prerender succeed.
 
+## Documentation publication contract
+
+The authored index is `llms.txt`. The explicit `publishedDocuments` map in `scripts/markdown-publication.mjs` owns source-to-public routes and the corpus allowlist. `scripts/sync.ts` generates standalone public Markdown, copies the index and aggregates the actual public document bodies and generated API/token/license references into `public/llms-full.txt`. Add new public source only after publication-boundary review; update the index and sitemap when applicable. Do not author a second rules summary in the generator. A local pinned source tree governs executable use; site documents follow their deployed build.
+
+The existing `check-llm-publication.mjs` validates the same route map, missing/stale source and public files, direct local skill references and heading fragments, aggregate body equality, discovery links, sitemap and actual exports. Run `node --test scripts/markdown-publication.test.mjs scripts/check-llm-publication.test.mjs`; `bun run build` validates the real generated output. Static link checks cannot prove an agent actually followed an instruction. Use separate trace-based trigger/required-read/outcome evals for that behavior. The optional full corpus is a local publication choice, beyond the base [llms.txt proposal](https://llmstxt.org/).
+
 ## Typography and writing references
 
 - Anchors `/#typography` and `/#writing` are pre-rendered with the longread.

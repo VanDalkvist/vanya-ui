@@ -8,6 +8,8 @@ Read DESIGN.md, actual exports in src/index.ts and applicable pattern documents.
 
 ## 2. Prepare a reusable contribution
 
+Before substantive visual or behavior edits, read [Regression Gate](regression-gate.md) and record the baseline identity, protected journeys and intended differences. Capture actual baseline evidence before editing; record unavailable evidence as NOT_VERIFIED. Use the skill's applicable reading routes before making design decisions.
+
 For components: keep a focused API, portable inputs/outputs, existing visual tokens and shared primitives, accessible names, applicable states and keyboard behavior. Add representative synthetic examples to the existing showcase when useful. Preserve public exports and defaults unless a breaking change is separately approved.
 
 For patterns and rules: describe applicability, concrete constraints, exceptions and a representative example. Update the canonical reference and existing publication mapping if needed. A new rule should solve a demonstrated recurring problem or prevent a concrete defect; prefer clarifying existing canon.

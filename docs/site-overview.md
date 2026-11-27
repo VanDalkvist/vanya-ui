@@ -4,6 +4,9 @@
 
 ## Агентам и LLM
 
+- [Канон дизайна](https://ui.vanya-arc.dev/reference/design.md) — канонические правила по ролям.
+- [Читающие инспекторы](https://ui.vanya-arc.dev/reference/reading-inspectors.md) — композиция, прокрутка и источники.
+
 [Agent Mode](https://ui.vanya-arc.dev/agents/) показывает харнесс, два сценария подключения и границы проверки. [Quickstart](https://ui.vanya-arc.dev/reference/design-harness-quickstart.md) содержит команды. Для исполнения требуется локальная копия библиотеки.
 
 - [Стабильная геометрия и композиция](https://ui.vanya-arc.dev/reference/composition.md) — измеримые правила для динамических данных.

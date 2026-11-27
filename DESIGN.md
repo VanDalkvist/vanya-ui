@@ -1,5 +1,37 @@
 # Vanya Arc / UI
 
+## Contents
+
+- [Visual authority](#visual-authority)
+- [Source of truth](#source-of-truth)
+- [Typography — required](#typography--required)
+- [First-screen meaning — required](#first-screen-meaning--required)
+- [Text and editorial — required](#text-and-editorial--required)
+- [Keyboard accessibility — required; optional accelerators](#keyboard-accessibility--required-optional-accelerators)
+- [Browser navigation — required](#browser-navigation--required)
+- [Mixed-license scopes — required](#mixed-license-scopes--required)
+- [Licensing and third-party rights — required](#licensing-and-third-party-rights--required)
+- [Sources and citations — mandatory](#sources-and-citations--mandatory)
+- [Public repository and website — mandatory safety boundary](#public-repository-and-website--mandatory-safety-boundary)
+- [Identity — required](#identity--required)
+- [Editorial voice and first screen](#editorial-voice-and-first-screen)
+- [One longread and agent-readable HTML](#one-longread-and-agent-readable-html)
+- [Workspace composition](#workspace-composition)
+- [Typography and hierarchy](#typography-and-hierarchy)
+- [Composition recipes](#composition-recipes)
+- [Inline size grid](#inline-size-grid)
+- [Wave and event composition](#wave-and-event-composition)
+- [Interaction](#interaction)
+- [Modes](#modes)
+- [Verification limits](#verification-limits)
+- [Media catalog primitives](#media-catalog-primitives)
+- [Loading states and skeletons — required](#loading-states-and-skeletons--required)
+- [Compact, sticky filter docks](#compact-sticky-filter-docks)
+- [Primary design references](#primary-design-references)
+- [Quiet — visual language of controls](#quiet--visual-language-of-controls)
+- [Interaction feedback contract](#interaction-feedback-contract)
+- [Press and result feedback — mandatory](#press-and-result-feedback--mandatory)
+
 ## Visual authority
 
 The light theme of Vanya's Arc Wave / Синусоида is the reference. The transferable character is open space, quiet peripheral controls, clear type hierarchy and details revealed on request — not a mandatory wave graphic or a checklist of decorative prohibitions.
@@ -10,7 +42,7 @@ The light theme of Vanya's Arc Wave / Синусоида is the reference. The t
 - `src/components`: actual reusable primitives, exported through `src/index.ts`.
 - `@vanya/brand`: the [separate canonical brand repository](https://github.com/VanDalkvist/vanya-arc-brand) supplies the mark, React logo components, brand colors and assets; UI re-exports them via `src/index.ts`.
 - `src/showcase`: working composition and live examples; both `/` and legacy `/showcase.html` mount the same React entrypoint; the canonical longread is `/`.
-- `llms.txt`, `public/llms.txt`: generated CSS declarations and public component names (`bun run sync`), not a separate palette or a claim to infer all component signatures.
+- `llms.txt`: curated discovery index. `bun run sync` produces the public copies, complete allowlisted document corpus, generated CSS declarations and actual public export index. The publication map lives in `scripts/markdown-publication.mjs`.
 
 ## Typography — required
 
@@ -70,7 +102,7 @@ Prefer direct explanations of what the person can **do**, not abstract product p
 
 The public UI reference is one document (`/`) with an accessible table of contents and stable fragment URLs: `/#composition`, `/#identity`, `/#principles`, `/#browser-navigation`, `/#catalog`, `/#workspace`, `/#setup`. The former /guidelines/navigation/ is an explicit redirect. The app-level rule for separate page URLs remains mandatory; sections of one document naturally share a base URL.
 
-Public HTML is pre-rendered at build time and hydrated by React. The curated `llms.txt` links to public Markdown source documents, while `llms-full.txt` and registry are generated from actual component files. Never generate or publish private connected-source content.
+Public HTML is pre-rendered at build time and hydrated by React. The curated `llms.txt` links to public Markdown source documents, while `llms-full.txt` aggregates the mapped canonical documents and generated token/export references; the registry derives from actual component files. Never generate or publish private connected-source content.
 
 ## Workspace composition
 

@@ -13,3 +13,10 @@ dist
 
 browser-qa/node_modules/
 browser-qa/artifacts/
+# Generated documentation; bun run sync owns all copies.
+/llms-full.txt
+/public/llms.txt
+/public/llms-full.txt
+/public/index.md
+/public/reference/
+/public/LICENSE.txt

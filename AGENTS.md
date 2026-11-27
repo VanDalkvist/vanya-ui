@@ -1,5 +1,9 @@
 # Agent entrypoint — Vanya Arc / UI
 
+## Active development policy
+
+For approved library refactoring, remove obsolete public names, duplicate implementations and compatibility-only branches as part of the same change. Migrate in-repository callsites and current docs/tests. Prefer a coherent current architecture; preserve actual user outcomes and verification. SemVer applies at production checkpoints. Other consumer repositories and their immutable pins are outside the library-only refactor unless explicitly included.
+
 **For any UI/visual feature in this or another project:** read [the canonical portable skill](skills/vanya-ui/SKILL.md) first, then inspect actual exports in `src/index.ts` and patterns in `DESIGN.md`.
 
 CLI: `vui` when installed. Run `vui --help`, `vui <command> --help` or `vui --version`. With a source folder or an older package pin, use the direct Node entrypoint below (Node.js 20+, no Git or GitHub):

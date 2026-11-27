@@ -2,6 +2,26 @@
 
 A reusable UI assembly guide for applications that users revisit and operate, rather than promotional landing pages. These are composition principles on top of existing Vanya UI tokens and primitives, **not** a new visual theme.
 
+## Contents
+
+- [1. Put the job before the introduction](#1-put-the-job-before-the-introduction)
+- [2. Separate navigation from filtering](#2-separate-navigation-from-filtering)
+- [3. Sticky elements must earn their pixels](#3-sticky-elements-must-earn-their-pixels)
+- [4. Keep actions next to the thing they affect](#4-keep-actions-next-to-the-thing-they-affect)
+- [5. Maintain one source of visual truth](#5-maintain-one-source-of-visual-truth)
+- [Divider ownership and visual grouping](#divider-ownership-and-visual-grouping)
+- [Persistent context without competing headers](#persistent-context-without-competing-headers)
+- [Interaction feedback across workspaces](#interaction-feedback-across-workspaces)
+- [Acceptance checklist](#acceptance-checklist)
+- [6. Navigation is a URL, not a button pretending to be one](#6-navigation-is-a-url-not-a-button-pretending-to-be-one)
+- [External author and source utilities](#external-author-and-source-utilities)
+- [7. Separate utility/admin navigation from daily tasks](#7-separate-utilityadmin-navigation-from-daily-tasks)
+- [8. Media catalogues and searchable collections](#8-media-catalogues-and-searchable-collections)
+- [9. Loading the workspace without blanking it out](#9-loading-the-workspace-without-blanking-it-out)
+- [10. Single-row sticky catalogue filters](#10-single-row-sticky-catalogue-filters)
+- [11. Stable geometry during ordinary workspace interaction](#11-stable-geometry-during-ordinary-workspace-interaction)
+- [Quiet document editing and contextual commands](#quiet-document-editing-and-contextual-commands)
+
 ## 1. Put the job before the introduction
 
 Use a compact **workspace header**: 1 short title and, optionally, a small contextual count. The first actionable result or form control should begin near the top of the page.

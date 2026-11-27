@@ -7,17 +7,9 @@ import {readFileSync,existsSync} from 'node:fs';
 import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {renderExportIndex} from './public-export-index.mjs';
-import {publicMarkdown} from './markdown-publication.mjs';
+import {publicMarkdown,publishedDocuments,corpusPaths,renderFullReference,validateSkillLinks} from './markdown-publication.mjs';
 const base=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const required=[
- 'llms.txt','llms-full.txt','index.md',
- 'reference/identity.md','reference/agent-skill.md','reference/design-harness-quickstart.md','reference/ui-pipeline.md','reference/list-detail.md',
- 'reference/versioning.md',
- 'reference/interaction-states.md',
- 'reference/action-feedback.md','reference/regression-gate.md',
- 'reference/brand-artwork-license.txt',
- 'reference/components.md','reference/workspaces.md','reference/installation.md','reference/composition.md','reference/publication-safety.md','reference/contributing.md','reference/tokens.md','reference/typography.md'
-];
+const required=['llms.txt','llms-full.txt',...corpusPaths];
 const site='https://ui.vanya-arc.dev';
 const read=(root,path)=>readFileSync(join(root,'public',path),'utf8');
 export function validatePublication(root=base){
@@ -38,40 +30,32 @@ export function validatePublication(root=base){
  const publishedBrand=join(root,'public','reference','brand-artwork-license.txt');
  if(existsSync(brandTerms)&&existsSync(publishedBrand)&&readFileSync(brandTerms,'utf8')!==readFileSync(publishedBrand,'utf8'))
   errors.push('Published brand artwork license differs from pinned package');
- const canonical=[
-  ['reference/identity.md','docs/identity/brand.md'],
-  ['reference/agent-skill.md','skills/vanya-ui/SKILL.md'],
-  ['reference/ui-pipeline.md','docs/patterns/ui-feature-pipeline.md'],
-  ['reference/design-harness-quickstart.md','docs/patterns/design-harness-quickstart.md'],
-  ['reference/list-detail.md','docs/patterns/list-detail-composition.md'],
-  ['reference/versioning.md','docs/versioning.md'],
-  ['reference/interaction-states.md','docs/patterns/interaction-states.md'],
-  ['reference/action-feedback.md','docs/patterns/action-feedback.md'],
-  ['reference/composition.md','docs/composition/working-surfaces.md'],
-  ['reference/typography.md','docs/patterns/typography.md'],
-  ['reference/publication-safety.md','docs/patterns/publication-safety.md'],
-  ['reference/contributing.md','docs/patterns/contributing.md'],
-  ['reference/regression-gate.md','docs/patterns/regression-gate.md']
- ];
- for(const [published,source] of canonical){
-  const pub=join(root,'public',published),src=join(root,source);
-  if(existsSync(pub)&&existsSync(src)&&readFileSync(pub,'utf8')!==publicMarkdown(source,readFileSync(src,'utf8')))
-   errors.push('Generated reference is stale or has broken links: '+published+' differs from '+source);
- }
- for(const [path] of canonical){
-  const published=join(root,'public',path);
-  if(existsSync(published)){
-   const md=readFileSync(published,'utf8');
-   if(/\]\(\.\.?\//.test(md))errors.push('Unresolved relative Markdown link in /'+path);
-   if(/<ui-folder>|<project-folder>/.test(md))errors.push('Unsafe angle-bracket command placeholder in /'+path);
+ for(const [source,route] of Object.entries(publishedDocuments)){
+  const pub=join(root,'public',route),src=join(root,source);
+  if(!existsSync(src)){errors.push('Missing canonical source: '+source);continue;}
+  if(existsSync(pub)){
+   const md=readFileSync(pub,'utf8');
+   if(md!==publicMarkdown(source,readFileSync(src,'utf8')))errors.push('Generated reference is stale or has broken links: '+route+' differs from '+source);
+   if(/\]\(\.\.?\//.test(md))errors.push('Unresolved relative Markdown link in /'+route);
+   if(/<ui-folder>|<project-folder>/.test(md))errors.push('Unsafe angle-bracket command placeholder in /'+route);
   }
  }
+ const skillPath=join(root,'skills/vanya-ui/SKILL.md');
+ if(existsSync(skillPath))errors.push(...validateSkillLinks(readFileSync(skillPath,'utf8'),source=>{
+  const target=join(root,source);
+  return existsSync(target)?readFileSync(target,'utf8'):undefined;
+ }));
+ try{
+  const version=JSON.parse(readFileSync(join(root,'package.json'),'utf8')).version;
+  const expected=renderFullReference(rootLlms,version,route=>read(root,route));
+  if(full!==expected)errors.push('Generated llms-full.txt is stale or incomplete');
+ }catch(error){errors.push('Cannot validate extended reference: '+error.message)}
  const docs=[['llms.txt',llms],['index.md',overview],['llms-full.txt',full]];
  for(const [name,body] of docs){
   if(/\\n(?:#{1,6}\s|[-*]\s)/.test(body))errors.push(name+' contains literal escaped newline before Markdown heading/list');
   if(body.length<200)errors.push(name+' unexpectedly short');
  }
- const requiredLinks=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/regression-gate.md'];
+ const requiredLinks=['reference/design.md','reference/reading-inspectors.md','reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/regression-gate.md'];
  for(const path of requiredLinks){
   const url=site+'/'+path;
   if(!llms.includes(url))errors.push('Missing primary llms.txt link: '+url);
@@ -86,7 +70,7 @@ export function validatePublication(root=base){
   const url=site+'/'+path;
   if(!urls.has(url))errors.push('Missing sitemap URL: '+url);
  }
- for(const [name,text] of docs){
+ for(const [name,text] of [...docs,...corpusPaths.filter(p=>p.endsWith('.md')&&existsSync(join(root,'public',p))).map(p=>[p,read(root,p)])]){
   for(const match of text.matchAll(/\]\((https:\/\/ui\.vanya-arc\.dev\/[^)]+)\)/g)){
    const url=match[1].split('#')[0];
    if(!url.startsWith(site+'/'))continue;
@@ -104,7 +88,7 @@ export function validatePublication(root=base){
   const expected=renderExportIndex(readFileSync(barrel,'utf8'));
   if(!full.includes(expected)||!read(root,'reference/components.md').includes(expected))errors.push('Public export index differs from source barrel');
  }catch(error){errors.push('Cannot validate public export index: '+error.message)}
- if(!full.includes('## Agent instructions'))errors.push('Extended reference lacks agent instruction entrypoints');
+ if(!/^# [^\n]+\n\n> [^\n]+/.test(llms))errors.push('llms.txt must start with a title and summary');
  return {ok:errors.length===0,errors,warnings,checked:required.length};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){

@@ -22,7 +22,7 @@ The CLI reads files, not git diffs. `inspect` returns source/library files to re
 ## Agent lifecycle
 
 1. Read local canonical source, exports and pattern docs.
-2. Define user action, screen composition, scroll owners, URL/breadcrumbs and UI states.
+2. Define user action, screen composition, scroll owners, URL/breadcrumbs and UI states. Read the skill's applicable sources and [Regression Gate](regression-gate.md) before substantive visual/behavior edits; capture baseline evidence before implementation.
    Use [role-specific hover/focus/pressed/selected contract](interaction-states.md) for every clickable icon, text link, menu row, tab and disabled action, rather than adding local one-off CSS.
 3. Implement one coherent feature using real Vanya UI primitives/tokens, adapting to the project's stack.
 4. Run local `check` and `verify`, fix failures, and rerun after the final edit.

@@ -1,37 +1,24 @@
 ---
 name: vanya-ui
-description: Create, redesign, migrate, implement and review products, screens, components and visual artifacts using the Vanya Arc design system. Use for UI tasks in Vanya UI projects or when Vanya UI is requested, including new apps, layout, typography, navigation, interaction, accessibility, design audits and explicit contributions of reusable components or rules to Vanya UI. Skip backend-only, CLI-only and infrastructure tasks.
-compatibility: Requires a local Vanya UI source tree, a target project folder and Node.js 20+. Browser verification requires the target toolchain and browser access. Package installation may require network access. Contributor verification requires the library's existing development toolchain.
+description: Design, implement, migrate or audit UI with Vanya Arc / UI. Use for UI changes in adopting projects or explicit design-system contributions. Skip backend-only and infrastructure tasks.
+compatibility: Requires the full local Vanya UI source tree, a target project folder and Node.js 20+. Executable verification needs the target toolchain and browser; installation may require network.
 ---
 
 # Vanya UI
 
-Deliver the requested visual change, using the actual installed component API and canonical design rules. Keep unrelated surfaces and pinned dependencies unchanged unless the task explicitly covers them.
-
-## Primary design references
-
-Linear and Apple HIG are the primary product/visual design references; shadcn/ui is the primary design-system engineering reference. Read the [reference canon](../../docs/research/design-reference-canon-2026-11-27.md) for source routing and context-sensitive selection/composition principles before substantive UI design or review. Consult the relevant original documentation, record the local decision, and retain Vanya UI's own identity and accessible behavior. Treat unobserved visual claims as unverified.
+Follow the applicable workflow and produce evidence of the requested result. Explicit user scope and project policy govern changes. Keep unrelated surfaces and pinned dependencies unchanged.
 
 ## 1. Locate and scope
 
-Find the full local Vanya UI source tree through the project pointer or user-provided path. It must contain this skill, DESIGN.md, src, docs and scripts. A copied skill alone is insufficient; locate the source tree or report BLOCKED. Do not invent unavailable API or instructions. No fixed paths, git checkout, CI or hosting provider are required.
+Locate the full local library tree (this skill, DESIGN.md, src, docs, scripts) and target folder using the project pointer or supplied paths. If any required file is unavailable, report BLOCKED for that step. A copied skill requires the matching source tree. Online references are discovery aids; resolve exact component behavior against the installed immutable pin.
 
-If the task explicitly brings reusable code, rules or tests into Vanya UI, use the [contributor workflow](../../docs/patterns/contributing.md) within this same harness. Read it and follow the contributor path instead of consumer adoption. Otherwise keep consumer work local. Both paths work with an ordinary source directory; use existing project scripts for verification.
+Use the installed `vui --help`, `vui <command> --help` and `vui --version` when supported, or the portable local Node script below.
 
-CLI discovery: `vui --help`, `vui <command> --help`, `vui --version`. Use the executable from the selected immutable package revision, e.g. `./node_modules/.bin/vui`; check that it supports the requested operation. The direct `node "$UI/scripts/ui-pipeline.mjs"` form below works with a matching ordinary source folder and is the portable fallback. For contributors, read the contributor guide and run `vui contribute --project <library> --dry-run` then execute the real checks; follow the contributor guide through submission and stop there.
+For an explicit library contribution, **read [contributing.md](../../docs/patterns/contributing.md) first** and follow its discovery, planning and verification path. Apply the applicable reading and regression steps in section 2 before editing. Use contributor checks instead of consumer adoption and receipt commands.
 
-Choose one scope for consumer work:
+For consumer work, **read [UI feature pipeline](../../docs/patterns/ui-feature-pipeline.md)** for scope, setup and receipt policy. Select new (new app), feature (focused change/audit, default), screen (named flow) or migration (explicit adoption/upgrade). Identify user action, affected routes/states and preserved boundaries. Audit-only tasks report findings; implement fixes only with authorization.
 
-| Scope | Use when |
-| --- | --- |
-| new | Create a new product or app from scratch. |
-| feature | Make one focused UI change or audit a component. Default. |
-| screen | Create, redesign or audit a named screen/flow. |
-| migration | Explicitly adopt or upgrade Vanya UI across named existing surfaces. |
-
-Identify the primary user action, affected routes/components/states, requested result and preserved boundaries. For an audit-only request, inspect and report; implement fixes only if requested. Backend-only work skips this skill.
-
-Run the following commands with actual absolute paths; for monorepos specify the target package with `--package`. Set MODE=react for React apps (including an empty new repo), MODE=visual for non-React visual artifacts and for the library's own showcase; use auto for established targets. Create the empty target directory if necessary. Keep receipts in a task-local ignored directory.
+Run with actual paths; use the same `--package` for monorepos, `--mode react` for intended React apps, `visual` for non-React artifacts or library showcase, and `auto` for established targets.
 
 ~~~sh
 UI="/actual/path/to/vanya-ui"
@@ -41,45 +28,60 @@ node "$UI/scripts/ui-pipeline.mjs" inspect --project "$APP" --mode "$MODE"
 node "$UI/scripts/ui-pipeline.mjs" plan --project "$APP" --mode "$MODE" --scope feature --task "Requested result" --target "/affected-route" > ui-receipt.json
 ~~~
 
-For new products follow the [harness quickstart](../../docs/patterns/design-harness-quickstart.md), use `--scope new` and follow [new product setup](../../docs/patterns/ui-feature-pipeline.md#new-product-setup) before implementation. For existing projects inspect declared pin, installed version, real exports and CSS wiring. Follow [versioning](../../docs/versioning.md); upgrade only within explicit scope. Use bootstrap to create missing discovery pointers; it preserves existing instructions and installs nothing. After installing a verified harness-capable package and identifying all authored UI source directories, run `node "$UI/scripts/ui-pipeline.mjs" adopt --project "$APP" --sources src --css-output dist` (adjust comma-separated directories, compiled artifact path and --package). The command writes only the selected package's canonical lint script, config and managed AGENTS.md block; it refuses conflicting existing setup. Existing products retain their pinned dependency until explicit upgrade is approved.
+Adjust scope/task/target to the request. Create the empty target folder for new products. Keep receipts task-local and ignored. For new apps or approved adoption/migration, **read [quickstart](../../docs/patterns/design-harness-quickstart.md), [new product setup](../../docs/patterns/ui-feature-pipeline.md#new-product-setup) when new, and [versioning](../../docs/versioning.md)** before installing, bootstrapping or adopting. Follow the documented commands and verify the actual pin, lockfile, exports and CSS wiring. A feature in an already configured project uses its existing setup.
 
-## 2. Select the applicable canon
+## 2. Read required sources before implementation
 
-Read [DESIGN.md](../../DESIGN.md), the receipt's applicable canonical references and the relevant installed component source/props. The [routing table](../../docs/patterns/ui-feature-pipeline.md#reference-routing) maps task characteristics to detailed patterns. Read only relevant sections. Use the receipt's stable UI-01–UI-14 rows to plan concrete checks before editing. Mark genuinely unrelated rows N/A with a task-specific reason; leave applicable checks pending. Core scope, components/tokens, visual review and privacy always apply; new/migration additionally require composition, typography, interaction and execution. New apps also require UI-12 source evidence for identity applicability (official identity or independent/unbranded with source/rights observation). Executable projects require UI-13 even for focused changes.
+**Always read** [DESIGN.md](../../DESIGN.md) (applicable sections and mandatory boundaries), [publication safety](../../docs/patterns/publication-safety.md), actual pinned [exports](../../src/index.ts), relevant component implementations and [tokens](../../src/tokens.css). For substantive design/review, **read [reference canon](../../docs/research/design-reference-canon-2026-11-27.md)** before making design decisions; consult relevant primary references. Record exact source/version used.
 
-For a new official Vanya Arc service or a branding task, read [brand identity integration](../../docs/identity/brand.md) and its pinned brand procedure. The wave is the generative principle; every service has a distinct purpose-derived mark and matching favicon. Parent/UI retain the approved V→A. Inspect existing identity, propose directions for owner approval, save approved product assets outside the public library and use the installed `productMark` slot only if the pinned version supports it. Until approval use `showMark={false}` for an explicitly temporary text-only lockup and report UI-12 pending; preserve other services. Check the actual logo and favicon in both themes, monochrome and at 16/24/32 px. Respect package pin and licensing.
+For each applicable condition below, open the named file and read the relevant sections before editing. Multiple conditions require all corresponding readings. These links route to the owners of the rules.
+
+| When the task touches | Required reading |
+| --- | --- |
+| Layout, headers, dividers, cards, responsive geometry | [working surfaces](../../docs/composition/working-surfaces.md) |
+| List/detail, scroll, breadcrumbs or inspector | [list-detail](../../docs/patterns/list-detail-composition.md), [reading inspectors](../../docs/composition/reading-inspectors.md) |
+| Links, routes and browser history | [browser navigation](../../docs/patterns/browser-navigation.md) |
+| Controls, focus, selections, metadata, disclosure | [interaction states](../../docs/patterns/interaction-states.md), DESIGN Interaction and Inline size grid |
+| Actions, pending/success/error and keyboard activation | [action feedback](../../docs/patterns/action-feedback.md) |
+| Text roles, fonts, zoom | [typography](../../docs/patterns/typography.md) |
+| Product copy and editorial content | [writing](../../docs/patterns/writing-and-editorial.md) |
+| Loading, empty/error states and dynamic layout | [loading states](../../docs/patterns/loading-states.md), [working surfaces](../../docs/composition/working-surfaces.md#11-stable-geometry-during-ordinary-workspace-interaction) |
+| Keyboard accelerators | [shortcuts](../../docs/patterns/keyboard-shortcuts.md) |
+| New official service or branding | [brand integration](../../docs/identity/brand.md) and its pinned brand procedure |
+| External assets, claims, attribution or licensing | [sources](../../docs/patterns/sources-and-attribution.md), [LICENSING.md](../../LICENSING.md) |
+| Upgrade or incompatible contract | [versioning](../../docs/versioning.md), [CHANGELOG.md](../../CHANGELOG.md) |
+| New/existing consumer configuration, execution or CI gates | [quickstart](../../docs/patterns/design-harness-quickstart.md) |
+| Library contribution execution | [contributing.md](../../docs/patterns/contributing.md), [browser-qa](../../browser-qa/README.md) |
+
+For branding follow the actual approval procedure; use temporary text-only identity only as documented and record pending UI-12. For new/screen/migration cover the named surface and relevant shared boundaries; focused features read only applicable sections.
+
+**Before any substantive layout or behavior edit, read [Regression Gate](../../docs/patterns/regression-gate.md).** Record the exact baseline identity, affected and neighboring journeys, intended differences and actual baseline evidence before edits. For a genuinely new surface record that no prior surface exists and identify any shared surroundings to protect. For an existing surface with unavailable evidence, record the blocker and retain NOT_VERIFIED.
+
+Use the UI-01–UI-14 receipt and [reference routing](../../docs/patterns/ui-feature-pipeline.md#reference-routing) to select concrete checks; record required readings and source decisions in task-local notes. Keep applicable checks pending. N/A needs a task-specific reason; follow the pipeline's mandatory scope rules including UI-12 for new products and UI-13 for executable projects.
 
 ## 3. Implement
 
-Choose components by task and semantic role. Read the pinned exports and props, then the relevant rules:
-- Sizes, tokens, metadata, disclosure and actions: [DESIGN.md](../../DESIGN.md#inline-size-grid), [interaction](../../DESIGN.md#interaction), [interaction states](../../docs/patterns/interaction-states.md).
-- Headers, list/detail, cards, responsive scroll ownership and layout: [working surfaces](../../docs/composition/working-surfaces.md), especially [header role boundaries](../../docs/composition/working-surfaces.md#header-role-boundaries).
-- Explicit category identity and visualization inputs: [composition recipes](../../DESIGN.md#composition-recipes) and actual radar props.
-- Version-specific migrations: [CHANGELOG.md](../../CHANGELOG.md) and [version policy](../../docs/versioning.md).
-
-Build the requested surface with real shared components and tokens. Keep product state, domain behavior and routes in the product. Preserve unrelated geometry/scroll/focus and avoid invented APIs, unnecessary local lookalikes or mass redesign. For a missing reusable primitive, propose or implement a focused library change within the task's authorization, with example and tests.
+Apply the read canonical rules and actual pinned APIs. Build the requested surface with shared components and tokens. Keep product state, category identity, behavior and routes in the product. Preserve unrelated geometry, scroll, focus and navigation. For a missing reusable primitive, use the contribution path only within explicit authorization. Do not invent API, local lookalikes or unrelated redesign.
 
 ## 4. Verify and observe
 
-For substantive layout or behavior changes use the [Regression Gate](../../docs/patterns/regression-gate.md): baseline affected and neighboring journeys, compare actual candidate, retain interaction and screenshot evidence, and review intentional differences. Missing browser proof remains NOT_VERIFIED.
-
-After the final code edit run the local machine checks. Use the same project, mode and package selection as the receipt.
+For library contributions follow the actual contributor checks and browser guide. For consumers run the local commands after the final edit, with the same project/mode/package as the receipt.
 
 ~~~sh
 node "$UI/scripts/ui-pipeline.mjs" check --project "$APP" --mode "$MODE"
 node "$UI/scripts/ui-pipeline.mjs" verify --project "$APP" --mode "$MODE" --json > ui-verification.json
 ~~~
 
-Check real execution results and fix failures. For React targets the literal canonical token import is mandatory; inspect the actual global CSS entry and compiled output to confirm wiring. For React, canonical lint:design and vanya-ui.config.json are required. The CLI verify runs the installed package's frozen design lint before build, checks actual compiled CSS before browser tests and binds its execution receipt to current source/policy. A failed check prevents later commands. Use `node --input-type=module -e "import '@vanya/ui/lint'"` before build and `node --input-type=module -e "import '@vanya/ui/check-built'"` after build in existing CI before deploy; never create automatic GitHub Actions or change hosting implicitly. New projects start strict. For explicitly approved existing-product adoption only, run `node "$UI/scripts/ui-pipeline.mjs" baseline --project "$APP"` (same --package), inspect and commit the resulting product-owned debt file. The command refuses recapture; new or changed findings fail. On changed policy, explicitly run baseline --migrate only after review; it accepts a non-growing subset of prior findings. New products remain strict. Never capture debt just to make a new feature green. Apply canonical constraints and review justified exceptions. The CLI runs existing build/browser scripts on the current machine; install dependencies/browser only through the project's permitted setup. No automatic Actions, deployment or dependency upgrade. The lint toolchain uses isolated npm ci from the installed Vanya UI tool lock. For static artifacts without runnable build, justify UI-13 N/A only when genuinely inapplicable. For the library itself use [browser-qa](../../browser-qa/README.md).
+Read the [quickstart](../../docs/patterns/design-harness-quickstart.md) for the installed lint, compiled CSS, build, browser and approved debt migration contract. Follow the [pipeline](../../docs/patterns/ui-feature-pipeline.md) for execution and receipts. Fix actual failures and rerun. Preserve CI, dependencies and hosting unless explicitly in scope. New projects remain strict; baseline capture for existing debt requires explicit adoption approval and cannot grow silently.
 
-Open the actual result in a browser/renderer. Exercise the requested action and applicable states, check narrow/wide and supported themes, and inspect surrounding regressions. Use the receipt and [reference routing](../../docs/patterns/ui-feature-pipeline.md#reference-routing) for concrete checks; measure relevant computed styles and geometry, verify real fonts/data and keyboard behavior. New/screen/migration review the entire named surface; feature review the changed behavior and adjacent shared boundaries. Do not force master/detail, editor fonts, shortcuts or unrelated states onto a task. Record route, actual dimensions/theme, action and observation; retain screenshots/logs locally when available.
+Open the actual result in a browser/renderer. Exercise the requested action and applicable states; check supported themes and narrow/wide viewports, adjacent regressions, computed geometry/fonts, navigation and keyboard. Compare the earlier baseline with the candidate using the Regression Gate. Record route, dimensions/theme, action and observed outcome; keep artifacts locally. If browser or execution is unavailable, report NOT_VERIFIED or FAIL as applicable.
 
 ## 5. Close with evidence
 
-Complete every receipt row: PASS, FAIL, N/A or NOT_VERIFIED. PASS requires a concrete observation with the prescribed method; browser rows include viewport/theme, command rows include the executed command. Explain exclusions and failures. For UI-13 of executable projects supply the actual `verify --json` output; skipped, planned or failed results cannot satisfy it.
+Complete every receipt row using its prescribed evidence method: PASS, FAIL, N/A or NOT_VERIFIED. PASS requires a concrete observation (actual command/result or browser viewport/theme/outcome). For executable UI-13 supply actual successful `verify --json` output. For a genuinely non-executable artifact justify UI-13 N/A and omit verification argument. Contributor mode uses its separate machine report and visual evidence.
 
 ~~~sh
 node "$UI/scripts/ui-pipeline.mjs" review --receipt ui-receipt.json --verification ui-verification.json
 ~~~
 
-For a genuinely non-executable artifact omit the verification argument and justify UI-13 N/A. For blocked checks report FAIL or NOT_VERIFIED; never fabricate results. The validator checks recorded evidence and machine-result consistency, with visual truth assessed through actual observation. Review the final diff and publication boundary, including relevant built output. Fix applicable failures and repeat affected checks after edits. Report scope, reused components, executed commands, concrete observations, justified exclusions and blockers; if deploying was requested, report live readback separately. READY requires all applicable checks passed, observed rendering and actual user outcome verified. A dry run, build-only pass or structurally complete receipt is insufficient on its own.
+Review final diff and publication boundary, including relevant built output. Fix applicable failures and repeat checks after edits. Report scope, reused components, read sources, executed commands, actual observations, exclusions and blockers. When deployment is requested, record live readback separately. READY requires all applicable evidence and observed user outcome; planned or skipped checks cannot establish acceptance.

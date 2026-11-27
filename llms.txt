@@ -2,7 +2,13 @@
 
 > Public React design system with a single Russian longread, reusable components, real examples and browser-native navigation. Only public information is documented.
 
+Use the installed immutable source tree for implementation. This online index aids discovery; it provides no guarantee of crawler or model adoption.
+
 ## Agent instructions (start here)
+- [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.
+- [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → plan → check → verify → review locally for a scoped new product, feature, screen or migration on any machine, without GitHub, CI, tokens or fixed paths.
+- [Design canon](https://ui.vanya-arc.dev/reference/design.md): Required rules by visual role, typography, interaction and publication scope.
+- [Reading inspectors](https://ui.vanya-arc.dev/reference/reading-inspectors.md): Reader chrome, scroll ownership, provenance and actions.
 - [Contributor workflow](https://ui.vanya-arc.dev/reference/contributing.md): Discover and generalize reusable UI knowledge, verify library behavior and review applicable design criteria.
 - [Product identity procedure](https://ui.vanya-arc.dev/reference/identity.md): Distinct approved wave symbol for each official service; parent/UI retain the original V→A.
 - [Agent mode](https://ui.vanya-arc.dev/agents/): Visual harness, new/existing prompts, CI gates and version evidence.
@@ -10,8 +16,6 @@
 - [Stable geometry and composition](https://ui.vanya-arc.dev/reference/composition.md): Protected elements, changing data and responsive layout.
 - [Regression baseline and candidate](https://ui.vanya-arc.dev/reference/regression-gate.md): Immutable comparison and real interaction evidence.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Keep private data and internal evidence out of public output.
-- [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.
-- [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → plan → check → verify → review locally for a scoped new product, feature, screen or migration on any machine, without GitHub, CI, tokens or fixed paths.
 - [List–detail composition](https://ui.vanya-arc.dev/reference/list-detail.md): Normative layout, scroll owners, navigation and responsive acceptance.
 - [Release/version policy](https://ui.vanya-arc.dev/reference/versioning.md): SemVer, immutable SHA pins, verification and manual Git tags.
 - [Actual component exports](https://github.com/VanDalkvist/vanya-ui/blob/main/src/index.ts): Consult the exact source and installed version for API signatures.
@@ -19,7 +23,6 @@
 ## Overview
 - [Single longread](https://ui.vanya-arc.dev/): Human reference, semantic HTML and interactive demos.
 - [Longread Markdown](https://ui.vanya-arc.dev/index.md): Text without JavaScript.
-- [Identity](https://ui.vanya-arc.dev/reference/identity.md): Umbrella brand, individual wave-derived service marks and favicons, reserved parent/UI V→A, productMark API and approval procedure.
 - [Loading states](https://ui.vanya-arc.dev/reference/loading.md): Skeletons, aria-busy, reduced motion, error and retry, examples.
 - [Typography](https://ui.vanya-arc.dev/reference/typography.md): Manrope UI, JetBrains Mono metadata/code, Spectral Russian/English editorial roles, font loading, tracking, mobile and zoom.
 - [Writing and editorial](https://ui.vanya-arc.dev/reference/writing.md): Local product copy rules and links to original methods (book reference-only; redaktura-skills CC BY 4.0).
@@ -31,7 +34,6 @@
 ## Reference
 - [Components](https://ui.vanya-arc.dev/reference/components.md): Real exported React components and source links.
 - [Tokens](https://ui.vanya-arc.dev/reference/tokens.md): Generated theme tokens.
-- [Composition](https://ui.vanya-arc.dev/reference/composition.md): Reusable interface patterns. Includes single-owner dividers and spacing-first grouping.
 - [Workspace scrolling](https://ui.vanya-arc.dev/reference/workspaces.md): Scroll owners and sticky context.
 - [Installation](https://ui.vanya-arc.dev/reference/installation.md): How to use @vanya/ui.
 - [Sources, quotations and required attribution](https://ui.vanya-arc.dev/reference/sources.md): How to record primary sources, distinguish short quotes from CC-licensed adaptations, and avoid relicensing third-party content.
@@ -43,10 +45,10 @@
 - [UI brand integration compatibility reference](https://ui.vanya-arc.dev/reference/brand.md): pointer to canonical brand repo.
 - [Brand and trademark use](https://github.com/VanDalkvist/vanya-arc-brand/blob/83ade0e4b8bc486c0fbc52df8b04b317d8e40bb9/BRAND.md): How to cite and display the official sign without misrepresenting affiliation.
 - [Vanya UI MIT license](https://ui.vanya-arc.dev/LICENSE.txt): Copyright 2026 Vanya Afanasov.
-- [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Public-source boundary.
 
 ## Source
 - [Public GitHub repository](https://github.com/VanDalkvist/vanya-ui): Source, tests and mixed-license scope (original source code MIT; selected research CC BY 4.0).
-- [Extended machine-readable reference](https://ui.vanya-arc.dev/llms-full.txt): Generated tokens and export index.
 
-This is a navigation aid for agents, not a guarantee that any search engine or model will automatically discover, follow or prioritize these instructions. When working in a local repo, read the pinned/local skill and component sources rather than relying on a search excerpt.
+## Optional
+- [Full documentation corpus](https://ui.vanya-arc.dev/llms-full.txt): All allowlisted public Markdown, generated tokens and actual exports. Fetch only when broad context is needed.
+

@@ -2,6 +2,7 @@
 Purpose: detect loss of previously working UI while refactoring. Applies to Composition and subsequent substantive visual or interaction changes. Existing browser-qa is the single browser runner. Existing machine gates, AP-054/056/057/068/069/076, and independent review stay in force.
 
 ## Before changing a surface
+For a genuinely new surface with no prior implementation, record that baseline comparison is inapplicable to that surface; identify any existing shared surroundings and protect those journeys. Existing surfaces require actual baseline evidence or an explicit verification blocker.
 - Identify exact last successful source SHA, served version, affected and neighboring protected journeys. Capture a baseline from the compiled baseline or verified production. Record viewport, theme, browser, OS/font environment, actual outcome and known defects. Do not retroactively describe an unavailable baseline as captured.
 - Run relevant existing browser tests; protect real user outcomes, not only classes or receipts. A known baseline failure is triaged and documented before candidate work.
 - Name intentional differences before comparing. Keep immutable baseline images and separate candidate artifacts. Local/QA artifacts must not contain private consumer material or secrets. Public synthetic captures may be promoted after inspection per publication policy.
