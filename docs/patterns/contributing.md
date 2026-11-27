@@ -38,3 +38,8 @@ Use the existing contribution template. Include the generic problem, chosen reus
 Optional discovery: `bun scripts/extract-from-repo.ts /explicit/source/directory` lists repeated control styles. Review results locally; the script copies nothing and creates no PRs. Prefer reading actual source and existing exports for a targeted contribution.
 
 Skill routing uses progressive disclosure and explicit trigger cases. See [Agent Skills specification](https://agentskills.io/specification) and [outcome-based skill evals](https://developers.openai.com/blog/eval-skills). Live-model eval runs are separate from CLI regression tests.
+
+
+### Local maintainer acceptance
+
+From an up-to-date checkout with the existing dependencies installed, run `npm run verify:local`. It invokes the canonical contributor pipeline, then the existing consumer smoke and the full source/test TypeScript diagnostic (`npm run typecheck:tests`). It stops at the first failing stage and preserves the native exit code. This diagnostic currently uses the existing `tsconfig.json`; the production typecheck contract remains unchanged while test type errors are triaged. For visual or interactive changes, the separate existing `npm run test:browser` and explicit baseline/candidate procedure remain mandatory as applicable. This local entrypoint installs nothing and publishes nothing.
