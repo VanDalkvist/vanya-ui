@@ -39,6 +39,9 @@ for(const theme of ["light","dark"] as const){
   const utility=page.locator(".showcase-author-link");
   await page.mouse.move(0,0);const rest=await utility.evaluate(e=>getComputedStyle(e).color);
   await utility.hover();await expect.poll(()=>utility.evaluate(e=>getComputedStyle(e).color)).not.toBe(rest);
+  const previous=page.locator(".showcase-nav a").last();
+  await previous.focus();await page.keyboard.press("Tab");
+  await expect(utility).toBeFocused();
   await page.keyboard.press("Tab");await page.keyboard.press("Shift+Tab");
   await expect(utility).toBeFocused();await expect(utility).toHaveCSS("outline-width","2px");
  });
