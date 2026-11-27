@@ -5,7 +5,7 @@ import { VanyaArcLockup } from "../index";
 /** Public, reusable reference for the parent brand and its UI product. */
 export function IdentitySection() {
  return <section id="identity" className="catalog identity-section" aria-labelledby="identity-title">
-  <ChapterHeader id="identity" title="Семейство знаков. Единая пластика волны." description="Vanya Arc — зонтичный бренд. Синусоида задаёт принцип построения айдентики: каждый сервис получает индивидуальный символ, связанный с его назначением. Исходный V→A принадлежит бренду и дизайн-системе UI." index="02"/>
+  <ChapterHeader id="identity" title="Семейство знаков. Единая пластика волны." description="Vanya Arc — зонтичный бренд. Синусоида задаёт принцип построения айдентики: каждый сервис получает индивидуальный символ, связанный с его назначением. Исходный V→A принадлежит бренду и дизайн-системе UI."/>
   <div className="identity-hero" aria-label="Основной логотип дизайн-системы">
     <VanyaArcLockup product="UI" size="lg" />
     <p>Логотип дизайн-системы</p>
