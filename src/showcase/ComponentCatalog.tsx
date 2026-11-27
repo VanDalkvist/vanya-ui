@@ -213,6 +213,7 @@ export function ComponentCatalog() {
       </div>
     </CatalogSection>
     <CatalogSection id="compact-filter-toolbar" title="Компактные фильтры" description="Поиск, переключатель и FilterSelect фильтруют одну коллекцию. Высота контролов — 40 px.">
+      <div className="demo-filter-collection">
       <div className="demo-compact-filter-strip">
         <div className="demo-compact-filter-search"><SearchField density="toolbar" label="Поиск по каталогу" placeholder="Найти" value={toolbarQuery} onValueChange={setToolbarQuery}/></div>
         <SegmentedControl density="toolbar" semantics="filters" aria-label="Чьи фильмы показывать" value={toolbarScope} onChange={setToolbarScope}
@@ -225,6 +226,7 @@ export function ComponentCatalog() {
       </ul>
       {toolbarResults.length===0&&<p role="status" className="ui-type-caption text-ink-soft">Ничего не найдено</p>}
       <p className="ui-type-caption">Данные примера вымышлены. Поиск и фильтры изменяют видимую коллекцию.</p>
+      </div>
     </CatalogSection>
     <CatalogSection id="media-catalogue" title="MediaCard / SearchField / TextField" description="Композиция для фильмотек, книг и других коллекций: настоящие ссылки, поиск, метаданные и формы на общих токенах.">
      <div className="demo-media-catalogue">
