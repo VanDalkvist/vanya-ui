@@ -111,7 +111,7 @@ EnergyRadar uses the actual SegmentedControl for period selection, with the same
 
 ## Interaction
 
-Controls must work in the demonstrated composition. Detail sheets use the native modal dialog for focus containment, Escape dismissal and focus return. The page theme controls share persistent theme selection, synchronized between the sticky header and their own catalogue row; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.
+Controls must work in the demonstrated composition. Detail sheets and centered modal dialogs share the native modal lifecycle for focus containment, Escape dismissal and focus return; each owns its visual layout and content. The page theme controls share persistent theme selection, synchronized between the sticky header and their own catalogue row; other demo state is local. Reduced-motion preferences disable nonessential movement. Small visual controls still need adequate hit areas and visible keyboard focus.
 
 ## Modes
 

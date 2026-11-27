@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useId } from "react";
+import { useModalDialog } from "../hooks/useModalDialog";
 import { X, Sparkles } from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -20,40 +21,26 @@ export function ReceiptDigestModal({
   onClose,
   className,
 }: ReceiptDigestModalProps) {
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
-
+  const modal = useModalDialog(isOpen, onClose);
+  const titleId = useId();
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-ground/85 backdrop-blur-xs transition-opacity"
-        onClick={onClose}
-        data-testid="modal-backdrop"
-      />
-
-      {/* Modal Card */}
-      <div
-        className={twMerge(
-          clsx(
-            "relative z-10 w-full max-w-xl rounded-sm border border-hairline bg-surface p-6 shadow-2xl transition-all duration-200",
-            className
-          )
-        )}
-      >
-        <div className="flex items-center justify-between border-b border-hairline pb-4 mb-4">
+    <dialog
+      {...modal}
+      aria-labelledby={titleId}
+      aria-modal="true"
+      className={twMerge(
+        clsx(
+          "ui-receipt-dialog fixed inset-0 m-auto max-w-xl overflow-y-auto overscroll-contain rounded-sm border border-border bg-surface p-6 text-ink shadow-2xl",
+          className
+        )
+      )}
+    >
+        <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
           <div className="flex items-center gap-2">
-            <Sparkles className="size-4 text-amber" />
-            <h3 className="font-serif text-lg text-ink font-normal">{title}</h3>
+            <Sparkles className="size-4 text-accent" aria-hidden="true" />
+            <h3 id={titleId} className="font-serif text-lg text-ink font-normal">{title}</h3>
           </div>
           <button
             type="button"
@@ -61,7 +48,7 @@ export function ReceiptDigestModal({
             aria-label="Закрыть окно"
             className="ui-feedback-icon grid size-9 place-items-center rounded-xs p-1 cursor-pointer"
           >
-            <X className="size-4" />
+            <X className="size-4" aria-hidden="true" />
           </button>
         </div>
 
@@ -71,20 +58,19 @@ export function ReceiptDigestModal({
         </div>
 
         {/* Physical receipts list */}
-        <div className="space-y-2 border-t border-hairline pt-4">
+        <div className="space-y-2 border-t border-border pt-4">
           <div className="font-mono text-xs text-ink-faint uppercase tracking-wider mb-2">
             Изменения:
           </div>
           <ul className="space-y-1.5 font-mono text-xs text-ink-soft">
             {receipts.map((item, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span className="text-amber">✓</span>
+                <span className="text-accent" aria-hidden="true">✓</span>
                 <span>{item}</span>
               </li>
             ))}
           </ul>
         </div>
-      </div>
-    </div>
+    </dialog>
   );
 }

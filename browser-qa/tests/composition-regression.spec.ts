@@ -105,3 +105,43 @@ test("native disclosure opens and closes by keyboard and preserves actual conten
  await expect(content).toBeVisible();await expect(summary).toBeFocused();
  await page.keyboard.press("Space");await expect(content).toBeHidden();
 });
+
+for(const theme of themes)for(const width of [1440,390]){
+ test("modal lifecycle preserves real focus and dismissal "+theme+" "+width,async({page})=>{
+  await page.setViewportSize({width,height:900});
+  await page.addInitScript(value=>localStorage.setItem("vanya_theme",value),theme);
+  await page.goto("/");
+  for(const specimen of [
+   {id:"inspector",opener:"Открыть InspectDrawer",title:"Описание проекта",close:"Закрыть инспектор",content:"Здесь можно разместить описание, ссылки и другие подробности проекта."},
+   {id:"digest",opener:"Открыть ReceiptDigestModal",title:"Пример итогов",close:"Закрыть окно",content:"Обновили примеры компонентов"},
+  ]){
+   const opener=page.locator("#"+specimen.id).getByRole("button",{name:specimen.opener});
+   const priorOverflow=await page.evaluate(()=>document.body.style.overflow);
+   for(const dismissal of ["escape","button","backdrop"]){
+    if(dismissal==="backdrop"&&specimen.id==="inspector"&&width===390)continue;
+    await opener.focus();
+    await opener.press("Enter");
+    const dialog=page.getByRole("dialog",{name:specimen.title});
+    const close=dialog.getByRole("button",{name:specimen.close});
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByText(specimen.content,{exact:true})).toBeVisible();
+    await expect(close).toBeFocused();
+    await opener.evaluate(el=>el.focus());
+    await expect(close).toBeFocused(); // native modal makes background inert
+    await page.keyboard.press("Tab");
+    expect(await dialog.evaluate(el=>el.contains(document.activeElement)||document.activeElement===document.body)).toBe(true);
+    if(dismissal==="escape")await page.keyboard.press("Escape");
+    else if(dismissal==="button")await close.click();
+    else {
+     const rect=await dialog.boundingBox();
+     expect(rect).not.toBeNull();
+     expect(rect!.x).toBeGreaterThan(4);
+     await page.mouse.click(2,Math.min(20,rect!.y+10));
+    }
+    await expect(dialog).toHaveCount(0);
+    await expect(opener).toBeFocused();
+    expect(await page.evaluate(()=>document.body.style.overflow)).toBe(priorOverflow);
+   }
+  }
+ });
+}

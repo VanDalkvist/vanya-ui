@@ -1,4 +1,5 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { useModalDialog } from "../hooks/useModalDialog";
 import type { ReactNode } from "react";
 import { X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
@@ -23,19 +24,10 @@ export interface InspectDrawerProps {
 }
 
 export function InspectDrawer({isOpen,title,onClose,children,size="default",compactContext,className}:InspectDrawerProps){
- const ref=useRef<HTMLDialogElement>(null);
+ const modal=useModalDialog(isOpen,onClose);
+ const {ref}=modal;
  const titleId=useId();
  const [compact,setCompact]=useState(false);
- useEffect(()=>{
-  const dialog=ref.current;
-  if(!isOpen||!dialog)return;
-  const opener=document.activeElement as HTMLElement|null;
-  const overflow=document.body.style.overflow;
-  dialog.showModal();
-  document.body.style.overflow="hidden";
-  dialog.querySelector<HTMLButtonElement>("button")?.focus();
-  return()=>{dialog.close();document.body.style.overflow=overflow;opener?.focus()};
- },[isOpen]);
  useEffect(()=>{
   if(!isOpen||!compactContext){setCompact(false);return}
   const dialog=ref.current;
@@ -58,15 +50,8 @@ export function InspectDrawer({isOpen,title,onClose,children,size="default",comp
  },[isOpen,compactContext?.title]);
  if(!isOpen)return null;
  const collapsed=Boolean(compactContext&&compact);
- return <dialog ref={ref} aria-labelledby={titleId} aria-modal="true"
+ return <dialog {...modal} aria-labelledby={titleId} aria-modal="true"
    data-has-compact-context={Boolean(compactContext)}
-   onCancel={event=>{event.preventDefault();onClose()}}
-   onKeyDown={event=>{if(event.key==="Escape"){event.preventDefault();onClose()}}}
-   onClick={event=>{
-    if(event.target!==event.currentTarget)return;
-    const rect=event.currentTarget.getBoundingClientRect();
-    if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose();
-   }}
    className={twMerge("inspect-sheet fixed inset-y-0 right-0 left-auto m-0 ml-auto h-dvh max-h-none w-full max-w-[560px] border-0 border-l border-border bg-surface p-0 text-ink",
     size==="wide"&&"inspect-sheet--wide max-w-[min(1080px,96vw)]",className)}>
    <header className="inspect-sheet__header flex shrink-0 items-start justify-between gap-6 border-b border-border px-7 pb-5 pt-8 sm:px-12 sm:pt-10"

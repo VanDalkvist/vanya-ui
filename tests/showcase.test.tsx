@@ -1,7 +1,7 @@
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { InspectDrawer, TimelinePreviewCard } from "../src";
+import { InspectDrawer, ReceiptDigestModal, TimelinePreviewCard } from "../src";
 
 afterEach(cleanup);
 
@@ -34,5 +34,33 @@ describe("reference composition interactions", () => {
     fireEvent.keyDown(dialog, { key: "Escape" });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
+  });
+
+  it("opens a named receipt dialog, exposes the actual changes and restores its opener on dismissal", () => {
+    function Example() {
+      const [open, setOpen] = React.useState(false);
+      return <><button onClick={() => setOpen(true)}>Показать итоги</button>
+        <ReceiptDigestModal isOpen={open} title="Итоги" narrative="Работа завершена."
+          receipts={["Обновили пример"]} onClose={() => setOpen(false)} /></>;
+    }
+    const priorOverflow = document.body.style.overflow;
+    render(<Example />);
+    const opener = screen.getByRole("button", {name:"Показать итоги"});
+    for (const dismissal of ["escape", "button", "cancel"]) {
+      opener.focus();
+      fireEvent.click(opener);
+      const dialog = screen.getByRole("dialog", {name:"Итоги"});
+      expect(dialog).toHaveAttribute("aria-modal","true");
+      expect(within(dialog).getByText("Обновили пример")).toBeVisible();
+      const close = within(dialog).getByRole("button",{name:"Закрыть окно"});
+      expect(close).toHaveFocus();
+      expect(document.body.style.overflow).toBe("hidden");
+      if(dismissal==="escape") fireEvent.keyDown(dialog,{key:"Escape"});
+      else if(dismissal==="cancel") fireEvent(dialog,new Event("cancel",{bubbles:false,cancelable:true}));
+      else fireEvent.click(close);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(opener).toHaveFocus();
+      expect(document.body.style.overflow).toBe(priorOverflow);
+    }
   });
 });
