@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChapterHeader } from "./ChapterHeader";
+import { CatalogSection } from "./CatalogSection";
 import { ActionButton, ActionLink } from "../index";
 
 /** Live specimens use published UI typography tokens. No parallel private type scale. */
@@ -17,15 +18,16 @@ export function TypographySection() {
   const [lastAction,setLastAction]=useState("");
   return <section id="typography" className="catalog typography-section" aria-labelledby="typography-title">
     <ChapterHeader id="typography" description="Manrope — интерфейс, JetBrains Mono — код и короткие метки, Spectral — статьи, истории и цитаты."/>
-    <h3 className="ui-type-subheading type-section-title">Размеры текста</h3>
-    <div className="type-specimens" id="typography-scale">
+    <CatalogSection id="typography-scale" title="Размеры текста" layout="wide">
+    <div className="type-specimens">
       {sizes.map(item => <div className="type-specimen" key={item.token}>
         <div className="type-specimen-meta"><span>{item.role}</span><code>{item.token}</code></div>
         <p className={item.className}>{item.text}</p>
       </div>)}
     </div>
-    <div className="type-specimens" id="typography-tracking" aria-labelledby="type-tracking-title">
-      <h3 id="type-tracking-title" className="ui-type-subheading">Межбуквенные интервалы</h3>
+    </CatalogSection>
+    <CatalogSection id="typography-tracking" title="Межбуквенные интервалы" titleId="type-tracking-title" layout="wide">
+    <div className="type-specimens">
       <div className="type-specimen">
         <div className="type-specimen-meta"><span>Обычное действие</span><code>normal</code></div>
         <div className="type-action-pair">
@@ -52,9 +54,8 @@ export function TypographySection() {
       </div>
       <p className="ui-type-caption" role="status">{lastAction ? "Выбрано: "+lastAction : "Выбери действие в примере."}</p>
     </div>
-    <section id="typography-editorial" aria-labelledby="type-editorial-title" className="type-editorial-section">
-      <h3 id="type-editorial-title" className="ui-type-subheading">Редакционный текст</h3>
-      <p className="ui-type-body">Spectral подходит для чтения и авторских материалов. Кнопки, меню и рабочие заголовки сохраняют Manrope.</p>
+    </CatalogSection>
+    <CatalogSection id="typography-editorial" title="Редакционный текст" titleId="type-editorial-title" description="Spectral подходит для чтения и авторских материалов. Кнопки, меню и рабочие заголовки сохраняют Manrope." layout="wide">
       <div className="type-editorial-pair">
         <article lang="ru">
           <p className="ui-type-metadata">Русский · Spectral</p>
@@ -70,20 +71,19 @@ export function TypographySection() {
         </article>
       </div>
       <p className="ui-type-caption">Spectral 400 — текст и курсив; 600 — заголовок. <ActionLink variant="prose" href="/reference/typography.md" target="_blank" rel="noopener noreferrer">Правила подключения и примеры кода</ActionLink></p>
-    </section>
-    <div className="type-reading-demo">
-      <div>
-        <span className="type-demo-label">Текст для чтения</span>
-        <h3 id="type-reading-title" className="ui-type-subheading">Когда нужна ещё одна панель</h3>
+    </CatalogSection>
+    <CatalogSection id="typography-reading" title="Когда нужна ещё одна панель" titleId="type-reading-title" description="Текст для чтения">
+      <div className="type-reading-demo">
         <p className="ui-type-body">Сначала покажи человеку задачу и ближайшее действие. Длинное описание можно открыть в отдельной панели. Так рабочий экран сохраняет пространство, а подробности остаются доступными.</p>
         <p className="ui-type-body">На телефоне текст идёт одной колонкой. На широком экране ограничивай длину строки, чтобы удобно переходить к следующей.</p>
       </div>
+    </CatalogSection>
+    <CatalogSection id="typography-rules" title="Правила">
       <div className="type-rules-brief">
-        <h3>Правила</h3>
         <p>Основной текст — 16 px с межстрочным интервалом 1,65. Плотные элементы — 14 px. Подписи — 13 px, только для короткого текста.</p>
         <p>Длина строки — до 66ch. Используй rem и сохраняй возможность масштабирования. Плотные интервалы логотипа предназначены для вордмарка.</p>
         <ActionLink variant="prose" href="/reference/typography.md" target="_blank" rel="noopener noreferrer">Токены, примеры и требования доступности</ActionLink>
       </div>
-    </div>
+    </CatalogSection>
   </section>;
 }
