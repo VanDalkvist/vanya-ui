@@ -80,3 +80,11 @@ test('consumer lock oracle binds direct requested and resolved package; unrelate
   assert.throws(()=>assertConsumerLock(wrong,manager,sha),/Direct consumer dependency/);
  }
 });
+
+
+test('consumer smoke scopes npm 12 source permissions to its isolated install',async()=>{
+ const {consumerInstallArgs}=await import('./consumer-smoke.mjs');
+ assert.deepEqual(consumerInstallArgs('npm','12.2.3'),['install','--allow-remote=root','--allow-git=all','--ignore-scripts']);
+ assert.deepEqual(consumerInstallArgs('npm','10.9.2'),['install']);
+ assert.deepEqual(consumerInstallArgs('bun','1.4.4'),['install']);
+});
