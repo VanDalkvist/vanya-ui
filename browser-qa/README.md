@@ -6,6 +6,7 @@ From repository root:
 
 ```sh
 npm --prefix browser-qa ci
+npm run typecheck:browser
 npm --prefix browser-qa exec -- playwright install chromium --no-shell
 npm run test:browser
 ```
