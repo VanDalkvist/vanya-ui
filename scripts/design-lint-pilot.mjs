@@ -10,7 +10,8 @@ import {fileURLToPath} from 'node:url';
 import {lintInventory} from './design-source-inventory.mjs';
 const library=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2);
-const project=resolve(args.find(a=>a.startsWith('--project='))?.slice(10)||library);
+// Use one physical project root for inventory, subprocess cwd and report paths.
+const project=realpathSync(resolve(args.find(a=>a.startsWith('--project='))?.slice(10)||library));
 const targets=args.filter(a=>!a.startsWith('--'));
 // The library owns token definitions; inspect all authored component and showcase files.
 const librarySources=['src/showcase','src/components'];
@@ -105,7 +106,12 @@ try{
  const cssResult=run(bin('stylelint'),['--config',style,'--formatter','json',...inventory.css]);
  if(!valid(cssResult,[0,2])){show(cssResult);throw Error('Stylelint execution failed: '+cssResult.status)}
  const report=[cssResult.stdout,cssResult.stderr].map(out=>{try{return JSON.parse(out)}catch{return null}}).find(Array.isArray);
- if(!report||report.length!==inventory.css.length||report.some(f=>!Array.isArray(f.warnings)||f.ignored||f.invalidOptionWarnings?.length||f.parseErrors?.length)||JSON.stringify(report.map(f=>relative(project,resolve(project,f.source)).split(sep).join('/')).sort())!==JSON.stringify(inventory.css.slice().sort()))throw Error('Stylelint report missing, ignored or incomplete');
+ if(!report)throw Error('Stylelint report missing: no JSON array (exit='+cssResult.status+', stdout bytes='+Buffer.byteLength(cssResult.stdout||'')+', stderr bytes='+Buffer.byteLength(cssResult.stderr||'')+')');
+ const invalid=report.filter(f=>!f||typeof f.source!=='string'||!Array.isArray(f.warnings)||f.ignored||f.invalidOptionWarnings?.length||f.parseErrors?.length);
+ if(invalid.length)throw Error('Stylelint report ignored or invalid: '+invalid.length+' of '+report.length+' rows');
+ const expected=inventory.css.slice().sort();
+ const observed=report.map(f=>relative(project,resolve(project,f.source)).split(sep).join('/')).sort();
+ if(JSON.stringify(observed)!==JSON.stringify(expected))throw Error('Stylelint report incomplete: expected '+JSON.stringify(expected)+'; observed '+JSON.stringify(observed));
  const warnings=report.flatMap(f=>f.warnings.map(w=>{
   if(!isCssRule(w.rule))throw Error('Unexpected Stylelint diagnostic: '+w.rule);
   const absolute=resolve(project,f.source);
