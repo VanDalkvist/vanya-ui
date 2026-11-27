@@ -35,7 +35,7 @@ export function AgentSection() {
         <p className="ui-type-body">Добавь описание продукта к промпту и передай агенту.</p>
         <pre className="agents-prompt ui-type-code"><code>{agentPrompt}</code></pre>
         <div className="agents-copy-row">
-          <ActionButton size="md" variant="outline" actionState={copyState}
+          <ActionButton size="md" variant="text" actionState={copyState}
             statusLabel={copyState==="success"?"Промпт скопирован":copyState==="error"?"Не удалось скопировать промпт":"Копирование"}
             onClick={copyPrompt}><Copy size={16} aria-hidden="true"/>Скопировать промпт</ActionButton>
           <span className="agents-copy-feedback ui-type-compact">{copyState==="success"?"Промпт скопирован":copyState==="error"?"Выдели текст и скопируй вручную.":""}</span>
