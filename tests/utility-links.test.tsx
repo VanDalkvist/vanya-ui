@@ -13,7 +13,7 @@ describe("Shared destination links and the independent GitHub glyph",()=>{
   expect(link.getAttribute("rel")?.split(" ")).toEqual(expect.arrayContaining(["author","noopener","noreferrer"]));
   expect(link).toHaveClass("ui-feedback-text");
   const styles=readFileSync(resolve(import.meta.dirname,"../src/tokens.css"),"utf8");
-  expect(styles).toContain(".ui-feedback-source):focus-visible");
+  expect(styles).toContain(".ui-feedback-avatar):focus-visible");
   expect(styles).toContain("outline:2px solid var(--accent)");
  });
  it("uses the same target-derived marker for prose, utility and source links",()=>{
@@ -24,7 +24,7 @@ describe("Shared destination links and the independent GitHub glyph",()=>{
   expect(prose.querySelector(".ui-link-tail .ui-new-tab-marker")).toHaveAttribute("aria-hidden","true");
   expect(screen.getByRole("link",{name:"Раздел"}).querySelector(".ui-new-tab-marker")).toBeNull();
   const source=screen.getByRole("link",{name:/Источник/});
-  expect(source).toHaveClass("ui-action-link","ui-feedback-source");
+  expect(source).toHaveClass("ui-action-link","ui-link-source");
   expect(source.querySelectorAll(".ui-new-tab-marker")).toHaveLength(1);
  });
  it("keeps the author link visible on compact screens instead of hiding the personal homepage",()=>{
