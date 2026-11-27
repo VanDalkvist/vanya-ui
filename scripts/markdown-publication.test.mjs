@@ -22,3 +22,8 @@ test('stable geometry links resolve to the composition guide',()=>{
  const input='[Geometry](../../docs/composition/working-surfaces.md#11-stable-geometry-during-ordinary-workspace-interaction)';
  assert.equal(publicMarkdown('skills/vanya-ui/SKILL.md',input),'[Geometry](https://ui.vanya-arc.dev/reference/composition.md#11-stable-geometry-during-ordinary-workspace-interaction)');
 });
+
+test('route the existing regression guide from the agent skill to its generated public reference',()=>{
+ const source='[Regression Gate](../../docs/patterns/regression-gate.md#acceptance)';
+ assert.equal(publicMarkdown('skills/vanya-ui/SKILL.md',source),'[Regression Gate](https://ui.vanya-arc.dev/reference/regression-gate.md#acceptance)');
+});

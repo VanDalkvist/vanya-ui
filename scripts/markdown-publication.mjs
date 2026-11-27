@@ -24,6 +24,7 @@ const published={
  'docs/patterns/writing-and-editorial.md':'reference/writing.md',
  'docs/patterns/publication-safety.md':'reference/publication-safety.md',
  'docs/patterns/contributing.md':'reference/contributing.md',
+ 'docs/patterns/regression-gate.md':'reference/regression-gate.md',
  'docs/patterns/sources-and-attribution.md':'reference/sources.md',
  'THIRD_PARTY_NOTICES.md':'reference/third-party.md',
  'LICENSING.md':'reference/licensing.md',

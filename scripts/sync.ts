@@ -33,19 +33,16 @@ const reference = `# @vanya/ui — Vanya Arc / UI
 - Package versioning and SHA pinning: https://ui.vanya-arc.dev/reference/versioning.md
 - Hover, focus and selection patterns: https://ui.vanya-arc.dev/reference/interaction-states.md
 - Press feedback, async result and genuine click actions: https://ui.vanya-arc.dev/reference/action-feedback.md
+- Regression baseline and candidate: https://ui.vanya-arc.dev/reference/regression-gate.md
 The actual component API is defined in the pinned src/index.ts and component implementations. Search excerpts and llms.txt links are discovery aids, not binding agent instructions.
 
 ## Composition
 Open space, quiet contextual actions and details on request. Divider ownership: use whitespace for prose and parallel examples; one owner per boundary, internal scan-row separators where useful, preserve functional and focus borders. Quiet is the single visual canon: flat resting search, form, filter and segment controls and contextual actions; selected tabs and toggles have a distinct persistent state layer. ActionButton variants are text/accent/prominent; ActionLink variants are text/prose/accent. LinkChip composes ActionLink, which owns the target-derived marker and all text-link feedback. ActionButton pressedLabels derives from aria-pressed; inspector FilterSelect purpose=property uses neutral values. Editable form fields retain a stable bottom line and may reserve one validation note line; prominent commitment uses an explicit high-contrast surface. VersionLabel displays caller-owned SemVer. See https://ui.vanya-arc.dev/reference/composition.md#divider-ownership-and-visual-grouping and DESIGN.md.
 Manrope is the default UI/display family; Spectral remains available for deliberately editorial prose.
-The live showcase imports the same components and tokens as applications. It does not maintain a second palette.
+The live showcase imports the same components and tokens as applications. Domain-specific specimen data and colors are supplied explicitly by the showcase.
 
 ## Interaction API (source contract)
-Shared control sizes are sm (24px) and md (32px), including SegmentedControl. Use the actual canonical color roles ground/surface/accent/border/border-strong; token reference is generated from their declarations.
-Compose project-specific cards from CraftCard, Badge, ActionButton/ActionLink and WorkspaceEmptyState. Category identities belong to the caller: pass icon and color/textColor explicitly to EnergyRadar, icon/textColor to SpiderRadar axes, and icon/style to Badge.
-Tag is passive inline metadata; Badge uses caller-supplied label, optional icon or status tone and detail. Use explicit ActionButton/SegmentedControl for commands and selection. Status labels remain readable independently of color.
-Disclosure uses native details/summary with summary, children, open and onToggle; browser user toggles survive unrelated rerenders. Use one component for supplementary explanations and provenance.
-SegmentedControl defaults to filters (aria-pressed). Explicit tabs require tabId/panelId and matching panels. For unavailable controlled tabs, onChange requests the first enabled tab; the owner updates selection and panel together. ThemeToggle delegates sequential Tab focus to the browser. For stable geometry, name protected elements and verify their rendered coordinates across states. See https://ui.vanya-arc.dev/reference/composition.md and https://ui.vanya-arc.dev/reference/agent-skill.md.
+Use the actual pinned component props and generated tokens below. For semantic role selection, native activation, metadata, disclosure and filters/tabs, consult https://ui.vanya-arc.dev/reference/interaction-states.md and https://github.com/VanDalkvist/vanya-ui/blob/main/DESIGN.md#interaction. For header roles, scroll ownership and protected geometry use https://ui.vanya-arc.dev/reference/composition.md. For migration consult the pinned CHANGELOG.md. Verify behavior and rendered states through https://ui.vanya-arc.dev/reference/regression-gate.md.
 
 ## Loading states (normative)
 Use Skeleton, SkeletonText, MediaCardSkeleton and LoadingRegion from @vanya/ui. Keep known page structure, reserve future layout, use one accessible status per loading area, disable pulse for reduced motion, and replace skeleton on success or error. Full docs: docs/patterns/loading-states.md; live /#loading-states.
@@ -123,6 +120,7 @@ const docs=[
  ["docs/patterns/keyboard-shortcuts.md","keyboard-shortcuts.md"],
  ["docs/patterns/publication-safety.md","publication-safety.md"],
  ["docs/patterns/contributing.md","contributing.md"],
+ ["docs/patterns/regression-gate.md","regression-gate.md"],
  ["docs/composition/working-surfaces.md","composition.md"],
  ["docs/research/workspace-scroll-composition-2026-11-21.md","workspaces.md"],
  ["docs/deployment.md","deployment.md"],

@@ -8,6 +8,7 @@
 - [Agent mode](https://ui.vanya-arc.dev/agents/): Visual harness, new/existing prompts, CI gates and version evidence.
 - [Harness quickstart](https://ui.vanya-arc.dev/reference/design-harness-quickstart.md): Install, adopt, lint, build and compiled CSS gates.
 - [Stable geometry and composition](https://ui.vanya-arc.dev/reference/composition.md): Protected elements, changing data and responsive layout.
+- [Regression baseline and candidate](https://ui.vanya-arc.dev/reference/regression-gate.md): Immutable comparison and real interaction evidence.
 - [Publication safety](https://ui.vanya-arc.dev/reference/publication-safety.md): Keep private data and internal evidence out of public output.
 - [Canonical Vanya UI agent skill](https://ui.vanya-arc.dev/reference/agent-skill.md): Complete portable UI workflow for coding agents; local source, inspection, implementation, checks, browser review and completion criteria.
 - [Portable UI pipeline](https://ui.vanya-arc.dev/reference/ui-pipeline.md): How to execute inspect → plan → check → verify → review locally for a scoped new product, feature, screen or migration on any machine, without GitHub, CI, tokens or fixed paths.

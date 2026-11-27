@@ -14,7 +14,7 @@ const required=[
  'reference/identity.md','reference/agent-skill.md','reference/design-harness-quickstart.md','reference/ui-pipeline.md','reference/list-detail.md',
  'reference/versioning.md',
  'reference/interaction-states.md',
- 'reference/action-feedback.md',
+ 'reference/action-feedback.md','reference/regression-gate.md',
  'reference/brand-artwork-license.txt',
  'reference/components.md','reference/workspaces.md','reference/installation.md','reference/composition.md','reference/publication-safety.md','reference/contributing.md','reference/tokens.md','reference/typography.md'
 ];
@@ -50,7 +50,8 @@ export function validatePublication(root=base){
   ['reference/composition.md','docs/composition/working-surfaces.md'],
   ['reference/typography.md','docs/patterns/typography.md'],
   ['reference/publication-safety.md','docs/patterns/publication-safety.md'],
-  ['reference/contributing.md','docs/patterns/contributing.md']
+  ['reference/contributing.md','docs/patterns/contributing.md'],
+  ['reference/regression-gate.md','docs/patterns/regression-gate.md']
  ];
  for(const [published,source] of canonical){
   const pub=join(root,'public',published),src=join(root,source);
@@ -70,7 +71,7 @@ export function validatePublication(root=base){
   if(/\\n(?:#{1,6}\s|[-*]\s)/.test(body))errors.push(name+' contains literal escaped newline before Markdown heading/list');
   if(body.length<200)errors.push(name+' unexpectedly short');
  }
- const requiredLinks=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'];
+ const requiredLinks=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/regression-gate.md'];
  for(const path of requiredLinks){
   const url=site+'/'+path;
   if(!llms.includes(url))errors.push('Missing primary llms.txt link: '+url);

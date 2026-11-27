@@ -51,15 +51,11 @@ For a new official Vanya Arc service or a branding task, read [brand identity in
 
 ## 3. Implement
 
-Use the package's canonical `sm` (24px) and `md` (32px) control sizes and semantic color roles (`ground`, `surface`, `accent`, `border`, `border-strong`, and their documented variants). Consult the actual pinned token declarations and migration guide before upgrading.
-
-Choose the existing header by its role: SectionToolbar for list title/count/actions, SurfaceHeader for an in-flow document heading, WorkspaceContextHeader for the existing app shell, StickyContextBar for an autonomous reader. Preserve real breadcrumb destinations, visible focus, native history and compact wrapping. Keep the shell height and scroll ownership with the caller.
-
-Compose domain cards from passive `CraftCard`, `Badge`, explicit `ActionButton` / `ActionLink`, and `WorkspaceEmptyState`. The application owns category IDs, labels, colors, icons, metrics and project actions. Supply explicit category data to `Badge`, `EnergyRadar` and `SpiderRadar`; use their generic visual defaults when no identity is supplied.
-
-Use passive `Tag` for inline topics and `Badge` for categories/statuses. Supply a visible `label`; category icon/style belongs to the caller and status `tone` provides a decorative cue. Use `ActionButton` with `aria-pressed` for independent selection, `SegmentedControl` for grouped selection and `ActionButton` for commands. Follow the actual pinned package exports; never infer actions from passive metadata.
-
-For supplementary content, use the pinned package's canonical `Disclosure` (`summary`, children, native `open` and `onToggle`). Keep interactive controls inside the revealed content; preserve native keyboard behavior and user-expanded state. When adopting a new major library version, follow its migration guide in the changelog and verify the actual exports.
+Choose components by task and semantic role. Read the pinned exports and props, then the relevant rules:
+- Sizes, tokens, metadata, disclosure and actions: [DESIGN.md](../../DESIGN.md#inline-size-grid), [interaction](../../DESIGN.md#interaction), [interaction states](../../docs/patterns/interaction-states.md).
+- Headers, list/detail, cards, responsive scroll ownership and layout: [working surfaces](../../docs/composition/working-surfaces.md), especially [header role boundaries](../../docs/composition/working-surfaces.md#header-role-boundaries).
+- Explicit category identity and visualization inputs: [composition recipes](../../DESIGN.md#composition-recipes) and actual radar props.
+- Version-specific migrations: [CHANGELOG.md](../../CHANGELOG.md) and [version policy](../../docs/versioning.md).
 
 Build the requested surface with real shared components and tokens. Keep product state, domain behavior and routes in the product. Preserve unrelated geometry/scroll/focus and avoid invented APIs, unnecessary local lookalikes or mass redesign. For a missing reusable primitive, propose or implement a focused library change within the task's authorization, with example and tests.
 

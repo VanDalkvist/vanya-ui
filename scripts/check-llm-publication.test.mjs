@@ -8,7 +8,7 @@ const paths=[
  'llms.txt','llms-full.txt','index.md','reference/identity.md','reference/agent-skill.md',
  'reference/ui-pipeline.md','reference/design-harness-quickstart.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/components.md',
  'reference/workspaces.md','reference/installation.md',
- 'reference/brand-artwork-license.txt','reference/composition.md','reference/publication-safety.md','reference/contributing.md','reference/tokens.md','reference/typography.md'
+ 'reference/regression-gate.md','reference/brand-artwork-license.txt','reference/composition.md','reference/publication-safety.md','reference/contributing.md','reference/tokens.md','reference/typography.md'
 ];
 const site='https://ui.vanya-arc.dev/';
 function put(root,path,body){
@@ -17,7 +17,7 @@ function put(root,path,body){
 test('public agent references must be present and canonical',()=>{
  const root=mkdtempSync(join(tmpdir(),'ui-crawler-'));
  try{
-  const links=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md'].map(p=>'- ['+p+']('+site+p+')');
+  const links=['reference/contributing.md','reference/identity.md','reference/design-harness-quickstart.md','reference/typography.md','reference/composition.md','reference/publication-safety.md','reference/agent-skill.md','reference/ui-pipeline.md','reference/list-detail.md','reference/versioning.md','reference/interaction-states.md','reference/action-feedback.md','reference/regression-gate.md'].map(p=>'- ['+p+']('+site+p+')');
   const body='# Vanya UI agent references\n\n'+links.join('\n')+'\n\nThis is a public document for crawler and LLM discovery.\n';
   for(const p of paths){
    const text=p==='reference/installation.md'?'# Installation\n\nbun add "github:VanDalkvist/vanya-ui#<verified-40-char-commit-sha>"\n':body;
@@ -39,6 +39,7 @@ test('public agent references must be present and canonical',()=>{
   put(root,'docs/patterns/typography.md',body);
   put(root,'docs/patterns/publication-safety.md',body);
   put(root,'docs/patterns/contributing.md',body);
+  put(root,'docs/patterns/regression-gate.md',body);
   put(root,'src/index.ts','export {Skeleton, LoadingRegion, type SkeletonProps} from "./components/Skeleton";');
   const exports='- Skeleton (value): ./components/Skeleton\n- LoadingRegion (value): ./components/Skeleton\n- SkeletonProps (type): ./components/Skeleton';
   put(root,'public/reference/components.md',body+exports);
@@ -58,6 +59,9 @@ test('public agent references must be present and canonical',()=>{
   put(root,'public/reference/design-harness-quickstart.md','stale quickstart');
   assert.ok(validatePublication(root).errors.some(x=>x.includes('design-harness-quickstart.md')&&x.includes('stale')));
   put(root,'public/reference/design-harness-quickstart.md',body);
+  put(root,'public/reference/regression-gate.md','stale regression guide');
+  assert.ok(validatePublication(root).errors.some(x=>x.includes('reference/regression-gate.md')&&x.includes('stale')));
+  put(root,'public/reference/regression-gate.md',body);
   const bad=body.replace('- [reference/ui-pipeline.md]',String.fromCharCode(92,110)+'- [reference/ui-pipeline.md]');
   put(root,'public/llms.txt',bad);
   result=validatePublication(root);

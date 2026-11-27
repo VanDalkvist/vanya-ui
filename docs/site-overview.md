@@ -8,6 +8,7 @@
 
 - [Стабильная геометрия и композиция](https://ui.vanya-arc.dev/reference/composition.md) — измеримые правила для динамических данных.
 - [Контрибуция](https://ui.vanya-arc.dev/reference/contributing.md) — выделение переиспользуемых решений и проверка канона, тестов и сборки.
+- [Регрессионная проверка](https://ui.vanya-arc.dev/reference/regression-gate.md) — эталон, сравнение и наблюдаемые результаты.
 - [Безопасность публикации](https://ui.vanya-arc.dev/reference/publication-safety.md) — границы публичных материалов.
 
 - [Канонический скилл Vanya UI](https://ui.vanya-arc.dev/reference/agent-skill.md) — полный переносимый рабочий цикл без GitHub.
