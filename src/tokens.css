@@ -899,6 +899,7 @@
   .ui-link-tail{white-space:nowrap;}
   .ui-action-link .ui-new-tab-marker{display:inline-block;flex-shrink:0;width:.9em;height:.9em;vertical-align:-.08em;color:inherit;}
   .ui-action-link[data-variant="prose"] .ui-new-tab-marker{margin-inline-start:.25em;}
+  .ui-action-link[data-variant="prose"]:focus-visible{outline-offset:2px;}
   .ui-action-link.ui-feedback-source>span:first-child{margin-inline-end:var(--ui-gap);}
   .ui-action-toggle-state{display:inline-grid;min-width:3em;text-align:right;font-size:var(--size-sm-font);font-variant-numeric:tabular-nums;}
   .ui-action-toggle-state>span{grid-area:1/1;}
