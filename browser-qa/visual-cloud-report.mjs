@@ -32,21 +32,26 @@ for(const result of results){
   if(file.endsWith("-actual.png"))actuals.set(file.slice(0,-11),a.path);
  }
 }
+const contexts=themes.flatMap(theme=>widths.map(width=>({theme,width,key:theme+"-"+width})));
+const requested=process.env.VANYA_UI_VISUAL_REVIEW_CONTEXTS?.split(",");
+if(requested&&(new Set(requested).size!==requested.length||requested.some(key=>!contexts.some(c=>c.key===key))))throw Error("Invalid explicit review contexts");
+const selected=contexts.filter(c=>!requested||requested.includes(c.key));
+const expectedKeys=new Set(selected.flatMap(({key})=>snapshotScenes.map(scene=>scene+"-"+key)));
+if([...receipts.keys()].some(key=>!expectedKeys.has(key)))throw Error("Unexpected comparison scope");
 const missing=[],different=[];
-for(const theme of themes)for(const width of widths)for(const scene of snapshotScenes){
+for(const {theme,width} of selected)for(const scene of snapshotScenes){
  const key=scene+"-"+theme+"-"+width;
  const status=receipts.get(key);
  if(!status||!manifest.images[key+".png"]||(status==="different"&&!existsSync(actuals.get(key)??"")))missing.push(key);
  if(status==="different")different.push(key);
 }
-console.log("VISUAL_REPORT "+JSON.stringify({expected:snapshotScenes.length*themes.length*widths.length,completed:receipts.size,matched:[...receipts.values()].filter(x=>x==="matched").length,different:different.length,missing:missing.length}));
+console.log("VISUAL_REPORT "+JSON.stringify({expected:expectedKeys.size,completed:receipts.size,matched:[...receipts.values()].filter(x=>x==="matched").length,different:different.length,missing:missing.length}));
 for(const key of missing)console.log("VISUAL_MISSING "+key);
 const data=path=>"data:image/png;base64,"+readFileSync(path).toString("base64");
 const browser=await chromium.launch({channel:"chromium",headless:true});
 try{
  const page=await browser.newPage({viewport:{width:1360,height:900}});
- for(const theme of themes)for(const width of widths){
-  const context=theme+"-"+width;
+ for(const {theme,width,key:context} of selected){
   const thumb=width>=1024?206:116;
   const columns=width>=1024?3:4;
   const cards=snapshotScenes.map(scene=>{
