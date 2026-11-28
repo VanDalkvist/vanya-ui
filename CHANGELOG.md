@@ -18,6 +18,14 @@
 - Consolidate duplicated inspector and breadcrumb CSS; preserve all real ancestors at compact widths with wrapped labels and tools. The header specimen uses a full-width shell and a separate demonstration control.
 - Reuse the canonical row feedback for disclosure, removing redundant local hover/focus rules; preserve the native marker, content geometry and stable catalogue fragment.
 
+- Unify showcase catalog sections, typography specimens, workspace composition and responsive chapter layout around shared private geometry; preserve stable anchors.
+- Publish generated Markdown references from a single explicit source map, including the regression gate and current agent skill.
+
+### Fixed
+- Preserve initial deep-link placement after fonts and the responsive header settle; cancel corrective scrolling after user interaction or navigation.
+- Keep selected segment text at accessible contrast in the light theme, and deliver Markdown previews with the canonical UTF-8 content type.
+- Isolate Escape/cancel handling inside nested React dialogs; preserve the outer modal, scroll lock and focus restoration.
+
 ## [2.0.0] - 2026-11-27
 
 ### Breaking
