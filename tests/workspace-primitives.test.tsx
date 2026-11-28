@@ -167,6 +167,42 @@ describe("Workspace primitives", () => {
       }finally{view.unmount();document.body.style.overflow=original;}
     });
   }
+
+  it("Escape inside a nested modal dismisses only that modal",()=>{
+    const original=document.body.style.overflow;
+    const outerClose=vi.fn(),innerClose=vi.fn();
+    function Example(){
+      const [outer,setOuter]=React.useState(false);
+      const [inner,setInner]=React.useState(false);
+      return <><button onClick={()=>setOuter(true)}>Начать</button>
+        <InspectDrawer isOpen={outer} title="Внешний" onClose={()=>{outerClose();setOuter(false);}}>
+          <button onClick={()=>setInner(true)}>Итоги</button>
+          <ReceiptDigestModal isOpen={inner} title="Внутренний" narrative="Итоги операции" receipts={[]}
+            onClose={()=>{innerClose();setInner(false);}}/>
+        </InspectDrawer>
+      </>;
+    }
+    const view=render(<Example/>);
+    try{
+      document.body.style.overflow="auto";
+      const opener=screen.getByRole("button",{name:"Начать"});
+      opener.focus();fireEvent.click(opener);
+      const openInner=screen.getByRole("button",{name:"Итоги"});
+      openInner.focus();fireEvent.click(openInner);
+      fireEvent.keyDown(screen.getByRole("button",{name:"Закрыть окно"}),{key:"Escape"});
+      expect(innerClose).toHaveBeenCalledOnce();
+      expect(outerClose,"Escape inside inner must not dismiss outer").not.toHaveBeenCalled();
+      expect(screen.queryByRole("dialog",{name:"Внутренний"})).not.toBeInTheDocument();
+      expect(screen.getByRole("dialog",{name:"Внешний"})).toBeInTheDocument();
+      expect(document.body.style.overflow).toBe("hidden");
+      expect(openInner).toHaveFocus();
+      fireEvent.keyDown(screen.getByRole("button",{name:"Закрыть инспектор"}),{key:"Escape"});
+      expect(outerClose).toHaveBeenCalledOnce();
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      expect(opener).toHaveFocus();
+      expect(document.body.style.overflow).toBe("auto");
+    }finally{view.unmount();document.body.style.overflow=original;}
+  });
   it("distinguishes a calm empty state from clickable decoration", () => {
     render(<WorkspaceEmptyState title="Стол чист" description="Пока нет активных проектов." action={<button>Добавить</button>}/>);
     expect(screen.getByRole("heading",{name:"Стол чист"})).toBeInTheDocument();
