@@ -61,3 +61,9 @@
 - После успешной ручной сборки 3.0.0 временно расширенная команда была возвращена к прежнему unit/type/build/lint, из-за чего следующий release мог пропустить native browser и installed-package smoke. Release Integrity установил точную ранее исполненную команду в постоянный trigger; desired state и rollback принадлежат cloudflare-deploy.
 - В дальнейшем сравнивать actual build command успешного release и persistent trigger. Проверять изменённые поля и неизменность активного deployment отдельно; конфигурационный PASS не заменяет fresh execution. Visual acceptance и независимые reviewers остаются отдельным gate.
 - Evidence: [Release Integrity](../superpowers/plans/2026-11-28-release-integrity.md), ledger, private cloudflare-deploy@b9d7836. Тег и новые визуальные артефакты пока blocked.
+
+
+## 2026-11-28 — Раздельные визуальные evidence paths
+- Browser Rendering screenshot успешно доставил полный PNG 1440x900 из production в интерфейс ревью без логового транспорта (VART-01). Этот путь полезен для точечной live-проверки; immutable comparison baseline принадлежит pinned Playwright runtime, экспорт его файлов должен сохранять исходные байты и manifest.
+- Перед массовой визуальной проверкой сначала подтвердить project-scoped transport одним actual build artifact, независимым GET и SHA-256. VARC assets уже имеет подходящий контракт; UI target и build-side auth пока отсутствуют. Не использовать чужой bucket и не выдавать разовое изображение за durable evidence.
+- Evidence: [Release Integrity VART-01/02](../superpowers/plans/2026-11-28-release-integrity.md), ledger.
