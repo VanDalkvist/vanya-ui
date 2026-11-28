@@ -74,3 +74,28 @@ for (const outerFirst of [false, true]) {
     await expect.poll(overflow).toBe("auto");
   });
 }
+
+
+test("native nested dialogs dismiss only topmost on Escape",async({page})=>{
+  await page.goto("/?qa-nested");
+  await page.addScriptTag({path:bundle});
+  await page.evaluate(()=>{document.body.style.overflow="auto";});
+  const scope=page.locator("#qa-stacked-dialogs");
+  const opener=scope.getByRole("button",{name:"Открыть внешний QA диалог"});
+  const outer=scope.locator("dialog").filter({has:page.locator("h2").filter({hasText:/^Внешний QA диалог$/})});
+  await opener.click();
+  const openInner=outer.getByRole("button",{name:"Открыть внутренний QA диалог"});
+  await openInner.click();
+  const inner=scope.locator("dialog dialog");
+  await expect(inner.getByRole("button",{name:"Закрыть окно"})).toBeFocused();
+  await expect(scope.locator("dialog[open]")).toHaveCount(2);
+  await page.keyboard.press("Escape");
+  await expect(inner).toHaveCount(0);
+  await expect(outer).toBeVisible();
+  await expect(openInner).toBeFocused();
+  await expect.poll(()=>page.evaluate(()=>document.body.style.overflow)).toBe("hidden");
+  await page.keyboard.press("Escape");
+  await expect(scope.locator("dialog")).toHaveCount(0);
+  await expect(opener).toBeFocused();
+  await expect.poll(()=>page.evaluate(()=>document.body.style.overflow)).toBe("auto");
+});
