@@ -39,10 +39,12 @@ for(const theme of themes)for(const width of widths){
     await expect(page.getByText(opened.content,{exact:true})).toBeVisible();
    }
    await page.mouse.move(0,0);
+   const errorsBefore=info.errors.length;
    const screenshotExpect=mode==="baseline"?expect(page):expect.soft(page);
    await screenshotExpect.toHaveScreenshot(scene+"-"+theme+"-"+width+".png",{
     animations:"disabled",caret:"hide",scale:"css",mask:[marker],maxDiffPixels:0,
    });
+   console.log("VISUAL_SCENE "+JSON.stringify({scene,theme,width,mode,status:info.errors.length===errorsBefore?"matched":"different"}));
    if(opened){
     await page.getByRole("button",{name:opened.close,exact:true}).click();
     await expect(page.getByText(opened.content,{exact:true})).toHaveCount(0);
