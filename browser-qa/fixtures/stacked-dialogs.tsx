@@ -13,14 +13,17 @@ function StackedDialogs() {
     window.addEventListener("qa:remove-outer-dialog", removeOuter);
     return () => window.removeEventListener("qa:remove-outer-dialog", removeOuter);
   }, []);
+  const nested=new URLSearchParams(window.location.search).has("qa-nested");
+  const digest=<ReceiptDigestModal isOpen={inner} title="Внутренний QA диалог"
+    narrative="Контролируемый сценарий двух модалок" receipts={[]}
+    onClose={() => setInner(false)}/>;
   return <>
     <button onClick={() => setOuter(true)}>Открыть внешний QA диалог</button>
     <InspectDrawer isOpen={outer} title="Внешний QA диалог" onClose={() => setOuter(false)}>
       <button onClick={() => setInner(true)}>Открыть внутренний QA диалог</button>
+      {nested&&digest}
     </InspectDrawer>
-    <ReceiptDigestModal isOpen={inner} title="Внутренний QA диалог"
-      narrative="Контролируемый сценарий двух модалок" receipts={[]}
-      onClose={() => setInner(false)}/>
+    {!nested&&digest}
   </>;
 }
 
