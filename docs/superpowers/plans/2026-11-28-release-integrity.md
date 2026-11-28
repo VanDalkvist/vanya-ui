@@ -16,9 +16,21 @@
 - P3 log-only: миграции потребителей отдельны.
 
 ## S6 — bounded plan
-- [ ] Исправить docs/versioning.md и итоговую сводку существующего Composition plan: статус production PASS, точный SHA, tag UNTAGGED, visual/independent NOT_VERIFIED, исторический strict FAIL, фактические результаты финального gate. Проверить источник и read-back; сохранить прошлые теги и исходные чекбоксы как историю.
-- [ ] В приватном cloudflare-deploy/docs/ui-publication.md сохранить желаемую команду и прежнюю команду отката, границы изменения и provenance. В Cloudflare прочитать текущие настройки, изменить только build_command существующего production trigger; подтвердить точное соответствие уже успешно выполненной команде на 3.0.0 и сохранность прочих полей, активного deployment и validation trigger. Не трогать marker, версию пакета, deploy command, секреты, DNS, новые ресурсы или consumer pins.
-- [ ] Записать S9/S10/S11: read-back GitHub/Cloudflare; проверка неизменности активного deployment; fresh full build на будущей намеренной версии, независимый review и visual artifact walking skeleton остаются открытыми до фактического исполнения. Не заявлять общий PASS.
+- [x] Исправить docs/versioning.md и итоговую сводку существующего Composition plan: статус production PASS, точный SHA, tag UNTAGGED, visual/independent NOT_VERIFIED, исторический strict FAIL, фактические результаты финального gate. Проверить источник и read-back; сохранить прошлые теги и исходные чекбоксы как историю.
+- [x] В приватном cloudflare-deploy/docs/ui-publication.md сохранить желаемую команду и прежнюю команду отката, границы изменения и provenance. В Cloudflare прочитать текущие настройки, изменить только build_command существующего production trigger; подтвердить точное соответствие уже успешно выполненной команде на 3.0.0 и сохранность прочих полей, активного deployment и validation trigger. Не трогать marker, версию пакета, deploy command, секреты, DNS, новые ресурсы или consumer pins.
+- [x] Записать S9/S10/S11: read-back GitHub/Cloudflare; проверка неизменности активного deployment; fresh full build на будущей намеренной версии, независимый review и visual artifact walking skeleton остаются открытыми до фактического исполнения. Не заявлять общий PASS.
 
 ## S7 — review плана
 Выбраны две ограниченные правки документации и конфигурации. Не добавляем новый runner, CI workflow, хранилище, зависимости или публичные API. Изменённые опубликованные гайды попадут в следующий намеренный SemVer checkpoint; текущий production сохраняем. Синтетические публичные fixtures, никаких новых потоков данных. Scope storage/credentials требует отдельного подтверждения реализации. Команда production использует существующие нативные проверки; не уменьшает coverage. Для config-only изменения проверка — точное сравнение поля и остальных полей, плюс неизменный active deployment. Fresh build и независимые S9 circuits отдельно NOT_RUN/NOT_VERIFIED.
+
+
+## S9–S12 — результат среза
+- [x] Документация: 5f00657, 8fea86e; GitHub read-back всех статусов, SHA, исторического тега и исключений PASS.
+- [x] Production trigger: CONFIG_VERIFIED; точная команда совпадает с успешным production build 3.0.0. Остальные поля, validation trigger и активный deployment сохранены. Приватный desired state и rollback: cloudflare-deploy@b9d7836, docs/ui-publication.md.
+- [x] Ledger: a9a12b9, findings, fixes, evidence, lessons.
+- [ ] Annotated tag — BLOCKED: native Git DNS, connector capability.
+- [ ] Durable visual artifact walking skeleton, затем full-resolution review и approved baseline — BLOCKED без подтверждённого транспорта.
+- [ ] Независимые S9 reviewers — NOT_VERIFIED; remote execution ещё не принят.
+- [ ] Fresh full build через постоянный gate — NOT_RUN до следующего намеренного checkpoint.
+
+VERDICT: OPEN (срез документации и конфигурации завершён, независимая приёмка и доказательства остаются открытыми). Production 3.0.0 и consumer pins сохранены. Нового deploy нет.
