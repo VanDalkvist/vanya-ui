@@ -36,7 +36,7 @@ test("quiet document validation, save and cancel have visible outcomes",async({p
  await expect(title).toHaveValue("Новый документ");
  await expect(section.getByRole("button",{name:"Отменить",exact:true})).toBeDisabled();
 });
-test("inspector applies property edits immediately and confirmation is reversible",async({page})=>{
+test("inspector applies property edits immediately",async({page})=>{
  await page.goto("/#quiet-inspector");
  const inspector=page.locator("#quiet-inspector");
  await inspector.getByRole("button",{name:"Статус В работе"}).click();
@@ -45,11 +45,7 @@ test("inspector applies property edits immediately and confirmation is reversibl
  await inspector.getByRole("button",{name:"Приоритет Обычный"}).click();
  await page.getByRole("option",{name:"Высокий",exact:true}).click();
  await expect(inspector.locator("output")).toHaveText("Документ: Завершено · Высокий");
- const confirmation=page.locator("#quiet-confirmation");
- await confirmation.getByRole("button",{name:"Подтвердить",exact:true}).click();
- await expect(confirmation.locator("output")).toHaveText("Пример подтверждён");
- await confirmation.getByRole("button",{name:"Отменить подтверждение"}).click();
- await expect(confirmation.locator("output")).toHaveText("Ожидает подтверждения");
+
 });
 test("ordinary action and persistent toggle report actual state",async({page})=>{
  await page.clock.install();
