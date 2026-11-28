@@ -77,3 +77,7 @@
 
 ## 2026-11-28 — Single visual pack
 - Owner explicitly rejected maintaining dual profiles. Use one canonical risk-selected scene/context mapping across native capture, manifest and reporting; 56 scenes across six contexts verified in actual Cloudflare Playwright baseline run (6/6, 44.8s). Historical 176-image manifests immutable and incompatible with current schema. No profile flag or fallback. Distinguish capture/seal from comparison/approval; existing native functional tests protect additional behavior. [Test Cleanup](../superpowers/plans/2026-11-28-test-cleanup.md).
+
+
+## 2026-11-28 — Main-first and native overflow oracle
+- Owner explicitly requires Vanya UI work directly on main and real production checkpoints. Read AGENTS; avoid feature/research branches and PRs absent explicit request. Fast-forward only, preserve concurrent commits, validate exact released SHA and active version. Release 3.0.1 03073cb25770df426bbcaa539c89a059ef68de1e succeeded after a real Minimap row-local overflow RED. The root page width alone missed this defect; retain row-level oracle, injected negative control and component endpoint tests at 320/390/1024/1440. Preserve actual failures and fix the owning primitive. Cloudflare build log response may truncate at an arbitrary test; follow returned cursor until final page before interpreting suite outcome. Confirm actual deployment separately. Evidence: Test Cleanup final ledger and plan.

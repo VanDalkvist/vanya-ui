@@ -81,7 +81,7 @@ npm run test:consumer -- FULL_40_CHAR_SHA --harness
 
 Первая осмысленная исходная версия — `0.2.0`. Номер сам по себе **не означает**, что тег создан.
 
-## Composition 3.0.0 — текущий production checkpoint
+## Composition 3.0.0 — исторический production checkpoint
 
 28.11.2026 витрина [ui.vanya-arc.dev](https://ui.vanya-arc.dev/) выпущена из точного SHA [8fc08b24a40e978bf2d4e0900069f1488baf0ca0](https://github.com/VanDalkvist/vanya-ui/commit/8fc08b24a40e978bf2d4e0900069f1488baf0ca0). Предыдущая витрина 2.0.0 — [6ae7c4e](https://github.com/VanDalkvist/vanya-ui/commit/6ae7c4ed06bb4905ba350ecd69009ff6f3c366dd). Несовместимые изменения перечислены в [CHANGELOG](../CHANGELOG.md).
 
@@ -141,3 +141,8 @@ bun add 'https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/a7c5a86356980e3
 ## Intentional site release checkpoint (2026-11-26)
 
 Commit and push coherent work freely. Production Cloudflare Builds on `main` watches `release/vanya-ui.trigger`. Create or update it with a short release description at an intentional release checkpoint after relevant verification and required approval, or explicitly start the existing trigger for the approved exact main SHA. First marker creation requests a build. Confirm terminal build outcome and active version separately. Native path filters may be bypassed for empty pushes, 20+ commits or 3000+ changed files. The site checkpoint preserves the package version/tag policy; non-main validation, consumer smoke, public artifact and licensing checks remain unchanged.
+
+
+## Test Cleanup 3.0.1 — текущий production checkpoint
+
+28.11.2026 [витрина](https://ui.vanya-arc.dev/) обновлена из [03073cb25770df426bbcaa539c89a059ef68de1e](https://github.com/VanDalkvist/vanya-ui/commit/03073cb25770df426bbcaa539c89a059ef68de1e). Cloudflare production SUCCESS; active version 100%, 2026-11-28T10:57:35.049416Z; фактическая шапка v3.0.1 проверена на мобильном скриншоте. 155 Vitest, 60 Node, 3 Harness E2E, TypeScript/build, design lint 0 новых, consumer smoke npm React 18.3.1 и Bun React 19.0.0 2/2, 142/142 functional Chromium, 6 opt-in visual contexts skipped. Новый пакет визуального захвата 56 снимков ранее проверен на 6d0ce62; полный парный отчёт и новый утверждённый baseline остаются NOT_VERIFIED. Точечная визуальная проверка live Minimap выполнена. TAGGED: NOT_VERIFIED (доступного annotated-tag write нет); независимая S9: NOT_VERIFIED. Для проверенного install pin используйте точный SHA 03073cb25770df426bbcaa539c89a059ef68de1e; потребители обновляются отдельно. [Ledger](arch-improvement/ledger.md).
