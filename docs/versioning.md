@@ -81,9 +81,27 @@ npm run test:consumer -- FULL_40_CHAR_SHA --harness
 
 Первая осмысленная исходная версия — `0.2.0`. Номер сам по себе **не означает**, что тег создан.
 
-## Composition 3.0.0
+## Composition 3.0.0 — текущий production checkpoint
 
-Последняя подтверждённая витрина перед Composition (28.11.2026) — **2.0.0** из коммита [6ae7c4e](https://github.com/VanDalkvist/vanya-ui/commit/6ae7c4ed06bb4905ba350ecd69009ff6f3c366dd). Composition Cleanup содержит несовместимые изменения, перечисленные в [CHANGELOG](../CHANGELOG.md); major-версия исходников — 3.0.0. Состояние проверки кандидата ведётся в [Arch Loop Ledger](arch-improvement/ledger.md). Владелец согласовал выпуск с остаточными рисками полноразмерной визуальной и независимой приёмки. Фактический deployment подтверждается отдельно в журнале. Закреплённые зависимости приложений сохраняются до отдельной миграции. Git-тег и GitHub Release проверяются отдельно.
+28.11.2026 витрина [ui.vanya-arc.dev](https://ui.vanya-arc.dev/) выпущена из точного SHA [8fc08b24a40e978bf2d4e0900069f1488baf0ca0](https://github.com/VanDalkvist/vanya-ui/commit/8fc08b24a40e978bf2d4e0900069f1488baf0ca0). Предыдущая витрина 2.0.0 — [6ae7c4e](https://github.com/VanDalkvist/vanya-ui/commit/6ae7c4ed06bb4905ba350ecd69009ff6f3c366dd). Несовместимые изменения перечислены в [CHANGELOG](../CHANGELOG.md).
+
+| Критерий | Статус на 28.11.2026 |
+| --- | --- |
+| PACKAGE_VERSION | PASS 3.0.0 |
+| BUILD_VERIFIED | PASS: 156 Vitest, 55 Node, 3 Harness E2E, typecheck/build/lint |
+| CONSUMER_SMOKE | PASS 2/2 на release SHA, React 18/npm и React 19/Bun |
+| FUNCTIONAL_BROWSER | PASS 140/140; 8 opt-in visual scenarios отдельно |
+| RELEASE_SITE | PASS: Cloudflare SUCCESS, 100% active traffic, live marker 3.0.0 |
+| UI_VERIFIED / independent review | NOT_VERIFIED; согласованное исключение только для Composition |
+| Visual baseline | 176 пар, strict FAIL (163 различия), новый baseline не утверждён |
+| TAGGED | UNTAGGED; annotated tag отсутствует при повторной проверке |
+| CONSUMER_UPDATED | Внешние pins сохранены |
+
+Установка для отдельно согласованной миграции закрепляется полным SHA:
+`https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/8fc08b24a40e978bf2d4e0900069f1488baf0ca0`.
+
+Подробности и исключение: [Arch Loop Ledger](arch-improvement/ledger.md), [финальное ревью](research/composition-final-review-2026-11-28.md). Тег создаётся на проверенном release SHA через обычный Git; GitHub Release отдельно. Исторические подтверждённые теги сохраняются. Следующий содержательный production checkpoint, включая опубликованные изменения гайдов, требует нового SemVer.
+
 
 ## История проверки харнесса
 
@@ -91,7 +109,7 @@ npm run test:consumer -- FULL_40_CHAR_SHA --harness
 
 ### Проверенный кандидат для явного пилотного подключения
 
-**0.5.0 / BUILD_VERIFIED / UNTAGGED** — [`3d344042218c6a5323e2c51da0e7582bdca1d30a`](https://github.com/VanDalkvist/vanya-ui/commit/3d344042218c6a5323e2c51da0e7582bdca1d30a), 2026-11-25. Cloudflare CI: 125 Vitest, 37 Node, 3 harness E2E; реальные npm/React 18 и Bun/React 19 consumer smoke, включая отрицательные тесты линтинга и compiled CSS, прошли. Этот неизменяемый SHA доступен для явно согласованного пилотного внедрения. UI_VERIFIED и релизный тег открыты; текущий опубликованный релиз остаётся 0.4.1. Установка кандидата через `https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/3d344042218c6a5323e2c51da0e7582bdca1d30a` с lockfile. Существующие продукты сохраняют закреплённые версии до отдельного решения.
+**0.5.0 / BUILD_VERIFIED / UNTAGGED** — [`3d344042218c6a5323e2c51da0e7582bdca1d30a`](https://github.com/VanDalkvist/vanya-ui/commit/3d344042218c6a5323e2c51da0e7582bdca1d30a), 2026-11-25. Cloudflare CI: 125 Vitest, 37 Node, 3 harness E2E; реальные npm/React 18 и Bun/React 19 consumer smoke, включая отрицательные тесты линтинга и compiled CSS, прошли. Этот неизменяемый SHA доступен для явно согласованного пилотного внедрения. UI_VERIFIED и релизный тег открыты; на момент этого исторического пилота опубликованным релизом был 0.4.1. Установка кандидата через `https://codeload.github.com/VanDalkvist/vanya-ui/tar.gz/3d344042218c6a5323e2c51da0e7582bdca1d30a` с lockfile. Существующие продукты сохраняют закреплённые версии до отдельного решения.
 
 ## Identity-capable candidate
 The 0.5.0 verified harness pin above predates `productMark` and contributor mode. The 0.6.0 candidate [`260a680c0fecb0491d3ccad3d176af11a090ca76`](https://github.com/VanDalkvist/vanya-ui/commit/260a680c0fecb0491d3ccad3d176af11a090ca76) passed Cloudflare CI: 131 Vitest, 46 Node, zero new design-lint findings, negative fixtures and both React/npm/Bun consumer combinations. Existing lockup defaults remain compatible. New identity work selects an approved mark explicitly; older pins use available APIs and existing approved assets. No automatic upgrades.
