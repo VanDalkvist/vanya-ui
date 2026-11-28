@@ -47,6 +47,29 @@ for(const {theme,width} of selected)for(const scene of snapshotScenes){
 }
 console.log("VISUAL_REPORT "+JSON.stringify({expected:expectedKeys.size,completed:receipts.size,matched:[...receipts.values()].filter(x=>x==="matched").length,different:different.length,missing:missing.length}));
 for(const key of missing)console.log("VISUAL_MISSING "+key);
+// Optional bounded transport of original PNGs for detailed human review.
+// Selected scenes must belong to the native comparison scope and have actual differences.
+const detailKeys=process.env.VANYA_UI_VISUAL_DETAIL_KEYS?.split(",");
+if(detailKeys){
+ if(!detailKeys.length||new Set(detailKeys).size!==detailKeys.length||detailKeys.some(key=>!expectedKeys.has(key)))throw Error("Invalid visual detail keys");
+ if(missing.length)throw Error("Incomplete comparison evidence");
+ for(const key of detailKeys){
+  if(receipts.get(key)!=="different"){
+   console.log("VISUAL_DETAIL_MATCHED "+key);
+   continue;
+  }
+  for(const [side,path] of [["before",join(baseline,key+".png")],["after",actuals.get(key)]]){
+   const png=readFileSync(path);
+   const encoded=png.toString("base64");
+   const chunks=encoded.match(/.{1,1000}/g);
+   const sha=createHash("sha256").update(png).digest("hex");
+   console.log("VISUAL_DETAIL_BEGIN "+key+" "+side+" "+chunks.length+" "+sha+" "+png.length);
+   for(let i=0;i<chunks.length;i++)console.log("VISUAL_DETAIL "+key+" "+side+" "+i+" "+chunks[i]);
+   console.log("VISUAL_DETAIL_END "+key+" "+side);
+  }
+ }
+ process.exit(0);
+}
 const data=path=>"data:image/png;base64,"+readFileSync(path).toString("base64");
 const browser=await chromium.launch({channel:"chromium",headless:true});
 try{
