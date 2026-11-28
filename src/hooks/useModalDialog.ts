@@ -15,11 +15,13 @@ export function useModalDialog(isOpen: boolean, onClose: () => void) {
     ref,
     onCancel(event: SyntheticEvent<HTMLDialogElement>) {
       event.preventDefault();
+      event.stopPropagation();
       onClose();
     },
     onKeyDown(event: KeyboardEvent<HTMLDialogElement>) {
       if (event.key === "Escape") {
         event.preventDefault();
+        event.stopPropagation();
         onClose();
       }
     },
