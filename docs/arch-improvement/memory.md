@@ -74,3 +74,6 @@
 - Cloudflare Builds user command uses /bin/sh, which in actual provider rejected pipefail; keep invocation short and use POSIX-compatible set -eu with separate checked commands, or a reviewed Bash script. Long inline PATCH rejected HTTP 400; exact limit remains unconfirmed.
 - Direct upload requires scoped S3 bucket-item credentials; account-token permission currently unavailable. Keep credentials and provider IDs private; preserve manifest and artifact integrity before baseline approval.
 - Evidence: [Release Integrity](../superpowers/plans/2026-11-28-release-integrity.md), ledger, private cloudflare-deploy.
+
+## 2026-11-28 — Single visual pack
+- Owner explicitly rejected maintaining dual profiles. Use one canonical risk-selected scene/context mapping across native capture, manifest and reporting; 56 scenes across six contexts verified in actual Cloudflare Playwright baseline run (6/6, 44.8s). Historical 176-image manifests immutable and incompatible with current schema. No profile flag or fallback. Distinguish capture/seal from comparison/approval; existing native functional tests protect additional behavior. [Test Cleanup](../superpowers/plans/2026-11-28-test-cleanup.md).
