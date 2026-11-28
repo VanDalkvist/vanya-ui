@@ -196,3 +196,7 @@ S9.4 finding P2 fix-now — вложенный React dialog: исходники 
 
 ## S9.6 — owner-approved 3.0.0 release checkpoint (2026-11-28)
 Владелец согласовал исключение для недоступного независимого ревью и полноразмерной визуальной приёмки этого Composition checkpoint. Сохраняем исходный visual FAIL и ограничения; исключение не меняет будущий Regression Gate. Релизный scope — только уже реализованные изменения, версия и CHANGELOG. Выполнить стандартный production build gate, consumer smoke на точном SHA и полный native browser suite; только после успеха существующий production trigger деплоит. Проверить live version, active worker и точный SHA. Тег — отдельный этап при наличии подходящего доступа. Consumer pins и постоянная инфраструктура не меняются. Итог в ledger.
+
+
+### S9.6 completion / S12 stop (2026-11-28)
+Release site 3.0.0 published and verified on exact SHA 8fc08b24a40e978bf2d4e0900069f1488baf0ca0. Full functional Playwright 140/140, 156 Vitest, 55 Node, 3 Harness E2E, 2 installed consumer combinations, type/build/lint PASS. Active worker 100%, public rendered marker 3.0.0. Owner-approved exception covers independent review and full-resolution visual review; original visual failure and limits retained. No new approved golden baseline, no consumer migration. Annotated tag remains pending due to connector capability (404 read, no annotated tag creation). Cycle closed under explicit exception; see [ledger](../../arch-improvement/ledger.md). Historical plan checklist entries remain historical.
