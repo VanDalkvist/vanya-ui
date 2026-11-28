@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-11-28
+
 ### Breaking — Composition
 - Use `vui` as the installed CLI; the duplicate `vanya-arc-ui` binary name is removed. The direct `node scripts/ui-pipeline.mjs` entrypoint and `vanya-ui-lint` remain. Replace `npm run test:harness:consumer` with `npm run test:consumer` (identical smoke implementation).
 - Use the canonical color roles: replace `paper` with `ground`, `paper-raised` with `surface`, `amber` with `accent`, `hairline` with `border`, and `hairline-active` with `border-strong` in Tailwind utilities and `--color-*` references. The underlying palette values are unchanged. SegmentedControl accepts `sm` and `md`; replace the historical `xs` size with `sm`. Radius and text-size utilities are unaffected.
