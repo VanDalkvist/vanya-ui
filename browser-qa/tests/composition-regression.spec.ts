@@ -99,6 +99,33 @@ test("row overflow oracle detects hidden local overflow",async({page})=>{
  }
  expect(overflowingRows(await rowOverflow(page))).not.toContain("compact-filter-toolbar");
 });
+test("Minimap keeps its timeline labels and selected window inside the track",async({page})=>{
+ await page.goto("/#minimap");
+ const region=page.locator("#minimap").getByRole("region",{name:"Мини-карта времени"});
+ const slider=region.getByRole("slider");
+ for(const width of [320,390,1024,1440]){
+  await page.setViewportSize({width,height:900});
+  await page.evaluate(()=>document.fonts.ready);
+  const assertBounds=async()=>{
+   const bounds=await region.evaluate(el=>{
+    const r=el.getBoundingClientRect();
+    const children=Array.from(el.querySelectorAll("span,.ui-minimap-window")).map(child=>{
+     const b=child.getBoundingClientRect();
+     return {left:b.left,right:b.right,text:child.textContent};
+    });
+    return {overflow:el.scrollWidth>el.clientWidth+1,labels:children.filter(c=>c.text).map(c=>c.text),outside:children.filter(c=>c.left<r.left-1||c.right>r.right+1)};
+   });
+   expect(bounds.labels).toEqual(["2016","2020","2024","2028"]);
+   expect(bounds.outside, "timeline children within region at "+width).toEqual([]);
+   expect(bounds.overflow).toBe(false);
+  };
+  await slider.focus();await slider.press("Home");
+  await expect(slider).toHaveAttribute("aria-valuenow","2017");
+  await assertBounds();
+  await slider.press("End");await expect(slider).toHaveAttribute("aria-valuenow","2027");
+  await assertBounds();
+ }
+});
 test("all chapters share a content axis and preserve named wide specimens",async({page})=>{
  for(const width of [1440,1024,390,320]){
   await page.setViewportSize({width,height:900});

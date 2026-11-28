@@ -56,13 +56,18 @@ export function Minimap({min,max,from,to,ticks=[],labels=[],onSeek,className}:Mi
      <div className="absolute top-3.5 right-0 left-0 h-px bg-ink/12" aria-hidden="true"/>
      {ticks.map(t=><span key={t.id} aria-hidden="true"
        className={clsx("absolute top-2.5 block h-2 w-px",t.current?"bg-accent":t.future?"bg-ink/15":"bg-ink/30")}
-       style={{left:`${pct(t.value)}%`}}/>)}
+       style={{left:`calc(${pct(t.value)}% - ${pct(t.value)/100}px)`}}/>)}
      <div aria-hidden="true" className="ui-minimap-window absolute top-1 h-6 rounded-xs border border-accent/45 bg-accent/10 transition-colors duration-200"
-       style={{left:`${left}%`,width:`${width}%`}}/>
+       style={{left:`${Math.min(left,100-width)}%`,width:`${width}%`}}/>
    </div>
    {labels.length>0&&<div className="relative h-3" aria-hidden="true">
-     {labels.map((item,i)=><span key={i} className="absolute -translate-x-1/2 font-mono text-meta tracking-widest text-ink-faint"
-       style={{left:`${pct(item.value)}%`}}>{item.text}</span>)}
+     {labels.map((item,i)=>{
+       const position=pct(item.value);
+       return <div key={i} className="absolute inset-0 grid"
+         style={{gridTemplateColumns:`minmax(0,${position}fr) minmax(0,max-content) minmax(0,${100-position}fr)`}}>
+         <span className="col-start-2 min-w-0 truncate font-mono text-meta tracking-widest text-ink-faint" title={item.text}>{item.text}</span>
+       </div>;
+     })}
    </div>}
  </div>;
 }

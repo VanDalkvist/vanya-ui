@@ -11,6 +11,9 @@
 - Consolidate duplicate test assertions and strengthen browser oracles for keyboard reachability and local overflow; verify visual report provenance and mark matched reference-only evidence.
 - Keep the verified full production build gate, including installed consumer smoke and functional browser checks. No public component API changes.
 
+### Fixed
+- Keep Minimap timeline labels, ticks and selection inside the track at responsive widths and domain endpoints.
+
 ## [3.0.0] - 2026-11-28
 
 ### Breaking — Composition
