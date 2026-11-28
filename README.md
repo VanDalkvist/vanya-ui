@@ -1,6 +1,6 @@
 # Vanya Arc / UI
 
-Vanya UI — дизайн-система Vanya Arc: React-компоненты, токены, каноны интерфейсов и переносимый агентский харнесс. Пакет — `@vanya/ui`; текущая версия исходников — **1.0.0** ([package.json](package.json)). Статус выпуска и проверенные SHA — в [versioning](docs/versioning.md).
+Vanya UI — дизайн-система Vanya Arc: React-компоненты, токены, каноны интерфейсов и переносимый агентский харнесс. Пакет — `@vanya/ui`; версия исходников указана в [package.json](package.json). Статус выпуска, проверенные SHA и условия обновления — в [versioning](docs/versioning.md).
 
 **[Живая витрина → ui.vanya-arc.dev](https://ui.vanya-arc.dev/)**
 
@@ -59,7 +59,7 @@ Portable local browser verification: see [browser-qa](browser-qa/README.md), run
 
 ## Версии и обновление потребителей
 
-**1.0.0** — первая стабильная major-версия исходников. Production CI прошёл на [`7dad3ad8`](https://github.com/VanDalkvist/vanya-ui/commit/7dad3ad810dcaedbca050b93c1e46e0995b590a8); установочный SHA [`a7c5a863`](https://github.com/VanDalkvist/vanya-ui/commit/a7c5a86356980e3319326d1a98e28f9f0b9a1d8b) прошёл также consumer-smoke для npm/React 18 и Bun/React 19. На момент проверки 26.11.2026 тег `v1.0.0` и GitHub Release ещё отсутствуют. Дополнительная визуальная приёмка и live-agent eval отложены владельцем. Продукты закрепляют полный SHA и lockfile. См. [статус и SemVer](docs/versioning.md), [историю изменений](CHANGELOG.md) и [проверку опубликованных релизов](https://github.com/VanDalkvist/vanya-ui/releases).
+Исторический checkpoint **1.0.0** (26.11.2026) — первая стабильная major-версия исходников. Production CI прошёл на [`7dad3ad8`](https://github.com/VanDalkvist/vanya-ui/commit/7dad3ad810dcaedbca050b93c1e46e0995b590a8); установочный SHA [`a7c5a863`](https://github.com/VanDalkvist/vanya-ui/commit/a7c5a86356980e3319326d1a98e28f9f0b9a1d8b) прошёл также consumer-smoke для npm/React 18 и Bun/React 19. На момент проверки 26.11.2026 тег `v1.0.0` и GitHub Release ещё отсутствуют. Дополнительная визуальная приёмка и live-agent eval отложены владельцем. Продукты закрепляют полный SHA и lockfile. См. [статус и SemVer](docs/versioning.md), [историю изменений](CHANGELOG.md) и [проверку опубликованных релизов](https://github.com/VanDalkvist/vanya-ui/releases).
 
 ## Айдентика Vanya Arc
 
