@@ -1,4 +1,25 @@
-import {expect,test} from "@playwright/test";
+import {expect,test,type Page,type Locator} from "@playwright/test";
+
+// Native sequential focus navigation; the target is never focused directly.
+async function tabTo(page:Page,target:Locator,limit=180){
+ for(let i=0;i<limit;i++){
+  await page.keyboard.press("Tab");
+  if(await target.evaluate(el=>el===document.activeElement))return true;
+ }
+ return false;
+}
+test("tab traversal oracle rejects a link removed from sequential focus",async({page})=>{
+ await page.goto("/agents/");
+ const target=page.getByRole("link",{name:"Quickstart",exact:true}).first();
+ await expect(target).toBeVisible();
+ const original=await target.getAttribute("tabindex");
+ await target.evaluate(el=>el.setAttribute("tabindex","-1"));
+ try{expect(await tabTo(page,target)).toBe(false);}
+ finally{await target.evaluate((el,old)=>old===null?el.removeAttribute("tabindex"):el.setAttribute("tabindex",old),original);}
+ await page.reload();
+ expect(await tabTo(page,target)).toBe(true);
+ await expect(target).toBeFocused();
+});
 for(const [route,label,heading] of [["/","Правила навигации","Browser navigation and addressable views"],["/agents/","Quickstart","Design-system harness — consumer quickstart"]] as const){
  test("diagonal link opens a real tab and preserves the original "+route,async({page})=>{
   await page.goto(route);
@@ -9,7 +30,9 @@ for(const [route,label,heading] of [["/","Правила навигации","Br
   for(const a of marked){expect(a.target,a.href||"").toBe("_blank");expect(a.rel?.split(/\s+/)).toEqual(expect.arrayContaining(["noopener","noreferrer"]));}
   const link=page.getByRole("link",{name:label,exact:true}).first();
   const destination=await link.evaluate(a=>(a as HTMLAnchorElement).href);
-  await page.keyboard.press("Tab");await link.focus();await expect(link).toBeFocused();
+  expect(await tabTo(page,link),"link reachable by native Tab from page entry").toBe(true);
+  await expect(link).toBeFocused();
+  expect(await link.evaluate(el=>el.matches(":focus-visible"))).toBe(true);
   await expect(link).toHaveCSS("outline-width","2px");
   const [tab]=await Promise.all([page.waitForEvent("popup"),page.keyboard.press("Enter")]);
   try{
