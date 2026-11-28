@@ -43,3 +43,19 @@ See [Regression Gate](../docs/patterns/regression-gate.md) for exact baseline/co
 
 
 **Composition golden integrity:** `npm --prefix browser-qa run test:baseline` runs the dependency-free filesystem tests. Visual mode uses the existing Playwright runner and the explicit capture/compare commands in [Regression Gate](../docs/patterns/regression-gate.md). Keep the sealed golden directory outside the disposable run report directory; never delete approved golden data while cleaning reports. No visual acceptance follows from the Node tests alone.
+
+
+### Paired cloud visual execution
+
+The existing validation-only Cloudflare build may invoke the same browser adapter with verified baseline identity:
+
+~~~sh
+VANYA_UI_BASELINE_SHA=<verified-40-char-production-sha> \
+VANYA_UI_BASELINE_VERSION=<served-package-version> \
+VANYA_UI_QA_URL=https://ui.vanya-arc.dev \
+bash browser-qa/cloudflare-browser.sh --visual-pair
+~~~
+
+It captures the full immutable 176-image baseline and compares the exact checked-out compiled candidate in the same build environment. The native Playwright comparison and explicit snapshot policy remain authoritative. A nonzero comparison exit stays nonzero even when every changed scene has been captured successfully. Per-scene receipts and contact sheets (baseline left/candidate right; matches show the reference on both sides) are exported to authenticated build logs for coarse layout review. Full-size PNGs, native diffs, traces and HTML report are transient in Workers Builds; reduced JPEG sheets are not a substitute for full-resolution review or approved baseline retention. Log size limits may truncate image transport.
+
+For supplemental review after a completed full comparison, use an explicit comma-separated context selection and matching native Playwright grep (e.g. `VANYA_UI_VISUAL_REVIEW_CONTEXTS=dark-1024,dark-390,dark-320` plus `--grep 'dark (1024|390|320)$'`). The baseline still captures all 176 frames in a fresh directory, selected comparison receipts must be complete, and the default full gate is unchanged. Record the supplemental scope and evidence separately. Do not use a subset to claim full acceptance.
