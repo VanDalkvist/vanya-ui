@@ -48,4 +48,30 @@ try {
 } finally { await browser.close(); }
 '
 cd ..
-VANYA_UI_CLOUD_QA=1 npm --prefix browser-qa run test -- "$@"
+export VANYA_UI_CLOUD_QA=1
+if [ "${1:-}" = "--visual-pair" ]; then
+  shift
+  # Both phases use the same checkout, browser installation, libraries and fonts.
+  export VANYA_UI_VISUAL_BASELINE_DIR="$scratch/visual-baseline"
+  export VANYA_UI_BASELINE_SHA="${VANYA_UI_BASELINE_SHA:?Set verified baseline source SHA}"
+  export VANYA_UI_BASELINE_VERSION="${VANYA_UI_BASELINE_VERSION:?Set verified baseline version}"
+  export VANYA_UI_QA_URL="${VANYA_UI_QA_URL:?Set verified baseline URL}"
+  export VANYA_UI_EVIDENCE_SHA="$VANYA_UI_BASELINE_SHA"
+  export VANYA_UI_EXPECT_VERSION="$VANYA_UI_BASELINE_VERSION"
+  export VANYA_UI_EVIDENCE_DIR="$scratch/baseline-run"
+  export VANYA_UI_VISUAL_MODE=baseline
+  npm --prefix browser-qa run test -- composition-visual.spec.ts --workers=1 --update-snapshots=all
+  node --input-type=module -e 'import fs from "node:fs";const m=JSON.parse(fs.readFileSync(process.env.VANYA_UI_VISUAL_BASELINE_DIR+"/manifest.json"));console.log("VISUAL_BASELINE_SEALED",JSON.stringify({source:m.source,images:Object.keys(m.images).length,contexts:Object.keys(m.environments).length}));'
+  unset VANYA_UI_QA_URL
+  export VANYA_UI_EVIDENCE_SHA="$(git rev-parse HEAD)"
+  export VANYA_UI_EXPECT_VERSION="$(node -p 'require("./package.json").version')"
+  export VANYA_UI_EVIDENCE_DIR="$scratch/candidate-run"
+  export VANYA_UI_VISUAL_MODE=compare
+  set +e
+  npm --prefix browser-qa run test -- composition-visual.spec.ts --update-snapshots=none "$@"
+  compare_status=$?
+  set -e
+  node browser-qa/visual-cloud-report.mjs
+  exit "$compare_status"
+fi
+npm --prefix browser-qa run test -- "$@"
