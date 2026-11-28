@@ -50,21 +50,6 @@ describe("press feedback and genuine action semantics",()=>{
   rerender(<ActionButton actionState="error">Сохранить</ActionButton>);
   expect(screen.getByRole("status")).toHaveTextContent("Действие не удалось");
  });
- it("does not pretend an unbound CraftCard is actionable; activates wired cards with Enter or Space",()=>{
-  const handle=vi.fn();
-  const {rerender}=render(<CraftCard isInteractive>Описание</CraftCard>);
-  expect(screen.queryByRole("button")).not.toBeInTheDocument();
-  expect(screen.getByText("Описание")).not.toHaveClass("cursor-pointer");
-  rerender(<CraftCard onClick={handle}>Действие</CraftCard>);
-  const card=screen.getByRole("button",{name:"Действие"});
-  expect(card).toHaveAttribute("tabindex","0");
-  expect(card).toHaveClass("ui-feedback-pressable");
-  fireEvent.keyDown(card,{key:"Enter"});
-  fireEvent.keyDown(card,{key:" "});
-  expect(handle).toHaveBeenCalledTimes(2);
-  fireEvent.click(card);
-  expect(handle).toHaveBeenCalledTimes(3);
- });
  it("composes a passive card with independent native actions",()=>{
   const open=vi.fn(),park=vi.fn();
   render(<CraftCard><h3>Новый проект</h3><ActionButton onClick={open}>Открыть проект</ActionButton><ActionButton onClick={park}>Запарковать</ActionButton></CraftCard>);

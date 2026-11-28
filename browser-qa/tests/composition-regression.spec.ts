@@ -183,6 +183,9 @@ for(const theme of themes)for(const width of [1440,1024,390,320]){
    await reader.evaluate(el=>{el.scrollTop=el.scrollHeight;});
    expect(await reader.evaluate(el=>el.scrollTop)).toBeGreaterThan(0);
    expect(await list.evaluate(el=>el.scrollTop)).toBe(position);
+   const readerPosition=await reader.evaluate(el=>el.scrollTop);
+   await list.evaluate(el=>{el.scrollTop=0;});
+   expect(await reader.evaluate(el=>el.scrollTop)).toBe(readerPosition);
   }else{
    expect(Math.abs(right.x-left.x)).toBeLessThan(2);
    expect(Math.abs(right.width-left.width)).toBeLessThan(2);

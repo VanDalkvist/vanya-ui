@@ -242,27 +242,6 @@ test("05 drawer opens and closes without obscuring its trigger permanently",asyn
   await assertUnobstructed(trigger);
 });
 
-test("06 independent reader/list scroll owners do not move one another",async({page},info)=>{
-  await page.setViewportSize({width:1440,height:900});
-  await page.goto("/#workspace");
-  const left=page.getByRole("region",{name:"Список исследований"});
-  const right=page.getByRole("region",{name:"Читательская область"});
-  await expect(left).toBeVisible();
-  await expect(right).toBeVisible();
-  const initial=await right.evaluate(el=>el.scrollTop);
-  await left.evaluate(el=>{el.scrollTop=el.scrollHeight;});
-  const leftPos=await left.evaluate(el=>el.scrollTop);
-  expect(leftPos).toBeGreaterThan(0);
-  expect(await right.evaluate(el=>el.scrollTop)).toBe(initial);
-  await right.evaluate(el=>{el.scrollTop=el.scrollHeight;});
-  const rightPos=await right.evaluate(el=>el.scrollTop);
-  expect(rightPos).toBeGreaterThan(0);
-  expect(await left.evaluate(el=>el.scrollTop)).toBe(leftPos);
-  await left.evaluate(el=>{el.scrollTop=0;});
-  expect(await right.evaluate(el=>el.scrollTop)).toBe(rightPos);
-  await capture(page,info,"independent-scroll-owners");
-});
-
 test("07 pressed feedback and real counter outcome are distinct from mere hover",async({page},info)=>{
   // Remove animation timing from the CSS oracle, but retain real hover/:active styles.
   await page.emulateMedia({reducedMotion:"reduce"});

@@ -3,7 +3,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join, basename } from "node:path";
 import { createHash } from "node:crypto";
 import { chromium } from "@playwright/test";
-import { snapshotScenes, themes, widths } from "./visual-baseline.mjs";
+import { visualContexts } from "./visual-baseline.mjs";
 
 const baseline=process.env.VANYA_UI_VISUAL_BASELINE_DIR;
 const evidence=process.env.VANYA_UI_EVIDENCE_DIR;
@@ -32,14 +32,14 @@ for(const result of results){
   if(file.endsWith("-actual.png"))actuals.set(file.slice(0,-11),a.path);
  }
 }
-const contexts=themes.flatMap(theme=>widths.map(width=>({theme,width,key:theme+"-"+width})));
+const contexts=visualContexts.map(c=>({...c,key:c.theme+"-"+c.width}));
 const requested=process.env.VANYA_UI_VISUAL_REVIEW_CONTEXTS?.split(",");
 if(requested&&(new Set(requested).size!==requested.length||requested.some(key=>!contexts.some(c=>c.key===key))))throw Error("Invalid explicit review contexts");
 const selected=contexts.filter(c=>!requested||requested.includes(c.key));
-const expectedKeys=new Set(selected.flatMap(({key})=>snapshotScenes.map(scene=>scene+"-"+key)));
+const expectedKeys=new Set(selected.flatMap(({key,scenes})=>scenes.map(scene=>scene+"-"+key)));
 if([...receipts.keys()].some(key=>!expectedKeys.has(key)))throw Error("Unexpected comparison scope");
 const missing=[],different=[];
-for(const {theme,width} of selected)for(const scene of snapshotScenes){
+for(const {theme,width,scenes} of selected)for(const scene of scenes){
  const key=scene+"-"+theme+"-"+width;
  const status=receipts.get(key);
  if(!status||!manifest.images[key+".png"]||(status==="different"&&!existsSync(actuals.get(key)??"")))missing.push(key);
@@ -74,14 +74,14 @@ const data=path=>"data:image/png;base64,"+readFileSync(path).toString("base64");
 const browser=await chromium.launch({channel:"chromium",headless:true});
 try{
  const page=await browser.newPage({viewport:{width:1360,height:900}});
- for(const {theme,width,key:context} of selected){
+ for(const {theme,width,key:context,scenes} of selected){
   const thumb=width>=1024?206:116;
   const columns=width>=1024?3:4;
-  const cards=snapshotScenes.map(scene=>{
+  const cards=scenes.map(scene=>{
    const key=scene+"-"+context, status=receipts.get(key);
    const before=join(baseline,key+".png");
    const after=status==="different"?actuals.get(key):status==="matched"?before:undefined;
-   return '<article><b>'+scene+' · '+(status??"missing")+'</b><div><img src="'+data(before)+'">'+(after&&existsSync(after)?'<img src="'+data(after)+'">':'<span>missing</span>')+'</div></article>';
+   return '<article><b>'+scene+' · '+(status==="matched"?"matched · reference only":status??"missing")+'</b><div><img src="'+data(before)+'">'+(after&&existsSync(after)?'<img src="'+data(after)+'">':'<span>missing</span>')+'</div></article>';
   }).join("");
   await page.setContent('<html><head><style>body{margin:12px;background:white;color:#202020;font:12px Arial,sans-serif}h2{font-size:17px}main{display:grid;grid-template-columns:repeat('+columns+',max-content);gap:9px}article{border:1px solid #ccc;padding:5px}b{display:block;margin-bottom:4px}article div{display:flex;gap:3px}img{display:block;width:'+thumb+'px;height:auto;align-self:start}span{width:'+thumb+'px}</style></head><body><h2>'+context+' — baseline left / candidate right (matched uses reference)</h2><main>'+cards+'</main></body></html>');
   await page.locator("img").evaluateAll(async images=>{await Promise.all(images.map(img=>img.decode()))});
