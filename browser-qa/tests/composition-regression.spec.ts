@@ -73,6 +73,32 @@ test("guide and component examples align on the shared content axis",async({page
  }
 });
 
+// Use the same row-level geometry oracle for the real gate and its falsification.
+const overflowingRows = (rows: {id:string;overflow:boolean}[]) => rows.filter(row=>row.overflow).map(row=>row.id);
+async function rowOverflow(page:Page){
+ return page.locator(".catalog-section").evaluateAll(rows=>rows.map(row=>({id:row.id,overflow:row.scrollWidth>row.clientWidth+1})));
+}
+test("row overflow oracle detects hidden local overflow",async({page})=>{
+ await page.setViewportSize({width:390,height:900});
+ await page.goto("/#compact-filter-toolbar");
+ await page.evaluate(()=>document.fonts.ready);
+ const row=page.locator("#compact-filter-toolbar");
+ const before=await rowOverflow(page);
+ expect(overflowingRows(before)).not.toContain("compact-filter-toolbar");
+ await row.evaluate(el=>{
+  const probe=document.createElement("div");
+  probe.id="qa-overflow-probe";probe.style.cssText="width:10000px;height:1px;grid-column:1/-1";
+  el.setAttribute("data-qa-overflow-style",el.getAttribute("style")??"");
+  (el as HTMLElement).style.overflow="hidden";el.append(probe);
+ });
+ try{
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(overflowingRows(await rowOverflow(page))).toContain("compact-filter-toolbar");
+ }finally{
+  await row.evaluate(el=>{el.querySelector("#qa-overflow-probe")?.remove();const old=el.getAttribute("data-qa-overflow-style");if(old)el.setAttribute("style",old);else el.removeAttribute("style");el.removeAttribute("data-qa-overflow-style");});
+ }
+ expect(overflowingRows(await rowOverflow(page))).not.toContain("compact-filter-toolbar");
+});
 test("all chapters share a content axis and preserve named wide specimens",async({page})=>{
  for(const width of [1440,1024,390,320]){
   await page.setViewportSize({width,height:900});
@@ -85,6 +111,7 @@ test("all chapters share a content axis and preserve named wide specimens",async
    const a=row.getBoundingClientRect(),h=row.querySelector(":scope > header")!.getBoundingClientRect(),b=row.querySelector(":scope > .catalog-examples")!.getBoundingClientRect();
    return {id:row.id,layout:row.getAttribute("data-layout"),left:a.left,right:a.right,headingX:h.left,headingBottom:h.bottom,bodyX:b.left,bodyRight:b.right,bodyY:b.top,overflow:row.scrollWidth>row.clientWidth+1};
   }));
+  expect(overflowingRows(geometry), "catalog rows must not hide horizontal overflow").toEqual([]);
   const reference=geometry.find(r=>r.id==="compact-filter-toolbar")!;
   for(const r of geometry){
    expect(Math.abs(r.headingX-reference.headingX),r.id).toBeLessThan(2);
