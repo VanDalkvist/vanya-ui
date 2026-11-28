@@ -1,5 +1,8 @@
 # Agent entrypoint — Vanya Arc / UI
 
+## Main-first production policy (owner decision, 2026-11-28)
+Work directly on main. Do not create implementation branches or PRs unless the owner explicitly requests them. Check current HEAD before each change and preserve concurrent work; use fast-forward only, never force-push. Deliver approved implementation batches to production through the existing exact-SHA release gate and SemVer checkpoint; no unnecessary branch or staging environment. If verification fails, keep the failed receipt and repair on main, then retry the same unpublished release version. Preserve explicit acceptance limitations and do not report unverified gates as passed.
+
 ## Active development policy
 
 For approved library refactoring, remove obsolete public names, duplicate implementations and compatibility-only branches as part of the same change. Migrate in-repository callsites and current docs/tests. Prefer a coherent current architecture; preserve actual user outcomes and verification. SemVer applies at production checkpoints. Other consumer repositories and their immutable pins are outside the library-only refactor unless explicitly included.

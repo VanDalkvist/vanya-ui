@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [3.0.1] - 2026-11-28
+
+### Changed
+- Publish the current regression gate and QA guidance with one canonical 56-image visual pack; preserve historical evidence and require explicit baseline acceptance.
+- Consolidate duplicate test assertions and strengthen browser oracles for keyboard reachability and local overflow; verify visual report provenance and mark matched reference-only evidence.
+- Keep the verified full production build gate, including installed consumer smoke and functional browser checks. No public component API changes.
+
 ## [3.0.0] - 2026-11-28
 
 ### Breaking — Composition
