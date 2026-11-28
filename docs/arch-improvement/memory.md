@@ -67,3 +67,10 @@
 - Browser Rendering screenshot успешно доставил полный PNG 1440x900 из production в интерфейс ревью без логового транспорта (VART-01). Этот путь полезен для точечной live-проверки; immutable comparison baseline принадлежит pinned Playwright runtime, экспорт его файлов должен сохранять исходные байты и manifest.
 - Перед массовой визуальной проверкой сначала подтвердить project-scoped transport одним actual build artifact, независимым GET и SHA-256. VARC assets уже имеет подходящий контракт; UI target и build-side auth пока отсутствуют. Не использовать чужой bucket и не выдавать разовое изображение за durable evidence.
 - Evidence: [Release Integrity VART-01/02](../superpowers/plans/2026-11-28-release-integrity.md), ledger.
+
+
+## 2026-11-28 — Долговременные QA-артефакты
+- Dedicated private R2 vanya-ui-qa verified. Native Browser Rendering PNG and a real pinned Playwright screenshot both survived independent GET with equal SHA-256. Bounded log relay of one synthetic frame worked; mass log export remains unreliable.
+- Cloudflare Builds user command uses /bin/sh, which in actual provider rejected pipefail; keep invocation short and use POSIX-compatible set -eu with separate checked commands, or a reviewed Bash script. Long inline PATCH rejected HTTP 400; exact limit remains unconfirmed.
+- Direct upload requires scoped S3 bucket-item credentials; account-token permission currently unavailable. Keep credentials and provider IDs private; preserve manifest and artifact integrity before baseline approval.
+- Evidence: [Release Integrity](../superpowers/plans/2026-11-28-release-integrity.md), ledger, private cloudflare-deploy.
