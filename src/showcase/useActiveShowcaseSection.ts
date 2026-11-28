@@ -81,6 +81,34 @@ export function useActiveShowcaseSection(ids: readonly string[]) {
       if (selected) setActive(selected);
       schedule();
     };
+    // The browser may align a cold fragment before fonts and the sticky header
+    // settle. Re-align once after the actual layout is known, only on a fresh
+    // navigation. Never override history restoration or a user who has moved.
+    const initialHash = window.location.hash;
+    const navigation = window.performance.getEntriesByType?.("navigation")[0] as PerformanceNavigationTiming | undefined;
+    let initialPending = Boolean(initialHash) && navigation?.type === "navigate";
+    const cancelInitial = () => { initialPending = false; };
+    const settleInitial = () => {
+      void (document.fonts?.ready ?? Promise.resolve()).then(() => {
+        if (!initialPending || window.location.hash !== initialHash) return;
+        initialPending = false;
+        let id = initialHash.slice(1);
+        try { id = decodeURIComponent(id); } catch { /* literal fragment */ }
+        const target = document.getElementById(id);
+        if (!target) return;
+        updateHeight();
+        target.scrollIntoView({ block: "start", behavior: "instant" });
+        syncLocation();
+      });
+    };
+    const initialInputEvents = ["pointerdown", "wheel", "touchstart", "keydown"] as const;
+    for (const event of initialInputEvents) window.addEventListener(event, cancelInitial, { passive: true });
+    window.addEventListener("hashchange", cancelInitial);
+    window.addEventListener("popstate", cancelInitial);
+    if (initialPending) {
+      if (document.readyState === "complete") settleInitial();
+      else window.addEventListener("load", settleInitial, { once: true });
+    }
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     window.addEventListener("hashchange", syncLocation);
@@ -93,6 +121,11 @@ export function useActiveShowcaseSection(ids: readonly string[]) {
     if (header) observer?.observe(header);
     syncLocation();
     return () => {
+      cancelInitial();
+      window.removeEventListener("load", settleInitial);
+      window.removeEventListener("hashchange", cancelInitial);
+      window.removeEventListener("popstate", cancelInitial);
+      for (const event of initialInputEvents) window.removeEventListener(event, cancelInitial);
       observer?.disconnect();
       if (previousHeight) root.style.setProperty("--showcase-header-height", previousHeight);
       else root.style.removeProperty("--showcase-header-height");
