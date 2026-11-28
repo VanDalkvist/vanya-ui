@@ -2,12 +2,23 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 
-export const anchors = ['identity','typography','writing','principles','catalog','workspace','setup','agents','composition-principle','compact-filter-toolbar','quiet-editor','quiet-confirmation','categories','status','desk','energy','workspace-overview','workspace-context-header','disclosure','composition-reading-inspector'];
-export const snapshotScenes = [...anchors, 'inspector-open', 'digest-open'];
-export const themes = ['light','dark'];
-export const widths = [1440,1024,390,320];
-const contexts = themes.flatMap(theme => widths.map(width => `${theme}-${width}`));
-const imageNames = key => snapshotScenes.map(scene => `${scene}-${key}.png`);
+// One canonical visual pack. Each context has only its risk-relevant scenes.
+export const visualContexts = [
+  { theme: 'light', width: 1440, scenes: ['identity','typography','writing','principles','catalog','workspace','setup','agents','composition-principle','compact-filter-toolbar','quiet-editor','quiet-confirmation','categories','status','desk','energy','workspace-overview','workspace-context-header','disclosure','composition-reading-inspector','inspector-open','digest-open','hero'] },
+  { theme: 'light', width: 390, scenes: ['typography','writing','catalog','workspace','agents','compact-filter-toolbar','quiet-editor','workspace-overview','workspace-context-header','composition-reading-inspector','inspector-open','digest-open','hero','agent-page'] },
+  { theme: 'dark', width: 1440, scenes: ['identity','typography','catalog','quiet-editor','categories','status','inspector-open','digest-open','agent-page'] },
+  { theme: 'dark', width: 390, scenes: ['compact-filter-toolbar','quiet-editor','workspace-overview','workspace-context-header','inspector-open','digest-open'] },
+  { theme: 'light', width: 1024, scenes: ['workspace-overview','workspace-context-header'] },
+  { theme: 'dark', width: 320, scenes: ['compact-filter-toolbar','digest-open'] },
+];
+const contextKey = c => `${c.theme}-${c.width}`;
+const contexts = visualContexts.map(contextKey);
+const imageNames = key => visualContexts.find(c => contextKey(c) === key).scenes.map(scene => `${scene}-${key}.png`);
+const names = contexts.flatMap(imageNames);
+function assertPngInventory(dir) {
+  const actual = readdirSync(dir).filter(name => name.endsWith('.png'));
+  if (actual.some(name => !names.includes(name))) throw Error('Unexpected baseline PNG');
+}
 const read = path => JSON.parse(readFileSync(path, 'utf8'));
 const write = (path, value) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' });
 const digest = path => createHash('sha256').update(readFileSync(path)).digest('hex');
@@ -49,8 +60,8 @@ export function prepareVisualRun(env, evidenceDir, policy) {
     return;
   }
   const m = manifest(env);
-  if (m.schema !== 1 || m.source?.sha !== env.VANYA_UI_BASELINE_SHA || m.source?.version !== env.VANYA_UI_BASELINE_VERSION) throw Error('Baseline identity mismatch');
-  const names = contexts.flatMap(imageNames);
+  if (m.schema !== 2 || m.source?.sha !== env.VANYA_UI_BASELINE_SHA || m.source?.version !== env.VANYA_UI_BASELINE_VERSION) throw Error('Baseline identity mismatch');
+  assertPngInventory(dir);
   if (Object.keys(m.images || {}).length !== names.length || Object.keys(m.environments || {}).length !== contexts.length) throw Error('Incomplete sealed baseline matrix');
   for (const key of contexts) if (!m.environments[key]) throw Error('Incomplete sealed baseline environment');
   for (const name of names) {
@@ -68,10 +79,11 @@ export function recordCapture(env, theme, width, environment) {
   const images = Object.fromEntries(imageNames(key).map(name => [name, digest(join(dir, name))]));
   write(join(dir, `capture-${key}.json`), { environment, images });
   if (!contexts.every(k => existsSync(join(dir, `capture-${k}.json`)))) return;
+  assertPngInventory(dir);
   const captures = contexts.map(k => read(join(dir, `capture-${k}.json`)));
   const allImages = Object.assign({}, ...captures.map(c => c.images));
   for (const name of contexts.flatMap(imageNames)) if (digest(join(dir, name)) !== allImages[name]) throw Error('Baseline snapshot integrity failure: ' + name);
-  write(join(dir, 'manifest.json'), { schema: 1, source, images: allImages, environments: Object.fromEntries(contexts.map((k,i) => [k,captures[i].environment])) });
+  write(join(dir, 'manifest.json'), { schema: 2, source, images: allImages, environments: Object.fromEntries(contexts.map((k,i) => [k,captures[i].environment])) });
 }
 export function verifyEnvironment(env, theme, width, environment) {
   if (env.VANYA_UI_VISUAL_MODE !== 'compare') return;
