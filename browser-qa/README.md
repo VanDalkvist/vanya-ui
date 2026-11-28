@@ -1,6 +1,6 @@
 # Vanya UI browser verification — #16
 
-This is an **optional, manually invoked, portable browser gate** separate from Cloudflare builds and GitHub Actions. Its Playwright version is pinned in `package.json`. The commands work on macOS/Linux/Windows with Node.js 22+, Bun and a locally installed Chromium browser.
+This is an **optional, manually invoked, portable browser gate** without a production deployment or GitHub Actions workflow. It can run in an existing Cloudflare validation build. Its Playwright version is pinned in `package.json`. The commands work on macOS/Linux/Windows with Node.js 22+, Bun and a locally installed Chromium browser.
 
 From repository root:
 
@@ -12,6 +12,10 @@ npm run test:browser
 ```
 
 Playwright first runs the full production `bun run build` (including sync and prerender), then starts/stops `vite preview` for the **compiled `dist/`** at `127.0.0.1:4173`. A dev-server-only green cannot prove production entrypoint wiring. No production deployment, no GitHub workflow, no external credentials. The browser toolchain lives in this subpackage so the existing `bun.lock` and production Worker dependency graph stay untouched. The exact Playwright package version is `1.65.1`; `package-lock.json` pins its transitive dependencies and `axe-core@4.14.1`. Use `npm --prefix browser-qa ci`; record Node/npm versions, browser version and lockfile hash. The `chromium` channel uses the full Chromium new-headless implementation, so the extra headless-shell download is unnecessary. Keep raw traces and local logs outside public Git.
+
+### Existing Cloudflare Workers Builds (validation only)
+
+Use `bash browser-qa/cloudflare-browser.sh` as the browser portion of a manually initiated validation build on the exact candidate SHA. The build must end with `echo VALIDATION_ONLY_DO_NOT_DEPLOY`; leave the production trigger intact. The script uses the pinned Playwright package and browser, native APT dependency simulation, signed Ubuntu package indexes and user-owned temporary extraction. It verifies a real Chromium launch before testing. No root access or changes to the build image are needed. Both TypeScript checks run before browser execution. The cloud line reporter preserves failure details in build logs. Local HTML/JSON reports and traces are ephemeral unless explicitly exported. Visual baseline capture/compare remains a separate opt-in gate requiring the same browser, OS and fonts.
 
 **What it asserts:** the hero distance slider changes its value **and actual SineWave event geometry**; left/centre/right hit-tests use `document.elementFromPoint`, including a negative-control overlay that must be detected at 390 / 1024 / 1440 px in both themes; no floating help overlaps it; active nav reflects hash, manual scroll, nested sections and Back/Forward; APG keyboard menu and tabs including Tab/Shift+Tab; drawer content/Escape/focus return; two independent scroll regions in both directions; observable click counter and explicit pending/error/success states; reduced motion and a CSS-zoom approximation. Screenshots and failures are written under `browser-qa/artifacts/` with an HTML report and traces, all ignored by Git.
 
