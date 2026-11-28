@@ -251,12 +251,41 @@ for(const width of [1440,1024,390,320]){
   const toggle=specimen.getByRole("button",{name:"Заголовок документа ушёл при скролле"});
   await expect(title).toHaveCount(0);
   await toggle.click();await expect(title).toBeVisible();
+  const start=specimen.getByRole("button",{name:"Заголовок снова виден в документе"});
+  const action=context.getByRole("button",{name:"Исследовать"});
+  const first=nav.getByRole("link",{name:"Библиотека",exact:true});
+  const second=nav.getByRole("link",{name:"Рабочие поверхности",exact:true});
+  async function startBackwardTraversal(){
+   // Establish a known adjacent starting point; every tested control is reached by the keyboard.
+   await start.focus();
+   await expect(start).toBeFocused();
+   await page.keyboard.press("Shift+Tab");
+   await expect(action).toBeFocused();
+   await page.keyboard.press("Shift+Tab");
+  }
+  if(width===1440){
+   const previous=await second.getAttribute("tabindex");
+   try{
+    await second.evaluate(el=>el.setAttribute("tabindex","-1"));
+    // Negative control: the old forced-focus oracle could still reach this link.
+    await second.focus();
+    await expect(second).toBeFocused();
+    await startBackwardTraversal();
+    await expect(first).toBeFocused();
+    await expect(second).not.toBeFocused();
+   }finally{
+    await second.evaluate((el,value)=>value===null?el.removeAttribute("tabindex"):el.setAttribute("tabindex",value),previous);
+   }
+  }
   for(const [label,fragment] of [["Библиотека","catalog"],["Рабочие поверхности","workspace"]] as const){
    const link=nav.getByRole("link",{name:label,exact:true});
    await expect(link).toBeVisible();
    await expect(link).toHaveAttribute("href","/#"+fragment);
    await link.scrollIntoViewIfNeeded();
-   await page.keyboard.press("Tab");await link.focus();await expect(link).toBeFocused();
+   await startBackwardTraversal();
+   await expect(second).toBeFocused();
+   if(fragment==="catalog")await page.keyboard.press("Shift+Tab");
+   await expect(link).toBeFocused();
    await expect(link).toHaveCSS("outline-width","2px");
    const geometry=await link.evaluate(el=>{
     const box=el.getBoundingClientRect(),parent=el.closest(".ui-workspace-context")!.getBoundingClientRect();
@@ -272,7 +301,6 @@ for(const width of [1440,1024,390,320]){
    await expect(page).toHaveURL(/\/#workspace-context-header$/);
    await expect(nav).toBeVisible();
   }
-  const action=context.getByRole("button",{name:"Исследовать"});
   await action.click();
   const dialog=page.getByRole("dialog",{name:"Описание проекта"});
   await expect(dialog).toBeVisible();await page.keyboard.press("Escape");
